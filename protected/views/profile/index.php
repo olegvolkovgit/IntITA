@@ -34,7 +34,6 @@ if (isset($_GET['div'])){
     <script src="<?php echo StaticFilesHelper::fullPathTo('js',  'wysibb/BBCode.js'); ?>"></script>
     <!-- Підключення BBCode WysiBB -->
     <!-- Spoiler -->
-    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'teacherProfile.js'); ?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'font-awesome.min.css'); ?>" />
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactorProfile.js'); ?>"></script>

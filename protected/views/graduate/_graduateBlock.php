@@ -26,8 +26,8 @@
                 <span><?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?></span>
                 <div class="spoiler-body">
                     <form name=form_recall>
-                        <input type=hidden name=id1 class="maximize" value="<?php echo htmlspecialchars($a = Yii::t('graduates', '0423')); ?>">
-                        <input type=hidden name=id2 class="minimize" value="<?php echo htmlspecialchars($b); ?>">
+                        <input type=hidden name="maximize" class="maximize" value="<?php echo htmlspecialchars($a = Yii::t('graduates', '0423')); ?>">
+                        <input type=hidden name="minimize" class="minimize" value="<?php echo htmlspecialchars($b); ?>">
                     </form>
                     <img onclick="hideRecall(this)" src="<?php echo StaticFilesHelper::createPath('image', 'graduates', "recall.png"); ?>">
                     <?php echo $data->recall; ?>

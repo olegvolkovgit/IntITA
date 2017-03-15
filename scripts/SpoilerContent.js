@@ -1,29 +1,3 @@
-/**------------------recall-------------------------*/
-// $(document).ready(function() {
-//     $('.spoiler-body').hide();
-//     $('.spoiler-title').click(function(){
-//         $(this).toggleClass('opened').toggleClass('closed').next().slideToggle();
-//         if($(this).hasClass('opened')) {
-//             var a=document.getElementById('id1').value;
-//             $(this).html(a + "\u25B2");
-//         }
-//         else {
-//             var b=document.getElementById('id2').value;
-//             $(this).html(b + "\u25BC");
-//         }
-//     });
-// });
-// function hideRecall(spoiler){
-//     $(spoiler).parent().prev('.spoiler-title').toggleClass('opened').toggleClass('closed').next().slideToggle();
-//     if($(spoiler).parent().prev('.spoiler-title').hasClass('opened')) {
-//         var a=document.getElementById('id1').value;
-//         $(spoiler).parent().prev('.spoiler-title').html(a + "\u25B2");
-//     }
-//     else {
-//         var b=document.getElementById('id2').value;
-//         $(spoiler).parent().prev('.spoiler-title').html(b + "\u25BC");
-//     }
-// }
 //celebre
 function  diploma_dialog(name, course) {
 
@@ -57,28 +31,12 @@ function  diploma_dialog(name, course) {
 // // do something in the background
    $('.modal-footer > .btn').hide();
 }
-    var doc = new jsPDF();
-    var specialElementHandlers = {
-        '#editor': function (element, renderer) {
-            return true;
-        }
-    };
-    $('.print-diploma').click(function () {
-        doc.fromHTML($('.diploma-container').html(), 15, 15, {
-            'width': 170,
-            'elementHandlers': specialElementHandlers
-        });
-        doc.save('sample-file.pdf');
-    });
 
 // open comment with click
 function openComment(elem) {
     var bodyElem = elem.querySelector('.spoiler-body');
-    $(document).ready(function() {
         $(bodyElem).slideToggle().toggleClass('opened');
-    })
     elem.classList.toggle('opened');
-    // bodyElem.classList.toggle('opened');
     var maximize = elem.querySelector('.maximize').value;
     var minimize = elem.querySelector('.minimize').value;
 
@@ -91,6 +49,5 @@ function openComment(elem) {
         }
     })();
 }
-
 // open comment with click
 // celebre
