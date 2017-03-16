@@ -36,7 +36,10 @@ angular
         'ngCkeditor',
         'schedulerTasks',
         'paymentsSchemes.directives',
-        'chatIntITAMessenger'
+        'chatIntITAMessenger',
+        'directorRouter',
+        'superAdminRouter',
+        'auditorRouter',
     ])
     .filter('shortDate', [
             '$filter', function($filter) {
@@ -47,11 +50,7 @@ angular
     ])
     .run(['$rootScope', '$templateCache','$state',
             function ($rootScope, $templateCache, $state) {
-
                     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                             $templateCache.remove(fromState.templateUrl);
-                            if (typeof($state.current) !== 'undefined'){
-                                    // $templateCache.removeAll();
-                            }
                     });
             }]);

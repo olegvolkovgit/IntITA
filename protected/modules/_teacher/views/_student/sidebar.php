@@ -19,7 +19,7 @@
                 Консультації
             </a>
         </li>
-        <li id="nav">
+        <li>
             <a href="#/students/finances">
                 Фінанси
             </a>

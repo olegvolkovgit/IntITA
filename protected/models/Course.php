@@ -27,13 +27,15 @@
  * @property integer $level
  * @property integer $cancelled
  * @property integer $course_number
- *
+ * @property integer $id_organization
+ * 
  * The followings are the available model relations:
  * @property Module[] $modules
  * @property Module $module
  * @property Level $level0
  * @property CourseService $courseServiceOffline
  * @property CourseService $courseServiceOnline
+ * @property Organization $organization
  */
 class Course extends CActiveRecord implements IBillableObject
 {
@@ -60,7 +62,7 @@ class Course extends CActiveRecord implements IBillableObject
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
+            array('language, title_ua, title_ru, title_en, alias, id_organization', 'required', 'message' => Yii::t('coursemanage', '0387')),
             array('course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
             array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
@@ -75,7 +77,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('start', 'date', 'format' => 'yyyy-MM-dd', 'message' => Yii::t('coursemanage', '0389')),
             array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
-			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
+			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating, id_organization', 'safe'),
             // The following rule is used by search().
             array('course_ID,alias, language, title_ua, title_ru, title_en, modules_count,
 			course_price, status, for_whom_ua, what_you_learn_ua,what_you_get_ua,
@@ -89,14 +91,12 @@ class Course extends CActiveRecord implements IBillableObject
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return array(
-            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)',
-                                                'order' => 'module.order ASC'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)', 'order' => 'module.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
             'courseServiceOnline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOnline.education_form='.EducationForm::ONLINE],
-            'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE]
+            'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE],
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
     }
 
@@ -129,6 +129,7 @@ class Course extends CActiveRecord implements IBillableObject
             'status' => Yii::t('course', '0411'),
             'cancelled' => Yii::t('course', '0741'),
             'course_number' => Yii::t('course', '0742'),
+            'id_organization' => 'Id організації',
         );
     }
 
@@ -170,6 +171,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('cancelled', $this->cancelled, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('course_number', $this->course_number);
+        $criteria->compare('id_organization', $this->id_organization);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

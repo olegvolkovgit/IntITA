@@ -178,7 +178,6 @@ class RegisteredUser
         return $this->hasRole(UserRoles::TENANT);
     }
 
-
     public function isConsultant()
     {
         return $this->hasRole(UserRoles::CONSULTANT);
@@ -213,6 +212,21 @@ class RegisteredUser
     public function isSuperVisor()
     {
         return $this->hasRole(UserRoles::SUPERVISOR);
+    }
+
+    public function isDirector()
+    {
+        return $this->hasRole(UserRoles::DIRECTOR);
+    }
+
+    public function isAuditor()
+    {
+        return $this->hasRole(UserRoles::AUDITOR);
+    }
+    
+    public function isSuperAdmin()
+    {
+        return $this->hasRole(UserRoles::SUPER_ADMIN);
     }
     
     public function canApprove()
@@ -369,5 +383,10 @@ class RegisteredUser
         if($this->registrationData->lastLink)
             return $this->registrationData->lastLink->last_link;
         else return false;
+    }
+
+    public function canUpdateCourse($course)
+    {
+        return $this->isContentManager();
     }
 }

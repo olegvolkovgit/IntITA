@@ -153,23 +153,23 @@ class CabinetController extends TeacherCabinetController
         } else $roles = $inRole;
 
         foreach ($roles as $role) {
-            switch ($role) {
-                case "trainer":
-                case "author":
-                case 'consultant':
-                case 'student':
-                case 'tenant':
-                case 'content_manager':
-                case 'teacher_consultant':
-                case 'admin':
-                case 'accountant':
-                case 'supervisor':
+//            switch ($role) {
+//                case "trainer":
+//                case "author":
+//                case 'consultant':
+//                case 'student':
+//                case 'tenant':
+//                case 'content_manager':
+//                case 'teacher_consultant':
+//                case 'admin':
+//                case 'accountant':
+//                case 'supervisor':
                     $this->renderDashboard($role, $user);
-                    break;
-                default:
-                    throw new CHttpException(400, 'Неправильно вибрана роль!');
-                    break;
-            }
+//                    break;
+//                default:
+//                    throw new CHttpException(400, 'Неправильно вибрана роль!');
+//                    break;
+//            }
         }
     }
 

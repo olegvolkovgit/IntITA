@@ -26,6 +26,7 @@ const EDITOR_DISABLED = 0;
  * @property integer $module_number
  * @property integer $cancelled
  * @property integer $status
+ * @property integer $id_organization
  *
  * The followings are the available model relations:
  * @property Course[] $Course
@@ -37,6 +38,7 @@ const EDITOR_DISABLED = 0;
  * @property ModuleService $moduleServiceOffline
  * @property ModuleTags $moduleTags
  * @property Tags[] $tags
+ * @property Organization $organization
  */
 
 class Module extends CActiveRecord implements IBillableObject
@@ -66,7 +68,7 @@ class Module extends CActiveRecord implements IBillableObject
         // will receive user inputs.
         return array(
             array('status', 'required'),
-            array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
+            array('language, title_ua, level, id_organization', 'required', 'message' => 'Поле не може бути пустим'),
             array('alias', 'unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
             array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
             array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
@@ -112,7 +114,8 @@ class Module extends CActiveRecord implements IBillableObject
             'tags' => [self::HAS_MANY, 'Tags', ['id_tag' => 'id'], 'through' => 'moduleTags'],
             'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
             'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
-            'moduleServiceOffline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOffline.education_form='.EducationForm::OFFLINE]
+            'moduleServiceOffline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOffline.education_form='.EducationForm::OFFLINE],
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
     }
 
@@ -148,7 +151,7 @@ class Module extends CActiveRecord implements IBillableObject
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',
             'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
             'level' => 'Рівень',
-
+            'id_organization' => 'Id організації',
         );
     }
 
@@ -188,7 +191,8 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('cancelled', $this->cancelled, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('id_module_revision', $this->id_module_revision, true);
-
+        $criteria->compare('id_organization', $this->id_organization);
+        
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
