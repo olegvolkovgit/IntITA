@@ -172,7 +172,37 @@ $user = $model->registrationData;
                     <li class="list-group-item" ng-if="data.user.passport">Номер паспорта: <em>{{data.user.passport}}</em></li>
                     <li class="list-group-item" ng-if="data.user.document_issued_date">Дата видачі паспорта: <em>{{data.user.document_issued_date}}</em></li>
                     <li class="list-group-item" ng-if="data.user.passport_issued">Ким виданий паспорт: <em>{{data.user.passport_issued}}</em></li>
+                    <li class="list-group-item" ng-if="data.documents.passport.length">
+                        Копія паспорта:
+                        <ul>
+                            <li ng-repeat="item in data.documents.passport track by $index">
+                                <a ng-href="<?php echo StaticFilesHelper::fullPathToFiles('documents') ?>/{{item.id_user}}/{{item.type}}/{{item.file_name}}" target="_blank">
+                                    {{item.file_name}}
+                                </a>
+                                <span style="background-color:lightgreen;padding:2px" ng-if="item.check==1">перевірено</span>
+                                <span ng-if="item.check==0">не перевірено</span>
+                                <button type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeDocStatus(item.id);">
+                                    змінити статус
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="list-group-item" ng-if="data.user.inn">Ідентифікаційний код: <em>{{data.user.inn}}</em></li>
+                    <li class="list-group-item" ng-if="data.documents.inn.length">
+                        Копія ідентифікаційного кода:
+                        <ul>
+                            <li ng-repeat="item in data.documents.inn track by $index">
+                                <a ng-href="<?php echo StaticFilesHelper::fullPathToFiles('documents') ?>/{{item.id_user}}/{{item.type}}/{{item.file_name}}" target="_blank">
+                                    {{item.file_name}}
+                                </a>
+                                <span style="background-color:lightgreen;padding:2px" ng-if="item.check==1">перевірено</span>
+                                <span ng-if="item.check==0">не перевірено</span>
+                                <button type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeDocStatus(item.id);">
+                                    змінити статус
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
                 <?php } ?>
                 <?php if (Yii::app()->user->model->isContentManager()) { ?>
                     <li class="list-group-item" ng-repeat="role in data.user.roles track by $index" ng-if="role=='author' || role=='teacher_consultant'">

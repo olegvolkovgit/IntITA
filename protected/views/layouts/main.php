@@ -51,29 +51,31 @@ $header = new Header();
     <![endif]-->
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-file-upload/dist/angular-file-upload.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-sanitize/angular-sanitize.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/paymentsSchemes.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-resource/angular-resource.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-animate/angular-animate.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
-
-    <!--IntITAMessenger-->
-    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
-    <?php if (!Yii::app()->user->isGuest) { ?>
-        <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
-    <?php } ?>
-    <!--IntITAMessenger-->
-
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
+    <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
+    <?php if (!Yii::app()->user->isGuest) { ?>
+    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+    <?php } ?>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-1.3.3.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     <script>
         lang = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
+        basePath = '<?php echo Config::getBaseUrl(); ?>';
     </script>
 </head>
 
 <body itemscope itemtype="https://schema.org/Product">
+<?php $switch_navigation = Header::model()->currentPage(); ?>
 
 <div id="main-wrapper" >
     <div id="mainheader">
@@ -89,18 +91,18 @@ $header = new Header();
                     </td>
                     <td id="menulist">
                         <ul>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::COURSES_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a>
                             </li>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::TEACHERS_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a>
                             </li>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                             </li>
                             <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
                                    target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                             </li>
                             <?php if (!Yii::app()->user->isGuest) { ?>
@@ -108,12 +110,18 @@ $header = new Header();
                                 <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
                             </li>
                             <?php } ?>
+                            <?php if (!Yii::app()->user->isGuest && (Yii::app()->controller->id == 'site') && (Yii::app()->controller->action->id == 'index') || (Yii::app()->controller->id == 'aboutus')){ ?>
+                                <li>
+                                    <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>"><?php echo Yii::t('breadcrumbs', '0054')?></a>
+                                </li>
+                            <?php } ?>
                             <li>
                                 <a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a>
                             </li>
                             <li>
                                 <a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
                             </li>
+
                         </ul>
                     </td>
                     <td class="emptyTd"></td>
@@ -259,23 +267,28 @@ $header = new Header();
 
             <div class="footermenu">
                 <ul>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::COURSES_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a>
                     </li>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::TEACHERS_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a>
                     </li>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                     </li>
                     <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
                            target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?>>
                         <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                     </li>
                     <?php if (!Yii::app()->user->isGuest) { ?>
                         <li>
                             <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                        </li>
+                    <?php } ?>
+                    <?php if (!Yii::app()->user->isGuest){ ?>
+                        <li>
+                            <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>"><?php echo Yii::t('breadcrumbs', '0054')?></a>
                         </li>
                     <?php } ?>
                     <li>
@@ -326,5 +339,10 @@ $header = new Header();
     ga('create', 'UA-83801032-1', 'auto');
     ga('send', 'pageview');
 </script>
+<!--IntITAMessenger-->
+<?php if (!Yii::app()->user->isGuest) { ?>
+    <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
+<?php } ?>
+<!--IntITAMessenger-->
 </body>
 </html>

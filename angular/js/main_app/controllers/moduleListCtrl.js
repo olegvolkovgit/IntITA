@@ -4,9 +4,23 @@
 angular
     .module('mainApp')
     .controller('moduleListCtrl',moduleListCtrl)
-    .controller('courseSchemaCtrl',courseSchemaCtrl);
 
 function moduleListCtrl($http,$scope) {
+
+    $scope.getPaymentServiceStatus=function (id, service) {
+        var promise = $http({
+            url: basePath+'/course/getPaymentServiceStatus',
+            method: "POST",
+            data: $.param({id: id, service: service}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            return false;
+        });
+        return promise;
+    };
+
     var date = new Date();
     var currentTime=Math.round(date.getTime()/1000);
     $scope.getModuleProgressForUser=function (idCourse) {
@@ -26,6 +40,11 @@ function moduleListCtrl($http,$scope) {
     $scope.getModuleProgressForUser(idCourse).then(function (response) {
         $scope.basePath=basePath;
         $scope.modulesProgress=response;
+
+        $scope.getPaymentServiceStatus(idCourse, 'course').then(function (response) {
+            $scope.status=response;
+        });
+        
         if(!$scope.modulesProgress.userId){
             $scope.modulesProgress.ico='disabled.png';
         }else if(!$scope.modulesProgress.courseStatus)
@@ -108,9 +127,7 @@ function moduleListCtrl($http,$scope) {
         }
         return term;
     };
-}
 
-function courseSchemaCtrl($scope) {
     $scope.redirectToCabinet=function (scenario,id,selectedScheme) {
         location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/'+selectedScheme.educForm+'/scheme/'+selectedScheme.schemeId;
     };

@@ -1,7 +1,5 @@
-/**
- * Created by Wizlight on 04.12.2015.
- */
 'use strict';
+angular.module('chatIntITAMessenger', []);
 
 /* App Module */
 angular

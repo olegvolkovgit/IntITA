@@ -12,7 +12,7 @@
                             <img ng-src="{{scheme == selectedModelScheme && scheme.icoCheck || scheme.ico}}">
                         </div>
                         <div class="priceBlock">
-                            <div ng-class="{basePayment: scheme.type==2 || scheme.type==3}">{{scheme.translates.title}}</div>
+                            <div ng-class="{basePayment: true}">{{scheme.translates.title}}<span ng-if="scheme.loan>0"> ({{schemes.translates.loan}})</span></div>
                             <div class="numbers">
                                 <span ng-if="scheme.paymentsCount<12">
                                     <span ng-if="scheme.discount>0 && scheme.loan==0" class="coursePriceStatus">{{scheme.translates.currencySymbol}}{{scheme.fullPrice}}</span>

@@ -382,4 +382,70 @@ class StudentRegController extends Controller
     {
         echo Careers::careersList();
     }
+//    celebre
+    public function actionGetProgressData()
+    {
+        $id = Yii::app()->request->getPost('id', 0);
+        $model = RegisteredUser::userById($id);
+        $count_full_cell  = 0;
+        $count_total_cell = 0; // add $model->startCareers preferSpecializations
+        $student_attributes = ['firstName', 'secondName', 'nickname',
+                               'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
+                               'vkontakte', 'twitter', 'phone', 'address', 'education',
+                                'interests', 'aboutUs', 'aboutMy', 'avatar',
+                                'skype', 'country', 'city', 'prev_job', 'passport',
+                                'document_issued_date', 'inn', 'passport_issued', 'current_job'];
+
+        foreach ($model->attributes as $key => $attribute){
+            if(in_array($key, $student_attributes)) {
+                $count_total_cell++;
+                if (!empty($attribute)) {
+                    $count_full_cell++;
+                }
+            }
+            if($key === 'avatar' && $attribute === 'noname.png') {
+                $count_full_cell--;
+            }
+        }
+        if(count($model->startCareers)) {
+            $count_full_cell++;
+            $count_total_cell++;
+        } else {
+            $count_total_cell++;
+        }
+        if(count($model->preferSpecializations)) {
+            $count_full_cell++;
+            $count_total_cell++;
+        } else {
+            $count_total_cell++;
+        }
+        $data=array('count_total_cell'=>$count_total_cell, 'count_full_cell'=>$count_full_cell);
+        echo json_encode($data);
+    }
+
+    public function actionUploadDocuments($type)
+    {
+        UserDocuments::model()->uploadUserDocuments($type);
+    }
+
+    public function actionGetUploadedDocuments()
+    {
+        $data=array();
+        $documents=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'passport'));
+        $inn=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'inn'));
+        $data['documents']=$documents;
+        $data['inn']=$inn;
+        $data['docPath']=StaticFilesHelper::fullPathToFiles('documents');
+        echo CJSON::encode($data);
+    }
+
+    public function actionRemoveUserDocument()
+    {
+        $idFile=Yii::app()->request->getPost('id');
+        $model=UserDocuments::model()->findByPk($idFile);
+        $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->type.'/'.$model->file_name;
+        if (is_file($file))
+            unlink($file);
+        $model->delete();
+    }
 }

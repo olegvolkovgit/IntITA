@@ -185,8 +185,14 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             </div>
         </div>
     </div>
+    <div class="profileActivity filling_profile">
+        <div class="percentOfProgress"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percentProgress"></span> %</div>
+        <div id="lineProgress"></div>
+        <span class="corona"></span>
+    </div>
 </div><!-- form -->
 <!-- Scripts for open tabs-->
+
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openProfileTab.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>

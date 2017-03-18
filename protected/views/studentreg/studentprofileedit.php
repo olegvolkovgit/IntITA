@@ -95,16 +95,9 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 <?php echo $form->error($model, 'avatar'); ?>
             </div>
             <div id="progressBar" ng-show="loadProgress">
-                <div id="profileIndicator"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percent"></span>%</div>
-                <div id="indicators">
-                    <img id='progressLine'
-                         src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline0.png'); ?>'>
-                    <img id='progressMask'
-                         src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline1.png'); ?>'>
-                </div>
-                <div id="twoCrowns">
-                    <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crown.png'); ?>'>
-                </div>
+                <div id="profileIndicator"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percent"></span> %</div>
+                <div id="progressLine"></div>
+                <span id="twoCrowns"></span>
                 <div>
                     <table id="emptyFieldList">
                         <tr ng-repeat="model in modelsArr track by $index" ng-hide="{{model.name}} || (model.name=='form.selectedCity' && !form.selectedCountry)">
@@ -128,15 +121,8 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
             </div>
         </div>
         <div id="gridBlock" ng-show="loadProgress">
-            <div id="gridProgress">
-                <img id='fullGrid'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid1.png'); ?>'>
-                <img id='gridMask'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid.png'); ?>'>
-            </div>
-            <div id="crowns">
-                <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crowns.png'); ?>'>
-            </div>
+            <div id="gridProgress"></div>
+            <span id="crowns"></span>
         </div>
     </div>
     <div class="studProf">
@@ -407,19 +393,59 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         <?php echo $form->textField($model, 'document_issued_date', array('ng-init' => "dataForm.document_issued_date='$post->document_issued_date'",'ng-keyup'=>"modelWatch('dataForm.document_issued_date')", 'ng-model' => "dataForm.document_issued_date", 'maxlength' => 11, 'class' => 'indicator date', 'data-source' => Yii::t('edit', '0937'), 'placeholder' => Yii::t('regexp', '0929'))); ?>
                         <span><?php echo $form->error($model, 'document_issued_date'); ?></span>
                     </div>
-                    <!--                    <div class="row">-->
-                    <!--                        --><?php //echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-                    <!--                        <label for="chooseAvatar">--><?php //echo Yii::t('regexp', '0157'); ?><!--</label>-->
-                    <!--                    </div>-->
+                    <div class="row">
+                        <label style="vertical-align:top"><?php echo Yii::t('edit', '0939'); ?></label>
+                        <div class="uploadDocuments">
+                            <span ng-repeat="item in files.documents track by $index">
+                                <a ng-href="{{files.docPath}}/{{item.id_user}}/{{item.type}}/{{item.file_name}}" target="_blank">doc{{$index}}</a>
+                                <a href="" ng-click="removeDocument(item.id)">[x]</a>
+                            </span>
+                            <input type="file" nv-file-select="" uploader="documentUploader" multiple="">
+                            <ul>
+                                <li ng-repeat="item in documentUploader.queue">
+                                    <span ng-bind="item.file.name"></span>
+                                    <button ng-click="item.remove()" class="btn btn-danger btn-xs"><?php echo Yii::t('course', '0368'); ?></button>
+                                </li>
+                            </ul>
+                            <div ng-if="documentUploader.getNotUploadedItems().length">
+                                <div class="progress" style="margin-bottom:0">
+                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': documentUploader.progress + '%' }" style="width: 0%;"></div>
+                                </div>
+                                <button type="button" class="btn btn-success btn-xs" ng-click="documentUploader.uploadAll()" ng-disabled="!documentUploader.getNotUploadedItems().length" disabled="disabled">
+                                    Завантажити
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <?php echo $form->label($model, 'inn'); ?>
                         <?php echo $form->textField($model, 'inn', array('ng-init' => "dataForm.inn='$post->inn'", 'ng-model' => "dataForm.inn", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0938'), 'placeholder' => Yii::t('regexp', '0930'))); ?>
                         <span><?php echo $form->error($model, 'inn'); ?></span>
                     </div>
-                    <!--                    <div class="row">-->
-                    <!--                        --><?php //echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-                    <!--                        <label for="chooseAvatar">--><?php //echo Yii::t('regexp', '0157'); ?><!--</label>-->
-                    <!--                    </div>-->
+                    <div class="row">
+                        <label style="vertical-align:top"><?php echo Yii::t('edit', '0940'); ?></label>
+                        <div class="uploadDocuments">
+                            <span ng-repeat="item in files.inn track by $index">
+                                <a ng-href="{{files.docPath}}/{{item.id_user}}/{{item.type}}/{{item.file_name}}" target="_blank">doc{{$index}}</a>
+                                <a href="" ng-click="removeDocument(item.id)">[x]</a>
+                            </span>
+                            <input type="file" nv-file-select="" uploader="innUploader" multiple="">
+                            <ul>
+                                <li ng-repeat="item in innUploader.queue">
+                                    <span ng-bind="item.file.name"></span>
+                                    <button ng-click="item.remove()" class="btn btn-danger btn-xs"><?php echo Yii::t('course', '0368'); ?></button>
+                                </li>
+                            </ul>
+                            <div ng-if="innUploader.getNotUploadedItems().length">
+                                <div class="progress" style="margin-bottom:0">
+                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': innUploader.progress + '%' }" style="width: 0%;"></div>
+                                </div>
+                                <button ng-if="innUploader.getNotUploadedItems().length" type="button" class="btn btn-success btn-xs" ng-click="innUploader.uploadAll()" ng-disabled="!innUploader.getNotUploadedItems().length" disabled="disabled">
+                                    Завантажити
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

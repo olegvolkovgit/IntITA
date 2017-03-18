@@ -34,6 +34,12 @@
  */
 class UserAgreements extends CActiveRecord
 {
+    const PAYABLE_STATUS = 'payable';
+    const PAID_STATUS = 'paid';
+    const DELAY_STATUS = 'delay';
+    const EXPIRED_STATUS = 'expired';
+    const NO_AGREEMENT = 'no_agreement';
+    
     /**
      * @return string the associated database table name
      */
@@ -76,8 +82,9 @@ class UserAgreements extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
             'approvalUser' => array(self::BELONGS_TO, 'StudentReg','approval_user'),
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
-            'paymentSchema' => array(self::BELONGS_TO, 'PaymentScheme', 'payment_schema'),
-            'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status')
+            'paymentSchema' => array(self::BELONGS_TO, 'SchemesName', 'payment_schema'),
+            'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status'),
+            'internalPayment' => [self::HAS_MANY, 'InternalPays', array('id'=>'invoice_id'), 'through' => 'invoice', 'order' => 'internalPayment.create_date DESC']
         );
     }
 
@@ -185,7 +192,7 @@ class UserAgreements extends CActiveRecord
      * @return bool
      */
     public function cancel($user) {
-        if ($this->approval_date != null) {
+        if ($this->canBeCanceled()) {
             $this->cancel_date = new CDbExpression('NOW()');
             $this->cancel_user = $user->getId();
             if ($this->save()) {
@@ -222,7 +229,7 @@ class UserAgreements extends CActiveRecord
         $educFormModel = EducationForm::model()->findByPk($educForm);
         $service = CourseService::model()->getService($course, $educFormModel);
         if ($service) {
-            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id,'cancel_date'=>null));
             if ($model) {
                 return $model;
             }
@@ -235,7 +242,7 @@ class UserAgreements extends CActiveRecord
         $educFormModel = EducationForm::model()->findByPk($educForm);
         $service = CourseService::model()->getService($course, $educFormModel);
         if ($service) {
-            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id,'cancel_date'=>null));
             if ($model) {
                 return true;
             }
@@ -248,7 +255,7 @@ class UserAgreements extends CActiveRecord
         $educFormModel = EducationForm::model()->findByPk($educForm);
         $service = ModuleService::model()->getService($module, $educFormModel);
         if ($service) {
-            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id,'cancel_date'=>null));
             if ($model) {
                 return $model;
             }
@@ -261,7 +268,7 @@ class UserAgreements extends CActiveRecord
         $educFormModel = EducationForm::model()->findByPk($educForm);
         $service = ModuleService::model()->getService($module, $educFormModel);
         if ($service) {
-            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id,'cancel_date'=>null));
             if ($model) {
                 return true;
             }
@@ -277,15 +284,13 @@ class UserAgreements extends CActiveRecord
 
         $schemas = PaymentScheme::model()->getPaymentScheme($user, $serviceModel);
         $calculators = $schemas->getSchemaCalculator($educForm);
-
         $calculator = array_filter($calculators, function($item) use ($schemaId) {
             return $item->id == $schemaId;
         });
         $calculator = array_values($calculator)[0];
-
         $model = new UserAgreements();
         $model->user_id = $userId;
-        $model->payment_schema = $schemaId;
+        $model->payment_schema = $calculator->payCount;
         $model->service_id = $serviceModel->service_id;
 
         //create fantom billableObject model for converting object's price to UAH
@@ -549,6 +554,63 @@ class UserAgreements extends CActiveRecord
             $firstInvoice=$this->invoice[0];
         
         return $firstInvoice;
+    }
+
+    public function getAgreementPaidSum() {
+        $sum=0;
+        foreach ($this->invoice as $invoice) {
+            $sum=$sum+$invoice->getPaidSum();
+        }
+        return $sum;
+    }
+
+    public function canBeCanceled() {
+        if ($this->getAgreementPaidSum()==0) {
+           return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function paymentServiceStatus($user, $course, $service)
+    {
+        $today = date("Y-m-d H:i:s");
+
+        $educFormOnline = EducationForm::model()->findByPk(EducationForm::ONLINE);
+        $educFormOffline = EducationForm::model()->findByPk(EducationForm::OFFLINE);
+        switch ($service){
+            case 'module':
+                $serviceOnline = ModuleService::model()->getService($course, $educFormOnline);
+                $serviceOffline = ModuleService::model()->getService($course, $educFormOffline);
+                break;
+            case 'course':
+                $serviceOnline = CourseService::model()->getService($course, $educFormOnline);
+                $serviceOffline = CourseService::model()->getService($course, $educFormOffline);
+                break;
+        }
+
+        $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $serviceOnline->service_id, 'cancel_date' => null));
+        if(!$model){
+            $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $serviceOffline->service_id, 'cancel_date' => null));
+        }
+        if (isset($model) && $model) {
+            $firstUnpaidInvoice=$model->getFirstUnpaidInvoice();
+            if($firstUnpaidInvoice){
+                if ($today<$firstUnpaidInvoice->payment_date) {
+                    return UserAgreements::PAYABLE_STATUS;
+                }else if($today>=$firstUnpaidInvoice->payment_date &&
+                    $today<=$firstUnpaidInvoice->expiration_date &&
+                    $model->getFirstInvoice()->id!=$firstUnpaidInvoice->id)
+                {
+                    return UserAgreements::DELAY_STATUS;
+                }else{
+                    return UserAgreements::EXPIRED_STATUS;
+                }
+            }else{
+                return UserAgreements::PAID_STATUS;
+            }
+        }
+        return UserAgreements::NO_AGREEMENT;
     }
 }
 

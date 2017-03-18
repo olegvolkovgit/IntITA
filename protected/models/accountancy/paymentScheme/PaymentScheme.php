@@ -8,7 +8,7 @@
  * @property integer $id_template
  * @property integer $userId
  * @property integer $serviceId
- * @property integer $payCount
+ * @property integer $serviceType
  * @property string $startDate
  * @property string $endDate
  */
@@ -23,19 +23,19 @@ class PaymentScheme extends CActiveRecord {
     const PROMOTIONAL_COURSE_SCHEME = 2;
     const DEFAULT_MODULE_SCHEME = 3;
     const PROMOTIONAL_MODULE_SCHEME = 4;
-
+    
     const ADVANCE = 1;
     const BASE_TWO_PAYS = 2;
-    const BASE_FOUR_PAYS = 3;
-    const MONTHLY = 4;
-    const CREDIT_TWO_YEARS = 5;
-    const CREDIT_THREE_YEARS = 6;
-    const CREDIT_FOUR_YEARS = 7;
-    const CREDIT_FIVE_YEARS = 8;
-    const BASE_THREE_PAYS = 9;
-    const BASE_SIX_PAYS = 10;
-
-
+    const BASE_THREE_PAYS = 3;
+    const BASE_FOUR_PAYS = 4;
+    const BASE_SIX_PAYS = 6;
+    const MONTHLY = 12;
+    const CREDIT_TWO_YEARS = 24;
+    const CREDIT_THREE_YEARS = 36;
+    const CREDIT_FOUR_YEARS = 48;
+    const CREDIT_FIVE_YEARS = 60;
+   
+   
     /**
      * @return string the associated database table name
      */
@@ -53,9 +53,9 @@ class PaymentScheme extends CActiveRecord {
             array('id_template', 'required'),
             array('userId, serviceId, id_template', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, userId, serviceId, id_template, endDate, startDate', 'safe'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, userId, serviceId, id_template, endDate, startDate', 'safe', 'on' => 'search'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe', 'on' => 'search'),
         );
     }
 
@@ -92,6 +92,7 @@ class PaymentScheme extends CActiveRecord {
             'serviceId' => 'Id сервіса',
             'endDate' => 'Закінчення дії шаблону схем',
             'startDate' => 'Початок дії шаблону схем',
+            'serviceType' => 'Тип сервісу, на який застосовується шаблон'
         );
     }
 
@@ -118,6 +119,7 @@ class PaymentScheme extends CActiveRecord {
         $criteria->compare('serviceId', $this->serviceId, true);
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate);
+        $criteria->compare('serviceType', $this->serviceType);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -210,14 +212,8 @@ class PaymentScheme extends CActiveRecord {
     }
 
     public static function getPaymentName($agreement) {
-        if(isset($agreement->service->getConcreteServiceModel()->module_id)){
-            $service='module';
-        }else{
-            $service='course';
-        }
-        $param=Yii::app()->session["lg"]?$service."_title_".Yii::app()->session["lg"]:$service."_title_ua";
-        $payCount=TemplateSchemes::model()->findByPk($agreement->payment_schema)->pay_count;
-        return SchemesName::model()->findByPk($payCount)->$param;
+        $param=Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
+        return SchemesName::model()->findByPk($agreement->payment_schema)->$param;
     }
 
     public static function getCourseActualSchemeTemplate() {

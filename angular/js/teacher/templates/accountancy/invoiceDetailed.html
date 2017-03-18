@@ -14,29 +14,51 @@
             <a href="#/accountant/agreement/{{invoiceData.agreement.id}}">{{invoiceData.agreement.number}} від {{invoiceData.agreement.create_date}}</a>
         </td>
     </tr>
+    <tr ng-if="invoiceData">
+        <th>Статус:</th>
+        <td ng-class="{'bg-warning': (invoiceData.currentDate>=(invoiceData.payment_date  | shortDate:'yyyy-MM-dd') && invoiceData.currentDate<=(invoiceData.expiration_date  | shortDate:'yyyy-MM-dd')),
+        'bg-danger': (invoiceData.currentDate>(invoiceData.expiration_date  | shortDate:'yyyy-MM-dd') || invoiceData.cancel_date),
+        'bg-success': (invoiceData.summa==invoiceData.paidAmount)}">
+            <span ng-if="invoiceData.cancel_date">Скасовано</span>
+            <div ng-if="!invoiceData.cancel_date">
+                <span ng-if="(invoiceData.summa==invoiceData.paidAmount)">Проплачено</span>
+                <div ng-if="!(invoiceData.summa==invoiceData.paidAmount)">
+                    <span ng-if="(invoiceData.currentDate>=(invoiceData.payment_date  | shortDate:'yyyy-MM-dd') && invoiceData.currentDate<=(invoiceData.expiration_date  | shortDate:'yyyy-MM-dd'))">Збігає термін проплати</span>
+                    <span ng-if="(invoiceData.currentDate>(invoiceData.expiration_date  | shortDate:'yyyy-MM-dd'))">Термін проплати збіг</span>
+                </div>
+            </div>
+        </td>
+    </tr>
     <tr>
         <th>Дата створення:</th>
         <td>{{invoiceData.date_created}}</td>
     </tr>
     <tr>
         <th>Користувач:</th>
-        <td>{{invoiceData.userCreated.fullName}}, {{invoiceData.userCreated.email}}</td>
+        <td>
+            <a ng-href="#/users/profile/{{invoiceData.userCreated.id}}">{{invoiceData.userCreated.fullName}} {{invoiceData.userCreated.email}}</a>
+        </td>
     </tr>
     <tr>
         <th>Сума:</th>
         <td>{{invoiceData.summa}}</td>
     </tr>
     <tr>
-        <th>Дійсний до:</th>
-        <td>{{invoiceData.expiration_date}}</td>
+        <th>Сплачено:</th>
+        <td>{{invoiceData.paidAmount}}</td>
     </tr>
     <tr>
-        <th>Оплачений:</th>
+        <th>Наступна проплата до:</th>
+        <td>{{invoiceData.payment_date  | shortDate:'dd.MM.yyyy'}}</td>
+
+    </tr>
+    <tr>
+        <th>Крайній термін сплати</th>
+        <td>{{invoiceData.expiration_date  | shortDate:'dd.MM.yyyy'}}</td>
+    </tr>
+    <tr>
+        <th>Остання проплата:</th>
         <td>{{invoiceData.pay_date}}</td>
-    </tr>
-    <tr>
-        <th>Скасований:</th>
-        <td>{{invoiceData.date_cancelled}}</td>
     </tr>
     </tbody>
 </table>

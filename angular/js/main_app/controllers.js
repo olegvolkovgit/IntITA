@@ -5,11 +5,12 @@ angular
     .controller('registrationFormController',registrationFormController)
     .controller('aboutUsCtrl',aboutUsCtrl)
     .controller('sendTeacherLetter',sendTeacherLetter)
-    .controller('teacherResponse', teacherResponse);
+    .controller('teacherResponse', teacherResponse)
+    .controller('promotionSchemesCtrl',promotionSchemesCtrl)
 
 
 /* Controllers */
-function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout) {
+function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout, FileUploader) {
     $scope.focusField = function(model,select){
         $timeout(function () {
             $scope.$digest();
@@ -20,6 +21,53 @@ function editProfileController($scope, $http, countryCity, careerService, specia
                 $scope.focusEmptyField(model);
             }
         });
+    };
+    $scope.files = [];
+    $scope.form = [];
+
+    var documentUploader = $scope.documentUploader = new FileUploader({
+        url: basePath+'/studentreg/uploadDocuments?type=passport',
+        removeAfterUpload: true
+    });
+    documentUploader.onCompleteAll = function() {
+        $scope.getUploadedDocuments();
+    };
+    documentUploader.onErrorItem = function(item, response, status, headers) {
+        if(status==500)
+            bootbox.alert("Виникла помилка при завантажені документа.");
+    };
+
+    var innUploader = $scope.innUploader = new FileUploader({
+        url: basePath+'/studentreg/uploadDocuments?type=inn',
+        removeAfterUpload: true
+    });
+    innUploader.onCompleteAll = function() {
+        $scope.getUploadedDocuments();
+    };
+    innUploader.onErrorItem = function(item, response, status, headers) {
+        if(status==500)
+            bootbox.alert("Виникла помилка при завантажені документа.");
+    };
+    
+    documentUploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    innUploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    documentUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    innUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
     };
     //init progress bar
     $scope.dataForm=[];
@@ -117,23 +165,63 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             if($scope.form.specializations.length){
                 $scope.progress++;
             }
+            var percent = Math.round($scope.progress * (100 / ($scope.modelsArr.length + 1))).toFixed(0);
+            var percentInStudentProfile = document.getElementById('percent').innerHTML = percent;
 
-            var percent = Math.round($scope.progress * (100 / ($scope.modelsArr.length+1))).toFixed(0);
-            var percentForGrid = percent - 1;
-            var maskMargin = Math.round(percent / 10).toFixed(0) * 30;
-            $('#percent').text(percent);
-            $("#progressMask").css('margin-left', maskMargin);
-            $("#indicators").append("<img src='"+basePath+"/images/icons/crown.png'>");
-            var gridML = (percent % 10) * 30;
-            var gridMT = (percent - (percent % 10));
-            var marginCrowns = (percentForGrid - (percentForGrid % 10)) / 10 * 25 + 25;
-            if (percent == 100) {
-                $("#twoCrowns img").css('margin-left', -25);
-                marginCrowns = 250;
+            $scope.writeRatingTable = function(percent) {
+                var lineProgress = document.getElementById('gridProgress');
+                var i = 0;
+                j = 0;
+                var count = 0;
+
+                for (i; i < 10; i++) {
+                    var ul = document.createElement('ul');
+
+                    for (j; j < 10; j++) {
+                        count++;
+                        var li = document.createElement('li');
+                        li.appendChild(document.createTextNode(' '));
+                        ul.appendChild(li);
+                        if (count > percent) {
+                            li.style.background = '#d9e4ee';
+                        }
+                    }
+                    j = 0;
+                    lineProgress.insertBefore(ul, lineProgress.firstChild);
+                }
+
+                var crown = document.getElementById('crowns');
+                crown.style.backgroundPositionX = -Math.ceil(percent / 10) * 25 + 'px';
+
             }
-            $("#gridMask").css('margin-left', gridML).css('margin-top', -gridMT);
-            $("#crowns img").css('margin-left', -marginCrowns);
 
+            $scope.writeRatingLine = function(percent) {
+
+                var progresssLine = document.getElementById('progressLine');
+                console.log(progresssLine);
+                var i = 0;
+                var count = 0;
+                var ul = document.createElement('ul');
+                for (i; i < 10; i++) {
+                    count+=10;
+                    var li = document.createElement('li');
+                    li.appendChild(document.createTextNode(' '));
+                    ul.appendChild(li);
+                    var temp = count - percent;
+
+                    if (count < percent || (temp < 5 && temp > 0)) {
+                        li.style.background = '#4b75b4';
+                    }
+                }
+                progressLine.appendChild(ul);
+
+                var crown = document.getElementById('twoCrowns');
+                if(percent === 100) {
+                    crown.style.backgroundPositionX = '-25px';
+                }
+            }
+            $scope.writeRatingTable(percent);
+            $scope.writeRatingLine(percent);
             $scope.loadProgress=true;
         });
     });
@@ -166,7 +254,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
         }).then(function successCallback(response) {
             return response.data;
         }, function errorCallback() {
-            console.log("Виникла помилка при завантажені спеціалзацій яким надано перевагу. Зв'яжіться з адміністратором сайту.");
+            console.log("Виникла помилка при завантажені спеціалізацій яким надано перевагу. Зв'яжіться з адміністратором сайту.");
         });
         return promise;
     };
@@ -255,6 +343,37 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             $('input[name=educformOff]').val(null);
         }
     }, true);
+
+    //load uploaded files
+    $scope.getUploadedDocuments=function () {
+        $http({
+            url: basePath + "/studentreg/getuploadeddocuments",
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.files=response.data;
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка при завантажені документів користувача.");
+        });
+    };
+    //load uploaded files
+    $scope.getUploadedDocuments();
+
+    $scope.removeDocument=function (id) {
+        bootbox.confirm('Видалити файл?', function(result) {
+            if(result)
+                $http({
+                    url: basePath + "/studentreg/removeuserdocument",
+                    method: "POST",
+                    data: $.param({id: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.getUploadedDocuments();
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при видалені документу.");
+                });
+        });
+    }
 }
 
 function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {
@@ -521,3 +640,37 @@ angular.module('mainApp.directives', [])
             }
         };
     });
+
+function promotionSchemesCtrl($scope, $http) {
+    $scope.getPromotionSchemes=function (id, service) {
+        var promise = $http({
+            url: basePath+'/course/getPromotionSchemes',
+            method: "POST",
+            data: $.param({id: id, service: service}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            return false;
+        });
+        return promise;
+    };
+
+    $scope.getPromotionSchemes(id, service).then(function (response) {
+        $scope.promotions=response;
+    });
+
+    $scope.sendSchemaRequest=function(id,serviceType,schemesTemplate){
+        $http({
+            url: basePath+'/course/sendSchemaRequest?contentId='+id+'&serviceType='+serviceType+'&schemesTemplateId='+schemesTemplate,
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function(){
+                location.reload();
+            });
+        }, function errorCallback() {
+            bootbox.alert("Запит не вдалося надіслати.");
+        });
+    }
+}

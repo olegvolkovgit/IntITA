@@ -168,5 +168,42 @@ config(function ($stateProvider, $urlRouterProvider) {
                 return accountantUrl+"externalSources/view/id/"+$stateParams.id;
             }
         })
+        .state('accountant/documents', {
+            url: "/accountant/documents",
+            cache         : false,
+            templateUrl: accountantUrl+"accountant/usersDocuments"
+        })
+        .state('accountant/paymentSchemas/schemas/displaypromotion', {
+            url: '/accountant/paymentSchemas/schemas/displaypromotion',
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/displayPromotionSchemes"
+        })
+        .state('accountant/paymentSchemas/schemas/displaypromotionlist', {
+            url: '/accountant/paymentSchemas/schemas/displaypromotionlist',
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/displayPromotionSchemesList"
+        })
+        .state('accountant/paymentSchemas/schemas/promotionupdate/:id', {
+            url: "/accountant/paymentSchemas/schemas/promotionupdate/:id",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Редагувати зовнішнє джерело коштів');
+            },
+            templateUrl: function ($stateParams) {
+                return accountantUrl+"paymentSchema/promotionupdate/id/" + $stateParams.id;
+            }
+        })
+        .state('accountant/schemesrequests', {
+            url: "/accountant/schemesrequests",
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/schemesrequests"
+        })
+        .state('accountant/paymentSchemas/schemas/apply/request/:request', {
+            url: "/accountant/paymentSchemas/schemas/apply/request/:request",
+            cache         : false,
+            templateUrl: function ($stateParams) {
+                return accountantUrl + "paymentSchema/applyTemplateView/request/" + $stateParams.request;
+            }
+        })
     }
 );

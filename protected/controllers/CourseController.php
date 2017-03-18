@@ -34,6 +34,20 @@ class CourseController extends Controller
 
     }
 
+
+    public function actionSchemes($id)
+    {
+        $model = Course::model()->findByPk($id);
+        if ($model->cancelled == Course::DELETED) {
+            throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
+        }
+        
+        $this->render('schemes', array(
+            'model' => $model,
+        ));
+
+    }
+    
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -215,7 +229,7 @@ class CourseController extends Controller
         echo CJSON::encode($data);
     }
 
-    public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE) {
+    public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE, $templateId=null) {
         $educationForm = EducationForm::model()->findByPk($educationFormId);
         switch ($service){
             case 'module':
@@ -230,11 +244,16 @@ class CourseController extends Controller
         }
   
         $result=[];
-        $result['schemes']=$service->getPaymentSchemas($educationForm);
+        if($templateId){
+            $result['schemes']=$service->getPaymentSchemasByTemplate($educationForm, $templateId);
+        }else{
+            $result['schemes']=$service->getPaymentSchemas($educationForm);
+        }
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
         $result['translates']['price']=Yii::t('courses', '0147');
         $result['translates']['free']=Yii::t('module', '0421');
         $result['translates']['inCourse']=Yii::t('module', '0223');
+        $result['translates']['loan']='кредит';
 
         $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($result)]);
     }
@@ -245,4 +264,75 @@ class CourseController extends Controller
         $this->renderPartial('//ajax/json', ['body' => json_encode($array)]);
     }
 
+    public function actionGetPaymentServiceStatus()
+    {
+        $id=Yii::app()->request->getPost('id');
+        $service=Yii::app()->request->getPost('service');
+        echo UserAgreements::paymentServiceStatus(Yii::app()->user->getId(), $id, $service);
+    }
+    
+    public function actionGetPromotionSchemes()
+    {
+        $data=array();
+        $id=Yii::app()->request->getPost('id');
+        $service=Yii::app()->request->getPost('service');
+        if($service=='course'){
+            $serviceId=CourseService::model()->findByPk(array('course_id'=>$id, 'education_form'=>1))->service_id;
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'courseId='.$id.' or serviceType=1';
+        }else{
+            $serviceId=ModuleService::model()->findByPk(array('module_id'=>$id, 'education_form'=>1))->service_id;
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'moduleId='.$id.' or serviceType=2';
+        }
+         $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
+            (showDate IS NULL && endDate IS NULL) or (showDate IS NOT NULL && NOW()>=showDate && endDate IS NULL))');
+        $promotions=PromotionPaymentScheme::model()->findAll($criteria);
+        foreach ($promotions as $key=>$promotion){
+            $data[$key]['promotion']=$promotion;
+            $data[$key]['template']['name']=$promotion->schemesTemplate->getName();
+            $data[$key]['template']['description']=$promotion->schemesTemplate->getDescription();
+            $data[$key]['template']['isRequestOpen']=MessagesServiceSchemesRequest::model()->isRequestOpen(
+                array('service'=>$serviceId,'schemaTemplate'=>$promotion->schemesTemplate->id,'user'=>Yii::app()->user->getId())
+            );
+        }
+        echo CJSON::encode($data);
+    }
+
+    public function actionGetCourseTitle($id)
+    {
+        $model=Course::model()->findByPk($id);
+        echo $model->title_ua.' ('.$model->language.')';
+    }
+
+    public function actionSendSchemaRequest($contentId, $serviceType, $schemesTemplateId){
+        switch ($serviceType){
+            case Service::MODULE:
+                $service=Module::model()->findByPk($contentId)->moduleServiceOnline->service;
+                break;
+            case Service::COURSE:
+                $service=Course::model()->findByPk($contentId)->courseServiceOnline->service;
+                break;
+            default :
+                $service = null;
+                break;
+        }
+        $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $schemesTemplate= PaymentSchemeTemplate::model()->findByPk($schemesTemplateId);
+        if($model && $service){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesServiceSchemesRequest();
+                $message->build($service, $schemesTemplate, $model);
+                $message->create();
+                $sender = new MailTransport();
+                $message->send($sender);
+                $transaction->commit();
+                echo "Запит на застосування акційної схеми успішно відправлено. Зачекайте, поки ваш запит буде оброблено";
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на застосування акційної схеми не вдалося надіслати.");
+            }
+        }
+    }
 }

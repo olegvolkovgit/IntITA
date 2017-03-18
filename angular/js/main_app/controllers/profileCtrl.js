@@ -80,4 +80,60 @@ function profileCtrl($http,$scope) {
         $('#'+el).toggle('normal');
         return false;
     }
+
+    $scope.getProgressData=function (userId) {
+        var promise = $http({
+            url: basePath+'/studentreg/getProgressData',
+            method: "POST",
+            data: $.param({id: userId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            return false;
+        });
+        return promise;
+    };
+    $scope.getProgressData(userId).then(function (response) {
+        console.log(response);
+
+        $scope.determinColorSheme(response.count_total_cell, response.count_full_cell);
+
+    });
+    $scope.determinColorSheme = function(total, full_cell) {
+        var counter = $scope.percentDefinition(total, full_cell);
+        var lineProgress = document.getElementById('lineProgress');
+        var i = 0;
+        j = 0;
+        var count = 0;
+
+        for(i; i<10; i++)
+        {
+            var ul = document.createElement('ul');
+
+            for (j; j < 10; j++) {
+                count++;
+                var li = document.createElement('li');
+                li.appendChild(document.createTextNode(' '));
+                ul.appendChild(li);
+                if(count > counter) {
+                    li.style.background = '#d9e4ee';
+                }
+            }
+            j = 0;
+            lineProgress.insertBefore(ul, lineProgress.firstChild);
+        }
+
+        var corona = document.getElementsByClassName('corona')[0];
+        corona.style.backgroundPositionX = -Math.ceil(counter/10)*25 + 'px';
+    }
+
+    $scope.percentDefinition = function(total, full_cell) {
+
+        var progressInPercent = Math.round(full_cell/total*100).toFixed(0);
+        var percentProgress = document.getElementById('percentProgress');
+        percentProgress.innerHTML = progressInPercent;
+        return progressInPercent;
+    }
+
 }

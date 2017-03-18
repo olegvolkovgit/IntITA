@@ -12,6 +12,7 @@ function invoiceDetailed(invoices) {
             .$promise
             .then(function (data) {
                 $scope.invoiceData = data.rows[0];
+                $scope.invoiceData.currentDate = currentDate;
             });
     }
 

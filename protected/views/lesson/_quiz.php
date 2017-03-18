@@ -54,4 +54,3 @@ if (!is_null($page->quiz)) {
     }
 }
 ?>
-

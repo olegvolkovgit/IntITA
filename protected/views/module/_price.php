@@ -53,4 +53,6 @@ if ($model->isReady()   ) { ?>
         </div>
     </div>
 <?php } ?>
+<a href="<?php echo Yii::app()->createUrl('module/schemes', array('id' => $model->module_ID)); ?>"
+   style="color:green;text-decoration:underline" target="_blank"><em>Спеціальні пропозиції</em></a>
 

@@ -949,7 +949,7 @@ class StudentReg extends CActiveRecord
         $criteria->addCondition('r.deleted IS NULL AND r.read IS NULL and r.id_receiver =' . $this->id . ' and
         (m.type=' . MessagesType::USER . ' or m.type=' . MessagesType::PAYMENT . ' or m.type=' . MessagesType::APPROVE_REVISION . '
          or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . '
-          or m.type=' . MessagesType::REJECT_MODULE_REVISION . ')');
+          or m.type=' . MessagesType::REJECT_MODULE_REVISION . ' or m.type=' . MessagesType::SERVICE_SCHEMES_REQUEST.')');
 
         return Messages::model()->findAll($criteria);
     }
@@ -959,7 +959,6 @@ class StudentReg extends CActiveRecord
         $result = [];
         foreach ($newReceivedMessages as $key => $message) {
             array_push($result, MessagesFactory::getInstance($message));
-            if ($key == 4) break;
         }
         return $result;
     }
@@ -1430,6 +1429,11 @@ class StudentReg extends CActiveRecord
         }
         foreach($model->preferSpecializations as $key=>$specialization){
             $result['specializations'][$key]=$specialization->specialization->title_ua;
+        }
+
+        if (Yii::app()->user->model->isAccountant()){
+            $result['documents']['passport']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'passport'));
+            $result['documents']['inn']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'inn'));
         }
         return $result;
     }

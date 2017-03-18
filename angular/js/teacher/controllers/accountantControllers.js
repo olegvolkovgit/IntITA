@@ -4,15 +4,37 @@
 
 angular
     .module('teacherApp')
-    .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams',
-        function ($scope, agreements, paymentSchema, NgTableParams) {
-            $scope.agreementsTableParams = new NgTableParams({}, {
+    .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams','lodash',
+        function ($scope, agreements, paymentSchema, NgTableParams, _) {
+            $scope.changePageHeader('Список договорів');
+            $scope.currentDate = currentDate;
+            $scope.agreementsTableParams = new NgTableParams({sorting: { create_date: "desc" } }, {
                 getData: function (params) {
                     return agreements
                         .list(params.url())
                         .$promise
                         .then(function (data) {
                             params.total(data.count);
+                            data.rows.forEach(function(row) {
+                                var paid=0;
+                                //get paid sum for agreement
+                                row.internalPayment.forEach(function (pay) {
+                                    paid = paid+Number(pay.summa);
+                                });
+                                row.paidAmount=paid;
+                                //get agreement payment_date and expiration_date
+                                for (var index = 0; index < row.invoice.length; ++index) {
+                                    var invoicePaid=0;
+                                    _.filter(row.internalPayment, ['invoice_id', row.invoice[index].id]).forEach(function (pay) {
+                                        invoicePaid = invoicePaid+Number(pay.summa);
+                                    });
+                                    if(invoicePaid<row.invoice[index].summa){
+                                        row.payment_date=row.invoice[index].payment_date;
+                                        row.expiration_date=row.invoice[index].expiration_date;
+                                        break;
+                                    }
+                                }
+                            });
                             return data.rows;
                         });
                 }
@@ -29,13 +51,17 @@ angular
             };
 
             $scope.cancel = function (id) {
-                return agreements
-                    .cancel({id: id})
-                    .$promise
-                    .then(function (data) {
-                        $scope.agreementsTableParams.reload();
-                        return data;
-                    });
+                bootbox.confirm('Ви впевнені, що хочете скасувати договір?', function(result) {
+                    if(result){
+                        return agreements
+                            .cancel({id: id})
+                            .$promise
+                            .then(function (data) {
+                                $scope.agreementsTableParams.reload();
+                                return data;
+                            });
+                    }
+                });
             };
 
             $scope.getSchemas = paymentSchema
@@ -43,20 +69,23 @@ angular
                 .$promise
                 .then(function (data) {
                     return data.map(function (item) {
-                        return {id: item.id, title: item.name}
+                        return {id: item.pay_count, title: item.title_ua}
                     })
                 });
         }])
 
     .controller('agreementDetailCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
+        $scope.changePageHeader('Договір та його рахунки');
         $scope.agreementId = $stateParams.agreementId;
     }])
 
     .controller('invoiceDetailCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
+        $scope.changePageHeader('Рахунок');
         $scope.invoiceId = $stateParams.invoiceId;
     }])
 
     .controller('invoicesCtrl', ['$scope', 'invoicesService', 'NgTableParams', function ($scope, invoicesService, NgTableParams) {
+        $scope.changePageHeader('Рахунки');
     }])
 
     .controller('operationCtrl', ['$scope', '$state', function ($scope, $state) {
@@ -77,6 +106,7 @@ angular
         'externalPaymentsService',
         'ngToast',
         function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments, ngToast) {
+            $scope.Math = window.Math;
             $scope.typeaheadProviders = {
                 user: {
                     name: 'користувачу',
@@ -770,8 +800,8 @@ angular
         $scope.startDateOptions = new ExternalPaymentDateOptions();
     })
 
-    .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService',
-        function ($scope, $stateParams, NgTableParams,paymentSchemaService) {
+    .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService','$http',
+        function ($scope, $stateParams, NgTableParams,paymentSchemaService,$http) {
             $scope.changePageHeader('Шаблони схем');
 
             $scope.schemesTemplateTableParams = new NgTableParams({}, {
@@ -813,7 +843,7 @@ angular
                         });
                 }
             });
-            $scope.usersTemplateTableParams = new NgTableParams({}, {
+            $scope.usersTemplateTableParams = new NgTableParams({sorting: { id: "desc" } }, {
                 getData: function (params) {
                     return paymentSchemaService
                         .usersAppliedTemplatesList(params.url())
@@ -861,7 +891,12 @@ angular
                 });
                 $scope.template={
                     id:response.data.id,
-                    name:response.data.template_name,
+                    name_ua:response.data.template_name_ua,
+                    name_ru:response.data.template_name_ru,
+                    name_en:response.data.template_name_en,
+                    description_ua:response.data.description_ua,
+                    description_ru:response.data.description_ru,
+                    description_en:response.data.description_en,
                     schemes:$scope.schemes,
                 };
             }, function errorCallback() {
@@ -877,11 +912,11 @@ angular
             {pay_count:1,discount:30,loan:0,name:'Проплата наперед'},
             {pay_count:2,discount:10,loan:0,name:'2 проплати'},
             {pay_count:4,discount:8,loan:0,name:'4 проплати'},
-            {pay_count:12,discount:0,loan:0,name:'Оплата за рік помісячно'},
-            {pay_count:24,discount:0,loan:24,name:'Кредитування на 2 роки'},
-            {pay_count:36,discount:0,loan:24,name:'Кредитування на 3 роки'},
-            {pay_count:48,discount:0,loan:24,name:'Кредитування на 4 роки'},
-            {pay_count:60,discount:0,loan:24,name:'Кредитування на 5 роки'},
+            {pay_count:12,discount:0,loan:0,name:'помісячно'},
+            {pay_count:24,discount:0,loan:24,name:'24 проплати'},
+            {pay_count:36,discount:0,loan:24,name:'36 проплат'},
+            {pay_count:48,discount:0,loan:24,name:'48 проплат'},
+            {pay_count:60,discount:0,loan:24,name:'60 проплат'},
         ];
 
         $scope.template={
@@ -895,11 +930,11 @@ angular
             {value: 3, name: '3 проплати'},
             {value: 4, name: '4 проплати'},
             {value: 6, name: '6 проплат'},
-            {value: 12, name: 'Оплата за рік помісячно'},
-            {value: 24, name: 'Кредитування на 2 роки'},
-            {value: 36, name: 'Кредитування на 3 роки'},
-            {value: 48, name: 'Кредитування на 4 роки'},
-            {value: 60, name: 'Кредитування на 5 роки'},
+            {value: 12, name: 'помісячно'},
+            {value: 24, name: '24 проплати'},
+            {value: 36, name: '36 проплат'},
+            {value: 48, name: '48 проплат'},
+            {value: 60, name: '60 проплат'},
         ]
 
         $scope.updateScheme = function(payCount,index){
@@ -991,10 +1026,40 @@ angular
         };
     }])
 
-    .controller('paymentsSchemaTemplateApplyCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams','paymentSchemaService', 
-        function ($scope, _, $http, $state, $stateParams, paymentSchemaService) {
+    .controller('paymentsSchemaTemplateApplyCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams','paymentSchemaService','$q','$rootScope',
+        function ($scope, _, $http, $state, $stateParams, paymentSchemaService, $q,$rootScope) {
             $scope.changePageHeader('Застосування шаблону схем');
 
+            $scope.loadService=function (id) {
+                var promise = $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/getServiceContent',
+                    method: "POST",
+                    data: $jq.param({
+                        serviceId:id,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Вибачте, виникла помилка при завантажені сервісу.");
+                });
+                return promise;
+            };
+            $scope.loadUserName=function (id) {
+                var promise = $http({
+                    url: basePath+'/_teacher/user/loadUserName',
+                    method: "POST",
+                    data: $jq.param({
+                        userId:id,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Вибачте, виникла помилка при завантажені ім'я користувача.");
+                });
+                return promise;
+            };
             $scope.loadTemplates=function(){
                 $http({
                     url: basePath+'/_teacher/_accountant/paymentSchema/getSchemesTemplatesList',
@@ -1002,6 +1067,31 @@ angular
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     $scope.templates=response.data;
+                    if($stateParams.request){
+                        paymentSchemaService.getSchemesRequest({id_message:$stateParams.request}).$promise.then(function(response){
+                            $q.all([$scope.loadUserName(response.id_user), $scope.loadService(response.id_service)]).then(function (results) {
+                                $scope.userSelected=results[0];
+                                $scope.paymentSchema={
+                                    userId:response.id_user,
+                                    courseId:results[1]['courseId'],
+                                    moduleId:results[1]['moduleId'],
+                                    template: _.find($scope.templates, ['id', response.id_schema_template]),
+                                    serviceType:1,
+                                    request:$stateParams.request,
+                                }
+                                if($scope.paymentSchema.courseId){
+                                    $http.get(basePath + "/course/getCourseTitle/?id="+$scope.paymentSchema.courseId).then(function (response) {
+                                        $scope.selectedCourse = response.data;
+                                    });
+                                }
+                                if($scope.paymentSchema.moduleId){
+                                    $http.get(basePath + "/module/getModuleTitle/?id="+$scope.paymentSchema.moduleId).then(function (response) {
+                                        $scope.selectedModule = response.data;
+                                    });
+                                }
+                            });
+                        });
+                    }
                 }, function errorCallback() {
                     bootbox.alert("Отримати шаблони схем не вдалося");
                 });
@@ -1037,7 +1127,14 @@ angular
                     .then(function (data) {
                         if (data.message === 'OK') {
                             bootbox.alert('Шаблон схем успішно застосовано',function () {
-                                $state.reload();
+                                if($stateParams.request){
+                                    paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+                                        $rootScope.countOfActualSchemesRequests=response[0];
+                                        $state.go("accountant/schemesrequests", {}, {reload: true});
+                                    });
+                                }else{
+                                    $state.reload();
+                                }
                             });
                         } else {
                             bootbox.alert('Під час застосування шаблону схеми виникла помилка');
@@ -1055,7 +1152,356 @@ angular
                     value: 2
                 }
             ];
-    }]);
+    }])
+    .controller('documentsCtrl', ['$scope', '$stateParams','NgTableParams','accountantService','$http', function ($scope, $stateParams,NgTableParams,accountantService, $http) {
+        $scope.changePageHeader('Копії документів');
+
+        $scope.docStatus = [{id:0, title:'не перевірені'}, {id:1, title:'перевірені'}];
+        $scope.documentsTableParams = new NgTableParams({filter:{'check':0}}, {
+            getData: function (params) {
+                return accountantService
+                    .documentsList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+
+        $scope.createDocumentsFolder=function () {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_accountant/accountant/createDocumentsFolder',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback() {
+                bootbox.alert("Папку створено");
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+
+        $scope.changeDocStatus=function (id) {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_accountant/accountant/changeDocumentStatus',
+                data: $jq.param({id: id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback() {
+                $scope.documentsTableParams.reload();
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+    }])
+    .controller('displayPromotionSchemesCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams','paymentSchemaService','$filter',
+        function ($scope, _, $http, $state, $stateParams, paymentSchemaService,$filter) {
+            $scope.changePageHeader('Відображення акційних схем для сервісів');
+
+            $scope.loadTemplates=function(){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/getSchemesTemplatesList',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    $scope.templates=response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Отримати шаблони схем не вдалося");
+                });
+            };
+            $scope.loadTemplates();
+            
+            $scope.startShowOptions = new DateOptions();
+            $scope.startDateOptions = new DateOptions();
+            $scope.endDateOptions = new DateOptions();
+
+            $scope.onSelectCourse = function ($item) {
+                $scope.paymentSchema['courseId'] = $item.id;
+            };
+            $scope.reloadCourse = function(){
+                $scope.paymentSchema['courseId']=null;
+            };
+            $scope.onSelectModule = function ($item) {
+                $scope.paymentSchema['moduleId'] = $item.id;
+            };
+            $scope.reloadModule = function(){
+                $scope.paymentSchema['moduleId']=null;
+            };
+
+            $scope.applyPromotionTemplate = function () {
+                paymentSchemaService
+                    .applyPromotionTemplate($scope.paymentSchema)
+                    .$promise
+                    .then(function (data) {
+                        if (data.message === 'OK') {
+                            bootbox.alert('Акційний шаблон схем успішно застосовано',function () {
+                                $state.reload();
+                            });
+                        } else {
+                            bootbox.alert('Під час застосування акційного шаблону схеми виникла помилка');
+                        }
+                    });
+            }
+
+            $scope.services = [
+                {
+                    name: 'Курси',
+                    value: 1
+                },
+                {
+                    name: 'Модулі',
+                    value: 2
+                }
+            ];
+        }])
+    .controller('promotionPaymentsSchemesTableCtrl', ['$scope', 'NgTableParams','paymentSchemaService','$http',
+        function ($scope, NgTableParams,paymentSchemaService, $http) {
+            $scope.changePageHeader('Список акцій застосованих до сервісів');
+            
+            $scope.promotionPaymentsSchemaTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return paymentSchemaService
+                        .promotionPaymentsSchemaList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+
+            $scope.cancelPromotionPaymentScheme=function(id){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/cancelPromotionPaymentScheme',
+                    method: "POST",
+                    data: $jq.param({
+                        id:id,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.promotionPaymentsSchemaTableParams.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Скасувати не вдалося");
+                });
+            }
+        }])
+    .controller('displayPromotionSchemesCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams','paymentSchemaService','$filter',
+        function ($scope, _, $http, $state, $stateParams, paymentSchemaService,$filter) {
+            $scope.loadPromotionData=function(id){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/getPromotionSchemeData',
+                    method: "POST",
+                    data: $jq.param({id:id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    $scope.paymentSchema={
+                        id:response.data.id,
+                        courseId:response.data.courseId,
+                        moduleId:response.data.moduleId,
+                        template: _.find($scope.templates, ['id', response.data.id_template]),
+                        serviceType:Number(response.data.serviceType?response.data.serviceType:1),
+                        showDate:response.data.showDate?new Date(response.data.showDate):null,
+                        startDate:response.data.startDate?new Date(response.data.startDate):null,
+                        endDate:response.data.endDate?new Date(response.data.endDate):null,
+                    }
+                    if(response.data.courseId){
+                        $scope.loadCourseTitle(response.data.courseId);
+                    }
+                    if(response.data.moduleId){
+                        $scope.loadModuleTitle(response.data.moduleId);
+                    }
+                }, function errorCallback() {
+                    bootbox.alert("Отримати дані акційної схеми не вдалося");
+                });
+            };
+
+            if($stateParams.id){
+                $scope.changePageHeader('Редагування акційної схеми');
+            }else{
+                $scope.changePageHeader('Відображення акційних схем для сервісів');
+            }
+
+            $scope.loadTemplates=function(){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/getSchemesTemplatesList',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    $scope.templates=response.data;
+                    if($stateParams.id){
+                        $scope.loadPromotionData($stateParams.id);
+                    }
+                }, function errorCallback() {
+                    bootbox.alert("Отримати шаблони схем не вдалося");
+                });
+            };
+            $scope.loadTemplates();
+
+
+            $scope.sendFormPromotion= function (scenario) {
+                if(scenario=='create') $scope.applyPromotionTemplate();
+                else $scope.updatePromotionTemplate();
+            };
+
+            $scope.startShowOptions = new DateOptions();
+            $scope.startDateOptions = new DateOptions();
+            $scope.endDateOptions = new DateOptions();
+
+            $scope.onSelectCourse = function ($item) {
+                $scope.paymentSchema['courseId'] = $item.id;
+            };
+            $scope.reloadCourse = function(){
+                $scope.paymentSchema['courseId']=null;
+            };
+            $scope.onSelectModule = function ($item) {
+                $scope.paymentSchema['moduleId'] = $item.id;
+            };
+            $scope.reloadModule = function(){
+                $scope.paymentSchema['moduleId']=null;
+            };
+            //load service title
+            $scope.loadModuleTitle=function(moduleId){
+                $http.get(basePath + "/module/getModuleTitle/?id="+moduleId).then(function (response) {
+                    $scope.selectedModule = response.data;
+                });
+            };
+            $scope.loadCourseTitle=function(courseId){
+                $http.get(basePath + "/course/getCourseTitle/?id="+courseId).then(function (response) {
+                    $scope.selectedCourse = response.data;
+                });
+            };
+
+            $scope.applyPromotionTemplate = function () {
+                paymentSchemaService
+                    .applyPromotionTemplate($scope.paymentSchema)
+                    .$promise
+                    .then(function (data) {
+                        if (data.message === 'OK') {
+                            bootbox.alert('Акційний шаблон схем успішно застосовано',function () {
+                                $state.reload();
+                            });
+                        } else {
+                            bootbox.alert('Під час застосування акційного шаблону схеми виникла помилка');
+                        }
+                    });
+            }
+
+            $scope.updatePromotionTemplate = function () {
+                paymentSchemaService
+                    .updatePromotionTemplate($scope.paymentSchema)
+                    .$promise
+                    .then(function (data) {
+                        if (data.message === 'OK') {
+                            bootbox.alert('Акційний шаблон схем успішно оновлено',function () {
+                                $state.reload();
+                            });
+                        } else {
+                            bootbox.alert('Під час оновлення акційного шаблону схеми виникла помилка');
+                        }
+                    });
+            }
+
+            $scope.services = [
+                {
+                    name: 'Курси',
+                    value: 1
+                },
+                {
+                    name: 'Модулі',
+                    value: 2
+                }
+            ];
+        }])
+    .controller('schemesRequestsTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService','$http','$rootScope',
+        function ($scope, $stateParams, NgTableParams,paymentSchemaService,$http,$rootScope) {
+            $scope.changePageHeader('Запити на застосування схем проплат');
+
+            $scope.status = [
+                {id:'0', title:'нові'}, 
+                {id:'1', title:'в процесі'}, 
+                {id:'2', title:'затвердженні'}, 
+                {id:'3', title:'відхилені'},
+                {id:'4', title:'нові та в процесі'}
+            ];
+            
+            $scope.schemesRequestsTableParams = new NgTableParams({filter:{'status':'4'}}, {
+                getData: function (params) {
+                    return paymentSchemaService
+                        .schemesRequestsList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+            
+            $scope.setRequestStatus=function(idMessage,status){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/setRequestStatus',
+                    method: "POST",
+                    data: $jq.param({idMessage: idMessage,status:status}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+                        $rootScope.countOfActualSchemesRequests=response[0];
+                        $scope.schemesRequestsTableParams.reload();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Змінити статус не вдалося");
+                });
+            };
+            $scope.rejectRequest=function(idMessage){
+                bootbox.dialog({
+                        title: "Ти впевнений, що хочеш відхилити запит?",
+                        message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+                        '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" ' +
+                        'placeholder="тут можна залишити коментар, причина відхилення запиту на застосування схеми проплат, яка надійде користувачу на його email"></textarea>'+
+                        '</div></form></div></div>',
+                        buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                            callback: function () {
+                                var comment = $jq('#rejectMessageText').val();
+                                paymentSchemaService.rejectSchemesRequest({id_message:idMessage,reject_comment:comment}).$promise.then(function(){
+                                    $scope.schemesRequestsTableParams.reload();
+                                });
+                                paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+                                    $rootScope.countOfActualSchemesRequests=response[0];
+                                });
+                            }
+                        },
+                            cancel: {label: "Скасувати", className: "btn btn-default",
+                                callback: function () {
+                                }
+                            }
+                        }
+                    }
+                );
+            };
+            $scope.setComment=function(idMessage, oldComment){
+                if(typeof oldComment=='undefined') oldComment='';
+                bootbox.dialog({
+                        title: "Коментар до запиту",
+                        message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
+                        '<textarea class="form-control" style="resize: none" rows="6" id="commentMessageText" ' +
+                        'placeholder="тут можна залишити коментар до запиту, котрий бачить лише бухгалтер">'+oldComment+'</textarea>'+
+                        '</div></form></div></div>',
+                        buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                            callback: function () {
+                                var comment = $jq('#commentMessageText').val();
+                                paymentSchemaService.setRequestComment({id_message:idMessage,comment:comment}).$promise.then(function(){
+                                    $scope.schemesRequestsTableParams.reload();
+                                });
+                            }
+                        },
+                            cancel: {label: "Скасувати", className: "btn btn-default",
+                                callback: function () {
+                                }
+                            }
+                        }
+                    }
+                );
+            };
+        }]);
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];
