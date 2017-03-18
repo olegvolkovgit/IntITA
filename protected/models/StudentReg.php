@@ -391,7 +391,7 @@ class StudentReg extends CActiveRecord
     
     public function afterFind() {
         /* setup full name field after find */
-        $this->fullName = trim($this->firstName . " " . $this->secondName);
+        $this->fullName = trim($this->firstName . " " . $this->secondName. " ".$this->email);
         //format birthday
         if ($this->birthday != null){
             $format = "Y-m-d";

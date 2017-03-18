@@ -12,9 +12,9 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a ui-sref="director.courses">Курси</a></li>
-                    <li><a ui-sref="director.modules">Модулі</a></li>
-                    <li><a ui-sref="director.lectures">Заняття</a></li>
+                    <li><a ui-sref="courses">Курси</a></li>
+                    <li><a ui-sref="modules">Модулі</a></li>
+                    <li><a ui-sref="lectures">Заняття</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -30,11 +30,11 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a ng-href="#/admin/users">Користувачі</a></li>
+                    <li><a ui-sref="users.registeredUsers">Користувачі</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
-                <em>Списки користувачів</em>
+                <em>Користувачів та їх ролі</em>
             </div>
         </div>
     </div>

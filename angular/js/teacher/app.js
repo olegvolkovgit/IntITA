@@ -48,6 +48,13 @@ angular
                     };
             }
     ])
+    .filter('bracket', [
+            '$filter', function() {
+                    return function(input) {
+                            return input ? '['+input+']' : '';
+                    };
+            }
+    ])
     .run(['$rootScope', '$templateCache','$state',
             function ($rootScope, $templateCache, $state) {
                     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

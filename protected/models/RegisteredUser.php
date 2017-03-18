@@ -389,4 +389,9 @@ class RegisteredUser
     {
         return $this->isContentManager();
     }
+
+    public function canUnlockUser()
+    {
+        return $this->isSuperAdmin();
+    }
 }
