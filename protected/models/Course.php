@@ -12,7 +12,8 @@
  * @property string $title_en
  * @property integer $modules_count
  * @property string $course_price
- * @property integer $status
+ * @property integer $status_online
+ * @property integer $status_offline
  * @property string $for_whom_ua
  * @property string $what_you_learn_ua
  * @property string $what_you_get_ua
@@ -75,10 +76,10 @@ class Course extends CActiveRecord implements IBillableObject
             array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('start', 'date', 'format' => 'yyyy-MM-dd', 'message' => Yii::t('coursemanage', '0389')),
             array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
-			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
+			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status_online, status_offline, review, rating', 'safe'),
             // The following rule is used by search().
             array('course_ID,alias, language, title_ua, title_ru, title_en, modules_count,
-			course_price, status, for_whom_ua, what_you_learn_ua,what_you_get_ua,
+			course_price, status_online, status_offline, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
 			 course_img, cancelled, course_number', 'safe', 'on' => 'search'),
         );
@@ -126,7 +127,8 @@ class Course extends CActiveRecord implements IBillableObject
             'course_img' => Yii::t('course', '0408'),
             'level' => Yii::t('course', '0409'),
             'start' => Yii::t('course', '0410'),
-            'status' => Yii::t('course', '0411'),
+            'status_online' => Yii::t('course', '0411'),
+            'status_offline' => Yii::t('course', '0411'),
             'cancelled' => Yii::t('course', '0741'),
             'course_number' => Yii::t('course', '0742'),
         );
@@ -168,7 +170,8 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('what_you_get_en', $this->what_you_get_en, true);
         $criteria->compare('course_img', $this->course_img, true);
         $criteria->compare('cancelled', $this->cancelled, true);
-        $criteria->compare('status', $this->status, true);
+        $criteria->compare('status_online', $this->status_online, true);
+        $criteria->compare('status_offline', $this->status_offline, true);
         $criteria->compare('course_number', $this->course_number);
 
         return new CActiveDataProvider($this, array(
