@@ -3,7 +3,7 @@
    href="/_teacher/_admin/users/export/type/withoutRoles">
 </a>
 
-<div class="col-lg-12" ng-controller="withoutRolesTableCtrl">
+<div ng-controller="withoutRolesTableCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

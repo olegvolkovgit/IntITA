@@ -178,11 +178,11 @@ angular
                         }
                     }
                 })
-                .state('users.administrators', {
-                    url: '/administrators',
+                .state('users.admins', {
+                    url: '/admins',
                     views: {
                         'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/administrators",
+                            templateUrl: basePath+"/_teacher/users/admins",
                         }
                     }
                 })

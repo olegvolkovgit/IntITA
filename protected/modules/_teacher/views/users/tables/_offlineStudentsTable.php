@@ -4,12 +4,19 @@
 <div class="panel panel-default" ng-controller="offlineStudentsTableCtrl">
     <div class="panel-body">
         <table ng-table="offlineStudentsTableParams" class="table table-bordered table-striped table-condensed">
+            <colgroup>
+                <col width="20%"/>
+                <col width="20%"/>
+                <col/>
+                <col/>
+                <col/>
+                <col/>
+                <col/>
+                <col/>
+            </colgroup>
             <tr ng-repeat="row in $data track by $index">
-                <td data-title="'ПІБ'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                    <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.user.fullName}}</a>
-                </td>
-                <td data-title="'Email'" filter="{'user.email': 'text'}" sortable="'user.email'">
-                    <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.user.email}}</a>
+                <td style="word-wrap:break-word" data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
+                    <a ng-href="#/users/profile/{{row.id_user}}">{{row.user.fullName}}</a>
                 </td>
                 <td data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
                     <a ng-href="#/admin/users/user/{{row.trainerData.id}}">{{row.trainerData.fullName}} {{row.trainerData.email}}</a>

@@ -7,6 +7,9 @@
  * @property integer $id_user
  * @property string $start_date
  * @property string $end_date
+ * @property integer $assigned_by
+ * @property integer $cancelled_by
+ * @property integer $id_organization
  *
  * The followings are the available model relations:
  * @property StudentReg $user
@@ -34,11 +37,12 @@ class UserAdmin extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('start_date', 'required'),
+			array('start_date, assigned_by, id_organization', 'required'),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
+			array('id_user, start_date, end_date, assigned_by, cancelled_by, id_organization', 'safe'),
 			// @todo Please remove those attributes that should not be searched.
-			array('id_user, start_date, end_date', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date, assigned_by, cancelled_by, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,11 +58,12 @@ class UserAdmin extends CActiveRecord
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
             'activeMembers' => array(self::BELONGS_TO, 'StudentReg', 'id_user','condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
+			'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
 		);
 	}
 	public function primaryKey()
 	{
-		return array('id_user', 'start_date');
+		return array('id_user', 'start_date', 'id_organization');
 	}
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -93,6 +98,8 @@ class UserAdmin extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
+		$criteria->compare('assigned_by',$this->assigned_by,true);
+		$criteria->compare('cancelled_by',$this->cancelled_by,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

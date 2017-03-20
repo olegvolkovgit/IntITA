@@ -3,7 +3,7 @@ $currentTime = date('Y-m-d H:i:s');
 $last_24h = date('Y-m-d H:i:s', time()-60*60*24);
 $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
 ?>
-<div class="col-lg-12" ng-controller="studentsTableCtrl">
+<div ng-controller="studentsTableCtrl">
     <br>
     <button class="btn btn-primary"
             ng-click="updateStudentList()">
@@ -38,12 +38,11 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                 <table ng-table="studentsTableParams" class="table table-bordered table-striped table-condensed">
                     <colgroup>
                         <col/>
-                        <col width="10%"/>
-                        <col width="10%"/>
-                        <col width="10%"/>
-                        <col width="10%"/>
                         <col/>
-                        <col width="10%"/>
+                        <col/>
+                        <col/>
+                        <col/>
+                        <col/>
                     </colgroup>
                     <tr ng-repeat="row in $data track by $index">
                         <td style="word-wrap:break-word" data-title="'Користувач'" sortable="'fullName'" filter="{'fullName': 'text'}" >
@@ -57,13 +56,6 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city0.title_ua}}</td>
                         <td style="word-wrap:break-word" data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
                             <a ng-href="#/users/profile/{{row.trainerData.id}}">{{row.trainerData.fullName}}</a>
-                        </td>
-                        <td data-title="'Доступ до контента (по договору)'" >
-                            <a type="button"
-                               ng-class="{'btn btn-outline btn-success btn-block': row.serviceAccess.length,
-                               'btn btn-outline btn-danger btn-block': !row.serviceAccess.length }" ng-href="#/admin/users/user/{{row.id}}">
-                                {{row.serviceAccess.length? "є доступ":"немає доступу"}}
-                            </a>
                         </td>
                     </tr>
                 </table>

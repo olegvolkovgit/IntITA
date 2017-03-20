@@ -34,7 +34,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                <em>Користувачів та їх ролі</em>
+                <em>Користувачі та їх ролі</em>
             </div>
         </div>
     </div>
