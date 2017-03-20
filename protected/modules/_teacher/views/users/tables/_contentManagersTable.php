@@ -15,6 +15,7 @@
                     <col/>
                     <col/>
                     <col/>
+                    <col/>
                     <col width="5%"/>
                 </colgroup>
                 <tr ng-repeat="row in $data track by $index">
@@ -24,6 +25,9 @@
                     <td data-title="'Призначено'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
                     <td data-title="'Призначив'" filter="{'assigned_by_user.fullName': 'text'}" sortable="'assigned_by_user.fullName'">
                         <a ng-href="#/users/profile/{{row.assigned_by}}">{{row.assigned_by_user.fullName}}</a>
+                    </td>
+                    <td data-title="'Організація'" filter="{'organization.name': 'text'}" sortable="'organization.name'">
+                        {{row.organization.name}}
                     </td>
                     <td data-title="''">
                         <a class="btnChat"  ng-href="#/newmessages/receiver/{{row.id_user}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
