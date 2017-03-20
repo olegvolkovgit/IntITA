@@ -127,8 +127,9 @@ class Course extends CActiveRecord implements IBillableObject
             'course_img' => Yii::t('course', '0408'),
             'level' => Yii::t('course', '0409'),
             'start' => Yii::t('course', '0410'),
-            'status_online' => Yii::t('course', '0411'),
-            'status_offline' => Yii::t('course', '0411'),
+//            'status' => Yii::t('course', '0411'),
+            'status_online' => 'Онлайн-статус',
+            'status_offline' => 'Офлайн-статус',
             'cancelled' => Yii::t('course', '0741'),
             'course_number' => Yii::t('course', '0742'),
         );
@@ -383,9 +384,14 @@ class Course extends CActiveRecord implements IBillableObject
         return 'K';
     }
 
-    public static function getStatus($id)
+    public static function getStatus_online($id)
     {
-        return Course::model()->findByPk($id)->status;
+        return Course::model()->findByPk($id)->status_online;
+    }
+
+    public static function getStatus_offline($id)
+    {
+        return Course::model()->findByPk($id)->status_offline;
     }
 
     public static function generateCoursesList()
@@ -688,8 +694,11 @@ class Course extends CActiveRecord implements IBillableObject
         return json_encode($return);
     }
 
-    public function statusLabel(){
-        return ($this->isReady())?'готовий':'в розробці';
+    public function onlineStatusLabel(){
+        return ($this->isReadyOnline())?'готовий':'в розробці';
+    }
+    public function offlineStatusLabel(){
+        return ($this->isReadyOffline())?'готовий':'в розробці';
     }
 
     public function cancelledLabel(){
@@ -809,10 +818,12 @@ class Course extends CActiveRecord implements IBillableObject
         return $this->cancelled == Course::DELETED;
     }
 
-    public function isReady(){
-        return $this->status == Course::READY;
+    public function isReadyOnline(){
+        return $this->status_online == Course::READY;
     }
-
+    public function isReadyOffline(){
+        return $this->status_offline == Course::READY;
+    }
     public function isDeveloping(){
         return $this->status == Course::DEVELOP;
     }

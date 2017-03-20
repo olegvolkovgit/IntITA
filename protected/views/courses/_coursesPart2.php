@@ -53,9 +53,28 @@
                     </div>
                     <!--Стан курсу-->
                     <div class="courseStatusBox">
-                        <?php echo Yii::t('courses', '0094'); ?>
-                        <span id="courseStatus<?php echo $val[0]->status; ?>">
-                                    <?php if ($val[0]->status == 0) { ?>
+<!--                        --><?php //echo Yii::t('courses', '0094'); ?>
+                        Стан онлайн:
+                        <span id="courseStatus<?php echo $val[0]->status_online; ?>">
+                                    <?php if ($val[0]->status_online == 0) { ?>
+                                        <img
+                                            src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                                        <?php
+                                        echo Yii::t('courses', '0230');
+                                    } else { ?>
+                                        <img
+                                            src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                                        <?php
+                                        echo Yii::t('courses', '0231');
+                                    }
+                                    ?>
+                        </span>
+                    </div>
+                    <div class="courseStatusBox">
+<!--                        --><?php //echo Yii::t('courses', '0094'); ?>
+                        Стан офлайн:
+                        <span id="courseStatus<?php echo $val[0]->status_offline; ?>">
+                                    <?php if ($val[0]->status_offline == 0) { ?>
                                         <img
                                             src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
                                         <?php

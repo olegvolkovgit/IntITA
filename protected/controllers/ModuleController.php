@@ -57,8 +57,8 @@ class ModuleController extends Controller
         if($idCourse){
             $data['idCourse']=$idCourse;
             $course=Course::model()->findByPk($idCourse);
-            $data['canPayCourse']=$course->status && !$course->cancelled;
-            $isReadyCourse=$course->status;
+            $data['canPayCourse']=($course->status_online || $course->status_offline) && !$course->cancelled;
+            $isReadyCourse=$course->status_online || $course->status_offline;
         }else{
             $isReadyCourse=true;
         }

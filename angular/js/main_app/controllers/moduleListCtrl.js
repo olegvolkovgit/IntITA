@@ -47,13 +47,13 @@ function moduleListCtrl($http,$scope) {
         
         if(!$scope.modulesProgress.userId){
             $scope.modulesProgress.ico='disabled.png';
-        }else if(!$scope.modulesProgress.courseStatus)
+        }else if(!$scope.modulesProgress.courseStatusOnline &&  !$scope.modulesProgress.courseStatusOffline)
             $scope.modulesProgress.ico='development.png';
 
         for(var i=0;i<$scope.modulesProgress.modules.length;i++){
             if(!$scope.modulesProgress.modules[i].access){
                 $scope.modulesProgress.modules[i].ico='disabled.png';
-            }else if(!$scope.modulesProgress.isAdmin && !$scope.modulesProgress.modules[i].isAuthor && $scope.modulesProgress.courseStatus){
+            }else if(!$scope.modulesProgress.isAdmin && !$scope.modulesProgress.modules[i].isAuthor && ($scope.modulesProgress.courseStatusOnline || $scope.modulesProgress.courseStatusOffline)){
                 if(!($scope.modulesProgress.modules[i].startTime || $scope.modulesProgress.modules[i].finishTime)){
                     $scope.modulesProgress.modules[i].progress='inLine';
                     $scope.modulesProgress.modules[i].ico='future.png';
