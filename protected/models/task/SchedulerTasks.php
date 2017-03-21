@@ -67,9 +67,8 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::HAS_ONE, 'StudentReg', array('id'=>'owner')),
 		);
 	}
 

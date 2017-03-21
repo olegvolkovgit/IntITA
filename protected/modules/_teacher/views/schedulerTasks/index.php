@@ -13,6 +13,7 @@
                         <col width="10%"/>
                         <col width="10%"/>
                         <col width="10%"/>
+                        <col width="10%"/>
                     </colgroup>
                     <tr ng-repeat="row in $data" ng-class="{ 'danger': row.error }">
                         <td data-title="'ID'">{{row.id}}</td>
@@ -34,9 +35,11 @@
                             <span ng-if="row.status == 6">Скасовано</span>
                         </td>
                         <td data-title="'Помилка'">{{row.error}}</td>
-                        <td data-title="'Дії'"><span><button class="btn btn-info" ng-click="viewTask(row.id)"><i class="glyphicon glyphicon-eye-open"></i></button>
-								<span><button ng-show="row.status == 1"class="btn btn-warning" ng-click="editTask(row.id)"><i class="glyphicon glyphicon-pencil"></i></button>
-								<span><button ng-show="row.status == 1" class="btn btn-danger" ng-click="cancelTask(row.id)"><i class="glyphicon glyphicon-trash"></i></button>
+                        <td data-title="'Створено'">{{row.user.fullName}}</td>
+                        <td data-title="'Дії'"><span><button class="btn btn-success" ng-click="viewTask(row.id)" title="Подивитись"><i class="glyphicon glyphicon-eye-open"></i></button>
+								<span><button ng-show="row.status == 1"class="btn btn-info" ng-click="editTask(row.id)"  title="Редагувати"><i class="glyphicon glyphicon-pencil"></i></button>
+								<span><button ng-show="row.status == 1" class="btn btn-warning" ng-click="cancelTask(row.id)"  title="Відмінити"><i class="glyphicon glyphicon-remove"></i></button>
+								<span><button class="btn btn-danger" ng-click="deleteTask(row.id)"  title="Видалити"><i class="glyphicon glyphicon-trash"></i></button>
                         </td>
                     </tr>
                 </table>

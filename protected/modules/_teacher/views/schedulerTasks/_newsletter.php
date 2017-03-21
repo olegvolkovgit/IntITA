@@ -66,6 +66,12 @@
             </td>
         </tr>
         <tr>
+            <td>Створено користувачем:</td>
+            <td>
+                {{model.fullName}}
+            </td>
+        </tr>
+        <tr>
             <td>Помилки:</td>
             <td>
                 {{model.error}}
