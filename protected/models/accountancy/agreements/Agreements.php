@@ -11,7 +11,7 @@ class Agreements {
     ];
 
     public function getUserAgreement($agreementId) {
-        $agreement = UserAgreements::model()->with('user', 'approvalUser', 'cancelUser', 'paymentSchema')->findByPk($agreementId);
+        $agreement = UserAgreements::model()->with('user', 'approvalUser', 'cancelUser', 'paymentSchema','invoice','internalPayment')->findByPk($agreementId);
         return ActiveRecordToJSON::toAssocArray($agreement, $this->agreementRelationMapping);
     }
 

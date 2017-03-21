@@ -13,4 +13,3 @@ if ($page->video){
         echo Yii::t('lecture', '0639');
     }
 }?>
-

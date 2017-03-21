@@ -12,5 +12,6 @@ angular
         'ngSanitize',
         'ui.select',
         'chatIntITAMessenger',
-        'angularFileUpload'
+        'angularFileUpload',
+        'angular-loading-bar',
     ]);

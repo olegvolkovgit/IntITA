@@ -1,9 +1,3 @@
-/**
- * Created by Wizlight on 12.10.2015.
- */
-/**
- * Created by Wizlight on 17.07.2015.
- */
 $(document).ready(function(){
         if($(window).height()<$("#hambMenu").height()){
             $("#hambMenu").css("overflow-y", "scroll");
@@ -37,6 +31,13 @@ $('#hambButton').click(function (e) {
     e.stopPropagation();
     if ($("#hambMenu").css('display') == "none")
         setTimeout(function () {
+            if($(window).height() < 400) {
+                $("#sharingMain.less_icon").css({display: "block"});
+                $("#sharingMain.big_icon").css({display: "none"});
+            } else if($(window).height() > 400) {
+                $("#sharingMain.less_icon").css({display: "none"});
+                $("#sharingMain.big_icon").css({display: "block"});
+            }
             $("#hambMenu").css({display: "block"});
             $("#sharing").css({display: "block"});
         }, 200);

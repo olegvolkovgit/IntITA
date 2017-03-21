@@ -107,7 +107,7 @@ class GraduateController extends Controller
                 'defaultOrder' => 'rate DESC',
             ),
             'pagination' => array(
-                'pageSize' => 20,
+                'pageSize' => 5,
             ),
         ));
         if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')

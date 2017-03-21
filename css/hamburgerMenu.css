@@ -51,3 +51,26 @@ div.humavatar{width:70px;height:70px;margin-right:10px;overflow:hidden;}
         line-height: 0.95;
     }
 }
+
+@media only screen and (max-height: 500px) {
+    .menulist li {
+        line-height: 1.5;
+    }
+    .humStatus div {
+             margin-top: 5px;
+    }
+    #hambMenu .humblang, a#hum_button {
+        display: none;
+    }
+}
+@media only screen and (max-height: 375px) {
+    .menulist li {
+        line-height: 1.2;
+    }
+    .humStatus div {
+        margin-top: 5px;
+    }
+    #hambMenu .humblang, a#hum_button {
+        display: none;
+    }
+}

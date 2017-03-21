@@ -3,11 +3,34 @@
  */
 angular
     .module('mainApp')
-    .controller('moduleCtrl',moduleCtrl);
+    .controller('moduleCtrl',moduleCtrl)
 
 function moduleCtrl($scope, $http) {
     $scope.finishedPrevLectureMsg=finishedPrevLectureMsg;
-    
+
+    $scope.getPaymentServiceStatus=function (id, service) {
+        var promise = $http({
+            url: basePath+'/course/getPaymentServiceStatus',
+            method: "POST",
+            data: $.param({id: id, service: service}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            return false;
+        });
+        return promise;
+    };
+    $scope.getPaymentServiceStatus(idModule, 'module').then(function (response) {
+        $scope.moduleStatus=response;
+        console.log($scope.moduleStatus);
+    });
+    if(idCourse!=0){
+        $scope.getPaymentServiceStatus(idCourse, 'course').then(function (response) {
+            $scope.courseStatus=response;
+        });
+    }
+
     $scope.payService=function (scenario,id, isGuest) {
         if(isGuest){
             $("#authDialog").dialog("open");

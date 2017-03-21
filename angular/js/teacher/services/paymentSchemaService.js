@@ -48,6 +48,9 @@ angular
                     servicesAppliedTemplatesList : {
                         url: url + '/getServicesAppliedTemplatesNgTable'
                     },
+                    promotionPaymentsSchemaList : {
+                        url: url + '/getPromotionAppliedTemplatesNgTable'
+                    },
                     usersAppliedTemplatesList : {
                         url: url + '/getUsersAppliedTemplatesNgTable'
                     },
@@ -56,6 +59,42 @@ angular
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         url: url + '/applySchemesTemplate',
                         transformRequest : transformRequest.bind(null)
+                    },
+                    applyPromotionTemplate : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/applyPromotionSchemesForService',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    updatePromotionTemplate : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/updatePromotionSchemesForService',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    schemesRequestsList : {
+                        url: url + '/getSchemesRequestsNgTable'
+                    },
+                    rejectSchemesRequest : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/rejectSchemaRequest',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    setRequestComment : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/setRequestComment',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getSchemesRequest : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/getSchemesRequest',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getActualSchemesRequests: {
+                        url: url + '/getActualSchemesRequestsCount',
                     },
                 });
         }])

@@ -12,8 +12,7 @@ class ExternalPaymentsController extends TeacherCabinetController
     }
 
     public function actionCreatePayment() {
-
-        $params = json_decode(Yii::app()->request->rawBody, true);
+        $params = array_filter($_POST);
 
         $payment = new ExternalPays();
         $payment->setAttributes($params);

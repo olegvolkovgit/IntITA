@@ -16,6 +16,16 @@
                     Застосувати шаблон схем
                 </a>
             </li>
+            <li>
+                <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion" class="btn btn-primary">
+                    Застосування акцій до сервісів
+                </a>
+            </li>
+            <li>
+                <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotionlist" class="btn btn-primary">
+                    Список застосованих акцій
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
             <uib-tabset>
@@ -28,8 +38,8 @@
                                 <span ng-if="row.id==3">Схеми по замовчуванню для модулів</span>
                                 <span ng-if="row.id==4">Акційні схеми для модулів</span>
                             </td>
-                            <td data-title="'Назва шаблону'" filter="{'schemesTemplate.template_name': 'text'}" sortable="'schemesTemplate.template_name'">
-                                <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name}}</a>
+                            <td data-title="'Назва шаблону'" filter="{'schemesTemplate.template_name_ua': 'text'}" sortable="'schemesTemplate.template_name_ua'">
+                                <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name_ua}}</a>
                             </td>
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
@@ -40,8 +50,8 @@
                     <table ng-table="servicesTemplateTableParams" class="table table-bordered table-striped table-condensed">
                         <tr ng-repeat="row in $data track by row.id">
                             <td data-title="'id'" >{{row.id}}</td>
-                            <td data-title="'Назва шаблону'" filter="{'schemesTemplate.template_name': 'text'}" sortable="'schemesTemplate.template_name'">
-                                <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name}}</a>
+                            <td data-title="'Назва шаблону'" filter="{'schemesTemplate.template_name_ua': 'text'}" sortable="'schemesTemplate.template_name_ua'">
+                                <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name_ua}}</a>
                             </td>
                             <td data-title="'Сервіс'" filter="{'service.description': 'text'}" sortable="'service.description'">
                                 {{row.service.description}}
@@ -49,7 +59,7 @@
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
                             <td data-title="'Скасувати'">
-                                <a ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
+                                <a href="" ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
                             </td>
                         </tr>
                     </table>
@@ -58,8 +68,8 @@
                     <table ng-table="usersTemplateTableParams" class="table table-bordered table-striped table-condensed">
                         <tr ng-repeat="row in $data track by row.id">
                             <td data-title="'id'" >{{row.id}}</td>
-                            <td data-title="'Назва шаблону'" filter="{'schemesTemplate.template_name': 'text'}" sortable="'schemesTemplate.template_name'">
-                                <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name}}</a>
+                            <td data-title="'Назва шаблону'" filter="{'schemesTemplate.template_name_ua': 'text'}" sortable="'schemesTemplate.template_name_ua'">
+                                <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name_ua}}</a>
                             </td>
                             <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
                                 <a ng-href="#/admin/users/user/{{row.userId}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
@@ -73,7 +83,7 @@
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
                             <td data-title="'Скасувати'">
-                                <a ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
+                                <a href="" ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
                             </td>
                         </tr>
                     </table>

@@ -6,8 +6,22 @@
         <div class="formMargin">
             <div class="col-lg-8">
                 <div class="form-group">
-                    <label>Назва шаблону схеми*</label>
-                    <input name="name" class="form-control" ng-model="template.name" required maxlength="64" size="50">
+                    <label>Назва шаблону схеми ua*</label>
+                    <input name="name_ua" class="form-control" ng-model="template.name_ua" required maxlength="64" size="50">
+                    <label>Назва шаблону схеми ru</label>
+                    <input name="name_ru" class="form-control" ng-model="template.name_ru" maxlength="64" size="50">
+                    <label>Назва шаблону схеми en</label>
+                    <input name="name_en" class="form-control" ng-model="template.name_en" maxlength="64" size="50">
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <label>Опис, умови, перелік документів (ua)</label>
+                    <textarea name="description_ua" class="form-control" ng-model="template.description_ua" style="resize:none"></textarea>
+                    <label>Опис, умови, перелік документів (ru)</label>
+                    <textarea name="description_ru" class="form-control" ng-model="template.description_ru" style="resize:none"></textarea>
+                    <label>Опис, умови, перелік документів (en)</label>
+                    <textarea name="description_en" class="form-control" ng-model="template.description_en" style="resize:none"></textarea>
                 </div>
             </div>
             <div>
@@ -58,7 +72,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" ng-click="createTemplate(template)" ng-disabled="!template.name || !template.schemes.length">
+                <button type="submit" class="btn btn-primary" ng-click="createTemplate(template)" ng-disabled="!template.name_ua || !template.schemes.length">
                     Зберегти
                 </button>
                 <a type="button" class="btn btn-default" ng-click='back()'>

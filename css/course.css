@@ -290,7 +290,7 @@ padding-left: 0px;
 .startCourse a    {
     display: inline-block;
     position: relative;
-    width:160px;
+    padding: 0 5px 0 5px;
     border-radius: 7px;
     border:none;
     border-top:1px solid #9fb5ce;
@@ -408,10 +408,9 @@ input[type="submit"][disabled]#submitButton {
 .icoCheck{
     display: none;
 }
-#paymentButton{
+.paymentButton{
     display: inline-block;
     position: relative;
-    width: 160px;
     border-radius: 7px;
     border: none;
     border-top: 1px solid #9fb5ce;
@@ -424,8 +423,19 @@ input[type="submit"][disabled]#submitButton {
     line-height: 32px;
     text-decoration: none;
 }
-#paymentButton:hover {
+.paymentButton.warning{
+    background: #f06530;
+    border: none;
+    box-shadow:none;
+}
+.paymentButton.expired{
+    background: #a42437;
+    border: none;
+    box-shadow:none;
+}
+.paymentButton:hover {
     background: #454545;
+    text-decoration:none;
     cursor: pointer;
 }
 .moduleProgress{

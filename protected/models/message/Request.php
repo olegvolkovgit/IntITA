@@ -7,4 +7,5 @@ class Request extends Enum
     const COWORKER_REQUEST = 'coworker_request';
     const REVISION_REQUEST = 'revision_request';
     const MODULE_REVISION_REQUEST = 'module_revision_request';
+    const USER_SERVICE_SCHEMES_REQUEST = 'user_service_schemes_request';
 }
