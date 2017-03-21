@@ -47,9 +47,9 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/admin/teachers">Аудитори</a></li>
-                    <li><a href="#/sharedlinks">Суперадміни</a></li>
-                    <li><a href="#/response">Адміністратори (локальні)</a></li>
+                    <li><a ui-sref="auditors">Аудитори</a></li>
+                    <li><a ui-sref="superAdmins">Суперадміни</a></li>
+                    <li><a ui-sref="admins">Адміністратори (локальні)</a></li>
                 </ul>
             </div>
             <div class="panel-footer">

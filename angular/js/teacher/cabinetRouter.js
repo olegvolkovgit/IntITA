@@ -162,6 +162,12 @@ angular
                         }
                     }
                 })
+                .state('auditors', {
+                    url: '/auditors',
+                    templateUrl: basePath+"/_teacher/users/auditors",
+                    controller: function($scope){$scope.changePageHeader('Аудитори');},
+                })
+
                 .state('users.superAdmins', {
                     url: '/superAdmins',
                     views: {
@@ -170,6 +176,12 @@ angular
                         }
                     }
                 })
+                .state('superAdmins', {
+                    url: '/superAdmins',
+                    templateUrl:  basePath+"/_teacher/users/superAdmins",
+                    controller: function($scope){$scope.changePageHeader('Суперадмін');},
+                })
+
                 .state('users.coworkers', {
                     url: '/coworkers',
                     views: {
@@ -186,6 +198,12 @@ angular
                         }
                     }
                 })
+                .state('admins', {
+                    url: '/admins',
+                    templateUrl:  basePath+"/_teacher/users/admins",
+                    controller: function($scope){$scope.changePageHeader('Адміністратори');},
+                })
+
                 .state('users.accountants', {
                     url: '/accountants',
                     views: {
