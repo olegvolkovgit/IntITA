@@ -9,7 +9,9 @@
 class GraduateController extends TeacherCabinetController {
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        $allowedDirectorActions=['index','getGraduatesJson', 'view'];
+        return Yii::app()->user->model->isAdmin() ||
+        (Yii::app()->user->model->isDirector() && in_array(Yii::app()->controller->action->id,$allowedDirectorActions));
     }
     /**
      * Displays a particular model.
