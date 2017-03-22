@@ -7,11 +7,12 @@
  * @property integer $id
  * @property string $name
  * @property integer $type
+ * @property integer $owner
  * @property integer $repeat_type
  * @property string $start_time
  * @property string $end_time
  * @property string $parameters
- * @property integer $status
+ * @property integer $status 
  * @property string $error
  */
 class SchedulerTasks extends CActiveRecord implements ITask
@@ -51,13 +52,13 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, type, status', 'required'),
-			array('type, repeat_type, status', 'numerical', 'integerOnly'=>true),
+			array('name, type, status, owner', 'required'),
+			array('type, repeat_type, status, owner', 'numerical', 'integerOnly'=>true),
 			array('name, error', 'length', 'max'=>255),
 			array('start_time, end_time, parameters', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type, repeat_type, start_time, end_time, parameters, status, error', 'safe', 'on'=>'search'),
+			array('id, name, type, repeat_type, start_time, end_time, parameters, status, error, owner','safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,9 +67,8 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::HAS_ONE, 'StudentReg', array('id'=>'owner')),
 		);
 	}
 

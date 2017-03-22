@@ -674,7 +674,7 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
     };
 }
 
-function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
+function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox) {
     $scope.loadEmailCategory=function(){
         return usersService
             .emailsCategoryList()
@@ -705,38 +705,42 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
         if(filesExt.join().search(parts[parts.length - 1]) == -1){
             $scope.error=true;
             $scope.errormsg='Неправильний тип файлу';
+            return false;
         }
 
-        var file_data = files[0];
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        $jq.ajax({
-            url: basePath+"/_teacher/_admin/users/saveExcelFile", // point to server-side PHP script
-            dataType: 'text',  // what to expect back from the PHP script, if anything
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,
-            type: 'post',
-            success: function(){
-                bootbox.alert('Файл завантажено');
-                $scope.isFile=true;
-            }
-        });
+            var file_data = files[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            $jq.ajax({
+                url: basePath + "/_teacher/_admin/users/saveExcelFile", // point to server-side PHP script
+                dataType: 'text',  // what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function () {
+                    bootbox.alert('Файл завантажено');
+                    $scope.isFile = true;
+                }
+            });
     };
 
     $scope.importExcel=function (emailCategory) {
-        $http({
-            method: 'POST',
-            url: basePath+"/_teacher/_admin/users/importExcel",
-            data: $jq.param({categoryId: emailCategory}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback() {
-            $scope.usersEmailTableParams.reload();
-        }, function errorCallback() {
-            $scope.isFile=false;
-            bootbox.alert("Операцію не вдалося виконати");
-        });
+        $ngBootbox.confirm("Імпортувати список email`ів? ").then(function () {
+            $http({
+                method: 'POST',
+                url: basePath+"/_teacher/_admin/users/importExcel",
+                data: $jq.param({categoryId: emailCategory}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback() {
+                $scope.usersEmailTableParams.reload();
+            }, function errorCallback() {
+                $scope.isFile=false;
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        })
+
     }
 
     $scope.addNewEmail=function (email,emailCategory) {

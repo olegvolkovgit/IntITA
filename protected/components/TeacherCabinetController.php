@@ -6,7 +6,7 @@
  * Date: 17.11.2015
  * Time: 16:14
  */
-class TeacherCabinetController extends CController
+class   TeacherCabinetController extends CController
 {
 
     private $pathToCabinet = '';
