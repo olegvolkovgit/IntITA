@@ -20,32 +20,44 @@ class SchedulerTasksController extends TeacherCabinetController
 	public function actionView($id)
 	{
         $_model = $this->loadModel($id);
-        switch ($_model->type){
-            case 1:
-                $this->renderPartial('_newsletter');
-                break;
-        }
+		if (OwnerPermission::isOwner($_model) || Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSupervisor()) {
+			switch ($_model->type) {
+				case 1:
+					$this->renderPartial('_newsletter');
+					break;
+			}
+		}
+		else throw new CHttpException(403, 'Access denied!');
 	}
 
     public function actionEdit($id)
     {
         $model = $this->loadModel($id);
-        switch ($model->type){
-            case 1:
-                if ($model->status==SchedulerTasks::STATUSNEW){
-                    $model->status = SchedulerTasks::STATUSCANCEL;
-                    $model->save();
-                };
+		if (OwnerPermission::isOwner($model) || Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSupervisor()) {
+			switch ($model->type) {
+				case 1:
+					if ($model->status == SchedulerTasks::STATUSNEW) {
+						$model->status = SchedulerTasks::STATUSCANCEL;
+						$model->save();
+					};
 
-                Yii::app()->runController('_teacher/newsletter/index');
-                break;
-        }
+					Yii::app()->runController('_teacher/newsletter/index');
+					break;
+			}
+		}
+		else throw new CHttpException(403, 'Access denied!');
     }
 
 	public function actionGetModel(){
         if (isset($_GET['id'])){
-            $_model = $this->loadModel($_GET['id']);
-            echo json_encode($_model->attributes);
+
+			$model=SchedulerTasks::model()->with(['user'])->findByPk($_GET['id']);
+			if (OwnerPermission::isOwner($model) || Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSupervisor()) {
+				$data = $model->attributes;
+				$data['fullName']=$model->user->fullName;
+				echo json_encode($data);
+			}
+			else throw new CHttpException(403, 'Access denied!');
         }
 
     }
@@ -83,17 +95,18 @@ class SchedulerTasksController extends TeacherCabinetController
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		if (OwnerPermission::isOwner($model) || Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSupervisor()) {
+			if (isset($_POST['SchedulerTasks'])) {
+				$model->attributes = $_POST['SchedulerTasks'];
+				if ($model->save())
+					$this->redirect(array('view', 'id' => $model->id));
+			}
 
-		if(isset($_POST['SchedulerTasks']))
-		{
-			$model->attributes=$_POST['SchedulerTasks'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			$this->render('update', array(
+				'model' => $model,
+			));
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
+		else throw new CHttpException(403,'Access denied!');
 	}
 
 	/**
@@ -133,20 +146,48 @@ class SchedulerTasksController extends TeacherCabinetController
 	}
 
 	public function actionGetTasksList(){
-        $adapter = new NgTableAdapter('SchedulerTasks',$_GET);
-        echo json_encode($adapter->getData());
+
+		$adapter = new NgTableAdapter('SchedulerTasks',$_GET);
+		if (!Yii::app()->user->model->isAdmin() || !Yii::app()->user->model->isSupervisor())
+		{
+				$adapter->mergeCriteriaWith((new CDbCriteria())->addCondition('owner='.Yii::app()->user->id));
+		}
+		echo json_encode($adapter->getData());
+		Yii::app()->end();
+
     }
 
     public function actionCancelTask(){
         if (isset($_POST['id'])){
             $task = $this->loadModel($_POST['id']);
-            $task->status = SchedulerTasks::STATUSCANCEL;
-            if ($task->save()){
-                echo 'success';
-            }
-            else
-                echo 'error';
+			if (OwnerPermission::isOwner($task) || Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSupervisor()){
+				$task->status = SchedulerTasks::STATUSCANCEL;
+				if ($task->save()){
+					echo 'success';
+				}
+				else
+					echo 'error';	
+			}
+			else throw new CHttpException(403,'Access denied');
         }
 
     }
+
+	public function actionDeleteTask(){
+		$id = (int)$_POST['id'];
+		if($id){
+			$task = $this->loadModel($id);
+			if (OwnerPermission::isOwner($task) || Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSupervisor()){
+				if ($task->delete()){
+					echo true;
+				}
+				else{
+					echo false;
+				}
+
+			}
+			else throw new CHttpException(403,'Access denied');
+		}
+		else throw new CHttpException(400,'Bad request');
+	}
 }
