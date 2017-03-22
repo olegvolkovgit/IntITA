@@ -8,7 +8,7 @@ angular
     .controller('organizationTableCtrl', organizationTableCtrl)
     .controller('organizationCtrl', organizationCtrl)
 
-function directorUsersTabsCtrl ($scope, $state, usersService, _) {
+function directorUsersTabsCtrl ($scope, $state, usersService, lodash) {
         $scope.changePageHeader('Користувачі');
 
         $scope.tabs = [
@@ -37,8 +37,8 @@ function directorUsersTabsCtrl ($scope, $state, usersService, _) {
             .then(function (data) {
                 $scope.rolesCount=data;
                 $scope.tabs.forEach(function(item, i) {
-                    if(_.find($scope.rolesCount, ['role', item.route])){
-                        item.count=_.find($scope.rolesCount, ['role', item.route]).count;
+                    if(lodash.find($scope.rolesCount, ['role', item.route])){
+                        item.count=lodash.find($scope.rolesCount, ['role', item.route]).count;
                     }
                     if('users.'+item.route==$state.current.name) {
                         $scope.active=i;
@@ -66,14 +66,14 @@ function organizationTableCtrl ($scope, organizationService, NgTableParams){
 function organizationCtrl ($scope, organizationService){
     $scope.changePageHeader('Організація');
 
-    $scope.loadGroupData=function(){
-        organizationService.organizationData({'id':$stateParams.id}).$promise
-            .then(function successCallback(response) {
-                $scope.organization=response;
-            }, function errorCallback() {
-                bootbox.alert("Отримати дані групи не вдалося");
-            });
-    };
+    // $scope.loadGroupData=function(){
+    //     organizationService.organizationData({'id':$stateParams.id}).$promise
+    //         .then(function successCallback(response) {
+    //             $scope.organization=response;
+    //         }, function errorCallback() {
+    //             bootbox.alert("Отримати дані групи не вдалося");
+    //         });
+    // };
     $scope.sendFormOrganization= function (scenario) {
         if(scenario=='new') $scope.createOrganization();
         else $scope.updateOrganization();
