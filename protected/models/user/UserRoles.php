@@ -12,4 +12,7 @@ class UserRoles extends Enum
     const TENANT = 'tenant';
     const TEACHER_CONSULTANT = 'teacher_consultant';
     const SUPERVISOR = 'supervisor';
+    const DIRECTOR = 'director';
+    const AUDITOR = 'auditor';
+    const SUPER_ADMIN = 'super_admin';
 }

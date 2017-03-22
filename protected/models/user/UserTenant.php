@@ -8,7 +8,10 @@
  * @property integer $chat_user_id
  * @property string $start_date
  * @property string $end_date
- *
+ * @property integer $assigned_by
+ * @property integer $cancelled_by
+ * @property integer $id_organization
+ * 
  * The followings are the available model relations:
  * @property ChatUser $chatUser
  */
@@ -33,12 +36,12 @@ class UserTenant extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('start_date', 'required'),
+			array('start_date, assigned_by, id_organization', 'required'),
 			array('chat_user_id', 'numerical', 'integerOnly'=>true),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, chat_user_id, start_date, end_date', 'safe', 'on'=>'search'),
+			array('id, chat_user_id, start_date, end_date, assigned_by, cancelled_by, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +58,7 @@ class UserTenant extends CActiveRecord
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
             'activeMembers' => array(self::BELONGS_TO, 'StudentReg', array('intita_user_id'=>'id'), 'through' => 'chatUser','condition'=>'end_date IS NULL AND user.cancelled=0'),
+			'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
 		);
 	}
 

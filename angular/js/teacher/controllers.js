@@ -163,7 +163,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     var usersTypeaheadUrl = basePath+'/_teacher/cabinet/usersByQuery';
     var coursesTypeaheadUrl = basePath+'/_teacher/cabinet/coursesByQuery';
     var usersNotTeacherTypeaheadUrl = basePath+'/_teacher/cabinet/usersNotTeacherByQuery';
-    var usersForRoleTypeaheadUrl = basePath+'/_teacher/_admin/users/usersAddForm';
+    var usersForRoleTypeaheadUrl = basePath+'/_teacher/cabinet/usersAddForm';
     var trainersTypeaheadUrl = basePath+'/_teacher/cabinet/trainers';
     var studentsTypeaheadUrl = basePath+'/_teacher/cabinet/studentsByQuery';
     var teacherConsultantsByQueryAndModuleTypeaheadUrl = basePath+'/_teacher/cabinet/teacherConsultantsByQueryAndModule';

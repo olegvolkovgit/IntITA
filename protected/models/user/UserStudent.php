@@ -7,6 +7,8 @@
  * @property integer $id_user
  * @property string $start_date
  * @property string $end_date
+ * @property integer $assigned_by
+ * @property integer $cancelled_by
  *
  * The followings are the available model relations:
  * @property StudentReg $idUser
@@ -32,11 +34,11 @@ class UserStudent extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user', 'required'),
+			array('id_user, assigned_by', 'required'),
 			array('id_user', 'numerical', 'integerOnly'=>true),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
-			array('id_user, start_date, end_date', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date, assigned_by, cancelled_by', 'safe', 'on'=>'search'),
 		);
 	}
 

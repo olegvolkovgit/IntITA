@@ -9,6 +9,8 @@
  * @property integer $idModule
  * @property string $start_time
  * @property string $end_time
+ * @property string $assigned_by
+ * @property string $cancelled_by
  *
  * The followings are the available model relations:
  * @property Module $idModule0
@@ -34,6 +36,7 @@ class TeacherModule extends CActiveRecord
 		return array(
 			array('idTeacher, idModule', 'required'),
 			array('idTeacher, idModule', 'numerical', 'integerOnly'=>true),
+			array('id, idTeacher, idModule, start_time, end_time, assigned_by, cancelled_by', 'safe'),
 			// The following rule is used by search().
 			array('id, idTeacher, idModule, start_time, end_time', 'safe', 'on'=>'search'),
 		);
@@ -48,6 +51,8 @@ class TeacherModule extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'StudentReg', ['idTeacher'=>'id']),
+			'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
+			'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
 		);
 	}
 
@@ -61,7 +66,9 @@ class TeacherModule extends CActiveRecord
 			'idTeacher' => 'Id Teacher',
 			'idModule' => 'Id Module',
             'start_time' => 'Start time',
-            'end_time' => 'End time'
+            'end_time' => 'End time',
+			'assigned_by' => 'Assigned by',
+			'cancelled_by' => 'Cancelled by',
 		);
 	}
 
@@ -86,6 +93,8 @@ class TeacherModule extends CActiveRecord
 		$criteria->compare('idModule',$this->idModule);
         $criteria->compare('start_time',$this->start_time);
         $criteria->compare('end_time',$this->end_time);
+		$criteria->compare('assigned_by',$this->assigned_by);
+		$criteria->compare('cancelled_by',$this->cancelled_by);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

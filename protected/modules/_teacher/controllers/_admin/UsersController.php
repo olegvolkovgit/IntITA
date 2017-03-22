@@ -68,7 +68,7 @@ class UsersController extends TeacherCabinetController
         $this->renderPartial('addForms/_addRole', array('role'=>$role,'title'=>$title), false, true);
     }
 
-    public function actionAssignRole($userId, $role){
+    public function actionAssignLocalRole($userId, $role){
         $result=array();
         $user = RegisteredUser::userById($userId);
         $roleObj = Role::getInstance($role);
@@ -124,16 +124,6 @@ class UsersController extends TeacherCabinetController
         }
 
         echo json_encode($result);
-    }
-
-    public function actionUsersAddForm($role, $query)
-    {
-        $roleModel = Role::getInstance(new UserRoles($role));
-        if ($query && $roleModel) {
-            echo $roleModel->addRoleFormList($query);
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
-        }
     }
 
     public function actionGetStudentsList()

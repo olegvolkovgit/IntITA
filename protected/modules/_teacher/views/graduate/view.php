@@ -7,9 +7,10 @@
 
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('graduate')">
+        <button type="button" class="btn btn-primary" ui-sref="graduate">
             Список випускників</button>
     </li>
+    <?php if(0){?>
     <li>
         <button type="button" class="btn btn-primary" ng-click="changeView('graduate/edit/<?= $model->id ?>')">
             Редагувати</button>
@@ -18,11 +19,11 @@
         <button type="button" class="btn btn-primary" ng-click="deleteGraduate('<?= $model->id ?>')">
             Видалити</button>
     </li>
+    <?php } ?>
 </ul>
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <!-- Nav tabs -->
         <uib-tabset active="0" >
             <uib-tab  index="0" heading="Головне">
                 <?php $this->renderPartial('_mainTab', array('model' => $model)); ?>
@@ -37,7 +38,6 @@
                 <?php $this->renderPartial('_enTab', array('model' => $model)); ?>
             </uib-tab>
         </uib-tabset>
-
     </div>
 </div>
 

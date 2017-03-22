@@ -153,23 +153,23 @@ class CabinetController extends TeacherCabinetController
         } else $roles = $inRole;
 
         foreach ($roles as $role) {
-            switch ($role) {
-                case "trainer":
-                case "author":
-                case 'consultant':
-                case 'student':
-                case 'tenant':
-                case 'content_manager':
-                case 'teacher_consultant':
-                case 'admin':
-                case 'accountant':
-                case 'supervisor':
+//            switch ($role) {
+//                case "trainer":
+//                case "author":
+//                case 'consultant':
+//                case 'student':
+//                case 'tenant':
+//                case 'content_manager':
+//                case 'teacher_consultant':
+//                case 'admin':
+//                case 'accountant':
+//                case 'supervisor':
                     $this->renderDashboard($role, $user);
-                    break;
-                default:
-                    throw new CHttpException(400, 'Неправильно вибрана роль!');
-                    break;
-            }
+//                    break;
+//                default:
+//                    throw new CHttpException(400, 'Неправильно вибрана роль!');
+//                    break;
+//            }
         }
     }
 
@@ -266,6 +266,16 @@ class CabinetController extends TeacherCabinetController
         if ($query) {
             $users = StudentReg::usersNotTeacherByQuery($query);
             echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionUsersAddForm($role, $query)
+    {
+        $roleModel = Role::getInstance(new UserRoles($role));
+        if ($query && $roleModel) {
+            echo $roleModel->addRoleFormList($query);
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }

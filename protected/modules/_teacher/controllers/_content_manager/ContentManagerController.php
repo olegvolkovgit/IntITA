@@ -120,16 +120,6 @@ class ContentManagerController extends TeacherCabinetController
         $this->renderPartial($view, array(), false, true);
     }
 
-    public function actionUsersAddForm($role, $query)
-    {
-        $roleModel = Role::getInstance(new UserRoles($role));
-        if ($query && $roleModel) {
-            echo $roleModel->addRoleFormList($query);
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
-        }
-    }
-
     public function actionSendCoworkerRequest()
     {
         $this->renderPartial('/_content_manager/_sendResponseAssignCoworker', array(), false, true);

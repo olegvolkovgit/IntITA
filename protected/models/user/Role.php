@@ -36,9 +36,6 @@ abstract class Role
             case "student":
                 $model = new Student();
                 break;
-//            case "consultant":
-//                $model = new Consultant();
-//                break;
             case "author":
                 $model = new Author();
                 break;
@@ -53,6 +50,32 @@ abstract class Role
                 break;
             case "supervisor":
                 $model = new SuperVisor();
+                break;
+            case "director":
+                $model = new Director();
+                break;
+            case "auditor":
+                $model = new Auditor();
+                break;
+            case "super_admin":
+                $model = new SuperAdmin();
+                break;
+            default :
+                $model = null;
+        }
+        return $model;
+    }
+
+    public static function getGlobalInstance($role){
+        switch($role){
+            case "director":
+                $model = new Director();
+                break;
+            case "auditor":
+                $model = new Auditor();
+                break;
+            case "super_admin":
+                $model = new SuperAdmin();
                 break;
             default :
                 $model = null;

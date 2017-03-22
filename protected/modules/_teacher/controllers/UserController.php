@@ -9,6 +9,9 @@ class UserController extends TeacherCabinetController {
         $allowedProfileActions=['loadJsonUserModel','index'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isTrainer() ||
+        Yii::app()->user->model->isDirector() ||
+        Yii::app()->user->model->isSuperAdmin() ||
+        Yii::app()->user->model->isAuditor() ||
         (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action->id,$allowedContentManagerActions)) ||
         (Yii::app()->user->model->isSuperVisor() && in_array(Yii::app()->controller->action->id,$allowedSupervisorActions)) ||
         (Yii::app()->user->model->isAccountant() && in_array(Yii::app()->controller->action->id,$allowedAccountantActions)) ||

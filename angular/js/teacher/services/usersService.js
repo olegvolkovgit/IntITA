@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('usersService', ['$resource',
         function ($resource) { 
-            var url = basePath+'/_teacher/_admin/users';
+            var url = basePath+'/_teacher/users';
             return $resource(
                 '',
                 {},
@@ -56,7 +56,7 @@ angular
                         method: 'GET'
                     },
                     authorsList: {
-                        url: basePath + '/_teacher/_content_manager/contentManager/getAuthorsList',
+                        url: url + '/getAuthorsList',
                         method: 'GET'
                     },
                     blockedUsersList: {
@@ -78,6 +78,23 @@ angular
                     emailCategoryData: {
                         url: url + '/getEmailCategoryData',
                         method: 'GET',
+                    },
+                    usersCount: {
+                        url: url + '/getUsersCount',
+                        method: 'GET',
+                        isArray:true,
+                    },
+                    directorsList: {
+                        url: url + '/getDirectorsList',
+                        method: 'GET'
+                    },
+                    auditorsList: {
+                        url: url + '/getAuditorsList',
+                        method: 'GET'
+                    },
+                    superAdminsList: {
+                        url: url + '/getSuperAdminsList',
+                        method: 'GET'
                     },
                 });
         }]);

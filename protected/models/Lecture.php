@@ -629,6 +629,29 @@ class Lecture extends CActiveRecord
         return json_encode($return);
     }
 
+    public static function getAllLecturesList()
+    {
+        $criteria = new CDbCriteria();
+
+        $criteria->addCondition('idModule > 0 and `order` > 0');
+        $lectures = Lecture::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($lectures as $record) {
+            $row = array();
+            $row["module"] = CHtml::encode(($record->idModule) ? $record->ModuleTitle->title_ua : "");
+            $row["lesson_url"] = Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0));
+            $row["order"] = $record->order;
+            $row["title"] = $record->title_ua;
+            $row["type"] = $record->type->title_ua;
+            $row["id"] = $record->id;
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
     public function setFree()
     {
         $this->isFree = self::FREE;

@@ -17,9 +17,16 @@ angular
     .controller('usersEmailCtrl',usersEmailCtrl)
     .controller('emailCategoryTableCtrl',emailCategoryTableCtrl)
     .controller('emailCategoryCtrl',emailCategoryCtrl)
+    .controller('directorsTableCtrl', directorsTableCtrl)
+    .controller('auditorsTableCtrl', auditorsTableCtrl)
+    .controller('superAdminsTableCtrl', superAdminsTableCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
-    $scope.blockedUsersTable = new NgTableParams({}, {
+    $scope.blockedUsersTable = new NgTableParams({
+        sorting: {
+            locked_date: 'desc'
+        },
+    }, {
         getData: function (params) {
             return usersService
                 .blockedUsersList(params.url())
@@ -51,7 +58,11 @@ function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
 };
 
 function usersTableCtrl ($scope, usersService, NgTableParams){
-        $scope.usersTableParams = new NgTableParams({}, {
+        $scope.usersTableParams = new NgTableParams({
+            sorting: {
+                reg_time: 'desc'
+            },
+        }, {
             getData: function (params) {
                 return usersService
                     .usersList(params.url())
@@ -68,7 +79,11 @@ function studentsTableCtrl ($scope, usersService, NgTableParams){
     $jq("#startDate").datepicker(lang);
     $jq("#endDate").datepicker(lang);
 
-    $scope.studentsTableParams = new NgTableParams({}, {
+    $scope.studentsTableParams = new NgTableParams({
+        sorting: {
+            "student.start_date": 'desc'
+        },
+    }, {
         getData: function (params) {
             $scope.params=params.url();
             $scope.params.startDate=$scope.startDate;
@@ -117,7 +132,11 @@ function offlineStudentsTableCtrl ($scope, usersService, NgTableParams){
 }
 
 function withoutRolesTableCtrl ($scope, usersService, NgTableParams){
-    $scope.withoutRolesTableParams = new NgTableParams({}, {
+    $scope.withoutRolesTableParams = new NgTableParams({
+        sorting: {
+            reg_time: 'desc'
+        },
+    }, {
         getData: function (params) {
             return usersService
                 .withoutRolesList(params.url())
@@ -853,3 +872,45 @@ function emailCategoryCtrl ($http, $scope,  usersService, $stateParams, $state) 
         });
     };
 };
+
+function directorsTableCtrl ($scope, usersService, NgTableParams){
+    $scope.directorsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .directorsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+}
+
+function auditorsTableCtrl ($scope, usersService, NgTableParams){
+    $scope.auditorsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .auditorsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+}
+
+function superAdminsTableCtrl ($scope, usersService, NgTableParams){
+    $scope.superAdminsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .superAdminsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+}

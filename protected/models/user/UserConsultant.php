@@ -7,7 +7,10 @@
  * @property integer $id_user
  * @property string $start_date
  * @property string $end_date
- *
+ * @property integer $assigned_by
+ * @property integer $cancelled_by
+ * @property integer $id_organization
+ * 
  * The followings are the available model relations:
  * @property StudentReg $idUser
  */
@@ -32,12 +35,12 @@ class UserConsultant extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, start_date', 'required'),
+			array('id_user, start_date, assigned_by, id_organization', 'required'),
 			array('id_user', 'numerical', 'integerOnly'=>true),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_user, start_date, end_date', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date, assigned_by, cancelled_by, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,12 +56,13 @@ class UserConsultant extends CActiveRecord
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
             'activeMembers' => array(self::BELONGS_TO, 'StudentReg', 'id_user','condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
+			'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
 		);
 	}
 
 	public function primaryKey()
 	{
-		return array('id_user', 'start_date');
+		return array('id_user', 'start_date', 'id_organization');
 	}
 	
 	/**

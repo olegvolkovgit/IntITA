@@ -11,7 +11,7 @@ angular
 function modulesTableCtrl($scope, NgTableParams, $resource) {
   $scope.changePageHeader('Модулі');
 
-  var dataFromServer = $resource(basePath + '/_teacher/_admin/module/getModulesList');
+  var dataFromServer = $resource(basePath + '/_teacher/moduleManage/getModulesList');
   $scope.modulesTable = new NgTableParams({
     sorting: {'module_ID': "asc"}
   }, {
@@ -147,7 +147,7 @@ function moduleManageCtrl($scope, $http, $stateParams, tagsService, _) {
 }
 
 function moduleAuthorsTableCtrl($scope, NgTableParams, $resource, $stateParams, roleAttributeService) {
-  var dataFromServer = $resource(basePath + '/_teacher/_admin/module/getModuleAuthorsList');
+  var dataFromServer = $resource(basePath + '/_teacher/moduleManage/getModuleAuthorsList');
   $scope.moduleAuthorsTable = new NgTableParams({'idModule': $stateParams.moduleId}, {
     getData: function (params) {
       return dataFromServer.get(params.url()).$promise.then(function (data) {
@@ -178,7 +178,7 @@ function moduleAuthorsTableCtrl($scope, NgTableParams, $resource, $stateParams, 
 }
 
 function moduleTeachersConsultantTableCtrl($scope, NgTableParams, $resource, $stateParams, roleAttributeService) {
-  var dataFromServer = $resource(basePath + '/_teacher/_admin/module/getModuleTeachersConsultantList');
+  var dataFromServer = $resource(basePath + '/_teacher/moduleManage/getModuleTeachersConsultantList');
   $scope.moduleTeachersConsultantTable = new NgTableParams({'idModule': $stateParams.moduleId}, {
     getData: function (params) {
       return dataFromServer.get(params.url()).$promise.then(function (data) {
