@@ -66,6 +66,23 @@ abstract class Role
         return $model;
     }
 
+    public static function getGlobalInstance($role){
+        switch($role){
+            case "director":
+                $model = new Director();
+                break;
+            case "auditor":
+                $model = new Auditor();
+                break;
+            case "super_admin":
+                $model = new SuperAdmin();
+                break;
+            default :
+                $model = null;
+        }
+        return $model;
+    }
+
     public function setRole(StudentReg $user)
     {
         if(Yii::app()->db->createCommand()->

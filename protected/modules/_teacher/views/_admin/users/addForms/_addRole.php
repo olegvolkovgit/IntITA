@@ -15,7 +15,7 @@
                 В списку немає користувачів, які не є співробітниками.</em>
         </div>
         
-        <button class="btn btn-primary" ng-click="assignRole(selectedUser.id,'<?php echo $role ?>');">
+        <button class="btn btn-primary" ng-click="assignLocalRole(selectedUser.id,'<?php echo $role ?>');">
             Призначити роль '<?php echo $title ?>'
         </button>
         <a type="button" class="btn btn-default" ng-click='back()'>

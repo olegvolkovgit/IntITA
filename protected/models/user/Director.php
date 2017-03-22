@@ -45,6 +45,36 @@ class Director extends Role
 		return true;
 	}
 
+	public function setRole(StudentReg $user)
+	{
+		if(Yii::app()->db->createCommand()->
+		insert($this->tableName(), array(
+			'id_user' => $user->id,
+			'assigned_by'=>Yii::app()->user->getId()
+		))){
+			$this->notifyAssignRole($user);
+			return true;
+		}
+		return false;
+	}
+
+	public function cancelRole(StudentReg $user)
+	{
+		if(!$this->checkBeforeDeleteRole($user)){
+			return false;
+		}
+		if(Yii::app()->db->createCommand()->
+		update($this->tableName(), array(
+			'end_date'=>date("Y-m-d H:i:s"),
+			'cancelled_by'=>Yii::app()->user->id
+		), 'id_user=:id', array(':id'=>$user->id))){
+			$this->notifyCancelRole($user);
+			return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * @param $query string - query from typeahead
 	 * @return string - json for typeahead field in user manage page (cabinet, add)

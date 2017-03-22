@@ -4,8 +4,7 @@ class UsersController extends TeacherCabinetController
 {
     public function hasRole()
     {
-        $allowedDenySetActions = ['renderAddRoleForm', 'assignRole', 'addAdmin', 'createAccountant',
-            'cancelRole', 'usersAddForm', 'addTrainer', 'setTrainer', 'removeTrainer'];
+        $allowedDenySetActions = ['addAdmin', 'createAccountant', 'addTrainer', 'setTrainer', 'removeTrainer'];
         $action = Yii::app()->controller->action->id;
         return (Yii::app()->user->model->isDirector() && !in_array($action, $allowedDenySetActions)) ||
         Yii::app()->user->model->isAdmin() ||
@@ -152,39 +151,6 @@ class UsersController extends TeacherCabinetController
     {
         $this->renderPartial('emailCategoryForm', array('scenario'=>'update'), false, true);
     }
-    
-    public function actionRenderAddRoleForm($role)
-    {
-        if($role == ""){
-            throw new \application\components\Exceptions\IntItaException(400, 'Неправильна роль.');
-        }
-
-        $title=mb_strtolower(Role::getInstance($role)->title());
-        $this->renderPartial('addForms/_addRole', array('role'=>$role,'title'=>$title), false, true);
-    }
-
-    public function actionAssignRole($userId, $role){
-        $result=array();
-        $user = RegisteredUser::userById($userId);
-        $roleObj = Role::getInstance($role);
-
-        if ($user->hasRole($role)) {
-            $result['data']="Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
-        }else{
-            if($role != UserRoles::STUDENT){
-                if(!$user->isTeacher()){
-                    $result['data']="Користувач не є співробітником, призначити йому вибрану роль неможливо.";
-                    echo json_encode($result); return;
-                }
-            }
-            if ($user->setRole($role))
-                $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$roleObj->title();
-            else $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$roleObj->title().".
-    Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
-        }
-
-        echo json_encode($result);
-    }
 
     public function actionAddAdmin()
     {
@@ -205,32 +171,7 @@ class UsersController extends TeacherCabinetController
         else echo "Користувача ".$user->registrationData->userNameWithEmail()." не вдалося призначити бухгалтером.
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
-
-    public function actionCancelRole($userId, $role)
-    {
-        $result=array();
-        
-        $model = RegisteredUser::userById($userId);
-        $response=$model->cancelRoleMessage(new UserRoles($role));
-        if($response===true){
-            $result['data']="success";
-        } else {
-            $result['data']=$response;
-        }
-
-        echo json_encode($result);
-    }
-
-    public function actionUsersAddForm($role, $query)
-    {
-        $roleModel = Role::getInstance(new UserRoles($role));
-        if ($query && $roleModel) {
-            echo $roleModel->addRoleFormList($query);
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
-        }
-    }
-
+    
     public function actionGetStudentsList()
     {
         $requestParams = $_GET;

@@ -25,7 +25,7 @@
                     </select>
                 </div>
                 <br>
-                <input class="btn btn-success" type="submit" ng-click="assignRole(data.user.id, selectedRole)"
+                <input class="btn btn-success" type="submit" ng-click="assignLocalRole(data.user.id, selectedRole)"
                        value="Призначити роль">
                 <a type="button" class="btn btn-default" ng-click='back()'>
                     Назад

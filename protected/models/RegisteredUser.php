@@ -394,4 +394,9 @@ class RegisteredUser
     {
         return $this->isSuperAdmin();
     }
+
+    public function canSetGlobalRole()
+    {
+        return $this->isDirector();
+    }
 }

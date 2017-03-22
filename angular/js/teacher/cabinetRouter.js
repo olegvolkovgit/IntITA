@@ -154,6 +154,12 @@ angular
                         }
                     }
                 })
+                .state('directors', {
+                    url: '/directors',
+                    templateUrl: basePath+"/_teacher/users/directors",
+                    controller: function($scope){$scope.changePageHeader('Директора');},
+                })
+
                 .state('users.auditors', {
                     url: '/auditors',
                     views: {

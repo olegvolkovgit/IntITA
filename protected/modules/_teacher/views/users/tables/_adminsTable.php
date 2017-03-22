@@ -1,7 +1,11 @@
 <br>
-<!--<a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/admin">-->
-<!--    Призначити адміністратора-->
-<!--</a>-->
+<?php if (Yii::app()->user->model->canSetGlobalRole()) { ?>
+    <a type="button" class="btn btn-primary" ng-href="#/director/addrole/admin">
+        Призначити адміністратора
+    </a>
+<?php } ?>
+<br>
+<br>
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
    href="/_teacher/_admin/users/export/type/admins">
 </a>

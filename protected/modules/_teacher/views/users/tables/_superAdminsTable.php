@@ -1,3 +1,11 @@
+<br>
+<?php if (Yii::app()->user->model->canSetGlobalRole()) { ?>
+    <a type="button" class="btn btn-primary" ng-href="#/director/addrole/super_admin">
+        Призначити суперадміна
+    </a>
+<?php } ?>
+<br>
+<br>
 <div class="panel panel-default" ng-controller="superAdminsTableCtrl">
     <div class="panel-body">
         <div class="dataTable_wrapper">

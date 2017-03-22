@@ -9,4 +9,30 @@ angular
             },
             templateUrl: basePath+"/_teacher/_director/director/index",
         })
+        
+        .state('director/addrole/:role', {
+            url: "/director/addrole/:role",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_director/role/renderAddRoleForm/role/"+$stateParams.role;
+            }
+        })
+
+        .state('organizations', {
+            url: "/organizations",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_director/organization/index",
+        })
+        .state('organizations/addOrganization', {
+            url: "/organizations/addOrganization",
+            cache: false,
+            templateUrl: basePath + "/_teacher/_director/organization/createOrganizationForm",
+        })
+        .state('organizations/updateOrganization/:id', {
+            url: "/organizations/updateOrganization/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_director/organization/updateOrganizationForm?id=" + $stateParams.id
+            }
+        })
 });

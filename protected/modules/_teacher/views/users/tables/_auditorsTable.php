@@ -1,3 +1,11 @@
+<br>
+<?php if (Yii::app()->user->model->canSetGlobalRole()) { ?>
+<a type="button" class="btn btn-primary" ng-href="#/director/addrole/auditor">
+    Призначити аудитора
+</a>
+<?php } ?>
+<br>
+<br>
 <div class="panel panel-default" ng-controller="auditorsTableCtrl">
     <div class="panel-body">
         <div class="dataTable_wrapper">
