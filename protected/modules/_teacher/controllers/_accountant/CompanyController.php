@@ -6,7 +6,7 @@ class CompanyController extends TeacherCabinetController
         return Yii::app()->user->model->isAccountant();
     }
 
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
         $this->renderPartial('index', array(), false, true);
     }

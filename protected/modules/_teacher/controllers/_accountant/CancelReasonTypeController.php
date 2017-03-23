@@ -77,8 +77,7 @@ class CancelReasonTypeController extends TeacherCabinetController
     /**
      * Manages all models.
      */
-    public function actionIndex()
-    {
+    public function actionIndex($id=0) {
         $types = CancelReasonType::model()->findAll();
 
         $this->renderPartial('index',array(
