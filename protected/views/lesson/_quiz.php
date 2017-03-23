@@ -6,6 +6,11 @@
  * Time: 16:57
  */
 ?>
+<!--[if !IE]><!-->
+<!--<div class="fullScreen_button_container">-->
+<!--    <button id="changeColor" class="fullScreen" onclick="enterFullscreen('quiz')" title="Розгорнути"></button>-->
+<!--</div>-->
+<!--<![endif]-->
 <?php
 /* @var $page LecturePage*/
 if (!is_null($page->quiz)) {

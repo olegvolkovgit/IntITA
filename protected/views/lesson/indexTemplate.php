@@ -69,7 +69,8 @@ $finishedLecture = $lecture->isFinished($user);
             'options' => array(
                 'autoOpen' => false,
                 'modal' => true,
-                'resizable' => false
+                'resizable' => false,
+                'z-index' => 10000000000
             ),
         ));
         $this->renderPartial('/lesson/_errorDialog');
@@ -85,7 +86,7 @@ $finishedLecture = $lecture->isFinished($user);
             'options' => array(
                 'autoOpen' => false,
                 'modal' => true,
-                'resizable' => false
+                'resizable' => false,
             ),
         ));
         if($isLastLecture){

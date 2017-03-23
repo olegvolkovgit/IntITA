@@ -1040,4 +1040,7 @@ class Course extends CActiveRecord implements IBillableObject
         }
         return $access;
     }
+     public function status() {
+         return $this->status_offline==Course::DEVELOP && $this->status_online == Course::DEVELOP;
+     }
 }

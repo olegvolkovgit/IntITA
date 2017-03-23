@@ -966,16 +966,7 @@ img {
     border-top: none;
     border-radius: 0 0 0 10px;
 }
-#video {
-    box-sizing: border-box;
-    resize: none;
-    height: 400px;
-    border: 1px solid #335379;
-    border-top: none;
-}
-#video {
-    padding:0;
-}
+
 
 #text, #quiz {
     overflow: auto;
@@ -1635,7 +1626,13 @@ a.cke_dialog_ui_fileButton{
 .consultations{display: inline-block;margin-left: 15px;}
 #video{
     position: relative;
-    overflow: hidden;
+    /*overflow: hidden;*/
+    padding:0;
+    box-sizing: border-box;
+    resize: none;
+    height: 400px;
+    border: 1px solid #335379;
+    border-top: none;
 }
 #video iframe,
 #video object,

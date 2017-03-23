@@ -7,6 +7,7 @@ angular
 
 function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
     $scope.currentLocation = window.location.pathname;
+
     $scope.nextPage=function(){
         if($rootScope.currentPage>=$rootScope.pageCount){
             return $rootScope.currentPage;
@@ -68,32 +69,6 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
 }
 // celebre
 document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen;
-
-// function getInternetExplorerVersion()
-// {
-//     var rv = -1;
-//     if (navigator.appName == 'Microsoft Internet Explorer')
-//     {
-//         var ua = navigator.userAgent;
-//         var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-//         if (re.exec(ua) != null)
-//             rv = parseFloat( RegExp.$1 );
-//     }
-//     else if (navigator.appName == 'Netscape')
-//     {
-//         var ua = navigator.userAgent;
-//         var re  = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
-//         if (re.exec(ua) != null)
-//             rv = parseFloat( RegExp.$1 );
-//     }
-//     return rv;
-// }
-//
-// if(getInternetExplorerVersion()!==-1){
-//     //Значит это IE
-//     $('#changeColor .fullScreen').hide();
-//     alert($('#changeColor .fullScreen').css('display', 'none'));
-// }
 
 function enterFullscreen(id) {
     var el =  document.getElementById(id);

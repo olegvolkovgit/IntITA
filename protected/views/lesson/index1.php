@@ -68,8 +68,8 @@ $finishedLecture = $lecture->isFinished($user);
             'options' => array(
                 'autoOpen' => false,
                 'modal' => true,
-                'resizable' => false
-            ),
+                'resizable' => false,
+            )
         ));
         $this->renderPartial('/lesson/_errorDialog');
         $this->endWidget('zii.widgets.jui.CJuiDialog');
