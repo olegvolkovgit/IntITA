@@ -55,9 +55,8 @@ class OrganizationController extends TeacherCabinetController
         $result = ['message' => 'OK'];
         $statusCode = 201;
         try {
-            var_dump($_POST);die;
             $params = array_filter($_POST);
-            $organization = new Organization();
+            $organization = Organization::model()->findByPk($params['id']);
             $organization->setAttributes($params);
             $organization->save();
 
@@ -70,5 +69,12 @@ class OrganizationController extends TeacherCabinetController
             $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionGetOrganization($id)
+    {
+        $result=array();
+        $result['data']=Organization::model()->findByPk($id);
+        echo CJSON::encode($result);
     }
 }
