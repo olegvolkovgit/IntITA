@@ -3,7 +3,7 @@
 class TemplateController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAccountant();
+        return Yii::app()->user->model->isAuditor();
     }
 
     public function actionIndex()

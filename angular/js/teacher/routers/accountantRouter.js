@@ -60,11 +60,6 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: accountantUrl+"representative/index"
         })
-        .state('accountant/template', {
-            url: "/accountant/template",
-            cache         : false,
-            templateUrl: accountantUrl+"template/index"
-        })
         .state('accountant/externalsources', {
             url: "/accountant/externalsources",
             cache         : false,
