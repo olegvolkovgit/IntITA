@@ -4,14 +4,14 @@
 ?>
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary" ng-click="changeView('/configuration/siteconfig')">
+            <a type="button" class="btn btn-primary" ng-href="#/configuration/siteconfig">
                 Список налаштувань
-            </button>
+            </a>
         </li>
         <li>
-            <button type="button" class="btn btn-primary" ng-click="changeView('/configuration/siteconfig/view/<?=$model->id?>')">
+            <a type="button" class="btn btn-primary" ng-href="#/configuration/siteconfig/view/<?=$model->id?>">
                 Переглянути налаштування
-            </button>
+            </a>
         </li>
     </ul>
 <?php $this->renderPartial('_form', array('model' => $model)); ?>

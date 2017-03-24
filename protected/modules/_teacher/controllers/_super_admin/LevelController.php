@@ -4,7 +4,7 @@ class LevelController extends TeacherCabinetController
 {
     public function hasRole(){
 
-        return Yii::app()->user->model->isAdmin() || Yii::app()->controller->action ->id == 'getlevelslist';
+        return Yii::app()->user->model->isSuperAdmin() || Yii::app()->controller->action->id == 'getlevelslist';
     }
 
     public function actionIndex()

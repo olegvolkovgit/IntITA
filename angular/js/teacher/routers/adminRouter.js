@@ -177,14 +177,6 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/coursemanage/schema/idCourse/"+$stateParams.id;
             }
         })
-        .state('config/view/:id', {
-            url: "/config/view/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-
-                return basePath + "/_teacher/_admin/config/view/id/" + $stateParams.id;
-            }
-        })
         .state('addLinkedCourse/:course/:lang', {
             url: "/addLinkedCourse/:course/:lang",
             cache: false,

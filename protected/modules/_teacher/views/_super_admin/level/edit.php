@@ -1,18 +1,18 @@
 <?php
 /* @var $model Level */
 ?>
-<ul class="list-inline">
-    <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('configuration/levels')">
-            Всі рівні курсів
-        </button>
-    </li>
-</ul>
 <div class="panel-body">
+    <ul class="list-inline">
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/configuration/levels">
+                Всі рівні курсів
+            </a>
+        </li>
+    </ul>
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form role="form" method="post" action="<?= Yii::app()->createUrl('/_teacher/_admin/level/update'); ?>">
+                <form role="form" method="post" action="<?= Yii::app()->createUrl('/_teacher/_super_admin/level/update'); ?>">
                     <input name="id" class="form-control" value="<?= $model->id; ?>" hidden style="display: none"
                            type="number">
 
@@ -36,8 +36,8 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Зберегти</button>
-                        <button type="reset" class="btn btn-outline btn-default" ng-click="changeView('configuration/levels')">Скасувати
-                        </button>
+                        <a type="reset" class="btn btn-outline btn-default" ng-href="#/configuration/levels">Скасувати
+                        </a>
                     </div>
                 </form>
             </div>

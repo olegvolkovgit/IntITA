@@ -2,21 +2,19 @@
 /* @var $this ConfigController */
 /* @var $model Config */
 ?>
-
-<ul class="list-inline">
-    <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('configuration/siteconfig')">
-            Список налаштувань
-        </button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('configuration/siteconfig/edit/<?=$model->id?>')">
-            Редагувати налаштування
-        </button>
-    </li>
-</ul>
-
 <div class="row">
+    <ul class="list-inline">
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/configuration/siteconfig">
+                Список налаштувань
+            </a>
+        </li>
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/configuration/siteconfig/edit/<?=$model->id?>">
+                Редагувати налаштування
+            </a>
+        </li>
+    </ul>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-md-12">

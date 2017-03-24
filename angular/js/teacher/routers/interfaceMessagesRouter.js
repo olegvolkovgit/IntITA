@@ -18,6 +18,9 @@ angular
         .state('interfacemessages/view/:id', {
             url: "/interfacemessages/view/:id",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Інтерфейсні повідомлення');
+            },
             templateUrl: function($stateParams){
                 return url+'/translate/view/id/'+$stateParams.id
             },
@@ -30,6 +33,9 @@ angular
         .state('interfacemessages/edit/:id', {
             url: "/interfacemessages/edit/:id",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Інтерфейсні повідомлення');
+            },
             templateUrl: function($stateParams){
                 return url+"/translate/update/id/"+$stateParams.id
             },

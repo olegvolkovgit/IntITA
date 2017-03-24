@@ -11,7 +11,7 @@ class ConfigController extends TeacherCabinetController {
     public $menu = array();
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isSuperAdmin();
     }
     /**
      * Displays a particular model.
@@ -115,17 +115,17 @@ class ConfigController extends TeacherCabinetController {
 
     public function actionCareers()
     {
-        $this->renderPartial('/_admin/config/careers/careers', array(), false, true);
+        $this->renderPartial('/_super_admin/config/careers/careers', array(), false, true);
     }
 
     public function actionCareerCreate()
     {
-        $this->renderPartial('/_admin/config/careers/careerCreate', array(), false, true);
+        $this->renderPartial('/_super_admin/config/careers/careerCreate', array(), false, true);
     }
 
     public function actionCareerUpdate()
     {
-        $this->renderPartial('/_admin/config/careers/careerUpdate', array(), false, true);
+        $this->renderPartial('/_super_admin/config/careers/careerUpdate', array(), false, true);
     }
 
     public function actionGetCareersList()

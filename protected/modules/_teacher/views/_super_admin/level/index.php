@@ -1,9 +1,4 @@
-<?php
-/* @var $levels array
- * @var $level Level
- */
-?>
-<div class="col-lg-12" ng-controller="levelsCtrl">
+<div ng-controller="levelsCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

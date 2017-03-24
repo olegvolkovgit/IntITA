@@ -2,19 +2,17 @@
 /* @var $this MessagesController */
 /* @var $model Translate */
 ?>
-
-<ul class="list-inline">
-    <li>
-        <a type="button" class="btn btn-primary" ng-href="#/interfacemessages">
-            Інтерфейсні повідомлення</a>
-    </li>
-    <li>
-        <a type="button" class="btn btn-primary" ng-href="#/interfacemessages/edit/<?= $model->id_record ?>">
-            Редагувати</a>
-    </li>
-</ul>
-
 <div class="row">
+    <ul class="list-inline">
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/interfacemessages">
+                Інтерфейсні повідомлення</a>
+        </li>
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/interfacemessages/edit/<?= $model->id_record ?>">
+                Редагувати</a>
+        </li>
+    </ul>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-md-12">
