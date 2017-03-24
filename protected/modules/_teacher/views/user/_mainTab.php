@@ -98,7 +98,7 @@ $user = $model->registrationData;
                                 {{data.trainer.firstName}} {{data.trainer.secondName}}({{data.trainer.email}})
                             </a>
                             <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
-                            <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/addtrainer">
+                            <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/users/profile/{{data.user.id}}/addtrainer">
                                 <span ng-if="data.trainer">змінити</span>
                                 <span ng-if="!data.trainer">додати</span>
                             </a>

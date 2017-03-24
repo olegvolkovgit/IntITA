@@ -132,13 +132,6 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/users/renderAddRoleForm/role/"+$stateParams.role;
             }
         })
-        .state('admin/users/user/:id', {
-            url: "/admin/users/user/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/user/index?id="+$stateParams.id;
-            }
-        })
         .state('admin/users/user/:id/addtrainer', {
             url: "/admin/users/user/:id/addtrainer",
             cache: false,

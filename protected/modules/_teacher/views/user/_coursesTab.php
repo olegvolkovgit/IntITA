@@ -19,7 +19,7 @@
                                             {{course.title_ua}} ({{course.lang}})
                                         </a>
                                         <?php if(Yii::app()->user->model->isAdmin()){?>
-                                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/agreement/course/{{course.id}}">
+                                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/users/profile/{{data.user.id}}/agreement/course/{{course.id}}">
                                                 <em>договір</em>
                                             </a>
                                         <?php } ?>
