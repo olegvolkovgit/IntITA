@@ -5,12 +5,12 @@
 
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('interfacemessages')">
-            Інтерфейсні повідомлення</button>
+        <a type="button" class="btn btn-primary" ng-href="#/interfacemessages">
+            Інтерфейсні повідомлення</a>
     </li>
     <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('interfacemessages/edit/<?= $model->id_record ?>')">
-            Редагувати</button>
+        <a type="button" class="btn btn-primary" ng-href="#/interfacemessages/edit/<?= $model->id_record ?>">
+            Редагувати</a>
     </li>
 </ul>
 

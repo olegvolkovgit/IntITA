@@ -12,9 +12,6 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/interfacemessages">
-                           Інтерфейсні повідомлення</a>
-                    </li>
                     <li><a href="#/admin/carousel">
                             Слайдер на головній сторінці</a>
                     </li>

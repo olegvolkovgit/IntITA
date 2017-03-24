@@ -1,19 +1,17 @@
 'use strict';
 
-/* Services */
-
 angular
     .module('teacherApp')
     .factory('interfaceMessages', ['$resource',
     function ($resource) {
-        var url = basePath+'/_teacher/_admin/translate/gettranslateslist';
+        var url=basePath+"/_teacher/_super_admin";
         return $resource(
             url,
             {
             },
             {
                 list: {
-                    url: url,
+                    url: url+'/translate/gettranslateslist',
                     method: 'GET'
                 }
             });

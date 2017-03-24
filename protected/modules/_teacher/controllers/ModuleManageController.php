@@ -3,10 +3,10 @@
 class ModuleManageController extends TeacherCabinetController
 {
     public function hasRole(){
-        $allowedDirectorActions=['modulesList', 'view', 'getModulesList','getModuleAuthorsList','getModuleTeachersConsultantList'];
+        $allowedViewActions=['modulesList', 'view', 'getModulesList','getModuleAuthorsList','getModuleTeachersConsultantList'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isContentManager() ||
-        (Yii::app()->user->model->isDirector() && in_array(Yii::app()->controller->action->id,$allowedDirectorActions));
+        (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
 
     public function actionIndex($id=0)

@@ -3,7 +3,7 @@
 class TranslateController extends TeacherCabinetController{
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isSuperAdmin();
     }
 
     public function actionIndex()
@@ -100,12 +100,11 @@ class TranslateController extends TeacherCabinetController{
         return $model;
     }
 
-    public function actionGetTranslatesList($page = 0, $pageCount=10) {
+    public function actionGetTranslatesList() {
         $params= $_GET;
         $adapter = new NgTableAdapter('Translate',$params);
         $adapter->getData();
         echo json_encode($adapter->getData());
-        //echo JsonForNgDatatablesHelper::returnJson(Translate::getTranslatesList($page, $pageCount),null,count(Translate::model()->findAll()));
     }
 
 }

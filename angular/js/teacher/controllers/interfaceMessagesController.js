@@ -37,7 +37,7 @@ function interfaceMessagesCtrl ($scope, $http, interfaceMessages, NgTableParams,
         {
          $http({
              method: 'POST',
-             url: basePath+'/_teacher/_admin/translate/create',
+             url: basePath+'/_teacher/_super_admin/translate/create',
              data: $jq.param({'id': $scope.message.id,
                             'category': $scope.message.category,
                             'translateUa': $scope.message.translateUa,

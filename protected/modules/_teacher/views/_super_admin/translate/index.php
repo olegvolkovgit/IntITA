@@ -2,9 +2,9 @@
 /* @var $model Translate */
 ?>
 <div class="col-lg-12" ng-controller="interfaceMessagesCtrl">
-    <button class="btn btn-primary" ng-click="changeView('interfacemessages/create')">
-        Додати повідомлення
-    </button>
+<!--    <a class="btn btn-primary" ng-href="#/interfacemessages/create">-->
+<!--        Додати повідомлення-->
+<!--    </a>-->
     <br>
     <br>
     <div class="panel panel-default">

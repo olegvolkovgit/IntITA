@@ -3,7 +3,7 @@
 class LectureController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isDirector();
+        return Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin();
     }
 
     public function actionIndex()
