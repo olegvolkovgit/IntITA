@@ -1,22 +1,15 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 20.04.2016
- * Time: 19:24
- */?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('admin/address')">
+        <a type="button" class="btn btn-primary" ng-href="#/address">
             Країни, міста
-        </button>
+        </a>
     </li>
 </ul>
 <div class="panel-body">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form name="addCountryForm" onsubmit="addCountry('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCountry')?>');return false;">
+                <form name="addCountryForm" onsubmit="addCountry('<?php echo Yii::app()->createUrl('/_teacher/_super_admin/address/newCountry')?>');return false;">
                     <div class="form-group">
                         <label>Назва українською*</label>
                         <input name="titleUa" class="form-control" required maxlength="50" size="50">
@@ -40,8 +33,8 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Зберегти</button>
-                        <button type="reset" class="btn btn-outline btn-default" ng-click="changeView('admin/address')" >Скасувати
-                        </button>
+                        <a type="reset" class="btn btn-outline btn-default" ng-href="#/address" >Скасувати
+                        </a>
                     </div>
                 </form>
             </div>

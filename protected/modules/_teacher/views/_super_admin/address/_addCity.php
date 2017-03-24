@@ -1,22 +1,15 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 20.04.2016
- * Time: 19:24
- */?>
-<ul class="list-inline">
-    <li>
-        <a type="button" class="btn btn-primary" ng-href="#/admin/address">
-            Країни, міста
-        </a>
-    </li>
-</ul>
 <div class="panel-body">
+    <ul class="list-inline">
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/address">
+                Країни, міста
+            </a>
+        </li>
+    </ul>
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form role="form" name="addCityForm" ng-submit="addCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCity')?>');">
+                <form role="form" name="addCityForm" ng-submit="addCity();">
                     <div class="form-group">
                         <label>Країна</label>
                         <input id="typeahead" type="text" class="typeahead form-control" name="country"
@@ -42,9 +35,9 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Зберегти</button>
-                        <button type="reset" class="btn btn-outline btn-default"
-                                ng-click="changeView('admin/address')">Скасувати
-                        </button>
+                        <a type="reset" class="btn btn-outline btn-default" ng-href="#/address">
+                            Скасувати
+                        </a>
                     </div>
                 </form>
             </div>
@@ -57,7 +50,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/address/countriesByQuery?query=%QUERY',
+            url: basePath + '/_teacher/_super_admin/address/countriesByQuery?query=%QUERY',
             wildcard: '%QUERY',
             filter: function (countries) {
                 return $jq.map(countries.results, function (country) {

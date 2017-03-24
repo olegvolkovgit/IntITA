@@ -1,8 +1,3 @@
-<?php
-/**
- * @var $counters array
- */
-?>
 <div class="panel panel-default" ng-controller="addressCtrl">
     <div class="panel-body">
         <uib-tabset active="0" >

@@ -547,7 +547,7 @@ function addCountry(url) {
         },
         async: true,
         success: function (response) {
-            bootbox.alert(response, load(basePath + '/_teacher/_admin/address/index', 'Країни, міста'));
+            bootbox.alert(response, load(basePath + '/_teacher/_super_admin/address/index', 'Країни, міста'));
         },
         error: function () {
             bootbox.alert("Операцію не вдалося виконати.");

@@ -12,6 +12,7 @@ angular
             },
             templateUrl: url+"/superAdmin/index",
         })
+
         .state('carousel', {
             url: "/carousel",
             cache: false,
@@ -50,21 +51,13 @@ angular
                 return url+"/aboutusSlider/update/?id="+$stateParams.id;
             }
         })
-        .state('admin/address', {
-            url: "/admin/address",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Адреса (країни, міста)');
-            },
-            templateUrl: url+"/address/index",
-        })
         .state('addmainsliderphoto', {
             url: "/addmainsliderphoto",
             cache: false,
             controller: function($scope){
                 $scope.changePageHeader('Слайдер на головній сторінці');
             },
-            templateUrl: basePath+"/_teacher/_super_admin/carousel/create",
+            templateUrl: url+"/carousel/create",
         })
         .state('addaboutussliderphoto', {
             url: "/addaboutussliderphoto",
@@ -72,25 +65,31 @@ angular
             controller: function($scope){
                 $scope.changePageHeader('Слайдер на сторінці Про нас');
             },
-            templateUrl: basePath+"/_teacher/_super_admin/aboutusSlider/create",
+            templateUrl: url+"/aboutusSlider/create",
+        })
+
+        .state('address', {
+            url: "/address",
+            cache: false,
+            templateUrl: url+"/address/index",
         })
         .state('addcity', {
             url: "/addcity",
             cache: false,
             controller:"addressCtrl",
-            templateUrl: basePath+"/_teacher/_super_admin/address/addCity",
+            templateUrl: url+"/address/addCity",
         })
         .state('editcity/:id', {
             url: "/editcity/:id",
             cache: false,
             controller:"addressCtrl",
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_admin/address/editCity/id/"+$stateParams.id;
+                return url+"/address/editCity/id/"+$stateParams.id;
             }
         })
         .state('addcountry', {
             url: "/addcountry",
             cache: false,
-            templateUrl: basePath+"/_teacher/_super_admin/address/addCountry",
+            templateUrl: url+"/address/addCountry",
         })
 });
