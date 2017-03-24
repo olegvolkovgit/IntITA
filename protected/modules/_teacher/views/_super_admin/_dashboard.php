@@ -39,16 +39,11 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/configuration/refreshcache">Оновити кеш </a>
+                    <li>
+                        <a href="#/users/blockedUsers">Заблоковані користувачі</a>
                     </li>
-                    <li><a href="#/configuration/levels">Рівні курсів, модулів
-                        </a>
-                    </li>
-                    <li><a href="#/configuration/siteconfig">Налаштування
-                        </a>
-                    </li>
-                    <li><a href="#/configuration/careers">Перелік кар'єр
-                        </a>
+                    <li>
+                        <a href="#/response">Відгуки про викладачів</a>
                     </li>
                 </ul>
             </div>

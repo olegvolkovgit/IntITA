@@ -7,24 +7,25 @@ angular
     .controller('responseModelCtrl',responseModelCtrl);
 
 
-function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder){
-
-    $http.get(basePath+'/_teacher/_admin/response/getTeacherResponsesList').then(function (data) {
-        $scope.responsesList = data.data["data"];
+function responseCtrl ($scope, NgTableParams, responseService){
+    $scope.responsesTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return responseService
+                .responsesList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
     });
-
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withLanguageSource(basePath + '/scripts/cabinet/Ukranian.json');
-
-    $scope.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(4).withOption('width', '10%'),
-    ];
 }
 
 function responseModelCtrl ($scope, $http, $state,$stateParams){
+    var url=basePath+'/_teacher/_super_admin/response';
+    
     $scope.loadResponse=function(id){
-        $http.get(basePath+'/_teacher/_admin/response/loadJsonModel/id/'+id).then(function (response) {
+        $http.get(url+'/loadJsonModel/id/'+id).then(function (response) {
             $scope.response = response.data;
         });
     };
@@ -35,7 +36,7 @@ function responseModelCtrl ($scope, $http, $state,$stateParams){
         var publish = document.getElementById('Response_is_checked').value;
         $http({
             method: 'POST',
-            url: basePath+'/_teacher/_admin/response/updateResponseText/id/'+responseId,
+            url: url+'/updateResponseText/id/'+responseId,
             data: $jq.param({'response': text, 'publish':publish}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
         }).success(function(data){
@@ -52,7 +53,7 @@ function responseModelCtrl ($scope, $http, $state,$stateParams){
             if(result){
                 $http({
                     method: 'POST',
-                    url: basePath+'/_teacher/_admin/response/delete/id/'+responseId,
+                    url: url+'/delete/id/'+responseId,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 }).success(function(){
                     bootbox.alert('Операцію виконано', function () {
@@ -73,10 +74,10 @@ function responseModelCtrl ($scope, $http, $state,$stateParams){
         var url;
         switch (status){
             case 'publish':
-                url = basePath + '/_teacher/_admin/response/setpublish/id/'+responseId;
+                url = basePath + '/_teacher/_super_admin/response/setpublish/id/'+responseId;
                 break;
             case 'hide':
-                url = basePath + '/_teacher/_admin/response/unsetpublish/id/'+responseId;
+                url = basePath + '/_teacher/_super_admin/response/unsetpublish/id/'+responseId;
                 break
         }
         bootbox.confirm("Змінити статус відгука?", function (result) {

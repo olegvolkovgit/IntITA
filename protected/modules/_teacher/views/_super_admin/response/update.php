@@ -3,18 +3,19 @@
 /* @var $model Response */
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/jquery.wysibb.min.js'); ?>"></script>
-<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/theme/default/wbbtheme.css'); ?>"
-      type="text/css" />
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/theme/default/wbbtheme.css'); ?>" type="text/css" />
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/lang/ua.js'); ?>"></script>
 <div  ng-controller="responseModelCtrl" ng-cloak>
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary" ng-click="changeView('response')">
-                Відгуки про викладачів</button>
+            <a type="button" class="btn btn-primary" ng-href="#/response">
+                Відгуки про викладачів
+            </a>
         </li>
         <li>
-            <button type="button" class="btn btn-primary" ng-click="changeView('/response/detail/'+response.id)">
-                Переглянути відгук</button>
+            <a type="button" class="btn btn-primary" ng-href="#/response/detail/{{response.id}}">
+                Переглянути відгук
+            </a>
         </li>
     </ul>
 

@@ -1,28 +1,27 @@
-<?php
-/* @var $this ResponseController */
-/* @var $model Response */
-?>
-
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/graduate.css'); ?>" rel="stylesheet">
 
-<div class="col-md-9" ng-controller="responseModelCtrl" id="responseView">
+<div ng-controller="responseModelCtrl" id="responseView">
     <div ng-cloak>
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary" ng-click="changeView('response')">
-                    Відгуки про викладачів</button>
+                <a type="button" class="btn btn-primary" ng-href='#/response'>
+                    Відгуки про викладачів
+                </a>
             </li>
             <li>
-                <button type="button" class="btn btn-primary" ng-click="changeView('response/edit/'+response.id)">
-                    Редагувати</button>
+                <a type="button" class="btn btn-primary" ng-href="#/response/edit/{{response.id}}">
+                    Редагувати
+                </a>
             </li>
             <li>
-                <button type="button" class="btn btn-primary" ng-click="deleteResponse(response.id)">
-                    Видалити</button>
+                <a type="button" class="btn btn-primary" ng-click="deleteResponse(response.id)">
+                    Видалити
+                </a>
             </li>
             <li>
-                <button type="button" class="btn btn-success" ng-click="changeResponseStatus(response.id,response.is_checked==1?'hide':'publish')">
-                    {{response.is_checked==1? "Приховати" : "Опублікувати"}}</button>
+                <a type="button" class="btn btn-success" ng-click="changeResponseStatus(response.id,response.is_checked==1?'hide':'publish')">
+                    {{response.is_checked==1? "Приховати" : "Опублікувати"}}
+                </a>
             </li>
         </ul>
         <div class="list-group">

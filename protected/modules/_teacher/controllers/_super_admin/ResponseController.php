@@ -9,7 +9,7 @@
 class ResponseController extends TeacherCabinetController{
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isSuperAdmin();
     }
 
     public function actionView($id)
@@ -40,7 +40,7 @@ class ResponseController extends TeacherCabinetController{
         {
             $model->attributes=$_POST['Response'];
             if($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
+                $this->redirect(Yii::app()->createUrl('/_teacher/_super_admin/response/index'));
         }
 
         $this->renderPartial('update',array(
@@ -108,7 +108,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
+            $this->redirect(Yii::app()->createUrl('/_teacher/_super_admin/response/index'));
     }
 
     public function actionUnsetPublish($id)
@@ -119,7 +119,7 @@ class ResponseController extends TeacherCabinetController{
 
         // if AJAX request, we should not redirect the browser
         if(!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
+            $this->redirect(Yii::app()->createUrl('/_teacher/_super_admin/response/index'));
     }
 
 
@@ -136,13 +136,20 @@ class ResponseController extends TeacherCabinetController{
         }
     }
 
-    public function actionGetTeacherResponsesList(){
-        echo Response::getTeacherResponsesData();
-    }
+//    public function actionGetTeacherResponsesList(){
+//        echo Response::getTeacherResponsesData();
+//    }
     
     public function actionLoadJsonModel($id)
     {
         echo Response::getResponseData($id);
     }
 
+    public function actionGetResponsesList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('Response', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
 }

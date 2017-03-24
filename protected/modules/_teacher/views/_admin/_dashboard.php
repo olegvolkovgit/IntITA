@@ -38,8 +38,6 @@
                     </li>
                     <li><a href="#/sharedlinks">Ресурси для викладачів</a>
                     </li>
-                    <li><a href="#/response">Відгуки про викладачів</a>
-                    </li>
                     <li><a href="#/graduate">Випускники</a></li>
                 </ul>
             </div>
@@ -92,32 +90,6 @@
             </div>
             <div class="panel-footer">
                 <em>Управління користувачами</em>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Налаштування сайта
-            </div>
-            <div class="panel-body">
-                <ul>
-                    <li><a href="#/configuration/refreshcache">Оновити кеш </a>
-                    </li>
-                    <li><a href="#/configuration/levels">Рівні курсів, модулів
-                        </a>
-                    </li>
-                    <li><a href="#/configuration/siteconfig">Налаштування
-                        </a>
-                    </li>
-                    <li><a href="#/configuration/careers">Перелік кар'єр
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="panel-footer">
-                <em>Адміністрування сайта</em>
             </div>
         </div>
     </div>
