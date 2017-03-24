@@ -15,13 +15,13 @@
                     <li><a href="#/interfacemessages">
                            Інтерфейсні повідомлення</a>
                     </li>
-                    <li><a href="#/admin/carousel">
+                    <li><a href="#/carousel">
                             Слайдер на головній сторінці</a>
                     </li>
-                    <li><a href="#admin/aboutusSlider">
+                    <li><a href="#/aboutusSlider">
                             Слайдер на сторінці <i>Про нас</i></a>
                     </li>
-                    <li><a href="#admin/address">
+                    <li><a href="#/address">
                             Адреса (країни, міста)</a>
                     </li>
                 </ul>

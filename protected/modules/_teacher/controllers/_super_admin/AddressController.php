@@ -3,7 +3,7 @@
 class AddressController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isSuperAdmin();
     }
 
     public function actionIndex()

@@ -6,30 +6,6 @@
 <hr>
 <div class="row">
     <div class="col-lg-4">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                Дизайн
-            </div>
-            <div class="panel-body">
-                <ul>
-                    <li><a href="#/admin/carousel">
-                            Слайдер на головній сторінці</a>
-                    </li>
-                    <li><a href="#admin/aboutusSlider">
-                            Слайдер на сторінці <i>Про нас</i></a>
-                    </li>
-                    <li><a href="#admin/address">
-                            Адреса (країни, міста)</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="panel-footer">
-                <em>Інтерфейс сайта</em>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4">
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 Контент

@@ -1,23 +1,12 @@
-<?php
-/* @var $this CarouselController */
-/* @var $dataProvider CActiveDataProvider */
-?>
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'adminSlider.css'); ?>" />
-<br>
-<br>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                ng-click="changeView('admin/addmainsliderphoto')">
-            Додати фото</button>
+        <a type="button" class="btn btn-primary" ng-href="#/addmainsliderphoto">
+            Додати фото
+        </a>
     </li>
 </ul>
-
-    <div class="page-header" >
-        <h4>Слайдер на головній</h4>
-    </div>
-
-<div class="col-lg-12" ng-controller="mainSliderTableCtrl">
+<div ng-controller="mainSliderTableCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -35,7 +24,7 @@
                     <tbody>
                     <tr ng-repeat="row in sliderList">
                         <td>{{row.order}}</td>
-                        <td><a ng-href="#/admin/carousel/view/id/{{row.id}}">
+                        <td><a ng-href="#/carousel/view/id/{{row.id}}">
                                 <img class="carouselImage" src="{{row.photo.image}}">
                             </a>
                             <div>{{row.photo.text}}</div>

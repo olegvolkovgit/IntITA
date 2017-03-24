@@ -32,17 +32,17 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'text_ua', array('for' => 'text_ua')); ?>
-        <?php echo $form->textArea($model, 'text_ua', array('class' => "form-control", 'id' => 'text_ua')); ?>
+        <?php echo $form->textArea($model, 'text_ua', array('class' => "form-control", 'id' => 'text_ua','style' => 'resize:none')); ?>
         <?php echo $form->error($model, 'text_ua'); ?>
     </div>
     <div class="form-group">
         <?php echo $form->labelEx($model, 'text_ru', array('for' => 'text_ru')); ?>
-        <?php echo $form->textArea($model, 'text_ru', array('class' => "form-control", 'id' => 'text_ru')); ?>
+        <?php echo $form->textArea($model, 'text_ru', array('class' => "form-control", 'id' => 'text_ru','style' => 'resize:none')); ?>
         <?php echo $form->error($model, 'text_ru'); ?>
     </div>
     <div class="form-group">
         <?php echo $form->labelEx($model, 'text_en', array('for' => 'text_en')); ?>
-        <?php echo $form->textArea($model, 'text_en', array('class' => "form-control", 'id' => 'text_en')); ?>
+        <?php echo $form->textArea($model, 'text_en', array('class' => "form-control", 'id' => 'text_en','style' => 'resize:none')); ?>
         <?php echo $form->error($model, 'text_en'); ?>
     </div>
 

@@ -4,7 +4,7 @@ class AboutusSliderController extends TeacherCabinetController
 {
 
 	public function hasRole(){
-		return Yii::app()->user->model->isAdmin();
+		return Yii::app()->user->model->isSuperAdmin();
 	}
 	/**
 	 * Displays a particular model.
@@ -26,7 +26,7 @@ class AboutusSliderController extends TeacherCabinetController
 		$model=new AboutusSlider;
 
 		// Uncomment the following line if AJAX validation is needed
-		 $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['AboutusSlider']))
 		{
@@ -45,7 +45,7 @@ class AboutusSliderController extends TeacherCabinetController
 				Avatar::saveAbuotusSlider($model, $tmpName, $filename);
 
 			if($model->save())
-                $this->redirect('/cabinet/#/admin/aboutusSlider');
+                $this->redirect('/cabinet/#/aboutusSlider');
             }
 		}
 
@@ -64,7 +64,7 @@ class AboutusSliderController extends TeacherCabinetController
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		 $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['AboutusSlider']))
 		{
@@ -88,7 +88,7 @@ class AboutusSliderController extends TeacherCabinetController
 				Avatar::saveAbuotusSlider($model, $tmpName, $filename, $oldSlide);
 
 				if ($model->update())
-					$this->redirect('/cabinet/#/admin/aboutusSlider');
+					$this->redirect('/cabinet/#/aboutusSlider');
 			}
 		}
 
@@ -111,9 +111,6 @@ class AboutusSliderController extends TeacherCabinetController
         Slider::sortOrder($model);
 
 		$this->actionIndex();
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//		if(!isset($_GET['ajax']))
-//			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -121,31 +118,7 @@ class AboutusSliderController extends TeacherCabinetController
 	 */
 	public function actionIndex()
 	{
-        $model=new AboutusSlider('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['AboutusSlider']))
-            $model->attributes=$_GET['AboutusSlider'];
-
-        $dataProvider=new CActiveDataProvider('AboutusSlider');
-		$this->renderPartial('index',array(
-			'dataProvider'=>$dataProvider,
-            'model' => $model,
-		),false,true);
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new AboutusSlider('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['AboutusSlider']))
-			$model->attributes=$_GET['AboutusSlider'];
-
-		$this->renderPartial('admin',array(
-			'model'=>$model,
-		),false,true);
+		$this->renderPartial('index',array(),false,true);
 	}
 
 	/**
@@ -179,7 +152,7 @@ class AboutusSliderController extends TeacherCabinetController
     public function actionUp($order)
     {
         if($order == 1)
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+            $this->redirect(Yii::app()->createUrl('/_teacher/_super_admin/aboutusSlider/index'));
 
         $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
         $prevModel = AboutusSlider::model()->findByAttributes(array('order' => $order-1));
@@ -196,8 +169,6 @@ class AboutusSliderController extends TeacherCabinetController
                 $model->save();
                 $prevModel->save();
             }
-
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
         }
         else return;
     }
@@ -207,7 +178,7 @@ class AboutusSliderController extends TeacherCabinetController
 
         $model = AboutusSlider::model()->findByAttributes(array('order' => $order));
         if($order == $model->getLastAboutusOrder())
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+            $this->redirect(Yii::app()->createUrl('/_teacher/_super_admin/aboutusSlider/index'));
 
         else{
             $nextModel = AboutusSlider::model()->findByAttributes(array('order' => $order + 1));
@@ -224,15 +195,13 @@ class AboutusSliderController extends TeacherCabinetController
                     $model->save();
                     $nextModel->save();
                 }
-
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
             }
         }
     }
 	public function actionTextUp($order)
 	{
 		if($order == 1)
-			$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+			$this->redirect(Yii::app()->createUrl('/_teacher/_super_admin/aboutusSlider/index'));
 
 		$model = AboutusSlider::model()->findByAttributes(array('order' => $order));
 		$prevModel = AboutusSlider::model()->findByAttributes(array('order' => $order-1));
@@ -249,8 +218,6 @@ class AboutusSliderController extends TeacherCabinetController
 				$model->save();
 				$prevModel->save();
 			}
-
-			$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
 		}
 		else return;
 	}
@@ -260,7 +227,7 @@ class AboutusSliderController extends TeacherCabinetController
 
 		$model = AboutusSlider::model()->findByAttributes(array('order' => $order));
 		if($order == $model->getLastAboutusOrder())
-			$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+			$this->redirect(Yii::app()->createUrl('/_teacher/_super_admin/aboutusSlider/index'));
 
 		else{
 			$nextModel = AboutusSlider::model()->findByAttributes(array('order' => $order + 1));
@@ -277,8 +244,6 @@ class AboutusSliderController extends TeacherCabinetController
 					$model->save();
 					$nextModel->save();
 				}
-
-				$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
 			}
 		}
 	}
