@@ -196,8 +196,8 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     $scope.getUsersNotTeacher = function(value){
         return typeAhead.getData(usersNotTeacherTypeaheadUrl,{query : value});
     };
-    $scope.getUsersForRole = function(role, value){
-        return typeAhead.getData(usersForRoleTypeaheadUrl,{role:role, query : value});
+    $scope.getUsersForRole = function(role, value, organization){
+        return typeAhead.getData(usersForRoleTypeaheadUrl,{role:role, query : value, organization:organization});
     };
     $scope.getTrainers = function(value){
         return typeAhead.getData(trainersTypeaheadUrl,{query : value});

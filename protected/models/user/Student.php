@@ -135,13 +135,13 @@ class Student extends Role
         return false;
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user)
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
         return true;
     }
 
     //not supported
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         return array();
     }
