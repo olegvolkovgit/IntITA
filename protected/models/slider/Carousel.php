@@ -116,7 +116,7 @@ class Carousel extends Slider
 			$row["order"] = $record->order;
 			$row["id"] = $record->id;
 			$row["photo"]["text"] = $record->text_ua;
-			$row["photo"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/view", array("id"=>$record->id))."'";
+			$row["photo"]["link"] = "'".Yii::app()->createUrl("/_teacher/_super_admin/carousel/view", array("id"=>$record->id))."'";
 			array_push($return['data'], $row);
 		}
 

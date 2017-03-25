@@ -21,8 +21,8 @@
             <table ng-table="moduleTeachersConsultantTable" class="table table-striped table-bordered table-hover">
                 <tr ng-repeat="row in $data">
                     <td data-title="'Автор'" sortable="'user.fullName'" filter="{'user.fullName': 'text'}">
-                        <a ng-href="#/admin/users/user/{{row.id_teacher}}" >
-                            {{row.user.fullName}} ({{row.user.email}})
+                        <a ng-href="#/users/profile/{{row.id_teacher}}" >
+                            {{row.user.fullName}}
                         </a>
                     </td>
                     <td data-title="'Призначено'" sortable="'start_date'" filter="{start_date: 'text'}">{{row.start_date}}</td>

@@ -7,7 +7,7 @@ angular
 
 function siteConfigCtrl ($scope, siteConfig, NgTableParams, $filter){
 
-    angular.element(document.querySelector("#pageTitle")).text("Налаштування");
+    $scope.changePageHeader('Налаштування ');
 
     $scope.cols = [
         { title: "ID", headerTitle: "ID", show: true },

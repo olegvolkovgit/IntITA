@@ -168,6 +168,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/roleController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/schedulerTasksController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/careersControllers.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/addressControllers.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'CheckFile.js');?>"></script>
@@ -186,6 +187,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/typeaheadService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/paymentSchemaService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/usersService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/responseService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/teacherService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/companiesService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/internalPaymentsService.js'); ?>"></script>

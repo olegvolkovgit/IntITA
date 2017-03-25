@@ -87,9 +87,6 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/accountant/paymentSchemas/schemas/template">Шаблони схем</a>
-                    </li>
-                    <li>
                         <a href="#/accountant/paymentSchemas/schemas/apply">Застосувати шаблон схем</a>
                     </li>
                     <li>

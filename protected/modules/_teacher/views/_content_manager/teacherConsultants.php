@@ -28,10 +28,10 @@
                                         <table ng-table="teacherConsultantsTableParams" class="table table-bordered table-striped table-condensed">
                                             <tr ng-repeat="row in $data track by $index">
                                                 <td data-title="'ПІБ'" filter="{'idUser.fullName': 'text'}" sortable="'idUser.fullName'">
-                                                    <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.idUser.firstName}} {{row.idUser.middleName}} {{row.idUser.secondName}}</a>
+                                                    <a ng-href="#/users/profile/{{row.id_user}}">{{row.idUser.firstName}} {{row.idUser.middleName}} {{row.idUser.secondName}}</a>
                                                 </td>
                                                 <td data-title="'Email'" sortable="'idUser.email'" filter="{'idUser.email': 'text'}">
-                                                    <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.idUser.email}}</a>
+                                                    <a ng-href="#/users/profile/{{row.id_user}}">{{row.idUser.email}}</a>
                                                 </td>
                                                 <td data-title="'Призначено'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
                                                 <td data-title="'Профіль'"><a ng-href="/profile/{{row.id_user}}" target="_blank">Профіль</a></td>

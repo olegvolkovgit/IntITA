@@ -13,7 +13,7 @@
             </div>
         </div>
         
-        <button class="btn btn-primary" ng-click="assignGlobalRole(selectedUser.id,'<?php echo $role ?>');">
+        <button class="btn btn-primary" ng-click="assignRoleByDirector(selectedUser.id,'<?php echo $role ?>');">
             Призначити роль '<?php echo $title ?>'
         </button>
         <a type="button" class="btn btn-default" ng-click='back()'>

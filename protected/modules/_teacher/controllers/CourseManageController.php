@@ -12,10 +12,10 @@ class CourseManageController extends TeacherCabinetController
 
     public function hasRole()
     {
-        $allowedDirectorActions=['coursesList', 'view', 'getCoursesList'];
+        $allowedViewActions=['coursesList', 'view', 'getCoursesList'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isContentManager() ||
-        (Yii::app()->user->model->isDirector() && in_array(Yii::app()->controller->action->id,$allowedDirectorActions));
+        (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
 
     protected function performAjaxValidation($model)

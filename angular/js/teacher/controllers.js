@@ -10,10 +10,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('addressCtrl', addressCtrl);
-
-angular
-    .module('teacherApp')
     .controller('contentManagerCtrl', contentManagerCtrl);
 
 angular
@@ -196,8 +192,8 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     $scope.getUsersNotTeacher = function(value){
         return typeAhead.getData(usersNotTeacherTypeaheadUrl,{query : value});
     };
-    $scope.getUsersForRole = function(role, value){
-        return typeAhead.getData(usersForRoleTypeaheadUrl,{role:role, query : value});
+    $scope.getUsersForRole = function(role, value, organization){
+        return typeAhead.getData(usersForRoleTypeaheadUrl,{role:role, query : value, organization:organization});
     };
     $scope.getTrainers = function(value){
         return typeAhead.getData(trainersTypeaheadUrl,{query : value});
@@ -454,91 +450,6 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
 
     $scope.collapse = function (el) {
         $jq(el).toggle("medium");
-    }
-}
-
-function addressCtrl($scope, $http, $resource, NgTableParams, $state) {
-    $scope.countriesTable = new NgTableParams({},
-    {
-        getData: function (params) {
-            return $resource(basePath + "/_teacher/_admin/address/getCountriesList").get(params.url()).$promise.then(function (data) {
-                params.total(data.count);
-                return data.rows;
-            });
-        }
-    });
-
-    $scope.citiesTable = new NgTableParams({},
-        {
-            getData: function (params) {
-                return $resource(basePath + "/_teacher/_admin/address/getCitiesList").get(params.url()).$promise.then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
-                });
-            }
-        }
-    );
-
-    $scope.editCity = function (url) {
-        country = $jq('#country').val();
-        if (country == 0) {
-            bootbox.alert('Виберіть країну.');
-        } else {
-            id = $jq('[name="id"]').val();
-            titleUa = $jq('[name="titleUa"]').val();
-            titleRu = $jq('[name="titleRu"]').val();
-            titleEn = $jq('[name="titleEn"]').val();
-
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({
-                    id: id,
-                    country: country,
-                    titleUa: titleUa,
-                    titleRu: titleRu,
-                    titleEn: titleEn
-                }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go("admin/address", {}, {reload: true});
-                });
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
-    };
-
-    $scope.addCity = function (url) {
-        country = $jq('#country').val();
-        if (country == 0) {
-            bootbox.alert('Виберіть країну.');
-        } else {
-            titleUa = $jq('[name="titleUa"]').val();
-            titleRu = $jq('[name="titleRu"]').val();
-            titleEn = $jq('[name="titleEn"]').val();
-
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({
-                    country: country,
-                    titleUa: titleUa,
-                    titleRu: titleRu,
-                    titleEn: titleEn
-                }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go("admin/address", {}, {reload: true});
-                });
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
     }
 }
 

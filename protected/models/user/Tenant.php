@@ -88,7 +88,7 @@ class Tenant extends Role
         } else return false;
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user)
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
         return true;
     }
@@ -98,7 +98,7 @@ class Tenant extends Role
         return false;
     }
 
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "u.id, secondName, firstName, middleName, email, avatar";

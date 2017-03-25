@@ -9,7 +9,7 @@
 <div ng-controller="moduleManageCtrl">
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary" ui-sref="director.modules">
+            <button type="button" class="btn btn-primary" ui-sref="modules">
                 Список модулів
             </button>
         </li>

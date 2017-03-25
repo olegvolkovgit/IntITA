@@ -21,9 +21,6 @@
             <a href="#/accountant/representative">Представники</a>
         </li>
         <li>
-            <a href="#/accountant/template">Шаблони, оферта</a>
-        </li>
-        <li>
             <a href="#/accountant/externalsources">Зовнішні джерела коштів</a>
         </li>
         <li>

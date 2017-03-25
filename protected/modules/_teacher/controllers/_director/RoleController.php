@@ -16,16 +16,22 @@ class RoleController extends TeacherCabinetController
         $title=mb_strtolower(Role::getGlobalInstance($role)->title());
         $this->renderPartial('/_director/_addRole', array('role'=>$role,'title'=>$title), false, true);
     }
-    
-    public function actionAssignGlobalRole($userId, $role){
+
+    public function actionRenderAddAdminForm()
+    {
+        $title=mb_strtolower(Role::getInstance('admin')->title());
+        $this->renderPartial('/_director/_addAdmin', array('role'=>'admin','title'=>$title), false, true);
+    }
+
+    public function actionAssignRole($userId, $role, $organizationId=null){
         $result=array();
         $user = RegisteredUser::userById($userId);
         $roleObj = Role::getInstance($role);
-
-        if ($user->hasRole($role)) {
+        $organization= $organizationId?Organization::model()->findByPk($organizationId):null;
+        if ($user->hasRole($role, $organization)) {
             $result['data']="Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
         }else{
-            if ($user->setRole($role)) 
+            if ($user->setRole($role, $organization))
                 $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$roleObj->title();
             else $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$roleObj->title().". 
             Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
@@ -34,12 +40,13 @@ class RoleController extends TeacherCabinetController
         echo json_encode($result);
     }
 
-    public function actionCancelGlobalRole($userId, $role)
+    public function actionCancelRole($userId, $role, $organizationId=null)
     {
         $result=array();
 
         $model = RegisteredUser::userById($userId);
-        $response=$model->cancelRoleMessage(new UserRoles($role));
+        $organization= $organizationId?Organization::model()->findByPk($organizationId):null;
+        $response=$model->cancelRoleMessage(new UserRoles($role), $organization);
         if($response===true){
             $result['data']="success";
         } else {
@@ -48,8 +55,7 @@ class RoleController extends TeacherCabinetController
 
         echo json_encode($result);
     }
-
-
+    
     public function actionAddAdmin()
     {
         $userId = Yii::app()->request->getPost('userId');

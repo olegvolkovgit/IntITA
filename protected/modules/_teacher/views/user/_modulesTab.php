@@ -16,7 +16,7 @@
                         </a>
                         <input type="number" hidden="hidden" id="moduleId" ng-value="{{module.id}}"/>
                         <?php if(Yii::app()->user->model->isAdmin()){?>
-                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/agreement/module/{{module.id}}">
+                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/users/profile/{{data.user.id}}/agreement/module/{{module.id}}">
                                 <em>договір</em>
                             </a>
                         <?php } ?>

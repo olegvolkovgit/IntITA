@@ -151,15 +151,16 @@ class Author extends Role
         }
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user){
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null){
         return true;
     }
 
     /**
      * @param $query string - query from typeahead
+     * @param $organization - query from typeahead
      * @return string - json for typeahead field in user manage page (cabinet, add)
      */
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";

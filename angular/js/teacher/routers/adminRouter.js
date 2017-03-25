@@ -13,54 +13,6 @@ config(function ($stateProvider) {
             },
             templateUrl: basePath+"/_teacher/_admin/admin/index",
         })
-        .state('admin/carousel', {
-            url: "/admin/carousel",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/carousel/index",
-        })
-        .state('admin/carousel/view/id/:id', {
-            url: "/admin/carousel/view/id/:id",
-            cache: false,
-            controller:"mainSliderTableCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/carousel/view/?id="+$stateParams.id;
-            }
-        })
-        .state('admin/carousel/update/id/:id', {
-            url: "/admin/carousel/update/id/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/carousel/update/?id="+$stateParams.id;
-            }
-        })
-        .state('admin/aboutusSlider', {
-            url: "/admin/aboutusSlider",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/aboutusSlider/index",
-        })
-        .state('admin/aboutusSlider/view/id/:id', {
-            url: "/admin/aboutusSlider/view/id/:id",
-            cache: false,
-            controller:"aboutUsSliderTableCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/aboutusSlider/view/?id="+$stateParams.id;
-            }
-        })
-        .state('admin/aboutusSlider/update/id/:id', {
-            url: "/admin/aboutusSlider/update/id/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/aboutusSlider/update/?id="+$stateParams.id;
-            }
-        })
-        .state('admin/address', {
-            url: "/admin/address",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Адреса (країни, міста)');
-            },
-            templateUrl: basePath+"/_teacher/_admin/address/index",
-        })
         .state('admin/verifycontent', {
             url: "/admin/verifycontent",
             cache: false,
@@ -132,13 +84,6 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/users/renderAddRoleForm/role/"+$stateParams.role;
             }
         })
-        .state('admin/users/user/:id', {
-            url: "/admin/users/user/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/user/index?id="+$stateParams.id;
-            }
-        })
         .state('admin/users/user/:id/addtrainer', {
             url: "/admin/users/user/:id/addtrainer",
             cache: false,
@@ -183,35 +128,6 @@ config(function ($stateProvider) {
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/teachers/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
             }
-        })
-        .state('admin/addmainsliderphoto', {
-            url: "/admin/addmainsliderphoto",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/carousel/create",
-        })
-        .state('admin/addaboutussliderphoto', {
-            url: "/admin/addaboutussliderphoto",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/aboutusSlider/create",
-        })
-        .state('admin/addcity', {
-            url: "/admin/addcity",
-            cache: false,
-            controller:"addressCtrl",
-            templateUrl: basePath+"/_teacher/_admin/address/addCity",
-        })
-        .state('admin/editcity/:id', {
-            url: "/admin/editcity/:id",
-            cache: false,
-            controller:"addressCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_admin/address/editCity/id/"+$stateParams.id;
-            }
-        })
-        .state('admin/addcountry', {
-            url: "/admin/addcountry",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/address/addCountry",
         })
         .state('lecture/:action/:id', {
             url: "/lecture/:action/:id",
@@ -259,14 +175,6 @@ config(function ($stateProvider) {
             cache: false,
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/coursemanage/schema/idCourse/"+$stateParams.id;
-            }
-        })
-        .state('config/view/:id', {
-            url: "/config/view/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-
-                return basePath + "/_teacher/_admin/config/view/id/" + $stateParams.id;
             }
         })
         .state('addLinkedCourse/:course/:lang', {

@@ -19,7 +19,7 @@
                     <a ng-href="#/users/profile/{{row.id_user}}">{{row.user.fullName}}</a>
                 </td>
                 <td data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
-                    <a ng-href="#/admin/users/user/{{row.trainerData.id}}">{{row.trainerData.fullName}} {{row.trainerData.email}}</a>
+                    <a ng-href="#/users/profile/{{row.trainerData.id}}">{{row.trainerData.fullName}} {{row.trainerData.email}}</a>
                 </td>
                 <td data-title="'Навчальна зміна'" filter="{'user.education_shift': 'select'}" filter-data="shifts">
                     <span ng-if="row.user.education_shift==1">ранкова</span>

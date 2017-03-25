@@ -5,7 +5,7 @@
         </a>
     </li>
     <li>
-        <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">
+        <a type="button" class="btn btn-primary" ng-href="#/users/profile/{{data.user.id}}">
             Переглянути інформацію про користувача
         </a>
     </li>

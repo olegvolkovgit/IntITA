@@ -4,7 +4,7 @@ angular
     .factory('roleService', ['$resource',
         function ($resource) { 
             var localUrl = basePath+'/_teacher/_admin/role';
-            var globalUrl = basePath+'/_teacher/_director/role';
+            var directorUrl = basePath+'/_teacher/_director/role';
             return $resource(
                 '',
                 {},
@@ -17,12 +17,12 @@ angular
                         url: localUrl + '/cancelLocalRole',
                         method: 'GET',
                     },
-                    assignGlobalRole: {
-                        url: globalUrl + '/assignGlobalRole',
+                    assignRoleByDirector: {
+                        url: directorUrl+'/assignRole',
                         method: 'GET',
                     },
-                    cancelGlobalRole: {
-                        url: globalUrl + '/cancelGlobalRole',
+                    cancelRoleByDirector: {
+                        url: directorUrl+'/cancelRole',
                         method: 'GET',
                     },
                 });

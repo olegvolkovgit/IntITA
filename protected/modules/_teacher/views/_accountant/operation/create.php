@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-md-1">
                                 <a class="btn btn-default no-blur"
-                                   ng-href="#/admin/users/user/{{operation.userId}}"
+                                   ng-href="#/users/profile/{{operation.userId}}"
                                    target="_blank"
                                    ng-class="{disabled:!operation.userId}">
                                     <i class="glyphicon glyphicon-eye-open"></i>

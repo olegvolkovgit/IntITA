@@ -6,7 +6,7 @@ class UsersController extends TeacherCabinetController
     {
         $allowedDenySetActions = ['addAdmin', 'createAccountant', 'addTrainer', 'setTrainer', 'removeTrainer'];
         $action = Yii::app()->controller->action->id;
-        return (Yii::app()->user->model->isDirector() && !in_array($action, $allowedDenySetActions)) ||
+        return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && !in_array($action, $allowedDenySetActions)) ||
         Yii::app()->user->model->isAdmin() ||
         (Yii::app()->user->model->isContentManager()) ||
         (Yii::app()->user->model->isSuperVisor());

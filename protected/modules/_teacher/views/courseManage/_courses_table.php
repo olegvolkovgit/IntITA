@@ -16,11 +16,15 @@
                     <td data-title="'Псевдонім'" sortable="'alias'" filter="{alias: 'text'}">{{row.alias}}</td>
                     <td data-title="'Мова'" filter="{language: 'select'}" filter-data="languages">{{row.language}}</td>
                     <td data-title="'Назва'" sortable="'title_ua'" filter="{title_ua: 'text'}">
-                        <a ui-sref="director.courses.course({id:row.course_ID})">{{row.title_ua}}</a>
+                        <a ui-sref="courses.course({id:row.course_ID})">{{row.title_ua}}</a>
                     </td>
-                    <td data-title="'Статус'" filter="{status: 'select'}" filter-data="statuses">
-                        <span ng-if="row.status">готовий</span>
-                        <span ng-if="!row.status">в розробці</span>
+                    <td data-title="'Онлайн-статус'" filter="{status_online: 'select'}" filter-data="statuses">
+                        <span ng-if="row.status_online">готовий</span>
+                        <span ng-if="!row.status_online">в розробці</span>
+                    </td>
+                    <td data-title="'Офлайн-статус'" filter="{status_offline: 'select'}" filter-data="statuses">
+                        <span ng-if="row.status_offline">готовий</span>
+                        <span ng-if="!row.status_offline">в розробці</span>
                     </td>
                     <td data-title="'Видалений'" filter="{cancelled: 'select'}" filter-data="cancelled">
                         <span ng-if="row.cancelled">видалений</span>

@@ -98,7 +98,7 @@ $user = $model->registrationData;
                                 {{data.trainer.firstName}} {{data.trainer.secondName}}({{data.trainer.email}})
                             </a>
                             <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
-                            <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/addtrainer">
+                            <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/users/profile/{{data.user.id}}/addtrainer">
                                 <span ng-if="data.trainer">змінити</span>
                                 <span ng-if="!data.trainer">додати</span>
                             </a>
@@ -117,17 +117,17 @@ $user = $model->registrationData;
                     <?php } ?>
                 </li>
                 <li class="list-group-item">Акаунт(активований/не активований): <em>{{data.user.status==1 ? "активований" : "не активований"}}</em>
-                    <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                    <?php if (Yii::app()->user->model->isSuperAdmin()) { ?>
                         <button type="button" class="btn btn-outline btn-primary btn-xs"
                                 ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
                                     data.user.id,
-                                    data.user.status==1?'Заблокувати акаунт користувача?':'Активувати акаунт користувача?');">
+                                    data.user.status==1?'Деактивувати акаунт користувача?':'Активувати акаунт користувача?');">
                             змінити
                         </button>
                     <?php } ?>
                 </li>
                 <li class="list-group-item">Статус(активний/заблокований): <em>{{data.user.cancelled==0 ? "активний" : "заблокований"}}</em>
-                    <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                    <?php if (Yii::app()->user->model->isSuperAdmin()) { ?>
                         <button type="button" class="btn  btn-outline btn-primary btn-xs"
                                 ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',
                                     data.user.id,
