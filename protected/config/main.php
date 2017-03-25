@@ -122,6 +122,7 @@ return array(
                 'aboutus/<id:\d+>' => 'aboutus/index',
                 'invoice/<id:\d+>' => 'payments/invoice',
                 'cabinet' => '_teacher/cabinet/index',
+                'cabinet/<organizationId:\d+>' => '_teacher/cabinet/index',
                 'cabinet/mail' => '_teacher/cabinet/mail',
                 'profile/edit' => 'studentreg/edit',
                 'agreement/<id:\d+>' => 'payments/showAgreement',

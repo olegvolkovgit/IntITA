@@ -9,7 +9,7 @@ class ExternalSourcesController extends TeacherCabinetController
     /**
      * Manages all models.
      */
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
         $sources = ExternalSources::model()->findAll();
 

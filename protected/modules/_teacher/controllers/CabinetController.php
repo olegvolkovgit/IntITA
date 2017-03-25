@@ -7,7 +7,7 @@ class CabinetController extends TeacherCabinetController
         return !Yii::app()->user->isGuest;
     }
 
-    public function actionIndex($scenario = "dashboard", $receiver = 0, $course = 0, $module = 0)
+    public function actionIndex($organizationId = 0, $scenario = "dashboard", $receiver = 0, $course = 0, $module = 0)
     {
         $model = Yii::app()->user->model;
         if ($course != 0 || $module != 0) {

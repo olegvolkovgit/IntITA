@@ -6,8 +6,7 @@ class OrganizationController extends TeacherCabinetController
     {
         return Yii::app()->user->model->isDirector();
     }
-    public function actionIndex()
-    {
+    public function actionIndex($id=0) {
         $this->renderPartial('/_director/organization/index', array(), false, true);
     }
 
