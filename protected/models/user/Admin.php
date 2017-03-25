@@ -19,7 +19,7 @@ class Admin extends Role
 	 */
 	public function checkRoleSql($organization=null){
 		$condition=$organization?' and a.id_organization='.$organization->id:'';
-		return 'select "admin" from user_admin a where a.id_user = :id and end_date IS NULL'.$condition;
+		return 'select "admin" from user_admin a where a.id_user = :id and a.end_date IS NULL'.$condition;
 	}
 
 	/**
