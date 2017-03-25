@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .factory('siteConfig', ['$resource',
         function ($resource) {
-            var url = basePath+'/_teacher/_admin/config/getconfiglist';
+            var url = basePath+'/_teacher/_super_admin/config/getconfiglist';
             return $resource(
                 '',
                 {},

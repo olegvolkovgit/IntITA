@@ -27,7 +27,7 @@ function modulesTableCtrl($scope, NgTableParams, $resource) {
   $scope.cancelled = [{id: '0', title: 'доступний'}, {id: '1', title: 'видалений'}];
   $scope.lang = [{id: 'ua', title: 'ua'}, {id: 'ru', title: 'ru'}, {id: 'en', title: 'en'}];
 
-  $scope.levels = $resource(basePath + '/_teacher/_admin/level/getlevelslist').get()
+  $scope.levels = $resource(basePath + '/_teacher/_super_admin/level/getlevelslist').get()
     .$promise.then(function (data) {
       var levels = [];
       data.rows.forEach(function (element) {

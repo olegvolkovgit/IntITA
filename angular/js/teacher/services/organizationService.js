@@ -27,5 +27,9 @@ angular
                         url: url + '/updateOrganization',
                         transformRequest : transformRequest.bind(null)
                     },
+                    organizationData: {
+                        method: 'GET',
+                        url: url + '/getOrganization',
+                    },
                 });
         }])

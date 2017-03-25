@@ -1,6 +1,6 @@
 <br>
 <?php if (Yii::app()->user->model->canSetGlobalRole()) { ?>
-    <a type="button" class="btn btn-primary" ng-href="#/director/addrole/admin">
+    <a type="button" class="btn btn-primary" ng-href="#/director/addAdmin">
         Призначити адміністратора
     </a>
 <?php } ?>
@@ -40,8 +40,8 @@
                         <a class="btnChat" href="<?php echo Config::getChatPath(); ?>{{row.id_user}}" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
                             <i class="fa fa-weixin fa-fw"></i>
                         </a>
-                        <?php if (Yii::app()->user->model->isDirector()) { ?>
-                            <a ng-if="!row.end_date" ng-click="cancelRole(row.id_user,'admin')" title="Скасувати">
+                        <?php if (Yii::app()->user->model->canSetGlobalRole()) { ?>
+                            <a ng-if="!row.end_date" ng-click="cancelRoleByDirector(row.id_user,'admin',row.organization.id)" title="Скасувати">
                                 <i class="fa fa-trash fa-fw"></i>
                             </a>
                         <?php } ?>

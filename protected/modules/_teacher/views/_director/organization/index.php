@@ -9,10 +9,14 @@
             <form autocomplete="off">
                 <table ng-table="organizationsTableParams" class="table table-bordered table-striped table-condensed">
                     <colgroup>
+                        <col width="5%"/>
                         <col/>
                         <col width="5%"/>
                     </colgroup>
                     <tr ng-repeat="row in $data track by row.id">
+                        <td data-title="'Id'">
+                            {{row.id}}
+                        </td>
                         <td data-title="'Назва'" sortable="'name'" filter="{'name': 'text'}" >
                             {{row.name}}
                         </td>

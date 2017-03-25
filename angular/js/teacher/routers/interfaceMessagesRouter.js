@@ -1,9 +1,11 @@
 /**
  * Created by adm on 13.08.2016.
  */
+var url=basePath+"/_teacher/_super_admin";
+
 angular
-    .module('interfaceMessagesRouter',['ui.router']).
-config(function ($stateProvider) {
+    .module('interfaceMessagesRouter',['ui.router'])
+    .config(function ($stateProvider) {
     $stateProvider
         .state('interfacemessages', {
             url: "/interfacemessages",
@@ -11,25 +13,31 @@ config(function ($stateProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Інтерфейсні повідомлення');
             },
-            templateUrl: basePath+"/_teacher/_admin/translate/index",
+            templateUrl: url+"/translate/index",
         })
         .state('interfacemessages/view/:id', {
             url: "/interfacemessages/view/:id",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Інтерфейсні повідомлення');
+            },
             templateUrl: function($stateParams){
-                return basePath+'/_teacher/_admin/translate/view/id/'+$stateParams.id
+                return url+'/translate/view/id/'+$stateParams.id
             },
         })
         .state('interfacemessages/create', {
             url: "/interfacemessages/create",
             cache: false,
-            templateUrl: basePath+"/_teacher/_admin/translate/create",
+            templateUrl: url+"/translate/create",
         })
         .state('interfacemessages/edit/:id', {
             url: "/interfacemessages/edit/:id",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Інтерфейсні повідомлення');
+            },
             templateUrl: function($stateParams){
-                return basePath+'/_teacher/_admin/translate/update/id/'+$stateParams.id
+                return url+"/translate/update/id/"+$stateParams.id
             },
         })
 });

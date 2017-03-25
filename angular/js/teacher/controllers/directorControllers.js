@@ -63,17 +63,20 @@ function organizationTableCtrl ($scope, organizationService, NgTableParams){
     });
 }
 
-function organizationCtrl ($scope, organizationService){
+function organizationCtrl ($scope, organizationService, $state, $stateParams){
     $scope.changePageHeader('Організація');
 
-    // $scope.loadGroupData=function(){
-    //     organizationService.organizationData({'id':$stateParams.id}).$promise
-    //         .then(function successCallback(response) {
-    //             $scope.organization=response;
-    //         }, function errorCallback() {
-    //             bootbox.alert("Отримати дані групи не вдалося");
-    //         });
-    // };
+    $scope.loadOrganizationData=function(){
+        var promise = organizationService.organizationData({'id':$stateParams.id}).$promise.then(
+            function successCallback(response) {
+                return response.data;
+            }, function errorCallback() {
+                bootbox.alert("Отримати дані організації не вдалося");
+            });
+        return promise;
+    };
+    if($stateParams.id)  $scope.loadOrganizationData().then(function (data) {$scope.organization=data});
+
     $scope.sendFormOrganization= function (scenario) {
         if(scenario=='new') $scope.createOrganization();
         else $scope.updateOrganization();
@@ -82,7 +85,7 @@ function organizationCtrl ($scope, organizationService){
         organizationService.create($scope.organization).$promise.then(function (data) {
             if (data.message === 'OK') {
                 bootbox.alert('Організацію успішно створено',function () {
-                    $state.reload();
+                    $state.go("organizations", {}, {reload: true});
                 });
             } else {
                 bootbox.alert('Під час створення організації виникла помилка');

@@ -17,7 +17,7 @@
                     <td data-title="'Псевдонім'" sortable="'alias'" filter="{alias: 'text'}">{{row.alias}}</td>
                     <td data-title="'Мова'" sortable="'language'" filter="{language: 'select'}" filter-data="lang">{{row.language}}</td>
                     <td data-title="'Назва'" sortable="'title_ua'" filter="{title_ua: 'text'}">
-                        <a ui-sref="director.modules.module({moduleId:row.module_ID})">{{row.title_ua}}</a>
+                        <a ui-sref="modules.module({moduleId:row.module_ID})">{{row.title_ua}}</a>
                     </td>
                     <td data-title="'Статус'" filter="{status: 'select'}" filter-data="statuses"><span ng-if="row.status">готовий</span>
                         <span ng-if="!row.status">в розробці</span>

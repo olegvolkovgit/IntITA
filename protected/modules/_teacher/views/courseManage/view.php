@@ -9,7 +9,7 @@
     <div class="row">
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary" ui-sref="director.courses">
+                <button type="button" class="btn btn-primary" ui-sref="courses">
                     <?php echo Yii::t("coursemanage", "0510"); ?>
                 </button>
             </li>

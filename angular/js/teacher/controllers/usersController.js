@@ -148,7 +148,7 @@ function withoutRolesTableCtrl ($scope, usersService, NgTableParams){
         }
     });
 }
-function adminsTableCtrl ($http, $scope, usersService, NgTableParams, roleService){
+function adminsTableCtrl ($scope, usersService, NgTableParams, roleService){
     $scope.adminsTableParams = new NgTableParams({}, {
         getData: function (params) {
             return usersService
@@ -161,24 +161,12 @@ function adminsTableCtrl ($http, $scope, usersService, NgTableParams, roleServic
         }
     });
 
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelRoleByDirector = function (user, role, organization) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.adminsTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelRoleByDirector({'userId': user, 'role': role, 'organizationId':organization}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.adminsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     }
 }
@@ -194,25 +182,12 @@ function accountantsTableCtrl ($scope, usersService, NgTableParams,roleService){
                 });
         }
     });
-
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.accountantsTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.accountantsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
@@ -229,24 +204,12 @@ function contentManagersTableCtrl ($scope, usersService, NgTableParams,roleServi
         }
     });
 
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.contentManagersTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.contentManagersTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
@@ -263,24 +226,12 @@ function teacherConsultantsTableCtrl ($scope, usersService, NgTableParams,roleSe
         }
     });
 
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.teacherConsultantsTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.teacherConsultantsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
@@ -297,24 +248,12 @@ function tenantsTableCtrl ($scope, usersService, NgTableParams,roleService){
         }
     });
 
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.tenantsTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.tenantsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
@@ -332,24 +271,12 @@ function trainersTableCtrl ($scope, usersService, NgTableParams,roleService){
         }
     });
 
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.tenantsTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.tenantsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
@@ -367,24 +294,12 @@ function superVisorsTableCtrl ($scope, usersService, NgTableParams, roleService)
         }
     });
 
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.superVisorsTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.superVisorsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
@@ -402,24 +317,12 @@ function authorsTableCtrl ($scope, usersService, NgTableParams, roleService){
         }
     });
 
-    $scope.cancelRole = function (user, role) {
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.authorsTableParams.reload();
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.authorsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
@@ -511,25 +414,13 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
                 });
         }
     };
-    
-    $scope.cancelRole = function (user, role) {
+
+    $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
-            if (result) {
-                roleService
-                    .cancelRole({
-                        'userId': user,
-                        'role': role,
-                    })
-                    .$promise
-                    .then(function successCallback(response) {
-                        if(response.data=='success')
-                            $scope.loadUserData($scope.userId);
-                        else bootbox.alert(response.data);
-                    }, function errorCallback(response) {
-                        console.log(response);
-                        bootbox.alert("Операцію не вдалося виконати");
-                    });
-            }
+            if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.loadUserData($scope.userId);
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 
@@ -873,7 +764,7 @@ function emailCategoryCtrl ($http, $scope,  usersService, $stateParams, $state) 
     };
 };
 
-function directorsTableCtrl ($scope, usersService, NgTableParams){
+function directorsTableCtrl ($scope, usersService, NgTableParams, roleService){
     $scope.directorsTableParams = new NgTableParams({}, {
         getData: function (params) {
             return usersService
@@ -885,9 +776,18 @@ function directorsTableCtrl ($scope, usersService, NgTableParams){
                 });
         }
     });
+
+    $scope.cancelRoleByDirector = function (user, role) {
+        bootbox.confirm('Скасувати роль?', function (result) {
+            if (result) {roleService.cancelRoleByDirector({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.directorsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
+        });
+    }
 }
 
-function auditorsTableCtrl ($scope, usersService, NgTableParams){
+function auditorsTableCtrl ($scope, usersService, NgTableParams, roleService){
     $scope.auditorsTableParams = new NgTableParams({}, {
         getData: function (params) {
             return usersService
@@ -899,9 +799,18 @@ function auditorsTableCtrl ($scope, usersService, NgTableParams){
                 });
         }
     });
+
+    $scope.cancelRoleByDirector = function (user, role) {
+        bootbox.confirm('Скасувати роль?', function (result) {
+            if (result) {roleService.cancelRoleByDirector({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.auditorsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
+        });
+    }
 }
 
-function superAdminsTableCtrl ($scope, usersService, NgTableParams){
+function superAdminsTableCtrl ($scope, usersService, NgTableParams, roleService){
     $scope.superAdminsTableParams = new NgTableParams({}, {
         getData: function (params) {
             return usersService
@@ -913,4 +822,13 @@ function superAdminsTableCtrl ($scope, usersService, NgTableParams){
                 });
         }
     });
+
+    $scope.cancelRoleByDirector = function (user, role) {
+        bootbox.confirm('Скасувати роль?', function (result) {
+            if (result) {roleService.cancelRoleByDirector({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
+                if(response.data=='success') $scope.superAdminsTableParams.reload();
+                else bootbox.alert(response.data);
+            }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
+        });
+    }
 }

@@ -30,8 +30,12 @@
                 <td><?= $model->level(); ?></td>
             </tr>
             <tr>
-                <td>Статус:</td>
-                <td><?= $model->statusLabel(); ?></td>
+                <td>Онлайн-статус:</td>
+                <td><?= $model->onlineStatusLabel(); ?></td>
+            </tr>
+            <tr>
+                <td>Офлайн-статус:</td>
+                <td><?= $model->offlineStatusLabel(); ?></td>
             </tr>
             <tr>
                 <td>Видалений:</td>

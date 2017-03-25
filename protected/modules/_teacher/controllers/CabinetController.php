@@ -271,11 +271,12 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
-    public function actionUsersAddForm($role, $query)
+    public function actionUsersAddForm($role, $query, $organization=null)
     {
         $roleModel = Role::getInstance(new UserRoles($role));
+  
         if ($query && $roleModel) {
-            echo $roleModel->addRoleFormList($query);
+            echo $roleModel->addRoleFormList($query, $organization);
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }

@@ -7,6 +7,9 @@ class AllRolesDataSource implements IRolesDataSource
      */
     public static function roles(){
         return array(
+            UserRoles::DIRECTOR,
+            UserRoles::SUPER_ADMIN,
+            UserRoles::AUDITOR,
             UserRoles::ADMIN,
             UserRoles::ACCOUNTANT,
             UserRoles::AUTHOR,
@@ -16,9 +19,6 @@ class AllRolesDataSource implements IRolesDataSource
             UserRoles::STUDENT,
             UserRoles::TENANT,
             UserRoles::SUPERVISOR,
-            UserRoles::SUPER_ADMIN,
-            UserRoles::AUDITOR,
-            UserRoles::DIRECTOR,
         );
     }
 }

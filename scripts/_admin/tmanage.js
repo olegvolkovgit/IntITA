@@ -89,50 +89,6 @@ function showDialog(str) {
     $jq('#myModal').modal('show');
 }
 
-function saveSliderTextPosition(url,id) {
-    bootbox.confirm('Зберегти позицію тексту?', function (result) {
-        if (result) {
-            var text = document.getElementById('textPosition');
-            var sliderBox=document.getElementById('sliderContainer');
-            var left=(text.offsetLeft+text.offsetWidth/2)/sliderBox.offsetWidth*100;
-            var top=text.offsetTop/sliderBox.offsetHeight*100;
-            if(sliderColorPreview())
-            var color=sliderColorPreview();
-            else return;
-
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                data: {
-                    'id': id,
-                    'left': left,
-                    'top': top,
-                    'color': color
-                },
-                async: true,
-                success: function (response) {
-                    bootbox.alert("Позицію тексту збережено", function () {
-                    });
-                },
-                error: function () {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        }
-    });
-}
-function sliderColorPreview(){
-    var text = document.getElementById('textPosition');
-    var color=document.getElementById('textColor').value;
-    var regHEX = /^#(?:[0-9a-f]{3}){1,2}$/i;
-    if (!regHEX.test(color)) {
-        bootbox.alert('Заданий колір не відповідає HEX формату');
-        return false;
-    }else{
-        text.style.color=color;
-        return color;
-    }
-}
 function moduleValidation(data,hasError) {
     if(hasError) {
         if(data['Module_title_ua'] !== undefined)

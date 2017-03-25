@@ -218,7 +218,7 @@ class Trainer extends Role
         return json_encode($result);
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user)
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
         if (Yii::app()->db->createCommand('select count(student) from trainer_student where trainer=' . $user->id .
                 ' and end_time IS NULL')->queryScalar() > 0
@@ -228,7 +228,7 @@ class Trainer extends Role
         } else return true;
     }
 
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";

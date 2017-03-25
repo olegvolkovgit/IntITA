@@ -5,8 +5,19 @@
 angular.module('teacherApp')
     .controller('roleCtrl',roleCtrl)
 
-function roleCtrl ($scope, roleService){
+function roleCtrl ($scope, roleService, organizationService){
     $scope.changePageHeader('Призначити роль');
+
+    $scope.loadOrganizationsList=function(){
+        var promise = organizationService.organizationsList().$promise.then(
+            function successCallback(response) {
+                $scope.organizations=response.rows;
+            }, function errorCallback() {
+                bootbox.alert("Отримати список організацій не вдалося");
+            });
+        return promise;
+    };
+    $scope.loadOrganizationsList().then(function (data) {$scope.organization=data});
 
     $scope.onSelectUser = function ($item) {
         $scope.selectedUser = $item;
@@ -19,7 +30,7 @@ function roleCtrl ($scope, roleService){
         $scope.selectedUser=null;
     };
 
-    $scope.assignLocalRole = function (user, role) {
+    $scope.assignLocalRole = function (user, role, organization) {
         if (!user) {
             bootbox.alert('Виберіть користувача.');
         } else {
@@ -27,6 +38,7 @@ function roleCtrl ($scope, roleService){
                 .assignLocalRole({
                     'userId': user,
                     'role': role,
+                    'organizationId': organization,
                 })
                 .$promise
                 .then(function successCallback(response) {
@@ -39,14 +51,15 @@ function roleCtrl ($scope, roleService){
         }
     }
 
-    $scope.assignGlobalRole = function (user, role) {
+    $scope.assignRoleByDirector = function (user, role, organization) {
         if (!user) {
             bootbox.alert('Виберіть користувача.');
         } else {
             roleService
-                .assignGlobalRole({
+                .assignRoleByDirector({
                     'userId': user,
                     'role': role,
+                    'organizationId': organization,
                 })
                 .$promise
                 .then(function successCallback(response) {

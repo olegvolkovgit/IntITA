@@ -11,7 +11,7 @@
         <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>
     </li>
     <li>
-        <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">Переглянути інформацію даного користувача</a>
+        <a type="button" class="btn btn-primary" ng-href="#/users/profile/{{data.user.id}}">Переглянути інформацію даного користувача</a>
     </li>
 </ul>
 <div ng-cloak class="panel panel-default">

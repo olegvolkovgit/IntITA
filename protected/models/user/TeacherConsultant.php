@@ -94,7 +94,7 @@ class TeacherConsultant extends Role
         return $records;
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user)
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
         return true;
     }
@@ -132,7 +132,7 @@ class TeacherConsultant extends Role
         }
     }
 
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";

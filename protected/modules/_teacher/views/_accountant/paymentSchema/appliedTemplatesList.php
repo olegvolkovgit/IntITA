@@ -72,10 +72,10 @@
                                 <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name_ua}}</a>
                             </td>
                             <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                                <a ng-href="#/admin/users/user/{{row.userId}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
+                                <a ng-href=#/users/profile/{{row.userId}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
                             </td>
                             <td data-title="'Email'" sortable="'user.email'" filter="{'user.email': 'text'}">
-                                <a ng-href="#/admin/users/user/{{row.userId}}">{{row.user.email}}</a>
+                                <a ng-href="#/users/profile/{{row.userId}}">{{row.user.email}}</a>
                             </td>
                             <td data-title="'Сервіс'" filter="{'service.description': 'text'}" sortable="'service.description'">
                                 {{row.service.description}}

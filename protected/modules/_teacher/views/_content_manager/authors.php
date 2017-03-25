@@ -24,10 +24,10 @@
                             <table ng-table="authorsTableParams" class="table table-bordered table-striped table-condensed">
                                 <tr ng-repeat="row in $data track by $index">
                                     <td data-title="'ПІБ'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                                        <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
+                                        <a ng-href="#/users/profile/{{row.id_user}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
                                     </td>
                                     <td data-title="'Email'" sortable="'user.email'" filter="{'user.email': 'text'}">
-                                        <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.user.email}}</a>
+                                        <a ng-href="#/users/profile/{{row.id_user}}">{{row.user.email}}</a>
                                     </td>
                                     <td data-title="'Призначено'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
                                     <td data-title="'Профіль'"><a ng-href="/profile/{{row.id_user}}" target="_blank">Профіль</a></td>
