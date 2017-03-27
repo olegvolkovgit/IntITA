@@ -21,4 +21,17 @@ class AllRolesDataSource implements IRolesDataSource
             UserRoles::SUPERVISOR,
         );
     }
+
+    public static function localRoles(){
+        return array(
+            UserRoles::ADMIN,
+            UserRoles::ACCOUNTANT,
+            UserRoles::AUTHOR,
+            UserRoles::CONTENT_MANAGER,
+            UserRoles::TEACHER_CONSULTANT,
+            UserRoles::TRAINER,
+            UserRoles::TENANT,
+            UserRoles::SUPERVISOR,
+        );
+    }
 }
