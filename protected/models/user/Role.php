@@ -127,4 +127,13 @@ abstract class Role
     public function notifyCancelRole(StudentReg $user, Organization $organization=null){
         $user->notify('_cancelRole', array($this->title(), $organization), 'Скасовано роль');
     }
+
+    public function getOrganizations()
+    {
+        return Yii::app()->db->createCommand()
+            ->selectDistinct('id_organization')
+            ->from($this->tableName())
+            ->where('id_user=:id and end_date IS NULL', array(':id'=>Yii::app()->user->model->registrationData->id))
+            ->queryAll();
+    }
 }

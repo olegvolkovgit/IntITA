@@ -8,6 +8,7 @@
  * @property integer $student
  * @property string $start_time
  * @property string $end_time
+ * @property integer $id_organization
  *
  * The followings are the available model relations:
  * @property Teacher $trainer0
@@ -31,10 +32,10 @@ class TrainerStudent extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('trainer, student', 'required'),
+			array('trainer, student, id_organization', 'required'),
 			array('trainer, student', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('trainer, student, start_time, end_time', 'safe', 'on'=>'search'),
+			array('trainer, student, start_time, end_time, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,6 +49,7 @@ class TrainerStudent extends CActiveRecord
 		return array(
 			'trainer0' => array(self::BELONGS_TO, 'Teacher', ['trainer'=>'user_id']),
             'trainerStudent' => array(self::HAS_MANY, 'StudentReg','id'),
+			'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
 	}
 
@@ -60,7 +62,8 @@ class TrainerStudent extends CActiveRecord
 			'trainer' => 'Trainer',
 			'student' => 'Student',
             'start_time' => 'Start time',
-            'end_time' => 'End time'
+            'end_time' => 'End time',
+			'id_organization' => 'Id Organization'
 		);
 	}
 
@@ -84,6 +87,7 @@ class TrainerStudent extends CActiveRecord
 		$criteria->compare('student',$this->student);
         $criteria->compare('start_time',$this->start_time);
         $criteria->compare('end_time',$this->end_time);
+		$criteria->compare('id_organization',$this->id_organization);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,9 +105,9 @@ class TrainerStudent extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function primaryKey(){
-        return 'student';
-    }
+	public function primaryKey(){
+		return array('student', 'trainer', 'id_organization','start_time');
+	}
 
     public static function getStudentByTrainer($trainerId)
     {

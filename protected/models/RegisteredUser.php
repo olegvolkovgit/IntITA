@@ -19,6 +19,7 @@ class RegisteredUser
     private $_roles;
     //Teacher model
     private $_teacher;
+    private $_organizations;
     private $_isTeacher = false;
     private $_roleAttributes = array();
 
@@ -397,5 +398,43 @@ class RegisteredUser
     public function canSetGlobalRole()
     {
         return $this->isDirector();
+    }
+
+    public function getOrganizations()
+    {
+        if ($this->_organizations === null) {
+            $resultArray=array();
+            $organizations=array();
+            foreach (AllRolesDataSource::localRoles() as $role){
+                $roleObj = Role::getInstance($role);
+                $roleObj->getOrganizations();
+                $resultArray= array_merge($resultArray, $roleObj->getOrganizations());
+            }
+            foreach ($resultArray as $organization){
+                array_push($organizations,$organization['id_organization']);
+            }
+            $this->_organizations = array_unique($organizations);
+        }
+        return $this->_organizations;
+    }
+
+    public function getOrganizationsModel()
+    {
+        $organizations = $this->getOrganizations();
+
+        $criteria = new CDbCriteria();
+        $criteria->distinct = true;
+        $criteria->addInCondition('id', $organizations);
+        return Organization::model()->findAll($criteria);
+    }
+
+    public function hasOrganizationById($id)
+    {
+        return in_array($id, $this->getOrganizations());
+    }
+
+    public function getCurrentOrganization()
+    {
+        return Organization::model()->findByPk(Yii::app()->session['organization']);
     }
 }

@@ -277,4 +277,13 @@ class Tenant extends Role
     {
         return UserTenant::model()->with('user')->findAll($criteria);
     }
+
+    public function getOrganizations()
+    {
+        return Yii::app()->db->createCommand()
+            ->selectDistinct('id_organization')
+            ->from($this->tableName())
+            ->where('chat_user_id=(select id from chat_user where intita_user_id=:id) and end_date IS NULL', array(':id'=>Yii::app()->user->model->registrationData->id))
+            ->queryAll();
+    }
 }
