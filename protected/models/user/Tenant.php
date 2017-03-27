@@ -31,7 +31,7 @@ class Tenant extends Role
         return "Tenant";
     }
 
-    public function setRole(StudentReg $user)
+    public function setRole(StudentReg $user, $organizationId = null)
     {
         if (!$this->isActiveTenant($user)) {
             if (!$this->isChatUserDefined($user)) {
@@ -124,7 +124,7 @@ class Tenant extends Role
         return json_encode($result);
     }
 
-    public function cancelRole(StudentReg $user)
+    public function cancelRole(StudentReg $user, $organizationId = null)
     {
         if (!$this->checkBeforeDeleteRole($user)) {
             return false;

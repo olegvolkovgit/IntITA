@@ -45,7 +45,7 @@ class Auditor extends Role
 		return true;
 	}
 
-	public function setRole(StudentReg $user)
+	public function setRole(StudentReg $user, $organization)
 	{
 		if(Yii::app()->db->createCommand()->
 		insert($this->tableName(), array(
@@ -58,7 +58,7 @@ class Auditor extends Role
 		return false;
 	}
 
-	public function cancelRole(StudentReg $user)
+	public function cancelRole(StudentReg $user, $organization)
 	{
 		if(!$this->checkBeforeDeleteRole($user)){
 			return false;

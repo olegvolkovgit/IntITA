@@ -352,7 +352,7 @@ class TeacherConsultant extends Role
     }
 
     //cancel teacher_consultant role
-    public function cancelRole(StudentReg $user)
+    public function cancelRole(StudentReg $user, $organizationId = null)
     {
         if(!$this->checkBeforeDeleteRole($user)){
             return false;

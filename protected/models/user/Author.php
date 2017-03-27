@@ -203,12 +203,12 @@ class Author extends Role
     }
 
     //not supported for this role
-    public function notifyAssignRole(StudentReg $user){
+    public function notifyAssignRole(StudentReg $user, Organization $organization=null){
         return false;
     }
 
     //cancel author role
-    public function cancelRole(StudentReg $user)
+    public function cancelRole(StudentReg $user, $organization)
     {
         if(!$this->checkBeforeDeleteRole($user)){
             return false;
