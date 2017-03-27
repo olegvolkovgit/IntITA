@@ -3,8 +3,8 @@
 class m170327_135203_add_organization_to_trainer_student extends CDbMigration
 {
 	public function safeUp() {
-		$this->dropIndex('FK_trainer_student_teacher', 'trainer_student');
-		$this->dropForeignKey('FK_trainer_student_user', 'trainer_student');
+        $this->dropForeignKey('FK_trainer_student_user', 'trainer_student');
+        $this->dropIndex('FK_trainer_student_teacher', 'trainer_student');
 		$this->dropIndex('FK_trainer_student_user', 'trainer_student');
 
 		$this->addColumn('trainer_student', 'id_organization', 'INT(10) NOT NULL');
