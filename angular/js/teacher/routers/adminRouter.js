@@ -2,8 +2,8 @@
  * Created by adm on 16.07.2016.
  */
 angular
-    .module('adminRouter',['ui.router']).
-config(function ($stateProvider) {
+    .module('adminRouter',['ui.router'])
+    .config(function ($stateProvider) {
     $stateProvider
         .state('admin', {
             url: "/admin",
@@ -16,9 +16,6 @@ config(function ($stateProvider) {
         .state('admin/verifycontent', {
             url: "/admin/verifycontent",
             cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Контент лекцій');
-            },
             templateUrl: basePath+"/_teacher/_admin/verifyContent/index",
         })
         .state('admin/coursemanage', {

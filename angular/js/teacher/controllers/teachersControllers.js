@@ -100,54 +100,14 @@ function teachersCtrl($scope, $http, $state, $stateParams) {
             url: basePath+'/_teacher/_admin/teachers/create',
             method: "POST",
             data: $jq.param({
-                userId: $scope.selectedUser.id,
-                firstNameEn:$scope.teacher.first_name_en,
-                middleNameEn:$scope.teacher.middle_name_en,
-                lastNameEn:$scope.teacher.last_name_en,
-                firstNameRu:$scope.teacher.first_name_ru,
-                middleNameRu:$scope.teacher.middle_name_ru,
-                lastNameRu:$scope.teacher.last_name_ru,
-                profileTextFirst:$scope.teacher.profile_text_first,
-                profileTextShort:$scope.teacher.profile_text_short,
-                profileTextLast:$scope.teacher.profile_text_last,
+                userId: $scope.selectedUser.id
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             if(response.data.error){
                 bootbox.alert(response.data.error)
             }else if(response.data.userId){
-                $state.go('admin/users/user/:id', {id:response.data.userId}, {reload: true});
-            }else{
-                bootbox.alert("Щось пішло не так");
-            }
-        }, function errorCallback() {
-            bootbox.alert("Помилка сервера. Призначити користувача співробітником не вдалося");
-        });
-    };
-    $scope.updateTeacher= function () {
-        $http({
-            url: basePath+'/_teacher/_admin/teachers/update',
-            method: "POST",
-            data: $jq.param({
-                teacherId: $scope.teacher.user_id,
-                firstNameEn:$scope.teacher.first_name_en,
-                middleNameEn:$scope.teacher.middle_name_en,
-                lastNameEn:$scope.teacher.last_name_en,
-                firstNameRu:$scope.teacher.first_name_ru,
-                middleNameRu:$scope.teacher.middle_name_ru,
-                lastNameRu:$scope.teacher.last_name_ru,
-                profileTextFirst:$scope.teacher.profile_text_first,
-                profileTextShort:$scope.teacher.profile_text_short,
-                profileTextLast:$scope.teacher.profile_text_last,
-            }),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            if(response.data.error){
-                bootbox.alert(response.data.error)
-            }else if(response.data.userId){
-                bootbox.alert('Дані оновлено', function () {
-                    $scope.loadTeacherData(response.data.userId);
-                });
+                $state.go('users/profile/:id', {id:response.data.userId}, {reload: true});
             }else{
                 bootbox.alert("Щось пішло не так");
             }

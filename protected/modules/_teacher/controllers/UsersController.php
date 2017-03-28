@@ -24,7 +24,7 @@ class UsersController extends TeacherCabinetController
 
         $counters["admins"] = UserAdmin::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["accountants"] = UserAccountant::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
-        $counters["coworkers"] = Teacher::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE);
+        $counters["coworkers"] = TeacherOrganization::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE);
         $counters["contentAuthors"] = UserAuthor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["offlineStudents"] = OfflineStudents::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
@@ -292,9 +292,9 @@ class UsersController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $criteria = new CDbCriteria();
-        $criteria->join = 'left join user u on u.id=t.user_id';
-        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
-        $ngTable = new NgTableAdapter('Teacher', $requestParams);
+        $criteria->join = 'left join user u on u.id=t.id_user';
+        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE.' and t.end_date IS NULL');
+        $ngTable = new NgTableAdapter('TeacherOrganization', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);

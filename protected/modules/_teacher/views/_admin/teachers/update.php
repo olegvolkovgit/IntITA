@@ -13,7 +13,7 @@
             </a>
         </li>
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/users/profile/<?php echo $model->user_id ?>">
+            <a type="button" class="btn btn-primary" ng-href="#/users/profile/<?php echo $model->id_user ?>">
                 Переглянути інформацію про співробітника
             </a>
         </li>

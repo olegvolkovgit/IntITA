@@ -12,7 +12,6 @@
  * @property integer $rate_relations
  * @property integer $user_id
  * @property integer $rating
- * @property integer $isPrint
  * @property string $first_name_en
  * @property string $middle_name_en
  * @property string $last_name_en
@@ -30,8 +29,6 @@
  */
 class Teacher extends CActiveRecord
 {
-    const SHOW = 1;
-    const HIDE = 0;
     const ACTIVE = 0;
     const DELETED = 1;
 
@@ -53,18 +50,16 @@ class Teacher extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id', 'unique', 'message' => 'Такий користувач уже призначений співробітником'),
-            array('first_name_en, middle_name_en, last_name_en,first_name_ru,
-             middle_name_ru,last_name_ru, user_id', 'required', 'message' => 'Поле не може бути пустим'),
-            array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly' => true),
+            array('user_id', 'required', 'message' => 'Поле не може бути пустим'),
+            array('rate_knowledge, rate_efficiency, rate_relations, user_id', 'numerical', 'integerOnly' => true),
             array('first_name_en, middle_name_en, last_name_en', 'match', 'pattern' => '/^([a-zA-Z0-9_ ])+$/', 'message' => 'Недопустимі символи!'),
             array('first_name_ru, middle_name_ru, last_name_ru', 'match', 'pattern' => '/^([а-яА-ЯёЁ ])+$/u', 'message' => 'Недопустимі символи!'),
             array('mail_password', 'compare', 'compareAttribute' => 'mail_password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'mailActivation'),
             array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
             array('profile_text_first, profile_text_short, profile_text_last, rate_knowledge, rate_efficiency,
-            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en,first_name_ru, middle_name_ru,
-            last_name_ru, cancelled',
-                'safe', 'on' => 'search'),
+            rate_relations, user_id, first_name_en, middle_name_en, last_name_en,first_name_ru, middle_name_ru,
+            last_name_ru, cancelled', 'safe', 'on' => 'search'),
         );
     }
 
@@ -77,7 +72,7 @@ class Teacher extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'StudentReg', 'user_id'),
-            'modules' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
+//            'modules' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
             'responses' => array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'modulesActive' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)',
                 'condition'=>'modulesActive_modulesActive.end_time IS NULL and modulesActive.cancelled = '.Module::ACTIVE),
@@ -97,7 +92,6 @@ class Teacher extends CActiveRecord
             'rate_efficiency' => 'Рівень ефективності',
             'rate_relations' => 'Рівень відношення',
             'user_id' => 'ID користувача',
-            'isPrint' => 'Статус',
             'first_name_en' => 'Ім&#8217;я (англійською)',
             'middle_name_en' => 'По батькові (англійською)',
             'last_name_en' => 'Прізвище (англійською)',
@@ -108,7 +102,6 @@ class Teacher extends CActiveRecord
             'corporate_mail' => 'Корпоративна адреса електронної пошти',
             'mail_password' => 'Пароль електронної пошти',
             'mailActive' => 'Активована поштова скринька',
-
         );
     }
 
@@ -134,7 +127,6 @@ class Teacher extends CActiveRecord
         $criteria->compare('rate_efficiency', $this->rate_efficiency);
         $criteria->compare('rate_relations', $this->rate_relations);
         $criteria->compare('user_id', $this->user_id);
-        $criteria->compare('isPrint', $this->isPrint);
         $criteria->compare('first_name_en', $this->first_name_en, true);
         $criteria->compare('middle_name_en', $this->middle_name_en, true);
         $criteria->compare('last_name_en', $this->last_name_en, true);

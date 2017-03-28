@@ -73,79 +73,63 @@ class TeachersController extends TeacherCabinetController{
         $result=array();
         $messageId = Yii::app()->request->getPost('message', 0);
         $userApproved = Yii::app()->request->getPost('user', 0);
-        
-        $teacher = new Teacher();
+        $id=Yii::app()->request->getParam('userId');
 
-        $teacher->user_id=Yii::app()->request->getParam('userId');
-        $teacher->first_name_en=Yii::app()->request->getParam('firstNameEn');
-        $teacher->middle_name_en=Yii::app()->request->getParam('middleNameEn');
-        $teacher->last_name_en=Yii::app()->request->getParam('lastNameEn');
-        $teacher->first_name_ru=Yii::app()->request->getParam('firstNameRu');
-        $teacher->middle_name_ru=Yii::app()->request->getParam('middleNameRu');
-        $teacher->last_name_ru=Yii::app()->request->getParam('lastNameRu');
-        $teacher->profile_text_first=Yii::app()->request->getParam('profileTextFirst');
-        $teacher->profile_text_short=Yii::app()->request->getParam('profileTextShort');
-        $teacher->profile_text_last=Yii::app()->request->getParam('profileTextLast');
+        if($this->initTeacher($id)){
+            $criteria = new CDbCriteria();
+            $criteria->condition = "id_user=".$id." and id_organization=".Yii::app()->session['organization']." and end_date IS NOT NULL";
+            $teacher=TeacherOrganization::model()->find($criteria);
+            if($teacher){
+                $teacher->start_date=new CDbExpression('NOW()');
+                $teacher->end_date=null;
+                $teacher->assigned_by=Yii::app()->user->getId();
+            }else{
+                $teacher = new TeacherOrganization();
+                $teacher->id_user=$id;
+                $teacher->id_organization=Yii::app()->session['organization'];
+                $teacher->assigned_by=Yii::app()->user->getId();
+            }
 
-        if ($teacher->validate()) {
-            if ($teacher->save()) {
-                if($messageId && $userApproved){
-                    $message = MessagesCoworkerRequest::model()->findByPk($messageId);
-                    $user = StudentReg::model()->findByPk($userApproved);
-                    $message->approve($user);
-                }else{
-                    $revisionRequest=MessagesCoworkerRequest::model()->findByAttributes(array('id_teacher'=>$teacher->user_id,'cancelled'=>0));
-                    if($revisionRequest){
-                        $revisionRequest->setApproved();
+            if ($teacher->validate()) {
+                if ($teacher->save()) {
+                    if($messageId && $userApproved){
+                        $message = MessagesCoworkerRequest::model()->findByPk($messageId);
+                        $user = StudentReg::model()->findByPk($userApproved);
+                        $message->approve($user);
+                    }else{
+                        $revisionRequest=MessagesCoworkerRequest::model()->findByAttributes(array('id_teacher'=>$teacher->id_user,'cancelled'=>0));
+                        if($revisionRequest){
+                            $revisionRequest->setApproved();
+                        }
                     }
+                    $result['userId']=$teacher->id_user;
+                }else{
+                    $result['error']='Не вдалося додати співробітника.';
                 }
-                $result['userId']=$teacher->user_id;
-            }else{
-                $result['error']='Не вдалося додати співробітника.';
+            } else {
+                $result['error']=$teacher->getValidationErrors();
             }
-        } else {
-            $result['error']=$teacher->getValidationErrors();
+        } else{
+            $result['error']='Не вдалося ініціалізувати співробітника.';
         }
         echo CJSON::encode($result);
     }
 
-    public function actionUpdateForm($id)
+    public function initTeacher($id)
     {
-        $model = $this->loadModel($id);
-        $this->renderPartial('update', array('model'=>$model),false,true);
-    }
-
-    public function actionUpdate()
-    {
-        $result=array();
-        $id = Yii::app()->request->getPost('teacherId');
-        $teacher = $this->loadModel($id);
-        
-        $teacher->first_name_en=Yii::app()->request->getParam('firstNameEn');
-        $teacher->middle_name_en=Yii::app()->request->getParam('middleNameEn');
-        $teacher->last_name_en=Yii::app()->request->getParam('lastNameEn');
-        $teacher->first_name_ru=Yii::app()->request->getParam('firstNameRu');
-        $teacher->middle_name_ru=Yii::app()->request->getParam('middleNameRu');
-        $teacher->last_name_ru=Yii::app()->request->getParam('lastNameRu');
-        $teacher->profile_text_first=Yii::app()->request->getParam('profileTextFirst');
-        $teacher->profile_text_short=Yii::app()->request->getParam('profileTextShort');
-        $teacher->profile_text_last=Yii::app()->request->getParam('profileTextLast');
-
-        if ($teacher->validate()) {
-            if ($teacher->update()) {
-                $result['userId']=$teacher->user_id;
-            }else{
-                $result['error']='Не вдалося оновити дані співробітника.';
-            }
-        } else {
-            $result['error']=$teacher->getValidationErrors();
+        $exists = Teacher::model()->exists('user_id = :id',array(':id'=> $id));
+        if(!$exists){
+            $model= new Teacher();
+            $model->user_id=$id;
+            if($model->save()) return true;
+            else return false;
         }
-        echo CJSON::encode($result);
+        return true;
     }
     
     public function loadModel($id)
     {
-        $model = Teacher::model()->findByAttributes(array('user_id' => $id));
+        $model = TeacherOrganization::model()->findByAttributes(array('id_user' => $id));
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

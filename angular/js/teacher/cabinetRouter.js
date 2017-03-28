@@ -102,7 +102,6 @@ angular
                     views: {
                         '@': {
                             templateUrl: basePath+"/_teacher/users/index",
-                            controller: 'directorUsersTabsCtrl'
                         }
                     }
                 })

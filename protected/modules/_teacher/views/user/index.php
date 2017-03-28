@@ -7,7 +7,7 @@
 <?php if (Yii::app()->user->model->isAdmin()) { ?>
     <ul class="list-inline">
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/admin/users">
+            <a type="button" class="btn btn-primary" ng-href="#/users/registeredUsers">
                 Користувачі
             </a>
         </li>

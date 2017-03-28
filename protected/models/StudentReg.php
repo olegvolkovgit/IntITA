@@ -1322,12 +1322,14 @@ class StudentReg extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
-        $criteria->join = 'left join teacher t on t.user_id=s.id';
+        $criteria->join = 'left join teacher_organization t on t.id_user=s.id';
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and t.user_id IS NULL');
+        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and 
+        (t.id_user IS NULL or (t.id_user IS NOT NULL and t.id_organization!='.Yii::app()->session['organization'].') or 
+        (t.id_user IS NOT NULL and t.id_organization='.Yii::app()->session['organization'].' and t.end_date IS NOT NULL))');
         $data = StudentReg::model()->findAll($criteria);
         $result = array();
         foreach ($data as $key => $model) {
