@@ -12,6 +12,7 @@ class CabinetController extends TeacherCabinetController
         $app = Yii::app();
         $organizations=Yii::app()->user->model->getOrganizations();
         if(!$organizations) {
+            unset(Yii::app()->session['organization']);
             $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
         }
 
