@@ -36,6 +36,7 @@
                 <ul>
                     <li><a ui-sref="users.registeredUsers">Користувачі</a></li>
                     <li><a ui-sref="graduate">Випускники</a></li>
+                    <li><a ui-sref="users.coworkers">Співробітники</a></li>
                 </ul>
             </div>
             <div class="panel-footer">

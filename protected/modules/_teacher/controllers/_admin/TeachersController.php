@@ -10,8 +10,11 @@ class TeachersController extends TeacherCabinetController{
 
     public function hasRole(){
         $allowedCMActions = ['getTeacherDataList'];
+        $denyActions=['updateTeacherProfileForm','getTeacherProfile','updateProfile'];
         $action = Yii::app()->controller->action->id;
-        return Yii::app()->user->model->isAdmin() || (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions));
+        return (Yii::app()->user->model->isAdmin() || 
+        (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions)) && !in_array($action, $denyActions)) ||
+        (Yii::app()->user->model->isTeacher() && in_array($action, $denyActions));
     }
 
     protected function performAjaxValidation($model)
@@ -54,30 +57,24 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionCreateForm()
     {
-        $messageId = Yii::app()->request->getPost('message', 0);
-        $userApproved = Yii::app()->request->getPost('user', 0);
-
-        $predefinedUser = null;
-        if($messageId && $userApproved){
-            $predefinedUser = StudentReg::model()->findByPk($userApproved);
-        }
-
-        $this->renderPartial('create', array(
-            'message' => $messageId,
-            'predefinedUser' => $predefinedUser
-        ),false,true);
+        $this->renderPartial('create', array(),false,true);
     }
 
+    public function actionUpdateTeacherProfileForm()
+    {
+        $this->renderPartial('teacherProfile', array(),false,true);
+    }
+    
     public function actionCreate()
     {
-        $result=array();
-        $messageId = Yii::app()->request->getPost('message', 0);
-        $userApproved = Yii::app()->request->getPost('user', 0);
         $id=Yii::app()->request->getParam('userId');
-
-        if($this->initTeacher($id)){
+        $user = StudentReg::model()->findByPk($id);
+        $organizationId = Yii::app()->session['organization'];
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $this->initTeacher($id);
             $criteria = new CDbCriteria();
-            $criteria->condition = "id_user=".$id." and id_organization=".Yii::app()->session['organization']." and end_date IS NOT NULL";
+            $criteria->condition = "id_user=".$id." and id_organization=".$organizationId." and end_date IS NOT NULL";
             $teacher=TeacherOrganization::model()->find($criteria);
             if($teacher){
                 $teacher->start_date=new CDbExpression('NOW()');
@@ -89,30 +86,15 @@ class TeachersController extends TeacherCabinetController{
                 $teacher->id_organization=Yii::app()->session['organization'];
                 $teacher->assigned_by=Yii::app()->user->getId();
             }
-
-            if ($teacher->validate()) {
-                if ($teacher->save()) {
-                    if($messageId && $userApproved){
-                        $message = MessagesCoworkerRequest::model()->findByPk($messageId);
-                        $user = StudentReg::model()->findByPk($userApproved);
-                        $message->approve($user);
-                    }else{
-                        $revisionRequest=MessagesCoworkerRequest::model()->findByAttributes(array('id_teacher'=>$teacher->id_user,'cancelled'=>0));
-                        if($revisionRequest){
-                            $revisionRequest->setApproved();
-                        }
-                    }
-                    $result['userId']=$teacher->id_user;
-                }else{
-                    $result['error']='Не вдалося додати співробітника.';
-                }
-            } else {
-                $result['error']=$teacher->getValidationErrors();
-            }
-        } else{
-            $result['error']='Не вдалося ініціалізувати співробітника.';
+            $teacher->save();
+            $this->activeTeacher($id);
+            $transaction->commit();
+            Teacher::model()->notifyAssignCoworker($user,$organizationId);
+            echo $teacher->id_user;
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Виникла помилка. ".$teacher->getValidationErrors());
         }
-        echo CJSON::encode($result);
     }
 
     public function initTeacher($id)
@@ -122,9 +104,80 @@ class TeachersController extends TeacherCabinetController{
             $model= new Teacher();
             $model->user_id=$id;
             if($model->save()) return true;
-            else return false;
+            else throw new \application\components\Exceptions\IntItaException(500, $model->getValidationErrors());
         }
         return true;
+    }
+
+    public function activeTeacher($id)
+    {
+        $model= Teacher::model()->findByPk($id);
+        if($model->isDeleted() && TeacherOrganization::model()->resetScope()->exists('id_user='.$id.' and end_date IS NULL')){
+            $model->setActive();
+        }
+    }
+
+    public function inactiveTeacher($id)
+    {
+        $exists = TeacherOrganization::model()->resetScope()->exists('id_user='.$id.' and end_date IS NULL');
+        if(!$exists){
+            $model= Teacher::model()->findByPk($id);
+            $model->setInactive();
+        }
+    }
+
+    public function actionCancelTeacher($userId)
+    {
+        $organizationId = Yii::app()->session['organization'];
+        $user = StudentReg::model()->findByPk($userId);
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $teacher = TeacherOrganization::model()->findByPk(array('id_user'=>$userId,'id_organization'=>$organizationId));
+            $teacher->end_date=new CDbExpression('NOW()');
+            $teacher->cancelled_by=Yii::app()->user->getId();
+//            todo
+//            $teacher->cancelTeacherRoles();
+            $teacher->save();
+            $this->inactiveTeacher($userId);
+            $transaction->commit();
+            Teacher::model()->notifyCancelCoworker($user,$organizationId);
+            echo 'success';
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Виникла помилка. ".$teacher->getValidationErrors());
+        }
+    }
+
+    public function actionGetTeacherProfile()
+    {
+        $result=array();
+        $result['data']=Teacher::model()->findByPk(Yii::app()->user->getId());
+        echo CJSON::encode($result);
+    }
+    
+    public function actionUpdateProfile()
+    {
+        function valueNull($value) {
+            return !$value?null:$value;
+        }
+
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        try {
+            $params = array_map("valueNull", $_POST);
+            $teacher = Teacher::model()->findByPk($params['user_id']);
+            $teacher->setAttributes($params);
+            $teacher->save();
+
+            if (count($teacher->getErrors())) {
+                throw new Exception(json_encode($teacher->getErrors()));
+            }
+
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
     
     public function loadModel($id)
@@ -137,7 +190,7 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionDelete($id)
     {
-        $model = Teacher::model()->findByPk($id);
+        $model = TeacherOrganization::model()->findByPk(array('id_user'=>$id,'id_organization'=>Yii::app()->session['organization']));
         $model->setHideMode();
         if($model->isHide()) echo 'success';
         else echo "error";
@@ -145,7 +198,7 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionRestore($id)
     {
-        $model = Teacher::model()->findByPk($id);
+        $model = TeacherOrganization::model()->findByPk(array('id_user'=>$id,'id_organization'=>Yii::app()->session['organization']));
         $model->setShowMode();
         if($model->isShow()) echo 'success';
         else echo "error";

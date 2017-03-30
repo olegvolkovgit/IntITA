@@ -4,7 +4,7 @@
  * @var $role string
  */
 $role = $params[0];
-$organization = $params[1];
+$organization = Organization::model()->findByPk($params[1]);;
 ?>
 <h4>Вітаємо!</h4>
 <span>Тобі призначено роль <strong><?=$role;?></strong>. <?php if($organization){ echo 'Роль діє в межах організації <em>"'.$organization->name.'"</em>'; } ?></span>

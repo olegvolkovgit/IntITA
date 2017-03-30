@@ -3,7 +3,7 @@
 ?>
     <ul class="list-inline">
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">
+            <a type="button" class="btn btn-primary" ng-href="#/users/coworkers">
                 Співробітники
             </a>
         </li>

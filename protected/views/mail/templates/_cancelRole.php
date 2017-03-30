@@ -4,7 +4,7 @@
  * @var $role string
  */
 $role = $params[0];
-$organization = $params[1];
+$organization = Organization::model()->findByPk($params[1]);;
 ?>
 <h4>Повідомлення</h4>
 <span>Тобі скасовано роль <strong><?=$role;?></strong>. <?php if($organization){ echo 'Роль діяла в межах організації <em>"'.$organization->name.'"</em>'; } ?></span>

@@ -62,6 +62,13 @@
                 </ul>
             </li>
             <?php }?>
+            <?php if ($model->isTeacher()) { ?>
+                <li>
+                    <a href="#/teacherprofile">
+                        <i class="fa fa-user fa-fw"></i>Профіль співробітника
+                    </a>
+                </li>
+            <?php }?>
             <?php
             $roles = Yii::app()->user->model->getRoles();
             foreach($roles as $role) {

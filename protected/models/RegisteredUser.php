@@ -17,6 +17,7 @@ class RegisteredUser
     public $registrationData;
     //array UserRoles
     private $_roles;
+    private $_teacher_roles;
     //Teacher model
     private $_teacher;
     private $_organizations;
@@ -51,13 +52,22 @@ class RegisteredUser
 
     public function getRoles($organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->session['organization'];
         if ($this->_roles === null) {
             $this->_roles = $this->loadRoles($organization);
         }
         return $this->_roles;
     }
-    
-    private function loadRoles($organization=null)
+
+    public function getTeacherRoles($organization)
+    {
+        if ($this->_teacher_roles === null) {
+            $this->_teacher_roles = $this->loadTeacherRoles($organization);
+        }
+        return $this->_teacher_roles;
+    }
+
+    private function loadRoles($organization)
     {
         $sql = '';
         $roles = AllRolesDataSource::roles();
@@ -74,6 +84,28 @@ class RegisteredUser
 
         $result = array_map(function ($row) {
             return new UserRoles($row["director"]);
+        }, $rolesArray);
+
+        return $result;
+    }
+
+    private function loadTeacherRoles($organization)
+    {
+        $sql = '';
+        $roles = AllRolesDataSource::roles();
+        $lastKey = array_search(end($roles), $roles);
+        foreach($roles as $key=>$role){
+            $model = Role::getTeacherRoleInstance($role);
+            $sql .= "(".$model->checkRoleSql($organization).")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
+
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
+
+        $result = array_map(function ($row) {
+            return new UserRoles($row["author"]);
         }, $rolesArray);
 
         return $result;
@@ -255,7 +287,7 @@ class RegisteredUser
         return in_array($role, $this->getRoles($organization));
     }
 
-    public function setRole($role, Organization $organization=null)
+    public function setRole($role, $organization=null)
     {
         if ($this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User already has this role.");
@@ -264,7 +296,7 @@ class RegisteredUser
         return $roleObj->setRole($this->registrationData, $organization);
     }
 
-    public function cancelRole(UserRoles $role, Organization $organization=null)
+    public function cancelRole(UserRoles $role, $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User hasn't this role.");
@@ -273,7 +305,7 @@ class RegisteredUser
         return $roleObj->cancelRole($this->registrationData, $organization);
     }
     
-    public function cancelRoleMessage(UserRoles $role, Organization $organization=null)
+    public function cancelRoleMessage(UserRoles $role, $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             return "Користувачу не була призначена обрана роль.";

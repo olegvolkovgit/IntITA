@@ -163,12 +163,12 @@ class Student extends Role
     }
 
     //not supported for this role
-    public function notifyAssignRole(StudentReg $user, Organization $organization = null){
+    public function notifyAssignRole(StudentReg $user, $organization = null){
         return false;
     }
 
     //not supported for this role
-    public function notifyCancelRole(StudentReg $user, Organization $organization = null){
+    public function notifyCancelRole(StudentReg $user, $organization = null){
         return false;
     }
 

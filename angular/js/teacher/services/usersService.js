@@ -4,8 +4,8 @@
 
 angular
     .module('teacherApp')
-    .factory('usersService', ['$resource',
-        function ($resource) { 
+    .factory('usersService', ['$resource','transformRequest',
+        function ($resource, transformRequest) { 
             var url = basePath+'/_teacher/users';
             return $resource(
                 '',
@@ -95,6 +95,20 @@ angular
                     superAdminsList: {
                         url: url + '/getSuperAdminsList',
                         method: 'GET'
+                    },
+                    updateTeacherProfile: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath+'/_teacher/_admin/teachers/updateProfile',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    teacherProfileData: {
+                        method: 'GET',
+                        url: basePath+'/_teacher/_admin/teachers/getTeacherProfile',
+                    },
+                    cancelTeacher: {
+                        url: basePath+'/_teacher/_admin/teachers/cancelTeacher',
+                        method: 'GET',
                     },
                 });
         }]);

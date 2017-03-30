@@ -76,6 +76,7 @@ class Teacher extends CActiveRecord
             'responses' => array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'modulesActive' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)',
                 'condition'=>'modulesActive_modulesActive.end_time IS NULL and modulesActive.cancelled = '.Module::ACTIVE),
+            'teacherOrganizations' => array(self::HAS_MANY, 'TeacherOrganization', ['id_user'=>'user_id'], 'on'=>'end_date IS NULL'),
         );
     }
 
@@ -317,7 +318,9 @@ class Teacher extends CActiveRecord
     public static function getTeacherAsPrint()
     {
         $criteria = new CDbCriteria;
-        $criteria->condition = 'isPrint=1';
+        $criteria->alias='tc';
+        $criteria->join = 'LEFT JOIN teacher_organization t on t.id_user = tc.user_id';
+        $criteria->addCondition('tc.cancelled='.Teacher::ACTIVE.' and t.end_date IS NULL and t.isPrint='.TeacherOrganization::SHOW);
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
             'sort' => array(
@@ -356,10 +359,10 @@ class Teacher extends CActiveRecord
     public function lastName()
     {
         if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && $this->last_name_en != '') {
+            if (Yii::app()->session['lg'] == 'en' && $this->last_name_en) {
                 return $this->last_name_en;
             }
-            if (Yii::app()->session['lg'] == 'ru' && $this->last_name_ru != 'не указано') {
+            if (Yii::app()->session['lg'] == 'ru' && $this->last_name_ru) {
                 return $this->last_name_ru;
             }
         }
@@ -372,12 +375,12 @@ class Teacher extends CActiveRecord
         $first = $this->user->firstName;
         if (isset(Yii::app()->session['lg'])) {
             if (Yii::app()->session['lg'] == 'en') {
-                if ($this->last_name_en != '') $last = $this->last_name_en;
-                if ($this->first_name_en != '') $first = $this->first_name_en;
+                if ($this->last_name_en) $last = $this->last_name_en;
+                if ($this->first_name_en) $first = $this->first_name_en;
             }
             if (Yii::app()->session['lg'] == 'ru'){
-                if ($this->last_name_ru != '' && $this->last_name_ru != 'не указано') $last = $this->last_name_ru;
-                if ($this->first_name_ru != '' && $this->first_name_ru != 'не указано') $first = $this->first_name_ru;
+                if ($this->last_name_ru) $last = $this->last_name_ru;
+                if ($this->first_name_ru) $first = $this->first_name_ru;
             }
         }
         return $last . " " . $first;
@@ -386,10 +389,10 @@ class Teacher extends CActiveRecord
     public function firstName()
     {
         if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && $this->first_name_en != '') {
+            if (Yii::app()->session['lg'] == 'en' && $this->first_name_en) {
                 return $this->first_name_en;
             }
-            if (Yii::app()->session['lg'] == 'ru' && $this->first_name_ru != 'не указано') {
+            if (Yii::app()->session['lg'] == 'ru' && $this->first_name_ru) {
                 return $this->first_name_ru;
             }
         }
@@ -399,10 +402,10 @@ class Teacher extends CActiveRecord
     public function middleName()
     {
         if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && $this->middle_name_en != '') {
+            if (Yii::app()->session['lg'] == 'en' && $this->middle_name_en) {
                 return $this->middle_name_en;
             }
-            if (Yii::app()->session['lg'] == 'ru' && $this->middle_name_ru != 'не указано') {
+            if (Yii::app()->session['lg'] == 'ru' && $this->middle_name_ru) {
                 return $this->middle_name_ru;
             }
         }
@@ -483,35 +486,12 @@ class Teacher extends CActiveRecord
         return $this->user->phone;
     }
 
-    public function isShow(){
-        return $this->isPrint == Teacher::SHOW;
-    }
-
-    public function isHide(){
-        return $this->isPrint == Teacher::HIDE;
-    }
-
-    public function setShowMode(){
-        $this->isPrint = Teacher::SHOW;
-        return $this->save();
-    }
-
-    public function setHideMode(){
-        $this->isPrint = Teacher::HIDE;
-        return $this->save();
-    }
-
     public function isActive(){
         return $this->cancelled == Teacher::ACTIVE;
     }
 
     public function isDeleted(){
         return $this->cancelled == Teacher::DELETED;
-    }
-
-    public function setActive(){
-        $this->isPrint = Teacher::ACTIVE;
-        $this->save();
     }
 
     public function setDeleted(){
@@ -525,6 +505,16 @@ class Teacher extends CActiveRecord
         } else {
             return $this->setShowMode();
         }
+    }
+
+    public function setActive(){
+        $this->cancelled = Teacher::ACTIVE;
+        $this->save();
+    }
+    
+    public function setInactive(){
+        $this->cancelled = Teacher::DELETED;
+        $this->save();
     }
 
     public static function teachersByQuery($query)
@@ -653,5 +643,17 @@ class Teacher extends CActiveRecord
             array_push($result,Role::getInstance(UserRoles::TEACHER_CONSULTANT)->title());
 
         return implode(", ", $result);
+    }
+    
+    public function notifyAssignCoworker(StudentReg $user, $organization=null){
+        $user->notify('_assignCoworker', array($organization), 'Призначено права співробітника',Yii::app()->user->getId());
+    }
+
+    public function notifyCancelCoworker(StudentReg $user, $organization=null){
+        $user->notify('_cancelCoworker', array($organization), 'Скасовано права співробітника',Yii::app()->user->getId());
+    }
+
+    public function isPrint(){
+        return TeacherOrganization::model()->findByAttributes(array('id_user'=>$this->user_id,'isPrint'=>Teacher::ACTIVE,'end_date'=>null));
     }
 }

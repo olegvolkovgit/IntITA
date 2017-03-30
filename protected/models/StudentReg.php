@@ -686,7 +686,7 @@ class StudentReg extends CActiveRecord
 
     public function isTeacher()
     {
-        return Teacher::model()->exists('user_id=' . $this->id);
+        return Teacher::model()->exists('user_id=' . $this->id.' and cancelled='.Teacher::ACTIVE);
     }
 
     public static function getUserName($id)
@@ -1330,6 +1330,7 @@ class StudentReg extends CActiveRecord
         $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and 
         (t.id_user IS NULL or (t.id_user IS NOT NULL and t.id_organization!='.Yii::app()->session['organization'].') or 
         (t.id_user IS NOT NULL and t.id_organization='.Yii::app()->session['organization'].' and t.end_date IS NOT NULL))');
+        $criteria->group = 's.id';
         $data = StudentReg::model()->findAll($criteria);
         $result = array();
         foreach ($data as $key => $model) {

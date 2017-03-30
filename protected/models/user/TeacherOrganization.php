@@ -140,4 +140,32 @@ class TeacherOrganization extends CActiveRecord
         }
         return implode(", ", $errors);
     }
+
+    public function setShowMode(){
+        $this->isPrint = TeacherOrganization::SHOW;
+        return $this->save();
+    }
+
+    public function setHideMode(){
+        $this->isPrint = TeacherOrganization::HIDE;
+        return $this->save();
+    }
+
+    public function isShow(){
+        return $this->isPrint == TeacherOrganization::SHOW;
+    }
+
+    public function isHide(){
+        return $this->isPrint == TeacherOrganization::HIDE;
+    }
+
+    public function cancelTeacherRoles(){
+        $organization=Yii::app()->session['organization'];
+        $user=RegisteredUser::userById($this->id_user);
+        $roles = $user->getTeacherRoles($organization);
+        foreach ($roles as $role){
+            $roleObj = Role::getInstance($role);
+            return $roleObj->cancelRole($user->registrationData, $organization);
+        }
+    }
 }

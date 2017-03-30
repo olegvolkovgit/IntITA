@@ -265,6 +265,11 @@ angular
                         }
                     }
                 })
+                .state('teacherprofile', {
+                    url: "/teacherprofile",
+                    cache         : false,
+                    templateUrl: basePath+"/_teacher/_admin/teachers/updateTeacherProfileForm"
+                })
     }
     );
 

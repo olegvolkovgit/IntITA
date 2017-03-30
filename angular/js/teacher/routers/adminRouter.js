@@ -26,14 +26,6 @@ angular
             },
             templateUrl: basePath+"/_teacher/_admin/coursemanage/index",
         })
-        .state('admin/teachers', {
-            url: "/admin/teachers",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Співробітники');
-            },
-            templateUrl: basePath+"/_teacher/_admin/teachers/index",
-        })
         .state('admin/authorAttributes', {
             url: "/admin/authorAttributes",
             cache: false,
@@ -104,13 +96,6 @@ angular
             controller:"userProfileCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
-            }
-        })
-        .state('admin/teacher/update/:id', {
-            url: "/admin/teacher/update/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/updateForm/?id="+$stateParams.id;
             }
         })
         .state('admin/teacher/create', {

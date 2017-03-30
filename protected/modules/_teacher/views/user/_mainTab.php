@@ -106,16 +106,6 @@ $user = $model->registrationData;
                         </span>
                     </li>
                 <?php } ?>
-                <li class="list-group-item" ng-if="data.teacher">Статус співробітника(видимий/не видимий): <em>{{data.teacher.isPrint==1 ? "видимий" : "невидимий"}}</em>
-                    <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                    <button type="button" class="btn btn-outline btn-primary btn-xs"
-                            ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/changeTeacherStatus"); ?>',
-                                data.user.id,
-                                data.teacher.isPrint==1?'Приховати викладача?':'Показати викладача?')";>
-                        змінити
-                    </button>
-                    <?php } ?>
-                </li>
                 <li class="list-group-item">Акаунт(активований/не активований): <em>{{data.user.status==1 ? "активований" : "не активований"}}</em>
                     <?php if (Yii::app()->user->model->isSuperAdmin()) { ?>
                         <button type="button" class="btn btn-outline btn-primary btn-xs"

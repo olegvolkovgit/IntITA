@@ -69,7 +69,7 @@
             </a>.
             <br>
             Список усіх співробітників:
-            <a ng-href="#/admin/teachers" class="alert-link">Список</a>.
+            <a ng-href="#/users/coworkers" class="alert-link">Список</a>.
         </div>
         <?php } ?>
     </div>
