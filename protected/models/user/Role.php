@@ -82,38 +82,6 @@ abstract class Role
         }
         return $model;
     }
-
-    public static function getTeacherRoleInstance($role){
-        switch($role){
-            case "accountant":
-                $model = new Accountant();
-                break;
-            case "trainer":
-                $model = new Trainer();
-                break;
-            case "student":
-                $model = new Student();
-                break;
-            case "author":
-                $model = new Author();
-                break;
-            case "content_manager":
-                $model = new ContentManager();
-                break;
-            case "teacher_consultant":
-                $model = new TeacherConsultant();
-                break;
-            case "tenant":
-                $model = new Tenant();
-                break;
-            case "supervisor":
-                $model = new SuperVisor();
-                break;
-            default :
-                $model = null;
-        }
-        return $model;
-    }
     
     public function setRole(StudentReg $user, $organization)
     {
@@ -153,11 +121,11 @@ abstract class Role
     }
 
     public function notifyAssignRole(StudentReg $user, $organization=null){
-        $user->notify('_assignRole', array($this->title(), $organization), 'Призначено роль');
+        $user->notify('_assignRole', array($this->title(), $organization), 'Призначено роль', Yii::app()->user->getId());
     }
 
     public function notifyCancelRole(StudentReg $user, $organization=null){
-        $user->notify('_cancelRole', array($this->title(), $organization), 'Скасовано роль');
+        $user->notify('_cancelRole', array($this->title(), $organization), 'Скасовано роль', Yii::app()->user->getId());
     }
 
     public function getOrganizations()

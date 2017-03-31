@@ -15,10 +15,12 @@ class Author extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role author.
      */
-    public function checkRoleSql(){
-        return 'select "author" from user_author ua where ua.id_user = :id and end_date IS NULL';
+    public function checkRoleSql($organization=null){
+        $condition=$organization?' and ua.id_organization='.$organization:'';
+        return 'select "author" from user_author ua where ua.id_user = :id and ua.end_date IS NULL'.$condition;
     }
 
     /**

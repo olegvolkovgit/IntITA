@@ -135,8 +135,7 @@ class TeachersController extends TeacherCabinetController{
             $teacher = TeacherOrganization::model()->findByPk(array('id_user'=>$userId,'id_organization'=>$organizationId));
             $teacher->end_date=new CDbExpression('NOW()');
             $teacher->cancelled_by=Yii::app()->user->getId();
-//            todo
-//            $teacher->cancelTeacherRoles();
+            $teacher->cancelTeacherRoles();
             $teacher->save();
             $this->inactiveTeacher($userId);
             $transaction->commit();

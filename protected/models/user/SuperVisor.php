@@ -14,10 +14,12 @@ class SuperVisor extends Role
 	}
 
 	/**
+	 * @param $organization Organization
 	 * @return string sql for check role admin.
 	 */
-	public function checkRoleSql(){
-		return 'select "supervisor" from user_super_visor sv where sv.id_user = :id and end_date IS NULL';
+	public function checkRoleSql($organization=null){
+		$condition=$organization?' and sv.id_organization='.$organization:'';
+		return 'select "supervisor" from user_super_visor sv where sv.id_user = :id and sv.end_date IS NULL'.$condition;
 	}
 
 	/**

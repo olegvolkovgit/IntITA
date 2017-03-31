@@ -17,7 +17,7 @@ class SuperAdmin extends Role
 	 * @return string sql for check role admin.
 	 */
 	public function checkRoleSql(){
-		return 'select "super_admin" from user_super_admin sa where sa.id_user = :id and end_date IS NULL';
+		return 'select "super_admin" from user_super_admin sa where sa.id_user = :id and sa.end_date IS NULL';
 	}
 
 	/**

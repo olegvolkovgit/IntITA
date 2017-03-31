@@ -92,22 +92,19 @@ class RegisteredUser
     private function loadTeacherRoles($organization)
     {
         $sql = '';
-        $roles = AllRolesDataSource::roles();
+        $roles = AllRolesDataSource::teacherRoles();
         $lastKey = array_search(end($roles), $roles);
         foreach($roles as $key=>$role){
-            $model = Role::getTeacherRoleInstance($role);
+            $model = Role::getInstance($role);
             $sql .= "(".$model->checkRoleSql($organization).")";
             if ($key != $lastKey) {
                 $sql .= " union ";
             }
         }
-
         $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
-
         $result = array_map(function ($row) {
-            return new UserRoles($row["author"]);
+            return new UserRoles($row["accountant"]);
         }, $rolesArray);
-
         return $result;
     }
 

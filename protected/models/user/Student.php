@@ -20,7 +20,7 @@ class Student extends Role
      */
     public function checkRoleSql()
     {
-        return 'select "student" from user_student st where st.id_user = :id and end_date IS NULL';
+        return 'select "student" from user_student st where st.id_user = :id and st.end_date IS NULL';
     }
 
     public function getErrorMessage()

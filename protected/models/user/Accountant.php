@@ -15,10 +15,12 @@ class Accountant extends Role
 	}
 
     /**
+     * @param $organization Organization
      * @return string sql for check role accountant.
      */
-    public function checkRoleSql(){
-        return 'select "accountant" from user_accountant ac where ac.id_user = :id and end_date IS NULL';
+    public function checkRoleSql($organization=null){
+        $condition=$organization?' and ac.id_organization='.$organization:'';
+        return 'select "accountant" from user_accountant ac where ac.id_user = :id and ac.end_date IS NULL'.$condition;
     }
 
     /**

@@ -11,14 +11,16 @@ class Tenant extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role tenant.
      */
-    public function checkRoleSql()
+    public function checkRoleSql($organization=null)
     {
+        $condition=$organization?' and ut.id_organization='.$organization:'';
         return 'select "tenant" from user u
                     right join chat_user as cu on u.id = cu.intita_user_id
                     right join user_tenant ut on ut.chat_user_id=cu.id
-                    where cu.intita_user_id = :id and ut.end_date IS NULL';
+                    where cu.intita_user_id = :id and ut.end_date IS NULL'.$condition;
     }
 
     public function getErrorMessage()
@@ -132,9 +134,9 @@ class Tenant extends Role
         if (Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date' => date("Y-m-d H:i:s"),
-        ), 'chat_user_id=(select id from chat_user where intita_user_id=:id)', array(':id' => $user->id))
+        ), 'chat_user_id=(select id from chat_user where intita_user_id=:id) and id_organization=:organization', array(':id' => $user->id,':organization'=>$organization))
         ) {
-            $this->notifyCancelRole($user);
+            $this->notifyCancelRole($user, $organization);
             return true;
         }
         return false;

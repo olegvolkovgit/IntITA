@@ -1247,7 +1247,11 @@ class StudentReg extends CActiveRecord
         if($senderId) 
             $senderModel=StudentReg::model()->findByPk($senderId);
         else $senderModel=StudentReg::model()->findByPk(Config::getAdminId());
-        $transaction = Yii::app()->db->beginTransaction();
+        $connection = Yii::app()->db;
+        $transaction = null;
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
         try {
             $message = new MessagesNotifications();
             $sender = new MailTransport();
@@ -1256,9 +1260,13 @@ class StudentReg extends CActiveRecord
             $message->create();
 
             $message->send($sender);
-            $transaction->commit();
+            if ($transaction != null) {
+                $transaction->commit();
+            }
         } catch (Exception $e){
-            $transaction->rollback();
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
     }

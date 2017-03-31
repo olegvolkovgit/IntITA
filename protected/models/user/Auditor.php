@@ -17,7 +17,7 @@ class Auditor extends Role
 	 * @return string sql for check role admin.
 	 */
 	public function checkRoleSql(){
-		return 'select "auditor" from user_auditor ua where ua.id_user = :id and end_date IS NULL';
+		return 'select "auditor" from user_auditor uau where uau.id_user = :id and uau.end_date IS NULL';
 	}
 
 	/**

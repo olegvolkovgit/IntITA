@@ -14,10 +14,12 @@ class TeacherConsultant extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role teacher consultant.
      */
-    public function checkRoleSql(){
-        return 'select "teacher_consultant" from user_teacher_consultant utc where utc.id_user = :id and end_date IS NULL';
+    public function checkRoleSql($organization=null){
+        $condition=$organization?' and utc.id_organization='.$organization:'';
+        return 'select "teacher_consultant" from user_teacher_consultant utc where utc.id_user = :id and utc.end_date IS NULL'.$condition;
     }
 
     public function getErrorMessage()

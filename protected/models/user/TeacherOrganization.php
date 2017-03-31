@@ -165,7 +165,7 @@ class TeacherOrganization extends CActiveRecord
         $roles = $user->getTeacherRoles($organization);
         foreach ($roles as $role){
             $roleObj = Role::getInstance($role);
-            return $roleObj->cancelRole($user->registrationData, $organization);
+            $roleObj->cancelRole($user->registrationData, $organization);
         }
     }
 }

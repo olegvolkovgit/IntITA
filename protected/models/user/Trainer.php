@@ -16,11 +16,13 @@ class Trainer extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role trainer.
      */
-    public function checkRoleSql()
+    public function checkRoleSql($organization=null)
     {
-        return 'select "trainer" from user_trainer at where at.id_user = :id and end_date IS NULL';
+        $condition=$organization?' and at.id_organization='.$organization:'';
+        return 'select "trainer" from user_trainer at where at.id_user = :id and at.end_date IS NULL'.$condition;
     }
 
     /**

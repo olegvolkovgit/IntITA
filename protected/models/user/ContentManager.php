@@ -10,10 +10,12 @@ class ContentManager extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role content manager.
      */
-    public function checkRoleSql(){
-        return 'select "content_manager" from user_content_manager ucm where ucm.id_user = :id and ucm.end_date IS NULL';
+    public function checkRoleSql($organization=null){
+        $condition=$organization?' and ucm.id_organization='.$organization:'';
+        return 'select "content_manager" from user_content_manager ucm where ucm.id_user = :id and ucm.end_date IS NULL'.$condition;
     }
 
     public function title(){
