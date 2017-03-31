@@ -407,4 +407,9 @@ class CabinetController extends TeacherCabinetController
         $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('organizationId'=>$organizationId)));
     }
 
+    public function actionChangeOrganization(){
+        unset(Yii::app()->session['organization']);
+        $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
+    }
+
 }
