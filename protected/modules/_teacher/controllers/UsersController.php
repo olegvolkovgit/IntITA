@@ -113,7 +113,7 @@ class UsersController extends TeacherCabinetController
         $this->renderPartial('tables/_withoutRolesTable', array(), false, true);
     }
 
-    public function actionAdmins($organization)
+    public function actionAdmins($organization=0)
     {
         $this->renderPartial('tables/_adminsTable', array('organization'=>$organization), false, true);
     }

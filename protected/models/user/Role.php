@@ -65,7 +65,39 @@ abstract class Role
         }
         return $model;
     }
-
+    
+    public static function getLocalInstance($role){
+        switch($role){
+            case "accountant":
+                $model = new Accountant();
+                break;
+            case "trainer":
+                $model = new Trainer();
+                break;
+            case "student":
+                $model = new Student();
+                break;
+            case "author":
+                $model = new Author();
+                break;
+            case "content_manager":
+                $model = new ContentManager();
+                break;
+            case "teacher_consultant":
+                $model = new TeacherConsultant();
+                break;
+            case "tenant":
+                $model = new Tenant();
+                break;
+            case "supervisor":
+                $model = new SuperVisor();
+                break;
+            default :
+                $model = null;
+        }
+        return $model;
+    }
+    
     public static function getGlobalInstance($role){
         switch($role){
             case "director":

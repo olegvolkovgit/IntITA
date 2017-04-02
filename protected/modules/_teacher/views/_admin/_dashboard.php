@@ -5,25 +5,6 @@
 </div>
 <hr>
 <div class="row">
-<!--    <div class="col-lg-4">-->
-<!--        <div class="panel panel-yellow">-->
-<!--            <div class="panel-heading">-->
-<!--                Контент-->
-<!--            </div>-->
-<!--            <div class="panel-body">-->
-<!--                <ul>-->
-<!--                    <li><a href="#/admin/coursemanage">-->
-<!--                            Курси</a></li>-->
-<!--                    <li><a href="#/modulemanage">-->
-<!--                            Модулі</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="panel-footer">-->
-<!--                <em>Навчальні матеріали</em>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
     <div class="col-lg-4">
         <div class="panel panel-yellow">
             <div class="panel-heading">
@@ -66,6 +47,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 

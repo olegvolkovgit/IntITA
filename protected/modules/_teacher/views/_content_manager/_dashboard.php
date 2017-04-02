@@ -33,7 +33,7 @@
                     <li><a href="#admin/verifycontent">
                             Контент лекцій</a>
                     </li>
-                    <li><a href="#/modulemanage">
+                    <li><a href="#/organization/modules">
                             Модулі</a></li>
                     <li>
                         <a href="#/organization/courses">

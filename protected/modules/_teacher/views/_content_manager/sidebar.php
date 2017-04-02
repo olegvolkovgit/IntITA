@@ -19,7 +19,7 @@
                 Контент лекцій</a>
         </li>
         <li>
-            <a href="#/modulemanage">
+            <a href="#/organization/modules">
                 Модулі</a>
         </li>
         <li>

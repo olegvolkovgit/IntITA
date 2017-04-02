@@ -49,7 +49,9 @@
                         <a class="btnChat" href="<?php echo Config::getChatPath(); ?>{{row.user.id}}" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
                             <i class="fa fa-weixin fa-fw"></i>
                         </a>
-                        <a ng-if="!row.end_date" ng-click="cancelTeacher(row.id_user)"><i class="fa fa-trash fa-fw"></i></a>
+                        <?php if (Yii::app()->user->model->isAdmin() && $organization) { ?>
+                            <a ng-if="!row.end_date" ng-click="cancelTeacher(row.id_user)"><i class="fa fa-trash fa-fw"></i></a>
+                        <?php } ?>
                     </td>
                 </tr>
             </table>

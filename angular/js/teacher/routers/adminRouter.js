@@ -17,7 +17,7 @@ angular
             url: "/admin/users/addrole/:role",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/users/renderAddRoleForm/role/"+$stateParams.role;
+                return basePath+"/_teacher/_admin/role/renderAddRoleForm/role/"+$stateParams.role;
             }
         })
         .state('admin/users/user/:id/addtrainer', {
