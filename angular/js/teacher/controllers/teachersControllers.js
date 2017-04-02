@@ -3,8 +3,8 @@ angular
     .controller('teachersTableCtrl',teachersTableCtrl)
     .controller('teachersCtrl', teachersCtrl);
 
-function teachersTableCtrl ($http, $scope, usersService, NgTableParams){
-    $scope.teachersTableParams = new NgTableParams({}, {
+function teachersTableCtrl ($http, $scope, usersService, NgTableParams, $attrs){
+    $scope.teachersTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .teachersList(params.url())

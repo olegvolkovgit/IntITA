@@ -3,7 +3,7 @@ $currentTime = date('Y-m-d H:i:s');
 $last_24h = date('Y-m-d H:i:s', time()-60*60*24);
 $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
 ?>
-<div ng-controller="studentsTableCtrl">
+<div ng-controller="studentsTableCtrl" organization="<?php echo $organization ?>">
     <br>
     <button class="btn btn-primary"
             ng-click="updateStudentList()">

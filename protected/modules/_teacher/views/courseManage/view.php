@@ -9,9 +9,9 @@
     <div class="row">
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary" ui-sref="courses">
+                <a type="button" class="btn btn-primary" ng-href="#/organization/courses">
                     <?php echo Yii::t("coursemanage", "0510"); ?>
-                </button>
+                </a>
             </li>
             <?php if(Yii::app()->user->model->canUpdateCourse($model)) { ?>
             <li>

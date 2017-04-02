@@ -26,15 +26,6 @@ class TeacherOrganization extends CActiveRecord
     {
         return 'teacher_organization';
     }
-
-    public function defaultScope() {
-        if(isset(Yii::app()->session['organization'])){
-            return [
-                'condition' => 'id_organization='.Yii::app()->session['organization']
-            ];
-        }
-        return [];
-    }
     
     /**
      * @return array validation rules for model attributes.

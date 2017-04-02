@@ -5,7 +5,7 @@ class RoleAttributesController extends TeacherCabinetController
     public function hasRole()
     {
 
-        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
+        return Yii::app()->user->model->isContentManager();
     }
 
     public function actionAuthorAttributes()

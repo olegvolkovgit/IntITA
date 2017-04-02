@@ -7,7 +7,7 @@
 </a>
 <br>
 <br>
-<div class="panel panel-default" ng-controller="accountantsTableCtrl">
+<div class="panel panel-default" ng-controller="accountantsTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="accountantsTableParams" class="table table-bordered table-striped table-condensed">

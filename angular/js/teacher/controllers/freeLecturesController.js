@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .controller('freelecturesCtrl',freelecturesCtrl);
 
-function freelecturesCtrl ($scope, $resource, NgTableParams,$state, $http){
+function freelecturesCtrl ($scope, $resource, NgTableParams, $http){
     angular.element(document.querySelector("#pageTitle")).text("Безкоштовні заняття");
 
     $scope.search= null;

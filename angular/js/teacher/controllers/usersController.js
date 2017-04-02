@@ -21,6 +21,7 @@ angular
     .controller('auditorsTableCtrl', auditorsTableCtrl)
     .controller('superAdminsTableCtrl', superAdminsTableCtrl)
     .controller('usersTabsCtrl', usersTabsCtrl)
+    .controller('organizationUsersTabsCtrl', organizationUsersTabsCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({
@@ -75,12 +76,13 @@ function usersTableCtrl ($scope, usersService, NgTableParams){
             }
         });
 }
-function studentsTableCtrl ($scope, usersService, NgTableParams){
+function studentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
     $scope.educationForms = [{id:'1', title:'онлайн'},{id:'3', title:'онлайн/офлайн'}];
     $jq("#startDate").datepicker(lang);
     $jq("#endDate").datepicker(lang);
 
     $scope.studentsTableParams = new NgTableParams({
+        organization:$attrs.organization,
         sorting: {
             "student.start_date": 'desc'
         },
@@ -117,9 +119,9 @@ function studentsTableCtrl ($scope, usersService, NgTableParams){
     }
 }
 
-function offlineStudentsTableCtrl ($scope, usersService, NgTableParams){
+function offlineStudentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
-    $scope.offlineStudentsTableParams = new NgTableParams({}, {
+    $scope.offlineStudentsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .offlineStudentsList(params.url())
@@ -149,8 +151,8 @@ function withoutRolesTableCtrl ($scope, usersService, NgTableParams){
         }
     });
 }
-function adminsTableCtrl ($scope, usersService, NgTableParams, roleService){
-    $scope.adminsTableParams = new NgTableParams({}, {
+function adminsTableCtrl ($scope, usersService, NgTableParams, roleService, $attrs){
+    $scope.adminsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .adminsList(params.url())
@@ -171,8 +173,8 @@ function adminsTableCtrl ($scope, usersService, NgTableParams, roleService){
         });
     }
 }
-function accountantsTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.accountantsTableParams = new NgTableParams({}, {
+function accountantsTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.accountantsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .accountantsList(params.url())
@@ -192,8 +194,8 @@ function accountantsTableCtrl ($scope, usersService, NgTableParams,roleService){
         });
     };
 }
-function contentManagersTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.contentManagersTableParams = new NgTableParams({}, {
+function contentManagersTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.contentManagersTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .contentManagersList(params.url())
@@ -214,8 +216,8 @@ function contentManagersTableCtrl ($scope, usersService, NgTableParams,roleServi
         });
     };
 }
-function teacherConsultantsTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.teacherConsultantsTableParams = new NgTableParams({}, {
+function teacherConsultantsTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.teacherConsultantsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .teacherConsultantsList(params.url())
@@ -236,8 +238,8 @@ function teacherConsultantsTableCtrl ($scope, usersService, NgTableParams,roleSe
         });
     };
 }
-function tenantsTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.tenantsTableParams = new NgTableParams({}, {
+function tenantsTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.tenantsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .tenantsList(params.url())
@@ -259,8 +261,8 @@ function tenantsTableCtrl ($scope, usersService, NgTableParams,roleService){
     };
 }
 
-function trainersTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.trainersTableParams = new NgTableParams({}, {
+function trainersTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.trainersTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .trainersList(params.url())
@@ -282,8 +284,8 @@ function trainersTableCtrl ($scope, usersService, NgTableParams,roleService){
     };
 }
 
-function superVisorsTableCtrl ($scope, usersService, NgTableParams, roleService){
-    $scope.superVisorsTableParams = new NgTableParams({}, {
+function superVisorsTableCtrl ($scope, usersService, NgTableParams, roleService, $attrs){
+    $scope.superVisorsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .superVisorsList(params.url())
@@ -305,8 +307,8 @@ function superVisorsTableCtrl ($scope, usersService, NgTableParams, roleService)
     };
 }
 
-function authorsTableCtrl ($scope, usersService, NgTableParams, roleService){
-    $scope.authorsTableParams = new NgTableParams({}, {
+function authorsTableCtrl ($scope, usersService, NgTableParams, roleService, $attrs){
+    $scope.authorsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .authorsList(params.url())
@@ -867,6 +869,43 @@ function usersTabsCtrl ($scope, $state, usersService, lodash) {
                     item.count=lodash.find($scope.rolesCount, ['role', item.route]).count;
                 }
                 if('users.'+item.route==$state.current.name) {
+                    $scope.active=i;
+                }
+            });
+        });
+}
+
+function organizationUsersTabsCtrl ($scope, $state, usersService, lodash) {
+    $scope.changePageHeader('Користувачі');
+
+    $scope.tabs = [
+        { title: "Зареєстровані користувачі", route: "registeredUsers"},
+        { title: "Студенти", route: "students"},
+        { title: "Офлайн студенти", route: "offlineStudents"},
+        { title: "Директора", route: "directors"},
+        { title: "Аудитори", route: "auditors"},
+        { title: "Суперадміни", route: "superAdmins"},
+        { title: "Співробітники", route: "coworkers"},
+        { title: "Адміністратори", route: "admins"},
+        { title: "Супервайзери", route: "supervisors"},
+        { title: "Бухгалтери", route: "accountants"},
+        { title: "Контент менеджери", route: "contentManagers"},
+        { title: "Тренери", route: "trainers"},
+        { title: "Автори контенту", route: "contentAuthors"},
+        { title: "Викладачі", route: "teacherConsultants"},
+        { title: "Консультанти", route: "tenants"},
+    ];
+
+    usersService
+        .organizationUsersCount()
+        .$promise
+        .then(function (data) {
+            $scope.rolesCount=data;
+            $scope.tabs.forEach(function(item, i) {
+                if(lodash.find($scope.rolesCount, ['role', item.route])){
+                    item.count=lodash.find($scope.rolesCount, ['role', item.route]).count;
+                }
+                if('organization.'+item.route==$state.current.name) {
                     $scope.active=i;
                 }
             });

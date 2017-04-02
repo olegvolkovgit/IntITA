@@ -7,7 +7,7 @@
 </a>
 <br>
 <br>
-<div class="panel panel-default" ng-controller="authorsTableCtrl">
+<div class="panel panel-default" ng-controller="authorsTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="authorsTableParams" class="table table-bordered table-striped table-condensed">

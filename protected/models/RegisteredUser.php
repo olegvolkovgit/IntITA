@@ -466,4 +466,14 @@ class RegisteredUser
     {
         return Organization::model()->findByPk(Yii::app()->session['organization']);
     }
+
+    public function hasAccessToGlobalRoleLists($organization)
+    {
+        $organization=filter_var($organization, FILTER_VALIDATE_BOOLEAN);
+        if(!$organization){
+            if(!($this->isDirector() || $this->isSuperAdmin()))
+                throw new \application\components\Exceptions\IntItaException(403, "Не має доступу");
+        }
+        return true;
+    }
 }

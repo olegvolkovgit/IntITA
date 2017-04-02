@@ -9,7 +9,7 @@
    href="/_teacher/_admin/users/export/type/admins">
 </a>
 </div>
-<div class="panel panel-default" ng-controller="adminsTableCtrl">
+<div class="panel panel-default" ng-controller="adminsTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="adminsTableParams" class="table table-bordered table-striped table-condensed">

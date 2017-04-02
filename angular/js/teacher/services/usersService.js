@@ -84,6 +84,11 @@ angular
                         method: 'GET',
                         isArray:true,
                     },
+                    organizationUsersCount: {
+                        url: url + '/getOrganizationUsersCount',
+                        method: 'GET',
+                        isArray:true,
+                    },
                     directorsList: {
                         url: url + '/getDirectorsList',
                         method: 'GET'
