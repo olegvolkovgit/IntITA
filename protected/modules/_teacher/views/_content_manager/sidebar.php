@@ -24,7 +24,7 @@
         </li>
         <li>
         <li>
-            <a href="#/admin/coursemanage">
+            <a href="#/organization/courses">
                 Курси</a></li>
         </li>
         <li>

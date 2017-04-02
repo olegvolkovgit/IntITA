@@ -13,43 +13,6 @@ angular
             },
             templateUrl: basePath+"/_teacher/_admin/admin/index",
         })
-        .state('admin/verifycontent', {
-            url: "/admin/verifycontent",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/verifyContent/index",
-        })
-        .state('admin/coursemanage', {
-            url: "/admin/coursemanage",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Курси');
-            },
-            templateUrl: basePath+"/_teacher/_admin/coursemanage/index",
-        })
-        // .state('admin/pay', {
-        //     url: "/admin/pay",
-        //     cache: false,
-        //     controller: function($scope){
-        //         $scope.changePageHeader('Сплатити курс/модуль');
-        //     },
-        //     templateUrl: basePath+"/_teacher/_admin/pay/index"
-        // })
-        // .state('admin/cancel', {
-        //     url: "/admin/cancel",
-        //     cache: false,
-        //     controller: function($scope){
-        //         $scope.changePageHeader('Скасувати курс/модуль');
-        //     },
-        //     templateUrl: basePath+"/_teacher/_admin/pay/cancelCourseModule",
-        // })
-        .state('admin/users', {
-            url: "/admin/users",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Користувачі');
-            },
-            templateUrl: basePath+"/_teacher/_admin/users/index",
-        })
         .state('admin/users/addrole/:role', {
             url: "/admin/users/addrole/:role",
             cache: false,

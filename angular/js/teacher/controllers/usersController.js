@@ -445,67 +445,6 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
         $scope.formData.moduleSelected=null;
         $scope.formData.courseSelected=null;
     };
-    $scope.actionModule = function(action,userId,moduleId) {
-        var url;
-        switch (action){
-            case 'payModule':
-                url = basePath+'/_teacher/_admin/pay/payModule/';
-                break;
-            case 'cancelModule':
-                url = basePath+'/_teacher/_admin/pay/cancelModule/';
-                break;
-
-        }
-        if (moduleId && userId) {
-            $http({
-                method:'POST',
-                url:url,
-                data: $jq.param({'module': moduleId, 'user': userId}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            })
-                .success(function(data){
-                    $scope.addUIHandlers(data);
-                    $scope.clearInputs();
-                    $scope.loadUserData($scope.userId)
-                })
-                .error(function(data){
-                    bootbox.alert(data);
-                })
-        }else{
-            bootbox.alert('Введено не всі дані');
-        }
-    };
-
-    $scope.actionCourse = function(action,userId,courseId){
-        var url;
-        switch (action){
-            case 'payCourse':
-                url = basePath+'/_teacher/_admin/pay/payCourse/';
-                break;
-            case 'cancelCourse':
-                url = basePath+'/_teacher/_admin/pay/cancelCourse/';
-                break;
-
-        }
-        if (courseId && userId) {
-            $http({
-                method:'POST',
-                url:url,
-                data: $jq.param({'course': courseId, 'user': userId}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            })
-                .success(function(data){
-                    $scope.addUIHandlers(data);
-                    $scope.clearInputs();
-                    $scope.loadUserData($scope.userId)
-                })
-                .error(function(data){
-                    bootbox.alert(data);
-                })
-        }else{
-            bootbox.alert('Введено не всі дані');
-        }
-    };
 
     $scope.onSelectTrainer = function ($item) {
         $scope.selectedTrainer = $item;

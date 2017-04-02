@@ -1,6 +1,6 @@
 <ul class="list-inline">
     <li>
-        <a type="button" class="btn btn-primary" ng-href="#/admin/users">
+        <a type="button" class="btn btn-primary" ng-href="#/organization/registeredUsers">
             Користувачі
         </a>
     </li>

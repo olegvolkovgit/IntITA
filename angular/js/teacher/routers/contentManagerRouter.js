@@ -96,5 +96,9 @@ config(function ($stateProvider) {
                 return contentManagerUrl+"/userAttributesList/id/"+$stateParams.id+"/role/"+$stateParams.role;
             }
         })
-    
+        .state('content_manager/verifycontent', {
+            url: "/content_manager/verifycontent",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_content_manager/verifyContent/index",
+        })
 });

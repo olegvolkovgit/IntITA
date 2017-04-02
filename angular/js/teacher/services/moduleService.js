@@ -14,6 +14,10 @@ angular
                     typeahead: {
                         url: url + '/getTypeahead',
                         isArray:true
-                    }
+                    },
+                    updateModulePrice: {
+                        url: basePath + '/_teacher/_admin/module/updateModulePrice',
+                        method: 'GET',
+                    },
                 });
         }]);

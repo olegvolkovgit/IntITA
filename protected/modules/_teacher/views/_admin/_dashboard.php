@@ -12,9 +12,6 @@
 <!--            </div>-->
 <!--            <div class="panel-body">-->
 <!--                <ul>-->
-<!--                    <li><a href="#/admin/verifycontent">-->
-<!--                            Контент лекцій</a>-->
-<!--                    </li>-->
 <!--                    <li><a href="#/admin/coursemanage">-->
 <!--                            Курси</a></li>-->
 <!--                    <li><a href="#/modulemanage">-->
@@ -70,27 +67,5 @@
         </div>
     </div>
 </div>
-
-<!--<div class="row">-->
-<!--    <div class="col-lg-4">-->
-<!--        <div class="panel panel-green">-->
-<!--            <div class="panel-heading">-->
-<!--                Доступ-->
-<!--            </div>-->
-<!--            <div class="panel-body">-->
-<!--                <ul>-->
-<!--                    </li>-->
-<!--                    <li><a href="#admin/pay">Сплатити курс/модуль</a>-->
-<!--                    </li>-->
-<!--                    <li><a href="#/admin/cancel">Скасувати курс/модуль</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="panel-footer">-->
-<!--                <em>Встановлення безкоштовних занять</em>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
 </div>
 
