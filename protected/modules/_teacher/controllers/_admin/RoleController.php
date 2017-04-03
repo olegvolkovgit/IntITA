@@ -73,4 +73,14 @@ class RoleController extends TeacherCabinetController
         }
         echo json_encode($result);
     }
+
+    public function actionAddRole($id){
+        $model = RegisteredUser::userById($id);
+        $roles = array_diff(AllRolesDataSource::roles(), $model->getRoles());
+
+        $this->renderPartial('addForms/addUserRole', array(
+            'model' => $model,
+            'roles' => $roles
+        ), false, true);
+    }
 }

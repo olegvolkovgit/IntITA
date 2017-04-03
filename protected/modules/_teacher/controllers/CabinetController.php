@@ -299,6 +299,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionUsersAddForm($role, $query, $organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
         $roleModel = Role::getInstance(new UserRoles($role));
   
         if ($query && $roleModel) {

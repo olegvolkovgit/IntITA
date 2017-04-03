@@ -19,6 +19,8 @@
                 <div ng-show="noResults">
                     <i class="glyphicon glyphicon-remove"></i>співробітника не знайдено
                 </div>
+                <em>Зверніть увагу, що деяких користувачів може не бути в списку.
+                    В списку немає користувачів, які не є співробітниками.</em>
             </div>
 
             <button type="submit" class="btn btn-primary" ng-disabled="!selectedRole || !selectedUser">

@@ -26,20 +26,11 @@ angular
             templateUrl: basePath+"/_teacher/_admin/role/addRoleForm",
         })
         
-        .state('admin/users/user/:id/addtrainer', {
-            url: "/admin/users/user/:id/addtrainer",
+        .state('admin/user/:id/addrole', {
+            url: "/admin/user/:id/addrole",
             cache: false,
-            controller:"userProfileCtrl",
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
-            }
-        })
-        .state('admin/users/user/:id/addrole', {
-            url: "/admin/users/user/:id/addrole",
-            cache: false,
-            controller:"userProfileCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/user/addRole/id/"+$stateParams.id;
+                return basePath+"/_teacher/_admin/role/addRole/id/"+$stateParams.id;
             }
         })
         .state('admin/users/user/:id/agreement/:type/:idCourse', {

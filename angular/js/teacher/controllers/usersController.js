@@ -277,7 +277,7 @@ function trainersTableCtrl ($scope, usersService, NgTableParams,roleService, $at
     $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
             if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
-                if(response.data=='success') $scope.tenantsTableParams.reload();
+                if(response.data=='success') $scope.trainersTableParams.reload();
                 else bootbox.alert(response.data);
             }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
@@ -400,10 +400,10 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
             bootbox.alert("Операцію не вдалося виконати");
         });
     }
-    $scope.assignRole = function (user, role) {
+    $scope.assignLocalRole = function (user, role) {
         if(user && role){
             roleService
-                .assignRole({
+                .assignLocalRole({
                     'userId': user,
                     'role': role,
                 })

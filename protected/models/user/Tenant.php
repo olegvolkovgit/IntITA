@@ -136,9 +136,9 @@ class Tenant extends Role
         if (Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date' => date("Y-m-d H:i:s"),
-        ), 'chat_user_id=(select id from chat_user where intita_user_id=:id) and id_organization=:organization', array(':id' => $user->id,':organization'=>$organization))
+        ), 'chat_user_id=(select id from chat_user where intita_user_id=:id) and id_organization=:organization', array(':id' => $user->id,':organization'=>$organizationId))
         ) {
-            $this->notifyCancelRole($user, $organization);
+            $this->notifyCancelRole($user, $organizationId);
             return true;
         }
         return false;

@@ -1397,7 +1397,11 @@ class StudentReg extends CActiveRecord
 
         $result['user']=$user;
         $result['user']['roles']=$model->getRoles();
-        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
+        $noroles=array_diff(AllRolesDataSource::teacherRoles(), $model->getRoles());
+        foreach ($noroles as $key=>$role){
+            $result['user']['noteacherroles'][$key]['role']=$role;
+            $result['user']['noteacherroles'][$key]['name']=Role::getInstance($role)->title();
+        }
 
         foreach($model->getRoles() as $key=>$role){
             $result['user']['roles'][$key]= $role->__toString();
@@ -1533,8 +1537,9 @@ class StudentReg extends CActiveRecord
         }
     }
 
-    public function isOrganizationTeacher($organization)
+    public function isOrganizationTeacher($organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
         return TeacherOrganization::model()->findByAttributes(array(
             'id_user' => $this->id,
             'id_organization'=>$organization,

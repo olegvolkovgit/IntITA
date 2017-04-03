@@ -4,7 +4,7 @@ class UsersController extends TeacherCabinetController
 {
     public function hasRole()
     {
-        $allowedDenySetActions = ['addAdmin', 'createAccountant', 'addTrainer', 'setTrainer', 'removeTrainer'];
+        $allowedDenySetActions = ['addAdmin', 'createAccountant'];
         $action = Yii::app()->controller->action->id;
         return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && !in_array($action, $allowedDenySetActions)) ||
         Yii::app()->user->model->isAdmin() ||
@@ -465,49 +465,6 @@ class UsersController extends TeacherCabinetController
         $adapter = new NgTableAdapter('UserAuthor',$params);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
-    }
-    
-    public function actionAddTrainer($id)
-    {
-        $user = StudentReg::model()->findByPk($id);
-        if (!$user)
-            throw new CHttpException(404, 'Вказана сторінка не знайдена');
-
-        $this->renderPartial('addForms/addTrainer', array(), false, true);
-    }
-   
-    public function actionSetTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-        $trainerId = Yii::app()->request->getPost('trainerId');
-        $trainer = RegisteredUser::userById($trainerId);
-        
-        $cancelResult='';
-        $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
-        if($oldTrainerId) {
-            $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
-            $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-            $cancelResult="Попереднього тренера скасовано.";
-        }
-
-        $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-        if ($result===true){
-            $setResult="Нового тренера призначено.";
-        } else{
-            $setResult=$result;
-        }
-        echo $cancelResult.' '.$setResult;
-    }
-
-    public function actionRemoveTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-
-        $trainer = TrainerStudent::getTrainerByStudent($userId);
-        $oldTrainer = RegisteredUser::userById($trainer->id);
-
-        if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
     }
 
     public function actionExport($type)

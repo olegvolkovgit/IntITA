@@ -10,17 +10,17 @@
         </a>
     </li>
 </ul>
-<div class="col-md-8">
+<div class="col-md-8" ng-controller="userProfileCtrl">
     <div id="addTeacherRole">
         <form name="add-access">
             <fieldset>
                 <legend>Користувач:
-                    <em>{{data.user.firstName}} {{data.user.secondName}} &lt;{{data.user.email}}&gt;</em>
+                    <em>{{data.user.fullName}}</em>
                 </legend>
                 <input type="number" hidden="hidden" ng-value="data.user.id" id="user">
                 Роль:<br>
                 <div class="form-group">
-                    <select class="form-control" ng-options="role as role for (choice, role) in data.user.noroles" ng-model="selectedRole">
+                    <select class="form-control" ng-options="item.role as item.name for item in data.user.noteacherroles" ng-model="selectedRole">
                         <option value="" disabled selected>(Виберіть роль)</option>
                     </select>
                 </div>
