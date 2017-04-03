@@ -39,7 +39,8 @@ class AgreementsController extends TeacherCabinetController {
 
     public function actionGetAgreementsList() {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('UserAgreements', $requestParams);
+        $organization = Yii::app()->user->model->getCurrentOrganization();
+        $ngTable = new NgTableAdapter(UserAgreements::model()->belongsToOrganization($organization), $requestParams);
         $result = $ngTable->getData();
         echo json_encode($result);
     }

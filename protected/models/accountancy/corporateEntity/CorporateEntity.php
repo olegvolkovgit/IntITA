@@ -21,8 +21,9 @@
  * @property AddressCity $legalCity
  * @property AddressCity $actualCity
  */
-class CorporateEntity extends CActiveRecord
-{
+class CorporateEntity extends CActiveRecord {
+
+    use withBelongsToOrganization;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -155,4 +156,17 @@ class CorporateEntity extends CActiveRecord
         $sql = "SELECT * FROM acc_corporate_entity_representatives WHERE corporate_entity = ".$this->id;
         return Yii::app()->db->createCommand($sql)->queryAll();
     }
+
+    /**
+     * @param Organization $organization
+     * @return CDbCriteria
+     */
+    public function getOrganizationCriteria(Organization $organization) {
+	    $criteria = new CDbCriteria([
+	        'condition' => 't.id_organization = :organizationId',
+            'params' => ['organizationId' => $organization->id]
+        ]);
+	    return $criteria;
+    }
+
 }

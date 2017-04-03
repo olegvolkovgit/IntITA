@@ -462,15 +462,16 @@ angular
             };
         }])
 
-    .controller('companiesCtrl', function ($scope, $http, $state, NgTableParams, $resource) {
+    .controller('companiesCtrl', function ($scope, NgTableParams, companiesService) {
         $scope.changePageHeader('Компанії');
-        $scope.companiesTable = new NgTableParams({
-            sorting: {},
-        }, {
+        $scope.companiesTable = new NgTableParams({sorting: {}}, {
             getData: function (params) {
-                return $resource(basePath + '/_teacher/_accountant/company/getCompaniesList').get(params.url()).$promise.then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
+              return companiesService
+                .list(params.url())
+                .$promise
+                .then(function (data) {
+                  params.total(data.count);
+                  return data.rows;
                 });
             }
         });
@@ -508,6 +509,7 @@ angular
             });
         }
     })
+
     .controller('representativesCtrl', function ($scope, NgTableParams, $resource) {
         $scope.changePageHeader('Представники');
         $scope.companyRepresentativesTable = new NgTableParams({
@@ -536,7 +538,7 @@ angular
 
     .controller('oneRepresentativeCtrl', function ($scope, $http, $state) {
         $scope.changePageHeader('Представник');
-        
+
         $scope.$watch('newRepresentative', function() {
             if ($scope.newRepresentative)
                 $jq('#typeaheadRepresentative').css('background-color', '#eee');
@@ -574,7 +576,7 @@ angular
             }
         }
     })
-    
+
     .controller('operationTypeCtrl', function ($scope, $http, $resource, NgTableParams) {
         $jq('#operationTypes').DataTable({
                 language: {
@@ -746,7 +748,7 @@ angular
                     bootbox.alert("Отримати дані джерела коштів не вдалося");
                 });
         };
-        
+
         if($stateParams.id){
             $scope.modelId=$stateParams.id;
             $scope.loadExternalSourceData($scope.modelId);
@@ -760,7 +762,7 @@ angular
             $scope.source.name=null;
             $scope.externalSourceForm.name.$setPristine();
         };
-        
+
         $scope.createExternalSource= function (name, cash) {
             $http({
                 url: basePath+'/_teacher/_accountant/externalSources/createExternalSource',
@@ -871,7 +873,7 @@ angular
                 });
             }
         }])
-    
+
     .controller('paymentsSchemaTemplateCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams', function ($scope, _, $http, $state, $stateParams) {
         $scope.changePageHeader('Створення та редагування шаблонів схем');
         $scope.loadSchemesTemplate=function(templateId){
@@ -907,7 +909,7 @@ angular
         if($stateParams.id) {
             $scope.loadSchemesTemplate($stateParams.id);
         }
-        
+
         $scope.schemes = [
             {pay_count:1,discount:30,loan:0,name:'Проплата наперед'},
             {pay_count:2,discount:10,loan:0,name:'2 проплати'},
@@ -923,7 +925,7 @@ angular
             name:'',
             schemes:$scope.schemes,
         }
-        
+
         $scope.payCount = [
             {value: 1, name: 'Проплата наперед'},
             {value: 2, name: '2 проплати'},
@@ -1097,7 +1099,7 @@ angular
                 });
             };
             $scope.loadTemplates();
-            
+
             $scope.startDateOptions = new DateOptions();
             $scope.endDateOptions = new DateOptions();
 
@@ -1210,7 +1212,7 @@ angular
                 });
             };
             $scope.loadTemplates();
-            
+
             $scope.startShowOptions = new DateOptions();
             $scope.startDateOptions = new DateOptions();
             $scope.endDateOptions = new DateOptions();
@@ -1257,7 +1259,7 @@ angular
     .controller('promotionPaymentsSchemesTableCtrl', ['$scope', 'NgTableParams','paymentSchemaService','$http',
         function ($scope, NgTableParams,paymentSchemaService, $http) {
             $scope.changePageHeader('Список акцій застосованих до сервісів');
-            
+
             $scope.promotionPaymentsSchemaTableParams = new NgTableParams({}, {
                 getData: function (params) {
                     return paymentSchemaService
@@ -1417,13 +1419,13 @@ angular
             $scope.changePageHeader('Запити на застосування схем проплат');
 
             $scope.status = [
-                {id:'0', title:'нові'}, 
-                {id:'1', title:'в процесі'}, 
-                {id:'2', title:'затвердженні'}, 
+                {id:'0', title:'нові'},
+                {id:'1', title:'в процесі'},
+                {id:'2', title:'затвердженні'},
                 {id:'3', title:'відхилені'},
                 {id:'4', title:'нові та в процесі'}
             ];
-            
+
             $scope.schemesRequestsTableParams = new NgTableParams({filter:{'status':'4'}}, {
                 getData: function (params) {
                     return paymentSchemaService
@@ -1435,7 +1437,7 @@ angular
                         });
                 }
             });
-            
+
             $scope.setRequestStatus=function(idMessage,status){
                 $http({
                     url: basePath+'/_teacher/_accountant/paymentSchema/setRequestStatus',

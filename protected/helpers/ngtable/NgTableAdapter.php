@@ -67,7 +67,7 @@ class NgTableAdapter {
 
     /**
      * NgTableAdapter constructor.
-     * @param CActiveRecord|string $activeRecord
+     * @param {CActiveRecord|string} $activeRecord
      * @param array $requestParams
      * @param array $modelsBehaviours
      */
@@ -250,7 +250,7 @@ class NgTableAdapter {
             foreach ($provider->getRelationAttributes() as $attribute) {
                 $select[] = "`$relationName`.`$attribute`";
             }
-            $with[$relationName] = ['select' => implode(',', $select), 'joinType' => 'LEFT JOIN'];
+            $with[$relationName] = ['select' => implode(',', $select), 'joinType' => 'JOIN'];
         }
         $this->getCriteriaInstance()->with = $with;
 

@@ -24,7 +24,7 @@ class RegisteredUser
     private $_roleAttributes = array();
 
     public $lectureAccessErrorMessage;
-    
+
     public function __construct(StudentReg $registrationData)
     {
         $this->registrationData = $registrationData;
@@ -56,7 +56,7 @@ class RegisteredUser
         }
         return $this->_roles;
     }
-    
+
     private function loadRoles($organization=null)
     {
         $sql = '';
@@ -134,8 +134,8 @@ class RegisteredUser
     public function setRoleAttribute($role, $attribute, $value)
     {
         $roleObj = Role::getInstance($role);
-        if($roleObj->setAttribute($this->registrationData, $attribute, $value)) 
-            return true; 
+        if($roleObj->setAttribute($this->registrationData, $attribute, $value))
+            return true;
         else return $roleObj->getErrorMessage();
     }
 
@@ -143,8 +143,8 @@ class RegisteredUser
     {
         $roleObj = Role::getInstance($role);
         date_default_timezone_set(Config::getServerTimezone());
-        if($roleObj->cancelAttribute($this->registrationData, $attribute, $value)) 
-            return true; 
+        if($roleObj->cancelAttribute($this->registrationData, $attribute, $value))
+            return true;
         else return $roleObj->getErrorMessage();
     }
 
@@ -223,12 +223,12 @@ class RegisteredUser
     {
         return $this->hasRole(UserRoles::AUDITOR);
     }
-    
+
     public function isSuperAdmin()
     {
         return $this->hasRole(UserRoles::SUPER_ADMIN);
     }
-    
+
     public function canApprove()
     {
         return $this->isContentManager();
@@ -272,7 +272,7 @@ class RegisteredUser
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelRole($this->registrationData, $organization);
     }
-    
+
     public function cancelRoleMessage(UserRoles $role, Organization $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
@@ -373,7 +373,7 @@ class RegisteredUser
 
         return true;
     }
-    
+
     public function hasLecturePagesAccess(Lecture $lecture){
         return $this->coworkerHasModuleAccess($lecture->module);
     }
@@ -428,13 +428,18 @@ class RegisteredUser
         return Organization::model()->findAll($criteria);
     }
 
-    public function hasOrganizationById($id)
-    {
+    /**
+     * @param {integer} $id
+     * @return bool
+     */
+    public function hasOrganizationById($id) {
         return in_array($id, $this->getOrganizations());
     }
 
-    public function getCurrentOrganization()
-    {
-        return Organization::model()->findByPk(Yii::app()->session['organization']);
+    /**
+     * @return Organization
+     */
+    public function getCurrentOrganization() {
+        return Organization::model()->findByPk(Yii::app()->session->get('organization'));
     }
 }
