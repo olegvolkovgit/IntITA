@@ -8,7 +8,8 @@ class InternalPaymentsController extends TeacherCabinetController
 
     public function actionGetNgTable() {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter(InternalPays::model(), $requestParams);
+        $organization = Yii::app()->user->model->getCurrentOrganization();
+        $ngTable = new NgTableAdapter(InternalPays::model()->belongsToOrganization($organization), $requestParams);
         $result = $ngTable->getData();
         echo json_encode($result);
     }

@@ -39,7 +39,8 @@ class ExternalPaymentsController extends TeacherCabinetController
 
     public function actionGetNgTable() {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter(ExternalPays::model(), $requestParams);
+        $organization = Yii::app()->user->model->getCurrentOrganization();
+        $ngTable = new NgTableAdapter(ExternalPays::model()->belongsToOrganization($organization), $requestParams);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
