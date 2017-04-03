@@ -81,4 +81,18 @@ class Admin extends Role
     {
         return UserAdmin::model()->findAll($criteria);
     }
+
+	public function setRole(StudentReg $user, $organization)
+	{
+		if(Yii::app()->db->createCommand()->
+		insert($this->tableName(), array(
+			'id_user' => $user->id,
+			'assigned_by'=>Yii::app()->user->getId(),
+			'id_organization'=>$organization,
+		))){
+			$this->notifyAssignRole($user, $organization);
+			return true;
+		}
+		return false;
+	}
 }

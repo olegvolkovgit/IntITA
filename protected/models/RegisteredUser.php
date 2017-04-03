@@ -128,7 +128,7 @@ class RegisteredUser
 
     private function loadTeacherModel()
     {
-        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id));
+        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id,'cancelled'=>Teacher::ACTIVE));
     }
 
     public function getRolesAttributes()

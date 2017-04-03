@@ -117,6 +117,9 @@ abstract class Role
     
     public function setRole(StudentReg $user, $organization)
     {
+        if(!$user->isOrganizationTeacher($organization)){
+            throw new \application\components\Exceptions\IntItaException(403, "Користувач не є співробітником");
+        }
         if(Yii::app()->db->createCommand()->
         insert($this->tableName(), array(
             'id_user' => $user->id,

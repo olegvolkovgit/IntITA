@@ -5,6 +5,19 @@ angular
 function adminRoleCtrl ($scope, roleService){
     $scope.changePageHeader('Призначити роль');
 
+    $scope.loadRolesList=function(){
+        var promise = roleService.localRolesList().$promise.then(
+            function successCallback(response) {
+                return response;
+            }, function errorCallback() {
+                bootbox.alert("Отримати список локальних ролей не вдалося");
+            });
+        return promise;
+    };
+    $scope.loadRolesList().then(function (data) {
+        $scope.roles=data;
+    });
+    
     $scope.onSelectUser = function ($item) {
         $scope.selectedUser = $item;
     };

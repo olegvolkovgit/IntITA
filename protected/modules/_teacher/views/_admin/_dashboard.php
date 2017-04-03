@@ -8,6 +8,22 @@
     <div class="col-lg-4">
         <div class="panel panel-yellow">
             <div class="panel-heading">
+                Ролі
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a ng-href="#/admin/addrole">Призначити роль</a></li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Призначення ролей в межах організації</em>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
                 Користувачі
             </div>
             <div class="panel-body">
@@ -30,7 +46,7 @@
     </div>
 
     <div class="col-lg-4">
-        <div class="panel panel-primary">
+        <div class="panel panel-green">
             <div class="panel-heading">
                 Контент
             </div>

@@ -35,7 +35,7 @@ class Tenant extends Role
 
     public function setRole(StudentReg $user, $organizationId = null)
     {
-        if (!$this->isActiveTenant($user)) {
+        if (!$this->isActiveTenant($user, $organizationId)) {
             if (!$this->isChatUserDefined($user)) {
                 if (!$this->addChatUser($user)) {
                     $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
@@ -43,9 +43,9 @@ class Tenant extends Role
                     return false;
                 }
             }
-            $sql = 'INSERT INTO user_tenant (assigned_by, chat_user_id) VALUES ('.Yii::app()->user->getId().', (select id from chat_user where intita_user_id='.$user->id.'))';
+            $sql = 'INSERT INTO user_tenant (assigned_by, chat_user_id, id_organization) VALUES ('.Yii::app()->user->getId().', (select id from chat_user where intita_user_id='.$user->id.'), '.$organizationId.')';
             if (Yii::app()->db->createCommand($sql)->query()) {
-                $this->notifyAssignRole($user);
+                $this->notifyAssignRole($user, $organizationId);
                 return true;
             } else {
                 $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
@@ -81,9 +81,9 @@ class Tenant extends Role
         return array();
     }
 
-    private function isActiveTenant(StudentReg $user)
+    private function isActiveTenant(StudentReg $user, $organization)
     {
-        $sql = 'select count(id) from user_tenant where chat_user_id =  (select id from chat_user where intita_user_id=' . $user->id . ') and end_date IS NULL';
+        $sql = 'select count(id) from user_tenant where chat_user_id =  (select id from chat_user where intita_user_id=' . $user->id . ') and end_date IS NULL and id_organization='.$organization;
         if (Yii::app()->db->createCommand($sql)->queryScalar() > 0) {
             $this->errorMessage = "Даному користувачу уже призначена роль tenant";
             return true;
@@ -110,9 +110,11 @@ class Tenant extends Role
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'left join chat_user as cu on u.id = cu.intita_user_id';
-        $criteria->join .= ' LEFT JOIN teacher t on t.user_id = u.id';
+        $criteria->join .= ' left join teacher t on t.user_id = u.id';
+        $criteria->join .= ' left join teacher_organization tco on tco.id_user=u.id';
         $criteria->join .= ' left join user_tenant ut on ut.chat_user_id=cu.id';
-        $criteria->addCondition('t.user_id IS NOT NULL and ut.chat_user_id IS NULL or ut.end_date IS NOT NULL');
+        $criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+        and (ut.chat_user_id IS NULL or ut.end_date IS NOT NULL or (ut.end_date IS NULL and ut.id_organization!='.$organization.'))');
         $criteria->group = 'u.id';
         $data = StudentReg::model()->findAll($criteria);
 

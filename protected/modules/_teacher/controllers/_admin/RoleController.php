@@ -17,6 +17,12 @@ class RoleController extends TeacherCabinetController
         $this->renderPartial('addForms/_addRole', array('role'=>$role,'title'=>$title), false, true);
     }
 
+    public function actionAddRoleForm()
+    {
+        $this->renderPartial('addForms/_addRoleList', array(), false, true);
+    }
+
+    
     public function actionAssignLocalRole($userId, $role){
         $result=array();
         $user = RegisteredUser::userById($userId);
@@ -54,6 +60,17 @@ class RoleController extends TeacherCabinetController
             $result['data']=$response;
         }
 
+        echo json_encode($result);
+    }
+
+    public function actionGetLocalRolesList()
+    {
+        $result=array();
+        $roles=AllRolesDataSource::teacherRoles();
+        foreach ($roles as $key=>$role){
+            $result[$key]['role']=$role;
+            $result[$key]['name']=Role::getInstance($role)->title();
+        }
         echo json_encode($result);
     }
 }

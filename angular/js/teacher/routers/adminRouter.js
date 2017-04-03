@@ -20,6 +20,12 @@ angular
                 return basePath+"/_teacher/_admin/role/renderAddRoleForm/role/"+$stateParams.role;
             }
         })
+        .state('admin/addrole', {
+            url: "/admin/addrole",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_admin/role/addRoleForm",
+        })
+        
         .state('admin/users/user/:id/addtrainer', {
             url: "/admin/users/user/:id/addtrainer",
             cache: false,

@@ -1532,4 +1532,13 @@ class StudentReg extends CActiveRecord
             }
         }
     }
+
+    public function isOrganizationTeacher($organization)
+    {
+        return TeacherOrganization::model()->findByAttributes(array(
+            'id_user' => $this->id,
+            'id_organization'=>$organization,
+            'end_date'=>null
+        ));
+    }
 }
