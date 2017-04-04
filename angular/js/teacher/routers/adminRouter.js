@@ -33,15 +33,6 @@ angular
                 return basePath+"/_teacher/_admin/role/addRole/id/"+$stateParams.id;
             }
         })
-        .state('admin/users/user/:id/agreement/:type/:idCourse', {
-            url: "/admin/users/user/:id/agreement/:type/:idCourse",
-            cache: false,
-            // controller:"usersCtrl",
-            controller:"userProfileCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
-            }
-        })
         .state('admin/teacher/create', {
             url: "/admin/teacher/create",
             cache: false,

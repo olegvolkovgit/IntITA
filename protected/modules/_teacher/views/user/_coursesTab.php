@@ -18,11 +18,11 @@
                                         <a href="" data-toggle="collapse" ng-click="collapse('#collapse'+course.id)">
                                             {{course.title_ua}} ({{course.lang}})
                                         </a>
-                                        <?php if(Yii::app()->user->model->isAdmin()){?>
-                                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/users/profile/{{data.user.id}}/agreement/course/{{course.id}}">
-                                                <em>договір</em>
-                                            </a>
-                                        <?php } ?>
+<!--                                        --><?php //if(Yii::app()->user->model->isAdmin()){?>
+<!--                                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/users/profile/{{data.user.id}}/agreement/course/{{course.id}}">-->
+<!--                                                <em>договір</em>-->
+<!--                                            </a>-->
+<!--                                        --><?php //} ?>
                                     </h4>
                                 </div>
                                 <div id="collapse{{course.id}}" class="panel-collapse collapse">

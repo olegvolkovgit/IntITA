@@ -15,11 +15,11 @@
                             {{module.title_ua}} ({{module.lang}})
                         </a>
                         <input type="number" hidden="hidden" id="moduleId" ng-value="{{module.id}}"/>
-                        <?php if(Yii::app()->user->model->isAdmin()){?>
-                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/users/profile/{{data.user.id}}/agreement/module/{{module.id}}">
-                                <em>договір</em>
-                            </a>
-                        <?php } ?>
+<!--                        --><?php //if(Yii::app()->user->model->isAdmin()){?>
+<!--                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/users/profile/{{data.user.id}}/agreement/module/{{module.id}}">-->
+<!--                                <em>договір</em>-->
+<!--                            </a>-->
+<!--                        --><?php //} ?>
                     </li>
                 </ul>
                 <em ng-if="data.modules.length==0">Модулів немає.</em>
