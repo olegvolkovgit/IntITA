@@ -15,7 +15,7 @@
             </a>
         </li>
         <li>
-            <a href="#/admin/verifycontent">
+            <a href="#/lectures/verifycontent">
                 Контент лекцій</a>
         </li>
         <li>
