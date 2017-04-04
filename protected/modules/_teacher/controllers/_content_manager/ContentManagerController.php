@@ -5,7 +5,7 @@ class ContentManagerController extends TeacherCabinetController
 
     public function hasRole()
     {
-        $allowedAdminActions=['getAuthorsList','setTeacherRoleAttribute','unsetTeacherRoleAttribute'];
+        $allowedAdminActions=['getAuthorsList'];
         return Yii::app()->user->model->isContentManager() || (Yii::app()->user->model->isAdmin() && in_array(Yii::app()->controller->action->id,$allowedAdminActions));
     }
 

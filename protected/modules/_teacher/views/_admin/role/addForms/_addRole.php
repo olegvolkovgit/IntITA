@@ -1,4 +1,4 @@
-<div class="panel panel-primary" ng-controller="roleCtrl">
+<div class="panel panel-primary" ng-controller="adminRoleCtrl">
     <div class="panel-body">
         <div class="form-group">
             <label>

@@ -7,7 +7,7 @@ angular
     .controller('coursemanageCtrl',coursemanageCtrl)
     .controller('mandatoryModulesCtrl',mandatoryModulesCtrl);
 
-function coursesTableCtrl ($scope, NgTableParams, $resource){
+function coursesTableCtrl ($scope, NgTableParams, $resource, $attrs){
     $scope.changePageHeader('Курси');
     /* Sorting params  */
     $scope.statuses = [{id:'0', title:'в розробці'},{id:'1', title:'готовий'}];
@@ -26,7 +26,7 @@ function coursesTableCtrl ($scope, NgTableParams, $resource){
         });
 
     /* Init course table  */
-    var dataFromServer = $resource(basePath+'/_teacher/coursemanage/getCoursesList');
+    var dataFromServer = $attrs.organization?$resource(basePath+'/_teacher/coursemanage/getOrganizationCoursesList'):$resource(basePath+'/_teacher/coursemanage/getCoursesList');
     $scope.courseTable = new NgTableParams({
         sorting:{'course_ID':"asc"}
     }, {

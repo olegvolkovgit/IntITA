@@ -17,7 +17,7 @@ class Director extends Role
 	 * @return string sql for check role admin.
 	 */
 	public function checkRoleSql(){
-		return 'select "director" from user_director d where d.id_user = :id and end_date IS NULL';
+		return 'select "director" from user_director d where d.id_user = :id and d.end_date IS NULL';
 	}
 
 	/**

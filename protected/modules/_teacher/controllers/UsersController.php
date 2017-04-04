@@ -4,7 +4,7 @@ class UsersController extends TeacherCabinetController
 {
     public function hasRole()
     {
-        $allowedDenySetActions = ['addAdmin', 'createAccountant', 'addTrainer', 'setTrainer', 'removeTrainer'];
+        $allowedDenySetActions = ['addAdmin', 'createAccountant'];
         $action = Yii::app()->controller->action->id;
         return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && !in_array($action, $allowedDenySetActions)) ||
         Yii::app()->user->model->isAdmin() ||
@@ -16,7 +16,11 @@ class UsersController extends TeacherCabinetController
     {
         $this->renderPartial('index', array(), false, true);
     }
-
+    public function actionOrganizationUsers()
+    {
+        $this->renderPartial('organizationUsers', array(), false, true);
+    }
+    
     public function actionGetUsersCount()
     {
         $counters = [];
@@ -24,7 +28,7 @@ class UsersController extends TeacherCabinetController
 
         $counters["admins"] = UserAdmin::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["accountants"] = UserAccountant::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
-        $counters["coworkers"] = Teacher::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE);
+        $counters["coworkers"] = TeacherOrganization::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE."  AND end_date IS NULL");
         $counters["contentAuthors"] = UserAuthor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["offlineStudents"] = OfflineStudents::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
@@ -48,30 +52,60 @@ class UsersController extends TeacherCabinetController
         }
         echo json_encode($result);
     }
-    
+
+    public function actionGetOrganizationUsersCount()
+    {
+        $counters = [];
+        $result=[];
+        $sql=' and id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $counters["admins"] = UserAdmin::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["accountants"] = UserAccountant::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["coworkers"] = TeacherOrganization::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE."  AND end_date IS NULL".$sql);
+        $counters["contentAuthors"] = UserAuthor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["offlineStudents"] = OfflineStudents::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["registeredUsers"] = StudentReg::model()->count('cancelled='.StudentReg::ACTIVE);
+        $counters["tenants"] = UserTenant::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["trainers"] = UserTrainer::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["contentManagers"] = UserContentManager::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["teacherConsultants"] = UserTeacherConsultant::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["supervisors"] = UserSuperVisor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["superAdmins"] = UserSuperAdmin::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["directors"] = UserDirector::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["auditors"] = UserAuditor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+
+        $i=0;
+        foreach ($counters as $key=>$counter){
+            $result[$i]['role']=$key;
+            $result[$i]['count']=$counter;
+            $i++;
+        }
+        echo json_encode($result);
+    }
+
     public function actionUsers()
     {
         $this->renderPartial('tables/_usersTable', array(), false, true);
     }
 
-    public function actionStudents()
+    public function actionStudents($organization)
     {
-        $this->renderPartial('tables/_studentsTable', array(), false, true);
+        $this->renderPartial('tables/_studentsTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionOfflineStudents()
+    public function actionOfflineStudents($organization)
     {
-        $this->renderPartial('tables/_offlineStudentsTable', array(), false, true);
+        $this->renderPartial('tables/_offlineStudentsTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionCoworkers()
+    public function actionCoworkers($organization)
     {
-        $this->renderPartial('tables/_teachersTable', array(), false, true);
+        $this->renderPartial('tables/_teachersTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionContentAuthors()
+    public function actionContentAuthors($organization)
     {
-        $this->renderPartial('tables/_authorsTable', array(), false, true);
+        $this->renderPartial('tables/_authorsTable', array('organization'=>$organization), false, true);
     }
 
     public function actionUsersWithoutRoles()
@@ -79,34 +113,34 @@ class UsersController extends TeacherCabinetController
         $this->renderPartial('tables/_withoutRolesTable', array(), false, true);
     }
 
-    public function actionAdmins()
+    public function actionAdmins($organization=0)
     {
-        $this->renderPartial('tables/_adminsTable', array(), false, true);
+        $this->renderPartial('tables/_adminsTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionAccountants()
+    public function actionAccountants($organization)
     {
-        $this->renderPartial('tables/_accountantsTable', array(), false, true);
+        $this->renderPartial('tables/_accountantsTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionContentManagers()
+    public function actionContentManagers($organization)
     {
-        $this->renderPartial('tables/_contentManagersTable', array(), false, true);
+        $this->renderPartial('tables/_contentManagersTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionTrainers()
+    public function actionTrainers($organization)
     {
-        $this->renderPartial('tables/_trainersTable', array(), false, true);
+        $this->renderPartial('tables/_trainersTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionTenants()
+    public function actionTenants($organization)
     {
-        $this->renderPartial('tables/_tenantsTable', array(), false, true);
+        $this->renderPartial('tables/_tenantsTable', array('organization'=>$organization), false, true);
     }
 
-    public function actionSupervisors()
+    public function actionSupervisors($organization)
     {
-        $this->renderPartial('tables/_superVisorsTable', array(), false, true);
+        $this->renderPartial('tables/_superVisorsTable', array('organization'=>$organization), false, true);
     }
 
     public function actionBlockedUsers()
@@ -129,9 +163,9 @@ class UsersController extends TeacherCabinetController
         $this->renderPartial('tables/_directorsTable', array(), false, true);
     }
 
-    public function actionTeacherConsultants()
+    public function actionTeacherConsultants($organization)
     {
-        $this->renderPartial('tables/_teacherConsultantsTable', array(), false, true);
+        $this->renderPartial('tables/_teacherConsultantsTable', array('organization'=>$organization), false, true);
     }
     
     public function actionUsersEmail()
@@ -174,6 +208,7 @@ class UsersController extends TeacherCabinetController
     
     public function actionGetStudentsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('StudentReg', $requestParams);
 
@@ -182,6 +217,9 @@ class UsersController extends TeacherCabinetController
         $criteria->alias = 't';
         $criteria->join = 'inner join user_student us on t.id = us.id_user';
         $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
+//        todo
+//        if($_GET['organization'])
+//            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->group = 't.id';
         if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
             $startDate=$_GET['startDate'];
@@ -196,8 +234,10 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetOfflineStudentsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('OfflineStudents', $requestParams);
+
 
         if(isset($requestParams['idGroup'])){
             $criteria =  new CDbCriteria();
@@ -218,7 +258,9 @@ class UsersController extends TeacherCabinetController
             $criteria->condition = 't.end_date IS NULL';
             $ngTable->mergeCriteriaWith($criteria);
         }
-
+//        todo
+//        if($_GET['organization'])
+//            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -257,9 +299,12 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTenantsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $ngTable = new NgTableAdapter('UserTenant', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
@@ -268,8 +313,11 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetContentManagersList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserContentManager', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
@@ -279,9 +327,12 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTeacherConsultantsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $ngTable = new NgTableAdapter('UserTeacherConsultant', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
@@ -290,11 +341,14 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTeachersList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $criteria = new CDbCriteria();
-        $criteria->join = 'left join user u on u.id=t.user_id';
-        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
-        $ngTable = new NgTableAdapter('Teacher', $requestParams);
+        $criteria->join = 'left join user u on u.id=t.id_user';
+        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE.' and t.end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable = new NgTableAdapter('TeacherOrganization', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
@@ -302,8 +356,11 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAdminsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserAdmin', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
@@ -313,8 +370,11 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAccountantsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserAccountant', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
@@ -324,8 +384,11 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTrainersList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserTrainer', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
@@ -345,8 +408,11 @@ class UsersController extends TeacherCabinetController
     
     public function actionGetSuperVisorsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserSuperVisor', $requestParams);
 
@@ -390,55 +456,15 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAuthorsList()
     {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $params = $_GET;
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
+        if($_GET['organization'])
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $adapter = new NgTableAdapter('UserAuthor',$params);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
-    }
-    
-    public function actionAddTrainer($id)
-    {
-        $user = StudentReg::model()->findByPk($id);
-        if (!$user)
-            throw new CHttpException(404, 'Вказана сторінка не знайдена');
-
-        $this->renderPartial('addForms/addTrainer', array(), false, true);
-    }
-   
-    public function actionSetTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-        $trainerId = Yii::app()->request->getPost('trainerId');
-        $trainer = RegisteredUser::userById($trainerId);
-        
-        $cancelResult='';
-        $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
-        if($oldTrainerId) {
-            $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
-            $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-            $cancelResult="Попереднього тренера скасовано.";
-        }
-
-        $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-        if ($result===true){
-            $setResult="Нового тренера призначено.";
-        } else{
-            $setResult=$result;
-        }
-        echo $cancelResult.' '.$setResult;
-    }
-
-    public function actionRemoveTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-
-        $trainer = TrainerStudent::getTrainerByStudent($userId);
-        $oldTrainer = RegisteredUser::userById($trainer->id);
-
-        if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
     }
 
     public function actionExport($type)

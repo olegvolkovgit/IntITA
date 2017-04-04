@@ -20,7 +20,7 @@ class Student extends Role
      */
     public function checkRoleSql()
     {
-        return 'select "student" from user_student st where st.id_user = :id and end_date IS NULL';
+        return 'select "student" from user_student st where st.id_user = :id and st.end_date IS NULL';
     }
 
     public function getErrorMessage()
@@ -163,12 +163,12 @@ class Student extends Role
     }
 
     //not supported for this role
-    public function notifyAssignRole(StudentReg $user, Organization $organization = null){
+    public function notifyAssignRole(StudentReg $user, $organization = null){
         return false;
     }
 
     //not supported for this role
-    public function notifyCancelRole(StudentReg $user, Organization $organization = null){
+    public function notifyCancelRole(StudentReg $user, $organization = null){
         return false;
     }
 

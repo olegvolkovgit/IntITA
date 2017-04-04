@@ -17,6 +17,7 @@ class RegisteredUser
     public $registrationData;
     //array UserRoles
     private $_roles;
+    private $_teacher_roles;
     //Teacher model
     private $_teacher;
     private $_organizations;
@@ -51,13 +52,20 @@ class RegisteredUser
 
     public function getRoles($organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->session['organization'];
         if ($this->_roles === null) {
             $this->_roles = $this->loadRoles($organization);
         }
         return $this->_roles;
     }
-
-    private function loadRoles($organization=null)
+    public function getTeacherRoles($organization)
+    {
+        if ($this->_teacher_roles === null) {
+            $this->_teacher_roles = $this->loadTeacherRoles($organization);
+        }
+        return $this->_teacher_roles;
+    }
+    private function loadRoles($organization)
     {
         $sql = '';
         $roles = AllRolesDataSource::roles();
@@ -76,6 +84,25 @@ class RegisteredUser
             return new UserRoles($row["director"]);
         }, $rolesArray);
 
+        return $result;
+    }
+
+    private function loadTeacherRoles($organization)
+    {
+        $sql = '';
+        $roles = AllRolesDataSource::teacherRoles();
+        $lastKey = array_search(end($roles), $roles);
+        foreach($roles as $key=>$role){
+            $model = Role::getInstance($role);
+            $sql .= "(".$model->checkRoleSql($organization).")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
+        $result = array_map(function ($row) {
+            return new UserRoles($row["accountant"]);
+        }, $rolesArray);
         return $result;
     }
 
@@ -99,7 +126,7 @@ class RegisteredUser
 
     private function loadTeacherModel()
     {
-        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id));
+        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id,'cancelled'=>Teacher::ACTIVE));
     }
 
     public function getRolesAttributes()
@@ -441,5 +468,15 @@ class RegisteredUser
      */
     public function getCurrentOrganization() {
         return Organization::model()->findByPk(Yii::app()->session->get('organization'));
+    }
+
+    public function hasAccessToGlobalRoleLists($organization)
+    {
+        $organization=filter_var($organization, FILTER_VALIDATE_BOOLEAN);
+        if(!$organization){
+            if(!($this->isDirector() || $this->isSuperAdmin()))
+                throw new \application\components\Exceptions\IntItaException(403, "Не має доступу");
+        }
+        return true;
     }
 }

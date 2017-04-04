@@ -575,8 +575,10 @@ class Lecture extends CActiveRecord
     public  function getLecturesList($count, $page, $searchCondition, $sorting=null)
     {
         $criteria = new CDbCriteria();
-        $criteria->addCondition('idModule > 0 and `order` > 0');
-        $criteria->order = 'isFree DESC';
+        $criteria->alias='t';
+        $criteria->join = 'LEFT JOIN module m on m.module_ID=t.idModule';
+        $criteria->addCondition('t.idModule>0 and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' and t.`order` > 0');
+        $criteria->order = 't.isFree DESC';
         $criteria->compare('t.title_ua', urldecode($searchCondition), true);
         $criteria->with = array('module','type');
         $criteria->compare('module.title_ua', urldecode($searchCondition), true,'OR');
@@ -652,28 +654,56 @@ class Lecture extends CActiveRecord
         return json_encode($return);
     }
 
+    public static function getOrganizationLecturesList($organization)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->join = 'LEFT JOIN module m on m.module_ID=t.idModule';
+        $criteria->addCondition('t.idModule>0 and m.id_organization='.$organization.' and t.`order` > 0');
+        $lectures = Lecture::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($lectures as $record) {
+            $row = array();
+            $row["module"] = CHtml::encode(($record->idModule) ? $record->ModuleTitle->title_ua : "");
+            $row["lesson_url"] = Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0));
+            $row["order"] = $record->order;
+            $row["title"] = $record->title_ua;
+            $row["type"] = $record->type->title_ua;
+            $row["id"] = $record->id;
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
     public function setFree()
     {
         $this->isFree = self::FREE;
-        return $this->save();
+        if($this->module->id_organization==Yii::app()->user->model->getCurrentOrganization()->id)
+            return $this->save();
     }
 
     public function setPaid()
     {
         $this->isFree = self::PAID;
-        return $this->save();
+        if($this->module->id_organization==Yii::app()->user->model->getCurrentOrganization()->id)
+            return $this->save();
     }
 
     public function setVerified()
     {
         $this->verified = self::VERIFIED;
-        return $this->save();
+        if($this->module->id_organization==Yii::app()->user->model->getCurrentOrganization()->id)
+            return $this->save();
     }
 
     public function setNoVerified()
     {
         $this->verified = self::NOVERIFIED;
-        return $this->save();
+        if($this->module->id_organization==Yii::app()->user->model->getCurrentOrganization()->id)
+            return $this->save();
     }
 
     public function createNewBlockCKE($htmlBlock, $idType, $pageOrder)

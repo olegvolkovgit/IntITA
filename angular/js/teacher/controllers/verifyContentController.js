@@ -6,7 +6,8 @@ angular
     .controller('verifyContentCtrl', verifyContentCtrl);
 
 function verifyContentCtrl($scope, $http, DTOptionsBuilder) {
-
+    $scope.changePageHeader('Контент лекцій');
+    
     $scope.waitLectures = null;
     $scope.verifiedlectures = null;
     

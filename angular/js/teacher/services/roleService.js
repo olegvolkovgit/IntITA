@@ -25,5 +25,10 @@ angular
                         url: directorUrl+'/cancelRole',
                         method: 'GET',
                     },
+                    localRolesList: {
+                        url: localUrl + '/getLocalRolesList',
+                        method: 'GET',
+                        isArray: true,
+                    },
                 });
         }]);

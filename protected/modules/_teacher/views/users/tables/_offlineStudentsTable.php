@@ -1,7 +1,7 @@
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
    href="/_teacher/_admin/users/export/type/offlineStudents">
 </a>
-<div class="panel panel-default" ng-controller="offlineStudentsTableCtrl">
+<div class="panel panel-default" ng-controller="offlineStudentsTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <table ng-table="offlineStudentsTableParams" class="table table-bordered table-striped table-condensed">
             <colgroup>

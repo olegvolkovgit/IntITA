@@ -13,7 +13,7 @@ class CourseManageController extends TeacherCabinetController
     public function hasRole()
     {
         $allowedViewActions=['coursesList', 'view', 'getCoursesList'];
-        return Yii::app()->user->model->isAdmin() ||
+        return (Yii::app()->user->model->isAdmin() && !in_array(Yii::app()->controller->action->id,['coursesList', 'getCoursesList'])) ||
         Yii::app()->user->model->isContentManager() ||
         (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
@@ -160,7 +160,12 @@ class CourseManageController extends TeacherCabinetController
 
     public function actionCoursesList()
     {
-        $this->renderPartial('_courses_table', array(), false, true);
+        $this->renderPartial('_courses_table', array('organization'=>false), false, true);
+    }
+
+    public function actionOrganizationCoursesList()
+    {
+        $this->renderPartial('_courses_table', array('organization'=>true), false, true);
     }
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -279,6 +284,15 @@ class CourseManageController extends TeacherCabinetController
         echo json_encode($adapter->getData());
     }
 
+    public function actionGetOrganizationCoursesList()
+    {
+        $adapter = new NgTableAdapter('Course',$_GET);
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 'id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+    }
+    
     public function actionModulesByQuery($query, $course)
     {
         if ($query) {

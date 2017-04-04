@@ -29,16 +29,6 @@ class UserController extends TeacherCabinetController {
         ), false, true);
     }
 
-    public function actionAddRole($id){
-        $model = RegisteredUser::userById($id);
-        $roles = array_diff(AllRolesDataSource::roles(), $model->getRoles());
-
-        $this->renderPartial('addUserRole', array(
-            'model' => $model,
-            'roles' => $roles
-        ), false, true);
-    }
-
     public function actionChangeAccountStatus(){
         $user = Yii::app()->request->getPost('user', '0');
         $model = StudentReg::model()->findByPk($user);
@@ -147,18 +137,18 @@ class UserController extends TeacherCabinetController {
     }
     
     public function actionGetRolesHistory($id){
-
-        $historyAdmin =  UserAdmin::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyAccountant = UserAccountant::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
+        $organization=Yii::app()->user->model->getCurrentOrganization()->id;
+        $historyAdmin =  UserAdmin::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
+        $historyAccountant = UserAccountant::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
         $historyStudent = UserStudent::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyTenant = UserTenant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('chat_user_id=:id', array(':id'=>$id));
-        $historyTrainer = UserTrainer::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyConsultant = UserConsultant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyContentManager = UserContentManager::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
-        $historyTeacherConsultant = UserTeacherConsultant::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
-        $historyAuthor = UserAuthor::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
-        $historySuperVisor = UserSuperVisor::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $array = array_merge($historyAuthor,$historyAdmin,$historyAccountant,$historyTenant,$historyStudent,$historyTrainer,$historyConsultant,$historyContentManager,$historyTeacherConsultant,$historySuperVisor);
+        $historyTenant = UserTenant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('(select id from chat_user where intita_user_id=:id) and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
+        $historyTrainer = UserTrainer::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
+        $historyContentManager = UserContentManager::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
+        $historyTeacherConsultant = UserTeacherConsultant::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
+        $historyAuthor = UserAuthor::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
+        $historySuperVisor = UserSuperVisor::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$id,':id_org'=>$organization));
+        $array = array_merge($historyAdmin,$historyAccountant,$historyStudent,$historyTenant,$historyTrainer,$historyContentManager,$historyTeacherConsultant,$historyAuthor,$historySuperVisor);
+
         $history = [];
         foreach ($array as $value)
         {

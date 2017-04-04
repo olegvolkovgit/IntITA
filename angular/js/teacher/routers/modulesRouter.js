@@ -5,14 +5,6 @@ angular
     .module('modulesRouter',['ui.router']).
 config(function ($stateProvider) {
     $stateProvider
-        .state('modulemanage', {
-            url: "/modulemanage",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Модулі');
-            },
-            templateUrl: basePath+"/_teacher/_admin/module/index",
-        })
         .state('module/mandatory/id/:moduleId/course/:courseId', {
             url: "/module/mandatory/id/:moduleId/course/:courseId",
             cache: false,

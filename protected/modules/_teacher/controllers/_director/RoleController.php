@@ -27,11 +27,10 @@ class RoleController extends TeacherCabinetController
         $result=array();
         $user = RegisteredUser::userById($userId);
         $roleObj = Role::getInstance($role);
-        $organization= $organizationId?Organization::model()->findByPk($organizationId):null;
-        if ($user->hasRole($role, $organization)) {
+        if ($user->hasRole($role, $organizationId)) {
             $result['data']="Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
         }else{
-            if ($user->setRole($role, $organization))
+            if ($user->setRole($role, $organizationId))
                 $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$roleObj->title();
             else $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$roleObj->title().". 
             Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();

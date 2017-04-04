@@ -53,8 +53,7 @@
                         <tr ng-repeat="row in $data"  ng-class="(!row.read ? 'new' : '')">
                             <td header="'headerCheckbox.html'"> <input type="checkbox" ng-model="checkboxes.items[row.id_message]" /></td>
                             <td data-title="'Від кого'"  filter="{'name' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)" sortable="'sender.fullName'">
-                                <div ng-if="row.sender.fullName"><em>{{row.sender.fullName}} ({{row.sender.email}})</em></div>
-                                <div ng-if="row.sender.fullName == ''"><em>{{row.sender.email}}</em></div>
+                                <div ng-if="row.sender.fullName"><em>{{row.sender.fullName}}</em></div>
                             </td>
                             <td data-title="'Тема'" filter="{'subject' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)">
                                 <div ng-if="row.rejectRevisionMessages"><em>Запит на затвердження ревізії відхилено</em></div>

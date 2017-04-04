@@ -111,7 +111,7 @@ function moduleCreate(url) {
         datatype:'json',
         success: function () {
             bootbox.alert("Модуль успішно додано", function () {
-               location.hash = "/modulemanage";
+               location.hash = "/organization/modules";
             });
         },
         error: function () {
@@ -178,7 +178,7 @@ function courseCreate(url) {
         datatype:'json',
         success: function () {
             bootbox.alert("Курс успішно додано", function () {
-                location.hash = "/admin/coursemanage";
+                location.hash = "/organization/courses";
             });
         },
         error: function () {
@@ -200,7 +200,7 @@ function courseActions(url) {
         datatype:'json',
         success: function (message) {
             bootbox.alert(message, function () {
-                location.hash = "/admin/coursemanage";
+                location.hash = "/organization/courses";
             });
         },
         error: function (message) {

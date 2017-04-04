@@ -1,4 +1,4 @@
-<div class="panel panel-default" ng-controller="coursesTableCtrl">
+<div class="panel panel-default" ng-controller="coursesTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="courseTable" class="table table-striped table-bordered table-hover" style="width:100%">
@@ -16,7 +16,7 @@
                     <td data-title="'Псевдонім'" sortable="'alias'" filter="{alias: 'text'}">{{row.alias}}</td>
                     <td data-title="'Мова'" filter="{language: 'select'}" filter-data="languages">{{row.language}}</td>
                     <td data-title="'Назва'" sortable="'title_ua'" filter="{title_ua: 'text'}">
-                        <a ui-sref="courses.course({id:row.course_ID})">{{row.title_ua}}</a>
+                        <a ng-href="#/course/{{row.course_ID}}">{{row.title_ua}}</a>
                     </td>
                     <td data-title="'Онлайн-статус'" filter="{status_online: 'select'}" filter-data="statuses">
                         <span ng-if="row.status_online">готовий</span>

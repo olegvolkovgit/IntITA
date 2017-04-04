@@ -52,60 +52,55 @@ angular
                         return basePath+"/_teacher/user/index?id="+$stateParams.id;
                     }
                 })
-
+                
                 .state('courses', {
                     url: '/courses',
-                    views: {
-                        '@': {
-                            templateUrl: basePath+"/_teacher/courseManage/coursesList",
-                        }
-                    }
+                    templateUrl: basePath+"/_teacher/courseManage/coursesList",
                 })
-                .state('courses.course', {
+                .state('organization/courses', {
+                    url: '/organization/courses',
+                    templateUrl: basePath+"/_teacher/courseManage/organizationCoursesList",
+                })
+                .state('course/:id', {
                     url: '/course/:id',
-                    views: {
-                        '@': {
-                            templateUrl: function ($stateParams) {
-                                return basePath+"/_teacher/courseManage/view?id="+$stateParams.id;
-                            }
-                        }
+                    templateUrl: function ($stateParams) {
+                        return basePath+"/_teacher/courseManage/view?id="+$stateParams.id;
                     }
                 })
+
                 .state('modules', {
                     url: '/modules',
-                    views: {
-                        '@': {
-                            templateUrl: basePath+"/_teacher/moduleManage/modulesList",
-                        }
-                    }
+                    templateUrl: basePath+"/_teacher/moduleManage/modulesList",
                 })
-                .state('modules.module', {
+                .state('organization/modules', {
+                    url: '/organization/modules',
+                    templateUrl: basePath+"/_teacher/moduleManage/organizationModulesList",
+                })
+                .state('module/:moduleId', {
                     url: '/module/:moduleId',
-                    views: {
-                        '@': {
-                            templateUrl: function ($stateParams) {
-                                return basePath+"/_teacher/moduleManage/view?id="+$stateParams.moduleId;
-                            }
-                        }
+                    templateUrl: function ($stateParams) {
+                        return basePath+"/_teacher/moduleManage/view?id="+$stateParams.moduleId;
                     }
                 })
+                
                 .state('lectures', {
                     url: '/lectures',
-                    views: {
-                        '@': {
-                            templateUrl: basePath+"/_teacher/lecture/lecturesList",
-                        }
-                    }
+                    templateUrl: basePath+"/_teacher/lecture/lecturesList",
                 })
+                .state('organization/lectures', {
+                    url: '/organization/lectures',
+                    templateUrl: basePath+"/_teacher/lecture/organizationLecturesList",
+                })
+                
                 .state('users', {
                     url: '/users',
-                    views: {
-                        '@': {
-                            templateUrl: basePath+"/_teacher/users/index",
-                            controller: 'directorUsersTabsCtrl'
-                        }
-                    }
+                    templateUrl: basePath+"/_teacher/users/index",
                 })
+                .state('organization', {
+                    url: '/organization',
+                    templateUrl: basePath+"/_teacher/users/organizationusers",
+                })
+                
                 .state('users.registeredUsers', {
                     url: '/registeredUsers',
                     views: {
@@ -114,6 +109,15 @@ angular
                         }
                     }
                 })
+                .state('organization.registeredUsers', {
+                    url: '/registeredUsers',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/users",
+                        }
+                    }
+                })
+                
                 .state('users.blockedUsers', {
                     url: '/blockedUsers',
                     views: {
@@ -130,22 +134,41 @@ angular
                         }
                     }
                 })
+                
                 .state('users.students', {
                     url: '/students',
                     views: {
                         'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/students",
+                            templateUrl: basePath+"/_teacher/users/students?organization=0",
                         }
                     }
                 })
+                .state('organization.students', {
+                    url: '/students',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/students?organization=1",
+                        }
+                    }
+                })
+                
                 .state('users.offlineStudents', {
                     url: '/offlineStudents',
                     views: {
                         'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/offlineStudents",
+                            templateUrl: basePath+"/_teacher/users/offlineStudents?organization=0",
                         }
                     }
                 })
+                .state('organization.offlineStudents', {
+                    url: '/offlineStudents',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/offlineStudents?organization=1",
+                        }
+                    }
+                })
+                
                 .state('users.directors', {
                     url: '/directors',
                     views: {
@@ -154,24 +177,166 @@ angular
                         }
                     }
                 })
-                .state('directors', {
+                .state('organization.directors', {
                     url: '/directors',
-                    templateUrl: basePath+"/_teacher/users/directors",
-                    controller: function($scope){$scope.changePageHeader('Директора');},
-                })
-
-                .state('users.auditors', {
-                    url: '/auditors',
                     views: {
                         'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/auditors",
+                            templateUrl: basePath+"/_teacher/users/directors",
                         }
                     }
                 })
-                .state('auditors', {
-                    url: '/auditors',
-                    templateUrl: basePath+"/_teacher/users/auditors",
-                    controller: function($scope){$scope.changePageHeader('Аудитори');},
+                
+                .state('users.accountants', {
+                    url: '/accountants',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/accountants?organization=0",
+                        }
+                    }
+                })
+                .state('organization.accountants', {
+                    url: '/accountants',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/accountants?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.supervisors', {
+                    url: '/supervisors',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/supervisors?organization=0",
+                        }
+                    }
+                })
+                .state('organization.supervisors', {
+                    url: '/supervisors',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/supervisors?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.contentManagers', {
+                    url: '/contentManagers',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/contentManagers?organization=0",
+                        }
+                    }
+                })
+                .state('organization.contentManagers', {
+                    url: '/contentManagers',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/contentManagers?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.trainers', {
+                    url: '/trainers',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/trainers?organization=0",
+                        }
+                    }
+                })
+                .state('organization.trainers', {
+                    url: '/trainers',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/trainers?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.contentAuthors', {
+                    url: '/contentAuthors',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/contentAuthors?organization=0",
+                        }
+                    }
+                })
+                .state('organization.contentAuthors', {
+                    url: '/contentAuthors',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/contentAuthors?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.teacherConsultants', {
+                    url: '/teacherConsultants',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/teacherConsultants?organization=0",
+                        }
+                    }
+                })
+                .state('organization.teacherConsultants', {
+                    url: '/teacherConsultants',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/teacherConsultants?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.tenants', {
+                    url: '/tenants',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/tenants?organization=0",
+                        }
+                    }
+                })
+                .state('organization.tenants', {
+                    url: '/tenants',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/tenants?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.coworkers', {
+                    url: '/coworkers',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/coworkers?organization=0",
+                        }
+                    }
+                })
+                .state('organization.coworkers', {
+                    url: '/coworkers',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/coworkers?organization=1",
+                        }
+                    }
+                })
+                
+                .state('users.admins', {
+                    url: '/admins',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/admins?organization=0",
+                        }
+                    }
+                })
+                .state('organization.admins', {
+                    url: '/admins',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/admins?organization=1",
+                        }
+                    }
                 })
 
                 .state('users.superAdmins', {
@@ -182,89 +347,59 @@ angular
                         }
                     }
                 })
+                .state('organization.superAdmins', {
+                    url: '/superAdmins',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/superAdmins",
+                        }
+                    }
+                })
+
+                .state('users.auditors', {
+                    url: '/auditors',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/auditors",
+                        }
+                    }
+                })
+                .state('organization.auditors', {
+                    url: '/auditors',
+                    views: {
+                        'usersTabs': {
+                            templateUrl: basePath+"/_teacher/users/auditors",
+                        }
+                    }
+                })
+                
+                .state('directors', {
+                    url: '/directors',
+                    templateUrl: basePath+"/_teacher/users/directors",
+                    controller: function($scope){$scope.changePageHeader('Директора');},
+                })
+                
+                .state('auditors', {
+                    url: '/auditors',
+                    templateUrl: basePath+"/_teacher/users/auditors",
+                    controller: function($scope){$scope.changePageHeader('Аудитори');},
+                })
+                
                 .state('superAdmins', {
                     url: '/superAdmins',
                     templateUrl:  basePath+"/_teacher/users/superAdmins",
                     controller: function($scope){$scope.changePageHeader('Суперадмін');},
-                })
-
-                .state('users.coworkers', {
-                    url: '/coworkers',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/coworkers",
-                        }
-                    }
-                })
-                .state('users.admins', {
-                    url: '/admins',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/admins",
-                        }
-                    }
                 })
                 .state('admins', {
                     url: '/admins',
                     templateUrl:  basePath+"/_teacher/users/admins",
                     controller: function($scope){$scope.changePageHeader('Адміністратори');},
                 })
-
-                .state('users.accountants', {
-                    url: '/accountants',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/accountants",
-                        }
-                    }
-                })
-                .state('users.supervisors', {
-                    url: '/supervisors',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/supervisors",
-                        }
-                    }
-                })
-                .state('users.contentManagers', {
-                    url: '/contentManagers',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/contentManagers",
-                        }
-                    }
-                })
-                .state('users.trainers', {
-                    url: '/trainers',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/trainers",
-                        }
-                    }
-                })
-                .state('users.contentAuthors', {
-                    url: '/contentAuthors',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/contentAuthors",
-                        }
-                    }
-                })
-                .state('users.teacherConsultants', {
-                    url: '/teacherConsultants',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/teacherConsultants",
-                        }
-                    }
-                })
-                .state('users.tenants', {
-                    url: '/tenants',
-                    views: {
-                        'usersTabs': {
-                            templateUrl: basePath+"/_teacher/users/tenants",
-                        }
-                    }
+                
+                .state('teacherprofile', {
+                    url: "/teacherprofile",
+                    cache         : false,
+                    templateUrl: basePath+"/_teacher/_admin/teachers/updateTeacherProfileForm"
                 })
     }
     );

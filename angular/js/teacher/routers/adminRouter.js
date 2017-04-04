@@ -2,8 +2,8 @@
  * Created by adm on 16.07.2016.
  */
 angular
-    .module('adminRouter',['ui.router']).
-config(function ($stateProvider) {
+    .module('adminRouter',['ui.router'])
+    .config(function ($stateProvider) {
     $stateProvider
         .state('admin', {
             url: "/admin",
@@ -13,91 +13,24 @@ config(function ($stateProvider) {
             },
             templateUrl: basePath+"/_teacher/_admin/admin/index",
         })
-        .state('admin/verifycontent', {
-            url: "/admin/verifycontent",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Контент лекцій');
-            },
-            templateUrl: basePath+"/_teacher/_admin/verifyContent/index",
-        })
-        .state('admin/coursemanage', {
-            url: "/admin/coursemanage",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Курси');
-            },
-            templateUrl: basePath+"/_teacher/_admin/coursemanage/index",
-        })
-        .state('admin/teachers', {
-            url: "/admin/teachers",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Співробітники');
-            },
-            templateUrl: basePath+"/_teacher/_admin/teachers/index",
-        })
-        .state('admin/authorAttributes', {
-            url: "/admin/authorAttributes",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Атрибути автора контента');
-            },
-            templateUrl: basePath+"/_teacher/_admin/roleAttributes/authorAttributes",
-        })
-        .state('admin/teacherAttributes', {
-            url: "/admin/teacherAttributes",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Атрибути викладача');
-            },
-            templateUrl: basePath+"/_teacher/_admin/roleAttributes/teacherConsultantAttributes",
-        })
-        // .state('admin/pay', {
-        //     url: "/admin/pay",
-        //     cache: false,
-        //     controller: function($scope){
-        //         $scope.changePageHeader('Сплатити курс/модуль');
-        //     },
-        //     templateUrl: basePath+"/_teacher/_admin/pay/index"
-        // })
-        // .state('admin/cancel', {
-        //     url: "/admin/cancel",
-        //     cache: false,
-        //     controller: function($scope){
-        //         $scope.changePageHeader('Скасувати курс/модуль');
-        //     },
-        //     templateUrl: basePath+"/_teacher/_admin/pay/cancelCourseModule",
-        // })
-        .state('admin/users', {
-            url: "/admin/users",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Користувачі');
-            },
-            templateUrl: basePath+"/_teacher/_admin/users/index",
-        })
         .state('admin/users/addrole/:role', {
             url: "/admin/users/addrole/:role",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/users/renderAddRoleForm/role/"+$stateParams.role;
+                return basePath+"/_teacher/_admin/role/renderAddRoleForm/role/"+$stateParams.role;
             }
         })
-        .state('admin/users/user/:id/addtrainer', {
-            url: "/admin/users/user/:id/addtrainer",
+        .state('admin/addrole', {
+            url: "/admin/addrole",
             cache: false,
-            controller:"userProfileCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
-            }
+            templateUrl: basePath+"/_teacher/_admin/role/addRoleForm",
         })
-        .state('admin/users/user/:id/addrole', {
-            url: "/admin/users/user/:id/addrole",
+        
+        .state('admin/user/:id/addrole', {
+            url: "/admin/user/:id/addrole",
             cache: false,
-            controller:"userProfileCtrl",
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/user/addRole/id/"+$stateParams.id;
+                return basePath+"/_teacher/_admin/role/addRole/id/"+$stateParams.id;
             }
         })
         .state('admin/users/user/:id/agreement/:type/:idCourse', {
@@ -107,13 +40,6 @@ config(function ($stateProvider) {
             controller:"userProfileCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
-            }
-        })
-        .state('admin/teacher/update/:id', {
-            url: "/admin/teacher/update/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/updateForm/?id="+$stateParams.id;
             }
         })
         .state('admin/teacher/create', {

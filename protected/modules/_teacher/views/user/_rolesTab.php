@@ -8,7 +8,7 @@
         <?php if (Yii::app()->user->model->isAdmin()) { ?>
             <ul class="list-inline">
                 <li>
-                    <a type="button" class="btn btn-primary" ng-href="#/users/profile/{{data.user.id}}/addrole">
+                    <a type="button" class="btn btn-primary" ng-href="#/admin/user/{{data.user.id}}/addrole">
                         Призначити роль
                     </a>
                 </li>
@@ -69,7 +69,7 @@
             </a>.
             <br>
             Список усіх співробітників:
-            <a ng-href="#/admin/teachers" class="alert-link">Список</a>.
+            <a ng-href="#/users/coworkers" class="alert-link">Список</a>.
         </div>
         <?php } ?>
     </div>

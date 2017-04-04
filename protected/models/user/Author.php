@@ -15,10 +15,12 @@ class Author extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role author.
      */
-    public function checkRoleSql(){
-        return 'select "author" from user_author ua where ua.id_user = :id and end_date IS NULL';
+    public function checkRoleSql($organization=null){
+        $condition=$organization?' and ua.id_organization='.$organization:'';
+        return 'select "author" from user_author ua where ua.id_user = :id and ua.end_date IS NULL'.$condition;
     }
 
     /**
@@ -170,8 +172,10 @@ class Author extends Role
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+        $criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
         $criteria->join .= ' LEFT JOIN user_author ua ON ua.id_user = s.id';
-        $criteria->addCondition('t.user_id IS NOT NULL and (ua.id_user IS NULL or ua.end_date IS NOT NULL)');
+        $criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+        and (ua.id_user IS NULL or ua.end_date IS NOT NULL or (ua.end_date IS NULL and ua.id_organization!='.$organization.'))');
         $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
@@ -203,7 +207,7 @@ class Author extends Role
     }
 
     //not supported for this role
-    public function notifyAssignRole(StudentReg $user, Organization $organization=null){
+    public function notifyAssignRole(StudentReg $user, $organization=null){
         return false;
     }
 

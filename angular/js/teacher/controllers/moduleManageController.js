@@ -3,15 +3,16 @@
  */
 angular
   .module('teacherApp')
-  .controller('modulesTableCtrl', ['$scope', 'NgTableParams', '$resource', modulesTableCtrl])
-  .controller('moduleManageCtrl', ['$scope', '$http', '$stateParams', 'tagsService', 'lodash', moduleManageCtrl])
-  .controller('moduleAuthorsTableCtrl', moduleAuthorsTableCtrl)
-  .controller('moduleTeachersConsultantTableCtrl', moduleTeachersConsultantTableCtrl);
+    .controller('modulesTableCtrl', ['$scope', 'NgTableParams', '$resource', '$attrs', modulesTableCtrl])
+    .controller('moduleManageCtrl', ['$scope', '$http', '$stateParams', 'tagsService', 'lodash', moduleManageCtrl])
+    .controller('moduleAuthorsTableCtrl', moduleAuthorsTableCtrl)
+    .controller('moduleTeachersConsultantTableCtrl', moduleTeachersConsultantTableCtrl)
+    .controller('modulePriceCtrl', modulePriceCtrl)
 
-function modulesTableCtrl($scope, NgTableParams, $resource) {
+function modulesTableCtrl($scope, NgTableParams, $resource, $attrs) {
   $scope.changePageHeader('Модулі');
 
-  var dataFromServer = $resource(basePath + '/_teacher/moduleManage/getModulesList');
+  var dataFromServer = $attrs.organization?$resource(basePath+'/_teacher/moduleManage/getOrganizationModulesList'):$resource(basePath+'/_teacher/moduleManage/getModulesList');
   $scope.modulesTable = new NgTableParams({
     sorting: {'module_ID': "asc"}
   }, {
@@ -205,5 +206,25 @@ function moduleTeachersConsultantTableCtrl($scope, NgTableParams, $resource, $st
         console.log(data);
         bootbox.alert("Операцію не вдалося виконати");
       });
+  };
+}
+
+function modulePriceCtrl($scope, moduleService) {
+  $scope.updateModulePrice = function (id, price) {
+    moduleService
+        .updateModulePrice({
+          'id': id,
+          'price': price,
+        })
+        .$promise
+        .then(function successCallback(response) {
+          if (response.data == 'success')
+            bootbox.alert("Ціна оновлена", function () {
+              location.reload();
+            });
+          else bootbox.alert("Операцію не вдалося виконати");
+        }, function errorCallback() {
+          bootbox.alert("Операцію не вдалося виконати");
+        });
   };
 }

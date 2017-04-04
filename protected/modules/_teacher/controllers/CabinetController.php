@@ -12,6 +12,7 @@ class CabinetController extends TeacherCabinetController
         $app = Yii::app();
         $organizations=Yii::app()->user->model->getOrganizations();
         if(!$organizations) {
+            unset(Yii::app()->session['organization']);
             $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
         }
 
@@ -298,6 +299,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionUsersAddForm($role, $query, $organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
         $roleModel = Role::getInstance(new UserRoles($role));
   
         if ($query && $roleModel) {
@@ -404,6 +406,11 @@ class CabinetController extends TeacherCabinetController
     public function actionRedirectToCabinet(){
         $organizationId= Yii::app()->request->getPost('organization');
         $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('organizationId'=>$organizationId)));
+    }
+
+    public function actionChangeOrganization(){
+        unset(Yii::app()->session['organization']);
+        $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
     }
 
 }

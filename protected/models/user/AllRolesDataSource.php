@@ -34,4 +34,16 @@ class AllRolesDataSource implements IRolesDataSource
             UserRoles::SUPERVISOR,
         );
     }
+
+    public static function teacherRoles(){
+        return array(
+            UserRoles::ACCOUNTANT,
+            UserRoles::AUTHOR,
+            UserRoles::CONTENT_MANAGER,
+            UserRoles::TEACHER_CONSULTANT,
+            UserRoles::TRAINER,
+            UserRoles::TENANT,
+            UserRoles::SUPERVISOR,
+        );
+    }
 }
