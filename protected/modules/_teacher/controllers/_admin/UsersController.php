@@ -16,8 +16,7 @@ class UsersController extends TeacherCabinetController
             return false;
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex($id=0) {
         $counters = [];
 
         $counters["admins"] = UserAdmin::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
