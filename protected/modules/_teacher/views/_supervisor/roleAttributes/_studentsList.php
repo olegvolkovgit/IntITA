@@ -18,7 +18,7 @@
                 </div>
             </div>
             <button type="button" class="btn btn-success"
-                    ng-click="setTeacherRoleAttribute(data.user.role,attribute.key,data.user.id,selectedUser.id)">
+                    ng-click="setTrainerRoleAttribute(data.user.role,attribute.key,data.user.id,selectedUser.id)">
                 Додати студента
             </button>
             <a type="button" class="btn btn-default" ng-click='back()'>
@@ -36,7 +36,6 @@
             <tr>
                 <th>Студент</th>
                 <th>Призначено</th>
-                <th>Відмінено</th>
                 <th>Видалити</th>
             </tr>
             </thead>
@@ -50,10 +49,9 @@
                     </a>
                 </td>
                 <td>{{student.start_date}}</td>
-                <td>{{student.end_date}}</td>
                 <td>
                     <a ng-if="!student.end_date" href=""
-                       ng-click="cancelTeacherRoleAttribute(data.user.role, attribute.key, data.user.id, student.id);">скасувати
+                       ng-click="cancelTrainerRoleAttribute(data.user.role, attribute.key, data.user.id, student.id);">скасувати
                     </a>
                 </td>
             </tr>

@@ -30,7 +30,7 @@ class Tenant extends Role
 
     public function title()
     {
-        return "Tenant";
+        return "Консультант";
     }
 
     public function setRole(StudentReg $user, $organizationId = null)

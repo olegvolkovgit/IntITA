@@ -1396,16 +1396,16 @@ class StudentReg extends CActiveRecord
         $trainer = TrainerStudent::getTrainerByStudent($id);
 
         $result['user']=$user;
-        $result['user']['roles']=$model->getRoles();
+        foreach ($model->getRoles() as $key=>$role){
+            $result['user']['roles'][$key]['role']=$role->__toString();
+            $result['user']['roles'][$key]['name']=Role::getInstance($role)->title();
+        }
         $noroles=array_diff(AllRolesDataSource::teacherRoles(), $model->getRoles());
         foreach ($noroles as $key=>$role){
             $result['user']['noteacherroles'][$key]['role']=$role;
             $result['user']['noteacherroles'][$key]['name']=Role::getInstance($role)->title();
         }
 
-        foreach($model->getRoles() as $key=>$role){
-            $result['user']['roles'][$key]= $role->__toString();
-        }
         $result['trainer']=$trainer;
         if($model->isStudent()){
             $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];

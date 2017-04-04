@@ -101,4 +101,11 @@ config(function ($stateProvider) {
             cache: false,
             templateUrl: basePath+"/_teacher/_content_manager/verifyContent/index",
         })
+        .state('teacher/:id/editRole/role/:role', {
+            url: "/teacher/:id/editRole/role/:role",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_content_manager/roleAttributes/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
+            }
+        })
 });

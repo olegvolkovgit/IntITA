@@ -2,7 +2,6 @@
 
 class Trainer extends Role
 {
-    private $capacity;
     private $dbModel;
     private $studentsList;
     private $errorMessage = "";
@@ -43,7 +42,6 @@ class Trainer extends Role
      */
     public function attributes(StudentReg $user)
     {
-        $capacity = $this->getCapacity($user);
         if ($this->studentsList == null) {
             $this->studentsList = $this->studentsList($user);
         }
@@ -55,22 +53,7 @@ class Trainer extends Role
                 'type' => 'students-list',
                 'value' => $this->studentsList
             ),
-            array(
-                'key' => 'capacity',
-                'title' => 'Максимальна кількість студентів',
-                'type' => 'number',
-                'value' => $capacity["capacity"]
-            )
         );
-    }
-
-    private function getCapacity(StudentReg $user)
-    {
-        return Yii::app()->db->createCommand()
-            ->select('capacity')
-            ->from($this->tableName())
-            ->where('id_user=:id', array(':id' => $user->id))
-            ->queryRow();
     }
 
     private function studentsList(StudentReg $user)
@@ -79,7 +62,8 @@ class Trainer extends Role
             ->select('id, firstName, secondName, middleName, email, tr.start_time, tr.end_time')
             ->from('user u')
             ->join('trainer_student tr', 'tr.student=u.id')
-            ->where('trainer=:id', array(':id' => $user->id))
+            ->where('trainer=:id and id_organization=:id_org and end_time is NULL',
+                array(':id' => $user->id, ':id_org' => Yii::app()->user->model->getCurrentOrganization()->id))
             ->queryAll();
 
         $list = [];
@@ -111,30 +95,23 @@ class Trainer extends Role
         switch ($attribute) {
             case 'students-list':
                 if ($this->checkTrainer($value)
-//                    && $this->checkTrainerCapacity($user)
                     && $this->checkUserStudent($value)) {
                     if (Yii::app()->db->createCommand()->
                     insert('trainer_student', array(
                         'trainer' => $user->id,
-                        'student' => $value
+                        'student' => $value,
+                        'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id
                     ))
                     ) {
                         $user->notify('trainer' . DIRECTORY_SEPARATOR . '_assignNewStudent',
-                            array(StudentReg::model()->findByPk($value)),
-                            'Призначено нового студента');
+                            array(StudentReg::model()->findByPk($value), Yii::app()->user->model->getCurrentOrganization()->id),
+                            'Призначено нового студента', Yii::app()->user->getId());
                         return true;
                     }
                     $this->errorMessage = "Призначити тренера не вдалося";
                     return false;
                     break;
                 }else {
-                    return false;
-                }
-            case 'capacity':
-                if ($this->checkCapacity($value,$user)) {
-                    parent::setAttribute($user, $attribute, $value);
-                    return true;
-                }else{
                     return false;
                 }
             default:
@@ -146,23 +123,9 @@ class Trainer extends Role
     public function checkTrainer($student)
     {
         if (Yii::app()->db->createCommand('select trainer from trainer_student where student=' . $student .
-            ' and end_time IS NULL')->queryScalar()
+            ' and end_time IS NULL and id_organization='.Yii::app()->user->model->getCurrentOrganization()->id)->queryScalar()
         ) {
             $this->errorMessage = "Для даного студента тренер вже призначений.";
-            return false;
-        } else return true;
-    }
-    public function checkCapacity($count,$user)
-    {
-        if($count<$this->currentStudentsCount($user)) {
-            $this->errorMessage = "Не можна виставити максимальну кількість студентів меншу ніж уже є в тренера";
-            return false;
-        } else return true;
-    }
-    public function checkTrainerCapacity($user)
-    {
-        if($this->currentStudentsCount($user)+1>$this->getCapacity($user)['capacity']) {
-            $this->errorMessage = "Даного студента додати не можна даному тренеру, оскільки максимальна кількість студентів для тренера обмежена";
             return false;
         } else return true;
     }
@@ -182,11 +145,12 @@ class Trainer extends Role
                 if (Yii::app()->db->createCommand()->
                 update('trainer_student', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'trainer=:user and student=:student', array(':user' => $user->id, 'student' => $value))
+                ), 'trainer=:user and student=:student and id_organization=:id_org', 
+                    array(':user' => $user->id, ':student' => $value, ':id_org'=>Yii::app()->user->model->getCurrentOrganization()->id))
                 ) {
                     $user->notify('trainer' . DIRECTORY_SEPARATOR . '_cancelStudent',
-                        array(StudentReg::model()->findByPk($value)),
-                        'Скасовано студента');
+                        array(StudentReg::model()->findByPk($value),Yii::app()->user->model->getCurrentOrganization()->id),
+                        'Скасовано студента', Yii::app()->user->getId());
                     return true;
                 }
                 return false;

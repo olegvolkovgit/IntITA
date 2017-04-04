@@ -806,7 +806,7 @@ class Module extends CActiveRecord implements IBillableObject
         return $service_user;
     }
 
-    public static function allModules($query)
+    public static function allModules($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
@@ -814,7 +814,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
-        $criteria->addCondition('cancelled=0');
+        $criteria->addCondition('cancelled='.Module::ACTIVE.' and id_organization='.$organization);
         $criteria->group = 'module_ID';
 
         $data = Module::model()->findAll($criteria);

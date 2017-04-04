@@ -235,10 +235,11 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
-    public function actionModulesByQuery($query)
+    public function actionModulesByQuery($query, $organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
         if ($query) {
-            $modules = Module::allModules($query);
+            $modules = Module::allModules($query, $organization);
             echo $modules;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');

@@ -47,14 +47,6 @@ angular
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/teachers/createForm",
         })
-        .state('admin/teacher/:id/editRole/role/:role', {
-            url: "/admin/teacher/:id/editRole/role/:role",
-            cache: false,
-            controller: "editTeacherRoleCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
-            }
-        })
         .state('lecture/:action/:id', {
             url: "/lecture/:action/:id",
             cache: false,

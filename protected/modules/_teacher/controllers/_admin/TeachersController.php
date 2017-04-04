@@ -243,19 +243,6 @@ class TeachersController extends TeacherCabinetController{
         }
     }
 
-    public function actionEditRole($id, $role)
-    {
-        $user = RegisteredUser::userById($id);
-        $role = new UserRoles($role);
-        $attributes = $user->getAttributesByRole($role);
-
-        $this->renderPartial('editRole', array(
-            'model' => $user->registrationData,
-            'role' => $role,
-            'attributes' => $attributes
-        ),false,true);
-    }
-
     public function actionChangeTeacherStatus(){
         $user = Yii::app()->request->getPost('user', '0');
         $model = RegisteredUser::userById($user);
