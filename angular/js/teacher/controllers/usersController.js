@@ -20,6 +20,8 @@ angular
     .controller('directorsTableCtrl', directorsTableCtrl)
     .controller('auditorsTableCtrl', auditorsTableCtrl)
     .controller('superAdminsTableCtrl', superAdminsTableCtrl)
+    .controller('usersTabsCtrl', usersTabsCtrl)
+    .controller('organizationUsersTabsCtrl', organizationUsersTabsCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({
@@ -74,12 +76,13 @@ function usersTableCtrl ($scope, usersService, NgTableParams){
             }
         });
 }
-function studentsTableCtrl ($scope, usersService, NgTableParams){
+function studentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
     $scope.educationForms = [{id:'1', title:'онлайн'},{id:'3', title:'онлайн/офлайн'}];
     $jq("#startDate").datepicker(lang);
     $jq("#endDate").datepicker(lang);
 
     $scope.studentsTableParams = new NgTableParams({
+        organization:$attrs.organization,
         sorting: {
             "student.start_date": 'desc'
         },
@@ -116,9 +119,9 @@ function studentsTableCtrl ($scope, usersService, NgTableParams){
     }
 }
 
-function offlineStudentsTableCtrl ($scope, usersService, NgTableParams){
+function offlineStudentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
-    $scope.offlineStudentsTableParams = new NgTableParams({}, {
+    $scope.offlineStudentsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .offlineStudentsList(params.url())
@@ -148,8 +151,8 @@ function withoutRolesTableCtrl ($scope, usersService, NgTableParams){
         }
     });
 }
-function adminsTableCtrl ($scope, usersService, NgTableParams, roleService){
-    $scope.adminsTableParams = new NgTableParams({}, {
+function adminsTableCtrl ($scope, usersService, NgTableParams, roleService, $attrs){
+    $scope.adminsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .adminsList(params.url())
@@ -170,8 +173,8 @@ function adminsTableCtrl ($scope, usersService, NgTableParams, roleService){
         });
     }
 }
-function accountantsTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.accountantsTableParams = new NgTableParams({}, {
+function accountantsTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.accountantsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .accountantsList(params.url())
@@ -191,8 +194,8 @@ function accountantsTableCtrl ($scope, usersService, NgTableParams,roleService){
         });
     };
 }
-function contentManagersTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.contentManagersTableParams = new NgTableParams({}, {
+function contentManagersTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.contentManagersTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .contentManagersList(params.url())
@@ -213,8 +216,8 @@ function contentManagersTableCtrl ($scope, usersService, NgTableParams,roleServi
         });
     };
 }
-function teacherConsultantsTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.teacherConsultantsTableParams = new NgTableParams({}, {
+function teacherConsultantsTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.teacherConsultantsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .teacherConsultantsList(params.url())
@@ -235,8 +238,8 @@ function teacherConsultantsTableCtrl ($scope, usersService, NgTableParams,roleSe
         });
     };
 }
-function tenantsTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.tenantsTableParams = new NgTableParams({}, {
+function tenantsTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.tenantsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .tenantsList(params.url())
@@ -258,8 +261,8 @@ function tenantsTableCtrl ($scope, usersService, NgTableParams,roleService){
     };
 }
 
-function trainersTableCtrl ($scope, usersService, NgTableParams,roleService){
-    $scope.trainersTableParams = new NgTableParams({}, {
+function trainersTableCtrl ($scope, usersService, NgTableParams,roleService, $attrs){
+    $scope.trainersTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .trainersList(params.url())
@@ -274,15 +277,15 @@ function trainersTableCtrl ($scope, usersService, NgTableParams,roleService){
     $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
             if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
-                if(response.data=='success') $scope.tenantsTableParams.reload();
+                if(response.data=='success') $scope.trainersTableParams.reload();
                 else bootbox.alert(response.data);
             }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     };
 }
 
-function superVisorsTableCtrl ($scope, usersService, NgTableParams, roleService){
-    $scope.superVisorsTableParams = new NgTableParams({}, {
+function superVisorsTableCtrl ($scope, usersService, NgTableParams, roleService, $attrs){
+    $scope.superVisorsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .superVisorsList(params.url())
@@ -304,8 +307,8 @@ function superVisorsTableCtrl ($scope, usersService, NgTableParams, roleService)
     };
 }
 
-function authorsTableCtrl ($scope, usersService, NgTableParams, roleService){
-    $scope.authorsTableParams = new NgTableParams({}, {
+function authorsTableCtrl ($scope, usersService, NgTableParams, roleService, $attrs){
+    $scope.authorsTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
             return usersService
                 .authorsList(params.url())
@@ -397,10 +400,10 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
             bootbox.alert("Операцію не вдалося виконати");
         });
     }
-    $scope.assignRole = function (user, role) {
+    $scope.assignLocalRole = function (user, role) {
         if(user && role){
             roleService
-                .assignRole({
+                .assignLocalRole({
                     'userId': user,
                     'role': role,
                 })
@@ -441,67 +444,6 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
         $scope.selectedCourse=null;
         $scope.formData.moduleSelected=null;
         $scope.formData.courseSelected=null;
-    };
-    $scope.actionModule = function(action,userId,moduleId) {
-        var url;
-        switch (action){
-            case 'payModule':
-                url = basePath+'/_teacher/_admin/pay/payModule/';
-                break;
-            case 'cancelModule':
-                url = basePath+'/_teacher/_admin/pay/cancelModule/';
-                break;
-
-        }
-        if (moduleId && userId) {
-            $http({
-                method:'POST',
-                url:url,
-                data: $jq.param({'module': moduleId, 'user': userId}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            })
-                .success(function(data){
-                    $scope.addUIHandlers(data);
-                    $scope.clearInputs();
-                    $scope.loadUserData($scope.userId)
-                })
-                .error(function(data){
-                    bootbox.alert(data);
-                })
-        }else{
-            bootbox.alert('Введено не всі дані');
-        }
-    };
-
-    $scope.actionCourse = function(action,userId,courseId){
-        var url;
-        switch (action){
-            case 'payCourse':
-                url = basePath+'/_teacher/_admin/pay/payCourse/';
-                break;
-            case 'cancelCourse':
-                url = basePath+'/_teacher/_admin/pay/cancelCourse/';
-                break;
-
-        }
-        if (courseId && userId) {
-            $http({
-                method:'POST',
-                url:url,
-                data: $jq.param({'course': courseId, 'user': userId}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            })
-                .success(function(data){
-                    $scope.addUIHandlers(data);
-                    $scope.clearInputs();
-                    $scope.loadUserData($scope.userId)
-                })
-                .error(function(data){
-                    bootbox.alert(data);
-                })
-        }else{
-            bootbox.alert('Введено не всі дані');
-        }
     };
 
     $scope.onSelectTrainer = function ($item) {
@@ -831,4 +773,80 @@ function superAdminsTableCtrl ($scope, usersService, NgTableParams, roleService)
             }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
     }
+}
+
+function usersTabsCtrl ($scope, $state, usersService, lodash) {
+    $scope.changePageHeader('Користувачі');
+
+    $scope.tabs = [
+        { title: "Зареєстровані користувачі", route: "registeredUsers"},
+        { title: "Заблоковані користувачі", route: "blockedUsers"},
+        { title: "Користувачі без ролі", route: "withoutRole"},
+        { title: "Студенти", route: "students"},
+        { title: "Офлайн студенти", route: "offlineStudents"},
+        { title: "Директора", route: "directors"},
+        { title: "Аудитори", route: "auditors"},
+        { title: "Суперадміни", route: "superAdmins"},
+        { title: "Співробітники", route: "coworkers"},
+        { title: "Адміністратори", route: "admins"},
+        { title: "Супервайзери", route: "supervisors"},
+        { title: "Бухгалтери", route: "accountants"},
+        { title: "Контент менеджери", route: "contentManagers"},
+        { title: "Тренери", route: "trainers"},
+        { title: "Автори контенту", route: "contentAuthors"},
+        { title: "Викладачі", route: "teacherConsultants"},
+        { title: "Консультанти", route: "tenants"},
+    ];
+
+    usersService
+        .usersCount()
+        .$promise
+        .then(function (data) {
+            $scope.rolesCount=data;
+            $scope.tabs.forEach(function(item, i) {
+                if(lodash.find($scope.rolesCount, ['role', item.route])){
+                    item.count=lodash.find($scope.rolesCount, ['role', item.route]).count;
+                }
+                if('users.'+item.route==$state.current.name) {
+                    $scope.active=i;
+                }
+            });
+        });
+}
+
+function organizationUsersTabsCtrl ($scope, $state, usersService, lodash) {
+    $scope.changePageHeader('Користувачі');
+
+    $scope.tabs = [
+        { title: "Зареєстровані користувачі", route: "registeredUsers"},
+        { title: "Студенти", route: "students"},
+        { title: "Офлайн студенти", route: "offlineStudents"},
+        { title: "Директора", route: "directors"},
+        { title: "Аудитори", route: "auditors"},
+        { title: "Суперадміни", route: "superAdmins"},
+        { title: "Співробітники", route: "coworkers"},
+        { title: "Адміністратори", route: "admins"},
+        { title: "Супервайзери", route: "supervisors"},
+        { title: "Бухгалтери", route: "accountants"},
+        { title: "Контент менеджери", route: "contentManagers"},
+        { title: "Тренери", route: "trainers"},
+        { title: "Автори контенту", route: "contentAuthors"},
+        { title: "Викладачі", route: "teacherConsultants"},
+        { title: "Консультанти", route: "tenants"},
+    ];
+
+    usersService
+        .organizationUsersCount()
+        .$promise
+        .then(function (data) {
+            $scope.rolesCount=data;
+            $scope.tabs.forEach(function(item, i) {
+                if(lodash.find($scope.rolesCount, ['role', item.route])){
+                    item.count=lodash.find($scope.rolesCount, ['role', item.route]).count;
+                }
+                if('organization.'+item.route==$state.current.name) {
+                    $scope.active=i;
+                }
+            });
+        });
 }

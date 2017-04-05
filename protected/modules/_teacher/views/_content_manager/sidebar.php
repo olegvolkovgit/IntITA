@@ -15,16 +15,16 @@
             </a>
         </li>
         <li>
-            <a href="#/admin/verifycontent">
+            <a href="#/lectures/verifycontent">
                 Контент лекцій</a>
         </li>
         <li>
-            <a href="#/modulemanage">
+            <a href="#/organization/modules">
                 Модулі</a>
         </li>
         <li>
         <li>
-            <a href="#/admin/coursemanage">
+            <a href="#/organization/courses">
                 Курси</a></li>
         </li>
         <li>

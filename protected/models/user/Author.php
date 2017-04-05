@@ -15,10 +15,12 @@ class Author extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role author.
      */
-    public function checkRoleSql(){
-        return 'select "author" from user_author ua where ua.id_user = :id and end_date IS NULL';
+    public function checkRoleSql($organization=null){
+        $condition=$organization?' and ua.id_organization='.$organization:'';
+        return 'select "author" from user_author ua where ua.id_user = :id and ua.end_date IS NULL'.$condition;
     }
 
     /**
@@ -83,7 +85,7 @@ class Author extends Role
                             }
                             $user->notify('author' .DIRECTORY_SEPARATOR . '_assignNewModule',
                                 array(Module::model()->findByPk($value)),
-                                'Призначено модуль для редагування');
+                                'Призначено модуль для редагування', Yii::app()->user->getId());
                             return true;
                         }else{
                             $this->errorMessage="Призначити модуль не вдалося";
@@ -113,11 +115,17 @@ class Author extends Role
     }
 
     public function checkModule($teacher, $module){
+        $model=Module::model()->findByPk($module);
         if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
             ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar()) {
-            $this->errorMessage = "Обраний модуль вже присутній у списку модулів даного викладача";
+            $this->errorMessage = "Обраний модуль вже присутній у списку модулів даного автора";
             return false;
-        } else return true;
+        }
+        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+            $this->errorMessage="Автору не можна призначити модуль, який не належить його організації";
+            return false;
+        }
+        return true;
     }
 
     public static function isTeacherAuthorModule($teacher, $module){
@@ -138,7 +146,7 @@ class Author extends Role
                 ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
                     $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
                         array(Module::model()->findByPk($value)),
-                        'Скасовано модуль для редагування');
+                        'Скасовано модуль для редагування', Yii::app()->user->getId());
                     return true;
                 }else{
                     $this->errorMessage="Скасувати модуль не вдалося";
@@ -170,8 +178,10 @@ class Author extends Role
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+        $criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
         $criteria->join .= ' LEFT JOIN user_author ua ON ua.id_user = s.id';
-        $criteria->addCondition('t.user_id IS NOT NULL and (ua.id_user IS NULL or ua.end_date IS NOT NULL)');
+        $criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+        and (ua.id_user IS NULL or ua.end_date IS NOT NULL or (ua.end_date IS NULL and ua.id_organization!='.$organization.'))');
         $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
@@ -203,12 +213,12 @@ class Author extends Role
     }
 
     //not supported for this role
-    public function notifyAssignRole(StudentReg $user){
+    public function notifyAssignRole(StudentReg $user, $organization=null){
         return false;
     }
 
     //cancel author role
-    public function cancelRole(StudentReg $user)
+    public function cancelRole(StudentReg $user, $organization)
     {
         if(!$this->checkBeforeDeleteRole($user)){
             return false;

@@ -1,13 +1,15 @@
 <br>
-<!--    <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/supervisor">-->
-<!--        Призначити supervisor'а-->
-<!--    </a>-->
+<?php if (Yii::app()->user->model->isAdmin()) { ?>
+    <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/supervisor">
+        Призначити supervisor'а
+    </a>
+<?php } ?>
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
    href="/_teacher/_admin/users/export/type/supervisors">
 </a>
 <br>
 <br>
-<div class="panel panel-default" ng-controller="superVisorsTableCtrl">
+<div class="panel panel-default" ng-controller="superVisorsTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="superVisorsTableParams" class="table table-bordered table-striped table-condensed">
@@ -36,11 +38,11 @@
                         <a class="btnChat" href="<?php echo Config::getChatPath(); ?>{{row.id_user}}" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
                             <i class="fa fa-weixin fa-fw"></i>
                         </a>
-<!--                            --><?php //if (Yii::app()->user->model->isDirector()) { ?>
-<!--                                <a ng-if="!row.end_date" ng-click="cancelRole(row.id_user,'supervisor')" title="Скасувати">-->
-<!--                                    <i class="fa fa-trash fa-fw"></i>-->
-<!--                                </a>-->
-<!--                            --><?php //} ?>
+                        <?php if (Yii::app()->user->model->isAdmin() && $organization) { ?>
+                            <a ng-if="!row.end_date" ng-click="cancelLocalRole(row.id_user,'supervisor')" title="Скасувати">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
+                        <?php } ?>
                     </td>
                 </tr>
             </table>

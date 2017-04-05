@@ -21,8 +21,8 @@ class InvoicesController extends TeacherCabinetController
 
     public function actionGetInvoices() {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('Invoice', $requestParams);
-
+        $organization = Yii::app()->user->model->getCurrentOrganization();
+        $ngTable = new NgTableAdapter(Invoice::model()->belongsToOrganization($organization), $requestParams);
         $criteria =  new CDbCriteria();
         $criteria->order = 't.id ASC';
         $ngTable->mergeCriteriaWith($criteria);

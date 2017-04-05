@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $model StudentReg
+ * @var $model RegisteredUser
  * @var $countNewMessages int
  */
 ?>
@@ -18,10 +18,23 @@
                     </span>
                 </div>
             </li>
+            <?php if ($org=$model->getCurrentOrganization()) { ?>
+                <li>
+                    <a style="color:green">
+                        Організація: <?php echo $org->name?>
+                    </a>
+                    <?php if (count($model->getOrganizations())>1) { ?>
+                        <a style="font-size:smaller;padding-top:0;padding-bottom:0" 
+                           href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/changeOrganization'); ?>" >
+                            <i class="fa fa-exchange fa-fw"></i>Змінити організацію
+                        </a>
+                    <?php } ?>
+                </li>
+            <?php } ?>
             <li id="nav">
-                <a href="#/index"
-                   >
-                    <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
+                <a href="#/index">
+                    <i class="fa fa-dashboard fa-fw"></i>Дошка
+                </a>
             </li>
             <li>
                 <a href="#/messages">
@@ -61,6 +74,13 @@
                     </li>
                 </ul>
             </li>
+            <?php }?>
+            <?php if ($model->isTeacher()) { ?>
+                <li>
+                    <a href="#/teacherprofile">
+                        <i class="fa fa-user fa-fw"></i>Профіль співробітника
+                    </a>
+                </li>
             <?php }?>
             <?php
             $roles = Yii::app()->user->model->getRoles();

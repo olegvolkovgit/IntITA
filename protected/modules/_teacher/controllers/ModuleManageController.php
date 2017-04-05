@@ -4,7 +4,7 @@ class ModuleManageController extends TeacherCabinetController
 {
     public function hasRole(){
         $allowedViewActions=['modulesList', 'view', 'getModulesList','getModuleAuthorsList','getModuleTeachersConsultantList'];
-        return Yii::app()->user->model->isAdmin() ||
+        return Yii::app()->user->model->isAdmin() && !in_array(Yii::app()->controller->action->id,['modulesList', 'getModulesList']) ||
         Yii::app()->user->model->isContentManager() ||
         (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
@@ -16,7 +16,12 @@ class ModuleManageController extends TeacherCabinetController
 
     public function actionModulesList()
     {
-        $this->renderPartial('_modules_table', array(), false, true);
+        $this->renderPartial('_modules_table', array('organization'=>false), false, true);
+    }
+
+    public function actionOrganizationModulesList()
+    {
+        $this->renderPartial('_modules_table', array('organization'=>true), false, true);
     }
     
     public function actionCreate()
@@ -221,6 +226,15 @@ class ModuleManageController extends TeacherCabinetController
         echo json_encode($adapter->getData());
     }
 
+    public function actionGetOrganizationModulesList()
+    {
+        $adapter = new NgTableAdapter('Module',$_GET);
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 'id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+    }
+    
     public function actionGetModuleAuthorsList()
     {
         $requestParams = $_GET;

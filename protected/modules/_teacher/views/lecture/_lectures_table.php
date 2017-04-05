@@ -1,4 +1,4 @@
-<div class="col-lg-12" ng-controller="lecturesTableCtrl">
+<div class="col-lg-12" ng-controller="lecturesTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-lg-12">

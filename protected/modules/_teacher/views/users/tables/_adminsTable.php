@@ -1,17 +1,15 @@
 <br>
+<div style="overflow: hidden">
 <?php if (Yii::app()->user->model->canSetGlobalRole()) { ?>
     <a type="button" class="btn btn-primary" ng-href="#/director/addAdmin">
         Призначити адміністратора
     </a>
 <?php } ?>
-<br>
-<br>
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
    href="/_teacher/_admin/users/export/type/admins">
 </a>
-<br>
-<br>
-<div class="panel panel-default" ng-controller="adminsTableCtrl">
+</div>
+<div class="panel panel-default" ng-controller="adminsTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="adminsTableParams" class="table table-bordered table-striped table-condensed">

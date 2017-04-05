@@ -9,9 +9,9 @@
 <div ng-controller="moduleManageCtrl">
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary" ui-sref="modules">
+            <a type="button" class="btn btn-primary" ng-href="#/organization/modules">
                 Список модулів
-            </button>
+            </a>
         </li>
         <?php if(Yii::app()->user->model->isContentManager()) { ?>
         <li>

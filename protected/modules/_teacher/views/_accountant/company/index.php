@@ -3,9 +3,6 @@
         <li>
             <a type="button" class="btn btn-primary" ng-href="#/accountant/addcompany">Додати компанію</a>
         </li>
-        <li>
-            <a type="button" class="btn btn-primary" ng-href="#/accountant/representative">Представники</a>
-        </li>
     </ul>
 
     <div class="col-lg-12">

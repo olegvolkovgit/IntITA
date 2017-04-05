@@ -7,7 +7,6 @@
  * @property integer $id_user
  * @property string $start_date
  * @property string $end_date
- * @property integer $capacity
  * @property integer $assigned_by
  * @property integer $cancelled_by
  * @property integer $id_organization
@@ -37,10 +36,10 @@ class UserTrainer extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_user, start_date, assigned_by, id_organization', 'required'),
-			array('id_user, capacity', 'numerical', 'integerOnly'=>true),
+			array('id_user', 'numerical', 'integerOnly'=>true),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
-			array('id_user, start_date, end_date, capacity, id_organization', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,7 +73,6 @@ class UserTrainer extends CActiveRecord
 			'id_user' => 'Id User',
 			'start_date' => 'Start Date',
 			'end_date' => 'End Date',
-			'capacity' => 'Capacity',
 		);
 	}
 
@@ -97,7 +95,6 @@ class UserTrainer extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
-		$criteria->compare('capacity',$this->capacity);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -130,25 +127,25 @@ class UserTrainer extends CActiveRecord
 	}
 
 
-	public static function modulesWithoutConsult(StudentReg $user){
-		$singleModules = Yii::app()->db->createCommand()
-			->select('COUNT(pm.id_module)')
-			->from('trainer_student tr')
-            ->join('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
-            ->join('pay_modules pm', 'pm.id_user=tcs.id_student')
-			->where('tr.end_time IS NULL and tr.trainer = :id and pm.id_module <> tcs.id_module',
-				array(':id'=>$user->id))
-			->queryAll();
-
-		$count = Yii::app()->db->createCommand()
-			->select('student')
-			->from('trainer_student tr')
-			->leftJoin('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
-			->where('tr.end_time IS NULL and tr.trainer = :id',
-				array(':id'=>$user->id))
-			->queryAll();
-		return $singleModules;
-	}
+//	public static function modulesWithoutConsult(StudentReg $user){
+//		$singleModules = Yii::app()->db->createCommand()
+//			->select('COUNT(pm.id_module)')
+//			->from('trainer_student tr')
+//            ->join('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
+//            ->join('pay_modules pm', 'pm.id_user=tcs.id_student')
+//			->where('tr.end_time IS NULL and tr.trainer = :id and pm.id_module <> tcs.id_module',
+//				array(':id'=>$user->id))
+//			->queryAll();
+//
+//		$count = Yii::app()->db->createCommand()
+//			->select('student')
+//			->from('trainer_student tr')
+//			->leftJoin('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
+//			->where('tr.end_time IS NULL and tr.trainer = :id',
+//				array(':id'=>$user->id))
+//			->queryAll();
+//		return $singleModules;
+//	}
 
 	public static function trainersList(){
         $sql = 'select * from user as u, user_trainer as ut where u.id = ut.id_user';

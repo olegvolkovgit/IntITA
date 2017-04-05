@@ -806,7 +806,7 @@ class Module extends CActiveRecord implements IBillableObject
         return $service_user;
     }
 
-    public static function allModules($query)
+    public static function allModules($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
@@ -814,7 +814,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
-        $criteria->addCondition('cancelled=0');
+        $criteria->addCondition('cancelled='.Module::ACTIVE.' and id_organization='.$organization);
         $criteria->group = 'module_ID';
 
         $data = Module::model()->findAll($criteria);
@@ -1165,7 +1165,9 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
         $criteria->join .= ' left join user_author ua on ua.id_user=t.user_id';
         $criteria->join .= ' inner join teacher_module tm on t.user_id=tm.idTeacher';
-        $criteria->addCondition('t.isPrint = 1 and ((tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
+        $criteria->join .= ' left join teacher_organization tot ON tot.id_user = t.user_id';
+        $criteria->addCondition('tot.isPrint ='.TeacherOrganization::SHOW.' and tot.id_organization='.$this->id_organization.' 
+        and ((tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
         or (tm.idModule=:module and tm.end_time IS NULL and ua.end_date IS NULL))');
         $criteria->params = array(':module'=>$this->module_ID);
         $criteria->group = 't.teacher_id';

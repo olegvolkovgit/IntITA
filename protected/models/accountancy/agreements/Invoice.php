@@ -23,6 +23,8 @@
  * @property InternalPays $internalPayment
  */
 class Invoice extends CActiveRecord {
+
+    use withBelongsToOrganization;
     /**
      * @return string the associated database table name
      */
@@ -55,7 +57,9 @@ class Invoice extends CActiveRecord {
             'agreement' => array(self::BELONGS_TO, 'UserAgreements', 'agreement_id'),
             'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_created'),
             'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
-            'internalPayment' => [self::HAS_MANY, 'InternalPays', 'invoice_id', 'order' => 'internalPayment.create_date DESC']
+            'internalPayment' => [self::HAS_MANY, 'InternalPays', 'invoice_id', 'order' => 'internalPayment.create_date DESC'],
+            'corporateEntity' => [self::HAS_ONE, 'CorporateEntity', ['id_corporate_entity' => 'id'], 'through' => 'agreement'],
+            'organization' => [self::HAS_ONE, 'Organization', ['id_organization' => 'id'], 'through' => 'corporateEntity']
         );
     }
 
@@ -294,5 +298,19 @@ class Invoice extends CActiveRecord {
         } else {
             return $result;
         }
+    }
+
+    /**
+     * The method should return CDBCriteria to select entity belong to organisation
+     * @param Organization $organization
+     * @return CDbCriteria
+     */
+    public function getOrganizationCriteria(Organization $organization) {
+        $criteria = new CDbCriteria([
+            'condition' => 'organization.id = :organizationId',
+            'params' => ['organizationId' => $organization->id],
+            'with' => 'organization'
+        ]);
+        return $criteria;
     }
 }

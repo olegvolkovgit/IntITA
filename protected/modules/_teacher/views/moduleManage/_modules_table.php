@@ -1,4 +1,4 @@
-<div class="panel panel-default" ng-controller="modulesTableCtrl">
+<div class="panel panel-default" ng-controller="modulesTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="modulesTable" class="table table-striped table-bordered table-hover">
@@ -17,7 +17,7 @@
                     <td data-title="'Псевдонім'" sortable="'alias'" filter="{alias: 'text'}">{{row.alias}}</td>
                     <td data-title="'Мова'" sortable="'language'" filter="{language: 'select'}" filter-data="lang">{{row.language}}</td>
                     <td data-title="'Назва'" sortable="'title_ua'" filter="{title_ua: 'text'}">
-                        <a ui-sref="modules.module({moduleId:row.module_ID})">{{row.title_ua}}</a>
+                        <a ng-href="#/module/{{row.module_ID}}">{{row.title_ua}}</a>
                     </td>
                     <td data-title="'Статус'" filter="{status: 'select'}" filter-data="statuses"><span ng-if="row.status">готовий</span>
                         <span ng-if="!row.status">в розробці</span>

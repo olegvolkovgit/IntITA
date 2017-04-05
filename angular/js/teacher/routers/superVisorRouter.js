@@ -166,4 +166,19 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=create";
             }
         })
+        .state('admin/users/user/:id/addtrainer', {
+            url: "/admin/users/user/:id/addtrainer",
+            cache: false,
+            controller:"userProfileCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
+            }
+        })
+        .state('teacher/:id/editTrainerRole/role/:role', {
+            url: "/teacher/:id/editTrainerRole/role/:role",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_supervisor/roleAttributes/editTrainerRole/id/"+$stateParams.id;
+            }
+        })
 });

@@ -686,7 +686,7 @@ class StudentReg extends CActiveRecord
 
     public function isTeacher()
     {
-        return Teacher::model()->exists('user_id=' . $this->id);
+        return Teacher::model()->exists('user_id=' . $this->id.' and cancelled='.Teacher::ACTIVE);
     }
 
     public static function getUserName($id)
@@ -1247,7 +1247,11 @@ class StudentReg extends CActiveRecord
         if($senderId) 
             $senderModel=StudentReg::model()->findByPk($senderId);
         else $senderModel=StudentReg::model()->findByPk(Config::getAdminId());
-        $transaction = Yii::app()->db->beginTransaction();
+        $connection = Yii::app()->db;
+        $transaction = null;
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
         try {
             $message = new MessagesNotifications();
             $sender = new MailTransport();
@@ -1256,9 +1260,13 @@ class StudentReg extends CActiveRecord
             $message->create();
 
             $message->send($sender);
-            $transaction->commit();
+            if ($transaction != null) {
+                $transaction->commit();
+            }
         } catch (Exception $e){
-            $transaction->rollback();
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
     }
@@ -1322,12 +1330,15 @@ class StudentReg extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
-        $criteria->join = 'left join teacher t on t.user_id=s.id';
+        $criteria->join = 'left join teacher_organization t on t.id_user=s.id';
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and t.user_id IS NULL');
+        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and 
+        (t.id_user IS NULL or (t.id_user IS NOT NULL and t.id_organization!='.Yii::app()->session['organization'].') or 
+        (t.id_user IS NOT NULL and t.id_organization='.Yii::app()->session['organization'].' and t.end_date IS NOT NULL))');
+        $criteria->group = 's.id';
         $data = StudentReg::model()->findAll($criteria);
         $result = array();
         foreach ($data as $key => $model) {
@@ -1385,12 +1396,16 @@ class StudentReg extends CActiveRecord
         $trainer = TrainerStudent::getTrainerByStudent($id);
 
         $result['user']=$user;
-        $result['user']['roles']=$model->getRoles();
-        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
-
-        foreach($model->getRoles() as $key=>$role){
-            $result['user']['roles'][$key]= $role->__toString();
+        foreach ($model->getRoles() as $key=>$role){
+            $result['user']['roles'][$key]['role']=$role->__toString();
+            $result['user']['roles'][$key]['name']=Role::getInstance($role)->title();
         }
+        $noroles=array_diff(AllRolesDataSource::teacherRoles(), $model->getRoles());
+        foreach ($noroles as $key=>$role){
+            $result['user']['noteacherroles'][$key]['role']=$role;
+            $result['user']['noteacherroles'][$key]['name']=Role::getInstance($role)->title();
+        }
+
         $result['trainer']=$trainer;
         if($model->isStudent()){
             $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
@@ -1520,5 +1535,15 @@ class StudentReg extends CActiveRecord
                 $model->save();
             }
         }
+    }
+
+    public function isOrganizationTeacher($organization=null)
+    {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
+        return TeacherOrganization::model()->findByAttributes(array(
+            'id_user' => $this->id,
+            'id_organization'=>$organization,
+            'end_date'=>null
+        ));
     }
 }

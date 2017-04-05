@@ -17,7 +17,7 @@ class Director extends Role
 	 * @return string sql for check role admin.
 	 */
 	public function checkRoleSql(){
-		return 'select "director" from user_director d where d.id_user = :id and end_date IS NULL';
+		return 'select "director" from user_director d where d.id_user = :id and d.end_date IS NULL';
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Director extends Role
 		return true;
 	}
 
-	public function setRole(StudentReg $user)
+	public function setRole(StudentReg $user, $organization)
 	{
 		if(Yii::app()->db->createCommand()->
 		insert($this->tableName(), array(
@@ -58,7 +58,7 @@ class Director extends Role
 		return false;
 	}
 
-	public function cancelRole(StudentReg $user)
+	public function cancelRole(StudentReg $user, $organization)
 	{
 		if(!$this->checkBeforeDeleteRole($user)){
 			return false;

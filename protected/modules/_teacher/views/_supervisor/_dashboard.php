@@ -45,6 +45,9 @@
                     <li>
                         <a href="#/supervisor/offlineStudents">Студенти в групах</a>
                     </li>
+                    <li>
+                        <a href="#/graduate">Випускники</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -68,4 +71,22 @@
         </div>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                Ресурси
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <a href="#/sharedlinks">Ресурси для викладачів</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Корисні ресурси для викладачів</em>
+            </div>
+        </div>
+    </div>
+</div>

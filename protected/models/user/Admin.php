@@ -18,7 +18,7 @@ class Admin extends Role
 	 * @return string sql for check role admin.
 	 */
 	public function checkRoleSql($organization=null){
-		$condition=$organization?' and a.id_organization='.$organization->id:'';
+		$condition=$organization?' and a.id_organization='.$organization:'';
 		return 'select "admin" from user_admin a where a.id_user = :id and a.end_date IS NULL'.$condition;
 	}
 
@@ -81,4 +81,18 @@ class Admin extends Role
     {
         return UserAdmin::model()->findAll($criteria);
     }
+
+	public function setRole(StudentReg $user, $organization)
+	{
+		if(Yii::app()->db->createCommand()->
+		insert($this->tableName(), array(
+			'id_user' => $user->id,
+			'assigned_by'=>Yii::app()->user->getId(),
+			'id_organization'=>$organization,
+		))){
+			$this->notifyAssignRole($user, $organization);
+			return true;
+		}
+		return false;
+	}
 }

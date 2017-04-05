@@ -67,7 +67,7 @@ class NgTableAdapter {
 
     /**
      * NgTableAdapter constructor.
-     * @param CActiveRecord|string $activeRecord
+     * @param {CActiveRecord|string} $activeRecord
      * @param array $requestParams
      * @param array $modelsBehaviours
      */

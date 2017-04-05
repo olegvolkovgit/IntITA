@@ -73,7 +73,7 @@ config(function ($stateProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Атрибути автора контента');
             },
-            templateUrl: basePath+"/_teacher/_admin/roleAttributes/authorAttributes",
+            templateUrl: basePath+"/_teacher/_content_manager/roleAttributes/authorAttributes",
         })
         .state('content_manager/teacherConsultantAttributes', {
             url: "/content_manager/teacherConsultantAttributes",
@@ -81,7 +81,7 @@ config(function ($stateProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Атрибути викладача');
             },
-            templateUrl: basePath+"/_teacher/_admin/roleAttributes/teacherConsultantAttributes",
+            templateUrl: basePath+"/_teacher/_content_manager/roleAttributes/teacherConsultantAttributes",
         })
         .state('content_manager/sendCoworkerRequest', {
             url: "/content_manager/sendCoworkerRequest",
@@ -96,5 +96,28 @@ config(function ($stateProvider) {
                 return contentManagerUrl+"/userAttributesList/id/"+$stateParams.id+"/role/"+$stateParams.role;
             }
         })
-    
+        .state('lectures/verifycontent', {
+            url: "/lectures/verifycontent",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_content_manager/verifyContent/index",
+        })
+        .state('teacher/:id/editRole/role/:role', {
+            url: "/teacher/:id/editRole/role/:role",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_content_manager/roleAttributes/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
+            }
+        })
+        .state('courses/addcourse', {
+            url: "/courses/addcourse",
+            cache: false,
+            templateUrl: basePath+"/_teacher/coursemanage/create",
+        })
+        .state('course/edit/:id', {
+            url: "/course/edit/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/coursemanage/update/id/"+$stateParams.id;
+            }
+        })
 });

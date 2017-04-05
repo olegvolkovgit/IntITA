@@ -5,10 +5,11 @@ angular
     .module('teacherApp')
     .controller('lecturesTableCtrl',lecturesTableCtrl)
 
-function lecturesTableCtrl ($scope, $http, DTOptionsBuilder){
+function lecturesTableCtrl ($scope, $http, DTOptionsBuilder, $attrs){
     $scope.changePageHeader('Заняття');
 
-    $http.get(basePath+'/_teacher/lecture/getLecturesList').then(function (data) {
+    var url = $attrs.organization?basePath+'/_teacher/lecture/getOrganizationLecturesList':basePath+'/_teacher/lecture/getLecturesList';
+    $http.get(url).then(function (data) {
         $scope.lectures = data.data["data"];
     });
 

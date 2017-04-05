@@ -28,7 +28,16 @@
                         Ціна модуля базова, USD:
                     </div>
                 </td>
-                <td><?=($model->module_price == 0)?"безкоштовно":$model->module_price;?></td>
+                <td>
+                    <?php if(Yii::app()->user->model->getCurrentOrganization()->id==$model->id_organization){ ?>
+                    <div ng-controller="modulePriceCtrl">
+                        <input class="col-md-2" style="border-radius: 5px" ng-model="modulePrice" type="number" min="0" ng-init="modulePrice=<?php echo $model->module_price; ?>">
+                        <button ng-click="updateModulePrice('<?php echo $model->module_ID; ?>',modulePrice)" class="btn btn-outline btn-primary btn-xs" >Зберегти</button>
+                    </div>
+                    <?php } else {
+                        echo ($model->module_price == 0)?"безкоштовно":$model->module_price;
+                    }?>
+                </td>
             </tr>
             <tr>
                 <td><div data-toggle="tooltip" data-placement="top" title="Ціна модуля в курсі однакова в будь-якому курсі.

@@ -17,13 +17,15 @@ class RegisteredUser
     public $registrationData;
     //array UserRoles
     private $_roles;
+    private $_teacher_roles;
     //Teacher model
     private $_teacher;
+    private $_organizations;
     private $_isTeacher = false;
     private $_roleAttributes = array();
 
     public $lectureAccessErrorMessage;
-    
+
     public function __construct(StudentReg $registrationData)
     {
         $this->registrationData = $registrationData;
@@ -50,12 +52,21 @@ class RegisteredUser
 
     public function getRoles($organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->session['organization'];
         if ($this->_roles === null) {
             $this->_roles = $this->loadRoles($organization);
         }
         return $this->_roles;
     }
-    
+
+    public function getTeacherRoles($organization)
+    {
+        if ($this->_teacher_roles === null) {
+            $this->_teacher_roles = $this->loadTeacherRoles($organization);
+        }
+        return $this->_teacher_roles;
+    }
+
     private function loadRoles($organization=null)
     {
         $sql = '';
@@ -75,6 +86,25 @@ class RegisteredUser
             return new UserRoles($row["director"]);
         }, $rolesArray);
 
+        return $result;
+    }
+
+    private function loadTeacherRoles($organization)
+    {
+        $sql = '';
+        $roles = AllRolesDataSource::teacherRoles();
+        $lastKey = array_search(end($roles), $roles);
+        foreach($roles as $key=>$role){
+            $model = Role::getInstance($role);
+            $sql .= "(".$model->checkRoleSql($organization).")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
+        $result = array_map(function ($row) {
+            return new UserRoles($row["accountant"]);
+        }, $rolesArray);
         return $result;
     }
 
@@ -98,7 +128,7 @@ class RegisteredUser
 
     private function loadTeacherModel()
     {
-        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id));
+        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id,'cancelled'=>Teacher::ACTIVE));
     }
 
     public function getRolesAttributes()
@@ -133,8 +163,8 @@ class RegisteredUser
     public function setRoleAttribute($role, $attribute, $value)
     {
         $roleObj = Role::getInstance($role);
-        if($roleObj->setAttribute($this->registrationData, $attribute, $value)) 
-            return true; 
+        if($roleObj->setAttribute($this->registrationData, $attribute, $value))
+            return true;
         else return $roleObj->getErrorMessage();
     }
 
@@ -142,8 +172,8 @@ class RegisteredUser
     {
         $roleObj = Role::getInstance($role);
         date_default_timezone_set(Config::getServerTimezone());
-        if($roleObj->cancelAttribute($this->registrationData, $attribute, $value)) 
-            return true; 
+        if($roleObj->cancelAttribute($this->registrationData, $attribute, $value))
+            return true;
         else return $roleObj->getErrorMessage();
     }
 
@@ -222,12 +252,12 @@ class RegisteredUser
     {
         return $this->hasRole(UserRoles::AUDITOR);
     }
-    
+
     public function isSuperAdmin()
     {
         return $this->hasRole(UserRoles::SUPER_ADMIN);
     }
-    
+
     public function canApprove()
     {
         return $this->isContentManager();
@@ -254,7 +284,7 @@ class RegisteredUser
         return in_array($role, $this->getRoles($organization));
     }
 
-    public function setRole($role, Organization $organization=null)
+    public function setRole($role, $organization=null)
     {
         if ($this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User already has this role.");
@@ -263,7 +293,7 @@ class RegisteredUser
         return $roleObj->setRole($this->registrationData, $organization);
     }
 
-    public function cancelRole(UserRoles $role, Organization $organization=null)
+    public function cancelRole(UserRoles $role, $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User hasn't this role.");
@@ -272,7 +302,7 @@ class RegisteredUser
         return $roleObj->cancelRole($this->registrationData, $organization);
     }
     
-    public function cancelRoleMessage(UserRoles $role, Organization $organization=null)
+    public function cancelRoleMessage(UserRoles $role, $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             return "Користувачу не була призначена обрана роль.";
@@ -372,7 +402,7 @@ class RegisteredUser
 
         return true;
     }
-    
+
     public function hasLecturePagesAccess(Lecture $lecture){
         return $this->coworkerHasModuleAccess($lecture->module);
     }
@@ -397,5 +427,58 @@ class RegisteredUser
     public function canSetGlobalRole()
     {
         return $this->isDirector();
+    }
+
+    public function getOrganizations()
+    {
+        if ($this->_organizations === null) {
+            $resultArray=array();
+            $organizations=array();
+            foreach (AllRolesDataSource::localRoles() as $role){
+                $roleObj = Role::getInstance($role);
+                $roleObj->getOrganizations();
+                $resultArray= array_merge($resultArray, $roleObj->getOrganizations());
+            }
+            foreach ($resultArray as $organization){
+                array_push($organizations,$organization['id_organization']);
+            }
+            $this->_organizations = array_unique($organizations);
+        }
+        return $this->_organizations;
+    }
+
+    public function getOrganizationsModel()
+    {
+        $organizations = $this->getOrganizations();
+
+        $criteria = new CDbCriteria();
+        $criteria->distinct = true;
+        $criteria->addInCondition('id', $organizations);
+        return Organization::model()->findAll($criteria);
+    }
+
+    /**
+     * @param {integer} $id
+     * @return bool
+     */
+    public function hasOrganizationById($id) {
+        return in_array($id, $this->getOrganizations());
+    }
+
+    /**
+     * @return Organization
+     */
+    public function getCurrentOrganization() {
+        return Organization::model()->findByPk(Yii::app()->session->get('organization'));
+    }
+
+    public function hasAccessToGlobalRoleLists($organization)
+    {
+        $organization=filter_var($organization, FILTER_VALIDATE_BOOLEAN);
+        if(!$organization){
+            if(!($this->isDirector() || $this->isSuperAdmin()))
+                throw new \application\components\Exceptions\IntItaException(403, "Не має доступу");
+        }
+        return true;
     }
 }

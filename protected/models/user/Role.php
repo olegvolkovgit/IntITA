@@ -65,7 +65,39 @@ abstract class Role
         }
         return $model;
     }
-
+    
+    public static function getLocalInstance($role){
+        switch($role){
+            case "accountant":
+                $model = new Accountant();
+                break;
+            case "trainer":
+                $model = new Trainer();
+                break;
+            case "student":
+                $model = new Student();
+                break;
+            case "author":
+                $model = new Author();
+                break;
+            case "content_manager":
+                $model = new ContentManager();
+                break;
+            case "teacher_consultant":
+                $model = new TeacherConsultant();
+                break;
+            case "tenant":
+                $model = new Tenant();
+                break;
+            case "supervisor":
+                $model = new SuperVisor();
+                break;
+            default :
+                $model = null;
+        }
+        return $model;
+    }
+    
     public static function getGlobalInstance($role){
         switch($role){
             case "director":
@@ -82,14 +114,17 @@ abstract class Role
         }
         return $model;
     }
-
+    
     public function setRole(StudentReg $user, $organization)
     {
+        if(!$user->isOrganizationTeacher($organization)){
+            throw new \application\components\Exceptions\IntItaException(403, "Користувач не є співробітником");
+        }
         if(Yii::app()->db->createCommand()->
         insert($this->tableName(), array(
             'id_user' => $user->id,
             'assigned_by'=>Yii::app()->user->getId(),
-            'id_organization'=>$organization->id,
+            'id_organization'=>$organization,
         ))){
             $this->notifyAssignRole($user, $organization);
             return true;
@@ -106,7 +141,7 @@ abstract class Role
         update($this->tableName(), array(
             'end_date'=>date("Y-m-d H:i:s"),
             'cancelled_by'=>Yii::app()->user->id
-        ), 'id_user=:id and id_organization=:organization', array(':id'=>$user->id,':organization'=>$organization->id))){
+        ), 'id_user=:id and id_organization=:organization', array(':id'=>$user->id,':organization'=>$organization))){
             $this->notifyCancelRole($user, $organization);
             return true;
         }
@@ -120,11 +155,20 @@ abstract class Role
         ), 'id_user=:id', array(':id'=>$user->id));
     }
 
-    public function notifyAssignRole(StudentReg $user, Organization $organization=null){
-        $user->notify('_assignRole', array($this->title(), $organization), 'Призначено роль');
+    public function notifyAssignRole(StudentReg $user, $organization=null){
+        $user->notify('_assignRole', array($this->title(), $organization), 'Призначено роль', Yii::app()->user->getId());
     }
 
-    public function notifyCancelRole(StudentReg $user, Organization $organization=null){
-        $user->notify('_cancelRole', array($this->title(), $organization), 'Скасовано роль');
+    public function notifyCancelRole(StudentReg $user, $organization=null){
+        $user->notify('_cancelRole', array($this->title(), $organization), 'Скасовано роль', Yii::app()->user->getId());
+    }
+
+    public function getOrganizations()
+    {
+        return Yii::app()->db->createCommand()
+            ->selectDistinct('id_organization')
+            ->from($this->tableName())
+            ->where('id_user=:id and end_date IS NULL', array(':id'=>Yii::app()->user->model->registrationData->id))
+            ->queryAll();
     }
 }

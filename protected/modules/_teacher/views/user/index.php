@@ -7,7 +7,7 @@
 <?php if (Yii::app()->user->model->isAdmin()) { ?>
     <ul class="list-inline">
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/admin/users">
+            <a type="button" class="btn btn-primary" ng-href="#/users/registeredUsers">
                 Користувачі
             </a>
         </li>
@@ -19,7 +19,7 @@
             <uib-tab index="0" heading="Головне">
                 <?php $this->renderPartial('_mainTab', array('model' =>$model, 'trainer' => $trainer));?>
             </uib-tab>
-            <?php if (Yii::app()->user->model->isAdmin()){?>
+            <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager() && $model->isOrganizationTeacher()){?>
             <uib-tab index="1" heading="Ролі користувача">
                 <?php $this->renderPartial('_rolesTab', array('model' =>$model));?>
             </uib-tab>
