@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: anton
- * Date: 11.10.16
- * Time: 20:45
- */
 class TypeAheadHelper {
     public static function getTypeahead($value, $className, $fields, $limit=10) {
         if (class_exists($className) && is_subclass_of($className, 'CActiveRecord')) {

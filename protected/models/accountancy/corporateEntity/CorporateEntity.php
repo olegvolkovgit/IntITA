@@ -16,6 +16,7 @@
  * @property integer $legal_address_city_code
  * @property string $actual_address
  * @property integer $actual_address_city_code
+ * @property integer $id_organization
  *
  * The followings are the available model relations:
  * @property AddressCity $legalCity
@@ -24,6 +25,7 @@
 class CorporateEntity extends CActiveRecord {
 
     use withBelongsToOrganization;
+    use withCollectAttributes;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -40,8 +42,8 @@ class CorporateEntity extends CActiveRecord {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('EDPNOU, certificate_of_vat, tax_certificate, legal_address, legal_address_city_code, actual_address, actual_address_city_code', 'required'),
-			array('legal_address_city_code, actual_address_city_code', 'numerical', 'integerOnly'=>true),
+			array('EDPNOU, certificate_of_vat, tax_certificate, legal_address, legal_address_city_code, actual_address, actual_address_city_code, id_organization', 'required'),
+			array('legal_address_city_code, actual_address_city_code, id_organization', 'numerical', 'integerOnly'=>true),
 			array('EDPNOU, certificate_of_vat, tax_certificate', 'length', 'max'=>14),
 			array('legal_address, actual_address, title', 'length', 'max'=>255),
 			array('edpnou_issue_date, certificate_of_vat_issue_date, tax_certificate_issue_date', 'safe'),
@@ -81,6 +83,7 @@ class CorporateEntity extends CActiveRecord {
 			'legal_address_city_code' => 'Код міста (юридична адреса)',
 			'actual_address' => 'Фактична адреса',
 			'actual_address_city_code' => 'Код міста (фактична адреса)',
+            'id_organization' => 'Id Organization'
 		);
 	}
 
@@ -112,6 +115,7 @@ class CorporateEntity extends CActiveRecord {
 		$criteria->compare('legal_address_city_code',$this->legal_address_city_code);
 		$criteria->compare('actual_address',$this->actual_address,true);
 		$criteria->compare('actual_address_city_code',$this->actual_address_city_code);
+		$criteria->compare('id_organization',$this->id_organization);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
