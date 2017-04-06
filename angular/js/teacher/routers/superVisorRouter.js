@@ -36,6 +36,7 @@ config(function ($stateProvider) {
         .state('supervisor/offlineStudents', {
             url: "/supervisor/offlineStudents",
             cache: false,
+            controller: 'offlineStudentsSVTableCtrl',
             templateUrl: basePath + "/_teacher/_supervisor/superVisor/offlineStudents",
         })
         .state('supervisor/studentsWithoutGroup', {
@@ -115,14 +116,14 @@ config(function ($stateProvider) {
             url: "/supervisor/editGroupAccess/:type/group/:group/service/:service",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=update";
+                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=update&group="+$stateParams.group+"&service="+$stateParams.service;
             }
         })
         .state('supervisor/groupAccess/:type/group/:group', {
             url: "/supervisor/groupAccess/:type/group/:group",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=create";
+                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=create&group="+$stateParams.group;
             }
         })
         .state('admin/users/user/:id/addtrainer', {
