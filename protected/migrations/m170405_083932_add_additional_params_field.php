@@ -4,22 +4,13 @@ class m170405_083932_add_additional_params_field extends CDbMigration
 {
 	public function up()
 	{
+        $this->addColumn('scheduler_tasks','parameters','TEXT NULL DEFAULT NULL');
 	}
 
 	public function down()
 	{
-		echo "m170405_083932_add_additional_params_field does not support migration down.\n";
-		return false;
+		$this->dropColumn('scheduler_tasks','parameters');
+		return true;
 	}
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
 }

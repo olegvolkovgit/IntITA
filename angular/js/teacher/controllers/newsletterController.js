@@ -82,33 +82,33 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     $scope.weekdays = [
         {
             name: 'Понеділок',
-            value:1
+            id: 1
         },
         {
             name: 'Вівторок',
-            value:2
+            id: 2
         },
         {
             name: 'Середа',
-            value:3
+            id: 3
         },
         {
             name: 'Четвер',
-            value:4
+            id: 4
         },
         {
             name: 'П\'ятниця',
-            value:5
+            id: 5
         },
         {
             name: 'Субота',
-            value:6
+            id: 6
         },
         {
             name: 'Неділя',
-            value:7
-        },
-    ]
+            id: 7
+        }
+    ];
 
     $rootScope.$on('mailTemplateSelected', function (event, data) {
         $scope.subject = data.subject;
@@ -136,6 +136,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         $scope.taskRepeat = $scope.taskRepeatTypes[0].value;
         $scope.hours = 1;
         $scope.minutes = 1;
+        $scope.weekdaysList = [];
 
     }
     
@@ -209,22 +210,24 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
                 return;
             }
+            alert($scope.weekdaysList);
             $http({
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
-                data: $jq({
-                        "type": $scope.newsletterType,
-                        "recipients": recipients,
-                        "subject": $scope.subject,
-                        "message": $scope.message,
-                        "email": $scope.emailSelected.email,
-                        "emailBaseCategory":$scope.selectedEmailCategory,
-                        "taskType": $scope.taskType,
-                        "taskRepeat": $scope.taskRepeat,
-                        "date": $filter('shortDate')($scope.date,'dd-MM-yyyy')+' '+$filter('shortDate')($scope.time,'HH:mm')
+                data: $jq.param({
+                    "type": $scope.newsletterType,
+                    "recipients": recipients,
+                    "subject": $scope.subject,
+                    "message": $scope.message,
+                    "email": $scope.emailSelected.email,
+                    "emailBaseCategory": $scope.selectedEmailCategory,
+                    "taskType": $scope.taskType,
+                    "taskRepeat": $scope.taskRepeat,
+                    "weekdays": $scope.weekdaysList,
+                    "date": $filter('shortDate')($scope.date, 'dd-MM-yyyy') + ' ' + $filter('shortDate')($scope.time, 'HH:mm')
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            }).success(function () {
+            }).success(function (response) {
                 bootbox.alert('Задача запланована',function () {
                    $state.go('scheduler/tasks');
                 });

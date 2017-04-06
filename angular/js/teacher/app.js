@@ -3,6 +3,7 @@ angular.module('chatIntITAMessenger', []);
 
 angular
     .module('teacherApp', [
+        'checklist-model',
         'datatables',
         'ui.bootstrap',
         'ngBootbox',

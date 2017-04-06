@@ -36,6 +36,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
     const WEEKLY = 3;
     const MONTLY = 4;
     const YEARLY = 5;
+    const WEEKDAYS =6 ;
 
 	/**
 	 * @return string the associated database table name

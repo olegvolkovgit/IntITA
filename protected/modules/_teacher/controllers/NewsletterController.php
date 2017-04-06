@@ -45,9 +45,10 @@ class NewsletterController extends TeacherCabinetController
         $task->type = TaskFactory::NEWSLETTER;
         $task->name = 'Розсилка';
         $task->status = SchedulerTasks::STATUSNEW;
-        $task->parameters = json_encode($_POST['parameters']);
+        $task->parameters = json_encode($_POST);
         $task->repeat_type = $_POST['taskRepeat'];
         $task->owner = Yii::app()->user->model->id;
+        $task->id_organization = Yii::app()->session['organization'];
         date_default_timezone_set('Europe/Kiev');
         ($_POST['taskType'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
         $task->start_time = $date->format('Y-m-d H:i:s');
