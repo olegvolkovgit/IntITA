@@ -128,26 +128,12 @@ $user = $model->registrationData;
                 </li>
                 <li class="list-group-item" ng-if="data.user.educform">
                     Форма навчання: <em>{{data.user.educform==1? "онлайн":"онлайн/оффлайн"}}</em>
-                    <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
-                        <button type="button" class="btn btn-outline btn-primary btn-xs"
-                                ng-click="changeStudentEducForm(data.user.id,data.user.educform);">
-                            {{data.user.educform=='1' ? "змінити на 'Онлайн/Офлайн'" : "змінити на 'Онлайн'"}}
-                        </button>
-                    <?php } ?>
                 </li>
                 <li class="list-group-item" ng-if="data.user.educform==3">
                     Навчальна зміна:
                     <em ng-if="data.user.education_shift==1">ранкова</em>
                     <em ng-if="data.user.education_shift==2">вечірня</em>
                     <em ng-if="data.user.education_shift==3">байдуже</em>
-                    <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
-                        <button ng-if="data.user.education_shift!=2" type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeStudentShift(data.user.id,2);">
-                            змінити на вечірню
-                        </button>
-                        <button ng-if="data.user.education_shift!=1" type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeStudentShift(data.user.id,1);">
-                            змінити на ранкову
-                        </button>
-                    <?php } ?>
                 </li>
                 <li class="list-group-item" ng-if="data.careers.length">Як би хотів розпочати кар'єру в ІТ:
                     <span style="background-color:#ddd;border: 1px solid #ccc;margin: 0 2px" ng-repeat="career in data.careers track by $index">{{career}}</span>

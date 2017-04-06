@@ -1,8 +1,8 @@
-<div class="panel-body">
+<div class="panel-body" ng-controller="specializationCtrl">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form autocomplete="off" ng-submit="createSpecialization();" name="editSpecializationForm"  novalidate>
+                <form autocomplete="off" ng-submit="editSpecialization();" name="editSpecializationForm"  novalidate>
                     <div class="form-group">
                         <label>Назва укр.*</label>
                         <input name="title_ua" class="form-control" ng-model="specialization.title_ua" required maxlength="128" size="50">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary" ng-disabled="editSpecializationForm.$invalid">Створити
+                        <button type="submit" class="btn btn-primary" ng-disabled="editSpecializationForm.$invalid">Зберегти
                         </button>
                         <a type="button" class="btn btn-default" ng-click='back()'>
                             Назад

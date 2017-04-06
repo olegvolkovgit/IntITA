@@ -256,6 +256,16 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
+    public function actionStudentsWithoutTrainerByQuery($query)
+    {
+        if ($query) {
+            $users = UserStudent::studentWithoutTrainerByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+    
     public function actionCoursesByQuery($query)
     {
         echo Course::readyCoursesList($query);
@@ -300,7 +310,8 @@ class CabinetController extends TeacherCabinetController
 
     public function actionUsersAddForm($role, $query, $organization=null)
     {
-        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+
         $roleModel = Role::getInstance(new UserRoles($role));
   
         if ($query && $roleModel) {

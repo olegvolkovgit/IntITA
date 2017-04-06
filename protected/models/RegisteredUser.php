@@ -162,6 +162,9 @@ class RegisteredUser
 
     public function setRoleAttribute($role, $attribute, $value)
     {
+        if(!$this->hasRole($role)){
+            throw new \application\components\Exceptions\IntItaException(403, 'Користувач не має даної ролі');
+        };
         $roleObj = Role::getInstance($role);
         if($roleObj->setAttribute($this->registrationData, $attribute, $value))
             return true;
@@ -472,12 +475,27 @@ class RegisteredUser
         return Organization::model()->findByPk(Yii::app()->session->get('organization'));
     }
 
+    /**
+     * @return Organization
+     */
+    public function getCurrentOrganizationId() {
+        return Yii::app()->session->get('organization');
+    }
+    
     public function hasAccessToGlobalRoleLists($organization)
     {
         $organization=filter_var($organization, FILTER_VALIDATE_BOOLEAN);
         if(!$organization){
             if(!($this->isDirector() || $this->isSuperAdmin()))
                 throw new \application\components\Exceptions\IntItaException(403, "Не має доступу");
+        }
+        return true;
+    }
+
+    public function hasAccessToOrganizationModel($model)
+    {
+        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до сторінки в межах даної організації');
         }
         return true;
     }

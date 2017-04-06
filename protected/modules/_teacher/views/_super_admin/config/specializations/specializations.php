@@ -1,6 +1,6 @@
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="specializationsTableCtrl">
     <div class="col-lg-12">
-        <a type="button" class="btn btn-primary" ng-href="#/supervisor/createSpecialization">
+        <a type="button" class="btn btn-primary" ng-href="#/configuration/createSpecialization">
             Створити нову спеціалізацію
         </a>
         <br>
@@ -18,13 +18,13 @@
                         <tr ng-repeat="row in specializations">
                             <td>{{row.id}}</td>
                             <td>
-                                <a ng-href="#/supervisor/specialization/update/{{row.id}}">{{row.title_ua}}</a>
+                                <a ng-href="#/configuration/specialization/update/{{row.id}}">{{row.title_ua}}</a>
                             </td>
                             <td>
-                                <a ng-href="#/supervisor/specialization/update/{{row.id}}">{{row.title_ru}}</a>
+                                <a ng-href="#/configuration/specialization/update/{{row.id}}">{{row.title_ru}}</a>
                             </td>
                             <td>
-                                <a ng-href="#/supervisor/specialization/update/{{row.id}}">{{row.title_en}}</a>
+                                <a ng-href="#/configuration/specialization/update/{{row.id}}">{{row.title_en}}</a>
                             </td>
                         </tr>
                     </table>

@@ -10,7 +10,7 @@ class GraduateController extends TeacherCabinetController {
 
     public function hasRole(){
         $allowedViewActions=['index','getGraduatesJson', 'view'];
-        return Yii::app()->user->model->isAdmin() ||
+        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor() ||
         (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
     /**
@@ -156,10 +156,5 @@ class GraduateController extends TeacherCabinetController {
         $adapter = new NgTableAdapter('Graduate',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
-//        $criteria = new CDbCriteria([
-//            'offset' => $page*$pageCount -$pageCount,
-//            'limit' => $pageCount
-//        ]);
-//        echo JsonForNgDatatablesHelper::returnJson(Graduate::model()->findAll($criteria),null,Graduate::model()->count());
     }
 }

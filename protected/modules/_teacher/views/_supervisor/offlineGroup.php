@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="offlineGroupCtrl">
     <div class="panel-body">
         <ul class="list-inline">
             <li>

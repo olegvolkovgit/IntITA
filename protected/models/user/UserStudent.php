@@ -145,4 +145,31 @@ class UserStudent extends CActiveRecord
 		}
 		return json_encode($result);
 	}
+
+	public static function studentWithoutTrainerByQuery($query){
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->alias = "s";
+		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+		$criteria->join = 'LEFT JOIN user_student us ON us.id_user = s.id';
+		$criteria->join .= ' LEFT JOIN trainer_student ts ON ts.student = us.id_user';
+		$criteria->addCondition('us.id_user IS NOT NULL and us.end_date is NULL 
+		and us.id_user NOT IN (SELECT student FROM trainer_student WHERE id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.')');
+		$criteria->group = 's.id';
+
+		$data = StudentReg::model()->findAll($criteria);
+
+		$result = [];
+		foreach ($data as $key=>$model) {
+			$result["results"][$key]["id"] = $model->id;
+			$result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
+			$result["results"][$key]["fullName"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName." ".$model->email);
+			$result["results"][$key]["email"] = $model->email;
+			$result["results"][$key]["url"] = $model->avatarPath();
+		}
+		return json_encode($result);
+	}
 }

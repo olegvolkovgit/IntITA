@@ -11,6 +11,8 @@
  * @property integer $id_user_created
  * @property integer $id_trainer
  *
+ * @property Organization $organization
+ * @property OfflineGroups $groupName
  */
 class OfflineSubgroups extends CActiveRecord
 {
@@ -45,11 +47,21 @@ class OfflineSubgroups extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'groupName' => array(self::HAS_ONE, 'OfflineGroups', ['id'=>'group']),
+			'groupName' => array(self::BELONGS_TO, 'OfflineGroups', 'group'),
 			'specialization' => array(self::BELONGS_TO, 'SpecializationsGroup', array('specialization'=>'id'), 'through' => 'groupName'),
 			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
 			'subgroupTrainer'=>array(self::BELONGS_TO, 'StudentReg', 'id_trainer'),
+			'organization' => [self::BELONGS_TO, 'Organization', ['id_organization' => 'id'], 'through' => 'groupName']
 		);
+	}
+
+	protected function beforeValidate()
+	{
+		if($this->organization->id!=Yii::app()->user->model->getCurrentOrganization()->id){
+			throw new \application\components\Exceptions\IntItaException(403, 'Ваші права не дозволяють змінювати підгрупу в межах даної організації');
+		}
+
+		return parent::beforeValidate();
 	}
 
 	/**
@@ -126,4 +138,13 @@ class OfflineSubgroups extends CActiveRecord
 			$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $student->id_user);
 		}
 	}
+
+	public function checkOrganization(){
+		if($this->organization->id!=Yii::app()->user->model->getCurrentOrganization()->id){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 }

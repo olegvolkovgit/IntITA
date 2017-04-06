@@ -6,7 +6,7 @@
 <div class="row" ng-controller="studentCtrl">
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary" ng-click="changeView('students/consultations')">Всі консультації
+            <button type="button" class="btn btn-primary" ng-click="changeView('student/consultations')">Всі консультації
             </button>
         </li>
         <?php if ($model->isAvailable() && !$model->isCancelled()) { ?>

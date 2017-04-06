@@ -123,6 +123,13 @@ angular
                         }
                     }
                 })
+                .state('registeredUsers', {
+                    url: '/registeredUsers',
+                    controller: function($scope){
+                        $scope.changePageHeader('Зареєстровані користувачі');
+                    },
+                    templateUrl: basePath+"/_teacher/users/users",
+                })
                 
                 .state('users.blockedUsers', {
                     url: '/blockedUsers',
@@ -156,6 +163,13 @@ angular
                             templateUrl: basePath+"/_teacher/users/students?organization=1",
                         }
                     }
+                })
+                .state('students', {
+                    url: '/students',
+                    controller: function($scope){
+                        $scope.changePageHeader('Студенти');
+                    },
+                    templateUrl: basePath+"/_teacher/users/students?organization=1",
                 })
                 
                 .state('users.offlineStudents', {
@@ -327,7 +341,14 @@ angular
                         }
                     }
                 })
-                
+                .state('coworkers', {
+                    url: '/coworkers',
+                    controller: function($scope){
+                        $scope.changePageHeader('Співробітники');
+                    },
+                    templateUrl: basePath+"/_teacher/users/coworkers?organization=1",
+                })
+
                 .state('users.admins', {
                     url: '/admins',
                     views: {

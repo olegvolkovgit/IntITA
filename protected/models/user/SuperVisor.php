@@ -90,7 +90,9 @@ class SuperVisor extends Role
 		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
 		$criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
-		$criteria->addCondition('t.user_id IS NOT NULL');
+		$criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
+		$criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL 
+		and tco.end_date IS NULL and tco.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
 		$criteria->group = 's.id';
 
 		$data = StudentReg::model()->findAll($criteria);
