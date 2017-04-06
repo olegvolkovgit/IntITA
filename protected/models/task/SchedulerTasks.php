@@ -11,8 +11,9 @@
  * @property integer $repeat_type
  * @property string $start_time
  * @property string $end_time
- * @property string $parameters
  * @property integer $status 
+ * @property integer $related_model_id
+ * @property integer $id_organization
  * @property string $error
  */
 class SchedulerTasks extends CActiveRecord implements ITask
@@ -52,13 +53,13 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, type, status, owner', 'required'),
-			array('type, repeat_type, status, owner', 'numerical', 'integerOnly'=>true),
+			array('name, type, status, owner', 'id_organization','required'),
+			array('type, repeat_type, status, owner related_model_id, id_organization', 'numerical', 'integerOnly'=>true),
 			array('name, error', 'length', 'max'=>255),
-			array('start_time, end_time, parameters', 'safe'),
+			array('start_time, end_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type, repeat_type, start_time, end_time, parameters, status, error, owner','safe', 'on'=>'search'),
+			array('id, name, type, repeat_type, start_time, end_time, status, error, owner related_model_id id_organization','safe', 'on'=>'search'),
 		);
 	}
 
@@ -84,9 +85,11 @@ class SchedulerTasks extends CActiveRecord implements ITask
 			'repeat_type' => 'Repeat',
 			'start_time' => 'Start Time',
 			'end_time' => 'End Time',
-			'parameters' => 'Parameters',
 			'status' => 'Status',
 			'error' => 'Error',
+			'related_model_id' => 'Ид связанной задачи',
+			'id_organization' => 'Ид Организации',
+
 		);
 	}
 
@@ -114,8 +117,9 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		$criteria->compare('repeat_type',$this->repeat_type);
 		$criteria->compare('start_time',$this->start_time,true);
 		$criteria->compare('end_time',$this->end_time,true);
-		$criteria->compare('parameters',$this->parameters,true);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('related_model_id',$this->related_model_id);
+		$criteria->compare('id_organization',$this->id_organization);
 		$criteria->compare('error',$this->error,true);
 
 		return new CActiveDataProvider($this, array(
@@ -135,7 +139,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	}
 
     public function run(){
-        $task = TaskFactory::getInstance($this->type, $this->parameters);
+        $task = TaskFactory::getInstance($this->type,$this->related_model_id);
         $task->run();
     }
 }

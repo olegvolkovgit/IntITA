@@ -14,7 +14,7 @@ angular
     .filter('usersSearchFilter', function($sce) {
         return function(label, query, item, options, element) {
 
-            var html= item.email + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
+            var html= user+item.email + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
 
             return $sce.trustAsHtml(html);
         };
@@ -72,7 +72,43 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     }, {
         name: 'Раз на рік',
         value: '5'
-    }];
+    },
+    {
+        name: 'По днях тижня',
+        value: '6'
+    }
+    ];
+
+    $scope.weekdays = [
+        {
+            name: 'Понеділок',
+            value:1
+        },
+        {
+            name: 'Вівторок',
+            value:2
+        },
+        {
+            name: 'Середа',
+            value:3
+        },
+        {
+            name: 'Четвер',
+            value:4
+        },
+        {
+            name: 'П\'ятниця',
+            value:5
+        },
+        {
+            name: 'Субота',
+            value:6
+        },
+        {
+            name: 'Неділя',
+            value:7
+        },
+    ]
 
     $rootScope.$on('mailTemplateSelected', function (event, data) {
         $scope.subject = data.subject;
@@ -176,18 +212,16 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
             $http({
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
-                data: $jq.param({
-                    'parameters':{
+                data: $jq({
                         "type": $scope.newsletterType,
                         "recipients": recipients,
                         "subject": $scope.subject,
                         "message": $scope.message,
                         "email": $scope.emailSelected.email,
                         "emailBaseCategory":$scope.selectedEmailCategory,
-                    },
-                    "taskType": $scope.taskType,
-                    "taskRepeat": $scope.taskRepeat,
-                    "date": $filter('shortDate')($scope.date,'dd-MM-yyyy')+' '+$filter('shortDate')($scope.time,'HH:mm')
+                        "taskType": $scope.taskType,
+                        "taskRepeat": $scope.taskRepeat,
+                        "date": $filter('shortDate')($scope.date,'dd-MM-yyyy')+' '+$filter('shortDate')($scope.time,'HH:mm')
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             }).success(function () {

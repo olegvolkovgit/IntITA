@@ -32,7 +32,7 @@ class NewsletterController extends TeacherCabinetController
 
     public function actionGetRoles(){
         $roles = AllRolesDataSource::roles();
-        $result = [];
+        $result = [['id'=>'Coworkers','name'=>'Всі співробітники організації']];
         foreach ($roles as $role)
         {
             array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
