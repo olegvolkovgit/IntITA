@@ -561,8 +561,7 @@ function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $statePar
                     if(response.data=='success'){
                         $scope.loadTeacherData($scope.userId, $scope.currentRole);
                         $scope.addUIHandlers('Операцію успішно виконано');
-                    }
-                    else $scope.addUIHandlers(response.data);
+                    } else $scope.addUIHandlers(response.data);
                     $scope.clearInputs();
                 }, function errorCallback(response) {
                     console.log(response);
@@ -578,6 +577,59 @@ function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $statePar
         if (attributeId && userId){
             roleAttributeService
                 .unsetRoleAttribute({
+                    'attribute': attribute,
+                    'attributeValue':attributeId,
+                    'role': role,
+                    'userId' : userId
+                })
+                .$promise
+                .then(function successCallback(response) {
+                    if(response.data=='success'){
+                        $scope.loadTeacherData($scope.userId, $scope.currentRole);
+                        $scope.addUIHandlers('Операцію успішно виконано');
+                    }
+                    else $scope.addUIHandlers(response.data);
+                }, function errorCallback(data) {
+                    console.log(data);
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+        }else{
+            bootbox.alert("Введено не всі дані");
+        }
+
+    };
+
+    // params: role, role's attribute, users's id, attribute's id
+    $scope.setTrainerRoleAttribute = function(role, attribute, userId, attributeId){
+        if (attributeId && userId){
+            roleAttributeService
+                .setTrainerRoleAttribute({
+                    'attribute': attribute,
+                    'attributeValue':attributeId,
+                    'role': role,
+                    'userId' : userId
+                })
+                .$promise
+                .then(function successCallback(response) {
+                    if(response.data=='success'){
+                        $scope.loadTeacherData($scope.userId, $scope.currentRole);
+                        $scope.addUIHandlers('Операцію успішно виконано');
+                    } else $scope.addUIHandlers(response.data);
+                    $scope.clearInputs();
+                }, function errorCallback(response) {
+                    console.log(response);
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+        }else{
+            bootbox.alert("Введено не всі дані");
+        }
+    };
+
+    // params: role, role's attribute, users's id, attribute's id
+    $scope.cancelTrainerRoleAttribute = function(role, attribute, userId, attributeId){
+        if (attributeId && userId){
+            roleAttributeService
+                .unsetTrainerRoleAttribute({
                     'attribute': attribute,
                     'attributeValue':attributeId,
                     'role': role,

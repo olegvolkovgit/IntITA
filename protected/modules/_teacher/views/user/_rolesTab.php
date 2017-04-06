@@ -14,14 +14,21 @@
                 </li>
             </ul>
         <?php } ?>
-            <ul ng-if="data.user.roles.length" ng-repeat="role in data.user.roles track by $index" class="list-group">
+            <ul ng-if="data.user.roles.length" ng-repeat="item in data.user.roles track by $index" class="list-group">
                 <li class="list-group-item">
-                    {{role}}
-                    <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                        <a ng-if="role!='<?php echo UserRoles::STUDENT ?>'" ng-href="#/admin/teacher/{{data.user.id}}/editRole/role/{{role}}">
+                    {{item.name}}
+                    <?php if (Yii::app()->user->model->isContentManager()) { ?>
+                        <a ng-if="item.role!='<?php echo UserRoles::STUDENT ?>' && item.role!='<?php echo UserRoles::TRAINER ?>'" ng-href="#/teacher/{{data.user.id}}/editRole/role/{{item.role}}">
                         <em>редагувати</em>
                         </a>
-                        <a href="" ng-click="cancelRole(data.user.id, role);">
+                    <?php } ?>
+                    <?php if (Yii::app()->user->model->isSuperVisor()) { ?>
+                        <a ng-if="item.role=='<?php echo UserRoles::TRAINER ?>'" ng-href="#/teacher/{{data.user.id}}/editTrainerRole/role/trainer">
+                            <em>редагувати</em>
+                        </a>
+                    <?php } ?>
+                    <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                        <a href="" ng-click="cancelLocalRole(data.user.id, item.role);">
                             <em>скасувати</em>
                         </a>
                     <?php } ?>

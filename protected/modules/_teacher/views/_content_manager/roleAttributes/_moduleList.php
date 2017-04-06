@@ -33,7 +33,6 @@
             <tr>
                 <th>Модуль</th>
                 <th>Призначено</th>
-                <th>Відмінено</th>
                 <th>Видалити</th>
             </tr>
             </thead>
@@ -46,9 +45,6 @@
                 </td>
                 <td>
                     {{module.start_date}}
-                </td>
-                <td>
-                    {{module.end_date}}
                 </td>
                 <td>
                     <a ng-if="!module.end_date" href=""

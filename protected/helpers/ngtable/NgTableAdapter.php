@@ -250,7 +250,7 @@ class NgTableAdapter {
             foreach ($provider->getRelationAttributes() as $attribute) {
                 $select[] = "`$relationName`.`$attribute`";
             }
-            $with[$relationName] = ['select' => implode(',', $select), 'joinType' => 'JOIN'];
+            $with[$relationName] = ['select' => implode(',', $select), 'joinType' => 'LEFT JOIN'];
         }
         $this->getCriteriaInstance()->with = $with;
 

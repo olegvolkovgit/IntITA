@@ -7,7 +7,6 @@
  * @property integer $id_user
  * @property string $start_date
  * @property string $end_date
- * @property integer $capacity
  * @property integer $assigned_by
  * @property integer $cancelled_by
  * @property integer $id_organization
@@ -37,10 +36,10 @@ class UserTeacherConsultant extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_user, start_date, assigned_by,  id_organization', 'required'),
-			array('id_user, capacity', 'numerical', 'integerOnly'=>true),
+			array('id_user', 'numerical', 'integerOnly'=>true),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
-			array('id_user, start_date, end_date, capacity, id_organization', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,7 +71,6 @@ class UserTeacherConsultant extends CActiveRecord
 			'id_user' => 'Id User',
 			'start_date' => 'Start Date',
 			'end_date' => 'End Date',
-			'capacity' => 'Capacity',
 		);
 	}
 
@@ -95,7 +93,6 @@ class UserTeacherConsultant extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
-		$criteria->compare('capacity',$this->capacity);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

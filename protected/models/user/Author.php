@@ -85,7 +85,7 @@ class Author extends Role
                             }
                             $user->notify('author' .DIRECTORY_SEPARATOR . '_assignNewModule',
                                 array(Module::model()->findByPk($value)),
-                                'Призначено модуль для редагування');
+                                'Призначено модуль для редагування', Yii::app()->user->getId());
                             return true;
                         }else{
                             $this->errorMessage="Призначити модуль не вдалося";
@@ -115,11 +115,17 @@ class Author extends Role
     }
 
     public function checkModule($teacher, $module){
+        $model=Module::model()->findByPk($module);
         if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
             ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar()) {
-            $this->errorMessage = "Обраний модуль вже присутній у списку модулів даного викладача";
+            $this->errorMessage = "Обраний модуль вже присутній у списку модулів даного автора";
             return false;
-        } else return true;
+        }
+        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+            $this->errorMessage="Автору не можна призначити модуль, який не належить його організації";
+            return false;
+        }
+        return true;
     }
 
     public static function isTeacherAuthorModule($teacher, $module){
@@ -140,7 +146,7 @@ class Author extends Role
                 ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
                     $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
                         array(Module::model()->findByPk($value)),
-                        'Скасовано модуль для редагування');
+                        'Скасовано модуль для редагування', Yii::app()->user->getId());
                     return true;
                 }else{
                     $this->errorMessage="Скасувати модуль не вдалося";

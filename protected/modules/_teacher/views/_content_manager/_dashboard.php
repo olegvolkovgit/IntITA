@@ -30,7 +30,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#admin/verifycontent">
+                    <li><a href="#/lectures/verifycontent">
                             Контент лекцій</a>
                     </li>
                     <li><a href="#/organization/modules">

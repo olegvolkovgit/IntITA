@@ -96,9 +96,28 @@ config(function ($stateProvider) {
                 return contentManagerUrl+"/userAttributesList/id/"+$stateParams.id+"/role/"+$stateParams.role;
             }
         })
-        .state('content_manager/verifycontent', {
-            url: "/content_manager/verifycontent",
+        .state('lectures/verifycontent', {
+            url: "/lectures/verifycontent",
             cache: false,
             templateUrl: basePath+"/_teacher/_content_manager/verifyContent/index",
+        })
+        .state('teacher/:id/editRole/role/:role', {
+            url: "/teacher/:id/editRole/role/:role",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_content_manager/roleAttributes/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
+            }
+        })
+        .state('courses/addcourse', {
+            url: "/courses/addcourse",
+            cache: false,
+            templateUrl: basePath+"/_teacher/coursemanage/create",
+        })
+        .state('course/edit/:id', {
+            url: "/course/edit/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/coursemanage/update/id/"+$stateParams.id;
+            }
         })
 });

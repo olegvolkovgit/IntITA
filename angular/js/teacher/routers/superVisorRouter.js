@@ -174,4 +174,11 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
             }
         })
+        .state('teacher/:id/editTrainerRole/role/:role', {
+            url: "/teacher/:id/editTrainerRole/role/:role",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_supervisor/roleAttributes/editTrainerRole/id/"+$stateParams.id;
+            }
+        })
 });

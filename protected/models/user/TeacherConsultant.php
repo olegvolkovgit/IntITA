@@ -121,7 +121,7 @@ class TeacherConsultant extends Role
                 ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value))){
                     $user->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelModule',
                         array(Module::model()->findByPk($value)),
-                        'Скасовано модуль');
+                        'Скасовано модуль', Yii::app()->user->getId());
                     return true;
                 }else{
                     $this->errorMessage="Скасувати модуль не вдалося";
@@ -206,7 +206,7 @@ class TeacherConsultant extends Role
                 $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_assignNewStudent', array(
                     StudentReg::model()->findByPk($student),
                     Module::model()->findByPk($module)
-                ), 'Призначено нового студента');
+                ), 'Призначено нового студента', Yii::app()->user->getId());
                 return true;
             }
             return false;
@@ -227,6 +227,11 @@ class TeacherConsultant extends Role
 
     public function checkModule($teacher, $module)
     {
+        $model=Module::model()->findByPk($module);
+        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+            $this->errorMessage="Викладачу не можна призначити модуль, який не належить його організації";
+            return true;
+        }
         if (empty(Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module=' . $module .
                 ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
             return false;
@@ -282,7 +287,7 @@ class TeacherConsultant extends Role
             $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelStudent', array(
                 StudentReg::model()->findByPk($student),
                 Module::model()->findByPk($module)
-            ), 'Скасовано студента');
+            ), 'Скасовано студента', Yii::app()->user->getId());
             return true;
         }
         return false;
@@ -347,7 +352,7 @@ class TeacherConsultant extends Role
     }
 
     public function notify(StudentReg $user, $idModule){
-        $user->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля');
+        $user->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля', Yii::app()->user->getId());
     }
 
     function getMembers($criteria = null)

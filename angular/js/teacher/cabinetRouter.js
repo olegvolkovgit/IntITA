@@ -52,7 +52,13 @@ angular
                         return basePath+"/_teacher/user/index?id="+$stateParams.id;
                     }
                 })
-                
+                .state('users/profile/:id/agreement/:type/:idCourse', {
+                    url: "/users/profile/:id/agreement/:type/:idCourse",
+                    cache: false,
+                    templateUrl: function ($stateParams) {
+                        return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
+                    }
+                })
                 .state('courses', {
                     url: '/courses',
                     templateUrl: basePath+"/_teacher/courseManage/coursesList",
@@ -395,7 +401,6 @@ angular
                     templateUrl:  basePath+"/_teacher/users/admins",
                     controller: function($scope){$scope.changePageHeader('Адміністратори');},
                 })
-                
                 .state('teacherprofile', {
                     url: "/teacherprofile",
                     cache         : false,

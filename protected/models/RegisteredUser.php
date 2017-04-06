@@ -58,6 +58,7 @@ class RegisteredUser
         }
         return $this->_roles;
     }
+
     public function getTeacherRoles($organization)
     {
         if ($this->_teacher_roles === null) {
@@ -65,7 +66,8 @@ class RegisteredUser
         }
         return $this->_teacher_roles;
     }
-    private function loadRoles($organization)
+
+    private function loadRoles($organization=null)
     {
         $sql = '';
         $roles = AllRolesDataSource::roles();

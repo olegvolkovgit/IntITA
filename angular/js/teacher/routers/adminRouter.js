@@ -33,81 +33,23 @@ angular
                 return basePath+"/_teacher/_admin/role/addRole/id/"+$stateParams.id;
             }
         })
-        .state('admin/users/user/:id/agreement/:type/:idCourse', {
-            url: "/admin/users/user/:id/agreement/:type/:idCourse",
-            cache: false,
-            // controller:"usersCtrl",
-            controller:"userProfileCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
-            }
-        })
         .state('admin/teacher/create', {
             url: "/admin/teacher/create",
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/teachers/createForm",
         })
-        .state('admin/teacher/:id/editRole/role/:role', {
-            url: "/admin/teacher/:id/editRole/role/:role",
-            cache: false,
-            controller: "editTeacherRoleCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
-            }
-        })
-        .state('lecture/:action/:id', {
-            url: "/lecture/:action/:id",
-            cache: false,
-            controller: function ($stateParams, $http, $state, $location) {
-                var url = basePath+'/_teacher/_admin/verifyContent/'+$stateParams.action+'/id/' + $stateParams.id;
-                bootbox.confirm('Змінити статус лекції?', function (result) {
-                    if (result) {
-                        $http.post(url).success(function(data) {
-                           bootbox.confirm("Операцію успішно виконано.", function () {
-                            })
-                        }).error(function(data){
-                            showDialog("Операцію не вдалося виконати.");
-                        })
-                    }
-                    else {
-                        showDialog("Операцію відмінено.");
-                    }
-                    $location.hash(url).replace();
-                    $state.go('admin/verifycontent');
-                })
-            }
-        })
-        .state('admin/addcourse', {
-            url: "/admin/addcourse",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/coursemanage/create",
-        })
-        .state('course/detail/:id', {
-            url: "/course/detail/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/coursemanage/view?id="+$stateParams.id;
-            }
-        })
-        .state('course/edit/:id', {
-            url: "/course/edit/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/coursemanage/update/id/"+$stateParams.id;
-            }
-        })
         .state('course/schema/:id', {
             url: "/course/schema/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/coursemanage/schema/idCourse/"+$stateParams.id;
+                return basePath+"/_teacher/coursemanage/schema/idCourse/"+$stateParams.id;
             }
         })
         .state('addLinkedCourse/:course/:lang', {
             url: "/addLinkedCourse/:course/:lang",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/coursemanage/addLinkedCourse/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
+                return basePath+"/_teacher/coursemanage/addLinkedCourse/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
         })
         .state('admin/usersemail', {
