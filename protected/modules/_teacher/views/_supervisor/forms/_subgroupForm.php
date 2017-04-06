@@ -1,7 +1,7 @@
 <?php
 /* @var $scenario */
 ?>
-<div class="panel-body">
+<div class="panel-body" ng-controller="offlineSubgroupCtrl">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
@@ -26,7 +26,7 @@
                         <label>Тренер в підгрупі*:</label>
                         <input name="trainer" class="form-control" type="text" ng-model="trainerEntered" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть тренера" size="50"
-                               uib-typeahead="item.name for item in getTrainers($viewValue) | limitTo : 10"
+                               uib-typeahead="item.nameEmail for item in getTrainers($viewValue) | limitTo : 10"
                                typeahead-no-results="trainerNoResults"
                                typeahead-on-select="onSelectTrainer($item)"
                                ng-change="reloadTrainer()">

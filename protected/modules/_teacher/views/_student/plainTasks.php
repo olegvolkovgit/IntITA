@@ -16,12 +16,12 @@
                         <span ng-if="!row.plainTaskLecture.title_ua">скасовано</span>
                     </td>
                     <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}">
-                        <a ng-href="#/students/plainTask/{{row.id}}">
+                        <a ng-href="#/student/plainTask/{{row.id}}">
                             {{row.plainTaskQuestion.html_block | htmlToShotPlaintext}}
                         </a>
                     </td>
                     <td data-title="'Відповідь'" filter="{'answer': 'text'}">
-                        <a ng-href="#/students/plainTask/{{row.id}}">
+                        <a ng-href="#/student/plainTask/{{row.id}}">
                          {{row.answer | textToShotPlaintext}}
                         </a>
                     </td>

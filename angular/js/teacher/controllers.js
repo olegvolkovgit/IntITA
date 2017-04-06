@@ -166,6 +166,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     var usersForRoleTypeaheadUrl = basePath+'/_teacher/cabinet/usersAddForm';
     var trainersTypeaheadUrl = basePath+'/_teacher/cabinet/trainers';
     var studentsTypeaheadUrl = basePath+'/_teacher/cabinet/studentsByQuery';
+    var studentsWithoutTrainerTypeaheadUrl = basePath+'/_teacher/cabinet/studentsWithoutTrainerByQuery';
     var teacherConsultantsByQueryAndModuleTypeaheadUrl = basePath+'/_teacher/cabinet/teacherConsultantsByQueryAndModule';
     var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
 
@@ -210,6 +211,9 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     };
     $scope.getGroups = function(value){
         return typeAhead.getData(groupTypeaheadUrl,{query : value});
+    };
+    $scope.getStudentsWithoutTrainer = function(value){
+        return typeAhead.getData(studentsWithoutTrainerTypeaheadUrl,{query : value});
     };
 }
 

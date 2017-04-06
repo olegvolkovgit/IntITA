@@ -128,6 +128,21 @@ class ConfigController extends TeacherCabinetController {
         $this->renderPartial('/_super_admin/config/careers/careerUpdate', array(), false, true);
     }
 
+    public function actionSpecializations()
+    {
+        $this->renderPartial('/_super_admin/config/specializations/specializations', array(), false, true);
+    }
+
+    public function actionSpecializationCreate()
+    {
+        $this->renderPartial('/_super_admin/config/specializations/specializationCreate', array(), false, true);
+    }
+
+    public function actionSpecializationUpdate()
+    {
+        $this->renderPartial('/_super_admin/config/specializations/specializationUpdate', array(), false, true);
+    }
+
     public function actionGetCareersList()
     {
         echo Careers::careersList();
@@ -175,4 +190,48 @@ class ConfigController extends TeacherCabinetController {
         }
 
     }
+
+    public function actionCreateSpecialization()
+    {
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
+
+        $specialization=new SpecializationsGroup();
+        $specialization->title_ua=$title_ua;
+        $specialization->title_ru=$title_ru;
+        $specialization->title_en=$title_en;
+
+        if($specialization->save()){
+            echo 'Спеціалізацію створено';
+        }else{
+            echo 'Створити спеціалізацію не вдалося. Введені не вірні дані';
+        }
+
+    }
+
+    public function actionUpdateSpecialization()
+    {
+        $id=Yii::app()->request->getPost('id');
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
+
+        $specialization=SpecializationsGroup::model()->findByPk($id);
+        $specialization->title_ua=$title_ua;
+        $specialization->title_ru=$title_ru;
+        $specialization->title_en=$title_en;
+
+        if($specialization->save()){
+            echo 'Спеціалізацію оновлено';
+        }else{
+            echo 'Оновити спеціалізацію не вдалося. Введені не вірні дані';
+        }
+    }
+
+    public function actionGetSpecializationData()
+    {
+        echo CJSON::encode(SpecializationsGroup::model()->findByPk(Yii::app()->request->getParam('id')));
+    }
+
 }

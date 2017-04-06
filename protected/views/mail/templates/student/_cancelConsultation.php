@@ -16,7 +16,7 @@ $model = $params[0];
 закінчення - <?=date("H:i", strtotime($model->end_cons));?>).
 <br>
 Кабінет (вкладка "Студент"): <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/students/consultations">
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/student/consultations">
     <em>консультації</em>
 </a>
 <br>

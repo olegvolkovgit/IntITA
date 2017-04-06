@@ -12,25 +12,25 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/students/courses">Доступні курси/модулі</a>
+                    <li><a href="#/student/courses">Доступні курси/модулі</a>
                     </li>
-                    <li><a href="#/students/consultations">Консультації</a>
+                    <li><a href="#/student/consultations">Консультації</a>
                     </li>
-                    <li><a href="#/students/finances">Фінанси</a>
+                    <li><a href="#/student/finances">Фінанси</a>
                     </li>
                     <li>
-                        <a href="#/students/plainTasks">Завдання з розгорнутою відповідю
+                        <a href="#/student/plainTasks">Завдання з розгорнутою відповідю
                             <span ng-cloak class="label label-success" ng-if="countOfNewPlainTasksMarks > 0">{{countOfNewPlainTasksMarks}}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#/students/contacts">
+                        <a href="#/student/contacts">
                             Контакти
                         </a>
                     </li>
                     <?php if(UserStudent::studentHasSubgroup(Yii::app()->user->getId())) { ?>
                     <li>
-                        <a href="#/students/offlineEducation">
+                        <a href="#/student/offlineEducation">
                             Офлайн навчання
                         </a>
                     </li>

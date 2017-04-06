@@ -43,6 +43,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <col/>
                         <col/>
                         <col/>
+                        <col/>
                     </colgroup>
                     <tr ng-repeat="row in $data track by $index">
                         <td style="word-wrap:break-word" data-title="'Користувач'" sortable="'fullName'" filter="{'fullName': 'text'}" >
@@ -57,6 +58,14 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td style="word-wrap:break-word" data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
                             <a ng-href="#/users/profile/{{row.trainerData.id}}">{{row.trainerData.fullName}}</a>
                         </td>
+                        <td style="word-wrap:break-word;" data-title="'Телефон'" sortable="'phone'" filter="{'phone': 'text'}">
+                            {{row.phone}}
+                        </td>
+                        <?php if (Yii::app()->user->model->isSuperVisor() && $organization) { ?>
+                        <td data-title="">
+                            <a ng-href="#/supervisor/addOfflineStudent/{{row.id}}">Додати в підгрупу</a>
+                        </td>
+                        <?php } ?>
                     </tr>
                 </table>
             </div>

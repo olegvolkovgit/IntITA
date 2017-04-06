@@ -4,40 +4,40 @@
  */
 ?>
 <li>
-    <a href="#/students" ng-controller="studentCtrl" ng-click="changeView('students')">
+    <a href="#/student" ng-controller="studentCtrl" ng-click="changeView('student')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Студент<span class="fa arrow"></span>
         <span ng-cloak class="label label-success" ng-if="countOfNewPlainTasksMarks > 0">{{countOfNewPlainTasksMarks}}</span>
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="#/students/courses">
+            <a href="#/student/courses">
                 Доступні курси/модулі
             </a>
         </li>
         <li>
-            <a href="#/students/consultations">
+            <a href="#/student/consultations">
                 Консультації
             </a>
         </li>
         <li>
-            <a href="#/students/finances">
+            <a href="#/student/finances">
                 Фінанси
             </a>
         </li>
         <li>
-            <a href="#/students/plainTasks">
+            <a href="#/student/plainTasks">
                 Завдання з розгорнутою відповідю
                 <span ng-cloak class="label label-success" ng-if="countOfNewPlainTasksMarks > 0">{{countOfNewPlainTasksMarks}}</span>
             </a>
         </li>
         <li>
-            <a href="#/students/contacts">
+            <a href="#/student/contacts">
                 Контакти
             </a>
         </li>
         <?php if(UserStudent::studentHasSubgroup(Yii::app()->user->getId())) { ?>
         <li>
-            <a href="#/students/offlineEducation">
+            <a href="#/student/offlineEducation">
                 Офлайн навчання
             </a>
         </li>

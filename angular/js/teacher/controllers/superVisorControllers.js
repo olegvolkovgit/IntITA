@@ -11,18 +11,16 @@ angular
     .controller('offlineSubgroupCtrl', offlineSubgroupCtrl)
     .controller('offlineStudentsSVTableCtrl', offlineStudentsSVTableCtrl)
     .controller('studentsWithoutGroupSVTableCtrl', studentsWithoutGroupSVTableCtrl)
-    .controller('specializationsTableCtrl', specializationsTableCtrl)
-    .controller('specializationCtrl', specializationCtrl)
-    .controller('usersSVTableCtrl', usersSVTableCtrl)
-    .controller('studentsSVTableCtrl', studentsSVTableCtrl)
     .controller('groupAccessCtrl', groupAccessCtrl)
     .controller('offlineStudentSubgroupCtrl', offlineStudentSubgroupCtrl)
+    .controller('trainersStudentsCtrl', trainersStudentsCtrl)
 
 function superVisorCtrl (){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
 }
 
 function offlineGroupsTableCtrl ($scope, superVisorService, NgTableParams){
+    $scope.changePageHeader('Офлайнові групи');
     $scope.offlineGroupsTableParams = new NgTableParams({}, {
         getData: function (params) {
             return superVisorService
@@ -44,6 +42,7 @@ function offlineSubgroupsTableCtrl ($scope, superVisorService, NgTableParams){
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
+                    console.log(data.rows);
                     return data.rows;
                 });
         }
@@ -81,19 +80,6 @@ function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTablePara
                 });
         }
     });
-
-    $scope.changeStudentShift=function (user,shift) {
-        $http({
-            method: 'POST',
-            url: basePath+'/_teacher/user/setStudentShift',
-            data: $jq.param({user: user,shift:shift}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback() {
-            $scope.studentsWithoutGroupTableParams.reload();
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    }
 }
 
 function offlineGroupSubgroupsTableCtrl ($scope, superVisorService, NgTableParams, $stateParams){
@@ -111,74 +97,7 @@ function offlineGroupSubgroupsTableCtrl ($scope, superVisorService, NgTableParam
     });
 }
 
-function specializationsTableCtrl ($scope, superVisorService, $state, $http, $stateParams){
-    $scope.changePageHeader('Спеціалізації груп');
-
-    $scope.loadSpecializations=function(){
-        return superVisorService
-            .getSpecializationsList()
-            .$promise
-            .then(function (data) {
-                $scope.specializations=data;
-            });
-    };
-    $scope.loadSpecializations();
-
-    $scope.createSpecialization= function () {
-        $http({
-            url: basePath+'/_teacher/_supervisor/superVisor/createSpecialization',
-            method: "POST",
-            data: $jq.param({title_ua: $scope.specialization.title_ua,title_ru: $scope.specialization.title_ru,title_en: $scope.specialization.title_en}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/specializations", {}, {reload: true});
-            });
-        }, function errorCallback() {
-            bootbox.alert("Створити спеціалізацію не вдалося. Помилка сервера.");
-        });
-    };
-}
-
-function specializationCtrl ($scope, $state, $http, $stateParams){
-    $scope.changePageHeader('Спеціалізація');
-    
-    $scope.loadSpecializationData=function(){
-        $http({
-            url: basePath+'/_teacher/_supervisor/superVisor/getSpecializationData',
-            method: "POST",
-            data: $jq.param({id:$stateParams.id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            $scope.specialization=response.data;
-        }, function errorCallback() {
-            bootbox.alert("Отримати дані спеціалізації не вдалося");
-        });
-    };
-    $scope.loadSpecializationData();
-
-    $scope.editSpecialization= function () {
-        $http({
-            url: basePath+'/_teacher/_supervisor/superVisor/updateSpecialization',
-            method: "POST",
-            data: $jq.param({
-                id:$stateParams.id,
-                title_ua: $scope.specialization.title_ua,
-                title_ru: $scope.specialization.title_ru,
-                title_en: $scope.specialization.title_en
-            }),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/specializations", {}, {reload: true});
-            });
-        }, function errorCallback() {
-            bootbox.alert("Відредагувати спеціалізацію не вдалося. Помилка сервера.");
-        });
-    };
-}
-
-function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter, chatIntITAMessenger){
+function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter, chatIntITAMessenger, lodash){
     $scope.changePageHeader('Офлайн група');
     if($stateParams.id){
         $scope.groupId=$stateParams.id;
@@ -215,7 +134,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                     });
             }
         });
-        
+
         $scope.date = $filter('date')(new Date(), "yyyy-MM-dd");
     }
 
@@ -246,7 +165,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                 $scope.loadCityToModel($scope.group.city);
                 $scope.loadCuratorToModel($scope.group.chat_author_id);
                 $scope.changePageHeader('Офлайн група: '+$scope.group.name);
-                $scope.selectedSpecialization=$scope.specializations[$scope.group.specialization-1].id;
+                $scope.selectedSpecialization=lodash.find($scope.specializations, ['id', $scope.group.specialization]).id;
             }, function errorCallback() {
                 bootbox.alert("Отримати дані групи не вдалося");
             });
@@ -499,77 +418,6 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
         chatIntITAMessenger.updateSubgroup(subgroupId);
     };
 }
-
-function usersSVTableCtrl ($scope, superVisorService, NgTableParams){
-    $scope.changePageHeader('Зареєстровані користувачі');
-    $scope.usersTableParams = new NgTableParams({}, {
-        getData: function (params) {
-            return superVisorService
-                .usersList(params.url())
-                .$promise
-                .then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
-                });
-        }
-    });
-}
-
-function studentsSVTableCtrl ($scope, superVisorService, NgTableParams, $http){
-    $scope.educationForms = [{id:'1', title:'онлайн'},{id:'3', title:'онлайн/офлайн'}];
-    $scope.changePageHeader('Усі студенти');
-
-    $jq("#startDate").datepicker(lang);
-    $jq("#endDate").datepicker(lang);
-
-    $scope.studentsTableParams = new NgTableParams({}, {
-        getData: function (params) {
-            $scope.params=params.url();
-            $scope.params.startDate=$scope.startDate;
-            $scope.params.endDate=$scope.endDate;
-            return superVisorService
-                .studentsList($scope.params)
-                .$promise
-                .then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
-                });
-        }
-    });
-
-    $scope.updateStudentList=function(startDate, endDate){
-        $scope.studentsTableParams = new NgTableParams({}, {
-            getData: function (params) {
-                $scope.params=params.url();
-                $scope.params.startDate=startDate;
-                $scope.params.endDate=endDate;
-                return superVisorService
-                    .studentsList($scope.params)
-                    .$promise
-                    .then(function (data) {
-                        params.total(data.count);
-                        return data.rows;
-                    });
-            }
-        });
-    }
-    $scope.changeStudentEducForm=function (user,currentEducForm) {
-        var form;
-        if(currentEducForm==1) form=3;
-        else if(currentEducForm==3) form=1;
-        $http({
-            method: 'POST',
-            url: basePath+'/_teacher/user/setStudentEducForm',
-            data: $jq.param({user: user,form:form}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback() {
-            $scope.studentsTableParams.reload();
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    }
-}
-
 
 function groupAccessCtrl ($scope, $http, $stateParams, superVisorService){
     $scope.changePageHeader('Доступ групи до контенту');
@@ -873,5 +721,60 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
         $scope.selectedGroup=null;
         $scope.selectedSubgroup=null;
         $scope.subgroupsList=null;
+    };
+}
+
+
+function trainersStudentsCtrl ($scope, superVisorService, NgTableParams, $stateParams){
+    $scope.changePageHeader('Студенти закріплені за тренером');
+    
+    $scope.onSelectUser = function ($item) {
+        $scope.selectedUser = $item;
+    };
+    $scope.reloadUser = function(){
+        $scope.selectedUser=null;
+    };
+    
+    $scope.trainersStudentsTableParams = new NgTableParams({trainer:$stateParams.idTrainer}, {
+        getData: function (params) {
+            return superVisorService
+                .trainersStudentsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+    
+    $scope.addTrainer=function (trainerId, userId) {
+        if (!trainerId) {
+            bootbox.alert("Виберіть тренера.");
+            return;
+        }
+        superVisorService
+            .setTrainer({trainerId:trainerId,userId:userId})
+            .$promise
+            .then(function (response) {
+                $scope.addUIHandlers(response.data);
+                $scope.clearInputs();
+                $scope.trainersStudentsTableParams.reload();
+            });
+    };
+    
+    $scope.cancelTrainer=function (userId) {
+        superVisorService
+            .removeTrainer({userId:userId})
+            .$promise
+            .then(function (response) {
+                $scope.addUIHandlers(response.data);
+                $scope.clearInputs();
+                $scope.trainersStudentsTableParams.reload();
+            });
+    };
+
+    $scope.clearInputs=function () {
+        $scope.userSelected=null;
+        $scope.selectedUser=null;
     };
 }

@@ -5,11 +5,12 @@ class UsersController extends TeacherCabinetController
     public function hasRole()
     {
         $allowedDenySetActions = ['addAdmin', 'createAccountant'];
+        $allowedUsersTables = ['users','getUsersList','getTrainersList','coworkers','getTeachersList','students','getStudentsList'];
         $action = Yii::app()->controller->action->id;
         return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && !in_array($action, $allowedDenySetActions)) ||
+        (Yii::app()->user->model->isSuperVisor() && in_array($action, $allowedUsersTables)) ||
         Yii::app()->user->model->isAdmin() ||
-        (Yii::app()->user->model->isContentManager()) ||
-        (Yii::app()->user->model->isSuperVisor());
+        (Yii::app()->user->model->isContentManager());
     }
 
     public function actionIndex($id=0)
@@ -208,7 +209,7 @@ class UsersController extends TeacherCabinetController
     
     public function actionGetStudentsList()
     {
-        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
+//        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('StudentReg', $requestParams);
 
