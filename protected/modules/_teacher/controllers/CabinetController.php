@@ -237,7 +237,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionModulesByQuery($query, $organization=null)
     {
-        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         if ($query) {
             $modules = Module::allModules($query, $organization);
             echo $modules;
@@ -266,9 +266,10 @@ class CabinetController extends TeacherCabinetController
         }
     }
     
-    public function actionCoursesByQuery($query)
+    public function actionCoursesByQuery($query, $organization=null)
     {
-        echo Course::readyCoursesList($query);
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        echo Course::readyCoursesList($query, $organization);
     }
     
     public function actionModulesTitleById()

@@ -112,12 +112,18 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/forms/offlineStudentSubgroup', array('scenario'=>'update'), false, true);
     }
 
-    public function actionGroupAccess($type, $scenario)
+    public function actionGroupAccess($type, $scenario, $group, $service=null)
     {
         if($type=='course'){
             $view='groupAccessToCourse';
         } else if($type=='module'){
             $view='groupAccessToModule';
+        }
+        if($group && $service) {
+            $model = GroupAccess::model()->findByPk(array('group_id' => $group, 'service_id' => $service));
+            $model->validate();
+        }else if($group && !$service){
+            Yii::app()->user->model->hasAccessToOrganizationModel(OfflineGroups::model()->findByPk($group));
         }
         $this->renderPartial('/_supervisor/forms/'.$view, array('scenario'=>$scenario), false, true);
     }
@@ -153,7 +159,6 @@ class SuperVisorController extends TeacherCabinetController
         $criteria->join = 'LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
         $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
         if(isset($requestParams['idGroup'])){
-            $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
             $criteria->addCondition('g.id='.$requestParams['idGroup'].' and t.end_date IS NULL');
         }
         if(isset($requestParams['idSubgroup'])){

@@ -814,7 +814,9 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
-        $criteria->addCondition('cancelled='.Module::ACTIVE.' and id_organization='.$organization);
+        $criteria->addCondition('cancelled='.Module::ACTIVE);
+        if($organization) $criteria->addCondition('id_organization='.$organization);
+        
         $criteria->group = 'module_ID';
 
         $data = Module::model()->findAll($criteria);
