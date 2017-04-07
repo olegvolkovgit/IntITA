@@ -1130,7 +1130,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getModuleStatus($idCourse=0)
     {
-        if ($idCourse && Course::model()->findByPk($idCourse)->status==Course::DEVELOP) {
+        if ($idCourse && Course::model()->findByPk($idCourse)->isDeveloping()) {
             $this->errorMessage=Yii::t('lecture', '0811');
             return false;
         }
