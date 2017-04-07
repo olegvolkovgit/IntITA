@@ -6,9 +6,10 @@
  * The followings are the available columns in table 'newsletters':
  * @property integer $id
  * @property string $type
- * @property string $recitients
+ * @property string $recipients
  * @property string $subject
  * @property string $text
+ * @property string $newsletter_email
  * @property integer $created_by
  * @property integer $id_organization
  *
@@ -16,8 +17,13 @@
  * @property Organization $idOrganization
  * @property User $createdBy
  */
+
+
+
 class Newsletters extends CActiveRecord implements ITask
 {
+
+    use loadFromRequest;
 
     public $email = null;
 	/**
@@ -37,21 +43,12 @@ class Newsletters extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, subject, text, created_by, id_organization', 'required'),
+			array('type, subject, text, newsletter_email', 'required'),
 			array('created_by, id_organization', 'numerical', 'integerOnly'=>true),
-			array('name, subject', 'length', 'max'=>128),
-			array('id, type, recitients, subject, text, created_by, id_organization', 'safe', 'on'=>'search'),
+			array('subject', 'length', 'max'=>128),
+			array('id, type, recipients, subject, text, created_by, id_organization newsletter_email', 'safe', 'on'=>'search'),
 		);
 	}
-
-	public function beforeValidate(){
-
-        $this->created_by = Yii::app()->user->id;
-        $this->id_organization = Yii::app()->session['organization'];
-	    parent::beforeValidate();
-    }
-
-
 
 	/**
 	 * @return array relational rules.
@@ -78,6 +75,7 @@ class Newsletters extends CActiveRecord implements ITask
 			'text' => 'Text',
 			'created_by' => 'Created By',
 			'id_organization' => 'Id Organization',
+			'newsletter_email' => 'Newsletters Email',
 		);
 	}
 
@@ -105,6 +103,7 @@ class Newsletters extends CActiveRecord implements ITask
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('created_by',$this->created_by);
 		$criteria->compare('id_organization',$this->id_organization);
+		$criteria->compare('newsletter_email',$this->newsletter_email);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -215,6 +214,16 @@ class Newsletters extends CActiveRecord implements ITask
         mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->message,$headers);
 
     }
+
+//    public function loadModel($params){
+//        foreach ($params as $key=>$value){
+//            if ($this->hasAttribute($key)){
+//                $this->$key = $value;
+//            }
+//
+//        }
+//        return $this;
+//    }
 
     public function run()
     {

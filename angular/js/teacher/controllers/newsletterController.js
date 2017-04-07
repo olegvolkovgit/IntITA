@@ -201,6 +201,9 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                     case 'subGroups':
                         recipients.push(value.id);
                         break;
+                    case 'emailsFromDatabase':
+                        recipients.push($scope.selectedEmailCategory);
+                        break;
                 }
             });
             if(typeof $scope.selectedEmailCategory=='undefined'){
@@ -215,14 +218,16 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
                 data: $jq.param({
-                    "type": $scope.newsletterType,
-                    "recipients": recipients,
-                    "subject": $scope.subject,
-                    "message": $scope.message,
-                    "email": $scope.emailSelected.email,
-                    "emailBaseCategory": $scope.selectedEmailCategory,
-                    "taskType": $scope.taskType,
-                    "taskRepeat": $scope.taskRepeat,
+                    'newsletter':
+                     {
+                        "type": $scope.newsletterType,
+                        "recipients": recipients,
+                        "subject": $scope.subject,
+                        "text": $scope.message,
+                        "newsletter_email": $scope.emailSelected.email,
+                     },
+                    //"repeat_type": $scope.taskType,
+                    "repeat_type": $scope.taskRepeat,
                     "weekdays": $scope.weekdaysList,
                     "date": $filter('shortDate')($scope.date, 'dd-MM-yyyy') + ' ' + $filter('shortDate')($scope.time, 'HH:mm')
                 }),

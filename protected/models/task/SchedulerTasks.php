@@ -18,6 +18,7 @@
  */
 class SchedulerTasks extends CActiveRecord implements ITask
 {
+    use loadFromRequest;
 
     /**
      * Statuses constant
@@ -46,6 +47,17 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		return 'scheduler_tasks';
 	}
 
+	public function beforeSave(){
+	    if ($this->isNewRecord()){
+	        switch ($this->type){
+                case TaskFactory::NEWSLETTER:
+                    $this->name = 'Розсилка';
+                    $this->status = $this::STATUSNEW;
+            }
+        }
+        return parent::beforeSave();
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -54,13 +66,13 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, type, status, owner', 'id_organization','required'),
-			array('type, repeat_type, status, owner related_model_id, id_organization', 'numerical', 'integerOnly'=>true),
+			array('name, type, status, created_by, id_organization','required'),
+			array('type, repeat_type, status, created_by, related_model_id, id_organization', 'numerical', 'integerOnly'=>true),
 			array('name, error', 'length', 'max'=>255),
 			array('start_time, end_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type, repeat_type, start_time, end_time, status, error, owner related_model_id id_organization','safe', 'on'=>'search'),
+			array('id, name, type, repeat_type, start_time, end_time, status, error, created_by, related_model_id id_organization','safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,7 +82,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	public function relations()
 	{
 		return array(
-			'user' => array(self::HAS_ONE, 'StudentReg', array('id'=>'owner')),
+			'user' => array(self::HAS_ONE, 'StudentReg', array('id'=>'created_by')),
 		);
 	}
 
