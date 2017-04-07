@@ -3,7 +3,10 @@
 class InvoicesController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAccountant();
+        $allowedTrainerActions = ['getInvoices'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() ||
+        (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions));
     }
 
     /**

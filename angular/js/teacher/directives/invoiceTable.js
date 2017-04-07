@@ -7,7 +7,6 @@ angular
 function invoiceTable(invoices, NgTableParams, _) {
 
     function link($scope, element, attrs) {
-
         $scope.invoiceTableParams = new NgTableParams({sorting: { date_created: "desc" } }, {
             getData: function (params) {
                 return invoices

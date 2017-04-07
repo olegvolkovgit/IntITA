@@ -29,6 +29,14 @@ angular
                     typeahead: {
                         url: url + '/getTypeahead',
                         isArray:true
-                    }
+                    },
+                    userAgreements: {
+                        url: url + '/getUserAgreementsList',
+                        method: 'GET'
+                    },
+                    trainerUsersAgreements: {
+                        url: basePath+'/_teacher/_trainer/trainer/getTrainerUsersAgreementsList',
+                        method: 'GET'
+                    },
                 });
         }]);

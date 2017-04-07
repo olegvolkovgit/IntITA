@@ -630,6 +630,14 @@ class UserAgreements extends CActiveRecord {
         ]);
         return $criteria;
     }
+
+    public function getAgreementContentModel() {
+//        todo
+        if($this->service->courseServices) 
+            return $this->service->courseServices->courseModel;
+        if($this->service->moduleServices)
+            return $this->service->moduleServices->moduleModel;
+    }
 }
 
 

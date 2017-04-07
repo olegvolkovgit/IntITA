@@ -8,21 +8,26 @@ class TrainerController extends TeacherCabinetController
         return Yii::app()->user->model->isTrainer();
     }
 
-    public function actionStudents($id, $filter = "")
+    public function actionStudents()
     {
-        $trainer = RegisteredUser::userById($id);
-        $students = $trainer->getAttributesByRole(UserRoles::TRAINER)[0];
-
-        $this->renderPartial('/_trainer/_students', array(
-            'attribute' => $students,
-            'user' => $trainer
-        ), false, true);
+        $this->renderPartial('/_trainer/_students', array(), false, true);
     }
 
     public function actionEditTeacherModule($id, $idModule)
     {
         $student = RegisteredUser::userById($id);
         $module = Module::model()->findByPk($idModule);
+
+        Yii::app()->user->model->hasAccessToOrganizationModel($module);
+        Yii::app()->user->model->hasAccessToOrganizationModel(TrainerStudent::model()->findByAttributes(
+            array(
+                'student'=>$id,
+                'trainer'=>Yii::app()->user->getId(),
+                'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
+                'end_time'=>null,
+            )
+        ));
+
         if ($id && $idModule) {
             $role = new TeacherConsultant();
             $isTeacherDefined = !$role->checkStudent($idModule, $id);
@@ -42,17 +47,6 @@ class TrainerController extends TeacherCabinetController
         } else {
             throw new \application\components\Exceptions\IntItaException(400);
         }
-    }
-
-    public function actionEditTeacherCourse($id, $idCourse)
-    {
-        $student = RegisteredUser::userById($id);
-        $course = Course::model()->findByPk($idCourse);
-
-        $this->renderPartial('/_trainer/_editTeacherCourse', array(
-            'student' => $student->registrationData,
-            'course' => $course,
-        ), false, true);
     }
 
     public function actionAssignTeacherForStudent()
@@ -109,6 +103,15 @@ class TrainerController extends TeacherCabinetController
         $student = RegisteredUser::userById($id);
         $role = new Student();
         $teachersByModule = $role->getTeachersForModules($student->registrationData);
+
+        Yii::app()->user->model->hasAccessToOrganizationModel(TrainerStudent::model()->findByAttributes(
+            array(
+                'student'=>$id,
+                'trainer'=>Yii::app()->user->getId(),
+                'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
+                'end_time'=>null,
+            )
+        ));
 
         $this->renderPartial('/_trainer/_viewStudent', array(
             'student' => $student,
@@ -170,5 +173,39 @@ class TrainerController extends TeacherCabinetController
         } else {
             throw new \application\components\Exceptions\IntItaException(400);
         }
+    }
+
+    public function actionGetTrainersStudentsList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('TrainerStudent', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 't.trainer='.Yii::app()->user->getId().' and t.end_time is null 
+        and id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+    
+    public function actionRenderTrainerUsersAgreements() {
+        $this->renderPartial('/_trainer/trainerUsersAgreements');
+    }
+
+    public function actionGetTrainerUsersAgreementsList() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAgreements', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->alias = 't';
+        $criteria->join = 'left join acc_course_service cs on cs.service_id=t.service_id';
+        $criteria->join .= ' left join course c on c.course_ID=cs.course_id';
+        $criteria->join .= ' left join acc_module_service ms on ms.service_id=t.service_id';
+        $criteria->join .= ' left join module m on m.module_ID=ms.module_id';
+        $criteria->join .= ' left join trainer_student ts on ts.student=t.user_id';
+        $criteria->addCondition('ts.trainer='.Yii::app()->user->getId().' and end_time is null 
+        and (m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+        or c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.')');
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 }

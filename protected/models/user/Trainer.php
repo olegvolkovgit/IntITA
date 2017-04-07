@@ -40,7 +40,7 @@ class Trainer extends Role
     /**
      * @return array attributes trainer role
      */
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         if ($this->studentsList == null) {
             $this->studentsList = $this->studentsList($user);

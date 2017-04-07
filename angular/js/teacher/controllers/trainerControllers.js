@@ -3,24 +3,34 @@
  */
 angular
     .module('teacherApp')
-    .controller('trainerStudentsCtrl', function ($scope, $state, $http){
-        $jq('#trainerStudentsTable').DataTable( {
-            language: {
-                "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-            },
-            "columns": [
-                null,
-                {
-                    "type": "de_date", targets: 1
-                },
-                {
-                    "width": "15%"
-                }
-            ]
-        } );
+    .controller('trainerStudentsCtrl', trainerStudentsCtrl)
+    .controller('trainersStudentViewCtrl', trainersStudentViewCtrl)
 
-        $scope.viewStudent = function(idStudent){
-            $state.go('trainer/viewStudent/:studentId',{studentId : idStudent});
+function trainerStudentsCtrl($scope, trainerService, NgTableParams){
+    $scope.changePageHeader('Закріплені студенти');
+    $scope.trainersStudentsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return trainerService
+                .trainersStudentsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
         }
+    });   
+}
 
+function trainersStudentViewCtrl($scope, trainerService, NgTableParams){
+    $scope.trainersStudentsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return trainerService
+                .trainersStudentsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
     });
+}

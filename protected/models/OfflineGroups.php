@@ -175,8 +175,10 @@ class OfflineGroups extends CActiveRecord
 		return implode(", ", $errors);
 	}
 
-	public function availableCoursesList()
+	public function availableCoursesList($organization=null)
 	{
+		$condition='NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id;
+		if($organization) $condition=$condition.' and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$courses = Yii::app()->db->createCommand()
 			->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en,
 			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
@@ -184,13 +186,15 @@ class OfflineGroups extends CActiveRecord
 			->join('group_access_to_content ga', 'ga.service_id=acs.service_id')
 			->join('course c', 'c.course_ID=acs.course_id')
 			->join('level l', 'l.id=c.level')
-			->where('NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id)
+			->where($condition)
 			->queryAll();
 		return $courses;
 	}
 
-	public function availableModulesList()
+	public function availableModulesList($organization=null)
 	{
+		$condition='NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id;
+		if($organization) $condition=$condition.' and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$modules = Yii::app()->db->createCommand()
 			->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en,
 			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
@@ -198,7 +202,7 @@ class OfflineGroups extends CActiveRecord
 			->join('group_access_to_content ga', 'ga.service_id=ams.service_id')
 			->join('module m', 'm.module_ID=ams.module_id')
 			->join('level l', 'l.id=m.level')
-			->where('NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id)
+			->where($condition)
 			->queryAll();
 		return $modules;
 	}

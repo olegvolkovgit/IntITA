@@ -1,6 +1,8 @@
+<?php if (Yii::app()->user->model->isAccountant()) { ?>
 <a type="button" class="btn btn-primary" ng-href="#/accountant/agreements">
     Список договорів
 </a>
+<?php } ?>
 <div ng-controller="agreementDetailCtrl">
     <h3>Детальна інформація про договір №{{agreementData.number}}</h3>
     <agreement-detailed data-agreement-id="{{agreementId}}"></agreement-detailed>

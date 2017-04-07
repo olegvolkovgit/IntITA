@@ -26,7 +26,9 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('accountant/agreement/', {
             url: "/accountant/agreement/{agreementId:[0-9]*}",
             cache         : false,
-            templateUrl: accountantUrl+"agreements/agreement"
+            templateUrl: function ($stateParams) {
+                return accountantUrl + "agreements/agreement/id/"+$stateParams.agreementId
+            }
         })
         .state('accountant/invoices', {
             url: "/accountant/invoices",
@@ -198,6 +200,13 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: function ($stateParams) {
                 return accountantUrl + "paymentSchema/applyTemplateView/request/" + $stateParams.request;
+            }
+        })
+        .state('student/:studentId/agreements', {
+            url: "/student/:studentId/agreements",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_accountant/agreements/renderUserAgreements/idUser/"+$stateParams.studentId;
             }
         })
     }

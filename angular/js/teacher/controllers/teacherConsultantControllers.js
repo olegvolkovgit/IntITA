@@ -64,7 +64,9 @@ angular
         }
 
     })
-    .controller('teacherConsultantCtrl', function ($scope, typeAhead, $http, $state,$templateCache) {
+    .controller('teacherConsultantCtrl', function ($scope, typeAhead, $http, $state,$templateCache,$stateParams) {
+        $templateCache.remove(basePath + "/_teacher/_trainer/trainer/editTeacherModule/id/"+$stateParams.studentId+"/idModule/" + $stateParams.idModule);
+        $scope.changePageHeader('Призначення студенту викладача');
         var teachersTypeaheadUrl = basePath+ '/_teacher/_trainer/trainer/teacherConsultantsByQuery';
         $scope.selectedTeacher = null;
         $scope.consultantSelected = null;
@@ -73,7 +75,6 @@ angular
         };
         $scope.onSelect = function ($item) {
             $scope.selectedTeacher = $item;
-            console.log($item);
         };
 
         $scope.onConsultantSelect = function ($item) {

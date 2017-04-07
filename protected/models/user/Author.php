@@ -34,7 +34,7 @@ class Author extends Role
         return $this->errorMessage;
     }
 
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         $records = Yii::app()->db->createCommand()
             ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time, m.cancelled')

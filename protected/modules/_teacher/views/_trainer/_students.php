@@ -1,46 +1,39 @@
-<?php
-/**
- * @var $attribute array
- * @var $item array
- */
-?>
-<div class="col-md-12" ng-controller="trainerStudentsCtrl">
-    <div class="dataTable_wrapper">
-        <table class="table table-striped table-bordered table-hover" id="trainerStudentsTable">
-            <thead>
-            <tr>
-                <th>Студент</th>
-                <th width="20%">Призначено</th>
-                <th>Доступ</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            foreach ($attribute["value"] as $item) {
-                if (!$item["end_date"]) {
-                    ?>
-                    <tr>
-                        <td>
-                            <a ng-href="#/users/profile/<?php echo $item["id"] ?>" >
-                                <?= $item["title"]." (".$item["email"].")"; ?>
-                            </a>
-                        </td>
-                        <td>
-                            <?= date("d.m.Y", strtotime($item["start_date"])); ?>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-outline btn-success btn-sm" ng-click="viewStudent('<?=$item["id"]?>')"
-                                    >
-                                Курси/модулі
-                            </button>
-                        </td>
-                    </tr>
-                <?php }
-            } ?>
-            </tbody>
-        </table>
+<div class="panel panel-default" ng-controller="trainerStudentsCtrl">
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table ng-table="trainersStudentsTableParams" class="table table-bordered table-striped table-condensed">
+                <colgroup>
+                    <col/>
+                    <col/>
+                    <col width="15%"/>
+                    <col width="15%"/>
+                    <col width="5%"/>
+                </colgroup>
+                <tr ng-repeat="row in $data track by $index">
+                    <td style="word-wrap:break-word" data-title="'Студент'" filter="{'studentModel.fullName': 'text'}" sortable="'studentModel.fullName'">
+                        <a ng-href="#/users/profile/{{row.student}}">{{row.studentModel.fullName}}</a>
+                    </td>
+                    <td data-title="'Призначено'" filter="{'start_time': 'text'}" sortable="'start_time'">{{row.start_time}}</td>
+                    <td data-title="'Закріплені викладачі'">
+                        <a type="button" class="btn btn-outline btn-success btn-sm" ng-href="#/trainer/viewStudent/{{row.student}}">
+                            Курси/модулі
+                        </a>
+                    </td>
+                    <td data-title="'Договори та рахунки'">
+                        <a type="button" class="btn btn-outline btn-success btn-sm" ng-href="#/student/{{row.student}}/agreements">
+                            Переглянути
+                        </a>
+                    </td>
+                    <td data-title="''">
+                        <a class="btnChat"  ng-href="#/newmessages/receiver/{{row.student}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                            <i class="fa fa-envelope fa-fw"></i>
+                        </a>
+                        <a class="btnChat" href="<?php echo Config::getChatPath(); ?>{{row.student}}" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
+                            <i class="fa fa-weixin fa-fw"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
-<script>
-
-</script>

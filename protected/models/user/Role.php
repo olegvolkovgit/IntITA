@@ -14,7 +14,7 @@ abstract class Role
 
     abstract function getMembers();
 
-    abstract function attributes(StudentReg $user);
+    abstract function attributes(StudentReg $user, $organization);
 
     abstract function addRoleFormList($query, $organization);
 

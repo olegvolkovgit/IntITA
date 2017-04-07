@@ -141,19 +141,19 @@ class RegisteredUser
         return $this->_roleAttributes;
     }
 
-    public function getAttributesByRole($role)
+    public function getAttributesByRole($role, $organization=null)
     {
         if (empty($this->_roleAttributes[(string)$role])) {
-            $this->loadAttributes($role);
+            $this->loadAttributes($role, $organization);
         }
         return $this->_roleAttributes[(string)$role];
     }
 
-    private function loadAttributes($role)
+    private function loadAttributes($role, $organization=null)
     {
-        if ($this->hasRole($role)) {
+        if ($this->hasRole($role,$organization)) {
             $roleObj = Role::getInstance($role);
-            $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
+            $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData,$organization);
         }else{
             throw new \application\components\Exceptions\IntItaException(403, "User does not has this role.");
         }
@@ -494,7 +494,7 @@ class RegisteredUser
 
     public function hasAccessToOrganizationModel($model)
     {
-        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+        if(!$model || $model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
             throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до сторінки в межах даної організації');
         }
         return true;
