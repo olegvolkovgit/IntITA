@@ -287,7 +287,7 @@ class RegisteredUser
         return in_array($role, $this->getRoles($organization));
     }
 
-    public function setRole($role, $organization=null)
+    public function setRole($role, Organization $organization=null)
     {
         if ($this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User already has this role.");
@@ -296,7 +296,7 @@ class RegisteredUser
         return $roleObj->setRole($this->registrationData, $organization);
     }
 
-    public function cancelRole(UserRoles $role, $organization=null)
+    public function cancelRole(UserRoles $role, Organization $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User hasn't this role.");
@@ -304,8 +304,8 @@ class RegisteredUser
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelRole($this->registrationData, $organization);
     }
-    
-    public function cancelRoleMessage(UserRoles $role, $organization=null)
+
+    public function cancelRoleMessage(UserRoles $role, Organization $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             return "Користувачу не була призначена обрана роль.";
