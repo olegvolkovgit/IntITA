@@ -41,7 +41,6 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionSendLetter(){
-
         $newsLetter= new Newsletters();
         $newsLetter->loadModel($_POST['newsletter']);
         if ($newsLetter->save()){

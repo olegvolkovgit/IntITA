@@ -83,6 +83,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	{
 		return array(
 			'user' => array(self::HAS_ONE, 'StudentReg', array('id'=>'created_by')),
+            'newsletter'=>array(self::HAS_ONE, 'Newsletters', array('id'=>'related_model_id')),
 		);
 	}
 

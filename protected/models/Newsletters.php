@@ -147,7 +147,7 @@ class Newsletters extends CActiveRecord implements ITask
                 }
                 break;
             case "allUsers":
-                $users = StudentReg::model()->findAll('cancelled=0');
+                $users = StudentReg::model()->with(['student'])->findAll('cancelled=0 AND id_organization='.$this->id_organization);
                 if (isset($users)) {
                     foreach ($users as $user) {
                         array_push($mailList, $user->email);
@@ -189,7 +189,7 @@ class Newsletters extends CActiveRecord implements ITask
                     $criteria->distinct = true;
                     $criteria->select = "email";
                 }else{
-                    $criteria->addCondition('category='.unserialize($this->recipients));
+                    $criteria->addCondition('category='.$this->recipients);
                 }
                 $models = UsersEmailDatabase::model()->findAll($criteria);
                 if (isset($models)) {

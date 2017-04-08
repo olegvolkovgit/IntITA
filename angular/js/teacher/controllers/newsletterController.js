@@ -14,7 +14,7 @@ angular
     .filter('usersSearchFilter', function($sce) {
         return function(label, query, item, options, element) {
 
-            var html= user+item.email + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
+            var html= "&lt;" + item.name+"&gt;"+item.email + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
 
             return $sce.trustAsHtml(html);
         };
@@ -226,7 +226,6 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         "text": $scope.message,
                         "newsletter_email": $scope.emailSelected.email,
                      },
-                    //"repeat_type": $scope.taskType,
                     "repeat_type": $scope.taskRepeat,
                     "weekdays": $scope.weekdaysList,
                     "date": $filter('shortDate')($scope.date, 'dd-MM-yyyy') + ' ' + $filter('shortDate')($scope.time, 'HH:mm')

@@ -17,8 +17,7 @@
                     </colgroup>
                     <tr ng-repeat="row in $data" ng-class="{ 'danger': row.error }">
                         <td data-title="'ID'">{{row.id}}</td>
-                        <td data-title="'Назва'">{{row.name}}</td>
-                        <td data-title="'Тип'" filter="{ type: 'select'}" filter-data="typesFilter"><span ng-if="row.type == 1">Розсилка електронних листів</span></td>
+                        <td data-title="'Тема'" filter="{ type: 'text'}" filter-data="subjectFilter">{{row.newsletter.subject}}</span></td>
                         <td data-title="'Повтор завдання'" filter="{ repeat_type: 'select'}" filter-data="repeatFilter"><span ng-if="row.repeat_type == 1">Однократно</span>
                             <span ng-if="row.repeat_type == 2">Раз на день</span>
                             <span ng-if="row.repeat_type == 3">Раз на тиждень</span>
