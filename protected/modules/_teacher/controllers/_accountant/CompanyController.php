@@ -49,7 +49,11 @@ class CompanyController extends TeacherCabinetController {
     public function actionViewCompany($id) {
         $organization = Yii::app()->user->model->getCurrentOrganization();
         $model = CorporateEntity::model()->belongsToOrganization($organization)->findByPk($id);
-        $this->renderPartial('//ajax/json', ['body' => json_encode($model->getAttributes())]);
+        $body = [];
+        if ($model) {
+            $body = json_encode($model->getAttributes());
+        }
+        $this->renderPartial('//ajax/json', ['body' => $body]);
     }
 
     public function actionUpsert() {
