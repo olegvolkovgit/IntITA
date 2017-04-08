@@ -49,9 +49,47 @@ class CompanyController extends TeacherCabinetController {
     public function actionViewCompany($id) {
         $organization = Yii::app()->user->model->getCurrentOrganization();
         $model = CorporateEntity::model()->belongsToOrganization($organization)->findByPk($id);
-        $this->renderPartial('_viewCompany', array(
-            'model' => $model
-        ), false, true);
+        $this->renderPartial('//ajax/json', ['body' => json_encode($model->getAttributes())]);
+    }
+
+    public function actionUpsert() {
+        $id = Yii::app()->request->getParam('id', null);
+        $model = null;
+        $body = [];
+        $statusCode = 200;
+
+        if (empty($id)) {
+            $model = new CorporateEntity();
+        } else {
+            $model = CorporateEntity::model()->findByPk($id);
+        }
+
+        if (!empty($model)) {
+            $attributes = $model->collectAttributes($_POST);
+            $attributes['id_organization'] = Yii::app()->user->model->getCurrentOrganization()->id;
+            $model->setAttributes($attributes);
+
+            if ($model->validate()) {
+                try {
+                    $model->save(false);
+                    $body = ['message' => 'OK'];
+                } catch (Exception $error) {
+                    $statusCode = 400;
+                    $body = ['message' => $error->getMessage()];
+                }
+            } else {
+                $statusCode = 400;
+                $body = [
+                    'message' => 'Validation error',
+                    'validationResult' => $model->getErrors()
+                ];
+            }
+        } else {
+            $statusCode = 400;
+            $body = ['message' => "Can't find CorporateEntity with id = ${$id}"];
+        }
+
+        $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
     }
 
     public function actionCompaniesByQuery($query) {
@@ -66,7 +104,7 @@ class CompanyController extends TeacherCabinetController {
     public function actionList() {
         $requestParams = $_GET;
         $organization = Yii::app()->user->model->getCurrentOrganization();
-        $ngTable = new NgTableAdapter(CorporateEntity::model()->    belongsToOrganization($organization), $requestParams);
+        $ngTable = new NgTableAdapter(CorporateEntity::model()->belongsToOrganization($organization), $requestParams);
         $result = $ngTable->getData();
         $this->renderPartial('//ajax/json', ['body' => json_encode($result)]);
     }

@@ -31,7 +31,7 @@ class CabinetController extends TeacherCabinetController
         $model = Yii::app()->user->model;
 
         if($organizationId && $model->hasOrganizationById($organizationId)){
-            Yii::app()->session['organization']=$organizationId;
+            Yii::app()->session->add('organization', $organizationId);
         }else if($organizationId || Yii::app()->user->model->getOrganizations()){
             $this->initialize();
         }
