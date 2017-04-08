@@ -32,7 +32,7 @@ class NewsletterController extends TeacherCabinetController
 
     public function actionGetRoles(){
         $roles = AllRolesDataSource::roles();
-        $result = [];
+        $result = [['id'=>'Coworkers','name'=>'Всі співробітники організації']];
         foreach ($roles as $role)
         {
             array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
@@ -41,17 +41,25 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionSendLetter(){
-        $task = new SchedulerTasks();
-        $task->type = TaskFactory::NEWSLETTER;
-        $task->name = 'Розсилка';
-        $task->status = SchedulerTasks::STATUSNEW;
-        $task->parameters = json_encode($_POST['parameters']);
-        $task->repeat_type = $_POST['taskRepeat'];
-        $task->owner = Yii::app()->user->model->id;
-        date_default_timezone_set('Europe/Kiev');
-        ($_POST['taskType'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
-        $task->start_time = $date->format('Y-m-d H:i:s');
-        $task->save();
+        $newsLetter= new Newsletters();
+        $newsLetter->loadModel($_POST['newsletter']);
+        if ($newsLetter->save()){
+            $task = new SchedulerTasks();
+            $task->loadModel($_POST);
+            $task->type = TaskFactory::NEWSLETTER;
+            date_default_timezone_set('Europe/Kiev');
+            ($_POST['repeat_type'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
+            $task->start_time = $date->format('Y-m-d H:i:s');
+            $task->related_model_id = $newsLetter->id;
+            $task->save();
+            echo true;
+            Yii::app()->end();
+        }
+        else{
+            echo json_encode($newsLetter->getErrors());
+            Yii::app()->end();
+        }
+
     }
 
     public function actionGetUserEmail(){

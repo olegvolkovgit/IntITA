@@ -154,6 +154,12 @@
                             ng-options="taskRepeat.value as taskRepeat.name for taskRepeat in taskRepeatTypes">
                     </select>
                 </div>
+                    <div class="form-group col-md-8" ng-show="taskRepeat==6">
+                        <label for="selectSchedulerType">По днях тижня</label>
+                        <label ng-repeat="weekday in weekdays" style="display: block">
+                            <input type="checkbox" checklist-model="weekdaysList" checklist-value="weekday.id"> {{weekday.name}}
+                        </label>
+                    </div>
                 <div class="form-group col-md-8">
                     <label for="selectSchedulerType">Дата</label>
                     <p class="input-group col-md-3">
