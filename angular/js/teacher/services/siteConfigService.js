@@ -17,6 +17,10 @@ angular
                             page: 'page',
                             pageCount: 'pageCount',
                         }
-                    }
+                    },
+                    getSpecializationsList: {
+                        url: basePath+'/studentReg/getSpecializationsList',
+                        isArray:true
+                    },
                 });
         }]);

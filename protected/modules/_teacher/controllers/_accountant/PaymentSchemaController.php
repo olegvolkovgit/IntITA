@@ -3,7 +3,10 @@
 class PaymentSchemaController extends TeacherCabinetController
 {
     public function hasRole() {
-        return Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isAdmin();
+        $allowedTrainerActions = ['getSchemas'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isAdmin() ||
+        (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions));
     }
 
     public function actionGetSchemas() {

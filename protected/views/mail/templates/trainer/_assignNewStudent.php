@@ -7,7 +7,7 @@ $student = $params[0];
 $organization = Organization::model()->findByPk($params[1]);
 ?>
 <h4>Повідомлення</h4>
-<span>Вам призначено нового студента/ як тренеру, для супроводу
+<span>Вам призначено нового студента, як тренеру, для супроводу
     <a ng-href="#/users/profile/<?php echo $student->id ?>" target="_blank">
         <strong><?= $student->userNameWithEmail();?></strong>
         </a>

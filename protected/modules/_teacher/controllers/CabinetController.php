@@ -31,7 +31,7 @@ class CabinetController extends TeacherCabinetController
         $model = Yii::app()->user->model;
 
         if($organizationId && $model->hasOrganizationById($organizationId)){
-            Yii::app()->session['organization']=$organizationId;
+            Yii::app()->session->add('organization', $organizationId);
         }else if($organizationId || Yii::app()->user->model->getOrganizations()){
             $this->initialize();
         }
@@ -237,7 +237,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionModulesByQuery($query, $organization=null)
     {
-        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         if ($query) {
             $modules = Module::allModules($query, $organization);
             echo $modules;
@@ -256,9 +256,20 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
-    public function actionCoursesByQuery($query)
+    public function actionStudentsWithoutTrainerByQuery($query)
     {
-        echo Course::readyCoursesList($query);
+        if ($query) {
+            $users = UserStudent::studentWithoutTrainerByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+    
+    public function actionCoursesByQuery($query, $organization=null)
+    {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        echo Course::readyCoursesList($query, $organization);
     }
     
     public function actionModulesTitleById()
@@ -300,7 +311,8 @@ class CabinetController extends TeacherCabinetController
 
     public function actionUsersAddForm($role, $query, $organization=null)
     {
-        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+
         $roleModel = Role::getInstance(new UserRoles($role));
   
         if ($query && $roleModel) {

@@ -712,6 +712,11 @@ class StudentReg extends CActiveRecord
         }
     }
 
+    public function fullName()
+    {
+        return trim($this->firstName . " " . $this->secondName . " " . $this->email);
+    }
+    
     public function userIdFullName()
     {
         $data=array();

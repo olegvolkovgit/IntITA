@@ -11,8 +11,9 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/index', array(), false, true);
     }
     
-    public function actionOfflineGroup()
+    public function actionOfflineGroup($id)
     {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineGroups::model()->findByPk($id));
         $this->renderPartial('/_supervisor/offlineGroup', array(), false, true);
     }
 
@@ -22,8 +23,9 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/forms/_offlineGroupForm', array('scenario'=>'new'), false, true);
     }
 
-    public function actionEditOfflineGroupForm()
+    public function actionEditOfflineGroupForm($id)
     {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineGroups::model()->findByPk($id));
         $this->renderPartial('/_supervisor/forms/_offlineGroupForm', array('scenario'=>'update'), false, true);
     }
     
@@ -32,18 +34,21 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/tables/offlineSubgroups', array(), false, true);
     }
     
-    public function actionOfflineSubgroup()
+    public function actionOfflineSubgroup($id)
     {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineSubgroups::model()->findByPk($id)->groupName);
         $this->renderPartial('/_supervisor/offlineSubgroup', array(), false, true);
     }
 
-    public function actionAddSubgroupForm()
+    public function actionAddSubgroupForm($id)
     {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineGroups::model()->findByPk($id));
         $this->renderPartial('/_supervisor/forms/_subgroupForm', array('scenario'=>'new'), false, true);
     }
     
-    public function actionEditSubgroupForm()
+    public function actionEditSubgroupForm($id)
     {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineSubgroups::model()->findByPk($id)->groupName);
         $this->renderPartial('/_supervisor/forms/_subgroupForm', array('scenario'=>'update'), false, true);
     }
 
@@ -55,21 +60,6 @@ class SuperVisorController extends TeacherCabinetController
     public function actionStudentsWithoutGroup()
     {
         $this->renderPartial('/_supervisor/tables/_studentsWithoutGroup', array(), false, true);
-    }
-
-    public function actionSpecializations()
-    {
-        $this->renderPartial('/_supervisor/tables/specializations', array(), false, true);
-    }
-
-    public function actionSpecializationCreate()
-    {
-        $this->renderPartial('/_supervisor/forms/specializationCreate', array(), false, true);
-    }
-    
-    public function actionSpecializationUpdate()
-    {
-        $this->renderPartial('/_supervisor/forms/specializationUpdate', array(), false, true);
     }
 
     public function actionUserProfile($id)
@@ -122,12 +112,18 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/forms/offlineStudentSubgroup', array('scenario'=>'update'), false, true);
     }
 
-    public function actionGroupAccess($type, $scenario)
+    public function actionGroupAccess($type, $scenario, $group, $service=null)
     {
         if($type=='course'){
             $view='groupAccessToCourse';
         } else if($type=='module'){
             $view='groupAccessToModule';
+        }
+        if($group && $service) {
+            $model = GroupAccess::model()->findByPk(array('group_id' => $group, 'service_id' => $service));
+            $model->validate();
+        }else if($group && !$service){
+            Yii::app()->user->model->hasAccessToOrganizationModel(OfflineGroups::model()->findByPk($group));
         }
         $this->renderPartial('/_supervisor/forms/'.$view, array('scenario'=>$scenario), false, true);
     }
@@ -136,6 +132,9 @@ class SuperVisorController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('OfflineGroups', $requestParams);
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -144,6 +143,10 @@ class SuperVisorController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('OfflineSubgroups', $requestParams);
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN offline_groups og ON og.id = t.group';
+        $criteria->addCondition('og.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -152,27 +155,20 @@ class SuperVisorController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('OfflineStudents', $requestParams);
-
+        $criteria =  new CDbCriteria();
+        $criteria->join = 'LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
+        $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
         if(isset($requestParams['idGroup'])){
-            $criteria =  new CDbCriteria();
-            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
-            $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
-            $criteria->condition = 'g.id='.$requestParams['idGroup'].' and t.end_date IS NULL';
-            $ngTable->mergeCriteriaWith($criteria);
+            $criteria->addCondition('g.id='.$requestParams['idGroup'].' and t.end_date IS NULL');
         }
         if(isset($requestParams['idSubgroup'])){
-            $criteria =  new CDbCriteria();
-            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
-            $criteria->condition = 'sg.id='.$requestParams['idSubgroup'].' and t.end_date IS NULL';
-            $ngTable->mergeCriteriaWith($criteria);
+            $criteria->addCondition('sg.id='.$requestParams['idSubgroup'].' and t.end_date IS NULL');
         }
         if(!isset($requestParams['idGroup']) && !isset($requestParams['idSubgroup'])){
-            $criteria =  new CDbCriteria();
-            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
-            $criteria->condition = 't.end_date IS NULL';
-            $ngTable->mergeCriteriaWith($criteria);
+            $criteria->addCondition('t.end_date IS NULL');
         }
-
+        $criteria->addCondition('g.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -227,41 +223,6 @@ class SuperVisorController extends TeacherCabinetController
         $result = $ngTable->getData();
         echo json_encode($result);
     }
-
-    public function actionGetUsersList()
-    {
-        $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
-
-        $criteria =  new CDbCriteria();
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE;
-        $ngTable->mergeCriteriaWith($criteria);
-
-        $result = $ngTable->getData();
-        echo json_encode($result);
-    }
-
-    public function actionGetStudentsList()
-    {
-        $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
-
-        $criteria =  new CDbCriteria();
-
-        $criteria->alias = 't';
-        $criteria->join = 'inner join user_student us on t.id = us.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
-        $criteria->group = 't.id';
-        if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
-            $startDate=$_GET['startDate'];
-            $endDate=$_GET['endDate'];
-            $criteria->condition = "TIMESTAMP(us.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
-        }
-
-        $ngTable->mergeCriteriaWith($criteria);
-        $result = $ngTable->getData();
-        echo json_encode($result);
-    }
     
     public function actionGetSpecializationsList()
     {
@@ -283,12 +244,7 @@ class SuperVisorController extends TeacherCabinetController
         $subgroup=OfflineSubgroups::model()->findByPk($id);
         echo CJSON::encode($subgroup->subgroupData());
     }
-
-    public function actionGetSpecializationData()
-    {
-        echo CJSON::encode(SpecializationsGroup::model()->findByPk(Yii::app()->request->getParam('id')));
-    }
-
+    
     public function actionGetCityById($id)
     {
         echo AddressCity::model()->findByPk($id)->title_ua;
@@ -358,6 +314,8 @@ class SuperVisorController extends TeacherCabinetController
         $group->city=$city;
         $group->id_user_created=Yii::app()->user->getId();
         $group->chat_author_id=$chatAuthorId;
+        $group->id_organization=Yii::app()->user->model->getCurrentOrganization()->id;
+
         if($group->validate()){
             $group->save();
             $result['message']='Офлайн групу успішно створено';
@@ -408,8 +366,8 @@ class SuperVisorController extends TeacherCabinetController
         $group->city=$city;
         $group->chat_author_id=$chatAuthorId;
 
-        if($group->validate()){
-            $group->update();
+        if($group->checkOrganization() && $group->validate()){
+            $group->save();
             echo 'Офлайн групу успішно оновлено';
         }else{
             echo $group->getValidationErrors();
@@ -429,52 +387,13 @@ class SuperVisorController extends TeacherCabinetController
         $subgroup->data=$data;
         $subgroup->id_trainer=$trainerId;
         
-        if($subgroup->update()){
+        if($subgroup->save()){
             if($oldTrainer!=$subgroup->id_trainer && $subgroup->id_trainer){
                 $subgroup->setTrainerForStudents();
             }
             echo 'Підгрупу успішно оновлено';
         }else{
             echo 'Оновити підгрупу не вдалося. Введені не вірні дані';
-        }
-
-    }
-
-    public function actionCreateSpecialization()
-    {
-        $title_ua=Yii::app()->request->getPost('title_ua');
-        $title_ru=Yii::app()->request->getPost('title_ru');
-        $title_en=Yii::app()->request->getPost('title_en');
-
-        $specialization=new SpecializationsGroup();
-        $specialization->title_ua=$title_ua;
-        $specialization->title_ru=$title_ru;
-        $specialization->title_en=$title_en;
-
-        if($specialization->save()){
-            echo 'Спеціалізацію створено';
-        }else{
-            echo 'Створити спеціалізацію не вдалося. Введені не вірні дані';
-        }
-
-    }
-
-    public function actionUpdateSpecialization()
-    {
-        $id=Yii::app()->request->getPost('id');
-        $title_ua=Yii::app()->request->getPost('title_ua');
-        $title_ru=Yii::app()->request->getPost('title_ru');
-        $title_en=Yii::app()->request->getPost('title_en');
-
-        $specialization=SpecializationsGroup::model()->findByPk($id);
-        $specialization->title_ua=$title_ua;
-        $specialization->title_ru=$title_ru;
-        $specialization->title_en=$title_en;
-
-        if($specialization->update()){
-            echo 'Спеціалізацію оновлено';
-        }else{
-            echo 'Оновити спеціалізацію не вдалося. Введені не вірні дані';
         }
 
     }
@@ -512,7 +431,7 @@ class SuperVisorController extends TeacherCabinetController
         if(OfflineStudents::model()->findByAttributes(array('id_user'=>$student->id_user, 'end_date'=>null,'id_subgroup'=>$subgroupId))){
             echo 'Студент уже входить в дану підгрупу';
         }else{
-            if($student->save()){
+            if($student->checkOrganization() && $student->save()){
                 $subgroup=OfflineSubgroups::model()->findByPk($subgroupId);
                 if($subgroup->id_trainer){
                     $student->setTrainer($subgroup->id_trainer);
@@ -547,7 +466,7 @@ class SuperVisorController extends TeacherCabinetController
             $student->start_date=$startDate;
             if($graduateDate) $student->graduate_date=$graduateDate;
             else $student->graduate_date=null;
-            if($student->update()){
+            if($student->checkOrganization() && $student->update()){
                 if(isset($newSubgroup)){
                     $subgroup=OfflineSubgroups::model()->findByPk($newSubgroup);
                     if($subgroup->id_trainer){
@@ -653,6 +572,7 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionSetTrainer()
     {
+        $data=array();
         $userId = Yii::app()->request->getPost('userId');
         $trainerId = Yii::app()->request->getPost('trainerId');
         $trainer = RegisteredUser::userById($trainerId);
@@ -667,21 +587,48 @@ class SuperVisorController extends TeacherCabinetController
 
         $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
         if ($result===true){
-            $setResult="Нового тренера призначено.";
+            $setResult="Призначено студента тренеру";
         } else{
             $setResult=$result;
         }
-        echo $cancelResult.' '.$setResult;
+        $data['data']=$cancelResult.' '.$setResult;
+        echo json_encode($data);
     }
 
     public function actionRemoveTrainer()
     {
+        $data=array();
         $userId = Yii::app()->request->getPost('userId');
 
         $trainer = TrainerStudent::getTrainerByStudent($userId);
         $oldTrainer = RegisteredUser::userById($trainer->id);
 
-        if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
+        if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) 
+            $data['data']="Операція прошла успішно";
+        else $data['data']="Виникла помилка";
+        echo json_encode($data);
+    }
+
+    public function actionTrainers()
+    {
+        $this->renderPartial('/_supervisor/tables/trainers', array(), false, true);
+    }
+    public function actionTrainersStudents($idTrainer)
+    {
+        if (!RegisteredUser::userById($idTrainer)->hasRole(UserRoles::TRAINER))
+            throw new CHttpException(404, 'Вказана сторінка не знайдена');
+        $this->renderPartial('/_supervisor/tables/trainersStudents', array('idTrainer'=>$idTrainer), false, true);
+    }
+
+    public function actionGetTrainersStudentsList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('TrainerStudent', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 't.trainer='.$requestParams['trainer'].' and t.end_time is null 
+        and id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 }

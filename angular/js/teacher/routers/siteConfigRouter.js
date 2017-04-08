@@ -75,4 +75,21 @@ angular
                 cache: false,
                 templateUrl: url+"/careerCreate"
             })
+            .state('configuration/specializations', {
+                url: "/configuration/specializations",
+                cache: false,
+                templateUrl: url+"/specializations",
+            })
+            .state('configuration/specialization/update/:id', {
+                url: "/configuration/specialization/update/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return url+"/specializationUpdate/id/"+$stateParams.id;
+                }
+            })
+            .state('configuration/createSpecialization', {
+                url: "/configuration/createSpecialization",
+                cache: false,
+                templateUrl: url+"/specializationCreate"
+            })
 });

@@ -23,7 +23,6 @@ function moduleCtrl($scope, $http) {
     };
     $scope.getPaymentServiceStatus(idModule, 'module').then(function (response) {
         $scope.moduleStatus=response;
-        console.log($scope.moduleStatus);
     });
     if(idCourse!=0){
         $scope.getPaymentServiceStatus(idCourse, 'course').then(function (response) {

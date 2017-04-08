@@ -40,7 +40,7 @@ class Trainer extends Role
     /**
      * @return array attributes trainer role
      */
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         if ($this->studentsList == null) {
             $this->studentsList = $this->studentsList($user);
@@ -170,14 +170,16 @@ class Trainer extends Role
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_trainer u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NOT NULL and u.end_date IS NULL');
+        $criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
+        $criteria->addCondition('u.id_user IS NOT NULL and u.end_date IS NULL and tco.id_user IS NOT NULL 
+		and tco.end_date IS NULL and tco.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
 
         $data = StudentReg::model()->findAll($criteria);
-
         $result = [];
         foreach ($data as $key => $model) {
             $result["results"][$key]["id"] = $model->id;
             $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["nameEmail"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName.' ('.$model->email.')');
             $result["results"][$key]["email"] = $model->email;
             $result["results"][$key]["url"] = $model->avatarPath();
         }

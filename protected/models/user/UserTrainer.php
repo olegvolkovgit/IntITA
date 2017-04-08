@@ -126,27 +126,6 @@ class UserTrainer extends CActiveRecord
 		return $users;
 	}
 
-
-//	public static function modulesWithoutConsult(StudentReg $user){
-//		$singleModules = Yii::app()->db->createCommand()
-//			->select('COUNT(pm.id_module)')
-//			->from('trainer_student tr')
-//            ->join('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
-//            ->join('pay_modules pm', 'pm.id_user=tcs.id_student')
-//			->where('tr.end_time IS NULL and tr.trainer = :id and pm.id_module <> tcs.id_module',
-//				array(':id'=>$user->id))
-//			->queryAll();
-//
-//		$count = Yii::app()->db->createCommand()
-//			->select('student')
-//			->from('trainer_student tr')
-//			->leftJoin('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
-//			->where('tr.end_time IS NULL and tr.trainer = :id',
-//				array(':id'=>$user->id))
-//			->queryAll();
-//		return $singleModules;
-//	}
-
 	public static function trainersList(){
         $sql = 'select * from user as u, user_trainer as ut where u.id = ut.id_user';
         $consultants = Yii::app()->db->createCommand($sql)->queryAll();

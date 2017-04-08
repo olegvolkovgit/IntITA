@@ -827,7 +827,7 @@ class Course extends CActiveRecord implements IBillableObject
         return $this->status_offline == Course::READY;
     }
     public function isDeveloping(){
-        return $this->status == Course::DEVELOP;
+        return ($this->status_online == Course::DEVELOP && $this->status_offline == Course::DEVELOP);
     }
 
     public function changeStatus(){
@@ -856,7 +856,7 @@ class Course extends CActiveRecord implements IBillableObject
         return 'Доступ до курсу';
     }
 
-    public static function readyCoursesList($query){
+    public static function readyCoursesList($query, $organization){
         $criteria = new CDbCriteria();
         $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
         $criteria->alias = "s";
@@ -865,8 +865,9 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
-        $criteria->addCondition('cancelled=0');
-
+        $criteria->addCondition('s.cancelled=0');
+        if($organization) $criteria->addCondition('s.id_organization='.$organization);
+        
         $data = Course::model()->findAll($criteria);
 
         $result = array();

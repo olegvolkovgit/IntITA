@@ -2,12 +2,10 @@
  * Created by adm on 19.07.2016.
  */
 
-var accountantUrl = basePath+"/_teacher/_accountant/";
+var accountantUrl = basePath + "/_teacher/_accountant/";
 
 angular
-    .module('accountantRouter', ['ui.router']).
-
-config(function ($stateProvider, $urlRouterProvider) {
+  .module('accountantRouter', ['ui.router']).config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
         .state('accountant', {
@@ -26,7 +24,9 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('accountant/agreement/', {
             url: "/accountant/agreement/{agreementId:[0-9]*}",
             cache         : false,
-            templateUrl: accountantUrl+"agreements/agreement"
+            templateUrl: function ($stateParams) {
+                return accountantUrl + "agreements/agreement/id/"+$stateParams.agreementId
+            }
         })
         .state('accountant/invoices', {
             url: "/accountant/invoices",
@@ -74,7 +74,7 @@ config(function ($stateProvider, $urlRouterProvider) {
             url: "/accountant/addcompany",
             controller: 'oneCompanyCtrl',
             cache         : false,
-            templateUrl: accountantUrl+"company/renderAddForm"
+            templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/oneCompany.html'
         })
         .state('accountant/addRepresentative', {
             url: "/accountant/addRepresentative",
@@ -82,13 +82,11 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: accountantUrl+"representative/renderAddForm"
         })
-        .state('accountant/viewCompany/:id', {
-            url: "/accountant/viewCompany/:id",
+        .state('accountant/viewCompany', {
+            url: "/accountant/viewCompany/{companyId:[0-9]*}",
             controller: 'oneCompanyCtrl',
             cache         : false,
-            templateUrl: function ($stateParams) {
-                return accountantUrl+"company/viewCompany/?id="+$stateParams.id;
-            }
+            templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/oneCompany.html'
         })
         .state('accountant/viewRepresentative/:id', {
             url: "/accountant/viewRepresentative/:id",
@@ -98,16 +96,6 @@ config(function ($stateProvider, $urlRouterProvider) {
                 return accountantUrl+"representative/viewRepresentative/?id="+$stateParams.id;
             }
         })
-        // .state('accountant/paymentSchemas', {
-        //     url: '/accountant/paymentSchemas/:schemeType',
-        //     cache         : false,
-        //     templateUrl: accountantUrl+"specialOffer/index"
-        // })
-        // .state('accountant/paymentSchemas/add', {
-        //     url: '/accountant/paymentSchemas/add/:schemeType',
-        //     cache         : false,
-        //     templateUrl: basePath +"/angular/js/teacher/templates/accountancy/addPaymentSchema.html"
-        // })
         .state('accountant/paymentSchemas/schemas/template', {
             url: '/accountant/paymentSchemas/schemas/template',
             cache         : false,
@@ -198,6 +186,13 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: function ($stateParams) {
                 return accountantUrl + "paymentSchema/applyTemplateView/request/" + $stateParams.request;
+            }
+        })
+        .state('student/:studentId/agreements', {
+            url: "/student/:studentId/agreements",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_accountant/agreements/renderUserAgreements/idUser/"+$stateParams.studentId;
             }
         })
     }

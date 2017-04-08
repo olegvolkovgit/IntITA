@@ -361,38 +361,11 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
             bootbox.alert("Операцію не вдалося виконати");
         });
     };
-    $scope.changeStudentEducForm=function (user,currentEducForm) {
-        var form;
-        if(currentEducForm==1) form=3;
-        else if(currentEducForm==3) form=1;
-        $http({
-            method: 'POST',
-            url: basePath+'/_teacher/user/setStudentEducForm',
-            data: $jq.param({user: user,form:form}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            $scope.loadUserData($scope.userId);
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    };
     $scope.changeDocStatus=function (id) {
         $http({
             method: 'POST',
             url: basePath+'/_teacher/_accountant/accountant/changeDocumentStatus',
             data: $jq.param({id: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback() {
-            $scope.loadUserData($scope.userId);
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    }
-    $scope.changeStudentShift=function (user,shift) {
-        $http({
-            method: 'POST',
-            url: basePath+'/_teacher/user/setStudentShift',
-            data: $jq.param({user: user,shift:shift}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback() {
             $scope.loadUserData($scope.userId);

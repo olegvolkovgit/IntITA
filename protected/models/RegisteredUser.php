@@ -141,19 +141,19 @@ class RegisteredUser
         return $this->_roleAttributes;
     }
 
-    public function getAttributesByRole($role)
+    public function getAttributesByRole($role, $organization=null)
     {
         if (empty($this->_roleAttributes[(string)$role])) {
-            $this->loadAttributes($role);
+            $this->loadAttributes($role, $organization);
         }
         return $this->_roleAttributes[(string)$role];
     }
 
-    private function loadAttributes($role)
+    private function loadAttributes($role, $organization=null)
     {
-        if ($this->hasRole($role)) {
+        if ($this->hasRole($role,$organization)) {
             $roleObj = Role::getInstance($role);
-            $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
+            $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData,$organization);
         }else{
             throw new \application\components\Exceptions\IntItaException(403, "User does not has this role.");
         }
@@ -162,6 +162,9 @@ class RegisteredUser
 
     public function setRoleAttribute($role, $attribute, $value)
     {
+        if(!$this->hasRole($role)){
+            throw new \application\components\Exceptions\IntItaException(403, 'Користувач не має даної ролі');
+        };
         $roleObj = Role::getInstance($role);
         if($roleObj->setAttribute($this->registrationData, $attribute, $value))
             return true;
@@ -284,7 +287,7 @@ class RegisteredUser
         return in_array($role, $this->getRoles($organization));
     }
 
-    public function setRole($role, $organization=null)
+    public function setRole($role, Organization $organization=null)
     {
         if ($this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User already has this role.");
@@ -293,7 +296,7 @@ class RegisteredUser
         return $roleObj->setRole($this->registrationData, $organization);
     }
 
-    public function cancelRole(UserRoles $role, $organization=null)
+    public function cancelRole(UserRoles $role, Organization $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             throw new \application\components\Exceptions\IntItaException(400, "User hasn't this role.");
@@ -301,8 +304,8 @@ class RegisteredUser
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelRole($this->registrationData, $organization);
     }
-    
-    public function cancelRoleMessage(UserRoles $role, $organization=null)
+
+    public function cancelRoleMessage(UserRoles $role, Organization $organization=null)
     {
         if (!$this->hasRole($role, $organization)) {
             return "Користувачу не була призначена обрана роль.";
@@ -472,12 +475,27 @@ class RegisteredUser
         return Organization::model()->findByPk(Yii::app()->session->get('organization'));
     }
 
+    /**
+     * @return Organization
+     */
+    public function getCurrentOrganizationId() {
+        return Yii::app()->session->get('organization');
+    }
+    
     public function hasAccessToGlobalRoleLists($organization)
     {
         $organization=filter_var($organization, FILTER_VALIDATE_BOOLEAN);
         if(!$organization){
             if(!($this->isDirector() || $this->isSuperAdmin()))
                 throw new \application\components\Exceptions\IntItaException(403, "Не має доступу");
+        }
+        return true;
+    }
+
+    public function hasAccessToOrganizationModel($model)
+    {
+        if(!$model || $model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до сторінки в межах даної організації');
         }
         return true;
     }

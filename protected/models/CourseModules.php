@@ -299,7 +299,7 @@ class CourseModules extends CActiveRecord
        $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang
               from module m
               left join course_modules cm on m.module_ID = cm.id_module
-              where cm.id_course='.$course.'
+              where cm.id_course='.$course.' and m.cancelled='.Module::ACTIVE.'
               group by m.module_ID';
 
        return Yii::app()->db->createCommand($sql)->queryAll();

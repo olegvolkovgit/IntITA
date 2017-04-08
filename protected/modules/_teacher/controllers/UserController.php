@@ -5,7 +5,7 @@ class UserController extends TeacherCabinetController {
     public function hasRole(){
         $allowedAccountantActions=['loadJsonUserModel','getRolesHistory','index'];
         $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory','index'];
-        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm', 'setStudentShift'];
+        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory'];
         $allowedProfileActions=['loadJsonUserModel','index'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isTrainer() ||
@@ -48,38 +48,6 @@ class UserController extends TeacherCabinetController {
         $model = StudentReg::model()->findByPk($user);
         if($model){
             if($model->changeUserStatus()){
-                echo "Операцію успішно виконано.";
-            } else {
-                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
-            }
-        } else {
-            echo "Неправильний запит. Такого користувача не існує.";
-        }
-    }
-
-    public function actionSetStudentEducForm(){
-        $user = Yii::app()->request->getPost('user');
-        $form = Yii::app()->request->getPost('form');
-        $model = StudentReg::model()->findByPk($user);
-
-        if($model){
-            if($model->setUserForm($form)){
-                echo "Операцію успішно виконано.";
-            } else {
-                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
-            }
-        } else {
-            echo "Неправильний запит. Такого користувача не існує.";
-        }
-    }
-
-    public function actionSetStudentShift(){
-        $user = Yii::app()->request->getPost('user');
-        $shift = Yii::app()->request->getPost('shift');
-        $model = StudentReg::model()->findByPk($user);
-
-        if($model){
-            if($model->setUserShift($shift)){
                 echo "Операцію успішно виконано.";
             } else {
                 echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();

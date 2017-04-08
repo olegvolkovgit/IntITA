@@ -32,7 +32,7 @@ class TeacherConsultant extends Role
         return "Викладач";
     }
 
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         if ($this->user == null)
             $this->user = $user;
@@ -196,23 +196,19 @@ class TeacherConsultant extends Role
 
     public function setStudentAttribute(StudentReg $teacher, $student, $module)
     {
-       // if ($this->checkStudent($student, $module)) {
-            if (Yii::app()->db->createCommand()->
-            insert('teacher_consultant_student', array(
-                'id_teacher' => $teacher->id,
-                'id_module' => $module,
-                'id_student' => $student
-            ))){
-                $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_assignNewStudent', array(
-                    StudentReg::model()->findByPk($student),
-                    Module::model()->findByPk($module)
-                ), 'Призначено нового студента', Yii::app()->user->getId());
-                return true;
-            }
-            return false;
-//        } else {
-//            return false;
-//        }
+        if (Yii::app()->db->createCommand()->
+        insert('teacher_consultant_student', array(
+            'id_teacher' => $teacher->id,
+            'id_module' => $module,
+            'id_student' => $student
+        ))){
+            $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_assignNewStudent', array(
+                StudentReg::model()->findByPk($student),
+                Module::model()->findByPk($module)
+            ), 'Призначено нового студента', Yii::app()->user->getId());
+            return true;
+        }
+        return false;
     }
 
 
@@ -267,6 +263,8 @@ class TeacherConsultant extends Role
      */
     public function checkCancelStudent($teacher, $module, $student)
     {
+        if(Module::model()->findByPk($module)->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id)
+            return false;
         if (Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module=' . $module .
                 ' and id_teacher=' . $teacher . ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar() == 0
         ) {

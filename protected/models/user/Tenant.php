@@ -76,7 +76,7 @@ class Tenant extends Role
         ));
     }
 
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         return array();
     }

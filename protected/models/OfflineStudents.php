@@ -21,6 +21,7 @@
  */
 class OfflineStudents extends CActiveRecord
 {
+	private $errorMessage = "";
 	/**
 	 * @return string the associated database table name
 	 */
@@ -51,10 +52,10 @@ class OfflineStudents extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'subgroupName' => array(self::HAS_ONE, 'OfflineSubgroups', ['id'=>'id_subgroup']),
+			'subgroupName' => array(self::BELONGS_TO, 'OfflineSubgroups', 'id_subgroup'),
 			'user' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 			'trainer' => array(self::HAS_ONE, 'TrainerStudent', ['student'=>'id_user'], 'on' => 'trainer.end_time IS NULL'),
-			'group' => array(self::HAS_ONE, 'OfflineGroups', array('group'=>'id'), 'through' => 'subgroupName'),
+			'group' => array(self::BELONGS_TO, 'OfflineGroups', array('group'=>'id'), 'through' => 'subgroupName'),
 			'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
 			'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
 			'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
@@ -145,5 +146,13 @@ class OfflineStudents extends CActiveRecord
 			$oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $this->id_user);
 		}
 		$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $this->id_user);
+	}
+
+	public function checkOrganization(){
+		if($this->group->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+			$this->errorMessage='Недостатньо прав на додавання студента в групу на яку не розповсюджуються твої права';
+			return false;
+		}
+		return true;
 	}
 }
