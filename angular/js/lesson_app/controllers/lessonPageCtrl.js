@@ -5,7 +5,7 @@ angular
     .module('lessonApp')
     .controller('lessonPageCtrl',lessonPageCtrl);
 
-function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
+function lessonPageCtrl($http, $rootScope,$scope, ipCookie,openDialogsService) {
     $scope.currentLocation = window.location.pathname;
 
     $scope.nextPage=function(){
@@ -66,6 +66,25 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
       $.post("/track/index", {  events: 'Start_Video', lesson: idLecture,part: $rootScope.currentPage } );
 
        }
+
+    $scope.rateFunction = function( rating )
+    {
+        var _url = basePath + "/lesson/sendLectureRating";
+
+        var data = {
+            rating: rating
+        };
+
+        $http.post( _url, angular.toJson(data), {cache: false} )
+            .success( function( data )
+            {
+                success(data);
+            })
+            .error(function(data){
+                error(data);
+            });
+
+    };
 }
 // celebre
 document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen;

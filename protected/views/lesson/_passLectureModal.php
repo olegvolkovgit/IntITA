@@ -20,7 +20,26 @@
             </table>
 
             <div class="modalContent">
-                <p><?php echo Yii::t('lecture', '0676'); ?></p>
+                <!--                <p>--><?php //echo Yii::t('lecture', '0676'); ?><!--</p>-->
+
+                <p>Ти успішно склав підсумкове завдання, для завершення оціни, будь ласка, заняття.</p>
+                <ul class="esteemate" >
+                    <li>заняття було викладене зрозуміло</li><div ng-init="rating = star.rating + 1"></div>
+                    <span>{{rating}}</span>
+                    <div class="star-rating" star-rating rating-value="rating"
+                         data-max="10" on-rating-selected="rateFunction(rating)">
+                    </div>
+                    <li>викладач подавав матеріал цікаво</li><div ng-init="rating1 = star.rating + 1"></div>
+                    <span>{{rating1}}</span>
+                    <div class="star-rating" star-rating rating-value="rating1"
+                         data-max="10" on-rating-selected="rateFunction(rating2)">
+                    </div>
+                    <li>практичні заняття та підсумковий тест були цікавими та в міру вимогливими</li><div ng-init="rating2 = star.rating + 1"></div>
+                    <span>{{rating2}}</span>
+                    <div class="star-rating" star-rating rating-value="rating2"
+                         data-max="10" on-rating-selected="rateFunction(rating2)">
+                    </div>
+                </ul>
                 <p class="sharingText"><?php echo Yii::t('lecture', '0677'); ?></p>
                 <p><?php echo Yii::t('lecture', '0678'); ?></p>
             </div>

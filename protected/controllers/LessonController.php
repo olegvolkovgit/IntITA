@@ -721,4 +721,9 @@ class LessonController extends Controller
     {
         echo Yii::app()->createUrl("lesson/index", array("id" => $idLecture, "idCourse" => $idCourse));
     }
+
+    public function actionSendLectureRating()
+    {
+        echo 'd;ldf;sl';
+    }
 }
