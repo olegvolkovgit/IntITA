@@ -86,6 +86,7 @@ class TeacherConsultant extends Role
 
     private function loadModules()
     {
+        $organization=Yii::app()->user->model->getCurrentOrganizationId();
         $records = Yii::app()->db->createCommand()
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date, m.cancelled')
             ->from('teacher_consultant_module tcm')
