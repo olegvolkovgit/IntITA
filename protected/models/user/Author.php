@@ -36,11 +36,14 @@ class Author extends Role
 
     public function attributes(StudentReg $user, $organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         $records = Yii::app()->db->createCommand()
             ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time, m.cancelled')
             ->from('teacher_module tm')
             ->leftJoin('module m', 'm.module_ID=tm.idModule')
-            ->where('idTeacher=:id AND tm.end_time IS NULL', array(':id' => $user->id),'')
+            ->leftJoin('user_author ua', 'ua.id_user=tm.idTeacher')
+            ->where('idTeacher=:id AND tm.end_time IS NULL and ua.end_date IS NULL and ua.id_organization=:id_org 
+            and m.id_organization=:id_org', array(':id' => $user->id, ':id_org'=>$organization),'')
             ->queryAll();
 
         $list = [];
@@ -114,6 +117,17 @@ class Author extends Role
         }
     }
 
+    public function checkBeforeUnsetAttribute($userId, $module){
+        $user = RegisteredUser::userById($userId);
+        $model=Module::model()->findByPk($module);
+
+        if(!$user->isAuthor() || $model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+            $this->errorMessage="Ти не можеш скасувати модуль автору контента в межах даної організації";
+            return false;
+        }
+        return true;
+    }
+
     public function checkModule($teacher, $module){
         $model=Module::model()->findByPk($module);
         if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
@@ -139,23 +153,27 @@ class Author extends Role
     {
         switch ($attribute) {
             case 'module':
-                if (Yii::app()->db->createCommand()->
-                update('teacher_module', array(
-                    'end_time' => date("Y-m-d H:i:s"),
-                    'cancelled_by'=>Yii::app()->user->getId(),
-                ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
-                    $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
-                        array(Module::model()->findByPk($value)),
-                        'Скасовано модуль для редагування', Yii::app()->user->getId());
-                    return true;
+                if($this->checkBeforeUnsetAttribute($user->id, $value)){
+                    if (Yii::app()->db->createCommand()->
+                    update('teacher_module', array(
+                        'end_time' => date("Y-m-d H:i:s"),
+                        'cancelled_by'=>Yii::app()->user->getId(),
+                    ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
+                        $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
+                            array(Module::model()->findByPk($value)),
+                            'Скасовано модуль для редагування', Yii::app()->user->getId());
+                        return true;
+                    }else{
+                        $this->errorMessage="Скасувати модуль не вдалося";
+                        return false;
+                    }
                 }else{
-                    $this->errorMessage="Скасувати модуль не вдалося";
                     return false;
                 }
                 break;
-            default:
-                $this->errorMessage="Виконати операцію не вдалося";
-                return false;
+                default:
+                    $this->errorMessage="Виконати операцію не вдалося";
+                    return false;
         }
     }
 
@@ -212,11 +230,6 @@ class Author extends Role
         return $records;
     }
 
-    //not supported for this role
-    public function notifyAssignRole(StudentReg $user, $organization=null){
-        return false;
-    }
-
     //cancel author role
     public function cancelRole(StudentReg $user, $organization)
     {
@@ -230,7 +243,7 @@ class Author extends Role
             'cancelled_by'=>Yii::app()->user->getId(),
         ), 'id_user=:id and end_date IS NULL', array(':id'=>$user->id))){
             $this->cancelModulesAuthorship($user);
-            $this->notifyCancelRole($user);
+            $this->notifyCancelRole($user, $organization);
             return true;
         }
         return false;

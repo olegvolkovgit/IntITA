@@ -104,7 +104,7 @@ angular
                 })
                 .state('organization', {
                     url: '/organization',
-                    templateUrl: basePath+"/_teacher/users/organizationusers",
+                    templateUrl: basePath+"/_teacher/users/organizationUsers",
                 })
                 
                 .state('users.registeredUsers', {
@@ -290,6 +290,13 @@ angular
                         }
                     }
                 })
+                .state('contentAuthors', {
+                    url: '/contentAuthors',
+                    controller: function($scope){
+                        $scope.changePageHeader('Автори контента');
+                    },
+                    templateUrl: basePath+"/_teacher/users/contentAuthors?organization=1",
+                })
                 
                 .state('users.teacherConsultants', {
                     url: '/teacherConsultants',
@@ -307,7 +314,14 @@ angular
                         }
                     }
                 })
-                
+                .state('teacherConsultants', {
+                    url: '/teacherConsultants',
+                    controller: function($scope){
+                        $scope.changePageHeader('Викладачі');
+                    },
+                    templateUrl: basePath+"/_teacher/users/teacherConsultants?organization=1",
+                })
+
                 .state('users.tenants', {
                     url: '/tenants',
                     views: {

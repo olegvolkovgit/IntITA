@@ -1,9 +1,6 @@
 <div ng-controller="editTeacherRoleCtrl">
     <ul class="list-inline">
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/users/teachers">Співробітники</a>
-        </li>
-        <li>
             <a type="button" class="btn btn-primary" ng-href="#/users/profile/{{data.user.id}}">Переглянути інформацію даного користувача</a>
         </li>
     </ul>
@@ -15,7 +12,7 @@
                     <div class="form-group">
                         <input type="hidden" ng-value="attribute.key" id="attr">
                         <div ng-if="attribute.type=='module-list'">
-                            <?php $this->renderPartial('_moduleList', array()); ?>
+                            <?php $this->renderPartial('/_content_manager/roleAttributes/_moduleList', array()); ?>
                         </div>
                         <div ng-if="attribute.type=='hidden'"></div>
                     </div>

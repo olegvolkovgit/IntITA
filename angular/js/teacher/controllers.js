@@ -171,16 +171,16 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
 
     $scope.getActiveUsers = function(value){
-        return typeAhead.getData(activeUsersTypeaheadUrl,{query : value})
+        return typeAhead.getData(activeUsersTypeaheadUrl,{query : value});
     };
     $scope.getTeachers = function(value){
-        return typeAhead.getData(teachersTypeaheadUrl,{query : value})
+        return typeAhead.getData(teachersTypeaheadUrl,{query : value});
     };
     $scope.getAuthors = function(value) {
-        return typeAhead.getData(authorsTypeaheadUrl,{query : value})
+        return typeAhead.getData(authorsTypeaheadUrl,{query : value});
     };
     $scope.getTeachersConsultant = function(value) {
-        return typeAhead.getData(teachersConsultantTypeaheadUrl,{query : value})
+        return typeAhead.getData(teachersConsultantTypeaheadUrl,{query : value});
     };
     $scope.getModules = function(value){
         return typeAhead.getData(moduleTypeaheadUrl,{query : value});

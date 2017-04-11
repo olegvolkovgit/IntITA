@@ -12,9 +12,9 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/content_manager/authors">Автори контента</a>
+                    <li><a href="#/contentAuthors">Автори контента</a>
                     </li>
-                    <li><a href="#/content_manager/teacherConsultants">Викладачі</a>
+                    <li><a href="#/teacherConsultants">Викладачі</a>
                     </li>
                 </ul>
             </div>
@@ -77,4 +77,26 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                Призначити модулі
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="#/content_manager/authorAttributes">Модуль для автора контента</a>
+                    </li>
+                    <li><a href="#/content_manager/teacherConsultantAttributes">Модуль для викладача</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Автори модулів, консультанти, etc.</em>
+            </div>
+        </div>
+    </div>
+
 </div>
