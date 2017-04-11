@@ -421,7 +421,6 @@ class TeacherConsultant extends Role
         ), 'id_teacher=:id and end_date IS NULL', array(':id'=>$user->id))){
             return true;
         }
-
         return false;
     }
 }
