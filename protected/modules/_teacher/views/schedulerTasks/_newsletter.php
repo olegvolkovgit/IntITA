@@ -19,38 +19,39 @@
         <tr>
             <td width="30%">Тип розсилки:</td>
             <td>
-                <span ng-show="newsletterType == 'allUsers'">Всі користувачі</span>
-                <span ng-show="newsletterType == 'users'">Розсилка по окремих користувачах</span>
-                <span ng-show="newsletterType == 'groups'">Розсилка по групах </span>
-                <span ng-show="newsletterType == 'roles'">Розсилка по ролях</span>
-                <span ng-show="newsletterType == 'subGroups'">Розсилка по підгрупах</span>
+                <span ng-show="model.newsletter.type == 'allUsers'">Всі користувачі</span>
+                <span ng-show="model.newsletter.type == 'users'">Розсилка по окремих користувачах</span>
+                <span ng-show="model.newsletter.type == 'groups'">Розсилка по групах </span>
+                <span ng-show="model.newsletter.type == 'roles'">Розсилка по ролях</span>
+                <span ng-show="model.newsletter.type == 'subGroups'">Розсилка по підгрупах</span>
             </td>
         </tr>
         <tr>
             <td>Кому:</td>
             <td>
-                <span ng-show="newsletterType == 'users'" ng-repeat="item in selectedRecipients">{{item.email}}; </span>
-                <span ng-show="newsletterType == 'groups'"  ng-repeat="item in selectedRecipients">{{item.name}}; </span>
-                <span ng-show="newsletterType == 'roles'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
-                <span ng-show="newsletterType == 'subGroups'" ng-repeat="item in selectedRecipients">&lt;{{item.groupName}}&gt;{{item.name}}; </span>
-                <span ng-show="newsletterType == 'allUsers'">Всі користувачі</span>
+                <span>{{model.newsletter.recipients}}; </span>
+<!--                <span ng-show="model.newsletter.type == 'users'" ng-repeat="item in model.newsletter.recipients">{{item.email}}; </span>-->
+<!--                <span ng-show="model.newsletter.type == 'groups'"  ng-repeat="item in selectedRecipients">{{item.name}}; </span>-->
+<!--                <span ng-show="model.newsletter.type == 'roles'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>-->
+<!--                <span ng-show="model.newsletter.type == 'subGroups'" ng-repeat="item in selectedRecipients">&lt;{{item.groupName}}&gt;{{item.name}}; </span>-->
+<!--                <span ng-show="model.newsletter.type == 'allUsers'">Всі користувачі</span>-->
             </td>
         </tr>
         <tr>
             <td>Від:</td>
             <td>
-                {{emailSelected.email}}
+                {{model.newsletter.newsletter_email}}
             </td>
         </tr>
         <tr>
             <td>Тема:</td>
             <td>
-                {{subject}}
+                {{model.newsletter.subject}}
             </td>
         </tr>
         <tr>
             <td>Лист:</td>
-            <td ng-bind-html="message">
+            <td ng-bind-html="model.newsletter.text">
             </td>
         </tr>
         <tr>

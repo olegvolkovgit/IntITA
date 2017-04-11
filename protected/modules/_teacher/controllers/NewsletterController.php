@@ -51,8 +51,11 @@ class NewsletterController extends TeacherCabinetController
             ($_POST['repeat_type'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
             $task->start_time = $date->format('Y-m-d H:i:s');
             $task->related_model_id = $newsLetter->id;
-            $task->save();
-            echo true;
+
+            if($task->save()){
+                echo true;
+            }
+            echo json_encode($task->getErrors());
             Yii::app()->end();
         }
         else{
