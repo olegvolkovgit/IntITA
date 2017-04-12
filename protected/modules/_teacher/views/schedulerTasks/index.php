@@ -35,7 +35,7 @@
                         </td>
                         <td data-title="'Помилка'">{{row.error}}</td>
                         <td data-title="'Створено'">{{row.user.fullName}}</td>
-                        <td data-title="'Дії'"><span><button class="btn btn-success" ng-click="viewTask(row.newsletter.id)" title="Подивитись"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <td data-title="'Дії'"><span><button class="btn btn-success" ng-click="viewTask(row.id)" title="Подивитись"><i class="glyphicon glyphicon-eye-open"></i></button>
 								<span><button ng-show="row.status == 1"class="btn btn-info" ng-click="editTask(row.id)"  title="Редагувати"><i class="glyphicon glyphicon-pencil"></i></button>
 								<span><button ng-show="row.status == 1" class="btn btn-warning" ng-click="cancelTask(row.id)"  title="Відмінити"><i class="glyphicon glyphicon-remove"></i></button>
 								<span><button class="btn btn-danger" ng-click="deleteTask(row.id)"  title="Видалити"><i class="glyphicon glyphicon-trash"></i></button>

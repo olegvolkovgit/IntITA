@@ -257,24 +257,23 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     };
 
     function loadModel(id) {
-        $http.get(basePath+'/_teacher/schedulerTasks/getModel?id='+id).
+        $http.get(basePath+'/_teacher/newsletter/getNewsletter?id='+id).
         then(function (response) {
-            $scope.model = response.data;
-            parameters = JSON.parse($scope.model.parameters);
-            var recipients  = parameters.recipients;
-            $scope.newsletterType = parameters.type;
-            switch ($scope.newsletterType){
+
+            var newsletter = response.data;
+            $scope.newsletterType = newsletter.type;
+            switch (newsletter.type){
                 case 'users':
                     $scope.selectedRecipients = [];
-                    for (var item in recipients){
-                        $scope.selectedRecipients.push({email:recipients[item]});
-                    }
+                    newsletter.recipients.forEach(function (element) {
+                        $scope.selectedRecipients.push({email:element});
+                    });
                     break;
                 case 'groups':
                     $http({
                         method: 'POST',
                         url: basePath + '/_teacher/newsletter/getGroupsById',
-                        data: $jq.param({groups:recipients}),
+                        data: $jq.param({groups:newsletter.recipients}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                     }).success(function (response) {
                         $scope.selectedRecipients = response;
@@ -284,7 +283,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                     $http({
                         method: 'POST',
                         url: basePath + '/_teacher/newsletter/getSubGroupsById',
-                        data: $jq.param({subGroups:recipients}),
+                        data: $jq.param({subGroups:newsletter.recipients}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                     }).success(function (response) {
                         $scope.selectedRecipients = response;
@@ -294,16 +293,16 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                     $http({
                         method: 'POST',
                         url: basePath + '/_teacher/newsletter/getRolesById',
-                        data: $jq.param({roles:recipients}),
+                        data: $jq.param({roles:newsletter.recipients}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                     }).success(function (response) {
                         $scope.selectedRecipients = response;
                     });
                     break;
             }
-            $scope.emailSelected.email = parameters.email;
-            $scope.subject = parameters.subject;
-            $scope.message = parameters.message;
+            $scope.emailSelected.email = newsletter.newsletter_email;
+            $scope.subject = newsletter.subject;
+            $scope.message = newsletter.text;
         });
     }
 

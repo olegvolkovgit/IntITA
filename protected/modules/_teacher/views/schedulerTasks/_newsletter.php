@@ -24,9 +24,10 @@
                 <span ng-show="model.newsletter.type == 'groups'">Розсилка по групах </span>
                 <span ng-show="model.newsletter.type == 'roles'">Розсилка по ролях</span>
                 <span ng-show="model.newsletter.type == 'subGroups'">Розсилка по підгрупах</span>
+                <span ng-show="model.newsletter.type == 'emailsFromDatabase'">Розсилка по базі email</span>
             </td>
         </tr>
-        <tr>
+        <tr ng-hide="model.newsletter.type == 'allUsers'">
             <td>Кому:</td>
             <td>
                 <span>{{model.newsletter.recipients}}; </span>

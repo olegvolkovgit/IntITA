@@ -154,4 +154,13 @@ class NewsletterController extends TeacherCabinetController
     {
         echo  CJSON::encode(EmailsCategory::model()->findAll());
     }
+
+    public function actionGetnewsletter($id){
+         if ((int)$id){
+             $model = Newsletters::model()->findByPk($id);
+             $model->recipients = unserialize($model->recipients);
+             echo CJSON::encode($model);
+
+         }
+    }
 }

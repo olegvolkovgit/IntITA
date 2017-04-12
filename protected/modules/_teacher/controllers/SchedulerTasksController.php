@@ -71,10 +71,24 @@ class SchedulerTasksController extends TeacherCabinetController
                             array_push($recipients,$user->fullName());
                             break;
                         }
-
+                        case "groups":{
+                            $groups = OfflineGroups::model()->findAll((new CDbCriteria())->addInCondition('id',$_recipients));
+                            foreach ($groups as $group)
+                                array_push($recipients,$group->name);
+                            break;
+                        }
+                        case "subGroups":{
+                            $subGroups = OfflineSubgroups::model()->with(['groupName'])->findAll((new CDbCriteria())->addInCondition('t.id',$_recipients));
+                            foreach ($subGroups as $subGroupe)
+                                array_push($recipients,'<'.$subGroupe->groupName->name.'>'.$subGroupe->name);
+                            break;
+                        }
+                        case "emailsFromDatabase":{
+                            $emailCategory = EmailsCategory::model()->findAll((new CDbCriteria())->addInCondition('id',$_recipients));
+                            array_push($recipients,$emailCategory->title);
+                        }
 
                     }
-
                     $data['newsletter']['recipients'] = implode(', ' ,$recipients);
                 }
 				echo json_encode($data);

@@ -55,6 +55,7 @@ class ScheduleCommand extends CConsoleCommand
             case 5:
                 $this->repeatTask($task,'1 year');
                 break;
+
         }
     }
 
