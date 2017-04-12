@@ -5,9 +5,9 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary" ng-click="changeView('modulemanage')">
+        <a type="button" class="btn btn-primary" ng-href="#/organization/modules">
             Всі модулі
-        </button>
+        </a>
     </li>
 </ul>
 <div class="panel panel-default" ng-controller="moduleManageCtrl">
@@ -15,7 +15,7 @@
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'module-form',
-                'action' => Yii::app()->createUrl('/_teacher/_admin/module/create'),
+                'action' => Yii::app()->createUrl('/_teacher/moduleManage/create'),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data',
@@ -36,15 +36,6 @@
             <uib-tabset active="0" >
                 <uib-tab  index="0" heading="Головне" id="mainTab">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form)); ?>
-                </uib-tab>
-                <uib-tab index="1" heading="Українською" id="uaTab">
-                    <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'form' => $form)); ?>
-                </uib-tab>
-                <uib-tab  index="2" heading="Російською">
-                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'form' => $form)); ?>
-                </uib-tab>
-                <uib-tab  index="3" heading="Англійською">
-                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'form' => $form)); ?>
                 </uib-tab>
             </uib-tabset>
             <?php $this->endWidget(); ?>

@@ -6,10 +6,27 @@
 ?>
 <br>
 <div class="formMargin">
+<!--    <div class="form-group">-->
+<!--        --><?php //echo $form->labelEx($model, 'module_number'); ?>
+<!--        --><?php //echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled' => Yii::app()->user->model->isAdmin() ? false : true)); ?>
+<!--        --><?php //echo $form->error($model, 'module_number'); ?>
+<!--    </div>-->
+
     <div class="form-group">
-        <?php echo $form->labelEx($model, 'module_number'); ?>
-        <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled' => Yii::app()->user->model->isAdmin() ? false : true)); ?>
-        <?php echo $form->error($model, 'module_number'); ?>
+        <?php echo $form->labelEx($model, 'title_ua'); ?>
+        <?php echo $form->textField($model, 'title_ua', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'title_ua'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'title_ru'); ?>
+        <?php echo $form->textField($model, 'title_ru', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'title_ru'); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'title_en'); ?>
+        <?php echo $form->textField($model, 'title_en', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'title_en'); ?>
     </div>
 
     <div class="form-group">
@@ -39,7 +56,7 @@
             array('options' => array('0' => array('selected' => true)), 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'status'); ?>
     </div>
-
+    <?php if (Yii::app()->user->model->isAdmin()) { ?>
     <div class="form-group">
         <div data-toggle="tooltip" data-placement="top" title="Ціна використовується при розрахунку ціни курсу (якщо не вказана ціна модуля в конкретному курсі - вкладка
         <У курсах>) і при розрахунку вартості самостійного модуля.">
@@ -48,7 +65,7 @@
             <?php echo $form->error($model, 'module_price'); ?>
         </div>
     </div>
-
+    <?php } ?>
     <div class="form-group">
         <?php echo $form->labelEx($model, 'hours_in_day'); ?>
         <?php echo $form->textField($model, 'hours_in_day', array('class' => 'form-control')); ?>

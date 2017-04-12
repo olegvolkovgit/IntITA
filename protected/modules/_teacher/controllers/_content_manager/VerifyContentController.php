@@ -11,64 +11,15 @@ class VerifyContentController extends TeacherCabinetController
         $this->renderPartial('index', array(), false, true);
     }
 
-    public function actionInitializeDir()
-    {
-        if (!file_exists(Yii::app()->basePath . "/../content")) {
-            mkdir(Yii::app()->basePath . "/../content");
-        }
-        $this->initializeImagesAudioFolders();
-        $this->initializeModules();
-        $this->initializeLectures();
-    }
-
-    public function initializeImagesAudioFolders()
-    {
-        if (!file_exists(Yii::app()->basePath . "/../content/images")) {
-            mkdir(Yii::app()->basePath . "/../content/images");
-        }
-        if (!file_exists(Yii::app()->basePath . "/../content/audio")) {
-            mkdir(Yii::app()->basePath . "/../content/audio");
-        }
-    }
-
-    public function initializeModules()
-    {
-        $modules = Module::model()->findAll();
-        foreach ($modules as $record) {
-            if (!file_exists(Yii::app()->basePath . "/../content/module_" . $record->module_ID)) {
-                mkdir(Yii::app()->basePath . "/../content/module_" . $record->module_ID);
-            }
-        }
-    }
-
-    public function initializeLectures()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('idModule>0');
-        $lectures = Lecture::model()->findAll($criteria);
-
-        foreach ($lectures as $record) {
-            if (!file_exists(Yii::app()->basePath . "/../content/module_" . $record->idModule . "/lecture_" . $record->id)) {
-                mkdir(Yii::app()->basePath . "/../content/module_" . $record->idModule . "/lecture_" . $record->id);
-            }
-//            if (!file_exists(Yii::app()->basePath . "/../content/module_" . $record->idModule . "/lecture_" . $record->id . "/images")) {
-//                mkdir(Yii::app()->basePath . "/../content/module_" . $record->idModule . "/lecture_" . $record->id . "/images");
-//            }
-//            if (!file_exists(Yii::app()->basePath . "/../content/module_" . $record->idModule . "/lecture_" . $record->id . "/audio")) {
-//                mkdir(Yii::app()->basePath . "/../content/module_" . $record->idModule . "/lecture_" . $record->id . "/audio");
-//            }
-        }
-    }
-
     public function actionConfirm($id)
     {
         $model = Lecture::model()->findByPk($id);
 
-        if ($model) {
+        if ($model && $model->module->id_organization==Yii::app()->user->model->getCurrentOrganization()->id) {
             $model->setVerified();
             $this->generateLecturePages($model);
         } else {
-            throw new CException("Такої лекції немає!");
+            throw new CException("Такої лекції немає або у тебе не має до неї доступу");
         }
     }
 
@@ -76,11 +27,11 @@ class VerifyContentController extends TeacherCabinetController
     {
         $model = Lecture::model()->findByPk($id);
 
-        if ($model) {
+        if ($model && $model->module->id_organization==Yii::app()->user->model->getCurrentOrganization()->id) {
             $model->setNoVerified();
             $this->deleteLecturePages($model);
         } else {
-            throw new \application\components\Exceptions\IntItaException(404, "Такої лекції немає!");
+            throw new CException("Такої лекції немає або у тебе не має до неї доступу");
         }
     }
 

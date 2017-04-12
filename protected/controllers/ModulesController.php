@@ -21,24 +21,6 @@ class ModulesController extends Controller{
         ));
     }
 
-    public function actionList()
-    {
-        if(Yii::app()->user->isGuest) {
-            $canEdit = false;
-        } else {
-            $canEdit = Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
-        }
-
-        $this->render('modulesList', array(
-            'canEdit' => $canEdit,
-        ));
-    }
-
-    public function actionGetModulesList()
-    {
-        echo Module::modulesList();
-    }
-
     public function actionCreate()
     {
         $module = new Module;
