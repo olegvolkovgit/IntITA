@@ -43,11 +43,14 @@
         <td><?=$course->cancelled?'Скасований':'Доступний' ?></td>
     </tr>
     <tr>
-        <td><label>Номер курсу:</label></td>
-        <td><?=$course->course_number ?></td>
+<!--        <td><label>Номер курсу:</label></td>-->
+<!--        <td>--><?//=$course->course_number ?><!--</td>-->
 
-        <td><label>Готовність курсу:</label></td>
-        <td><?=$course->status?'Готовий':'В розробці' ?></td>
+        <td><label>Готовність курсу онлайн:</label></td>
+        <td><?=$course->status_online?'Готовий':'В розробці' ?></td>
+
+        <td><label>Готовність курсу офлайн:</label></td>
+        <td><?=$course->status_offline?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
         <td><label>Мова:</label></td>

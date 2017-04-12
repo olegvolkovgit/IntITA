@@ -22,10 +22,6 @@
                 <td><?=CHtml::encode($model->alias);?></td>
             </tr>
             <tr>
-                <td>Номер:</td>
-                <td><?= $model->course_number; ?></td>
-            </tr>
-            <tr>
                 <td>Рівень:</td>
                 <td><?= $model->level(); ?></td>
             </tr>

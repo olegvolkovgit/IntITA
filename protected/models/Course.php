@@ -101,6 +101,15 @@ class Course extends CActiveRecord implements IBillableObject
         );
     }
 
+    protected function beforeValidate()
+    {
+        if($this->isNewRecord){
+            $this->id_organization=Yii::app()->user->model->getCurrentOrganization()->id;
+        }
+
+        return parent::beforeValidate();
+    }
+
     /**
      * @return array customized attribute labels (name=>label)
      */
