@@ -213,7 +213,6 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
                 return;
             }
-            alert($scope.weekdaysList);
             $http({
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
@@ -227,7 +226,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         "newsletter_email": $scope.emailSelected.email,
                      },
                     "repeat_type": $scope.taskRepeat,
-                    "weekdays": $scope.weekdaysList,
+                    "parameters": $scope.weekdaysList,
                     "date": $filter('shortDate')($scope.date, 'dd-MM-yyyy') + ' ' + $filter('shortDate')($scope.time, 'HH:mm')
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
