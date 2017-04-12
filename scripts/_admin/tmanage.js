@@ -91,9 +91,6 @@ function showDialog(str) {
 
 function moduleValidation(data,hasError) {
     if(hasError) {
-        if(data['Module_title_ua'] !== undefined)
-            $jq('#uaTab a').click();
-        else $jq('#mainTab a').click();
         $jq("#"+Object.keys(data)[0]).focus();
         return false;
     }else return true;
@@ -138,7 +135,7 @@ function moduleUpdate(url,moduleId) {
         datatype:'json',
         success: function () {
             bootbox.alert("Модуль успішно відредаговано", function () {
-                location.hash = "/module/view/"+moduleId;
+                location.hash = "/module/id/"+moduleId;
             });
         },
         error: function () {

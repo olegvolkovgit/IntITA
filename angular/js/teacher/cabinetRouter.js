@@ -82,8 +82,8 @@ angular
                     url: '/organization/modules',
                     templateUrl: basePath+"/_teacher/moduleManage/organizationModulesList",
                 })
-                .state('module/:moduleId', {
-                    url: '/module/:moduleId',
+                .state('module/id/:moduleId', {
+                    url: '/module/id/:moduleId',
                     templateUrl: function ($stateParams) {
                         return basePath+"/_teacher/moduleManage/view?id="+$stateParams.moduleId;
                     }

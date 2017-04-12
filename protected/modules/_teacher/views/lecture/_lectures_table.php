@@ -1,4 +1,15 @@
 <div class="col-lg-12" ng-controller="lecturesTableCtrl" organization="<?php echo $organization ?>">
+    <?php if (Yii::app()->user->model->isSuperAdmin()) { ?>
+        <div class="ng-scope ng-isolate-scope alert alert-dismissible alert-success">
+            *Переіндексація контенту - створення каталогів(папок) для усіх модулів і занять, якщо таких немає. Каталоги містять шаблони занять.
+        </div>
+        <button class="btn btn-primary"
+                ng-click="reindexContent('<?php echo Yii::app()->createUrl("/_teacher/lecture/initializeDir") ?>')">
+            Переіндексація контенту
+        </button>
+        <br>
+        <br>
+    <?php } ?>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-lg-12">

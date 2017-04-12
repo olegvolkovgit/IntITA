@@ -25,7 +25,7 @@ if(isset($idCourse) && $idCourse != 0) {
 <div id="revisionMainBox">
     <div class="form-group" ng-controller="moduleRevisionsTreeCtrl" ng-cloak>
         <div ng-controller="moduleRevisionsCtrl">
-            <?php 
+            <?php
             $this->renderPartial('_moduleInfo', array('module'=>$module));
             ?>
             <?php

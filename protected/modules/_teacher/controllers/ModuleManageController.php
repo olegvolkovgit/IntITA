@@ -4,9 +4,9 @@ class ModuleManageController extends TeacherCabinetController
 {
     public function hasRole(){
         $allowedViewActions=['modulesList', 'view', 'getModulesList','getModuleAuthorsList','getModuleTeachersConsultantList'];
-        return Yii::app()->user->model->isAdmin() && !in_array(Yii::app()->controller->action->id,['modulesList', 'getModulesList']) ||
-        Yii::app()->user->model->isContentManager() ||
-        (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
+        return Yii::app()->user->model->isContentManager() ||
+            Yii::app()->user->model->isAdmin() && !in_array(Yii::app()->controller->action->id,['modulesList', 'getModulesList']) ||
+            (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
 
     public function actionIndex($id=0)
@@ -16,14 +16,14 @@ class ModuleManageController extends TeacherCabinetController
 
     public function actionModulesList()
     {
-        $this->renderPartial('_modules_table', array('organization'=>false), false, true);
+        $this->renderPartial('index', array('organization'=>false), false, true);
     }
 
     public function actionOrganizationModulesList()
     {
-        $this->renderPartial('_modules_table', array('organization'=>true), false, true);
+        $this->renderPartial('index', array('organization'=>true), false, true);
     }
-    
+
     public function actionCreate()
     {
         $model = new Module;
@@ -73,7 +73,10 @@ class ModuleManageController extends TeacherCabinetController
     public function actionDelete($id)
     {
         if (CourseModules::getCoursesListName($id) == false) {
-            Module::model()->updateByPk($id, array('cancelled' => 1));
+            $module = Module::model()->findByPk($id);
+            Yii::app()->user->model->hasAccessToOrganizationModel($module);
+            $module->cancelled=Module::DELETED;
+            $module->save();
             echo "Модуль успішно видалено.";
         } else {
             echo "Модуль не можна видалити, він входить до складу таких курсів: ".
@@ -83,19 +86,12 @@ class ModuleManageController extends TeacherCabinetController
 
     public function actionRestore($id)
     {
-        if(Module::model()->updateByPk($id, array('cancelled' => 0)))
+        $module = Module::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($module);
+        $module->cancelled=Module::ACTIVE;
+        if($module->save())
             echo "Модуль успішно відновлено.";
         else echo "Модуль не вдалося відновити.";
-    }
-
-    public function actionUpStatus($id)
-    {
-        Module::model()->updateByPk($id, array('status' => 0));
-    }
-
-    public function actionDownStatus($id)
-    {
-        Module::model()->updateByPk($id, array('status' => 1));
     }
 
     public function actionView($id)
@@ -116,11 +112,15 @@ class ModuleManageController extends TeacherCabinetController
     public function actionUpdate($id)
     {
         $model = Module::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($model);
         $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
 
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
+            if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id)
+                throw new \application\components\Exceptions\IntItaException(403, 'У тебе немає доступу редагувати модуль в межах цієї організації');
+
             if (isset($_POST['moduleTags'])) {
                 $moduleTags = $this->stdToArray(json_decode($_POST['moduleTags']));
             }else $moduleTags=null;
@@ -234,7 +234,7 @@ class ModuleManageController extends TeacherCabinetController
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
     }
-    
+
     public function actionGetModuleAuthorsList()
     {
         $requestParams = $_GET;
@@ -262,7 +262,7 @@ class ModuleManageController extends TeacherCabinetController
     {
         echo Teacher::teachersByQuery($query);
     }
-    
+
     public function actionAddAuthor()
     {
         $this->renderPartial('_addAuthor', array());

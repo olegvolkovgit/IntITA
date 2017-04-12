@@ -8,12 +8,12 @@
 ?>
 <div class="panel panel-default" ng-controller="moduleAuthorsTableCtrl">
     <div class="panel-body">
-        <?php if ($scenario == "update") { ?>
+        <?php if (Yii::app()->user->model->isContentManager() && $scenario == "update") { ?>
             <ul class="list-inline">
                 <li>
-                    <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('module/addAuthor/<?= $model->module_ID ?>')">
+                    <a type="button" class="btn btn-outline btn-primary" ng-href="#/module/addAuthor/<?= $model->module_ID ?>">
                         Призначити автора
-                    </button>
+                    </a>
                 </li>
             </ul>
         <?php } ?>
@@ -27,7 +27,7 @@
                     </td>
                     <td data-title="'Призначено'" sortable="'start_time'" filter="{start_time: 'text'}">{{row.start_time}}</td>
                     <td data-title="'Відмінено'" sortable="'end_time'" filter="{end_time: 'text'}" filter-data="lang">{{row.end_time}}</td>
-                    <?php if ($scenario == 'update') { ?>
+                    <?php if (Yii::app()->user->model->isContentManager() && $scenario == 'update') { ?>
                     <td data-title="'Відмінити'">
                         <a ng-if="!row.end_time" href=""
                            ng-click="cancelTeacherRoleAttribute('author','module',row.idTeacher,row.idModule)">
@@ -40,4 +40,3 @@
         </div>
     </div>
 </div>
-
