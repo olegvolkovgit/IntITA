@@ -67,8 +67,8 @@ angular
                     url: '/organization/courses',
                     templateUrl: basePath+"/_teacher/courseManage/organizationCoursesList",
                 })
-                .state('course/:id', {
-                    url: '/course/:id',
+                .state('course/id/:id', {
+                    url: '/course/id/:id',
                     templateUrl: function ($stateParams) {
                         return basePath+"/_teacher/courseManage/view?id="+$stateParams.id;
                     }

@@ -20,9 +20,9 @@
                 </button>
             </li>
             <li>
-                <button type="button" class="btn btn-success" ng-click="changeView('course/schema/<?php echo $model->course_ID; ?>')">
+                <a type="button" class="btn btn-success" ng-href="#/course/schema/<?php echo $model->course_ID; ?>">
                     Згенерувати схему курсу
-                </button>
+                </a>
             </li>
             <?php } ?>
             <?php if(Yii::app()->user->model->isContentManager()) { ?>
