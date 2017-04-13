@@ -154,7 +154,7 @@ class Module extends CActiveRecord implements IBillableObject
             'what_you_learn' => 'Що ти вивчиш',
             'what_you_get' => 'Що ти отримаєш',
             'module_img' => 'Фото',
-            'module_number' => 'Номер модуля',
+            'module_number' => 'Унікальний ідентифікатор, використовується при генерації номера договора про оплату модуля.',
             'cancelled' => 'Видалений',
             'status' => 'Статус',
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',

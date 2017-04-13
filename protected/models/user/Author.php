@@ -135,7 +135,7 @@ class Author extends Role
             $this->errorMessage = "Обраний модуль вже присутній у списку модулів даного автора";
             return false;
         }
-        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganizationId()) {
             $this->errorMessage="Автору не можна призначити модуль, який не належить його організації";
             return false;
         }
@@ -216,11 +216,13 @@ class Author extends Role
 
     public function activeModules(StudentReg $teacher)
     {
+
         $records = Yii::app()->db->createCommand()
             ->select('tm.idModule id, language lang, m.title_ua title, tm.start_time')
             ->from('teacher_module tm')
             ->leftJoin('module m', 'm.module_ID=tm.idModule')
-            ->where('idTeacher=:id and tm.end_time IS NULL and m.cancelled=:isCancel', array(
+            ->where('idTeacher=:id and tm.end_time IS NULL and m.cancelled=:isCancel 
+            and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id, array(
                 ':id' => $teacher->id,
                 ':isCancel' => Module::ACTIVE
             ))

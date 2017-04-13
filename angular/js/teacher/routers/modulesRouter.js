@@ -9,7 +9,7 @@ config(function ($stateProvider) {
             url: "/module/mandatory/id/:moduleId/course/:courseId",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/module/mandatory/id/"+$stateParams.moduleId+"/course/"+$stateParams.courseId;
+                return basePath+"/_teacher/moduleManage/mandatory/id/"+$stateParams.moduleId+"/course/"+$stateParams.courseId;
             }
         })
         .state('module/create', {
