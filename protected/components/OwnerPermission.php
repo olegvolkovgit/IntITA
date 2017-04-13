@@ -14,8 +14,8 @@ class OwnerPermission
      */ 
     
     public static function isOwner($model){
-        if (isset($model->owner)){
-            if($model->owner == Yii::app()->user->id)
+        if (isset($model->created_by)){
+            if($model->created_by == Yii::app()->user->id)
             {
                 return true;
             }

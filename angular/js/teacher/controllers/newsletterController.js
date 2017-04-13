@@ -14,7 +14,7 @@ angular
     .filter('usersSearchFilter', function($sce) {
         return function(label, query, item, options, element) {
 
-            var html= item.email + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
+            var html= "&lt;" + item.name+"&gt;"+item.email + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
 
             return $sce.trustAsHtml(html);
         };
@@ -72,7 +72,43 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     }, {
         name: 'Раз на рік',
         value: '5'
-    }];
+    },
+    {
+        name: 'По днях тижня',
+        value: '6'
+    }
+    ];
+
+    $scope.weekdays = [
+        {
+            name: 'Понеділок',
+            id: 1
+        },
+        {
+            name: 'Вівторок',
+            id: 2
+        },
+        {
+            name: 'Середа',
+            id: 3
+        },
+        {
+            name: 'Четвер',
+            id: 4
+        },
+        {
+            name: 'П\'ятниця',
+            id: 5
+        },
+        {
+            name: 'Субота',
+            id: 6
+        },
+        {
+            name: 'Неділя',
+            id: 7
+        }
+    ];
 
     $rootScope.$on('mailTemplateSelected', function (event, data) {
         $scope.subject = data.subject;
@@ -100,6 +136,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         $scope.taskRepeat = $scope.taskRepeatTypes[0].value;
         $scope.hours = 1;
         $scope.minutes = 1;
+        $scope.weekdaysList = [];
 
     }
     
@@ -164,6 +201,9 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                     case 'subGroups':
                         recipients.push(value.id);
                         break;
+                    case 'emailsFromDatabase':
+                        recipients.push($scope.selectedEmailCategory);
+                        break;
                 }
             });
             if(typeof $scope.selectedEmailCategory=='undefined'){
@@ -173,24 +213,25 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
                 return;
             }
+            alert($scope.weekdaysList);
             $http({
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
                 data: $jq.param({
-                    'parameters':{
+                    'newsletter':
+                     {
                         "type": $scope.newsletterType,
                         "recipients": recipients,
                         "subject": $scope.subject,
-                        "message": $scope.message,
-                        "email": $scope.emailSelected.email,
-                        "emailBaseCategory":$scope.selectedEmailCategory,
-                    },
-                    "taskType": $scope.taskType,
-                    "taskRepeat": $scope.taskRepeat,
-                    "date": $filter('shortDate')($scope.date,'dd-MM-yyyy')+' '+$filter('shortDate')($scope.time,'HH:mm')
+                        "text": $scope.message,
+                        "newsletter_email": $scope.emailSelected.email,
+                     },
+                    "repeat_type": $scope.taskRepeat,
+                    "weekdays": $scope.weekdaysList,
+                    "date": $filter('shortDate')($scope.date, 'dd-MM-yyyy') + ' ' + $filter('shortDate')($scope.time, 'HH:mm')
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            }).success(function () {
+            }).success(function (response) {
                 bootbox.alert('Задача запланована',function () {
                    $state.go('scheduler/tasks');
                 });

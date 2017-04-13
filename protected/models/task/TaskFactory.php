@@ -12,19 +12,16 @@ class TaskFactory
 {
     const NEWSLETTER = 1;
 
-    public static function getInstance($taskType, $parameters){
+    public static function getInstance($taskType, $relatedModelId){
         switch($taskType) {
             case TaskFactory::NEWSLETTER:
-                $params = json_decode($parameters,true);
-                $type = $params['type'];
-                $recipients = null;
-                if (isset($params['recipients']))
-                    $recipients = $params['recipients'];
-                $subject = urldecode($params['subject']);
-                $message = urldecode($params['message']);
-                $email = $params['email'];
-                $emailBaseCategory = $params['emailBaseCategory'];
-                return new NewsLetter($type,$recipients,$subject,$message,$email,$emailBaseCategory);
+//                if (isset($params['recipients']))
+//                    $recipients = $params['recipients'];
+//                $subject = urldecode($params['subject']);
+//                $message = urldecode($params['message']);
+//                $email = $params['email'];
+//                $emailBaseCategory = $params['emailBaseCategory'];
+                return $newsLetter = Newsletters::model()->findByPk($relatedModelId);
         }
         return null;
     }
