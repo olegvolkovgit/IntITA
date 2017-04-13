@@ -48,7 +48,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	}
 
 	public function beforeSave(){
-	    if ($this->isNewRecord()){
+	    if ($this->isNewRecord){
 	        switch ($this->type){
                 case TaskFactory::NEWSLETTER:
                     $this->name = 'Розсилка';
