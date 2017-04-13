@@ -1544,7 +1544,7 @@ class StudentReg extends CActiveRecord
 
     public function isOrganizationTeacher($organization=null)
     {
-        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         return TeacherOrganization::model()->findByAttributes(array(
             'id_user' => $this->id,
             'id_organization'=>$organization,
