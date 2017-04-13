@@ -8,7 +8,8 @@
                 <td data-title="'Дата заведення'">{{(row.create_date | shortDate:"dd-MM-yyyy")}}</td>
                 <td data-title="'Загальна сума, грн'">{{row.summa}}</td>
                 <td data-title="'Статус'">{{row.cancel_date?'скасований':'актуальний'}}</td>
-                <td data-title="'Рахунки'"><a ng-href="#/student/agreement/{{row.id}}">рахунки</a> </td>
+                <td data-title="'Рахунки'"><a ng-href="#/student/agreement/{{row.id}}">рахунки</a></td>
+                <td data-title="'Організація'">{{row.organization.name}}</td>
             </tr>
         </table>
     </div>

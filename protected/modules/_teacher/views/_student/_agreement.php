@@ -12,11 +12,11 @@
     <h4>
         <?php if($agreement->service->courseServices) {?>
             <a target="_blank" href="<?php echo Yii::app()->createUrl('course/index', array('id' => $agreement->service->courseServices->course_id)); ?>">
-                <?php echo $agreement->service->description; ?>
+                <?php echo $agreement->service->description.' ('.$agreement->service->courseServices->courseModel->organization->name.')'; ?>
             </a>
         <?php } else if($agreement->service->moduleServices) {?>
             <a target="_blank" href="<?php echo Yii::app()->createUrl('module/index', array('idModule' =>  $agreement->service->moduleServices->module_id)); ?>">
-                <?php echo $agreement->service->description; ?>
+                <?php echo $agreement->service->description.' ('.$agreement->service->moduleServices->moduleModel->organization->name.')'; ?>
             </a>
         <?php } ?>
     </h4>

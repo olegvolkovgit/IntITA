@@ -207,7 +207,7 @@ class StudentReg extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
-            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'on' => 'trainer.end_time IS NULL'),
+            'trainer' => array(self::HAS_MANY, 'TrainerStudent', 'student', 'on' => 'trainer.end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', ['id'=>'country']),
             'city0' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
             'serviceAccess' => array(self::HAS_MANY, 'UserServiceAccess', 'userId', 'on' => 'serviceAccess.endDate > NOW()'),

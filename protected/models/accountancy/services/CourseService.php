@@ -12,6 +12,7 @@
  * @property Service $service
  * @property Course $course
  * @property EducationForm $educForm
+ * @property Course $courseModel
  *
  * Behaviours
  * @property ServiceAccessBehavior access
