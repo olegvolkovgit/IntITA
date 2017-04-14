@@ -330,7 +330,7 @@ function authorsTableCtrl ($scope, usersService, NgTableParams, roleService, $at
     };
 }
 
-function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
+function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, $q, userService, superVisorService){
     $scope.changePageHeader('Профіль користувача');
     $scope.userId=$stateParams.id;
     $scope.formData={};
@@ -338,6 +338,11 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
         $scope.data.teacher.corporate_mail = data.mailbox;
     });
 
+    //todo
+    $q.all([userService.userData({userId: $scope.userId})]).then(function (results) {
+        $scope.user = results[0];
+    });
+    //todo
     $scope.loadUserData=function(userId){
         $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+userId).then(function (response) {
             $scope.data = response.data;
@@ -430,49 +435,40 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
         $scope.selectedTrainer=null;
     };
 
-    $scope.cancelTrainer=function (userId) {
-        $http({
-            method: 'POST',
-            url: basePath+'/_teacher/_admin/users/removeTrainer',
-            data: $jq.param({userId: userId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            if (response.data == "success") {
-                bootbox.alert('Операцію успішно виконано.', function () {
-                    $scope.loadUserData($scope.userId);
-                });
-            }else{
-                $scope.loadUserData($scope.userId);
-                bootbox.alert(response.data)
-            }
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    };
-
     $scope.addTrainer=function (trainerId, userId) {
         if (!trainerId) {
             bootbox.alert("Виберіть тренера.");
             return;
         }
-        $http({
-            method: 'POST',
-            url: basePath+"/_teacher/_admin/users/setTrainer",
-            data: $jq.param({userId: userId, trainerId: trainerId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            $scope.clearTrainerInputs();
-            if (response.data == "success") {
-                bootbox.alert('Операцію успішно виконано.', function () {
+        superVisorService
+            .setTrainer({trainerId:trainerId,userId:userId})
+            .$promise
+            .then(function (response) {
+                $scope.clearTrainerInputs();
+                if (response.data == "success") {
+                    bootbox.alert('Операцію успішно виконано.', function () {
+                        $scope.loadUserData($scope.userId);
+                    });
+                }else{
+                    bootbox.alert(response.data)
                     $scope.loadUserData($scope.userId);
-                });
-            }else{
-                $scope.loadUserData($scope.userId);
-                bootbox.alert(response.data)
-            }
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
+                }
+            });
+    };
+    $scope.cancelTrainer=function (userId) {
+        superVisorService
+            .removeTrainer({userId:userId})
+            .$promise
+            .then(function (response) {
+                if (response.data == "success") {
+                    bootbox.alert('Операцію успішно виконано.', function () {
+                        $scope.loadUserData($scope.userId);
+                    });
+                }else{
+                    $scope.loadUserData($scope.userId);
+                    bootbox.alert(response.data)
+                }
+            });
     };
 
     $scope.collapse=function (el) {

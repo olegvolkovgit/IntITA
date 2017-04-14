@@ -62,17 +62,6 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/tables/_studentsWithoutGroup', array(), false, true);
     }
 
-    public function actionUserProfile($id)
-    {
-        $model = RegisteredUser::userById($id);
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-        
-        $this->renderPartial('/_supervisor/userProfile', array(
-            'model' => $model,
-            'trainer' => $trainer
-        ), false, true);
-    }
-
     public function actionUsers()
     {
         $this->renderPartial('/_supervisor/tables/users', array(), false, true);
@@ -106,6 +95,7 @@ class SuperVisorController extends TeacherCabinetController
     public function actionUpdateOfflineStudentForm($id)
     {
         $offlineStudent = OfflineStudents::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($offlineStudent->group);
         if($offlineStudent===null)
             throw new CHttpException(404,'The requested page does not exist.');
 
@@ -563,11 +553,14 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionAddTrainer($id)
     {
-        $user = StudentReg::model()->findByPk($id);
-        if (!$user)
+        $student=UserStudent::model()->findByAttributes(array(
+            'id_user'=>$id,
+            'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
+            'end_date'=>null));
+        if (!$student)
             throw new CHttpException(404, 'Вказана сторінка не знайдена');
 
-        $this->renderPartial('addForms/addTrainer', array(), false, true);
+        $this->renderPartial('/users/addForms/addTrainer', array(), false, true);
     }
 
     public function actionSetTrainer()
@@ -579,19 +572,20 @@ class SuperVisorController extends TeacherCabinetController
 
         $cancelResult='';
         $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
+
         if($oldTrainerId) {
             $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
             $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
             $cancelResult="Попереднього тренера скасовано.";
         }
-
         $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+
         if ($result===true){
-            $setResult="Призначено студента тренеру";
+            $data['data'] = "success";
         } else{
-            $setResult=$result;
+            $data['data'] = $result;
         }
-        $data['data']=$cancelResult.' '.$setResult;
+        $data['data']=$cancelResult. $data['data'];
         echo json_encode($data);
     }
 

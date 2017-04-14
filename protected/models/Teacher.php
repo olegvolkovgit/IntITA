@@ -75,7 +75,7 @@ class Teacher extends CActiveRecord
 //            'modules' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
             'responses' => array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'modulesActive' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)',
-                'condition'=>'modulesActive_modulesActive.end_time IS NULL and modulesActive.cancelled = '.Module::ACTIVE),
+                'on'=>'modulesActive_modulesActive.end_time IS NULL and modulesActive.cancelled = '.Module::ACTIVE),
             'teacherOrganizations' => array(self::HAS_MANY, 'TeacherOrganization', ['id_user'=>'user_id'], 'on'=>'end_date IS NULL'),
         );
     }

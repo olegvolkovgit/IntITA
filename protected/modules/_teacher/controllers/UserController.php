@@ -3,10 +3,10 @@
 class UserController extends TeacherCabinetController {
 
     public function hasRole(){
-        $allowedAccountantActions=['loadJsonUserModel','getRolesHistory','index'];
-        $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory','index'];
-        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory'];
-        $allowedProfileActions=['loadJsonUserModel','index'];
+        $allowedAccountantActions=['loadJsonUserModel','loadJsonUserData','getRolesHistory','index'];
+        $allowedContentManagerActions=['loadJsonUserModel','loadJsonUserData','getRolesHistory','index'];
+        $allowedSupervisorActions=['loadJsonUserModel','loadJsonUserData','getRolesHistory'];
+        $allowedProfileActions=['loadJsonUserModel','loadJsonUserData','index'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isTrainer() ||
         Yii::app()->user->model->isDirector() ||
@@ -21,11 +21,8 @@ class UserController extends TeacherCabinetController {
     public function actionIndex($id)
     {
         $model = RegisteredUser::userById($id);
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-
         $this->renderPartial('index', array(
             'model' => $model,
-            'trainer' => $trainer
         ), false, true);
     }
 
@@ -96,6 +93,31 @@ class UserController extends TeacherCabinetController {
     {
         echo  CJSON::encode(StudentReg::userData($id));
     }
+
+    public function actionLoadJsonUserData($userId)
+    {
+        $model = StudentReg::model()->with(array('student','student.organization'=>array('alias'=>'trainerOrganization'),
+                'student.studentTrainer','student.studentTrainer.trainerModel',
+                'startCareers','startCareers.career','preferSpecializations',
+                'preferSpecializations.specialization', 'teacher','teacher.modulesActive',
+                'offlineStudents', 'offlineStudents.subgroupName', 'offlineStudents.subgroupName.groupName',
+                'offlineStudents.subgroupName.groupName.specializationName', 'offlineStudents.subgroupName.organization')
+        )->findByPk($userId);
+        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($model));
+    }
+//    todo
+//    public function actionLoadJsonUserRolesData($id)
+//    {
+//        echo  CJSON::encode(StudentReg::userData($id));
+//    }
+//    public function actionLoadJsonUserTrainersData($id)
+//    {
+//        echo  CJSON::encode(StudentReg::userData($id));
+//    }
+//    public function actionLoadJsonOfflineEducationData($id)
+//    {
+//        echo  CJSON::encode(StudentReg::userData($id));
+//    }
 
     public function actionLoadUserName()
     {
