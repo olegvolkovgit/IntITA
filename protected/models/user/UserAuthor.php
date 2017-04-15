@@ -125,7 +125,7 @@ class UserAuthor extends CActiveRecord
 		return parent::findAll($criteria);
 	}
 
-	public static function authorsList($query){
+	public static function authorsList($query, $organization){
 		$criteria = new CDbCriteria();
 		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
 		$criteria->alias = "s";
@@ -133,8 +133,12 @@ class UserAuthor extends CActiveRecord
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-		$criteria->join = 'LEFT JOIN user_author ua ON ua.id_user = s.id';
-		$criteria->addCondition('ua.id_user IS NOT NULL and ua.end_date is NULL');
+        $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+        $criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
+        $criteria->join .= ' LEFT JOIN user_author ua ON ua.id_user = s.id';
+		$criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+		and ua.id_user IS NOT NULL and ua.end_date is NULL and ua.id_organization='.$organization);
+        $criteria->group = 's.id';
 
 		$data = StudentReg::model()->findAll($criteria);
 

@@ -6,11 +6,13 @@ class UsersController extends TeacherCabinetController
     {
         $allowedDenySetActions = ['addAdmin', 'createAccountant'];
         $allowedUsersTables = ['users','getUsersList','getTrainersList','coworkers','getTeachersList','students','getStudentsList'];
+        $allowedCMActions = ['contentAuthors','getAuthorsList','teacherConsultants','getTeacherConsultantsList'];
+
         $action = Yii::app()->controller->action->id;
         return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && !in_array($action, $allowedDenySetActions)) ||
         (Yii::app()->user->model->isSuperVisor() && in_array($action, $allowedUsersTables)) ||
         Yii::app()->user->model->isAdmin() ||
-        (Yii::app()->user->model->isContentManager());
+        (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions));
     }
 
     public function actionIndex($id=0)

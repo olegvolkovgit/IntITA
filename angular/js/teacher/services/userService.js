@@ -21,6 +21,24 @@ angular
                     query: {
                         url : url + '/getUser',
                         isArray:true
-                    }
+                    },
+                    userProfileData: {
+                        url : basePath+'/_teacher/user/loadJsonUserProfile',
+                        params: {
+                            userId : 'userId'
+                        },
+                    },
+                    userOfflineEducationData: {
+                        url : basePath+'/_teacher/user/loadJsonUserOfflineEducation',
+                        params: {
+                            userId : 'userId'
+                        },
+                    },
+                    teacherProfileData: {
+                        url : basePath+'/_teacher/user/loadJsonTeacherProfile',
+                        params: {
+                            userId : 'userId'
+                        },
+                    },
                 });
         }]);

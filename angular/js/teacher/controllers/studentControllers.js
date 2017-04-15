@@ -178,7 +178,7 @@ function studentCtrl($scope, $rootScope, $http, NgTableParams,$resource, $state,
                     url:basePath+'/_teacher/_student/student/cancelConsultation?id='+consultationId,
                 }).success(function(response){
                     if (response==='success'){
-                        $state.go('students/consultations');
+                        $state.go('student/consultations');
                     }
                     else{
                         bootbox.alert('Что-то пошло не так!')

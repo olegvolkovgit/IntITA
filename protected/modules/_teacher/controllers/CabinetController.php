@@ -225,10 +225,11 @@ class CabinetController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
-    public function actionAuthorsByQuery($query)
+    public function actionAuthorsByQuery($query, $organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         if ($query) {
-            $authors = UserAuthor::authorsList($query);
+            $authors = UserAuthor::authorsList($query, $organization);
             echo $authors;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
@@ -284,9 +285,10 @@ class CabinetController extends TeacherCabinetController
         echo json_encode($result);
     }
 
-    public function actionTeacherConsultantsByQuery($query)
+    public function actionTeacherConsultantsByQuery($query, $organization=null)
     {
-        echo TeacherConsultant::teacherConsultantsByQuery($query);
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        echo TeacherConsultant::teacherConsultantsByQuery($query, $organization);
     }
 
     public function actionConsultantsByQuery($query)

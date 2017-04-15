@@ -69,7 +69,7 @@
                     <?php foreach($module->moduleTags as $tag){ ?>
                         <li>
                 <span class="select-search-list-item_selection-remove">
-                <?php echo $tag->tag['tag_ua'] ?>
+                <?php echo $tag->tag['tag'] ?>
                 </span>
                         </li>
                     <?php } ?>

@@ -13,7 +13,7 @@
             <td data-title="'Спеціалізація'" filter="{'specializationName.title_ua': 'text'}" sortable="'specializationName.title_ua'">{{row.specializationName.title_ua}}</td>
             <td data-title="'Місто'" filter="{'cityName.title_ua': 'text'}" sortable="'cityName.title_ua'">{{row.cityName.title_ua}}</td>
             <td data-title="'Керівник чату групи'" filter="{'userChatAuthor.fullName': 'text'}" sortable="'userChatAuthor.fullName'">
-                <a ng-href="#/supervisor/userProfile/{{row.chat_author_id}}">{{row.userChatAuthor.fullName}} ({{row.userChatAuthor.email}})</a>
+                <a ng-href="#/users/profile/{{row.chat_author_id}}">{{row.userChatAuthor.fullName}} ({{row.userChatAuthor.email}})</a>
             </td>
         </tr>
     </table>

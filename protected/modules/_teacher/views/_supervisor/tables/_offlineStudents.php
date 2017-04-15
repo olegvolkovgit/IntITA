@@ -5,15 +5,22 @@
         <br>
         <br>
         <table ng-table="offlineStudentsTableParams" class="table table-bordered table-striped table-condensed">
+            <colgroup>
+                <col width="20%"/>
+                <col/>
+                <col width="10%"/>
+                <col width="10%"/>
+                <col/>
+                <col width="10%"/>
+                <col width="10%"/>
+                <col/>
+            </colgroup>
             <tr ng-repeat="row in $data track by $index">
-                <td data-title="'ПІБ'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                    <a ng-href="#/supervisor/userProfile/{{row.id_user}}">{{row.user.fullName}}</a>
-                </td>
-                <td data-title="'Email'" filter="{'user.email': 'text'}" sortable="'user.email'">
-                    <a ng-href="#/supervisor/userProfile/{{row.id_user}}">{{row.user.email}}</a>
+                <td style="word-wrap:break-word" data-title="'Студент'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
+                    <a ng-href="#/users/profile/{{row.id_user}}">{{row.user.fullName}}</a>
                 </td>
                 <td data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
-                    <a ng-href="#/supervisor/userProfile/{{row.trainerData.id}}">{{row.trainerData.fullName}} {{row.trainerData.email}}</a>
+                    <a ng-href="#/users/profile/{{row.trainerData.id}}">{{row.trainerData.fullName}}</a>
                 </td>
                 <td data-title="'Навчальна зміна'" filter="{'user.education_shift': 'select'}" filter-data="shifts">
                     <span ng-if="row.user.education_shift==1">ранкова</span>

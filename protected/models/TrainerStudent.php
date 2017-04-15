@@ -48,6 +48,7 @@ class TrainerStudent extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'trainer0' => array(self::BELONGS_TO, 'Teacher', ['trainer'=>'user_id']),
+            'trainerModel' => array(self::BELONGS_TO, 'StudentReg', 'trainer'),
             'trainerStudent' => array(self::HAS_MANY, 'StudentReg','id'),
 			'studentModel' => array(self::BELONGS_TO, 'StudentReg', 'student'),
 			'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),

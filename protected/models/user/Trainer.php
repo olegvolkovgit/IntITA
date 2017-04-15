@@ -132,7 +132,7 @@ class Trainer extends Role
 
     public function checkUserStudent($student)
     {
-        if(!UserStudent::model()->exists('id_user=:id and end_date IS NULL', array(':id' => $student))) {
+        if(!UserStudent::model()->exists('id_user=:id and end_date IS NULL and id_organization='.Yii::app()->user->model->getCurrentOrganization()->id, array(':id' => $student))) {
             $this->errorMessage = "Користувача додати не вдалося, оскільки він не є студентом";
             return false;
         } else return true;
@@ -145,7 +145,7 @@ class Trainer extends Role
                 if (Yii::app()->db->createCommand()->
                 update('trainer_student', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'trainer=:user and student=:student and id_organization=:id_org', 
+                ), 'trainer=:user and student=:student and id_organization=:id_org',
                     array(':user' => $user->id, ':student' => $value, ':id_org'=>Yii::app()->user->model->getCurrentOrganization()->id))
                 ) {
                     $user->notify('trainer' . DIRECTORY_SEPARATOR . '_cancelStudent',

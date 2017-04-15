@@ -86,11 +86,14 @@ class TeacherConsultant extends Role
 
     private function loadModules()
     {
+        $organization=Yii::app()->user->model->getCurrentOrganizationId();
         $records = Yii::app()->db->createCommand()
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date, m.cancelled')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
-            ->where('id_teacher=:id AND tcm.end_date IS NULL', array(':id' => $this->user->id))
+            ->join('user_teacher_consultant utc', 'utc.id_user=tcm.id_teacher')
+            ->where('id_teacher=:id AND tcm.end_date IS NULL and utc.end_date IS NULL and utc.id_organization=:id_org 
+            and m.id_organization=:id_org', array(':id' => $this->user->id, ':id_org'=>$organization))
             ->queryAll();
 
         return $records;
@@ -111,20 +114,36 @@ class TeacherConsultant extends Role
         }
     }
 
+    public function checkBeforeUnsetAttribute($userId, $module){
+        $user = RegisteredUser::userById($userId);
+        $model=Module::model()->findByPk($module);
+
+        if(!$user->isTeacherConsultant() || $model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+            $this->errorMessage="Ти не можеш скасувати модуль викладачу в межах даної організації";
+            return false;
+        }
+        return true;
+    }
+
     public function cancelAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'module':
-                if(Yii::app()->db->createCommand()->
-                update('teacher_consultant_module', array(
-                    'end_date' => date("Y-m-d H:i:s"),
-                ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value))){
-                    $user->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelModule',
-                        array(Module::model()->findByPk($value)),
-                        'Скасовано модуль', Yii::app()->user->getId());
-                    return true;
+                if($this->checkBeforeUnsetAttribute($user->id, $value)) {
+                    if (Yii::app()->db->createCommand()->
+                    update('teacher_consultant_module', array(
+                        'end_date' => date("Y-m-d H:i:s"),
+                    ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value))
+                    ) {
+                        $user->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelModule',
+                            array(Module::model()->findByPk($value)),
+                            'Скасовано модуль', Yii::app()->user->getId());
+                        return true;
+                    } else {
+                        $this->errorMessage = "Скасувати модуль не вдалося";
+                        return false;
+                    }
                 }else{
-                    $this->errorMessage="Скасувати модуль не вдалося";
                     return false;
                 }
                 break;
@@ -291,7 +310,7 @@ class TeacherConsultant extends Role
         return false;
     }
 
-    public static function teacherConsultantsByQuery($query){
+    public static function teacherConsultantsByQuery($query, $organization){
         $criteria = new CDbCriteria();
         $criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
@@ -299,8 +318,11 @@ class TeacherConsultant extends Role
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->join = 'LEFT JOIN user_teacher_consultant utc ON utc.id_user = s.id';
-        $criteria->addCondition('utc.id_user IS NOT NULL and utc.end_date IS NULL');
+        $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+        $criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
+        $criteria->join .= ' LEFT JOIN user_teacher_consultant utc ON utc.id_user = s.id';
+        $criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+		and utc.id_user IS NOT NULL and utc.end_date IS NULL and utc.id_organization='.$organization);
         $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
@@ -329,7 +351,8 @@ class TeacherConsultant extends Role
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
-            ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel', array(
+            ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel 
+            and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id, array(
                 ':id' => $teacher->id,
                 ':isCancel' => Module::ACTIVE
             ))
@@ -343,10 +366,31 @@ class TeacherConsultant extends Role
         $criteria = new CDbCriteria();
         $criteria->alias = 's';
         $criteria->join = 'left join teacher_consultant_student tcs on tcs.id_student = s.id';
-        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL');
+        $criteria->join .= ' left join module m on m.module_ID = tcs.id_module';
+        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL 
+        and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->group = 's.id';
 
         return StudentReg::model()->findAll($criteria);
+    }
+
+    public function activeStudentsModules(StudentReg $teacher){
+        $records = Yii::app()->db->createCommand()
+            ->select('tcs.id_student, tcs.id_module, 
+            u.firstName, u.secondName, u.email, m.title_ua, m.language')
+            ->from('teacher_consultant_student tcs')
+            ->leftJoin('user u', 'u.id=tcs.id_student')
+            ->leftJoin('module m', 'm.module_ID=tcs.id_module')
+            ->where('tcs.id_teacher=:id_teacher and tcs.end_date IS NULL 
+            and m.id_organization=:id_org and u.cancelled=:u_status',
+                array(
+                    ':id_teacher'=>$teacher->id,
+                    ':id_org' =>Yii::app()->user->model->getCurrentOrganization()->id,
+                    ':u_status' => StudentReg::ACTIVE,
+                    ),'')
+            ->queryAll();
+
+        return $records;
     }
 
     public function notify(StudentReg $user, $idModule){

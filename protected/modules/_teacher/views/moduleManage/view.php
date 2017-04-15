@@ -15,19 +15,19 @@
         </li>
         <?php if(Yii::app()->user->model->isContentManager()) { ?>
         <li>
-            <button type="button" class="btn btn-primary" ng-click="changeView('module/edit/<?=$model->module_ID?>')">
+            <a type="button" class="btn btn-primary" ng-href="#/module/edit/<?=$model->module_ID?>">
                 Редагувати модуль
-            </button>
+            </a>
         </li>
         <li>
-            <button type="button" class="btn btn-success" ng-click="changeView('module/addAuthor/<?= $model->module_ID ?>')">
+            <a type="button" class="btn btn-success" ng-href="#/module/addAuthor/<?= $model->module_ID ?>">
                 Призначити автора контента
-            </button>
+            </a>
         </li>
         <li>
-            <button type="button" class="btn btn-success" ng-click="changeView('module/addTeacherConsultant/<?= $model->module_ID ?>')">
+            <a type="button" class="btn btn-success" ng-href="#/module/addTeacherConsultant/<?= $model->module_ID ?>">
                 Призначити викладача
-            </button>
+            </a>
         </li>
         <?php } ?>
     </ul>
@@ -38,27 +38,18 @@
                 <uib-tab  index="0" heading="Головне">
                     <?php $this->renderPartial('_mainTab', array('model' => $model));?>
                 </uib-tab>
-                <uib-tab index="1" heading="Українською">
-                    <?php $this->renderPartial('_uaTab', array('model' => $model));?>
-                </uib-tab>
-                <uib-tab  index="2" heading="Російською">
-                    <?php $this->renderPartial('_ruTab', array('model' => $model));?>
-                </uib-tab>
-                <uib-tab  index="3" heading="Англійською">
-                    <?php $this->renderPartial('_enTab', array('model' => $model));?>
-                </uib-tab>
-                <uib-tab  index="4" heading="Лекції">
+                <uib-tab  index="1" heading="Лекції">
                     <?php $this->renderPartial('_lecturesTab', array('model' => $model, 'scenario' => 'view'));?>
                 </uib-tab>
-                <uib-tab  index="5" heading="Автори">
+                <uib-tab  index="2" heading="Автори">
                     <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'view',
                         'teachers' => $authors));?>
                 </uib-tab>
-                <uib-tab  index="6" heading="Викладачі">
+                <uib-tab  index="3" heading="Викладачі">
                     <?php $this->renderPartial('_consultantsTab', array('model' => $model, 'scenario' => 'view',
                         'teachers' => $teacherConsultants)); ?>
                 </uib-tab>
-                <uib-tab  index="7" heading="У курсах">
+                <uib-tab  index="4" heading="У курсах">
                     <?php $this->renderPartial('_inCoursesTab', array(
                         'model' => $model,
                         'scenario' => 'view',

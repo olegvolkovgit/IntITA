@@ -38,23 +38,6 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionAddModule($id)
-    {
-        $user = RegisteredUser::userById($id);
-        if(!$user->isTeacher()){
-            throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
-        }
-        $attributes = $user->getAttributesByRole(UserRoles::AUTHOR);
-
-
-        $this->renderPartial('_moduleList',array(
-            'user' => $user->id,
-            'model' => $user,
-            'role' => UserRoles::AUTHOR,
-            'attribute' => $attributes["module"]
-        ),false,true);
-    }
-
     public function actionCreateForm()
     {
         $this->renderPartial('create', array(),false,true);
