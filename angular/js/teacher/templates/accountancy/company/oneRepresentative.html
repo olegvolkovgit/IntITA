@@ -1,0 +1,150 @@
+<form name="representativeForm">
+    <input type="hidden" name="representativeId" ng-model="representative.id">
+    <input type="hidden" name="companyId" ng-model="representative.companyId">
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="full_name">ПІБ</label>
+            <input id="full_name"
+                   type="text"
+                   name="full_name"
+                   placeholder="Янус Полуектович Невструєв"
+                   class="form-control"
+                   ng-class="{'has-error':!representativeForm.full_name.$valid}"
+                   ng-model="representative.full_name"
+                   ng-maxlength="255"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="full_name_accusative">ПІБ (родовий відмінок)</label>
+            <input id="full_name_accusative"
+                   type="text"
+                   name="full_name_accusative"
+                   class="form-control"
+                   placeholder="Януса Полуектовича Невструєва"
+                   ng-class="{'has-error':!representativeForm.full_name_accusative.$valid}"
+                   ng-model="representative.full_name_accusative"
+                   ng-maxlength="255"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="full_name_short">ПІБ скорочено</label>
+            <input id="full_name_short"
+                   type="text"
+                   name="full_name_short"
+                   class="form-control"
+                   placeholder="Невструєва Я. П."
+                   ng-class="{'has-error':!representativeForm.full_name_short.$valid}"
+                   ng-model="representative.full_name_short"
+                   ng-maxlength="255"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="position">Посада</label>
+            <input id="position"
+                   type="text"
+                   name="position"
+                   class="form-control"
+                   placeholder="директор"
+                   ng-class="{'has-error':!representativeForm.position.$valid}"
+                   ng-model="representative.position"
+                   ng-maxlength="255"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="position_accusative">Посада (родовий відмінок)</label>
+            <input id="position_accusative"
+                   type="text"
+                   name="position_accusative"
+                   class="form-control"
+                   placeholder="директора"
+                   ng-class="{'has-error':!representativeForm.position_accusative.$valid}"
+                   ng-model="representative.position_accusative"
+                   ng-maxlength="255"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="representative_order">Порядок</label>
+            <input id="representative_order"
+                   type="number"
+                   name="full_name"
+                   placeholder="1"
+                   class="form-control"
+                   min="1"
+                   ng-class="{'has-error':!representativeForm.representative_order.$valid}"
+                   ng-model="representative.representative_order"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <label class="text-left">Термін дії повноважень</label>
+        </div>
+        <div class="form-group col-xs-6">
+            <div class="form-horizontal">
+                <label class="col-xs-2 control-label text-left" for="credentialsFrom">Від</label>
+                <p class="col-xs-10 input-group">
+                    <input id="credentialsFrom"
+                           class="form-control"
+                           type="text"
+                           name="credentialsFrom"
+                           uib-datepicker-popup="dd-MM-yyyy"
+                           popup-placement="bottom"
+                           is-open="datePopup.credentialsFrom"
+                           close-text="Закрити"
+                           clear-text="Очистити"
+                           current-text="Сьогодні"
+                           ng-class="{'has-error':!representativeForm.credentialsFrom.$valid}"
+                           ng-model="representative.createdAt"
+                           ng-required="true">
+                    <span class="input-group-addon" ng-click="toggleDPPopup('credentialsFrom')">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group col-xs-6">
+            <div class="form-horizontal">
+                <label class="col-xs-2 control-label text-left" for="credentialsTo">До</label>
+                <p class="col-xs-10 input-group">
+                    <input id="credentialsTo"
+                           class="form-control"
+                           type="text"
+                           name="credentialsTo"
+                           uib-datepicker-popup="dd-MM-yyyy"
+                           popup-placement="bottom"
+                           is-open="datePopup.credentialsTo"
+                           close-text="Закрити"
+                           clear-text="Очистити"
+                           current-text="Сьогодні"
+                           ng-class="{'has-error':!representativeForm.credentialsTo.$valid}"
+                           ng-model="representative.deletedAt"
+                           ng-required="true">
+                    <span class="input-group-addon" ng-click="toggleDPPopup('credentialsTo')">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3">
+            <input class="btn btn-danger pull-right" type="button" value="Припинити повноваження" ng-click="revokeCredentials()">
+        </div>
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-3">
+            <input class="btn btn-primary pull-right" type="button" value="Зберегти" ng-click="save()" ng-disabled="!representativeForm.$valid">
+        </div>
+    </div>
+</form>

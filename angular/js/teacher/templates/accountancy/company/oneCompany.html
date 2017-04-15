@@ -1,4 +1,14 @@
 <div class="panel-body">
     <toast style="left:0px"></toast>
-    <company-card data-company-id="companyId"></company-card>
+    <uib-tabset active="activeTab" type="pills">
+        <uib-tab index="0" heading="Картка команії" class="m-b-10" select="selectTab(0)">
+            <company-card data-company-id="companyId"></company-card>
+        </uib-tab>
+        <uib-tab ng-show="companyId" index="1" heading="Представники" class="m-b-10" select="selectTab(1)">
+            <company-representatives data-company-id="companyId" data-edit-call-back="edit"></company-representatives>
+        </uib-tab>
+        <uib-tab ng-show="representativeId" index="2" heading="Редагувати представника" class="m-b-10" select="selectTab(2)">
+            <company-one-representative data-company-id="companyId" data-representative-id="representativeId"></company-one-representative>
+        </uib-tab>
+    </uib-tabset>
 </div>

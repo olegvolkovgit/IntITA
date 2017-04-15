@@ -476,9 +476,32 @@ angular
       }
     });
   })
-  .controller('oneCompanyCtrl', function ($scope, $stateParams) {
-    $scope.changePageHeader('Компанія');
-    $scope.companyId = $stateParams.companyId;
+  .controller('oneCompanyCtrl', function ($scope, $state) {
+    $scope.changePageHeader($state.params.header);
+    $scope.companyId = $state.params.companyId;
+    $scope.activeTab = $state.params.activeTab;
+    $scope.representativeId = $state.params.representativeId;
+
+    $scope.selectTab = function (index){
+      switch (index) {
+        case 1:
+          $state.go("accountant/viewCompany/representatives", {companyId:$scope.companyId});
+          break;
+        case 2:
+          break;
+        case 0:
+        default:
+          $state.go("accountant/viewCompany", {companyId:$scope.companyId});
+      }
+    };
+
+    $scope.edit = function (id) {
+      $state.go("accountant/viewCompany/representative/edit", {
+        companyId:$scope.companyId,
+        representativeId:id
+      });
+    };
+
   })
 
   .controller('representativesCtrl', function ($scope, NgTableParams, $resource) {
