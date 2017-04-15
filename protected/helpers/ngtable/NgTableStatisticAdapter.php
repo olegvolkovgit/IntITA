@@ -43,14 +43,14 @@ class NgTableStatisticAdapter
         switch ($this->queryType){
             case 'module':
                 $this->selectCommand->select($this->defaultModuleSql)
-                    ->from($this->queryType);
+                    ->from($this->queryType)->where('module.`id_organization`='.Yii::app()->session['organization']);
                 if ($this->courseId) {
                     $this->selectCommand->where('module_ID IN (SELECT course_modules.id_module FROM course_modules WHERE course_modules.id_course = :courseId)',array(':courseId'=>$this->courseId));
                 };
                 break;
             case 'course':
                 $this->selectCommand->select($this->defaultCourseSql)
-                    ->from($this->queryType);
+                    ->from($this->queryType)->where('course.`id_organization`='.Yii::app()->session['organization']);
                 break;
         }
     }

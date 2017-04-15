@@ -213,7 +213,6 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
                 return;
             }
-            alert($scope.weekdaysList);
             $http({
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
@@ -227,7 +226,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         "newsletter_email": $scope.emailSelected.email,
                      },
                     "repeat_type": $scope.taskRepeat,
-                    "weekdays": $scope.weekdaysList,
+                    "parameters": $scope.weekdaysList,
                     "date": $filter('shortDate')($scope.date, 'dd-MM-yyyy') + ' ' + $filter('shortDate')($scope.time, 'HH:mm')
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -260,50 +259,52 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         $http.get(basePath+'/_teacher/schedulerTasks/getModel?id='+id).
         then(function (response) {
             $scope.model = response.data;
-            parameters = JSON.parse($scope.model.parameters);
-            var recipients  = parameters.recipients;
-            $scope.newsletterType = parameters.type;
-            switch ($scope.newsletterType){
+            console.log($scope.model);
+            switch ($scope.model.newsletter.type){
                 case 'users':
                     $scope.selectedRecipients = [];
-                    for (var item in recipients){
-                        $scope.selectedRecipients.push({email:recipients[item]});
-                    }
+                    $scope.model.newsletter.recipients.forEach(function (element) {
+                        $scope.selectedRecipients.push({email:element});
+                    });
                     break;
                 case 'groups':
-                    $http({
-                        method: 'POST',
-                        url: basePath + '/_teacher/newsletter/getGroupsById',
-                        data: $jq.param({groups:recipients}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                    }).success(function (response) {
-                        $scope.selectedRecipients = response;
-                    })
+                    $scope.selectedRecipients = $scope.model.newsletter.recipients;
+                    console.log($scope.selectedRecipients);
+                    // $http({
+                    //     method: 'POST',
+                    //     url: basePath + '/_teacher/newsletter/getGroupsById',
+                    //     data: $jq.param({groups:$scope.model.newsletter.recipients}),
+                    //     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    // }).success(function (response) {
+                    //     console.log($scope.model.newsletter.recipients);
+                    //     $scope.selectedRecipients = response.data;
+                    // })
                     break;
                 case 'subGroups':
                     $http({
                         method: 'POST',
                         url: basePath + '/_teacher/newsletter/getSubGroupsById',
-                        data: $jq.param({subGroups:recipients}),
+                        data: $jq.param({subGroups:$scope.model.newsletter.recipients}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                     }).success(function (response) {
-                        $scope.selectedRecipients = response;
+                        $scope.selectedRecipients = response.data;
                     })
                     break;
                 case 'roles':
                     $http({
                         method: 'POST',
                         url: basePath + '/_teacher/newsletter/getRolesById',
-                        data: $jq.param({roles:recipients}),
+                        data: $jq.param({roles:$scope.model.newsletter.recipients}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                     }).success(function (response) {
                         $scope.selectedRecipients = response;
                     });
                     break;
             }
-            $scope.emailSelected.email = parameters.email;
-            $scope.subject = parameters.subject;
-            $scope.message = parameters.message;
+            $scope.newsletterType =  $scope.model.newsletter.type;
+            $scope.emailSelected.email = $scope.model.newsletter.newsletter_email;
+            $scope.subject = $scope.model.newsletter.subject;
+            $scope.message = $scope.model.newsletter.text;
         });
     }
 

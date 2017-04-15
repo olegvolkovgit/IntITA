@@ -51,10 +51,46 @@ class SchedulerTasksController extends TeacherCabinetController
 	public function actionGetModel(){
         if (isset($_GET['id'])){
 
-			$model=SchedulerTasks::model()->with(['user'])->findByPk($_GET['id']);
+			$model=SchedulerTasks::model()->with(['user', 'newsletter'])->findByPk($_GET['id']);
 			if (OwnerPermission::isOwner($model) || Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSupervisor()) {
 				$data = $model->attributes;
 				$data['fullName']=$model->user->fullName;
+				$data['newsletter']= $model->newsletter->attributes;
+				if (isset($data['newsletter']['recipients'])){
+				    $_recipients = unserialize($data['newsletter']['recipients']);
+				    $recipients = [];
+				    switch ($data['newsletter']['type']){
+                        case 'roles':{
+                            foreach ($_recipients as $role)
+                                array_push($recipients,Role::getInstance($role)->title());
+                            break;
+                        }
+                        case 'users':{
+                            $users = StudentReg::model()->findAll((new CDbCriteria())->addInCondition('email',$_recipients));
+                            foreach ($users as $user)
+                            array_push($recipients,$user->fullName());
+                            break;
+                        }
+                        case "groups":{
+                            $groups = OfflineGroups::model()->findAll((new CDbCriteria())->addInCondition('id',$_recipients));
+                            foreach ($groups as $group)
+                                array_push($recipients,$group->name);
+                            break;
+                        }
+                        case "subGroups":{
+                            $subGroups = OfflineSubgroups::model()->with(['groupName'])->findAll((new CDbCriteria())->addInCondition('t.id',$_recipients));
+                            foreach ($subGroups as $subGroupe)
+                                array_push($recipients,'<'.$subGroupe->groupName->name.'>'.$subGroupe->name);
+                            break;
+                        }
+                        case "emailsFromDatabase":{
+                            $emailCategory = EmailsCategory::model()->findAll((new CDbCriteria())->addInCondition('id',$_recipients));
+                            array_push($recipients,$emailCategory->title);
+                        }
+
+                    }
+                    $data['newsletter']['recipients'] = implode(', ' ,$recipients);
+                }
 				echo json_encode($data);
 			}
 			else throw new CHttpException(403, 'Access denied!');
@@ -151,9 +187,9 @@ class SchedulerTasksController extends TeacherCabinetController
 		if (!Yii::app()->user->model->isAdmin() || !Yii::app()->user->model->isSupervisor())
 		{
 
-				$adapter->mergeCriteriaWith((new CDbCriteria())->addCondition('created_by='.Yii::app()->user->id));
+				$adapter->mergeCriteriaWith((new CDbCriteria())->addCondition('t.created_by='.Yii::app()->user->id));
 		}
-		echo json_encode($adapter->getData());
+		echo json_encode($adapter->getData($_POST));
 		Yii::app()->end();
 
     }
