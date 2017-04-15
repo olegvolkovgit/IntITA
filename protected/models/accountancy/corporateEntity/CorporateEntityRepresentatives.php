@@ -103,6 +103,9 @@ class CorporateEntityRepresentatives extends CActiveRecord {
 
     public function updateData($data) {
         $attributes = array_intersect_key($data, $this->getAttributes());
+        if (empty($attributes['deletedAt'])) {
+            $attributes['deletedAt'] = new CDbExpression('DEFAULT');
+        }
         if (count($attributes)) {
             $this->setAttributes($attributes, false);
             $this->save();

@@ -17,7 +17,38 @@ function companyOneRepresentative(companiesService, ngToast) {
     $scope.toggleDPPopup = toggleDPPopup;
 
     if ($scope.companyId && $scope.representativeId) {
-      companiesService
+      loadData();
+    }
+
+    $scope.save = function () {
+      saveData($scope.representative);
+    };
+
+    $scope.revokeCredentials = function () {
+      saveData({
+        companyId: $scope.companyId,
+        representativeId: $scope.representativeId,
+        deletedAt: new Date()
+      })
+    };
+
+    function saveData(data) {
+      return companiesService
+        .saveRepresentative(data)
+        .$promise
+        .then(function (response) {
+          successToast('Дані збережено');
+        }).then(function () {
+          return loadData()
+        })
+        .catch(function (error) {
+          console.error(error);
+          dangerToast('Виникла помилка')
+        });
+    }
+
+    function loadData() {
+      return companiesService
         .representatives({companyId: $scope.companyId, representativeId: $scope.representativeId})
         .$promise
         .then(function (data) {
@@ -28,26 +59,10 @@ function companyOneRepresentative(companiesService, ngToast) {
           }
         })
         .catch(function () {
-            dangerToast('Помилка завантаження данних');
+          dangerToast('Помилка завантаження данних');
         });
+
     }
-
-    $scope.save = function() {
-      companiesService
-        .saveRepresentative($scope.representative)
-        .$promise
-        .then(function(response) {
-          successToast('Дані збережено');
-        })
-        .catch(function (error) {
-          console.error(error);
-          dangerToast('Виникла помилка')
-        });
-    };
-
-    $scope.revokeCredentials = function() {
-
-    };
 
     function toggleDPPopup(name) {
       $scope.datePopup[name] = !$scope.datePopup[name];
@@ -72,8 +87,8 @@ function companyOneRepresentative(companiesService, ngToast) {
 
     function setupModel(data) {
       return {
-        representativeId : data.id,
-        companyId : data.corporateEntity[0].id,
+        representativeId: data.id,
+        companyId: data.corporateEntity[0].id,
         full_name: data.full_name,
         full_name_accusative: data.full_name_accusative,
         full_name_short: data.full_name_short,
