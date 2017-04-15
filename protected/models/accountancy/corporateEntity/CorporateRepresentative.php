@@ -28,7 +28,7 @@ class CorporateRepresentative extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id, full_name, full_name_accusative, full_name_short', 'required'),
+            array('full_name, full_name_accusative, full_name_short', 'required'),
             array('full_name, full_name_accusative, full_name_short', 'length', 'max' => 255),
             // The following rule is used by search().
             array('id, full_name, full_name_accusative, full_name_short', 'safe', 'on' => 'search'),
@@ -208,5 +208,25 @@ class CorporateRepresentative extends CActiveRecord {
         $corporateEntityRepresentative = $this->getConcreteCorporateEntityRepresentative($companyId);
         $corporateEntityRepresentative->updateData($data);
         return;
+    }
+
+    public function createRepresentative($data) {
+        $attributes = array_intersect_key($data, $this->getAttributes());
+        $model = null;
+        if (count($attributes)) {
+            $model = new CorporateRepresentative();
+            $model->attributes = $attributes;
+            $model->save();
+            if (!$model->hasErrors()) {
+                $data['corporate_representative'] = $model->id;
+                $corporateEntityRepresentative = new CorporateEntityRepresentatives();
+                if (!$corporateEntityRepresentative->createRepresentative($data)) {
+                    return null;
+                };
+            } else {
+                return null;
+            }
+        }
+        return $model;
     }
 }

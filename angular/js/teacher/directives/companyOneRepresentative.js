@@ -3,17 +3,21 @@
 angular
   .module('teacherApp')
   .directive('companyOneRepresentative', [
+    '$state',
     'companiesService',
     'ngToast',
     companyOneRepresentative]);
 
-function companyOneRepresentative(companiesService, ngToast) {
+function companyOneRepresentative($state, companiesService, ngToast) {
   function link($scope, element, attrs) {
     $scope.datePopup = {
       credentialsTo: false,
       credentialsFrom: false
     };
-    $scope.representative = {};
+    $scope.representative = {
+      'companyId': $scope.companyId,
+      'representativeId': $scope.representativeId
+    };
     $scope.toggleDPPopup = toggleDPPopup;
 
     if ($scope.companyId && $scope.representativeId) {
@@ -38,6 +42,12 @@ function companyOneRepresentative(companiesService, ngToast) {
         .$promise
         .then(function (response) {
           successToast('Дані збережено');
+          if (response.id) {
+            $state.go("accountant/viewCompany/representative/edit", {
+              companyId: $scope.companyId,
+              representativeId: response.id
+            });
+          }
         }).then(function () {
           return loadData()
         })
@@ -49,7 +59,10 @@ function companyOneRepresentative(companiesService, ngToast) {
 
     function loadData() {
       return companiesService
-        .representatives({companyId: $scope.companyId, representativeId: $scope.representativeId})
+        .representatives({
+          companyId: $scope.representative.companyId,
+          representativeId: $scope.representative.representativeId
+        })
         .$promise
         .then(function (data) {
           if (data.rows.length) {

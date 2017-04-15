@@ -151,13 +151,19 @@ class CompanyController extends TeacherCabinetController {
             $model = CorporateRepresentative::model()->find($criteria);
             if ($model) {
                 $model->updateData($_POST);
+                $body = ['message' => 'OK'];
             } else {
-                $statusCode = 204;
+                $representative = CorporateRepresentative::model()->createRepresentative($_POST);
+                if (!empty($representative)) {
+                    $statusCode = 201;
+                    $body = ['message' => 'OK', 'id' => $representative->id];
+                } else {
+                    $statusCode = 400;
+                }
             }
-            $body = ['message' => 'OK'];
-        } catch (Exception $exeption) {
+        } catch (Exception $exception) {
             $statusCode = 400;
-            $body = ['error' => $exeption->getMessage()];
+            $body = ['error' => $exception->getMessage()];
         }
         $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
 

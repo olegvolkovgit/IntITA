@@ -102,6 +102,16 @@ angular
             cache         : false,
             templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/oneCompany.html'
         })
+        .state('accountant/viewCompany/representatives/add', {
+            url: "/accountant/viewCompany/{companyId:[0-9]*}/representatives/add",
+            params : {
+              activeTab : 3,
+              header : 'Додати представника'
+            },
+            controller: 'oneCompanyCtrl',
+            cache         : false,
+            templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/oneCompany.html'
+        })
         .state('accountant/viewCompany/representative/edit', {
             url: "/accountant/viewCompany/{companyId:[0-9]*}/representative/edit/{representativeId:[0-9]*}",
             params : {
