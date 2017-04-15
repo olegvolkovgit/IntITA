@@ -13,7 +13,7 @@ function companyRepresentatives($filter, NgTableParams, companiesService) {
     $scope.representativesTableParams = new NgTableParams({}, {
       getData: function (params) {
         return companiesService
-          .representatives({companyId: 2})
+          .representatives({companyId: $scope.companyId})
           .$promise
           .then(function (data) {
             params.total(data.count);

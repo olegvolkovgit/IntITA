@@ -13,5 +13,8 @@
         <uib-tab ng-show="!representativeId" index="3" heading="Додати представника" class="m-b-10" select="selectTab(3)">
             <company-one-representative data-company-id="companyId"></company-one-representative>
         </uib-tab>
+        <uib-tab ng-show="!representativeId" index="4" heading="Послуги компанії" class="m-b-10" select="selectTab(4)">
+            <company-services data-company-id="companyId"></company-services>
+        </uib-tab>
     </uib-tabset>
 </div>

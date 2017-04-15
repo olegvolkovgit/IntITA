@@ -492,6 +492,9 @@ angular
         case 3:
           $state.go("accountant/viewCompany/representatives/add", {companyId:$scope.companyId});
           break;
+        case 4:
+          $state.go('accountant/viewCompany/services', {companyId:$scope.companyId});
+          break;
         case 0:
         default:
           $state.go("accountant/viewCompany", {companyId:$scope.companyId});
