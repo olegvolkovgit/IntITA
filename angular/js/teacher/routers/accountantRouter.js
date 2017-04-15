@@ -84,6 +84,30 @@ angular
         })
         .state('accountant/viewCompany', {
             url: "/accountant/viewCompany/{companyId:[0-9]*}",
+            params : {
+              activeTab : 0,
+              header : 'Компанія'
+            },
+            controller: 'oneCompanyCtrl',
+            cache         : false,
+            templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/oneCompany.html'
+        })
+        .state('accountant/viewCompany/representatives', {
+            url: "/accountant/viewCompany/{companyId:[0-9]*}/representatives",
+            params : {
+              activeTab : 1,
+              header : 'Представники компанії'
+            },
+            controller: 'oneCompanyCtrl',
+            cache         : false,
+            templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/oneCompany.html'
+        })
+        .state('accountant/viewCompany/representative/edit', {
+            url: "/accountant/viewCompany/{companyId:[0-9]*}/representative/edit/{representativeId:[0-9]*}",
+            params : {
+              activeTab : 2,
+              header : 'Редагувати представника'
+            },
             controller: 'oneCompanyCtrl',
             cache         : false,
             templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/oneCompany.html'

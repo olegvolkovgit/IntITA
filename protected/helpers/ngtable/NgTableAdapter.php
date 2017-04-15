@@ -71,7 +71,7 @@ class NgTableAdapter {
      * @param array $requestParams
      * @param array $modelsBehaviours
      */
-    public function __construct($activeRecord = null, $requestParams = null, $modelsBehaviours = []) {
+    public function __construct($activeRecord = null, $requestParams = [], $modelsBehaviours = []) {
         $this->setModelBehaviours($modelsBehaviours);
         $this->setActiveRecord($activeRecord);
         $this->setRequestParams($requestParams);
