@@ -401,6 +401,7 @@ class StudentReg extends CActiveRecord
             $format = "Y-m-d";
             $this->document_issued_date = date_format(DateTime::createFromFormat($format, $this->document_issued_date),'d/m/Y');
         }
+//        unset($this->password);
     }
     
     public function beforeSave(){

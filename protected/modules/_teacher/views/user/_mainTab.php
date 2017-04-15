@@ -18,25 +18,25 @@ $user = $model->registrationData;
                         <?php echo $user->userNameWithEmail() ?>
                     </a>
                 </li>
-                <li class="list-group-item" ng-if="user.teacher">Ім'я російською:
-                    {{user.teacher.last_name_ru}} {{user.teacher.first_name_ru}} {{user.teacher.middle_name_ru}}
+                <li class="list-group-item" ng-if="teacher.teacher">Ім'я російською:
+                    {{teacher.teacher.last_name_ru}} {{teacher.teacher.first_name_ru}} {{teacher.teacher.middle_name_ru}}
                 </li>
-                <li class="list-group-item" ng-if="user.teacher">Ім'я англійською:
-                    {{user.teacher.last_name_en}} {{user.teacher.first_name_en}} {{user.teacher.middle_name_en}}
+                <li class="list-group-item" ng-if="teacher.teacher">Ім'я англійською:
+                    {{teacher.teacher.last_name_en}} {{teacher.teacher.first_name_en}} {{teacher.teacher.middle_name_en}}
                 </li>
                 <li class="list-group-item">Електронна пошта:
                     <a ng-href="#/newmessages/receiver/{{user.id}}" target="_blank">
                         {{user.email}}
                         <i class="fa fa-envelope fa-fw"></i>
                     </a>
-                    <div ng-if='user.teacher'>
-                        Електронна пошта (корпоративна): {{user.teacher.corporate_mail}}
+                    <div ng-if='teacher.teacher'>
+                        Електронна пошта (корпоративна): {{teacher.teacher.corporate_mail}}
                         <?php if (Yii::app()->user->model->isAdmin()) { ?>
                             <button type="button" class="btn btn-outline btn-primary btn-xs"
-                                    ng-click="addCorpAddress()" ng-show="!user.teacher.corporate_mail">
+                                    ng-click="addCorpAddress()" ng-show="!teacher.teacher.corporate_mail">
                                 Додати корпоративну адресу
                             </button>
-                            <button class="btn btn-outline btn-primary btn-xs" ng-show="!user.teacher.corporate_mail"
+                            <button class="btn btn-outline btn-primary btn-xs" ng-show="!teacher.teacher.corporate_mail"
                                     ng-bootbox-title="Адреса корпоративної пошти без домену"
                                     ng-bootbox-custom-dialog
                                     ng-bootbox-custom-dialog-template="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/templates/addMailAddress.html'); ?>">
@@ -56,10 +56,10 @@ $user = $model->registrationData;
                        target="_blank">почати чат <i class="fa fa-wechat fa-fw"></i>
                     </a>
                 </li>
-                <li ng-if="user.offlineStudents" class="list-group-item">
+                <li ng-if="offline.offlineStudents" class="list-group-item">
                     Офлайн навчання:
                     <ul class="list-group" >
-                        <li class="list-group-item groupList" ng-repeat="subgroup in user.offlineStudents track by $index">
+                        <li class="list-group-item groupList" ng-repeat="subgroup in offline.offlineStudents track by $index">
                             <label>Спеціалізація:</label> {{subgroup.subgroupName.groupName.specializationName.title_ua}}<br>
                             <label>Група</label>: {{subgroup.subgroupName.groupName.name}}<br>
                             <label>Підгрупа:</label> {{subgroup.subgroupName.name}}<br>
@@ -77,8 +77,8 @@ $user = $model->registrationData;
                     </ul>
                 </li>
                 <?php if (Yii::app()->user->model->isSuperVisor() && $model->isStudent()) { ?>
-                <li ng-if="data.offlineStudent" class="list-group-item">
-                    <a ng-href="#/supervisor/addOfflineStudent/{{data.user.id}}">
+                <li ng-if="offline.offlineStudent" class="list-group-item">
+                    <a ng-href="#/supervisor/addOfflineStudent/{{user.id}}">
                         Додати студента в підгрупу
                     </a>
                 </li>

@@ -339,8 +339,14 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
     });
 
     //todo
-    $q.all([userService.userData({userId: $scope.userId})]).then(function (results) {
+    $q.all([
+        userService.userProfileData({userId: $scope.userId}),
+        userService.userOfflineEducationData({userId: $scope.userId}),
+        userService.teacherProfileData({userId: $scope.userId})
+    ]).then(function (results) {
         $scope.user = results[0];
+        $scope.offline = results[1];
+        $scope.teacher = results[2];
     });
     //todo
     $scope.loadUserData=function(userId){
