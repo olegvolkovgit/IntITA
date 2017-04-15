@@ -21,11 +21,11 @@
         <?php echo $form->error($model, 'alias'); ?>
     </div>
 
-<!--    <div class="form-group">-->
-<!--        --><?php //echo $form->labelEx($model, 'course_number'); ?>
-<!--        --><?php //echo $form->textField($model, 'course_number', array('size' => 45, 'maxlength' => 100, 'class' => 'form-control')); ?>
-<!--        --><?php //echo $form->error($model, 'course_number'); ?>
-<!--    </div>-->
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'course_number'); ?>
+        <?php echo $form->textField($model, 'course_number', array('size' => 45, 'maxlength' => 100, 'class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'course_number'); ?>
+    </div>
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'level'); ?>

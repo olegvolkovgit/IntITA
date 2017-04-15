@@ -9,6 +9,7 @@
  * @property string $end_date
  * @property integer $assigned_by
  * @property integer $cancelled_by
+ * @property integer $id_organization
  *
  * The followings are the available model relations:
  * @property StudentReg $idUser
@@ -34,11 +35,11 @@ class UserStudent extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, assigned_by', 'required'),
+			array('id_user, assigned_by, id_organization', 'required'),
 			array('id_user', 'numerical', 'integerOnly'=>true),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
-			array('id_user, start_date, end_date, assigned_by, cancelled_by', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date, assigned_by, cancelled_by, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,12 +55,15 @@ class UserStudent extends CActiveRecord
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
             'activeMembers' => array(self::BELONGS_TO, 'StudentReg', 'id_user','condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
+            'studentTrainer' => array(self::HAS_ONE, 'TrainerStudent', array('student'=>'id_user','id_organization'=>'id_organization'),
+                'on' => 'end_time IS NULL'),
 		);
 	}
 
 	public function primaryKey()
 	{
-		return array('id_user', 'start_date');
+		return array('id_user', 'start_date', 'id_organization');
 	}
 
 	/**
@@ -71,6 +75,9 @@ class UserStudent extends CActiveRecord
 			'id_user' => 'Id User',
 			'start_date' => 'Start Date',
 			'end_date' => 'End Date',
+            'assigned_by' => 'Assigned by',
+            'cancelled_by' => 'Cancelled by',
+            'id_organization' => 'Id organization',
 		);
 	}
 
@@ -93,6 +100,9 @@ class UserStudent extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
+        $criteria->compare('assigned_by',$this->assigned_by,true);
+        $criteria->compare('cancelled_by',$this->cancelled_by,true);
+        $criteria->compare('id_organization',$this->id_organization,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

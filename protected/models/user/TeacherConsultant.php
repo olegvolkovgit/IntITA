@@ -351,7 +351,8 @@ class TeacherConsultant extends Role
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
-            ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel', array(
+            ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel 
+            and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id, array(
                 ':id' => $teacher->id,
                 ':isCancel' => Module::ACTIVE
             ))
@@ -365,10 +366,31 @@ class TeacherConsultant extends Role
         $criteria = new CDbCriteria();
         $criteria->alias = 's';
         $criteria->join = 'left join teacher_consultant_student tcs on tcs.id_student = s.id';
-        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL');
+        $criteria->join .= ' left join module m on m.module_ID = tcs.id_module';
+        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL 
+        and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->group = 's.id';
 
         return StudentReg::model()->findAll($criteria);
+    }
+
+    public function activeStudentsModules(StudentReg $teacher){
+        $records = Yii::app()->db->createCommand()
+            ->select('tcs.id_student, tcs.id_module, 
+            u.firstName, u.secondName, u.email, m.title_ua, m.language')
+            ->from('teacher_consultant_student tcs')
+            ->leftJoin('user u', 'u.id=tcs.id_student')
+            ->leftJoin('module m', 'm.module_ID=tcs.id_module')
+            ->where('tcs.id_teacher=:id_teacher and tcs.end_date IS NULL 
+            and m.id_organization=:id_org and u.cancelled=:u_status',
+                array(
+                    ':id_teacher'=>$teacher->id,
+                    ':id_org' =>Yii::app()->user->model->getCurrentOrganization()->id,
+                    ':u_status' => StudentReg::ACTIVE,
+                    ),'')
+            ->queryAll();
+
+        return $records;
     }
 
     public function notify(StudentReg $user, $idModule){

@@ -14,9 +14,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('moduleAddTeacherCtrl', moduleAddTeacherCtrl);
-angular
-    .module('teacherApp')
     .controller('editTeacherRoleCtrl', editTeacherRoleCtrl);
 
 angular
@@ -463,49 +460,6 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
 
 function contentManagerCtrl($scope, $location) {
     $scope.changePageHeader('Контент менеджер');
-}
-
-
-function moduleAddTeacherCtrl($scope) {
-    var teachers = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/module/teachersByQuery?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (users) {
-                return $jq.map(users.results, function (user) {
-                    return {
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        url: user.url
-                    };
-                });
-            }
-        }
-    });
-    teachers.initialize();
-
-    $jq('#typeahead').typeahead(null, {
-
-            name: 'teachers',
-            display: 'email',
-            limit: 10,
-            source: teachers,
-            templates: {
-                empty: [
-                    '<div class="empty-message">',
-                    'немає користувачів з таким іменем або email\`ом',
-                    '</div>'
-                ].join('\n'),
-                suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
-            }
-        }
-    );
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
-        $jq("#user").val(item.id);
-    });
 }
 
 function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $stateParams, roleAttributeService) {

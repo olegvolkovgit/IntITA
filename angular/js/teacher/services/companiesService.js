@@ -19,6 +19,16 @@ angular
             url: url + '/viewCompany',
             method: "GET"
           },
+          representatives : {
+            url: url + '/representatives',
+            method: "GET",
+          },
+          saveRepresentative : {
+            url: url + '/saveRepresentative',
+            headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},
+            transformRequest: transformRequest.bind(null),
+            method: 'POST',
+          },
           upsert: {
             method: 'POST',
             headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},

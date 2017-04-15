@@ -169,7 +169,8 @@ class ModuleManageController extends TeacherCabinetController
     {
         $courseModel = Course::model()->findByPk($course);
         $module = Module::model()->findByPk($id);
-
+        Yii::app()->user->model->hasAccessToOrganizationModel($courseModel);
+        Yii::app()->user->model->hasAccessToOrganizationModel($module);
         $this->renderPartial('mandatory', array(
             'module' => $module,
             'course' => $courseModel
@@ -189,6 +190,10 @@ class ModuleManageController extends TeacherCabinetController
         $idModule = Yii::app()->request->getPost('module', 0);
         $idCourse = Yii::app()->request->getPost('course', 0);
         $mandatory = Yii::app()->request->getPost('mandatory', -1);
+        $courseModel = Course::model()->findByPk($idCourse);
+        $module = Module::model()->findByPk($idModule);
+        Yii::app()->user->model->hasAccessToOrganizationModel($courseModel);
+        Yii::app()->user->model->hasAccessToOrganizationModel($module);
 
         if($mandatory == 0) $mandatory = "NULL";
         if ($idModule && $idCourse && $mandatory != -1) {

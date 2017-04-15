@@ -476,107 +476,32 @@ angular
       }
     });
   })
-  .controller('oneCompanyCtrl', function ($scope, $stateParams, $q, ngToast, cityService, companiesService) {
-    function getCityTypeahead($viewValue) {
-      return cityService.typeahead({
-        query: $viewValue
-      }).$promise;
-    }
+  .controller('oneCompanyCtrl', function ($scope, $state) {
+    $scope.changePageHeader($state.params.header);
+    $scope.companyId = $state.params.companyId;
+    $scope.activeTab = $state.params.activeTab;
+    $scope.representativeId = $state.params.representativeId;
 
-    function collectCompanyParams(response) {
-      return {
-        EDPNOU: response.EDPNOU,
-        actual_address: response.actual_address,
-        actual_address_city_code: response.actual_address_city_code,
-        certificate_of_vat: response.certificate_of_vat,
-        id: response.id,
-        id_organization: response.id_organization,
-        legal_address: response.legal_address,
-        legal_address_city_code: response.legal_address_city_code,
-        tax_certificate: response.tax_certificate,
-        title: response.title,
-        edpnou_issue_date: new Date(response.edpnou_issue_date),
-        certificate_of_vat_issue_date: new Date(response.certificate_of_vat_issue_date),
-        tax_certificate_issue_date: new Date(response.tax_certificate_issue_date)
+    $scope.selectTab = function (index){
+      switch (index) {
+        case 1:
+          $state.go("accountant/viewCompany/representatives", {companyId:$scope.companyId});
+          break;
+        case 2:
+          break;
+        case 0:
+        default:
+          $state.go("accountant/viewCompany", {companyId:$scope.companyId});
       }
-    }
+    };
 
-    function toast(type, message) {
-      ngToast.create({
-        dismissOnTimeout: true,
-        dismissButton: true,
-        className: type,
-        content: message
+    $scope.edit = function (id) {
+      $state.go("accountant/viewCompany/representative/edit", {
+        companyId:$scope.companyId,
+        representativeId:id
       });
-    }
-
-    function dangerToast(message) {
-      toast('danger', message);
-    }
-
-    function successToast(message) {
-      toast('success', message);
-    }
-
-    $scope.changePageHeader('Компанія');
-
-    if ($stateParams.companyId) {
-      companiesService
-        .get({id: $stateParams.companyId})
-        .$promise
-        .then(function (response) {
-          $scope.company = collectCompanyParams(response);
-          return $q.all([
-            cityService.get({id: response.legal_address_city_code}).$promise,
-            cityService.get({id: response.actual_address_city_code}).$promise
-          ])
-        })
-        .then(function (data) {
-          $scope.company.legal_address_city = data[0].title;
-          $scope.company.actual_address_city = data[1].title;
-        })
-        .catch(dangerToast.bind(null, 'Виникла помилка.'));
-    }
-
-    $scope.company = {};
-    $scope.datePopup = {};
-
-    $scope.toggleDPPopup = function (name) {
-      $scope.datePopup[name] = !$scope.datePopup[name];
     };
 
-    $scope.save = function () {
-      return companiesService
-        .upsert($scope.company)
-        .$promise
-        .then(function (response) {
-          if (response.message === 'OK') {
-            successToast('Зміни збережено');
-          } else {
-            dangerToast('Виникла помилка.');
-          }
-        })
-        .catch(dangerToast.bind(null, 'Виникла помилка.'));
-    };
-
-    $scope.city = {
-      legal: {
-        loading: false,
-        noResults: false,
-        onSelect: function ($item, $model, $label, $event) {
-          $scope.company.legal_address_city_code = $item.id;
-        },
-        getData: getCityTypeahead
-      },
-      actual: {
-        loading: false,
-        noResults: false,
-        onSelect: function ($item, $model, $label, $event) {
-          $scope.company.actual_address_city_code = $item.id;
-        },
-        getData: getCityTypeahead
-      }
-    }
   })
 
   .controller('representativesCtrl', function ($scope, NgTableParams, $resource) {

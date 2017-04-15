@@ -44,13 +44,6 @@ config(function ($stateProvider) {
             cache: false,
             templateUrl: basePath + "/_teacher/_supervisor/superVisor/studentsWithoutGroup",
         })
-        .state('supervisor/userProfile/:id', {
-            url: "/supervisor/userProfile/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_supervisor/superVisor/userProfile?id=" + $stateParams.id
-            }
-        })
         .state('supervisor/addOfflineGroup', {
             url: "/supervisor/addOfflineGroup",
             cache: false,
@@ -126,12 +119,12 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=create&group="+$stateParams.group;
             }
         })
-        .state('admin/users/user/:id/addtrainer', {
-            url: "/admin/users/user/:id/addtrainer",
+        .state('users/profile/:id/addtrainer', {
+            url: "/users/profile/:id/addtrainer",
             cache: false,
             controller:"userProfileCtrl",
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
+                return basePath+"/_teacher/_supervisor/supervisor/addTrainer/id/"+$stateParams.id;
             }
         })
         .state('teacher/:id/editTrainerRole/role/:role', {
