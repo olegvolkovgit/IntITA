@@ -602,9 +602,12 @@ class Lecture extends CActiveRecord
     public static function getLecturesListByStatus($isVerified)
     {
         $criteria = new CDbCriteria();
+        $criteria->alias = 'l';
+        $criteria->join = 'LEFT JOIN module m on m.module_ID=l.idModule';
+        $criteria->addCondition('l.idModule > 0 and l.`order` > 0 
+        and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $criteria->addCondition('l.verified = ' . $isVerified);
 
-        $criteria->addCondition('idModule > 0 and `order` > 0');
-        $criteria->addCondition('verified = ' . $isVerified);
         $lectures = Lecture::model()->findAll($criteria);
         $return = array('data' => array());
 
@@ -613,14 +616,6 @@ class Lecture extends CActiveRecord
             $row["module"] = CHtml::encode(($record->idModule) ? $record->ModuleTitle->title_ua : "");
             $row["lesson_url"] = Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0));
             $row["order"] = $record->order;
-            /* Deprecated after QA
-            $row["title"] = "<a href=\"" . Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0)) . "\">" . CHtml::encode($record->title_ua) . "</a>";
-            if (!$isVerified) {
-                $row['url'] = "'" . Yii::app()->createUrl("/_teacher/_admin/verifyContent/confirm", array("id" => $record->id)) . "'";
-            } else {
-                $row['url'] = "'" . Yii::app()->createUrl("/_teacher/_admin/verifyContent/cancel", array("id" => $record->id)) . "'";
-            }
-            */
             $row["title"] = $record->title_ua;
             $row["type"] = $record->type->title_ua;
             $row["id"] = $record->id;

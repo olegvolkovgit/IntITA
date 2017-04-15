@@ -207,14 +207,14 @@ class StudentReg extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
-            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'on' => 'trainer.end_time IS NULL'),
+            'trainer' => array(self::HAS_MANY, 'TrainerStudent', 'student', 'on' => 'trainer.end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', ['id'=>'country']),
             'city0' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
             'serviceAccess' => array(self::HAS_MANY, 'UserServiceAccess', 'userId', 'on' => 'serviceAccess.endDate > NOW()'),
-            'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
+            'student' => array(self::HAS_MANY, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
             'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
             'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
-            'offlineStudents' => [self::HAS_ONE, 'OfflineStudents', 'id_user', 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()'],
+            'offlineStudents' => [self::HAS_MANY, 'OfflineStudents', 'id_user', 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()'],
             'offlineSubGroups' => [self::HAS_MANY, 'OfflineSubgroups', ['id_subgroup' => 'id'], 'through' => 'offlineStudents'],
             'offlineGroups' => [self::HAS_MANY, 'OfflineGroups', ['group' => 'id'], 'through' => 'offlineSubGroups'],
             'educationForm' => array(self::HAS_ONE, 'EducationForm', ['id'=>'educform']),
@@ -388,7 +388,7 @@ class StudentReg extends CActiveRecord
     {
         return parent::model($className);
     }
-    
+
     public function afterFind() {
         /* setup full name field after find */
         $this->fullName = trim($this->firstName . " " . $this->secondName. " ".$this->email);
@@ -401,6 +401,7 @@ class StudentReg extends CActiveRecord
             $format = "Y-m-d";
             $this->document_issued_date = date_format(DateTime::createFromFormat($format, $this->document_issued_date),'d/m/Y');
         }
+//        unset($this->password);
     }
     
     public function beforeSave(){
@@ -1396,8 +1397,7 @@ class StudentReg extends CActiveRecord
             'fullName','id','middleName','nickname','skype','state','status','phone','reg_time','education_shift','prev_job',
             'current_job','passport','document_issued_date','inn','passport_issued'
         ));
-        if($user===null)
-            throw new CHttpException(404,'The requested page does not exist.');
+
         $trainer = TrainerStudent::getTrainerByStudent($id);
 
         $result['user']=$user;
@@ -1544,7 +1544,7 @@ class StudentReg extends CActiveRecord
 
     public function isOrganizationTeacher($organization=null)
     {
-        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganization()->id;
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         return TeacherOrganization::model()->findByAttributes(array(
             'id_user' => $this->id,
             'id_organization'=>$organization,

@@ -15,22 +15,6 @@ config(function ($stateProvider) {
         },
         templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=content_manager",
         })
-        .state('content_manager/authors', {
-            url: "/content_manager/authors",
-            cache         : false,
-            controller: function($scope){
-                $scope.changePageHeader('Автори модулів');
-            },
-            templateUrl: contentManagerUrl+"/authors",
-        })
-        .state('content_manager/teacherConsultants', {
-            url: "/content_manager/teacherConsultants",
-            cache         : false,
-            controller: function($scope){
-                $scope.changePageHeader('Викладачі');
-            },
-            templateUrl: contentManagerUrl+"/teacherConsultants",
-        })
         .state('content_manager/revisions', {
             url: "/content_manager/revisions",
             cache         : false,
@@ -70,17 +54,11 @@ config(function ($stateProvider) {
         .state('content_manager/authorAttributes', {
             url: "/content_manager/authorAttributes",
             cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Атрибути автора контента');
-            },
             templateUrl: basePath+"/_teacher/_content_manager/roleAttributes/authorAttributes",
         })
         .state('content_manager/teacherConsultantAttributes', {
             url: "/content_manager/teacherConsultantAttributes",
             cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Атрибути викладача');
-            },
             templateUrl: basePath+"/_teacher/_content_manager/roleAttributes/teacherConsultantAttributes",
         })
         .state('content_manager/sendCoworkerRequest', {

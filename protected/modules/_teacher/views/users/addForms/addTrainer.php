@@ -15,7 +15,7 @@
     </div>
     <div ng-if="data.trainer">
         <h4><em>Тренер:</em></h4>
-        <form method="post" ng-submit="cancelTrainer(data.user.id)">
+        <form method="post" ng-submit="cancelTrainer(user.id)">
             <div id="userInfo">
                 {{data.trainer.firstName}} {{data.trainer.secondName}} {{data.trainer.middleName}} &lt;{{data.trainer.email}}&gt;
             </div>
@@ -25,7 +25,7 @@
     <br>
     <h4><em>Новий тренер:</em></h4>
     <div class="form-group">
-        <form method="post" ng-submit="addTrainer(selectedTrainer.id, data.user.id);">
+        <form method="post" ng-submit="addTrainer(selectedTrainer.id, user.id);">
             <div class="form-group">
                 <label>
                     <strong>Тренер:</strong>

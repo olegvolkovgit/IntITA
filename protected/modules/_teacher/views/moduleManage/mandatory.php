@@ -7,7 +7,7 @@
 */
 $modules = CourseModules::availableMandatoryModules($course->course_ID, $module->module_ID);
 ?>
-<form ng-controller="mandatoryModulesCtrl" ng-submit="addMandatory('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addMandatoryModule'); ?>')"
+<form ng-controller="mandatoryModulesCtrl" ng-submit="addMandatory('<?php echo Yii::app()->createUrl('/_teacher/moduleManage/addMandatoryModule'); ?>')"
     name="add-accessModule">
     <fieldset>
         <div class="col-md-8">

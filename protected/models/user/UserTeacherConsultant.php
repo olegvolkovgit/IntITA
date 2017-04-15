@@ -140,30 +140,4 @@ class UserTeacherConsultant extends CActiveRecord
 
 		return json_encode($return);
 	}
-
-    /**
-     * Used in content manager cabinet.
-     * @return string JSON for datatable (teacher consultants) in content manager cabinet
-     */
-	public static function teacherConsultantsListCM(){
-		$sql = 'select * from user as u, user_teacher_consultant as ua where u.id = ua.id_user';
-		$admins = Yii::app()->db->createCommand($sql)->queryAll();
-		$return = array('data' => array());
-
-		foreach ($admins as $record) {
-			$row = array();
-			$row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
-			$row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
-			$row["email"]["title"] = $record["email"];
-            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/user/index',
-                    array('id' => $record['id']));
-			$row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
-			$row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
-			$row["profile"] = Config::getBaseUrl()."/profile/".$record["id"];
-			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_content_manager/contentManager/cancelRole')."'".", 'teacher_consultant', '".$record["id"]."'";
-			array_push($return['data'], $row);
-		}
-
-		return json_encode($return);
-	}
 }

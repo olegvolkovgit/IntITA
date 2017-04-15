@@ -55,19 +55,4 @@ function verifyContentCtrl($scope, $http, DTOptionsBuilder) {
         });
 
     };
-
-    $scope.reindexContent = function (url) {
-        $jq.ajax({
-            url: url,
-            type: "POST",
-            success: function () {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    $scope.changeView('lectures/verifycontent');//
-                });
-            },
-            error: function () {
-                showDialog("Операцію не вдалося виконати.");
-            }
-        });
-    }
 }

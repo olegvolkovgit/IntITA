@@ -180,4 +180,17 @@ class Student extends Role
     {
         return UserStudent::model()->findAll($criteria);
     }
+
+    public function setRole(StudentReg $user, $organization=null)
+    {
+        if(Yii::app()->db->createCommand()->
+        insert($this->tableName(), array(
+            'id_user' => $user->id,
+            'assigned_by'=>Yii::app()->user->getId(),
+        ))){
+            $this->notifyAssignRole($user);
+            return true;
+        }
+        return false;
+    }
 }

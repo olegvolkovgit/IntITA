@@ -8,12 +8,12 @@
 ?>
 <div class="panel panel-default" ng-controller="moduleTeachersConsultantTableCtrl">
     <div class="panel-body">
-        <?php if ($scenario == "update") { ?>
+        <?php if (Yii::app()->user->model->isContentManager() && $scenario == "update") { ?>
             <ul class="list-inline">
                 <li>
-                    <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('module/addTeacherConsultant/<?= $model->module_ID ?>')">
+                    <a type="button" class="btn btn-outline btn-primary" ng-href="#/module/addTeacherConsultant/<?= $model->module_ID ?>">
                         Призначити викладача
-                    </button>
+                    </a>
                 </li>
             </ul>
         <?php } ?>
@@ -27,7 +27,7 @@
                     </td>
                     <td data-title="'Призначено'" sortable="'start_date'" filter="{start_date: 'text'}">{{row.start_date}}</td>
                     <td data-title="'Відмінено'" sortable="'end_date'" filter="{end_date: 'text'}" filter-data="lang">{{row.end_date}}</td>
-                    <?php if ($scenario == 'update') { ?>
+                    <?php if (Yii::app()->user->model->isContentManager() && $scenario == 'update') { ?>
                         <td data-title="'Відмінити'">
                             <a ng-if="!row.end_date" href=""
                                ng-click="cancelTeacherRoleAttribute('teacher_consultant','module',row.id_teacher,row.id_module)">
