@@ -135,13 +135,23 @@ class Newsletters extends CActiveRecord implements ITask
         switch ($this->type) {
             case "roles":
                 foreach (unserialize($this->recipients) as $role) {
-                    $_role = Role::getInstance($role);
-                    $criteria = new CDbCriteria();
-                    $criteria->with = ['activeMembers'];
-                    $users = $_role->getMembers($criteria);
-                    if (isset($users)) {
-                        foreach ($users as $user) {
-                            array_push($mailList, $user->activeMembers->email);
+                    if ($role == 'coworkers'){
+                        $users = Teacher::model()->with(['user'])->find(['t.end_date IS NULL AND user.cancelled=0']);
+                        if (isset($models)){
+                            foreach ($users as $user){
+                                array_push($mailList, $user->user->email);
+                            }
+                        }
+                    }
+                    else {
+                        $_role = Role::getInstance($role);
+                        $criteria = new CDbCriteria();
+                        $criteria->with = ['activeMembers'];
+                        $users = $_role->getMembers($criteria);
+                        if (isset($users)) {
+                            foreach ($users as $user) {
+                                array_push($mailList, $user->activeMembers->email);
+                            }
                         }
                     }
                 }
@@ -204,14 +214,14 @@ class Newsletters extends CActiveRecord implements ITask
 
     private function sendMail($recipients){
         $fromName = 'IntITA';
-        if ($this->email != Config::getNewsletterMailAddress()){
-            $model = Teacher::model()->with('user')->findByAttributes(array('corporate_mail'=>$this->email));
+        if ($this->newsletter_email != Config::getNewsletterMailAddress()){
+            $model = Teacher::model()->with('user')->findByAttributes(array('corporate_mail'=>$this->newsletter_email));
             $fromName = "{$model->user->firstName} {$model->user->middleName} {$model->user->secondName}";
         }
-        $headers = "From: {$fromName} <{$this->email}>\n"
+        $headers = "From: {$fromName} <{$this->newsletter_email}>\n"
             . "MIME-Version: 1.0\n"
             . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
-        mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->message,$headers);
+        mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->text,$headers);
 
     }
 

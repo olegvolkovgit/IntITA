@@ -119,6 +119,15 @@ class Module extends CActiveRecord implements IBillableObject
         );
     }
 
+    protected function beforeValidate()
+    {
+        if($this->isNewRecord){
+            $this->id_organization=Yii::app()->user->model->getCurrentOrganization()->id;
+        }
+
+        return parent::beforeValidate();
+    }
+
     public function behaviors() {
         return [
             'ngTable' => [
@@ -145,7 +154,7 @@ class Module extends CActiveRecord implements IBillableObject
             'what_you_learn' => 'Що ти вивчиш',
             'what_you_get' => 'Що ти отримаєш',
             'module_img' => 'Фото',
-            'module_number' => 'Номер модуля',
+            'module_number' => 'Унікальний ідентифікатор, використовується при генерації номера договора про оплату модуля.',
             'cancelled' => 'Видалений',
             'status' => 'Статус',
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',
@@ -896,33 +905,6 @@ class Module extends CActiveRecord implements IBillableObject
     public function paymentMailTheme()
     {
         return 'Доступ до модуля';
-    }
-//Deprecated
-    public static function modulesList()
-    {
-        $courses = Module::model()->findAll();
-        $return = array('data' => array());
-
-        foreach ($courses as $record) {
-            $row = array();
-
-            $row["id"] = $record->module_ID;
-            $row["alias"] = $record->alias;
-            $row["lang"] = $record->language;
-            $row["title"]["name"] = $record->title_ua;
-            $row["title"]["mainLink"] = Yii::app()->createUrl("/module/index", array("idModule" => $record->module_ID));
-            $row["title"]["header"] = "'Модуль " . addslashes($record->title_ua) . "'";
-            $row["status"] = $record->statusLabel();
-            $row["level"] = $record->level0->title_ua;
-            $row["title"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/module/view", array("id" => $record->module_ID)) . "'";
-            $row["title"]["id"] = $record->module_ID;
-            $row["cancelled"] = $record->cancelledLabel();
-            $row["addAuthorLink"] = "'" . Yii::app()->createUrl("/_teacher/_admin/module/addAuthor", array("id" => $record->module_ID)) . "'";
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
     }
 
     public static function modulesNotInDefinedCourse($query, $course)

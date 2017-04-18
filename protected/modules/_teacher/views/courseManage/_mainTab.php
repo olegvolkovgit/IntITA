@@ -22,8 +22,13 @@
                 <td><?=CHtml::encode($model->alias);?></td>
             </tr>
             <tr>
-                <td>Номер:</td>
-                <td><?= $model->course_number; ?></td>
+                <td>
+                    <div data-toggle="tooltip" data-placement="top" title="Унікальний ідентифікатор, використовується
+                    при генерації номера договора про оплату курса.">
+                        Номер курса:
+                    </div>
+                </td>
+                <td><?=$model->course_number;?></td>
             </tr>
             <tr>
                 <td>Рівень:</td>

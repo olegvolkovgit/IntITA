@@ -13,9 +13,9 @@ class CourseManageController extends TeacherCabinetController
     public function hasRole()
     {
         $allowedViewActions=['coursesList', 'view', 'getCoursesList'];
-        return (Yii::app()->user->model->isAdmin() && !in_array(Yii::app()->controller->action->id,['coursesList', 'getCoursesList'])) ||
-        Yii::app()->user->model->isContentManager() ||
-        (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
+        return Yii::app()->user->model->isContentManager()
+            ||(Yii::app()->user->model->isAdmin() && !in_array(Yii::app()->controller->action->id,['coursesList', 'getCoursesList'])) ||
+            (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
 
     protected function performAjaxValidation($model)
@@ -93,7 +93,7 @@ class CourseManageController extends TeacherCabinetController
         $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
 
         $model = $this->loadModel($id);
-
+        Yii::app()->user->model->hasAccessToOrganizationModel($model);
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Course'])) {
@@ -143,6 +143,7 @@ class CourseManageController extends TeacherCabinetController
     public function actionChangeStatus($id)
     {
         $model = Course::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($model);
         if ($model->changeStatus())
             return "success";
         else {
@@ -160,12 +161,12 @@ class CourseManageController extends TeacherCabinetController
 
     public function actionCoursesList()
     {
-        $this->renderPartial('_courses_table', array('organization'=>false), false, true);
+        $this->renderPartial('index', array('organization'=>false), false, true);
     }
 
     public function actionOrganizationCoursesList()
     {
-        $this->renderPartial('_courses_table', array('organization'=>true), false, true);
+        $this->renderPartial('index', array('organization'=>true), false, true);
     }
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -207,6 +208,8 @@ class CourseManageController extends TeacherCabinetController
 
     public function actionSchema($idCourse)
     {
+        $course=Course::model()->findByPk($idCourse);
+        Yii::app()->user->model->hasAccessToOrganizationModel($course);
         $modules = Course::getCourseModulesSchema($idCourse);
         if (count($modules) <= 0) {
             $this->render('schemaError');
@@ -225,6 +228,8 @@ class CourseManageController extends TeacherCabinetController
 
     public function actionSaveSchema($idCourse)
     {
+        $course=Course::model()->findByPk($idCourse);
+        Yii::app()->user->model->hasAccessToOrganizationModel($course);
         $modules = Course::getCourseModulesSchema($idCourse);
         $tableCells = Course::getTableCells($modules, $idCourse);
         $courseDurationInMonths = Course::getCourseDuration($tableCells) + 5;
@@ -305,7 +310,9 @@ class CourseManageController extends TeacherCabinetController
 
     public function actionAddLinkedCourse($course, $lang)
     {
-        $currentCourseLang = Course::model()->findByPk($course)->language;
+        $courseModel=Course::model()->findByPk($course);
+        Yii::app()->user->model->hasAccessToOrganizationModel($courseModel);
+        $currentCourseLang = $courseModel->language;
         $this->renderPartial('_addLinkedCourse', array(
             'course' => $course,
             'lang' => $lang,
@@ -330,6 +337,8 @@ class CourseManageController extends TeacherCabinetController
 
         $course = Course::model()->findByPk($courseId);
         $linkedCourse = Course::model()->findByPk($linkedId);
+        Yii::app()->user->model->hasAccessToOrganizationModel($course);
+        Yii::app()->user->model->hasAccessToOrganizationModel($linkedCourse);
 
         $currentCourseLangModel = CourseLanguages::model()->findByAttributes(array('lang_'.$course->language => $course->course_ID));
         $linkedCourseLangModel = CourseLanguages::model()->findByAttributes(array('lang_'.$linkedCourse->language => $linkedCourse->course_ID));

@@ -20,9 +20,9 @@ $lectures = $model->lectures;
                 </li>
                 <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 <li>
-                    <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('admin/freelectures')">
+                    <a type="button" class="btn btn-outline btn-primary" ng-href="#/admin/freelectures">
                         Змінити статус лекції
-                    </button>
+                    </a>
                 </li>
                 <?php } ?>
             </ul>

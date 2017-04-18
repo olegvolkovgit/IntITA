@@ -647,3 +647,15 @@ div.loader > div {
 .list-inline>li {
     padding: 5px;
 }
+.red {
+    color:red
+}
+.green {
+    color:green;
+}
+.vertical-middle {
+    vertical-align:middle;
+}
+.form-horizontal .control-label.text-left{
+    text-align: left;
+}

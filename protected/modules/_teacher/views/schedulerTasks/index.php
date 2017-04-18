@@ -5,8 +5,8 @@
                 <table class="table table-striped table-bordered table-hover" ng-table="schedulerTasksTable">
                     <colgroup>
                         <col width="5%"/>
-                        <col width="8%"/>
                         <col width="15%"/>
+                        <col width="10%"/>
                         <col width="10%"/>
                         <col width="15%"/>
                         <col width="15%"/>
@@ -17,7 +17,7 @@
                     </colgroup>
                     <tr ng-repeat="row in $data" ng-class="{ 'danger': row.error }">
                         <td data-title="'ID'">{{row.id}}</td>
-                        <td data-title="'Тема'" filter="{ type: 'text'}" filter-data="subjectFilter">{{row.newsletter.subject}}</span></td>
+                        <td data-title="'Тема листа'" filter="{ 'newsletter.subject': 'text'}" filter-data="subjectFilter">{{row.newsletter.subject}}</span></td>
                         <td data-title="'Повтор завдання'" filter="{ repeat_type: 'select'}" filter-data="repeatFilter"><span ng-if="row.repeat_type == 1">Однократно</span>
                             <span ng-if="row.repeat_type == 2">Раз на день</span>
                             <span ng-if="row.repeat_type == 3">Раз на тиждень</span>

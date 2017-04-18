@@ -75,7 +75,7 @@ class Teacher extends CActiveRecord
 //            'modules' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
             'responses' => array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
             'modulesActive' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)',
-                'condition'=>'modulesActive_modulesActive.end_time IS NULL and modulesActive.cancelled = '.Module::ACTIVE),
+                'on'=>'modulesActive_modulesActive.end_time IS NULL and modulesActive.cancelled = '.Module::ACTIVE),
             'teacherOrganizations' => array(self::HAS_MANY, 'TeacherOrganization', ['id_user'=>'user_id'], 'on'=>'end_date IS NULL'),
         );
     }
@@ -579,6 +579,7 @@ class Teacher extends CActiveRecord
         $criteria->join .= ' LEFT JOIN teacher_consultant_module tcm ON tcm.id_teacher = utc.id_user';
         $criteria->addCondition('utc.id_user IS NOT NULL and utc.end_date IS NULL and tcm.end_date IS NULL 
         and s.cancelled ='.StudentReg::ACTIVE .' and tcm.id_module = '.$module);
+        $criteria->group = 's.id';
         $data = StudentReg::model()->findAll($criteria);
 
         $result = array();

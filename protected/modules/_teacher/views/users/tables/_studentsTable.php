@@ -37,7 +37,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
             <div class="dataTable_wrapper">
                 <table ng-table="studentsTableParams" class="table table-bordered table-striped table-condensed">
                     <colgroup>
-                        <col/>
+                        <col width="20%"/>
                         <col/>
                         <col/>
                         <col/>

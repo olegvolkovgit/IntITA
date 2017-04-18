@@ -5,33 +5,19 @@ class ContentManagerController extends TeacherCabinetController
 
     public function hasRole()
     {
-        $allowedAdminActions=['getAuthorsList'];
-        return Yii::app()->user->model->isContentManager() || (Yii::app()->user->model->isAdmin() && in_array(Yii::app()->controller->action->id,$allowedAdminActions));
+        return Yii::app()->user->model->isContentManager();
     }
 
-    public function actionAuthors()
-    {
-        $this->renderPartial('/_content_manager/authors');
-    }
-    
-    public function actionTeacherConsultants()
-    {
-        $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
-    }
     public function actionStatusOfModules($id)
     {
-        $this->renderPartial('/_content_manager/statusOfModules', array('id' => $id), false, true);
+        $this->renderPartial('/_content_manager/contentState/statusOfModules', array('id' => $id), false, true);
     }
 
     public function actionStatusOfCourses()
     {
-        $this->renderPartial('/_content_manager/statusOfCourses', array(), false, true);
+        $this->renderPartial('/_content_manager/contentState/statusOfCourses', array(), false, true);
     }
 
-    public function actionGetTeacherConsultantsList()
-    {
-        echo UserTeacherConsultant::teacherConsultantsListCM();
-    }
     public function actionGetModulesList()
     {
         $adapter = new NgTableStatisticAdapter($_GET,'module');
@@ -44,16 +30,6 @@ class ContentManagerController extends TeacherCabinetController
         $adapter = new NgTableStatisticAdapter($_GET,'course');
         $test = $adapter->returnData();
         echo json_encode($test);
-    }
-
-    public function actionGetAuthorsList()
-    {
-        $params = $_GET;
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('end_date IS NULL');
-        $adapter = new NgTableAdapter('UserAuthor',$params);
-        $adapter->mergeCriteriaWith($criteria);
-        echo json_encode($adapter->getData());
     }
 
     public function actionGetConsultantsList()
@@ -141,12 +117,12 @@ class ContentManagerController extends TeacherCabinetController
     }
 
     public function actionShowLessonsList($idModule) {
-        $this->renderPartial('/_content_manager/_listOfLessons', array('idModule' => $idModule), false, true);
+        $this->renderPartial('/_content_manager/contentState/_listOfLessons', array('idModule' => $idModule), false, true);
 
     }
 
     public function actionShowPartsList($idLesson) {
-        $this->renderPartial('/_content_manager/_listOfParts', array('idLesson' => $idLesson), false, true);
+        $this->renderPartial('/_content_manager/contentState/_listOfParts', array('idLesson' => $idLesson), false, true);
 
     }
 
@@ -156,7 +132,7 @@ class ContentManagerController extends TeacherCabinetController
         $role = new UserRoles($role);
         $attributes = $user->getAttributesByRole($role);
 
-        $this->renderPartial('/_content_manager/_moduleList', array(
+        $this->renderPartial('/_content_manager/roleAttributes/editRole', array(
             'model' => $user->registrationData,
             'role' => $role,
             'attributes' => $attributes

@@ -18,7 +18,7 @@
                     <col/>
                     <col/>
                     <col/>
-                    <col width="5%"/>
+                    <col/>
                 </colgroup>
                 <tr ng-repeat="row in $data track by $index">
                     <td style="word-wrap:break-word" data-title="'Користувач'" filter="{'idUser.fullName': 'text'}" sortable="'idUser.fullName'">
@@ -40,6 +40,9 @@
                         </a>
                         <?php if (Yii::app()->user->model->isAdmin() && $organization) { ?>
                             <a ng-if="!row.end_date" ng-click="cancelLocalRole(row.id_user,'teacher_consultant')"><i class="fa fa-trash fa-fw"></i></a>
+                        <?php } ?>
+                        <?php if (Yii::app()->user->model->isContentManager() && $organization) { ?>
+                            <a class="btn btn-primary" ng-href="#/content_manager/user/{{row.id_user}}/role/teacher_consultant">додати модуль</a>
                         <?php } ?>
                     </td>
                 </tr>

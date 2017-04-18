@@ -29,7 +29,7 @@
                         </li>
                         <li class="list-group-item">
                             <label>Тренер в підгрупі: </label>
-                            <a ng-href="#/supervisor/userProfile/{{subgroupTrainer.id}}">{{subgroupTrainer.fullName}}</a>
+                            <a ng-href="#/users/profile/{{subgroupTrainer.id}}">{{subgroupTrainer.fullName}}</a>
                         </li>
                         <li class="list-group-item">
                             <label>Інформація(розклад):</label> <span ng-bind-html="subgroup.data | linky:'_blank'">

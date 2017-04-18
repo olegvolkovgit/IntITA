@@ -50,10 +50,10 @@ function moduleManageCtrl($scope, $http, $stateParams, tagsService, _) {
     var url;
     switch (status) {
       case 'delete':
-        url = basePath + '/_teacher/_admin/module/delete/id/' + moduleId;
+        url = basePath + '/_teacher/moduleManage/delete/id/' + moduleId;
         break;
       case 'restore':
-        url = basePath + '/_teacher/_admin/module/restore/id/' + moduleId;
+        url = basePath + '/_teacher/moduleManage/restore/id/' + moduleId;
         break;
     }
     bootbox.confirm("Ви впевнені?", function (result) {
@@ -64,7 +64,7 @@ function moduleManageCtrl($scope, $http, $stateParams, tagsService, _) {
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
         }).success(function (message) {
           bootbox.alert(message);
-          location.hash = '/module/view/' + moduleId;
+          location.hash = '/module/id/' + moduleId;
         }).error(function () {
           bootbox.alert("Операцію не вдалося виконати.");
         })

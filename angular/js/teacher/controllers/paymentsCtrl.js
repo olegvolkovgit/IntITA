@@ -52,7 +52,7 @@ function paymentsCtrl($scope, $stateParams, $http,  $state) {
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            $state.go('students/agreement/:agreementId',{agreementId:response.data},{reload:true});
+            $state.go('student/agreement/:agreementId',{agreementId:response.data},{reload:true});
         }, function errorCallback() {
             bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора');
         });

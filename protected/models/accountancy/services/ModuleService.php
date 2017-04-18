@@ -12,6 +12,7 @@
  * @property Service $service
  * @property Module $module
  * @property EducationForm $educForm
+ * @property Module $moduleModel
  *
  * Behaviours
  * @property ServiceAccessBehavior access

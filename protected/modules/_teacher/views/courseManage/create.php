@@ -4,9 +4,9 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                ng-click="changeView('admin/coursemanage')">
-            <?php echo Yii::t("coursemanage", "0392"); ?></button>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/coursemanage">
+            <?php echo Yii::t("coursemanage", "0392"); ?>
+        </a>
     </li>
 </ul>
 
@@ -28,7 +28,7 @@
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'course-form',
-                'action'=>Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'),
+                'action'=>Yii::app()->createUrl('/_teacher/courseManage/create'),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data',

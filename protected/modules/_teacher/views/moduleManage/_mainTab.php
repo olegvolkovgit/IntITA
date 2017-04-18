@@ -14,6 +14,18 @@
         <table class="table table-hover">
             <tbody>
             <tr>
+                <td width="30%">Назва (укр.) *:</td>
+                <td><?= CHtml::encode($model->title_ua); ?></td>
+            </tr>
+            <tr>
+                <td width="30%">Назва (рос.):</td>
+                <td><?= CHtml::encode($model->title_ru); ?></td>
+            </tr>
+            <tr>
+                <td width="30%">Назва (англ.):</td>
+                <td><?= CHtml::encode($model->title_en); ?></td>
+            </tr>
+            <tr>
                 <td width="35%">Мова: </td>
                 <td><?=$model->language;?></td>
             </tr>
@@ -29,9 +41,9 @@
                     </div>
                 </td>
                 <td>
-                    <?php if(Yii::app()->user->model->getCurrentOrganization()->id==$model->id_organization){ ?>
+                    <?php if(Yii::app()->user->model->isAdmin() && Yii::app()->user->model->getCurrentOrganization()->id==$model->id_organization){ ?>
                     <div ng-controller="modulePriceCtrl">
-                        <input class="col-md-2" style="border-radius: 5px" ng-model="modulePrice" type="number" min="0" ng-init="modulePrice=<?php echo $model->module_price; ?>">
+                        <input class="col-md-2" style="border-radius: 5px" ng-model="modulePrice" type="number" min="0" ng-init="modulePrice='<?php echo $model->module_price; ?>'">
                         <button ng-click="updateModulePrice('<?php echo $model->module_ID; ?>',modulePrice)" class="btn btn-outline btn-primary btn-xs" >Зберегти</button>
                     </div>
                     <?php } else {
@@ -40,7 +52,8 @@
                 </td>
             </tr>
             <tr>
-                <td><div data-toggle="tooltip" data-placement="top" title="Ціна модуля в курсі однакова в будь-якому курсі.
+                <td>
+                    <div data-toggle="tooltip" data-placement="top" title="Ціна модуля в курсі однакова в будь-якому курсі.
                 Визначається за допомогою коефіцієнта ціни модуля в курсі.">
                         Ціна модуля в курсі:
                     </div>

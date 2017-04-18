@@ -101,6 +101,15 @@ class Course extends CActiveRecord implements IBillableObject
         );
     }
 
+    protected function beforeValidate()
+    {
+        if($this->isNewRecord){
+            $this->id_organization=Yii::app()->user->model->getCurrentOrganization()->id;
+        }
+
+        return parent::beforeValidate();
+    }
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -131,7 +140,9 @@ class Course extends CActiveRecord implements IBillableObject
             'status_online' => 'Онлайн-статус',
             'status_offline' => 'Офлайн-статус',
             'cancelled' => Yii::t('course', '0741'),
-            'course_number' => Yii::t('course', '0742'),
+//          'course_number' => Yii::t('course', '0742')
+            'course_number' => 'Унікальний ідентифікатор, використовується при генерації номера договора про оплату курса.',
+
             'id_organization' => 'Id організації',
         );
     }
@@ -961,7 +972,8 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
         $criteria->join = ' left join course_languages cl on cl.lang_'.$lang.'=c.course_ID';
-        $criteria->addCondition('cl.lang_'.$currentCourseLang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
+        $criteria->addCondition('cl.lang_'.$currentCourseLang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'" 
+        and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
 
         $data = Course::model()->findAll($criteria);
         $result = array();
