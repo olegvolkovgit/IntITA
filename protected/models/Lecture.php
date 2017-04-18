@@ -17,7 +17,10 @@
  * @property integer $preLecture
  * @property integer $nextLecture
  * @property integer $isFree
- * @property integer $rate
+// * @property integer $rate
+ * @property integer $understand_rating
+ * @property integer $interesting_rating
+ * @property integer $accessibility_rating
  * @property integer $verified
  *
  * The followings are the available model relations:
@@ -51,7 +54,8 @@ class Lecture extends CActiveRecord
         // will receive user inputs.
         return array(
             array('idModule, order, title_ua, durationInMinutes', 'required', 'message' => Yii::t('validation', '0576')),
-            array('idModule, order, idType, rate, verified', 'numerical', 'integerOnly' => true),
+            array('idModule, order, idType, verified', 'numerical', 'integerOnly' => true),
+//            array('idModule, order, idType, rate, verified', 'numerical', 'integerOnly' => true),
             array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('validation', '057'), 'message' => Yii::t('validation', '0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
@@ -61,7 +65,7 @@ class Lecture extends CActiveRecord
             array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
-            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, understand_rating, interesting_rating, accessibility_rating', 'safe', 'on' => 'search'),
         );
     }
 
@@ -99,7 +103,10 @@ class Lecture extends CActiveRecord
             'idType' => 'Тип',
             'isFree' => 'Безкоштовно',
             'durationInMinutes' => 'Тривалість лекції(хв)',
-            'rate' => 'Рейтинг заняття',
+//            'rate' => 'Рейтинг заняття',
+            'understand_rating' => 'Рейтинг заняття по зрозумiлостi',
+            'interesting_rating' => 'Рейтинг заняття по цiкавостi',
+            'accessibility_rating' => 'Рейтинг заняття по доступностi',
             'verified' => 'Підтверджено адміністратором',
         );
     }
@@ -131,7 +138,10 @@ class Lecture extends CActiveRecord
         $criteria->compare('idType', $this->idType, true);
         $criteria->compare('isFree', $this->isFree, true);
         $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
-        $criteria->compare('rate', $this->rate);
+//        $criteria->compare('rate', $this->rate);
+        $criteria->compare('understand_rating', $this->understand_rating);
+        $criteria->compare('interesting_rating', $this->interesting_rating);
+        $criteria->compare('accessibility_rating', $this->accessibility_rating);
         $criteria->compare('verified', $this->verified);
 
         $criteria->with = array('ModuleTitle');
@@ -970,5 +980,25 @@ class Lecture extends CActiveRecord
                 return LectureType::model()->findByPk(2)->$param;
                 break;
         };
+    }
+
+    public static function updateRatingLectures($rate, $lectureId, $ratingName){
+
+        $lecture = Lecture::model()->findByPk($lectureId);
+        $oldRating = $lecture->$ratingName;
+
+        if($oldRating == NULL){
+            $lecture->$ratingName = $rate;
+            $lecture->save();
+            return;
+        }
+
+        $count = LecturesRating::model()->count('id_lecture = :id_lecture and '.$ratingName.' is not NULL', array(':id_lecture' => $lectureId));
+        $newRating = ($count*$oldRating + $rate)/($count + 1);
+
+        $newRating = round($newRating);
+
+        $lecture->$ratingName = $newRating;
+        $lecture->save();
     }
 }

@@ -406,14 +406,56 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
 
-    public function actionNextLecture($lectureId, $idCourse = 0)
+//    public function actionNextLecture($lectureId, $idCourse = 0)
+    public function actionNextLecture()
     {
+        $lectureId = $_POST ["params"]["lecture_id"];
+        $idCourse = $_POST ["params"]["courses_id"];
         $lecture = Lecture::model()->findByPk($lectureId);
-        if ($lecture->order < $lecture->lastLectureOrder()) {
-            $nextId = $lecture->nextLectureId();
-            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse)));
-        } else {
-            $this->redirect($_SERVER["HTTP_REFERER"]);
+        $understand_rating = $_POST['params']['ratings']['ratings']['0']['rate'];
+        $interesting_rating = $_POST['params']['ratings']['ratings']['1']['rate'];
+        $accessibility_rating = $_POST['params']['ratings']['ratings']['2']['rate'];
+
+        $modelRating = new LecturesRating;
+
+        $modelRating->id_lecture = $lectureId;
+        $modelRating->understand_rating = $understand_rating;
+        $modelRating->interesting_rating = $interesting_rating;
+        $modelRating->accessibility_rating = $accessibility_rating;
+        $modelRating->id_user = Yii::app()->user->getId();
+
+        $revisions = RevisionLecture::getParentRevisionForLecture($lectureId);
+        $modelRating->id_revision = $revisions->id_revision;
+
+        if(isset($_POST['params']['ratings']['comment'])){
+            $modelRating->comment = $_POST['params']['ratings']['comment'];
+        }
+
+//        var_dump($modelRating->id_revision);
+//        var_dump($modelRating->validate());
+//        die;
+
+        $modelRating->save();
+
+        Lecture::updateRatingLectures($understand_rating, $lectureId, 'understand_rating');
+        Lecture::updateRatingLectures($interesting_rating, $lectureId, 'interesting_rating');
+        Lecture::updateRatingLectures($accessibility_rating, $lectureId, 'accessibility_rating');
+
+        if(Yii::app()->request->isAjaxRequest){
+            if ($lecture->order < $lecture->lastLectureOrder()) {
+                $nextId = $lecture->nextLectureId();
+                echo Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse));
+                // $lecture = Lecture::model()->updateByPk($idLecture, array('order' => 0));  // *** обновление старого поля
+            } else {
+                echo $_SERVER["HTTP_REFERER"];
+            }
+        }else{
+            if ($lecture->order < $lecture->lastLectureOrder()) {
+                $nextId = $lecture->nextLectureId();  // old
+                $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse)));  // old
+            } else {
+                $this->redirect($_SERVER["HTTP_REFERER"]);  // old
+            }
         }
     }
 

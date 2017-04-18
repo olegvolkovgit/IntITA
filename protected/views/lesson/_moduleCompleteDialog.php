@@ -24,6 +24,7 @@
                 <p><?php echo Yii::t('lecture', '0678'); ?></p>
             </div>
             <div class='finishedShare'>
+
                 <a onclick="Share.facebook('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo addslashes($lecture->module->getTitle()) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(CHtml::decode(Lecture::getLectureTitle($lecture->id))) ?>')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'facebook.png'); ?>"></a>
                 <a onclick="Share.googleplus('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo addslashes($lecture->module->getTitle()) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(CHtml::decode(Lecture::getLectureTitle($lecture->id))) ?>')">

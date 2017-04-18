@@ -59,3 +59,12 @@ p.sharingText{
 .nextLecture .modalBody .modalButton{
     width:300px;
 }
+/* -- stars rating -- */
+.glyphicon-star, .glyphicon-star-empty {
+    color:#017ebc;
+    font-size: 24px;
+}
+.modalContent :focus {
+    outline: none !important;
+    /*outline: thin dotted !important;*/
+}
