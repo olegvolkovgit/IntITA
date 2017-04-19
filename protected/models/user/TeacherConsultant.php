@@ -103,7 +103,11 @@ class TeacherConsultant extends Role
     {
         return true;
     }
-    
+
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return true;
+    }
+
     public function checkBeforeSetAttribute(StudentReg $user){
         $user = RegisteredUser::userById($user->id);
         if($user->isTeacherConsultant())

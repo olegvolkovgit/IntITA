@@ -20,6 +20,8 @@ abstract class Role
 
     abstract function checkBeforeDeleteRole(StudentReg $user, $organization);
 
+    abstract function checkBeforeSetRole(StudentReg $user, $organization);
+
     abstract function cancelAttribute(StudentReg $user, $attribute, $value);
 
     public static function getInstance($role){
@@ -137,6 +139,7 @@ abstract class Role
         if(!$this->checkBeforeDeleteRole($user, $organization)){
             return false;
         }
+
         if(Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date'=>date("Y-m-d H:i:s"),

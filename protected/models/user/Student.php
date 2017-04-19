@@ -18,9 +18,10 @@ class Student extends Role
     /**
      * @return string sql for check role student.
      */
-    public function checkRoleSql()
+    public function checkRoleSql($organization=null)
     {
-        return 'select "student" from user_student st where st.id_user = :id and st.end_date IS NULL';
+        $condition=$organization?' and st.id_organization='.$organization:'';
+        return 'select "student" from user_student st where st.id_user = :id and st.end_date IS NULL'.$condition;
     }
 
     public function getErrorMessage()
@@ -76,11 +77,12 @@ class Student extends Role
         if($organization) $condition=$condition.' and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $accessCourses= Yii::app()->db->createCommand()
             ->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en, 
-            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
             ->from('user_service_access sa')
             ->join('acc_course_service cs', 'cs.service_id=sa.serviceId')
             ->join('course c', 'c.course_ID=cs.course_id')
             ->join('level l', 'l.id=c.level')
+            ->join('organization org', 'org.id=c.id_organization')
             ->where($condition)
             ->queryAll();
 
@@ -105,11 +107,12 @@ class Student extends Role
         if($organization) $condition=$condition.' and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $accessModules= Yii::app()->db->createCommand()
             ->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en, 
-            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, ')
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
             ->from('user_service_access sa')
             ->join('acc_module_service ms', 'ms.service_id=sa.serviceId')
             ->join('module m', 'm.module_ID=ms.module_id')
             ->join('level l', 'l.id=m.level')
+            ->join('organization org', 'org.id=m.id_organization')
             ->where($condition)
             ->queryAll();
 
@@ -141,6 +144,10 @@ class Student extends Role
 
     public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
+        return true;
+    }
+
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
         return true;
     }
 
@@ -181,14 +188,15 @@ class Student extends Role
         return UserStudent::model()->findAll($criteria);
     }
 
-    public function setRole(StudentReg $user, $organization=null)
+    public function setRole(StudentReg $user, $organization)
     {
         if(Yii::app()->db->createCommand()->
         insert($this->tableName(), array(
             'id_user' => $user->id,
             'assigned_by'=>Yii::app()->user->getId(),
+            'id_organization'=>$organization,
         ))){
-            $this->notifyAssignRole($user);
+            $this->notifyAssignRole($user, $organization);
             return true;
         }
         return false;

@@ -44,9 +44,12 @@ class Admin extends Role
 	}
 
 	public function checkBeforeDeleteRole(StudentReg $user, $organization=null){
-		return true;
+        return Yii::app()->user->model->isDirector();
 	}
 
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return Yii::app()->user->model->isDirector();
+    }
 	/**
 	 * @param $query string - query from typeahead
 	 * @param $organization - query from typeahead

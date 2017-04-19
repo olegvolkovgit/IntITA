@@ -33,12 +33,6 @@ class RoleController extends TeacherCabinetController
         if ($user->hasRole($role, $organizationId)) {
             $result['data']="Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
         }else{
-//            if($role != UserRoles::STUDENT){
-//                if(!$user->isTeacher()){
-//                    $result['data']="Користувач не є співробітником, призначити йому вибрану роль неможливо.";
-//                    echo json_encode($result); return;
-//                }
-//            }
             if ($user->setRole($role, $organizationId))
                 $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$roleObj->title();
             else $result['data']="Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$roleObj->title().".

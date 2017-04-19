@@ -196,6 +196,10 @@ class Trainer extends Role
         } else return true;
     }
 
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return true;
+    }
+
     public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();

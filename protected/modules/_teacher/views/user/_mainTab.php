@@ -56,7 +56,7 @@ $user = $model->registrationData;
                        target="_blank">почати чат <i class="fa fa-wechat fa-fw"></i>
                     </a>
                 </li>
-                <li ng-if="offline.offlineStudents" class="list-group-item">
+                <li ng-if="offline.offlineStudents.length" class="list-group-item">
                     Офлайн навчання:
                     <ul class="list-group" >
                         <li class="list-group-item groupList" ng-repeat="subgroup in offline.offlineStudents track by $index">

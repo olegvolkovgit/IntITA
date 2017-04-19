@@ -208,28 +208,25 @@ class UsersController extends TeacherCabinetController
         else echo "Користувача ".$user->registrationData->userNameWithEmail()." не вдалося призначити бухгалтером.
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
-    
+
     public function actionGetStudentsList()
     {
-//        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
-
+        $ngTable = new NgTableAdapter('UserStudent', $requestParams);
         $criteria =  new CDbCriteria();
-
         $criteria->alias = 't';
-        $criteria->join = 'inner join user_student us on t.id = us.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
-//        todo
-//        if($_GET['organization'])
-//            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
-        $criteria->group = 't.id';
+        $criteria->join = 'inner join user u on u.id = t.id_user';
+        $criteria->condition = 'u.cancelled='.StudentReg::ACTIVE.' and t.end_date IS NULL';
+
+        if($_GET['organization'])
+            $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $criteria->group = 'u.id';
         if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
             $startDate=$_GET['startDate'];
             $endDate=$_GET['endDate'];
-            $criteria->condition = "TIMESTAMP(us.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
+            $criteria->condition = "TIMESTAMP(t.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
         }
-
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);

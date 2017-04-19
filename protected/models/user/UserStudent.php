@@ -58,6 +58,8 @@ class UserStudent extends CActiveRecord
             'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
             'studentTrainer' => array(self::HAS_ONE, 'TrainerStudent', array('student'=>'id_user','id_organization'=>'id_organization'),
                 'on' => 'end_time IS NULL'),
+            'trainer' => [self::BELONGS_TO,  'StudentReg', ['trainer' => 'id'], 'through' => 'studentTrainer'],
+            'city' => array(self::BELONGS_TO, 'AddressCity', ['city'=>'id'], 'through' => 'idUser'),
 		);
 	}
 
