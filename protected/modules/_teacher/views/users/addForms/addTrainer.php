@@ -1,23 +1,15 @@
-<?php
-/**
- * @var $trainer Teacher
- * @var $oldTrainer Teacher
- * @var $user StudentReg
- * @var $trainers array
- */
-?>
-<div class="col-md-8">
+<div class="col-md-8" ng-controller="addStudentTrainerCtrl">
     <h4><em>Користувач:</em></h4>
     <div id="userInfo">
-        {{data.user.firstName}} {{data.user.secondName}}
-        <br>
-        {{data.user.email}}
+        {{student.idUser.firstName}} {{student.idUser.secondName}} {{student.idUser.email}}
     </div>
-    <div ng-if="data.trainer">
+    <div ng-if="student.studentTrainer.trainerModel">
         <h4><em>Тренер:</em></h4>
-        <form method="post" ng-submit="cancelTrainer(user.id)">
+        <form method="post" ng-submit="cancelTrainer(student.id_user)">
             <div id="userInfo">
-                {{data.trainer.firstName}} {{data.trainer.secondName}} {{data.trainer.middleName}} &lt;{{data.trainer.email}}&gt;
+                {{student.studentTrainer.trainerModel.firstName}}
+                {{student.studentTrainer.trainerModel.secondName}}
+                {{student.studentTrainer.trainerModel.email}}
             </div>
             <input type="submit" class="btn btn-success" value="Скасувати">
         </form>
@@ -25,7 +17,7 @@
     <br>
     <h4><em>Новий тренер:</em></h4>
     <div class="form-group">
-        <form method="post" ng-submit="addTrainer(selectedTrainer.id, user.id);">
+        <form method="post" ng-submit="addTrainer(selectedTrainer.id, student.id_user);">
             <div class="form-group">
                 <label>
                     <strong>Тренер:</strong>

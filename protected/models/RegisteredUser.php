@@ -479,7 +479,8 @@ class RegisteredUser
      * @return Organization
      */
     public function getCurrentOrganizationId() {
-        return Yii::app()->session->get('organization');
+        $organization=Organization::model()->findByPk(Yii::app()->session->get('organization'));
+        return $organization?$organization->id:null;
     }
     
     public function hasAccessToGlobalRoleLists($organization)
@@ -498,5 +499,14 @@ class RegisteredUser
             throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до сторінки в межах даної організації');
         }
         return true;
+    }
+
+    public function isTeacherOrganization()
+    {
+        return TeacherOrganization::model()->findByAttributes(array(
+            'id_user' => $this->registrationData->id,
+            'end_date'=>null,
+            'id_organization'=>Yii::app()->user->model->getCurrentOrganizationId())
+        );
     }
 }

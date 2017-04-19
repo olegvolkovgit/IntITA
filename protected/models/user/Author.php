@@ -181,6 +181,10 @@ class Author extends Role
         return true;
     }
 
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return true;
+    }
+
     /**
      * @param $query string - query from typeahead
      * @param $organization - query from typeahead

@@ -34,6 +34,10 @@ class ContentManager extends Role
         return true;
     }
 
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return true;
+    }
+
     public function cancelAttribute(StudentReg $user, $attribute, $value){
         return false;
     }
