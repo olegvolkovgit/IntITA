@@ -150,7 +150,7 @@ class SiteController extends Controller
         $modelemail = StudentReg::model()->findByAttributes(array('email' => $email));
         if (!$modelemail)
             throw new \application\components\Exceptions\IntItaException('404', 'Посилання не є дійсним');
-        if ($model->token == $modelemail->token) {
+        if ($model->getToken() == $modelemail->getToken()) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
             $app = Yii::app();
@@ -313,7 +313,7 @@ class SiteController extends Controller
         $this->performAjaxValidation($model, 'changep-form');
         if (Yii::app()->request->getPost('StudentReg')) {
             $post = Yii::app()->request->getPost('StudentReg');
-            if ($model->token == Yii::app()->request->getPost('tokenhid')) {
+            if ($model->getToken() == Yii::app()->request->getPost('tokenhid')) {
                 $model->attributes = Yii::app()->request->getPost('StudentReg');
                 $model->token = null;
                 $model->activkey_lifetime = null;
@@ -351,14 +351,6 @@ class SiteController extends Controller
             $model->updateByPk($model->id, array('email' => $mailDeHash));
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
-
-            $userModel = StudentReg::model()->findByAttributes(array('email' => $mailDeHash));
-            $firstName = ($userModel->firstName) ? $userModel->firstName : '';
-            $secondName = ($userModel->secondName) ? $userModel->secondName : '';
-            $name = $firstName . ' ' . $secondName;
-            Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                'username_clean' => $name . $mailDeHash,
-            ), 'user_id=:id', array(':id' => $userModel->id));
 
             if (Yii::app()->user->isGuest && $model->login())
                 $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));
@@ -409,7 +401,6 @@ class SiteController extends Controller
             $mailHash = base64_encode(Mail::strcode($modelReset->email, $key));
             if ($model->validate()) {
                 $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));
-
                 $sender = new MailTransport();
                 $sender->renderBodyTemplate('_resetMail', array($model, $mailHash));
                 if (!$sender->send($modelReset->email, "", Yii::t('recovery', '0282'), ""))
@@ -560,7 +551,7 @@ class SiteController extends Controller
             throw new \application\components\Exceptions\IntItaException('403', 'Змінити email не вдалося. Некоректний email');
 
         $modelEmail = StudentReg::model()->findByAttributes(array('email' => $mailDeHash));
-        if ($model->token == $modelEmail->token && $model->network == $network) {
+        if ($model->getToken() == $modelEmail->getToken() && $model->network == $network) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
             $model->updateByPk($model->id, array('identity' => $network));
@@ -584,7 +575,7 @@ class SiteController extends Controller
         $modelEmail = StudentReg::model()->findByAttributes(array('email' => $email));
         if (!$modelEmail)
             throw new \application\components\Exceptions\IntItaException('404', 'Посилання не є дійсним');
-        if ($model->token == $modelEmail->token) {
+        if ($model->getToken() == $modelEmail->getToken()) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
 
@@ -708,8 +699,6 @@ class SiteController extends Controller
                             $this->redirect($callBack);
                         }
                         if (isset($_SERVER["HTTP_REFERER"])) {
-                            if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
-                            if (isset($_GET['dialog'])) $this->redirect(Yii::app()->homeUrl);
                             $this->redirect($_SERVER["HTTP_REFERER"]);
                         } else $this->redirect(Yii::app()->request->homeUrl);
                     }
@@ -724,12 +713,13 @@ class SiteController extends Controller
         $getToken = rand(0, 99999);
         $getTime = date("Y-m-d H:i:s");
         $model = StudentReg::model()->findByAttributes(array('email' => $email));
-        StudentReg::model()->updateByPk($model->id, array('token' => sha1($getToken . $getTime)));
-        $model = StudentReg::model()->findByPk($model->id);
+        $token=sha1($getToken . $getTime);
+        StudentReg::model()->updateByPk($model->id, array('token' => $token));
         if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
         else $lang = 'ua';
 
         $sender = new MailTransport();
+        $model->token=$token;
         $sender->renderBodyTemplate('_rapidReg', array($model, $lang));
         if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
             throw new MailException('The letter was not sent');

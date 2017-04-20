@@ -17,7 +17,7 @@ class UserIdentity extends CUserIdentity
         $user=StudentReg::model()->findByAttributes(array('email'=>$this->username));
         if($user===null)
             $this->errorCode=self::ERROR_USERNAME_INVALID;
-        else if(sha1($this->password)!==$user->password)
+        else if(sha1($this->password)!==$user->getPassword())
             $this->errorCode=self::ERROR_PASSWORD_INVALID;
         else if($user->cancelled)
             $this->errorCode=666;

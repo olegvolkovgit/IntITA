@@ -82,7 +82,11 @@ class StudentReg extends CActiveRecord
     public $studentName;
 
     private $_identity;
-    
+    private $_password;
+    private $_token;
+    private $_passport;
+    private $_inn;
+
     public $fullName = '';
 
     public function getDbConnection()
@@ -175,7 +179,7 @@ class StudentReg extends CActiveRecord
     public function authenticatePass()
     {
         $model = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if (sha1($this->password) !== $model->password)
+        if (sha1($this->password) !== $model->getPassword())
             $this->addError('password', Yii::t('error', '0274'));
     }
 
@@ -189,7 +193,7 @@ class StudentReg extends CActiveRecord
     public function passdiff()
     {
         $model = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if (!empty($model->password)) {
+        if (!empty($model->getPassword())) {
             return;
         }
         if (isset($this->password) || isset($this->password_repeat)) {
@@ -401,9 +405,19 @@ class StudentReg extends CActiveRecord
             $format = "Y-m-d";
             $this->document_issued_date = date_format(DateTime::createFromFormat($format, $this->document_issued_date),'d/m/Y');
         }
-//        unset($this->password);
+
+        $this->_password=$this->password;
+        $this->password=null;
+        $this->_token=$this->token;
+        $this->token=null;
+        $this->_passport=$this->passport;
+        $this->passport=null;
+        $this->_inn=$this->inn;
+        $this->inn=null;
+
+        parent::afterFind();
     }
-    
+
     public function beforeSave(){
         if ($this->birthday != null){
             $format = "d/m/Y";
@@ -918,20 +932,6 @@ class StudentReg extends CActiveRecord
         $notificationsMessages = MessagesNotifications::model()->findAll($criteria);
 
         $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages, $rejectModuleRevisionMessages);
-        $user = Yii::app()->user->model;
-//        if($user->isAdmin() || $user->isContentManager()){
-//            $criteria1 = new CDbCriteria();
-//            $criteria1->select = '*';
-//            $criteria1->alias = 'm';
-//            $criteria1->order = 'm.id_message DESC';
-//            $criteria1->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
-//            $criteria1->addCondition('r.id_receiver =:id and r.deleted IS NULL and m.cancelled=0');
-//            $criteria1->params = array(':id' => $this->id);
-//
-//            $authorRequests = MessagesAuthorRequest::model()->findAll($criteria1);
-//            $teacherConsultantRequests = MessagesTeacherConsultantRequest::model()->findAll($criteria1);
-//            $all =  array_merge($all, $authorRequests, $teacherConsultantRequests);
-//        }
 
         function sortById($a, $b)
         {
@@ -1479,5 +1479,22 @@ class StudentReg extends CActiveRecord
             'id_organization'=>$organization,
             'end_date'=>null
         ));
+    }
+
+    public function getPassword()
+    {
+       return $this->_password;
+    }
+    public function getToken()
+    {
+        return $this->_token;
+    }
+    public function getPassport()
+    {
+        return $this->_passport;
+    }
+    public function getInn()
+    {
+        return $this->_inn;
     }
 }
