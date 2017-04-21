@@ -235,7 +235,7 @@ class CourseRevisionController extends Controller {
             return;
         }
 
-        if (!Yii::app()->user->model->isContentManager()) {
+        if (!Yii::app()->user->model->isContentManager($course->id_organization)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
@@ -246,7 +246,7 @@ class CourseRevisionController extends Controller {
 
     public function actionCreateCourseRevision($idRevision) {
         $courseRevision = RevisionCourse::model()->findByPk($idRevision);
-        if (!Yii::app()->user->model->isContentManager()) {
+        if (!Yii::app()->user->model->isContentManager($courseRevision->course->id_organization)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
         $courseRevision = $courseRevision->cloneCourse(Yii::app()->user);
@@ -325,7 +325,7 @@ class CourseRevisionController extends Controller {
     public function actionApproveCourseRevision() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $revision = RevisionCourse::model()->findByPk($idRevision);
-        if (!$revision->canApprove(null, $revision->id_course)) {
+        if (!$revision->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
         $revision->state->changeTo('approved', Yii::app()->user);
@@ -372,7 +372,7 @@ class CourseRevisionController extends Controller {
         $revision = RevisionCourse::model()->findByPk($idRevision);
         if(!$revision)
             throw new RevisionControllerException(404);
-        if (!Yii::app()->user->model->isContentManager()) {
+        if (!Yii::app()->user->model->isContentManager($revision->course->id_organization)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
 

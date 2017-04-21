@@ -653,7 +653,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
     public static function canCreateModuleRevisions($idModule)
     {
-        return Yii::app()->user->model->isContentManager() || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
+        $idRevision=Module::model()->findByPk($idModule)->id_organization;
+        return Yii::app()->user->model->isContentManager($idRevision) || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
     }
 
     public static function getModuleRevisionsAuthors($idModule=null) {
@@ -697,5 +698,21 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $status['canRelease'] = $isApprover && $this->isReleaseable();
 
         return $status;
+    }
+
+    public function canApprove() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canRejectRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canReleaseRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isReleaseable());
+    }
+
+    public function canCancel() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isCancellable());
     }
 }

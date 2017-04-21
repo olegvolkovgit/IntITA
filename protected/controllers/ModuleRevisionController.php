@@ -424,7 +424,7 @@ class ModuleRevisionController extends Controller {
     public function actionApproveModuleRevision() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
-        if (!$moduleRev->canApprove($moduleRev->id_module)) {
+        if (!$moduleRev->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
         $moduleRev->state->changeTo('approved', Yii::app()->user);

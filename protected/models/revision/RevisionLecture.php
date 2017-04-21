@@ -1059,4 +1059,16 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
 
         return $status;
     }
+
+    public function canApprove() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canRejectRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canReleaseRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isReleaseable());
+    }
 }

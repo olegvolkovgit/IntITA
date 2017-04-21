@@ -551,4 +551,20 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		}
 		return implode(", ", $errors);
 	}
+
+    public function canApprove() {
+        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isSended());
+    }
+
+    public function canRejectRevision() {
+        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isSended());
+    }
+
+    public function canReleaseRevision() {
+        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isReleaseable());
+    }
+
+    public function canCancel() {
+        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isCancellable());
+    }
 }
