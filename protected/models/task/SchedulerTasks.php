@@ -47,7 +47,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		return 'scheduler_tasks';
 	}
 
-	public function beforeSave(){
+	public function beforeValidate(){
 	    if ($this->isNewRecord){
 	        switch ($this->type){
                 case TaskFactory::NEWSLETTER:
@@ -55,7 +55,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
                     $this->status = $this::STATUSNEW;
             }
         }
-        return parent::beforeSave();
+        return parent::beforeValidate();
     }
 
 	/**
@@ -66,7 +66,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, type, status, created_by, id_organization','required'),
+			array('status, created_by, id_organization','required'),
 			array('type, repeat_type, status, created_by, related_model_id, id_organization', 'numerical', 'integerOnly'=>true),
 			array('name, error', 'length', 'max'=>255),
 			array('start_time, end_time', 'safe'),

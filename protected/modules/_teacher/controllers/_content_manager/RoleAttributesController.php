@@ -22,6 +22,9 @@ class RoleAttributesController extends TeacherCabinetController
     {
         $user = RegisteredUser::userById($id);
         $role = new UserRoles($role);
+        if(!in_array($role, AllRolesDataSource::teacherRoles())){
+            throw new \application\components\Exceptions\IntItaException(403, "Редагувати роль не можна");
+        }
         $attributes = $user->getAttributesByRole($role);
 
         $this->renderPartial('editRole', array(

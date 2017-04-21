@@ -658,4 +658,13 @@ class Teacher extends CActiveRecord
     public function isPrint(){
         return TeacherOrganization::model()->findByAttributes(array('id_user'=>$this->user_id,'isPrint'=>Teacher::ACTIVE,'end_date'=>null));
     }
+
+    public static function getTeacherRolesString(){
+        $result=[];
+        foreach (TeacherRolesDataSource::roles() as $role){
+            array_push($result,Role::getInstance($role)->title());
+        }
+
+        return $result;
+    }
 }

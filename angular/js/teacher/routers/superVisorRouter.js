@@ -122,7 +122,6 @@ config(function ($stateProvider) {
         .state('users/profile/:id/addtrainer', {
             url: "/users/profile/:id/addtrainer",
             cache: false,
-            controller:"userProfileCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_supervisor/supervisor/addTrainer/id/"+$stateParams.id;
             }

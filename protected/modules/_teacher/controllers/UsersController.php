@@ -65,8 +65,9 @@ class UsersController extends TeacherCabinetController
         $counters["accountants"] = UserAccountant::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
         $counters["coworkers"] = TeacherOrganization::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE."  AND end_date IS NULL".$sql);
         $counters["contentAuthors"] = UserAuthor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
-        $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
-        $counters["offlineStudents"] = OfflineStudents::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
+        $counters["offlineStudents"] = OfflineStudents::model()->with('user','group')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL 
+        and group.id_organization=".Yii::app()->user->model->getCurrentOrganization()->id);
         $counters["registeredUsers"] = StudentReg::model()->count('cancelled='.StudentReg::ACTIVE);
         $counters["tenants"] = UserTenant::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
         $counters["trainers"] = UserTrainer::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL".$sql);
@@ -208,28 +209,25 @@ class UsersController extends TeacherCabinetController
         else echo "Користувача ".$user->registrationData->userNameWithEmail()." не вдалося призначити бухгалтером.
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
-    
+
     public function actionGetStudentsList()
     {
-//        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
-
+        $ngTable = new NgTableAdapter('UserStudent', $requestParams);
         $criteria =  new CDbCriteria();
-
         $criteria->alias = 't';
-        $criteria->join = 'inner join user_student us on t.id = us.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
-//        todo
-//        if($_GET['organization'])
-//            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
-        $criteria->group = 't.id';
+        $criteria->join = 'inner join user u on u.id = t.id_user';
+        $criteria->condition = 'u.cancelled='.StudentReg::ACTIVE.' and t.end_date IS NULL';
+
+        if($_GET['organization'])
+            $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $criteria->group = 'u.id';
         if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
             $startDate=$_GET['startDate'];
             $endDate=$_GET['endDate'];
-            $criteria->condition = "TIMESTAMP(us.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
+            $criteria->condition = "TIMESTAMP(t.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
         }
-
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
@@ -240,30 +238,20 @@ class UsersController extends TeacherCabinetController
         Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('OfflineStudents', $requestParams);
-
-
+        $criteria =  new CDbCriteria();
+        $criteria->join = 'LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
+        $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
         if(isset($requestParams['idGroup'])){
-            $criteria =  new CDbCriteria();
-            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
-            $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
-            $criteria->condition = 'g.id='.$requestParams['idGroup'].' and t.end_date IS NULL';
-            $ngTable->mergeCriteriaWith($criteria);
+            $criteria->addCondition('g.id='.$requestParams['idGroup'].' and t.end_date IS NULL');
         }
         if(isset($requestParams['idSubgroup'])){
-            $criteria =  new CDbCriteria();
-            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
-            $criteria->condition = 'sg.id='.$requestParams['idSubgroup'].' and t.end_date IS NULL';
-            $ngTable->mergeCriteriaWith($criteria);
+            $criteria->addCondition('sg.id='.$requestParams['idSubgroup'].' and t.end_date IS NULL');
         }
         if(!isset($requestParams['idGroup']) && !isset($requestParams['idSubgroup'])){
-            $criteria =  new CDbCriteria();
-            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
-            $criteria->condition = 't.end_date IS NULL';
-            $ngTable->mergeCriteriaWith($criteria);
+            $criteria->addCondition('t.end_date IS NULL');
         }
-//        todo
-//        if($_GET['organization'])
-//            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $criteria->addCondition('g.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }

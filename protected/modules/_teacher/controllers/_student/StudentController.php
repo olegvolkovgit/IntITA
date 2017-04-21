@@ -310,12 +310,14 @@ class StudentController extends TeacherCabinetController
     }
 
     public function actionNewCourseAgreement(){
-        if(!Yii::app()->user->model->isStudent()){
-            Yii::app()->user->model->setRole(UserRoles::STUDENT);
-        }
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $educationForm = Yii::app()->request->getPost('educationForm');
+
+        if(!Yii::app()->user->model->isStudent()){
+            $roleObj = Role::getInstance(UserRoles::STUDENT);
+            $roleObj->setRole(Yii::app()->user->model->registrationData, Course::model()->findByPk($course)->organization->id);
+        }
 
         if($educationForm=='online') $educationForm=EducationForm::ONLINE;
         else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
@@ -329,13 +331,15 @@ class StudentController extends TeacherCabinetController
     }
 
     public function actionNewModuleAgreement(){
-        if(!Yii::app()->user->model->isStudent()){
-            Yii::app()->user->model->setRole(UserRoles::STUDENT);
-        }
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $module = Yii::app()->request->getPost('module', 0);
         $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
+
+        if(!Yii::app()->user->model->isStudent()){
+            $roleObj = Role::getInstance(UserRoles::STUDENT);
+            $roleObj->setRole(Yii::app()->user->model->registrationData, Module::model()->findByPk($module)->organization->id);
+        }
 
         if($educationForm=='online') $educationForm=EducationForm::ONLINE;
         else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;

@@ -1,6 +1,7 @@
 /**
  * Created by adm on 19.07.2016.
  */
+
 angular
     .module('teacherApp')
     .controller('superVisorCtrl', superVisorCtrl)
@@ -42,7 +43,6 @@ function offlineSubgroupsTableCtrl ($scope, superVisorService, NgTableParams){
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
-                    console.log(data.rows);
                     return data.rows;
                 });
         }
@@ -60,13 +60,14 @@ function offlineStudentsSVTableCtrl ($scope, superVisorService, NgTableParams){
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
+                    console.log();
                     return data.rows;
                 });
         }
     });
 }
 
-function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams, $http){
+function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
     $scope.changePageHeader('Студенти(офлайн ф.н.), які не в групі');
     $scope.studentsWithoutGroupTableParams = new NgTableParams({}, {
@@ -100,6 +101,7 @@ function offlineGroupSubgroupsTableCtrl ($scope, superVisorService, NgTableParam
 function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter, chatIntITAMessenger, lodash){
     $scope.changePageHeader('Офлайн група');
     if($stateParams.id){
+        $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
         $scope.groupId=$stateParams.id;
         $scope.offlineStudentsTableParams = new NgTableParams({'idGroup':$scope.groupId}, {
             getData: function (params) {
@@ -340,6 +342,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
         $scope.loadGroupData($scope.groupId);
     }
     if($stateParams.id) {
+        $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
         $scope.subgroupId = $stateParams.id;
         $scope.offlineStudentsTableParams = new NgTableParams({'idSubgroup': $scope.subgroupId}, {
             getData: function (params) {
@@ -545,7 +548,7 @@ function groupAccessCtrl ($scope, $http, $stateParams, superVisorService){
     };
 }
 
-function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $stateParams, $filter, chatIntITAMessenger){
+function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $stateParams, $filter, chatIntITAMessenger, userService){
     $scope.onSelectUser = function ($item) {
         $scope.selectedUser = $item;
     };
@@ -573,13 +576,16 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
         $scope.selectedUser=null;
         $scope.formData.moduleSelected=null;
     };
-    
+
     $scope.loadUserData=function(userId){
-        $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+userId).then(function (response) {
-            $scope.selectedUser = response.data.user;
-            $scope.userSelected = response.data.user.fullName+' '+response.data.user.email;
-            $scope.defaultStudent=$scope.selectedUser.id;
-        });
+        userService.userProfileData({userId: userId})
+            .$promise
+            .then(function (response) {
+                console.log(response);
+                $scope.selectedUser = response;
+                $scope.userSelected = response.firstName+' '+response.secondName+' '+response.email;
+                $scope.defaultStudent=$scope.selectedUser.id;
+            });
     };
 
     $scope.loadGroupData=function(groupId) {

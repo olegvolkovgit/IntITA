@@ -22,6 +22,7 @@ angular
     .controller('superAdminsTableCtrl', superAdminsTableCtrl)
     .controller('usersTabsCtrl', usersTabsCtrl)
     .controller('organizationUsersTabsCtrl', organizationUsersTabsCtrl)
+    .controller('addStudentTrainerCtrl', addStudentTrainerCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({
@@ -84,7 +85,7 @@ function studentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
     $scope.studentsTableParams = new NgTableParams({
         organization:$attrs.organization,
         sorting: {
-            "student.start_date": 'desc'
+            "start_date": 'desc'
         },
     }, {
         getData: function (params) {
@@ -95,7 +96,6 @@ function studentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
                 .studentsList($scope.params)
                 .$promise
                 .then(function (data) {
-                    params.total(data.count);
                     return data.rows;
                 });
         }
@@ -338,27 +338,36 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
         $scope.data.teacher.corporate_mail = data.mailbox;
     });
 
-    //todo
     $q.all([
         userService.userProfileData({userId: $scope.userId}),
         userService.userOfflineEducationData({userId: $scope.userId}),
-        userService.teacherProfileData({userId: $scope.userId})
+        userService.teacherProfileData({userId: $scope.userId}),
+        userService.userRoleData({userId: $scope.userId}),
+        userService.rolesHistory({userId: $scope.userId}),
+        userService.studentAttributes({userId: $scope.userId}),
     ]).then(function (results) {
         $scope.user = results[0];
         $scope.offline = results[1];
         $scope.teacher = results[2];
+        $scope.roles = results[3];
+        $scope.historyRoles = results[4];
+        $scope.studentAttributes = results[5];
     });
-    //todo
-    $scope.loadUserData=function(userId){
-        $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+userId).then(function (response) {
-            $scope.data = response.data;
-        });
-        $http.get(basePath + "/_teacher/user/getRolesHistory/id/"+userId).then(function (response) {
-            $scope.roles = response.data;
+
+    $scope.reloadRolesData=function(userId){
+        userService.userRoleData({userId: userId})
+            .$promise
+            .then(function (results) {
+                $scope.roles = results;
         });
     };
-
-    $scope.loadUserData($scope.userId);
+    $scope.reloadUserProfileData=function(userId){
+        userService.userProfileData({userId: userId})
+            .$promise
+            .then(function (results) {
+                $scope.user = results;
+            });
+    };
 
     $scope.changeUserStatus=function (url, user) {
         $http({
@@ -366,8 +375,8 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
             url: url,
             data: $jq.param({user: user}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            $scope.loadUserData($scope.userId);
+        }).then(function successCallback() {
+            $scope.reloadUserProfileData($scope.userId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
         });
@@ -379,7 +388,7 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
             data: $jq.param({id: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback() {
-            $scope.loadUserData($scope.userId);
+            $scope.reloadUserProfileData($scope.userId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
         });
@@ -394,7 +403,7 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
                 .$promise
                 .then(function successCallback(response) {
                     $scope.addUIHandlers(response.data);
-                    $scope.loadUserData($scope.userId);
+                    $scope.reloadRolesData($scope.userId);
                 }, function errorCallback(response) {
                     console.log(response);
                     bootbox.alert("Операцію не вдалося виконати");
@@ -405,76 +414,10 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
     $scope.cancelLocalRole = function (user, role) {
         bootbox.confirm('Скасувати роль?', function (result) {
             if (result) {roleService.cancelLocalRole({'userId': user, 'role': role}).$promise.then(function successCallback(response) {
-                if(response.data=='success') $scope.loadUserData($scope.userId);
+                if(response.data=='success') $scope.reloadRolesData($scope.userId);
                 else bootbox.alert(response.data);
             }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
-    };
-
-    $scope.onSelectModule = function ($item) {
-        $scope.selectedModule = $item;
-    };
-    $scope.reloadModule = function(){
-        $scope.selectedModule=null;
-    };
-    $scope.onSelectCourse = function ($item) {
-        $scope.selectedCourse = $item;
-    };
-    $scope.reloadCourse = function(){
-        $scope.selectedCourse=null;
-    };
-    $scope.clearInputs=function () {
-        $scope.selectedModule=null;
-        $scope.selectedCourse=null;
-        $scope.formData.moduleSelected=null;
-        $scope.formData.courseSelected=null;
-    };
-
-    $scope.onSelectTrainer = function ($item) {
-        $scope.selectedTrainer = $item;
-    };
-    $scope.reloadTrainer = function(){
-        $scope.selectedTrainer=null;
-    };
-    $scope.clearTrainerInputs=function () {
-        $scope.trainerSelected=null;
-        $scope.selectedTrainer=null;
-    };
-
-    $scope.addTrainer=function (trainerId, userId) {
-        if (!trainerId) {
-            bootbox.alert("Виберіть тренера.");
-            return;
-        }
-        superVisorService
-            .setTrainer({trainerId:trainerId,userId:userId})
-            .$promise
-            .then(function (response) {
-                $scope.clearTrainerInputs();
-                if (response.data == "success") {
-                    bootbox.alert('Операцію успішно виконано.', function () {
-                        $scope.loadUserData($scope.userId);
-                    });
-                }else{
-                    bootbox.alert(response.data)
-                    $scope.loadUserData($scope.userId);
-                }
-            });
-    };
-    $scope.cancelTrainer=function (userId) {
-        superVisorService
-            .removeTrainer({userId:userId})
-            .$promise
-            .then(function (response) {
-                if (response.data == "success") {
-                    bootbox.alert('Операцію успішно виконано.', function () {
-                        $scope.loadUserData($scope.userId);
-                    });
-                }else{
-                    $scope.loadUserData($scope.userId);
-                    bootbox.alert(response.data)
-                }
-            });
     };
 
     $scope.collapse=function (el) {
@@ -824,4 +767,71 @@ function organizationUsersTabsCtrl ($scope, $state, usersService, lodash) {
                 }
             });
         });
+}
+
+function addStudentTrainerCtrl ($scope, $stateParams, userService, superVisorService){
+    $scope.changePageHeader('Додати тренера');
+    $scope.userId=$stateParams.id;
+    $scope.formData={};
+
+    $scope.loadUserTrainerData=function(userId){
+        userService.userOrganizationTrainer({userId: userId})
+            .$promise
+            .then(function (results) {
+                $scope.student = results;
+            });
+    };
+
+    $scope.loadUserTrainerData($scope.userId);
+
+    $scope.onSelectTrainer = function ($item) {
+        $scope.selectedTrainer = $item;
+    };
+    $scope.reloadTrainer = function(){
+        $scope.selectedTrainer=null;
+    };
+    $scope.clearTrainerInputs=function () {
+        $scope.trainerSelected=null;
+        $scope.selectedTrainer=null;
+    };
+
+    $scope.addTrainer=function (trainerId, userId) {
+        if (!trainerId) {
+            bootbox.alert("Виберіть тренера.");
+            return;
+        }
+        superVisorService
+            .setTrainer({trainerId:trainerId,userId:userId})
+            .$promise
+            .then(function (response) {
+                $scope.clearTrainerInputs();
+                if (response.data == "success") {
+                    bootbox.alert('Операцію успішно виконано.', function () {
+                        $scope.loadUserTrainerData($scope.userId);
+                    });
+                }else{
+                    bootbox.alert(response.data)
+                    $scope.loadUserTrainerData($scope.userId);
+                }
+            });
+    };
+    $scope.cancelTrainer=function (userId) {
+        superVisorService
+            .removeTrainer({userId:userId})
+            .$promise
+            .then(function (response) {
+                if (response.data == "success") {
+                    bootbox.alert('Операцію успішно виконано.', function () {
+                        $scope.loadUserTrainerData($scope.userId);
+                    });
+                }else{
+                    $scope.loadUserTrainerData($scope.userId);
+                    bootbox.alert(response.data)
+                }
+            });
+    };
+
+    $scope.collapse=function (el) {
+        $jq(el).toggle("medium");
+    };
 }
