@@ -24,7 +24,6 @@ function companyServices($filter, NgTableParams, companiesService) {
     });
 
     $scope.delete = function () {
-      console.log('DEADBEEF companyServices.js:30');
     };
 
     function mapForNgTable(item) {

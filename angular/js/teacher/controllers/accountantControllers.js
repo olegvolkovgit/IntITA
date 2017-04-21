@@ -503,7 +503,6 @@ angular
     };
 
     $scope.addCompanyService = function () {
-      console.log('DEADBEEF accountantControllers.js:505');
     };
 
     $scope.edit = function (id) {
