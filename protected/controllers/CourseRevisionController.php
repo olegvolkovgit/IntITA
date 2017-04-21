@@ -15,14 +15,41 @@ class CourseRevisionController extends Controller {
         } else return true;
     }
 
-    public function actionIndex() {
-        if (!Yii::app()->user->model->canApprove()) {
+    public function initialize()
+    {
+        $app = Yii::app();
+        $organizations=Yii::app()->user->model->getOrganizations();
+        if(!$organizations) {
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не є співробітником організації для перегляду');
+        }
+
+        if(count($organizations)>1 && !isset($app->session['organization'])){
+            $this->render('set_organization', array('revisionController'=>'courseRevision'));
+            die();
+        }else if(count($organizations)>1 && isset($app->session['organization'])){
+            $this->redirect(Yii::app()->createUrl('/courseRevision/index', array('organizationId'=>$app->session['organization'])));
+        }else{
+            $this->redirect(Yii::app()->createUrl('/courseRevision/index', array('organizationId'=>$organizations[0])));
+        }
+    }
+
+    public function actionIndex($organizationId=0) {
+
+        $model = Yii::app()->user->model;
+        if($organizationId && $model->hasOrganizationById($organizationId)){
+            Yii::app()->session->add('organization', $organizationId);
+        }else if($organizationId || Yii::app()->user->model->getOrganizations()){
+            $this->initialize();
+        }
+
+        if (!Yii::app()->user->model->canApprove(null, null, $organizationId)) {
             throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій курсу');
         }
 
         $this->render('index',array(
             'isApprover' => true,
             'userId' => Yii::app()->user->getId(),
+            'organization' => $organizationId,
         ));
     }
 
@@ -60,7 +87,12 @@ class CourseRevisionController extends Controller {
     }
 
     public function actionBuildAllCoursesRevisions() {
-        $courseRev = RevisionCourse::model()->findAll();
+        $organization = Yii::app()->request->getPost('organization');
+        $criteria=new CDbCriteria;
+        $criteria->alias='vcc';
+        $criteria->join = 'left join course c on c.course_ID=vcc.id_course';
+        $criteria->addCondition('c.id_organization='.$organization);
+        $courseRev = RevisionCourse::model()->findAll($criteria);
         $relatedTree = RevisionCourse::getCoursesTree();
         $json = $this->buildCourseTreeJson($courseRev, $relatedTree);
 

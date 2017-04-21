@@ -15,14 +15,41 @@ class RevisionController extends Controller {
         } else return true;
     }
 
-    public function actionIndex() {
-        if (!$this->isUserApprover(Yii::app()->user)) {
+    public function initialize()
+    {
+        $app = Yii::app();
+        $organizations=Yii::app()->user->model->getOrganizations();
+        if(!$organizations) {
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не є співробітником організації для перегляду');
+        }
+
+        if(count($organizations)>1 && !isset($app->session['organization'])){
+            $this->render('set_organization', array('revisionController'=>'revision'));
+            die();
+        }else if(count($organizations)>1 && isset($app->session['organization'])){
+            $this->redirect(Yii::app()->createUrl('/revision/index', array('organizationId'=>$app->session['organization'])));
+        }else{
+            $this->redirect(Yii::app()->createUrl('/revision/index', array('organizationId'=>$organizations[0])));
+        }
+    }
+
+    public function actionIndex($organizationId=0) {
+
+        $model = Yii::app()->user->model;
+        if($organizationId && $model->hasOrganizationById($organizationId)){
+            Yii::app()->session->add('organization', $organizationId);
+        }else if($organizationId || Yii::app()->user->model->getOrganizations()){
+            $this->initialize();
+        }
+
+        if (!$this->isUserApprover(Yii::app()->user, null, $organizationId)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $this->render('index',array(
             'isApprover' => true,
             'userId' => Yii::app()->user->getId(),
+            'organization' => $organizationId,
         ));
     }
 
@@ -638,7 +665,12 @@ class RevisionController extends Controller {
     }
     
     public function actionBuildAllRevisions() {
-        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+        $organization = Yii::app()->request->getPost('organization');
+        $criteria=new CDbCriteria;
+        $criteria->alias='vcl';
+        $criteria->join = 'left join module m on m.module_ID=vcl.id_module';
+        $criteria->addCondition('m.id_organization='.$organization);
+        $lectureRev = RevisionLecture::model()->with("properties")->findAll($criteria);
         $lecturesTree = RevisionLecture::getLecturesTree();
         $json = $this->buildLectureTreeJson($lectureRev, $lecturesTree);
 
@@ -840,8 +872,8 @@ class RevisionController extends Controller {
      * @return bool
      * @throws CDbException
      */
-    private function isUserApprover($user, $moduleId) {
-        return RegisteredUser::userById($user->getId())->canApprove($moduleId);
+    private function isUserApprover($user, $moduleId=null, $organizationId=null) {
+        return RegisteredUser::userById($user->getId())->canApprove($moduleId, null, $organizationId);
     }
 
     /**
@@ -1287,5 +1319,10 @@ class RevisionController extends Controller {
             die;
         }
     }
-    
+
+    public function actionRedirectToRevisions(){
+        $organizationId= Yii::app()->request->getPost('organization');
+        $revisionController= Yii::app()->request->getPost('revisionController');
+        $this->redirect(Yii::app()->createUrl('/'.$revisionController.'/index', array('organizationId'=>$organizationId)));
+    }
 }

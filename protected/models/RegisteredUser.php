@@ -263,11 +263,11 @@ class RegisteredUser
         return $this->hasRole(UserRoles::SUPER_ADMIN);
     }
 
-    public function canApprove($moduleId=null,$courseId=null)
+    public function canApprove($moduleId=null,$courseId=null, $organizationId=null)
     {
         if($moduleId) {
             $organizationId=Module::model()->findByPk($moduleId)->id_organization;
-        }else {
+        }else if($courseId){
             $organizationId=Course::model()->findByPk($courseId)->id_organization;
         }
 
