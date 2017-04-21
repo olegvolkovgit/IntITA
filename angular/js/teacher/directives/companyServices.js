@@ -23,10 +23,6 @@ function companyServices($filter, NgTableParams, companiesService) {
       }
     });
 
-    $scope.add = function () {
-      console.log('DEADBEEF companyServices.js:26');
-    };
-
     $scope.delete = function () {
       console.log('DEADBEEF companyServices.js:30');
     };
@@ -69,6 +65,6 @@ function companyServices($filter, NgTableParams, companiesService) {
       'companyId': '=companyId'
     },
     link: link,
-    templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/services.html'
+    templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/servicesTable.html'
   }
 }

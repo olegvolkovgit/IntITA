@@ -70,6 +70,6 @@ function companyRepresentatives($filter, NgTableParams, companiesService) {
       'editCallBack' : '=editCallBack'
     },
     link: link,
-    templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/representatives.html'
+    templateUrl: basePath + '/angular/js/teacher/templates/accountancy/company/representativesTable.html'
   }
 }

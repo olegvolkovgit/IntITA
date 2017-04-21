@@ -1,17 +1,10 @@
-<table ng-table="representativesTableParams" class="table table-bordered table-hover">
-    <tr ng-repeat="row in $data track by row.id" ng-class="{'danger' : !row.hasCredentials}">
-        <td data-title="'Ім\'я'">{{row.name}}</td>
-        <td data-title="'Посада'">{{row.position}}</td>
-        <td data-title="'Порядок'" class="text-center">{{row.order}}</td>
-        <td data-title="'Повноваження'" class="text-center">
-            <span class="glyphicon" aria-hidden="true"
-            ng-class="{'glyphicon-ok success' : row.hasCredentials, 'glyphicon-remove danger' : !row.hasCredentials}"></span>
-        </td>
-        <td data-title="'Період дії повноважень'">{{row.credentialsPeriod}}</td>
-        <td class="text-center">
-            <button class="btn btn-primary" ng-click="edit(row.id)">
-                <i class="glyphicon glyphicon-pencil"></i>
-            </button>
-        </td>
-    </tr>
-</table>
+<div class="row">
+    <div class="col-xs-12">
+        <a ui-sref="^.add" class="btn btn-primary m-b-10">Додати</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <company-representatives data-company-id="companyId"></company-representatives>
+    </div>
+</div>

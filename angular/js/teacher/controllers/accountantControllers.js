@@ -485,20 +485,25 @@ angular
     $scope.selectTab = function (index){
       switch (index) {
         case 1:
-          $state.go("accountant/viewCompany/representatives", {companyId:$scope.companyId});
+          $state.go(".representatives.list", {companyId:$scope.companyId});
           break;
         case 2:
           break;
-        case 3:
-          $state.go("accountant/viewCompany/representatives/add", {companyId:$scope.companyId});
-          break;
         case 4:
-          $state.go('accountant/viewCompany/services', {companyId:$scope.companyId});
+          $state.go('accountant.company.view.services', {companyId:$scope.companyId});
           break;
         case 0:
         default:
-          $state.go("accountant/viewCompany", {companyId:$scope.companyId});
+          $state.go("accountant.company.view", {companyId:$scope.companyId});
       }
+    };
+
+    $scope.addRepresentative = function () {
+      $state.go("accountant.company.view.representatives.add", {companyId:$scope.companyId});
+    };
+
+    $scope.addCompanyService = function () {
+      console.log('DEADBEEF accountantControllers.js:505');
     };
 
     $scope.edit = function (id) {

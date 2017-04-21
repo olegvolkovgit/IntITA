@@ -1,0 +1,17 @@
+<table ng-table="representativesTableParams" class="table table-bordered table-hover">
+    <tr ng-repeat="row in $data track by row.id" ng-class="{'danger' : !row.hasCredentials}">
+        <td data-title="'Ім\'я'">{{row.name}}</td>
+        <td data-title="'Посада'">{{row.position}}</td>
+        <td data-title="'Порядок'" class="text-center">{{row.order}}</td>
+        <td data-title="'Повноваження'" class="text-center">
+            <span class="glyphicon" aria-hidden="true"
+            ng-class="{'glyphicon-ok success' : row.hasCredentials, 'glyphicon-remove danger' : !row.hasCredentials}"></span>
+        </td>
+        <td data-title="'Період дії повноважень'">{{row.credentialsPeriod}}</td>
+        <td class="text-center">
+            <a ui-sref="^.edit({representativeId:row.id})" class="btn btn-primary">
+                <i class="glyphicon glyphicon-pencil"></i>
+            </a>
+        </td>
+    </tr>
+</table>
