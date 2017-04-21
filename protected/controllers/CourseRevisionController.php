@@ -27,14 +27,14 @@ class CourseRevisionController extends Controller {
     }
 
     public function actionCourseRevisions($idCourse) {
-        if (!Yii::app()->user->model->canApprove()) {
+        if (!Yii::app()->user->model->canApprove(null, $idCourse)) {
             throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курсу');
         }
         $course = Course::model()->findByPk($idCourse);
         $courseRevision = RevisionCourse::model()->exists('id_course='.$idCourse);
         $this->render('courseRevisions', array(
             'course' => $course,
-            'isApprover' => Yii::app()->user->model->canApprove(),
+            'isApprover' => Yii::app()->user->model->canApprove(null, $idCourse),
             'userId' => Yii::app()->user->getId(),
             'revisionExists' => $courseRevision,
         ));
@@ -325,7 +325,7 @@ class CourseRevisionController extends Controller {
     public function actionApproveCourseRevision() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $revision = RevisionCourse::model()->findByPk($idRevision);
-        if (!$revision->canApprove()) {
+        if (!$revision->canApprove(null, $revision->id_course)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
         $revision->state->changeTo('approved', Yii::app()->user);

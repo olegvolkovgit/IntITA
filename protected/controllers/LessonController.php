@@ -48,7 +48,7 @@ class LessonController extends Controller
 
         $this->initialize($id, $idCourse);
 
-        $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->isAdmin());
+        $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->isAdmin($lecture->module->id_organization));
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 

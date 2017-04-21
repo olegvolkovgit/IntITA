@@ -139,7 +139,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
 
         $this->revision = $revision;
         $this->id_revision = $revision->id_revision;
-        $this->receivers = MessageReceiver::requestsReceiversArray();
+        $this->receivers = MessageReceiver::requestsReceiversArray($revision->module->id_organization);
     }
 
     public function create()

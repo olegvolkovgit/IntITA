@@ -1046,7 +1046,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $status=array();
 
         $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
-        $isApprover=Yii::app()->user->model->canApprove();
+        $isApprover=Yii::app()->user->model->canApprove($this->id_module);
         
         $status['canCreate'] = $this->canCreate();
         $status['canEdit'] = $status['canCancelEdit'] = $status['canSend'] = $isRevisionCreator && $this->isEditable();

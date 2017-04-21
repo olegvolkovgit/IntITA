@@ -27,13 +27,13 @@ class ModuleRevisionController extends Controller {
     }
 
     public function actionCourseModulesRevisions($idCourse) {
-        if (!Yii::app()->user->model->canApprove()) {
+        if (!Yii::app()->user->model->canApprove(null, $idCourse)) {
             throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курсу');
         }
 
         $this->render('courseModulesRevisions', array(
             'idCourse' => $idCourse,
-            'isApprover' => Yii::app()->user->model->canApprove(),
+            'isApprover' => Yii::app()->user->model->canApprove(null, $idCourse),
             'userId' => Yii::app()->user->getId(),
         ));
     }
@@ -48,7 +48,7 @@ class ModuleRevisionController extends Controller {
         $this->render('moduleRevisions', array(
             'idCourse' => $idCourse,
             'module' => $module,
-            'isApprover' => Yii::app()->user->model->canApprove(),
+            'isApprover' => Yii::app()->user->model->canApprove($idModule),
             'userId' => Yii::app()->user->getId(),
         ));
     }
@@ -107,7 +107,7 @@ class ModuleRevisionController extends Controller {
             } else {
                 $this->render('moduleRevisions', array(
                     'module' => $module,
-                    'isApprover' => Yii::app()->user->model->canApprove(),
+                    'isApprover' => Yii::app()->user->model->canApprove($idModule),
                     'userId' => Yii::app()->user->getId(),
                 ));
                 return;
@@ -424,7 +424,7 @@ class ModuleRevisionController extends Controller {
     public function actionApproveModuleRevision() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
-        if (!$moduleRev->canApprove()) {
+        if (!$moduleRev->canApprove($moduleRev->id_module)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
         $moduleRev->state->changeTo('approved', Yii::app()->user);

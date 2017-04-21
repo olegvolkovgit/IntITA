@@ -256,7 +256,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		$status=array();
 
 		$isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
-		$isApprover=Yii::app()->user->model->canApprove();
+		$isApprover=Yii::app()->user->model->canApprove(null, $this->id_course);
 
 		$status['canEdit'] =  $status['canCancelEdit'] = $status['canSend'] =$isRevisionCreator && $this->isEditable();
 		$status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();

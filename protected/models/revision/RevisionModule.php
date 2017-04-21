@@ -12,6 +12,7 @@
  * The followings are the available model relations:
  * @property RevisionModuleProperties $properties
  * @property RevisionLecture[] moduleLectures
+ * @property Module $module
  * @property RevisionModuleLecture[] moduleLecturesModels
  */
 class RevisionModule extends CRevisionUnitActiveRecord
@@ -54,6 +55,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
             'moduleLecturesModels' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
                 'with' => 'lecture',
                 'order' => 'lecture_order ASC'),
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module')
         );
     }
 
@@ -685,7 +687,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $status=array();
 
         $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
-        $isApprover=Yii::app()->user->model->canApprove();
+        $isApprover=Yii::app()->user->model->canApprove($this->id_module);
 
         $status['canEdit'] =  $status['canCancelEdit'] = $status['canSend'] =$isRevisionCreator && $this->isEditable();
         $status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();

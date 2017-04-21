@@ -18,10 +18,6 @@
         </a>
         </label>
     </div>
-    <a ng-if="module.user.canSendRequest && !user.isAuthor" href=""
-       ng-click="sendRequest('<?php echo Yii::app()->createUrl("/module/sendRequest", array("user" => Yii::app()->user->getId(), "moduleId" => $module->module_ID)); ?>')">
-        <button id="requestBth" title="<?php echo Yii::t('module', '0911') ?>"><?php echo Yii::t('module', '0911') ?></button>
-    </a>
     <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
     <div id="lectures-grid" class="grid-view">

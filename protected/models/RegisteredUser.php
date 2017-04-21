@@ -180,9 +180,9 @@ class RegisteredUser
         else return $roleObj->getErrorMessage();
     }
 
-    public function isAdmin()
+    public function isAdmin($organizationId=null)
     {
-        return $this->hasRole(UserRoles::ADMIN);
+        return $this->hasRole(UserRoles::ADMIN,$organizationId);
     }
 
     public function isAccountant()
@@ -195,14 +195,14 @@ class RegisteredUser
         return $this->hasRole(UserRoles::TRAINER);
     }
 
-    public function isTeacherConsultant()
+    public function isTeacherConsultant($organizationId=null)
     {
-        return $this->hasRole(UserRoles::TEACHER_CONSULTANT);
+        return $this->hasRole(UserRoles::TEACHER_CONSULTANT, $organizationId);
     }
 
-    public function isContentManager()
+    public function isContentManager($organizationId=null)
     {
-        return $this->hasRole(UserRoles::CONTENT_MANAGER);
+        return $this->hasRole(UserRoles::CONTENT_MANAGER,$organizationId);
     }
 
     public function isTenant()
@@ -220,14 +220,15 @@ class RegisteredUser
         return $this->hasRole(UserRoles::STUDENT);
     }
 
-    public function isAuthor()
+    public function isAuthor($organizationId=null)
     {
-        return $this->hasRole(UserRoles::AUTHOR);
+        return $this->hasRole(UserRoles::AUTHOR,$organizationId);
     }
 
     public function isAuthorModule($moduleId)
     {
-        if($this->isAuthor() && Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$moduleId.
+        $module=Module::model()->findByPk($moduleId);
+        if($this->isAuthor($module->id_organization) && Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$moduleId.
             ' and idTeacher='.$this->id.' and end_time IS NULL')->queryScalar())
             return true;
         else return false;
@@ -235,7 +236,8 @@ class RegisteredUser
 
     public function isTeacherConsultantModule($moduleId)
     {
-        if ($this->isTeacherConsultant() && !empty(Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module=' . $moduleId .
+        $module=Module::model()->findByPk($moduleId);
+        if ($this->isTeacherConsultant($module->id_organization) && !empty(Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module=' . $moduleId .
             ' and id_teacher=' . $this->id . ' and end_date IS NULL')->queryAll()))
             return true;
         else return false;
@@ -261,9 +263,15 @@ class RegisteredUser
         return $this->hasRole(UserRoles::SUPER_ADMIN);
     }
 
-    public function canApprove()
+    public function canApprove($moduleId=null,$courseId=null)
     {
-        return $this->isContentManager();
+        if($moduleId) {
+            $organizationId=Module::model()->findByPk($moduleId)->id_organization;
+        }else {
+            $organizationId=Course::model()->findByPk($courseId)->id_organization;
+        }
+
+        return $this->isContentManager($organizationId);
     }
 
     public function coworkerHasModuleAccess(Module $module)

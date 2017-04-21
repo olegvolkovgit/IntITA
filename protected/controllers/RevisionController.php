@@ -263,8 +263,6 @@ class RevisionController extends Controller {
 
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
-
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
@@ -370,14 +368,13 @@ class RevisionController extends Controller {
     }
 
     public function actionRejectLectureRevision() {
-
-        if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, Yii::t('revision', '0827'));
-        }
-
         $idRevision = Yii::app()->request->getPost('idRevision');
         $comment=Yii::app()->request->getPost('comment','');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+
+        if (!$this->isUserApprover(Yii::app()->user,$lectureRev->id_module)) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0827'));
+        }
 
         $lectureRev->state->changeTo('rejected', Yii::app()->user);
         
@@ -394,7 +391,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserApprover(Yii::app()->user,$lectureRev->id_module)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
@@ -407,13 +404,13 @@ class RevisionController extends Controller {
      * @throws RevisionControllerException
      */
     public function actionApproveLectureRevision() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserApprover(Yii::app()->user,$lectureRev->id_module)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->state->changeTo('approved', Yii::app()->user);
         
         $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0, 'user_approved'=> null));
@@ -423,35 +420,35 @@ class RevisionController extends Controller {
     }
 
     public function actionReadyLectureRevision() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->state->changeTo('release', Yii::app()->user);
     }
 
     public function actionProposedToReleaseRevision() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->state->changeTo('readyForRelease', Yii::app()->user);
     }
 
     public function actionCancelProposedToReleaseRevision() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->state->changeTo('approved', Yii::app()->user);
     }
     
@@ -526,7 +523,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(404, Yii::t('breadcrumbs', '0782'));
         }
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule) && !$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule) && !$this->isUserApprover(Yii::app()->user, $lecture->idModule)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 
@@ -559,7 +556,7 @@ class RevisionController extends Controller {
                 $this->render('revisionsBranch', array(
                     'idModule' => $editableRevisions[0]->id_module,
                     'idRevision' => $editableRevisions[0]->id_revision,
-                    'isApprover' => $this->isUserApprover(Yii::app()->user),
+                    'isApprover' => $this->isUserApprover(Yii::app()->user, $editableRevisions[0]->id_module),
                     'userId' => Yii::app()->user->getId(),
                 ));
                 return;
@@ -577,14 +574,14 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->findByPk($idRevision);
         if(!$lectureRev)
             throw new RevisionControllerException(404);
-        if (!$this->isUserTeacher(Yii::app()->user,$lectureRev->id_module) && !$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserTeacher(Yii::app()->user,$lectureRev->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 
         $this->render('revisionsBranch', array(
             'idModule' => $lectureRev->id_module,
             'idRevision' => $idRevision,
-            'isApprover' => $this->isUserApprover(Yii::app()->user),
+            'isApprover' => $this->isUserApprover(Yii::app()->user, $lectureRev->id_module),
             'userId' => Yii::app()->user->getId(),
         ));
     }
@@ -609,13 +606,13 @@ class RevisionController extends Controller {
     }
 
     public function actionModuleLecturesRevisions($idModule) {
-        if (!$this->isUserTeacher(Yii::app()->user, $idModule) && !$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $idModule) && !$this->isUserApprover(Yii::app()->user, $idModule)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 
         $this->render('moduleLecturesRevisions', array(
             'idModule' => $idModule,
-            'isApprover' => $this->isUserApprover(Yii::app()->user),
+            'isApprover' => $this->isUserApprover(Yii::app()->user, $idModule),
             'userId' => Yii::app()->user->getId(),
             'author' => $this->isUserTeacher(Yii::app()->user, $idModule)
         ));
@@ -843,8 +840,8 @@ class RevisionController extends Controller {
      * @return bool
      * @throws CDbException
      */
-    private function isUserApprover($user) {
-        return RegisteredUser::userById($user->getId())->canApprove();
+    private function isUserApprover($user, $moduleId) {
+        return RegisteredUser::userById($user->getId())->canApprove($moduleId);
     }
 
     /**
@@ -1200,7 +1197,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRevision->id_module)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
@@ -1265,7 +1262,7 @@ class RevisionController extends Controller {
 
                     $message->send($sender);
                     $transaction->commit();
-                    echo "Запит на затвердження ревізії лекції успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                    echo "Запит на затвердження ревізії лекції успішно відправлено. Зачекайте, поки контент менеджер підтвердить запит.";
                 } catch (Exception $e) {
                     $transaction->rollback();
                     throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження ревізії лекції не вдалося надіслати.");
