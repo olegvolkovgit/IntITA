@@ -134,9 +134,6 @@ class CompanyController extends TeacherCabinetController {
         $this->renderPartial('//ajax/json', ['body' => json_encode($result)]);
     }
 
-    /**
-     * curl -v -XPOST 'http://intita.project/_teacher/_accountant/company/saveRepresentative' -H 'Cookie: XDEBUG_SESSION=PHPSTORM; PHPSESSID=vmsgnp4f0d7h1ju1s95jrldvrr;' --data 'representativeId=2&companyId=2&full_name=%D0%AF%D0%BD%D1%83%D1%81+%D0%9F%D0%BE%D0%BB%D1%83%D1%8D%D0%BA%D1%82%D0%BE%D0%B2%D0%B8%D1%87+%D0%9D%D0%B5%D0%B2%D1%81%D1%82%D1%80%D1%83%D0%B5%D0%B2&full_name_accusative=%D0%AF%D0%BD%D1%83%D1%81+%D0%9F%D0%BE%D0%BB%D1%83%D1%8D%D0%BA%D1%82%D0%BE%D0%B2%D0%B8%D1%87+%D0%9D%D0%B5%D0%B2%D1%81%D1%82%D1%80%D1%83%D0%B5%D0%B2&full_name_short=%D0%AF%D0%BD%D1%83%D1%81+%D0%9F%D0%BE%D0%BB%D1%83%D1%8D%D0%BA%D1%82%D0%BE%D0%B2%D0%B8%D1%87+%D0%9D%D0%B5%D0%B2%D1%81%D1%82%D1%80%D1%83%D0%B5%D0%B2&representative_order=1&position=%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80&position_accusative=%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80&credentialsFrom=2017-04-11+21%3A05%3A23&credentialsTo=9999-12-31+23%3A59%3A59'
-     */
     public function actionSaveRepresentative() {
         $companyId = Yii::app()->request->getParam('companyId', null);
         $representativeId = Yii::app()->request->getParam('representativeId', null);
@@ -151,15 +148,38 @@ class CompanyController extends TeacherCabinetController {
             $model = CorporateRepresentative::model()->find($criteria);
             if ($model) {
                 $model->updateData($_POST);
+                $body = ['message' => 'OK'];
             } else {
-                $statusCode = 204;
+                $representative = CorporateRepresentative::model()->createRepresentative($_POST);
+                if (!empty($representative)) {
+                    $statusCode = 201;
+                    $body = ['message' => 'OK', 'id' => $representative->id];
+                } else {
+                    $statusCode = 400;
+                }
             }
-            $body = ['message' => 'OK'];
-        } catch (Exception $exeption) {
+        } catch (Exception $exception) {
             $statusCode = 400;
-            $body = ['error' => $exeption->getMessage()];
+            $body = ['error' => $exception->getMessage()];
         }
         $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
 
+    }
+
+    public function actionServicesList() {
+        $companyId = Yii::app()->request->getParam('companyId', null);
+        $body = [];
+        if ($companyId) {
+            $criteria = new CDbCriteria([
+                'condition' => 'corporateEntity.id = :companyId',
+                'params' => ['companyId' => $companyId],
+                'with' => ['corporateEntity', ]
+            ]);
+            $ngTable = new NgTableAdapter(Service::model());
+            $ngTable->mergeCriteriaWith($criteria);
+            $body = $ngTable->getData();
+        }
+        $statusCode = 200;
+        $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
     }
 }

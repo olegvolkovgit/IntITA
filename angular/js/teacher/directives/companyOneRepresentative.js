@@ -3,22 +3,66 @@
 angular
   .module('teacherApp')
   .directive('companyOneRepresentative', [
+    '$state',
     'companiesService',
     'ngToast',
     companyOneRepresentative]);
 
-function companyOneRepresentative(companiesService, ngToast) {
+function companyOneRepresentative($state, companiesService, ngToast) {
   function link($scope, element, attrs) {
     $scope.datePopup = {
       credentialsTo: false,
       credentialsFrom: false
     };
-    $scope.representative = {};
+    $scope.representative = {
+      'companyId': $scope.companyId,
+      'representativeId': $scope.representativeId
+    };
     $scope.toggleDPPopup = toggleDPPopup;
 
     if ($scope.companyId && $scope.representativeId) {
-      companiesService
-        .representatives({companyId: $scope.companyId, representativeId: $scope.representativeId})
+      loadData();
+    }
+
+    $scope.save = function () {
+      saveData($scope.representative);
+    };
+
+    $scope.revokeCredentials = function () {
+      saveData({
+        companyId: $scope.companyId,
+        representativeId: $scope.representativeId,
+        deletedAt: new Date()
+      })
+    };
+
+    function saveData(data) {
+      return companiesService
+        .saveRepresentative(data)
+        .$promise
+        .then(function (response) {
+          successToast('Дані збережено');
+          if (response.id) {
+            $state.go("accountant/viewCompany/representative/edit", {
+              companyId: $scope.companyId,
+              representativeId: response.id
+            });
+          }
+        }).then(function () {
+          return loadData()
+        })
+        .catch(function (error) {
+          console.error(error);
+          dangerToast('Виникла помилка')
+        });
+    }
+
+    function loadData() {
+      return companiesService
+        .representatives({
+          companyId: $scope.representative.companyId,
+          representativeId: $scope.representative.representativeId
+        })
         .$promise
         .then(function (data) {
           if (data.rows.length) {
@@ -28,26 +72,10 @@ function companyOneRepresentative(companiesService, ngToast) {
           }
         })
         .catch(function () {
-            dangerToast('Помилка завантаження данних');
+          dangerToast('Помилка завантаження данних');
         });
+
     }
-
-    $scope.save = function() {
-      companiesService
-        .saveRepresentative($scope.representative)
-        .$promise
-        .then(function(response) {
-          successToast('Дані збережено');
-        })
-        .catch(function (error) {
-          console.error(error);
-          dangerToast('Виникла помилка')
-        });
-    };
-
-    $scope.revokeCredentials = function() {
-
-    };
 
     function toggleDPPopup(name) {
       $scope.datePopup[name] = !$scope.datePopup[name];
@@ -72,8 +100,8 @@ function companyOneRepresentative(companiesService, ngToast) {
 
     function setupModel(data) {
       return {
-        representativeId : data.id,
-        companyId : data.corporateEntity[0].id,
+        representativeId: data.id,
+        companyId: data.corporateEntity[0].id,
         full_name: data.full_name,
         full_name_accusative: data.full_name_accusative,
         full_name_short: data.full_name_short,
