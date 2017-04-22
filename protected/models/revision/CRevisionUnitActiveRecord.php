@@ -156,6 +156,10 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
         return (Yii::app()->user->model->canApprove() && $this->isReleaseable());
     }
 
+    public function canCancel() {
+        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
+    }
+
     public function canCancelEdit() {
         return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
     }
@@ -163,9 +167,4 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
     public function canRestoreEdit() {
         return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancelledEditor());
     }
-
-    public function canCancel() {
-        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
-    }
-
 }

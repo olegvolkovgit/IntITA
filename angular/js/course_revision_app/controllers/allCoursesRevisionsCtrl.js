@@ -10,7 +10,7 @@ angular
         };
     });
 
-function allCoursesRevisionsCtrl($rootScope,$scope, courseRevisionsTree, courseRevisionsActions) {
+function allCoursesRevisionsCtrl($rootScope,$scope, courseRevisionsTree, courseRevisionsActions, $attrs) {
     $scope.formData = {};
     courseRevisionsTree.getCourseRevisionsAuthors().then(function(response){
         $scope.authors=response;
@@ -18,7 +18,7 @@ function allCoursesRevisionsCtrl($rootScope,$scope, courseRevisionsTree, courseR
         $scope.selectedAuthor = $scope.authors[0];
     });
     //init tree after load json
-    courseRevisionsTree.getAllCoursesRevisionsJson().then(function(response){
+    courseRevisionsTree.getAllCoursesRevisionsJson({organization:$attrs.organization}).then(function(response){
         $rootScope.revisionsJson=response;
         $scope.revisionsTreeInit();
     });

@@ -94,24 +94,4 @@ function moduleCtrl($scope, $http) {
                 return false;
             });
     };
-    
-    $scope.sendRequest=function(url){
-        bootbox.confirm("Відправити запит на редагування цього модуля?", function(result) {
-            if (result) {
-                $http({
-                    url: url,
-                    method: "POST",
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback(response) {
-                    bootbox.alert(response.data, function(){
-                        location.reload();
-                    });
-                }, function errorCallback() {
-                    bootbox.alert("Запит не вдалося надіслати.");
-                });
-            } else {
-                bootbox.alert("Запит відмінено.");
-            }
-        });
-    }
 }
