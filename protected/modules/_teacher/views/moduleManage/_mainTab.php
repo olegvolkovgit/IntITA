@@ -79,8 +79,12 @@
                 <td><?=$model->level();?></td>
             </tr>
             <tr>
-                <td>Статус: </td>
-                <td><?=$model->statusLabel();?></td>
+                <td>Статус онлайн:</td>
+                <td><?= $model->onlineStatusLabel(); ?></td>
+            </tr>
+            <tr>
+                <td>Статус офлайн:</td>
+                <td><?= $model->offlineStatusLabel(); ?></td>
             </tr>
             <tr>
                 <td>Видалений: </td>

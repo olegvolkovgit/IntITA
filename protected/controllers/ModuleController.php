@@ -80,7 +80,7 @@ class ModuleController extends Controller
         }
 
         $data['module']=ActiveRecordToJSON::toAssocArray($module);
-        $data['canPayModule']=$module->status && !$module->cancelled;
+        $data['canPayModule']=!$module->isDeveloping() && !$module->cancelled;
         $data['moduleTitle']=$module->getTitle();
         $data['modulePrice']=$module->modulePrice($idCourse);
         $data['isReadyCourse']=$isReadyCourse;
@@ -160,78 +160,6 @@ class ModuleController extends Controller
         }
     }
 
-    /**
-     * @throws \application\components\Exceptions\ModuleNotFoundException
-     */
-    public function actionSaveLesson()
-    {
-        $newLectureParams = array (
-            'titleUa' => Yii::app()->request->getParam('titleUa', ''),
-            'titleRu' => Yii::app()->request->getParam('titleRu', ''),
-            'titleEn' => Yii::app()->request->getParam('titleEn', ''),
-            'order' => Yii::app()->request->getParam('order', 1)
-        );
-
-        //throw error if idModule is '0' or unset?
-        $idModule = Yii::app()->request->getParam('idModule');
-
-        $model = Module::model()->findByPk($idModule);
-
-        $this->checkModelInstance($model);
-
-        $lecture = $model->addLecture($newLectureParams);
-
-        Yii::app()->user->setFlash('newLecture', 'Нова лекція №' . $lecture->order . $lecture->title_ua . 'додана до цього модуля');
-
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    /**
-     * @throws CHttpException
-     * @throws \application\components\Exceptions\ModuleValidationException
-     */
-    public function actionSaveModule()
-    {
-        $titleUa = Yii::app()->request->getPost('titleUA', '');
-        $titleRu = Yii::app()->request->getPost('titleRU', '');
-        $titleEn = Yii::app()->request->getPost('titleEN', '');
-        $idCourse = Yii::app()->request->getPost('idCourse');
-        $lang = Yii::app()->request->getPost('lang');
-        $author = Yii::app()->request->getPost('isAuthor', 0);
-
-        $course = Course::model()->with("module")->findByPk($idCourse);
-
-        $module = new Module();
-        $module->initNewModule($course, $titleUa, $titleRu, $titleEn, $lang);
-
-        if ($module !== null) {
-            $course->updateCount();
-        }
-
-        if($author != 0){
-            $transaction = Yii::app()->db->beginTransaction();
-            try {
-                $message = new MessagesAuthorRequest();
-                $model = StudentReg::model()->findByPk($author);
-                $message->build($module, $model);
-                $message->create();
-                $sender = new MailTransport();
-
-                $message->send($sender);
-                $transaction->commit();
-            } catch (Exception $e){
-                $transaction->rollback();
-                throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
-            }
-        }
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax'])) {
-            $this->redirect(Yii::app()->request->urlReferrer);
-        }
-
-        $this->actionIndex($module->module_ID, $course->course_ID);
-    }
-
     public function actionSendRequest($user, $moduleId){
         $module = Module::model()->findByPk($moduleId);
         $model = StudentReg::model()->findByPk($user);
@@ -252,25 +180,6 @@ class ModuleController extends Controller
                 throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
             }
         }
-    }
-
-    /**
-     * @throws \application\components\Exceptions\ModuleNotFoundException
-     */
-    public function actionUnableLesson()
-    {
-        $idLecture = Yii::app()->request->getParam('idLecture');
-        $idCourse = Yii::app()->request->getParam('idModule');
-
-        $model = Module::model()->with('lectures')->findByPk($idCourse);
-
-        $this->checkModelInstance($model);
-
-        $model->disableLesson($idLecture);
-
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**

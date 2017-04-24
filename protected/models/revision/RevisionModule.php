@@ -267,8 +267,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $revModuleProperties->rating = $module->rating;
             $revModuleProperties->module_number = $module->module_number;
             $revModuleProperties->cancelled = $module->cancelled;
-            $revModuleProperties->status = $module->status;
-            $revModuleProperties->price_offline = $module->price_offline;
+            $revModuleProperties->status_online = $module->status_online;
+            $revModuleProperties->status_offline = $module->status_offline;
             $revModuleProperties->start_date = new CDbExpression('NOW()');
             $revModuleProperties->id_user_created = $user->getId();
             $revModuleProperties->id_user = $user->getId();
@@ -615,7 +615,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $module->level = $this->properties->level;
         $module->hours_in_day = $this->properties->hours_in_day;
         $module->days_in_week = $this->properties->days_in_week;
-        $module->status = 1;
+        $module->status_online = $this->properties->status_online;
+        $module->status_offline = $this->properties->status_offline;
         $module->update();
     }
 

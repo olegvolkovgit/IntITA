@@ -341,7 +341,5 @@ class CourseModules extends CActiveRecord
             }
             throw $e;
         }
-
-        $course->updateCount();
     }
 }

@@ -443,7 +443,8 @@ class CourseRevisionController extends Controller {
             $modules[$key]["id"] = $module->module_ID;
             $modules[$key]["module_order"] = $modulesModel->module_order;
             $modules[$key]["title"] = $module->title_ua;
-            $modules[$key]["status"] = $module->status?'Готовий':'В розробці';
+            $modules[$key]["status_online"] = $module->status_online?'Готовий':'В розробці';
+            $modules[$key]["status_offline"] = $module->status_offline?'Готовий':'В розробці';
             $modules[$key]["cancelled"] = $module->cancelled?true:false;
         }
 

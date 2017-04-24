@@ -222,13 +222,16 @@
         </td>
     </tr>
     <tr>
-        <td>Доступність курсу:</td>
-        <td><?=$courseRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
-        
-        <td>Готовність курсу:</td>
-        <td><?=$courseRevision->properties->status?'Готовий':'В розробці' ?></td>
+        <td>Готовність курсу онлайн:</td>
+        <td><?=$courseRevision->properties->status_online?'Готовий':'В розробці' ?></td>
+
+        <td>Готовність курсу офлайн:</td>
+        <td><?=$courseRevision->properties->status_offline?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
+        <td>Доступність курсу:</td>
+        <td><?=$courseRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
+
         <td>Автор:</td>
         <td><?=StudentReg::getUserNamePayment($courseRevision->properties->id_user_created).' (id='.$courseRevision->properties->id_user_created.')'?></td>
         <td>Логотип:</td>

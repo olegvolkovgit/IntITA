@@ -103,15 +103,15 @@
         <td><?=CHtml::encode($courseRevision->properties->what_you_get_en) ?></td>
     </tr>
     <tr>
-        <td><label>Доступність курсу:</label></td>
-        <td><?=$courseRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
+        <td><label>Готовність курсу онлайн:</label></td>
+        <td><?=$courseRevision->properties->status_online?'Готовий':'В розробці' ?></td>
 
-        <td><label>Готовність курсу:</label></td>
-        <td><?=$courseRevision->properties->status?'Готовий':'В розробці' ?></td>
+        <td><label>Готовність курсу офлайн:</label></td>
+        <td><?=$courseRevision->properties->status_offline?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
-        <td><label>Ціна:</label></td>
-        <td><?=$courseRevision->properties->course_price ?></td>
+        <td><label>Доступність курсу:</label></td>
+        <td><?=$courseRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
 
         <td><label>Мова:</label></td>
         <td><?=$courseRevision->properties->language ?></td>
