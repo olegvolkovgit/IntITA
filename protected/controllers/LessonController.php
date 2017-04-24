@@ -75,11 +75,8 @@ class LessonController extends Controller
 
         $this->setUserLastLink();
 
-        if($lecture->verified) {
-            $view='indexTemplate';
-        } else $view='index1';
-
-        $this->render($view, array(
+        $this->render('index', array(
+            'isVerified'=>$lecture->verified,
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
