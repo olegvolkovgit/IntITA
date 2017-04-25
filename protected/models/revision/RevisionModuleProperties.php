@@ -21,8 +21,8 @@
  * @property integer $rating
  * @property integer $module_number
  * @property integer $cancelled
- * @property integer $status
- * @property integer $price_offline
+ * @property integer $status_online
+ * @property integer $status_offline
  * @property string $start_date
  * @property integer $id_user_created
  * @property string $update_date
@@ -54,7 +54,7 @@ class RevisionModuleProperties extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status, , start_date', 'required'),
+			array('start_date', 'required'),
 			array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
 			array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
 			array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
@@ -113,7 +113,8 @@ class RevisionModuleProperties extends CActiveRecord
 			'module_img' => 'Фото',
 			'module_number' => 'Номер модуля',
 			'cancelled' => 'Видалений',
-			'status' => 'Статус',
+            'status_online' => 'Онлайн-статус',
+            'status_offline' => 'Офлайн-статус',
 			'hours_in_day' => 'Годин в день (рекомендований графік занять)',
 			'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
 			'level' => 'Рівень',
@@ -204,7 +205,8 @@ class RevisionModuleProperties extends CActiveRecord
 		$this->hours_in_day = 3;
 		$this->days_in_week = 3;
 		$this->cancelled = 0;
-		$this->status = 0;
+		$this->status_online = 0;
+        $this->status_offline = 0;
 		$this->title_ua = $titleUa;
 		$this->title_ru = $titleRu;
 		$this->title_en = $titleEn;
@@ -241,8 +243,8 @@ class RevisionModuleProperties extends CActiveRecord
 		$newProperties->rating = $this->rating;
 		$newProperties->module_number = $this->module_number;
 		$newProperties->cancelled = $this->cancelled;
-		$newProperties->status = $this->status;
-		$newProperties->price_offline = $this->price_offline;
+		$newProperties->status_online = $this->status_online;
+        $newProperties->status_offline = $this->status_offline;
 
 		$newProperties->start_date = new CDbExpression('NOW()');
 		$newProperties->id_user_created = $user->getId();

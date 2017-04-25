@@ -231,33 +231,6 @@ class Lecture extends CActiveRecord
 
     }
 
-    public static function addNewLesson($module, $title_ua, $title_ru, $title_en, $teacher)
-    {
-        $lecture = new Lecture();
-        $lecture->title_ua = $title_ua;
-        $lecture->title_ru = $title_ru;
-        $lecture->title_en = $title_en;
-        $lecture->idModule = $module;
-
-        $order = Lecture::model()->count("idModule=$module and `order`>0");
-
-        $lecture->order = ++$order;
-        $lecture->alias = 'lecture' . $order;
-
-        $lecture->save();
-        if (!file_exists(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id)) {
-            mkdir(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id);
-        }
-        if (!file_exists(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/images")) {
-            mkdir(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/images");
-        }
-        if (!file_exists(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/audio")) {
-            mkdir(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/audio");
-        }
-
-        return $lecture;
-    }
-
     public function getLecturesTitles($id)
     {
         $list = Lecture::model()->findAllByAttributes(array('idModule' => $id));

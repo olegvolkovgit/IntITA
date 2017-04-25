@@ -1,5 +1,5 @@
 <?php
-if ($model->isReadyOnline() || $model->isReadyOffline()) { ?>
+if (!$model->isDeveloping()) { ?>
     <div ng-show="onlineSchemeData && offlineSchemeData && status">
         <div ng-if="onlineSchemeData.schemes[0].fullPrice==0">
             {{onlineSchemeData.translates.price}} <span class="colorGreen">{{onlineSchemeData.translates.free}}</span>

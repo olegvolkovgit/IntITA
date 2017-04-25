@@ -8,7 +8,7 @@
 <div class="formMargin">
     <div class="form-group">
         <?php echo $form->labelEx($model, 'module_number'); ?>
-        <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled' => Yii::app()->user->model->isAdmin() ? false : true)); ?>
+        <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled' => $model->isNewRecord ? false : true)); ?>
         <?php echo $form->error($model, 'module_number'); ?>
     </div>
 
@@ -50,11 +50,18 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model, 'status'); ?>
-        <?php echo $form->dropDownList($model, 'status', array(
+        <?php echo $form->labelEx($model, 'status_online'); ?>
+        <?php echo $form->dropDownList($model, 'status_online', array(
             '0' => Yii::t('coursemanage', '0396'), '1' => Yii::t('coursemanage', '0397')),
             array('options' => array('0' => array('selected' => true)), 'class' => 'form-control')); ?>
-        <?php echo $form->error($model, 'status'); ?>
+        <?php echo $form->error($model, 'status_online'); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'status_offline'); ?>
+        <?php echo $form->dropDownList($model, 'status_offline', array(
+            '0' => Yii::t('coursemanage', '0396'), '1' => Yii::t('coursemanage', '0397')),
+            array('options' => array('0' => array('selected' => true)), 'class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'status_offline'); ?>
     </div>
     <?php if (Yii::app()->user->model->isAdmin()) { ?>
     <div class="form-group">

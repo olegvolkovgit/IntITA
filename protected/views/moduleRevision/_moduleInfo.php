@@ -48,15 +48,15 @@
         <td><label>Днів в тиждень:</label></td>
         <td><?=$module->days_in_week ?></td>
 
-        <td><label>Готовність модуля:</label></td>
-        <td><?=$module->status?'Готовий':'В розробці' ?></td>
+        <td><label>Готовність модуля онлайн:</label></td>
+        <td><?=$module->status_online?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
         <td><label>Ціна:</label></td>
         <td><?=$module->module_price ?></td>
 
-        <td><label>Ціна офлайн:</label></td>
-        <td><?=$module->price_offline ?></td>
+        <td><label>Готовність модуля офлайн:</label></td>
+        <td><?=$module->status_offline?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
         <td><label>Мова:</label></td>

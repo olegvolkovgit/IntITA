@@ -108,6 +108,26 @@ class RegisteredUser
         return $result;
     }
 
+    public function loadRolesByOrganizations()
+    {
+        $sql = '';
+        $roles = AllRolesDataSource::teacherRoles();
+        $lastKey = array_search(end($roles), $roles);
+        foreach($roles as $key=>$role){
+            $model = Role::getInstance($role);
+            $sql .= "(".$model->checkRoleSql().")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
+        $result = array_map(function ($row) {
+            return $row["accountant"];
+        }, $rolesArray);
+
+        return $result;
+    }
+
     public function isTeacher()
     {
         if ($this->getTeacher() === null) {

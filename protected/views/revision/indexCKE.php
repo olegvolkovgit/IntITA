@@ -12,6 +12,7 @@ $this->breadcrumbs = array(
     'Редагування ревізії',
 );
 ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/controllers/editor/revisionEditCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/controllers/editor/plainTaskCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/controllers/editor/skipTaskCtrl.js'); ?>"></script>
@@ -181,5 +182,4 @@ $this->breadcrumbs = array(
         </div>
     </div>
 </div>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 

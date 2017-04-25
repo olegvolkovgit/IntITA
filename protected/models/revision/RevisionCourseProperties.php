@@ -12,9 +12,8 @@
  * @property string $title_en
  * @property integer $level
  * @property string $start
- * @property integer $status
- * @property integer $modules_count
- * @property string $course_price
+ * @property integer $status_online
+ * @property integer $status_offline
  * @property string $for_whom_ua
  * @property string $what_you_learn_ua
  * @property string $what_you_get_ua
@@ -58,22 +57,21 @@ class RevisionCourseProperties extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('alias, language, title_ua, level, status', 'required'),
-			array('level, status, modules_count, rating, cancelled, course_number, id_user_created, id_user_updated, id_user, id_state', 'numerical', 'integerOnly'=>true),
+			array('alias, language, title_ua, level, status_online, status_offline', 'required'),
+			array('level, status_online, status_offline, rating, cancelled, course_number, id_user_created, id_user_updated, id_user, id_state', 'numerical', 'integerOnly'=>true),
 			array('alias', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>100),
 			array('title_ua', 'match', 'pattern' => "/".Yii::app()->params['titleUAPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
-			array('course_price', 'length', 'max'=>10),
 			array('course_img', 'length', 'max'=>255),
 			array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
 			array('start, for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en, start_date, update_date, change_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, alias, language, title_ua, title_ru, title_en, level, start, status, modules_count, ' .
-                'course_price, for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, ' .
+			array('id, alias, language, title_ua, title_ru, title_en, level, start, , status_online, status_offline' .
+                'for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, ' .
                 'what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en, course_img, rating, cancelled, ' .
                 'course_number, start_date, id_user_created, update_date, id_user_updated, id_state, id_user, change_date', 'safe', 'on'=>'search'),
 		);
@@ -107,9 +105,8 @@ class RevisionCourseProperties extends CActiveRecord
 			'title_en' => 'Title En',
 			'level' => 'Level',
 			'start' => 'Start',
-			'status' => 'Status',
-			'modules_count' => 'Modules Count',
-			'course_price' => 'Course Price',
+            'status_online' => 'Онлайн-статус',
+            'status_offline' => 'Офлайн-статус',
 			'for_whom_ua' => 'For Whom Ua',
 			'what_you_learn_ua' => 'What You Learn Ua',
 			'what_you_get_ua' => 'What You Get Ua',
@@ -159,9 +156,8 @@ class RevisionCourseProperties extends CActiveRecord
 		$criteria->compare('title_en',$this->title_en,true);
 		$criteria->compare('level',$this->level);
 		$criteria->compare('start',$this->start,true);
-		$criteria->compare('status',$this->status);
-		$criteria->compare('modules_count',$this->modules_count);
-		$criteria->compare('course_price',$this->course_price,true);
+        $criteria->compare('status_online', $this->status_online, true);
+        $criteria->compare('status_offline', $this->status_offline, true);
 		$criteria->compare('for_whom_ua',$this->for_whom_ua,true);
 		$criteria->compare('what_you_learn_ua',$this->what_you_learn_ua,true);
 		$criteria->compare('what_you_get_ua',$this->what_you_get_ua,true);
@@ -212,7 +208,6 @@ class RevisionCourseProperties extends CActiveRecord
 		$newProperties->course_img = $this->course_img;
 		$newProperties->alias = $this->alias;
 		$newProperties->language = $this->language;
-		$newProperties->course_price = $this->course_price;
 		$newProperties->for_whom_ua = $this->for_whom_ua;
 		$newProperties->what_you_learn_ua = $this->what_you_learn_ua;
 		$newProperties->what_you_get_ua = $this->what_you_get_ua;
@@ -225,7 +220,8 @@ class RevisionCourseProperties extends CActiveRecord
 		$newProperties->level = $this->level;
 		$newProperties->course_number = $this->course_number;
 		$newProperties->cancelled = $this->cancelled;
-		$newProperties->status = $this->status;
+		$newProperties->status_online = $this->status_online;
+        $newProperties->status_offline = $this->status_offline;
 
 		$newProperties->start_date = new CDbExpression('NOW()');
 		$newProperties->id_user_created = $user->getId();

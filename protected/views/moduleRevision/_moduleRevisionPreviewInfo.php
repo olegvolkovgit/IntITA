@@ -99,15 +99,15 @@
         <td><label>Днів в тиждень:</label></td>
         <td><?=$moduleRevision->properties->days_in_week ?></td>
 
-        <td><label>Готовність модуля:</label></td>
-        <td><?=$moduleRevision->properties->status?'Готовий':'В розробці' ?></td>
+        <td><label>Готовність модуля онлайн:</label></td>
+        <td><?=$moduleRevision->properties->status_online?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
         <td><label>Ціна:</label></td>
         <td><?=$moduleRevision->properties->module_price ?></td>
 
-        <td><label>Ціна офлайн:</label></td>
-        <td><?=$moduleRevision->properties->price_offline ?></td>
+        <td><label>Готовність модуля офлайн:</label></td>
+        <td><?=$moduleRevision->properties->status_offline?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
         <td><label>Мова:</label></td>

@@ -134,14 +134,40 @@
 //                ?>
 <!--            </div>-->
         <div>
-            <span id="titleModule"><?php echo Yii::t('module', '0893'); ?>: </span>
+            <span id="titleModule">
+<!--                --><?php //echo Yii::t('module', '0893'); ?><!--: -->
+                Статус онлайн:
+            </span>
             <?php
             $lg = Yii::app()->session['lg'];
-            $status = $post->status;
+            $status = $post->status_online;
             $this->widget('editable.EditableField', array(
                 'type' => 'select',
                 'model' => $post,
-                'attribute' => 'status',
+                'attribute' => 'status_online',
+                'url' => $this->createUrl('module/updateModuleAttribute'),
+                'source' => Editable::source(array(
+                        '0' => Yii::t('courses', '0230'),
+                        '1' => Yii::t('courses', '0231'),
+                    )
+                ),
+                'title' => Yii::t('module', '0893').':',
+                'placement' => 'right',
+            ));
+            ?>
+        </div>
+        <div>
+            <span id="titleModule">
+<!--                --><?php //echo Yii::t('module', '0893'); ?><!--: -->
+                Статус офлайн:
+            </span>
+            <?php
+            $lg = Yii::app()->session['lg'];
+            $status = $post->status_offline;
+            $this->widget('editable.EditableField', array(
+                'type' => 'select',
+                'model' => $post,
+                'attribute' => 'status_offline',
                 'url' => $this->createUrl('module/updateModuleAttribute'),
                 'source' => Editable::source(array(
                         '0' => Yii::t('courses', '0230'),

@@ -65,7 +65,7 @@ class RevisionCommon {
             $command
                 ->select('module.*')
                 ->from('module')
-                ->where('module.status = ' . Module::READY.' and module.cancelled='.Module::ACTIVE);
+                ->where('(module.status_online = ' . Module::READY.' or module.status_offline = ' . Module::READY.') and module.cancelled='.Module::ACTIVE);
 
             $data['ready_module'] = $command->queryAll();
 
@@ -73,20 +73,20 @@ class RevisionCommon {
             $command
                 ->select('module.*')
                 ->from('module')
-                ->where('module.status = ' . Module::DEVELOP.' and module.cancelled='.Module::ACTIVE);
+                ->where('module.status_online = ' . Module::DEVELOP.' and module.status_offline = ' . Module::DEVELOP.' and module.cancelled='.Module::ACTIVE);
 
             $data['develop_module'] = $command->queryAll();
         }else{
+            //            todo select by tag
 //            $categoriesIds=array();
 //            foreach ($categories as $key=>$categoryId){
 //                if($categoryId=='true') array_push($categoriesIds, $key);
 //            }
-//            todo
             $command = Yii::app()->db->createCommand();
             $command
                 ->select('module.*')
                 ->from('module')
-                ->where('module.status = ' . Module::READY.' and module.cancelled='.Module::ACTIVE);
+                ->where('(module.status_online = ' . Module::READY.' or module.status_offline = ' . Module::READY.') and module.cancelled='.Module::ACTIVE);
 
             $data['ready_module'] = $command->queryAll();
 
@@ -94,7 +94,7 @@ class RevisionCommon {
             $command
                 ->select('module.*')
                 ->from('module')
-                ->where('module.status = ' . Module::DEVELOP.' and module.cancelled='.Module::ACTIVE);
+                ->where('module.status_online = ' . Module::DEVELOP.' and module.status_offline = ' . Module::DEVELOP.' and module.cancelled='.Module::ACTIVE);
 
             $data['develop_module'] = $command->queryAll();
         }

@@ -10,10 +10,11 @@
         <div class="dataTable_wrapper">
             <table ng-table="modulesTable" class="table table-striped table-bordered table-hover">
                 <colgroup>
+                    <col width="5%" />
+                    <col width="12%" />
                     <col width="6%" />
-                    <col width="15%" />
-                    <col width="6%" />
-                    <col width="25%" />
+                    <col width="20%" />
+                    <col width="10%" />
                     <col width="10%" />
                     <col width="12%" />
                     <col width="10%" />
@@ -26,8 +27,11 @@
                     <td data-title="'Назва'" sortable="'title_ua'" filter="{title_ua: 'text'}">
                         <a ng-href="#/module/id/{{row.module_ID}}">{{row.title_ua}}</a>
                     </td>
-                    <td data-title="'Статус'" filter="{status: 'select'}" filter-data="statuses"><span ng-if="row.status">готовий</span>
-                        <span ng-if="!row.status">в розробці</span>
+                    <td data-title="'Статус онлайн'" filter="{status_online: 'select'}" filter-data="statuses"><span ng-if="row.status_online">готовий</span>
+                        <span ng-if="!row.status_online">в розробці</span>
+                    </td>
+                    <td data-title="'Статус офлайн'" filter="{status_offline: 'select'}" filter-data="statuses"><span ng-if="row.status_offline">готовий</span>
+                        <span ng-if="!row.status_offline">в розробці</span>
                     </td>
                     <td data-title="'Рівень'" filter="{'level0.id': 'select'}" filter-data="levels">{{row.level0.title_ua}}</td>
                     <td data-title="'Видалений'" filter="{cancelled: 'select'}" filter-data="cancelled"><span ng-if="row.cancelled">видалений</span>
