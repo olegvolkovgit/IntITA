@@ -42,11 +42,19 @@ class SuperAdmin extends Role
 	}
 
 	public function checkBeforeDeleteRole(StudentReg $user, $organization=null){
-		return true;
+        return Yii::app()->user->model->isDirector();
 	}
+
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return Yii::app()->user->model->isDirector();
+    }
 
 	public function setRole(StudentReg $user, $organization)
 	{
+        if(!$this->checkBeforeSetRole($user)){
+            return false;
+        }
+
 		if(Yii::app()->db->createCommand()->
 		insert($this->tableName(), array(
 			'id_user' => $user->id,

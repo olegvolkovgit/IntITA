@@ -110,12 +110,12 @@ class MessageReceiver extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function requestsReceiversArray(){
+	public static function requestsReceiversArray($idOrganization=null){
+	    $sql=$idOrganization?' and ucm.id_organization='.$idOrganization:'';
         $criteria = new CDbCriteria();
         $criteria->alias = 'u';
-        $criteria->join = 'join user_admin ua on ua.id_user=u.id';
-        $criteria->join .= ' join user_content_manager ucm on ucm.id_user=u.id';
-        $criteria->addCondition('ua.end_date IS NULL XOR ucm.end_date IS NULL');
+        $criteria->join = 'join user_content_manager ucm on ucm.id_user=u.id';
+        $criteria->addCondition('ucm.end_date IS NULL'.$sql);
         $criteria->distinct = true;
 
         return StudentReg::model()->findAll($criteria);

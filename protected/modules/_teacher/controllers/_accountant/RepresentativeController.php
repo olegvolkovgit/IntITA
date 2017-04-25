@@ -22,10 +22,16 @@ class RepresentativeController extends TeacherCabinetController
         echo CorporateRepresentative::representativesList($params);
     }
 
+    /**
+     * @deprecated
+     */
     public function actionRenderAddForm(){
         $this->renderPartial('_addForm', array(), false, true);
     }
 
+    /**
+     * @deprecated
+     */
     public function actionViewRepresentative($id){
         $model = CorporateRepresentative::model()->findByPk($id);
         $companies = $model->companies();

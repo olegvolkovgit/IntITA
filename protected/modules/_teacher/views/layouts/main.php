@@ -107,6 +107,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyCard.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyRepresentatives.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyOneRepresentative.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyServices.js'); ?>"></script>
 
     <!--Angular routers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/cabinetRouter.js'); ?>"></script>
@@ -231,13 +232,15 @@
 
 </head>
     <body ng-app="teacherApp">
-        <div id="contentBoxMain">
-            <?php echo $content; ?>
-        </div>
-        <!--IntITAMessenger-->
+    <toast style="left:0px"></toast>
+
+    <div id="contentBoxMain">
+        <?php echo $content; ?>
+    </div>
+    <!--IntITAMessenger-->
         <?php if (!Yii::app()->user->isGuest) { ?>
             <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
         <?php } ?>
-        <!--IntITAMessenger-->
+    <!--IntITAMessenger-->
     </body>
 </html>

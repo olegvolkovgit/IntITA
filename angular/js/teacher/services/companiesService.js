@@ -23,6 +23,10 @@ angular
             url: url + '/representatives',
             method: "GET",
           },
+          servicesList : {
+            url: url + '/servicesList',
+            method: "GET",
+          },
           saveRepresentative : {
             url: url + '/saveRepresentative',
             headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},

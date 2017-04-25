@@ -13,6 +13,8 @@ $user = RegisteredUser::userById(Yii::app()->user->id);
 $post = $user->registrationData;
 $post->firstName = addslashes($post->firstName);
 $post->secondName = addslashes($post->secondName);
+$post->passport=$post->getPassport();
+$post->inn=$post->getInn();
 $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
@@ -237,7 +239,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         <?php echo $form->textField($model, 'email', array('ng-init' => "dataForm.email='$post->email'", 'ng-model' => "dataForm.email", 'maxlength' => 40, "disabled" => "disabled", 'class' => 'indicator')); ?>
                         <span><?php echo $form->error($model, 'email'); ?></span>
                     </div>
-                    <?php if (is_null($post->password)) {
+                    <?php if (is_null($post->getPassword())) {
                         ?>
                         <div class="rowPass">
                             <?php echo $form->label($model, 'password'); ?>
@@ -450,7 +452,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
             </div>
         </div>
         <div class="rowbuttons">
-            <?php if (!is_null($post->password)) {
+            <?php if (!is_null($post->getPassword())) {
                 echo CHtml::link(Yii::t('regexp', '0248'), '#', array('id' => 'changepassword', 'onclick' => '$("#changePasswordDialog").dialog("open"); return false;'));
             }
             ?>

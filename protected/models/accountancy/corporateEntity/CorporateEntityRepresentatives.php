@@ -101,11 +101,45 @@ class CorporateEntityRepresentatives extends CActiveRecord {
         return parent::model($className);
     }
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function updateData($data) {
         $attributes = array_intersect_key($data, $this->getAttributes());
-        if (count($attributes)) {
-            $this->setAttributes($attributes, false);
-            $this->save();
+        return $this->createOrUpdateModel($this, $attributes);
+    }
+
+    /**
+     * @param CorporateEntityRepresentatives $model
+     * @param array $attributes
+     * @return CorporateEntityRepresentatives
+     */
+    public function createOrUpdateModel($model, $attributes) {
+        if ($model) {
+            if (empty($attributes['deletedAt'])) {
+                $attributes['deletedAt'] = new CDbExpression('DEFAULT');
+            }
+            if (count($attributes)) {
+                $model->setAttributes($attributes, false);
+                if ($model->validate()) {
+                    $model->save(false);
+                } else {
+                    return null;
+                }
+            }
         }
+        return $model;
+    }
+
+    /**
+     * @param array $data
+     * @return CorporateEntityRepresentatives
+     */
+    public function createRepresentative($data) {
+        $attributes = array_intersect_key($data, $this->getAttributes());
+        $attributes['corporate_entity'] = $data['companyId'];
+        $model = new CorporateEntityRepresentatives();
+        return $this->createOrUpdateModel($model, $attributes);
     }
 }

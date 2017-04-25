@@ -1,6 +1,5 @@
 <h2 class="m-b-10">Додати нову проплату</h2>
 <div class="row" ng-controller="createOperationCtrl">
-    <toast style="left:0px"></toast>
     <div class="panel-body">
         <div class="formMargin">
             <div class="col-lg-8">

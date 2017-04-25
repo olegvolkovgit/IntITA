@@ -43,27 +43,25 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <col/>
                         <col/>
                         <col/>
-                        <col/>
                     </colgroup>
                     <tr ng-repeat="row in $data track by $index">
-                        <td style="word-wrap:break-word" data-title="'Користувач'" sortable="'fullName'" filter="{'fullName': 'text'}" >
-                            <a ng-href="#/users/profile/{{row.id}}">{{row.fullName}}</a>
+                        <td style="word-wrap:break-word" data-title="'Студент'" sortable="'idUser.fullName'" filter="{'idUser.fullName': 'text'}" >
+                            <a ng-href="#/users/profile/{{row.id_user}}">{{row.idUser.fullName}}</a>
                         </td>
-                        <td data-title="'Надано роль'" filter="{'student.start_date': 'text'}" sortable="'student.start_date'">{{row.student.start_date}}</td>
-                        <td data-title="'Форма'" filter="{educform: 'select'}" filter-data="educationForms">
-                            {{row.educform==1? "онлайн":"онлайн/оффлайн"}}
+                        <td data-title="'Надано роль'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
+                        <td data-title="'Форма'" filter="{'idUser.education_shift': 'select'}" filter-data="educationForms">
+                            {{row.idUser.education_shift==1? "онлайн":"онлайн/оффлайн"}}
                         </td>
-                        <td data-title="'Країна'" filter="{'country0.title_ua': 'text'}" sortable="'country0.title_ua'">{{row.country0.title_ua}}</td>
-                        <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city0.title_ua}}</td>
-                        <td style="word-wrap:break-word" data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
-                            <a ng-href="#/users/profile/{{row.trainerData.id}}">{{row.trainerData.fullName}}</a>
+                        <td data-title="'Місто'" filter="{'city.title_ua': 'text'}" sortable="'city.title_ua'">{{row.city.title_ua}}</td>
+                        <td style="word-wrap:break-word" data-title="'Тренер'" filter="{'trainer.fullName': 'text'}" sortable="'trainer.fullName'">
+                            <a ng-href="#/users/profile/{{row.trainer.id}}">{{row.trainer.fullName}}</a>
                         </td>
-                        <td style="word-wrap:break-word;" data-title="'Телефон'" sortable="'phone'" filter="{'phone': 'text'}">
-                            {{row.phone}}
+                        <td style="word-wrap:break-word;" data-title="'Телефон'" sortable="'idUser.phone'" filter="{'idUser.phone': 'text'}">
+                            {{row.idUser.phone}}
                         </td>
                         <?php if (Yii::app()->user->model->isSuperVisor() && $organization) { ?>
                         <td data-title="">
-                            <a ng-href="#/supervisor/addOfflineStudent/{{row.id}}">Додати в підгрупу</a>
+                            <a ng-href="#/supervisor/addOfflineStudent/{{row.id_user}}">Додати в підгрупу</a>
                         </td>
                         <?php } ?>
                     </tr>

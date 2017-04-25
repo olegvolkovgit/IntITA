@@ -82,7 +82,11 @@ class StudentReg extends CActiveRecord
     public $studentName;
 
     private $_identity;
-    
+    private $_password;
+    private $_token;
+    private $_passport;
+    private $_inn;
+
     public $fullName = '';
 
     public function getDbConnection()
@@ -175,7 +179,7 @@ class StudentReg extends CActiveRecord
     public function authenticatePass()
     {
         $model = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if (sha1($this->password) !== $model->password)
+        if (sha1($this->password) !== $model->getPassword())
             $this->addError('password', Yii::t('error', '0274'));
     }
 
@@ -189,7 +193,7 @@ class StudentReg extends CActiveRecord
     public function passdiff()
     {
         $model = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if (!empty($model->password)) {
+        if (!empty($model->getPassword())) {
             return;
         }
         if (isset($this->password) || isset($this->password_repeat)) {
@@ -401,9 +405,19 @@ class StudentReg extends CActiveRecord
             $format = "Y-m-d";
             $this->document_issued_date = date_format(DateTime::createFromFormat($format, $this->document_issued_date),'d/m/Y');
         }
-//        unset($this->password);
+
+        $this->_password=$this->password;
+        $this->password=null;
+        $this->_token=$this->token;
+        $this->token=null;
+        $this->_passport=$this->passport;
+        $this->passport=null;
+        $this->_inn=$this->inn;
+        $this->inn=null;
+
+        parent::afterFind();
     }
-    
+
     public function beforeSave(){
         if ($this->birthday != null){
             $format = "d/m/Y";
@@ -918,20 +932,6 @@ class StudentReg extends CActiveRecord
         $notificationsMessages = MessagesNotifications::model()->findAll($criteria);
 
         $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages, $rejectModuleRevisionMessages);
-        $user = Yii::app()->user->model;
-//        if($user->isAdmin() || $user->isContentManager()){
-//            $criteria1 = new CDbCriteria();
-//            $criteria1->select = '*';
-//            $criteria1->alias = 'm';
-//            $criteria1->order = 'm.id_message DESC';
-//            $criteria1->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
-//            $criteria1->addCondition('r.id_receiver =:id and r.deleted IS NULL and m.cancelled=0');
-//            $criteria1->params = array(':id' => $this->id);
-//
-//            $authorRequests = MessagesAuthorRequest::model()->findAll($criteria1);
-//            $teacherConsultantRequests = MessagesTeacherConsultantRequest::model()->findAll($criteria1);
-//            $all =  array_merge($all, $authorRequests, $teacherConsultantRequests);
-//        }
 
         function sortById($a, $b)
         {
@@ -1387,77 +1387,6 @@ class StudentReg extends CActiveRecord
         return CJSON::encode($user->startCareers);
     }
 
-    public static function userData($id){
-        $result = array();
-        $model=RegisteredUser::userById($id);
-        $teacher = Teacher::model()->findByPk($id);
-
-        $user = $model->registrationData->getAttributes(array(
-            'avatar','address','birthday','cancelled','city','country','education','educform','email','firstName',
-            'fullName','id','middleName','nickname','skype','state','status','phone','reg_time','education_shift','prev_job',
-            'current_job','passport','document_issued_date','inn','passport_issued'
-        ));
-
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-
-        $result['user']=$user;
-        foreach ($model->getRoles() as $key=>$role){
-            $result['user']['roles'][$key]['role']=$role->__toString();
-            $result['user']['roles'][$key]['name']=Role::getInstance($role)->title();
-        }
-        $noroles=array_diff(AllRolesDataSource::teacherRoles(), $model->getRoles());
-        foreach ($noroles as $key=>$role){
-            $result['user']['noteacherroles'][$key]['role']=$role;
-            $result['user']['noteacherroles'][$key]['name']=Role::getInstance($role)->title();
-        }
-
-        $result['trainer']=$trainer;
-        if($model->isStudent()){
-            $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
-            $result['modules']=$model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
-            foreach($result['courses'] as $key=>$course){
-                $result['courses'][$key]['modules']=CourseModules::modulesInfoByCourse($course["id"]);
-                foreach($result['courses'][$key]['modules'] as $index=>$module){
-                    $result['courses'][$key]['modules'][$index]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
-                }
-            }
-            foreach($result['modules'] as $key=>$module){
-                $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
-            }
-        }
-        if ($teacher) {
-            $result['teacher'] = (array)$teacher->getAttributes();
-            $result['teacher']['modules'] = $teacher->modulesActive;
-        }
-        $studentSubgroups = OfflineStudents::model()->findAllByAttributes(array('id_user'=>$id));
-        if($studentSubgroups){
-            foreach ($studentSubgroups as $key=>$subgroup){
-                $result["offlineStudent"][$key]["idOfflineStudent"] = $subgroup->id;
-                $result["offlineStudent"][$key]["startDate"] = $subgroup->start_date;
-                $result["offlineStudent"][$key]["endDate"] = $subgroup->end_date;
-                $result["offlineStudent"][$key]["graduateDate"] = $subgroup->graduate_date;
-                $result["offlineStudent"][$key]["idSubgroup"] = $subgroup->id_subgroup;
-                $result["offlineStudent"][$key]["subgroupName"] = $subgroup->subgroupName->name;
-                $result["offlineStudent"][$key]["idGroup"] = $subgroup->group->id;
-                $result["offlineStudent"][$key]["groupName"] = $subgroup->group->name;
-                $result["offlineStudent"][$key]["specialization"] = $subgroup->group->specializationName->title_ua;
-            }
-        }
-
-        foreach($model->startCareers as $key=>$career){
-            $result['careers'][$key]=$career->career->title_ua;
-        }
-        foreach($model->preferSpecializations as $key=>$specialization){
-            $result['specializations'][$key]=$specialization->specialization->title_ua;
-        }
-
-        if (Yii::app()->user->model->isAccountant()){
-            $result['documents']['passport']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'passport'));
-            $result['documents']['inn']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'inn'));
-        }
-        return $result;
-    }
-
     public function getEducationFormStr()
     {
         $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
@@ -1550,5 +1479,22 @@ class StudentReg extends CActiveRecord
             'id_organization'=>$organization,
             'end_date'=>null
         ));
+    }
+
+    public function getPassword()
+    {
+       return $this->_password;
+    }
+    public function getToken()
+    {
+        return $this->_token;
+    }
+    public function getPassport()
+    {
+        return $this->_passport;
+    }
+    public function getInn()
+    {
+        return $this->_inn;
     }
 }

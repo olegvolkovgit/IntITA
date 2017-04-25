@@ -25,7 +25,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <span class="passEye"> <?php echo $form->passwordField($chForm,'new_password_repeat',array('class'=>'signInPassM','placeholder'=>$placeHolderPassword,'size'=>60,'maxlength'=>20)); ?></span>
         <span><?php echo $form->error($chForm,'new_password_repeat'); ?></span>
     </div>
-    <?php echo CHtml::hiddenField('tokenhid' , $model->token, array('id' => 'hiddenInput')); ?>
+    <?php echo CHtml::hiddenField('tokenhid' , $model->getToken(), array('id' => 'hiddenInput')); ?>
 
     <?php $labelButton = Yii::t('regexp', '0267');?>
     <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM")); ?>

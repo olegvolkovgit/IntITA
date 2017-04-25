@@ -424,7 +424,8 @@ class Teacher extends CActiveRecord
     public static function isTeacherAuthorModule($idUser, $idModule)
     {
         $user = RegisteredUser::userById($idUser);
-        if($user->isAuthor()){
+        $module=Module::model()->findByPk($idModule);
+        if($user->isAuthor($module->id_organization)){
             $model = new Author();
             return !$model->checkModule($idUser, $idModule);
         }
@@ -657,5 +658,14 @@ class Teacher extends CActiveRecord
 
     public function isPrint(){
         return TeacherOrganization::model()->findByAttributes(array('id_user'=>$this->user_id,'isPrint'=>TeacherOrganization::SHOW,'end_date'=>null));
+    }
+
+    public static function getTeacherRolesString(){
+        $result=[];
+        foreach (TeacherRolesDataSource::roles() as $role){
+            array_push($result,Role::getInstance($role)->title());
+        }
+
+        return $result;
     }
 }

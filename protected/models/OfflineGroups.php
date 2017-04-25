@@ -181,11 +181,12 @@ class OfflineGroups extends CActiveRecord
 		if($organization) $condition=$condition.' and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$courses = Yii::app()->db->createCommand()
 			->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en,
-			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
 			->from('acc_course_service acs')
 			->join('group_access_to_content ga', 'ga.service_id=acs.service_id')
 			->join('course c', 'c.course_ID=acs.course_id')
 			->join('level l', 'l.id=c.level')
+            ->join('organization org', 'org.id=c.id_organization')
 			->where($condition)
 			->queryAll();
 		return $courses;
@@ -197,11 +198,12 @@ class OfflineGroups extends CActiveRecord
 		if($organization) $condition=$condition.' and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$modules = Yii::app()->db->createCommand()
 			->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en,
-			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
 			->from('acc_module_service ams')
 			->join('group_access_to_content ga', 'ga.service_id=ams.service_id')
 			->join('module m', 'm.module_ID=ams.module_id')
 			->join('level l', 'l.id=m.level')
+            ->join('organization org', 'org.id=m.id_organization')
 			->where($condition)
 			->queryAll();
 		return $modules;

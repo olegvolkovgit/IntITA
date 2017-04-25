@@ -12,6 +12,7 @@
  * The followings are the available model relations:
  * @property RevisionModuleProperties $properties
  * @property RevisionLecture[] moduleLectures
+ * @property Module $module
  * @property RevisionModuleLecture[] moduleLecturesModels
  */
 class RevisionModule extends CRevisionUnitActiveRecord
@@ -54,6 +55,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
             'moduleLecturesModels' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
                 'with' => 'lecture',
                 'order' => 'lecture_order ASC'),
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module')
         );
     }
 
@@ -651,7 +653,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
     public static function canCreateModuleRevisions($idModule)
     {
-        return Yii::app()->user->model->isContentManager() || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
+        $idRevision=Module::model()->findByPk($idModule)->id_organization;
+        return Yii::app()->user->model->isContentManager($idRevision) || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
     }
 
     public static function getModuleRevisionsAuthors($idModule=null) {
@@ -685,7 +688,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $status=array();
 
         $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
-        $isApprover=Yii::app()->user->model->canApprove();
+        $isApprover=Yii::app()->user->model->canApprove($this->id_module);
 
         $status['canEdit'] =  $status['canCancelEdit'] = $status['canSend'] =$isRevisionCreator && $this->isEditable();
         $status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();
@@ -695,5 +698,21 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $status['canRelease'] = $isApprover && $this->isReleaseable();
 
         return $status;
+    }
+
+    public function canApprove() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canRejectRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canReleaseRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isReleaseable());
+    }
+
+    public function canCancel() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isCancellable());
     }
 }
