@@ -21,7 +21,9 @@ const EDITOR_DISABLED = 0;
  * @property integer $hours_in_day
  * @property integer $days_in_week
  * @property integer $level
- * @property integer $rating
+ * @property integer $understand_rating
+ * @property integer $interesting_rating
+ * @property integer $accessibility_rating
  * @property integer $module_number
  * @property integer $cancelled
  * @property integer $status_online
@@ -84,7 +86,7 @@ class Module extends CActiveRecord implements IBillableObject
             array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
-            array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, status_online, status_offline', 'safe'),
+            array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, status_online, status_offline, understand_rating, interesting_rating, accessibility_rating', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
             array('module_price', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
@@ -160,6 +162,9 @@ class Module extends CActiveRecord implements IBillableObject
             'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
             'level' => 'Рівень',
             'id_organization' => 'Id організації',
+            'understand_rating' => 'Рейтинг заняття по зрозумiлостi',
+            'interesting_rating' => 'Рейтинг заняття по цiкавостi',
+            'accessibility_rating' => 'Рейтинг заняття по доступностi',
         );
     }
 
@@ -193,7 +198,9 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('days_in_week', $this->days_in_week, true);
         $criteria->compare('hours_in_day', $this->hours_in_day, true);
         $criteria->compare('level', $this->level, true);
-        $criteria->compare('rating', $this->rating, true);
+        $criteria->compare('understand_rating', $this->understand_rating, true);
+        $criteria->compare('interesting_rating', $this->interesting_rating, true);
+        $criteria->compare('accessibility_rating', $this->accessibility_rating, true);
         $criteria->compare('module_number', $this->module_number, true);
         $criteria->compare('cancelled', $this->cancelled, true);
         $criteria->compare('status_online', $this->status_online, true);
@@ -1061,5 +1068,11 @@ class Module extends CActiveRecord implements IBillableObject
     public function removeTag(Tags $tag) {
         $affectedRows = ModuleTags::model()->deleteAll('id_tag = :tagId AND id_module = :moduleId', ['tagId' => $tag->id, 'moduleId' => $this->module_ID]);
         return $affectedRows > 0;
+    }
+
+    public function getAverageRating(){
+        $module = new Module;
+        $average = ($module->understand_rating + $module->interesting_rating + $module->accessibility_rating)/3;
+        return  $average;
     }
 }
