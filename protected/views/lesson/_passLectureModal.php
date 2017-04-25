@@ -47,7 +47,7 @@
                     <div ng-if="ratings[0].rate>=1 && ratings[0].rate<=4 ||
                                 ratings[1].rate>=1 && ratings[1].rate<=4 ||
                                 ratings[2].rate>=1 && ratings[2].rate<=4">
-
+                        <p>Будь-ласка допоможи нам зробити заняття кращими! Поясни, чому саме ти поставив(ла) таку оцінку:</p>
                         <p ng-if="ratings[0].rate>=1 && ratings[0].rate<=4">{{ ratings[0].description }} - {{ ratings[0].rate }}</p>
                         <p ng-if="ratings[1].rate>=1 && ratings[1].rate<=4">{{ ratings[1].description }} - {{ ratings[1].rate }}</p>
                         <p ng-if="ratings[2].rate>=1 && ratings[2].rate<=4">{{ ratings[2].description }} - {{ ratings[2].rate }}</p>

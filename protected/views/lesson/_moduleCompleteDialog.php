@@ -1,9 +1,10 @@
-<div class="last">
+<div class="last" ng-controller="starsModuleCtrl">
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
+        'htmlOptions' => array('ng-submit' => 'sendModuleRatingData(res)')
     ));
     ?>
     <div class="modalBody">
@@ -20,6 +21,38 @@
 
             <div class="modalContent">
                 <p><?php echo Yii::t('lecture', '0801'); ?></p>
+
+                <p>
+                    <!--                    todo-->
+                    <!--                    --><?php //echo Yii::t('lecture', '0676'); ?>
+                    Вітаємо з закінченням модуля! На основі Твоїх оцінок кожного з занять ми склали середню оцінку модуля. Будь-ласка,                             підтверди її або відкоригуй.
+                </p>
+
+                <div ng-repeat="rating in ratings track by $index">
+                        <!--show stars-->
+                    <p>{{ rating.description }}</p>
+                    <span uib-rating ng-model="rating.rate" ng-init="ratings[$index].rate" max="max" read-only="isReadonly"
+                          on-hover="hoveringOver(value, $index)" on-leave="rating.overStar = null"
+                          titles="['one','two','three']" aria-labelledby="default-rating">
+                    </span>
+                    <span class="label" ng-class="{ 'label-warning': rating.number<4,
+                                                    'label-info': rating.number>=4 && rating.number<8,
+                                                    'label-success': rating.number>=8 }"
+                          ng-show="rating.overStar && !isReadonly">
+                            {{rating.number}}
+                    </span>
+                </div>
+
+                <div ng-if="ratings[0].rate>=1 && ratings[0].rate<=4 ||
+                            ratings[1].rate>=1 && ratings[1].rate<=4 ||
+                            ratings[2].rate>=1 && ratings[2].rate<=4">
+                    <p>Будь-ласка допоможи нам зробити заняття кращими! Поясни, чому саме ти поставив(ла) таку оцінку:</p>
+                    <p ng-if="ratings[0].rate>=1 && ratings[0].rate<=4">{{ ratings[0].description }} - {{ ratings[0].rate }}</p>
+                    <p ng-if="ratings[1].rate>=1 && ratings[1].rate<=4">{{ ratings[1].description }} - {{ ratings[1].rate }}</p>
+                    <p ng-if="ratings[2].rate>=1 && ratings[2].rate<=4">{{ ratings[2].description }} - {{ ratings[2].rate }}</p>
+                    <textarea rows="4" style="width: 90%; resize: none; border-radius: 4px;" ng-model="res.comment"></textarea>
+                </div>
+
                 <p class="sharingText"><?php echo Yii::t('lecture', '0677'); ?></p>
                 <p><?php echo Yii::t('lecture', '0678'); ?></p>
             </div>
