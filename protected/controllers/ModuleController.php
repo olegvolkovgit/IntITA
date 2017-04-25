@@ -87,7 +87,7 @@ class ModuleController extends Controller
         $data['lectures']=ActiveRecordToJSON::toAssocArray($module->lectures);
 
         if (!Yii::app()->user->isGuest) {
-            if (!Yii::app()->user->model->coworkerHasModuleAccess($module)) {
+            if (!Yii::app()->user->model->hasAccessToContent($module)) {
                 if(!$module->getModuleStatus($idCourse)){
                     $data['moduleAccess']=false;
                     $data['notAccessMessage']=$module->errorMessage;

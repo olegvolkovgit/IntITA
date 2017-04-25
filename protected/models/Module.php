@@ -1014,6 +1014,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function checkMandatoryModule($idCourse,$idModule,$mandatory)
     {
+        if(!$mandatory) return true;
         $nextMandatory=$mandatory;
         $i=0;
         do {

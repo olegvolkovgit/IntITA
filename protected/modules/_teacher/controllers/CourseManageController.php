@@ -28,7 +28,7 @@ class CourseManageController extends TeacherCabinetController
 
     public function actionView($id)
     {
-        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id),array('order'=>'`order` ASC'));
         $model = $this->loadModel($id);
         $linkedCourses = $model->linkedCourses();
 
@@ -90,7 +90,7 @@ class CourseManageController extends TeacherCabinetController
      */
     public function actionUpdate($id)
     {
-        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id),array('order'=>'`order` ASC'));
 
         $model = $this->loadModel($id);
         Yii::app()->user->model->hasAccessToOrganizationModel($model);
