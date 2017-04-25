@@ -38,6 +38,18 @@ angular
             headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},
             transformRequest: transformRequest.bind(null),
             url: url + '/upsert'
+          },
+          bindService: {
+            method: "POST",
+            headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},
+            transformRequest: transformRequest.bind(null),
+            url: url + '/bindService'
+          },
+          unBindService: {
+            method: "POST",
+            headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},
+            transformRequest: transformRequest.bind(null),
+            url: url + '/unBindService'
           }
         });
     }]);

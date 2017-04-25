@@ -7,89 +7,98 @@
  * @property integer $id
  * @property string $name
  *
+ * Relations
+ * @property Course[] courses
+ * @property Module[] modules
+ * @property Course[] coursesWithCorporateEntity
+ * @property Module[] modulesWithCorporateEntity
+ *
  */
-class Organization extends CActiveRecord
-{
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'organization';
-	}
+class Organization extends CActiveRecord {
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'organization';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('name', 'required'),
-			array('name', 'length', 'max'=>128),
-			// The following rule is used by search().
-			array('name', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('name', 'required'),
+            array('name', 'length', 'max' => 128),
+            // The following rule is used by search().
+            array('name', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return [
-		    'corporateEntity' => [
-		        self::HAS_MANY, 'CorporateEntity', 'id_organization'
-            ]
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return [
+            'corporateEntity' => [self::HAS_MANY, 'CorporateEntity', 'id_organization'],
+            'courses' => [self::HAS_MANY, 'Course', 'id_organization'],
+            'modules' => [self::HAS_MANY, 'Module', 'id_organization'],
+            'coursesWithCorporateEntity' => [self::HAS_MANY, 'Course', 'id_organization', 'with' => ['corporateEntityOffline', 'corporateEntityOnline']],
+            'modulesWithCorporateEntity' => [self::HAS_MANY, 'Module', 'id_organization', 'with' => ['corporateEntityOffline', 'corporateEntityOnline']]
         ];
-	}
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'name' => 'Name',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Organization the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return Organization the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
+
+    /**
+     * @return Course[]|Module[]
+     */
+    public function getCoursesAndModulesWithCorporateEntity() {
+        return array_merge($this->coursesWithCorporateEntity, $this->modulesWithCorporateEntity);
+    }
+
 }

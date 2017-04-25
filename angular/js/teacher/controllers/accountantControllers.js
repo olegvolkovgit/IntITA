@@ -478,6 +478,9 @@ angular
   })
   .controller('oneCompanyCtrl', function ($scope, $state) {
     $scope.changePageHeader($state.params.header);
+    if ($state.is('accountant.company.view')) {
+      $state.go('.card');
+    }
     $scope.companyId = $state.params.companyId;
     $scope.representativeId = $state.params.representativeId;
   })
