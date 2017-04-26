@@ -13,6 +13,7 @@
  * The followings are the available model relations:
  * @property CourseService $courseServices
  * @property ModuleService $moduleServices
+ * @property CorporateEntity $corporateEntity
  */
 class Service extends CActiveRecord {
     const COURSE = 1;
