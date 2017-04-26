@@ -1,28 +1,20 @@
 angular
     .module('lessonApp')
-    .controller('starsBlockCtrl', function ($scope, $http) {
+    .controller('starsBlockCtrl', function ($scope, $http, ratingService) {
 
-        $http({
-            url: '/lesson/getOldRating',
-            method: 'POST',
-            data: $.param({
-                id_lecture: idLecture
-            }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With' : 'XMLHttpRequest'    // Needed by Yii to look at it as ajax request.
-            }
-        }).success(function(data){
-            if(data != null){
-                $scope.ratings[0].rate = data.understand_rating;
-                $scope.ratings[1].rate = data.interesting_rating;
-                $scope.ratings[2].rate = data.accessibility_rating;
-                $scope.res.comment = data.comment;
-            }
-        }).error(function(error, status){
-            $scope.data.error = { message: error, status: status};
-            console.log($scope.data.error.status);
-        });
+        ratingService.getOldRating({'id_lecture': idLecture})
+            .$promise
+            .then(function successCallback(data) {
+                if(data != null){
+                    $scope.ratings[0].rate = data.understand_rating;
+                    $scope.ratings[1].rate = data.interesting_rating;
+                    $scope.ratings[2].rate = data.accessibility_rating;
+                    $scope.res.comment = data.comment;
+                }
+            }, function errorCallback(error, status) {
+                $scope.data.error = { message: error, status: status};
+                console.log($scope.data.error.status);
+            });
 
         $scope.ratings = [
             {
@@ -61,47 +53,31 @@ angular
                 courses_id: courses_id
             };
 
-            $http({
-                url: '/lesson/nextLecture',
-                method: 'POST',
-                data: $.param({
-                        params: $scope.result
-                    }) ,
-                headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'X-Requested-With' : 'XMLHttpRequest'    // Needed by Yii to look at it as ajax request.
-                }
-            }).success(function(data) {
-                location.href = data;  // redirect to new lecture
-            }).error(function (error, status){
-                $scope.data.error = { message: error, status: status};
-                console.log($scope.data.error.status);
-            });
+            ratingService.nextLecture({'params': $scope.result})
+                .$promise
+                .then(function successCallback(data) {
+                    location.href = data.url;
+                }, function errorCallback(response){
+                    console.log(response);
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
         };
     })
 
 
-    .controller('starsModuleCtrl', function($scope, $http){
-        // get average rating on modules and set show on stars
-        $http({
-            url: '/lesson/averageRatingLecture',
-            method: 'POST',
-            data: $.param({
-                idModule: idModule
-            }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With' : 'XMLHttpRequest'    // Needed by Yii to look at it as ajax request.
-            }
-        }).success(function(data) {
-            $scope.ratings[0].rate = data.understand_rating;
-            $scope.ratings[1].rate = data.interesting_rating;
-            $scope.ratings[2].rate = data.accessibility_rating;
-            $scope.res.comment = data.comment;
-        }).error(function (error, status){
-            $scope.data.error = { message: error, status: status};
-            console.log($scope.data.error.status);
-        });
+    .controller('starsModuleCtrl', function($scope, $http, ratingService){
+             // get average rating on modules and set show on stars
+        ratingService.averageRating({'idModule': idModule})
+            .$promise
+            .then(function successCallback(data) {
+                    $scope.ratings[0].rate = data.understand_rating;
+                    $scope.ratings[1].rate = data.interesting_rating;
+                    $scope.ratings[2].rate = data.accessibility_rating;
+                    $scope.res.comment = data.comment;
+            }, function errorCallback(response) {
+                console.log(response);
+                bootbox.alert("Операцію не вдалося виконати");
+            });
 
         $scope.ratings = [
             {
@@ -132,30 +108,19 @@ angular
         ];
 
         $scope.sendModuleRatingData = function (ratings) {
-
-            // event.preventDefault();  // отмена перегрузки страницы по submit
+            //event.preventDefault();  // отмена перегрузки страницы по submit
             $scope.result = {
                 ratings: ratings,
                 idModule: idModule
             };
-            console.log('result: ', $scope.result);
 
-            $http({
-                url: '/lesson/saveRatingModule',
-                method: 'POST',
-                data: $.param({
-                        params: $scope.result
-                }),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With' : 'XMLHttpRequest'    // Needed by Yii to look at it as ajax request.
-                }
-            }).success(function(data) {
-                // location.href = data;  // redirect to new lecture
-                $('.last').fadeOut(500);
-            }).error(function (error, status){
-                $scope.data.error = { message: error, status: status};
-                console.log($scope.data.error.status);
-            });
+            ratingService.saveRatingModule({'params': $scope.result})
+                .$promise
+                .then(function successCallback(data) {
+
+                }, function errorCallback(response) {
+                    console.log(response);
+                    bootbox.alert("Операцію не вдалося виконати");
+                })
         }
     });
