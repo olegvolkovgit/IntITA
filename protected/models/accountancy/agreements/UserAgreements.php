@@ -23,6 +23,7 @@
  * @property string $inn
  * @property string $passport_issued
  * @property integer $status
+ * @property integer $id_corporate_entity
  *
  * @property Service $service
  * @property StudentReg $user
@@ -291,13 +292,18 @@ class UserAgreements extends CActiveRecord {
         $calculator = array_filter($calculators, function($item) use ($schemaId) {
             return $item->id == $schemaId;
         });
+
+        $billableObjectOrganization = $billableObject->organization;
+        $corporateEntity = $billableObjectOrganization->getCorporateEntityFor($billableObject, $educForm);
+
         $calculator = array_values($calculator)[0];
         $model = new UserAgreements();
         $model->user_id = $userId;
         $model->payment_schema = $calculator->payCount;
         $model->service_id = $serviceModel->service_id;
+        $model->id_corporate_entity = $corporateEntity->id;
 
-        //create fantom billableObject model for converting object's price to UAH
+        //create phantom billableObject model for converting object's price to UAH
         //used only in computing agreement and invoices price
         $billableObjectUAH = clone $billableObject->getModelUAH();
 
