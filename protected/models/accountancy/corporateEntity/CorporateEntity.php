@@ -23,11 +23,16 @@
  * @property AddressCity $actualCity
  * @property CorporateEntityService[] $corporateEntityServices
  * @property Service[] $services
+ * @property ModuleService[] $modulesService
+ * @property CourseService[] $coursesService
+ * @property Module[] $modules
+ * @property Course[] $courses
  */
 class CorporateEntity extends CActiveRecord {
 
     use withBelongsToOrganization;
     use withCollectAttributes;
+    use withToArray;
 
     /**
      * @return string the associated database table name
@@ -63,7 +68,12 @@ class CorporateEntity extends CActiveRecord {
             'legalCity' => array(self::BELONGS_TO, 'AddressCity', 'legal_address_city_code'),
             'actualCity' => array(self::BELONGS_TO, 'AddressCity', 'actual_address_city_code'),
             'corporateEntityServices' => [self::HAS_MANY, 'CorporateEntityService', 'corporateEntityId', 'on' => 'corporateEntityServices.deletedAt IS NULL OR corporateEntityServices.deletedAt > NOW()'],
-            'services' => [self::HAS_MANY, 'Service', ['serviceId' => 'service_id'], 'through' => 'corporateEntityServices']
+            'services' => [self::HAS_MANY, 'Service', ['serviceId' => 'service_id'], 'through' => 'corporateEntityServices'],
+            'modulesService' => [self::HAS_MANY, 'ModuleService', ['service_id' => 'service_id'], 'through' => 'services'],
+            'coursesService' => [self::HAS_MANY, 'CourseService', ['service_id' => 'service_id'], 'through' => 'services'],
+            'modules' => [self::HAS_MANY, 'Module', ['module_ID' => 'module_id'], 'through' => 'modulesService'],
+            'courses' => [self::HAS_MANY, 'Course', ['course_ID' => 'course_id'], 'through' => 'coursesService'],
+            'organization' => [self::BELONGS_TO, 'Organization', 'id_organization']
         );
     }
 
@@ -172,4 +182,54 @@ class CorporateEntity extends CActiveRecord {
         return $criteria;
     }
 
+    /**
+     * @param Service $service
+     * @return CorporateEntityService
+     */
+    public function bindService(Service $service) {
+        return CorporateEntityService::model()->createBinding($this, $service);
+    }
+
+    /**
+     * @param IServiceableWithEducationForm $model
+     * @param EducationForm $educationForm
+     * @return CorporateEntityService
+     */
+    public function bindServiceByEducationUnit(IServiceableWithEducationForm $model, EducationForm $educationForm) {
+        $service = $model->getService($educationForm);
+        return $this->bindService($service);
+    }
+
+    /**
+     * @param Service $service
+     * @return CorporateEntityService
+     */
+    public function getActiveServiceBinging(Service $service) {
+        return array_reduce($this->corporateEntityServices, function ($prev, $item) use ($service) {
+            if (!$prev) {
+                if ($item->serviceId == $service->service_id) {
+                    $prev = $item;
+                }
+            }
+            return $prev;
+        });
+    }
+
+    /**
+     * @param Service $service
+     * @return CorporateEntityService
+     * @throws Exception
+     */
+    public function unBindService(Service $service) {
+        $model = $this->getActiveServiceBinging($service);
+        if ($model) {
+            $model->deletedAt = new CDbExpression('NOW()');
+            if ($model->validate()) {
+                $model->save(false);
+            } else {
+                throw new Exception('Validation error');
+            }
+        }
+        return $model;
+    }
 }

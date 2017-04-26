@@ -29,7 +29,7 @@ class CorporateEntityService extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('corporateEntityId, serviceId, createdAt', 'required'),
+            array('corporateEntityId, serviceId', 'required'),
             array('corporateEntityId', 'numerical', 'integerOnly' => true),
             array('serviceId', 'length', 'max' => 10),
             array('deletedAt', 'safe'),
@@ -100,5 +100,17 @@ class CorporateEntityService extends CActiveRecord {
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
+    }
+
+    public function createBinding(CorporateEntity $corporateEntity, Service $service) {
+        $model = new CorporateEntityService();
+        $model->corporateEntityId = $corporateEntity->id;
+        $model->serviceId = $service->service_id;
+        if ($model->validate()) {
+            $model->save(false);
+        } else {
+            throw new Exception('Validation error');
+        }
+        return $model;
     }
 }
