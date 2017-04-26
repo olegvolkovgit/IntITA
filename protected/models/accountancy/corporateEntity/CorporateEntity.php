@@ -71,8 +71,8 @@ class CorporateEntity extends CActiveRecord {
             'services' => [self::HAS_MANY, 'Service', ['serviceId' => 'service_id'], 'through' => 'corporateEntityServices'],
             'modulesService' => [self::HAS_MANY, 'ModuleService', ['service_id' => 'service_id'], 'through' => 'services'],
             'coursesService' => [self::HAS_MANY, 'CourseService', ['service_id' => 'service_id'], 'through' => 'services'],
-            'modules' => [self::HAS_MANY, 'Module', ['module_ID' => 'module_id'], 'through' => 'modulesService'],
-            'courses' => [self::HAS_MANY, 'Course', ['course_ID' => 'course_id'], 'through' => 'coursesService'],
+            'modules' => [self::HAS_MANY, 'Module', ['module_id' => 'module_ID'], 'through' => 'modulesService'],
+            'courses' => [self::HAS_MANY, 'Course', ['course_id' => 'course_ID'], 'through' => 'coursesService'],
             'organization' => [self::BELONGS_TO, 'Organization', 'id_organization']
         );
     }
