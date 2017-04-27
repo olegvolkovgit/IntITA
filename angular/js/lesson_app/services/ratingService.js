@@ -7,7 +7,7 @@ angular
                 {},
                 {
                     getOldRating: {
-                        url: '/lesson/getOldRating',
+                        url: basePath+'/lesson/getOldRating',
                         params: {
                             id_lecture: idLecture
                         }
@@ -17,14 +17,14 @@ angular
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
                                      'X-Requested-With' : 'XMLHttpRequest'  // Needed by Yii to look at it as ajax request.
                         },
-                        url: '/lesson/nextLecture',
+                        url: basePath+'/lesson/nextLecture',
                         params: {
                             params: 'params'
                         },
                         transformRequest: transformRequest.bind(null)
                     },
                     averageRating: {
-                        url: '/lesson/averageRatingLecture',
+                        url: basePath+'/lesson/averageRatingLecture',
                         params: {
                             idModule: idModule
                         }
@@ -34,7 +34,7 @@ angular
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
                                     'X-Requested-With' : 'XMLHttpRequest'  // Needed by Yii to look at it as ajax request.
                         },
-                        url: '/lesson/saveRatingModule',
+                        url: basePath+'/lesson/saveRatingModule',
                         params: {
                             params: 'params'
                         },
