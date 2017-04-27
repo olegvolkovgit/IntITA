@@ -950,24 +950,23 @@ class Lecture extends CActiveRecord
         };
     }
 
-    public static function updateRatingLectures($rate, $lectureId, $ratingName){
+    public function updateRatingLectures($rate, $ratingName){
 
-        $lecture = Lecture::model()->findByPk($lectureId);
-        $oldRating = $lecture->$ratingName;
+        $oldRating = $this->$ratingName;
 
         if($oldRating == NULL){
-            $lecture->$ratingName = $rate;
-            $lecture->save();
+            $this->$ratingName = $rate;
+            $this->save();
             return;
         }
 
-        $count = LecturesRating::model()->count('id_lecture = :id_lecture and '.$ratingName.' is not NULL', array(':id_lecture' => $lectureId));
+        $count = LecturesRating::model()->count('id_lecture = :id_lecture and '.$ratingName.' is not NULL', array(':id_lecture' => $this->id));
         $newRating = ($count*$oldRating + $rate)/($count + 1);
 
         $newRating = round($newRating);
 
-        $lecture->$ratingName = $newRating;
-        $lecture->save();
+        $this->$ratingName = $newRating;
+        $this->save();
     }
 
     public static function getAverageRatingLecture($idModule){
