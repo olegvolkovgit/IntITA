@@ -44,8 +44,10 @@ const EDITOR_DISABLED = 0;
  * @property Organization $organization
  */
 
-class Module extends CActiveRecord implements IBillableObject
-{
+class Module extends CActiveRecord implements IBillableObject, IServiceableWithEducationForm {
+
+    use withToArray;
+
     public $logo = array();
     public $oldLogo;
     const READY = 1;
@@ -114,9 +116,27 @@ class Module extends CActiveRecord implements IBillableObject
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
             'tags' => [self::HAS_MANY, 'Tags', ['id_tag' => 'id'], 'through' => 'moduleTags'],
             'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
-            'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
-            'moduleServiceOffline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOffline.education_form='.EducationForm::OFFLINE],
             'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
+
+            'moduleServiceOffline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOffline.education_form='.EducationForm::OFFLINE],
+            'corporateEntityServicesOffline' => [
+                self::HAS_MANY,
+                'CorporateEntityService',
+                ['service_id' => 'serviceId'],
+                'through' => 'moduleServiceOffline',
+                'on' => 'corporateEntityServicesOffline.deletedAt IS NULL OR corporateEntityServicesOffline.deletedAt > NOW()'],
+            'corporateEntityOffline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOffline'],
+
+
+
+            'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
+            'corporateEntityServicesOnline' => [
+                self::HAS_MANY,
+                'CorporateEntityService',
+                ['service_id' => 'serviceId'],
+                'through' => 'moduleServiceOnline',
+                'on' => 'corporateEntityServicesOnline.deletedAt IS NULL OR corporateEntityServicesOnline.deletedAt > NOW()'],
+            'corporateEntityOnline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOnline'],
         );
     }
 
@@ -1092,5 +1112,13 @@ class Module extends CActiveRecord implements IBillableObject
             $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, Yii::app()->user->getId()))?(strtotime($finish)): (false);
         else $result = false;
         return $result;
+    }
+
+    /**
+     * @param EducationForm $educationForm
+     * @return Service
+     */
+    public function getService(EducationForm $educationForm) {
+        return ModuleService::model()->getService($this->module_ID, $educationForm)->service;
     }
 }

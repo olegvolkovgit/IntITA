@@ -478,40 +478,11 @@ angular
   })
   .controller('oneCompanyCtrl', function ($scope, $state) {
     $scope.changePageHeader($state.params.header);
+    if ($state.is('accountant.company.view')) {
+      $state.go('.card');
+    }
     $scope.companyId = $state.params.companyId;
-    $scope.activeTab = $state.params.activeTab;
     $scope.representativeId = $state.params.representativeId;
-
-    $scope.selectTab = function (index){
-      switch (index) {
-        case 1:
-          $state.go(".representatives.list", {companyId:$scope.companyId});
-          break;
-        case 2:
-          break;
-        case 4:
-          $state.go('accountant.company.view.services', {companyId:$scope.companyId});
-          break;
-        case 0:
-        default:
-          $state.go("accountant.company.view", {companyId:$scope.companyId});
-      }
-    };
-
-    $scope.addRepresentative = function () {
-      $state.go("accountant.company.view.representatives.add", {companyId:$scope.companyId});
-    };
-
-    $scope.addCompanyService = function () {
-    };
-
-    $scope.edit = function (id) {
-      $state.go("accountant/viewCompany/representative/edit", {
-        companyId:$scope.companyId,
-        representativeId:id
-      });
-    };
-
   })
 
   .controller('representativesCtrl', function ($scope, NgTableParams, $resource) {

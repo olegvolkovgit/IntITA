@@ -5,7 +5,7 @@
 angular
     .module('teacherApp')
     .factory('organizationService', ['$resource','transformRequest',
-        function ($resource, transformRequest) { 
+        function ($resource, transformRequest) {
             var url = basePath+'/_teacher/_director/organization';
             return $resource(
                 '',
@@ -31,5 +31,10 @@ angular
                         method: 'GET',
                         url: url + '/getOrganization',
                     },
+                    coursesAndModules: {
+                        method: 'GET',
+                        url : basePath + '/_teacher/_accountant/accountant/organizationCoursesAndModules',
+                        isArray : true
+                    }
                 });
         }])
