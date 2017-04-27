@@ -46,4 +46,12 @@ class AllRolesDataSource implements IRolesDataSource
             UserRoles::SUPERVISOR,
         );
     }
+
+    public static function globalRoles(){
+        return array(
+            UserRoles::DIRECTOR,
+            UserRoles::SUPER_ADMIN,
+            UserRoles::AUDITOR,
+        );
+    }
 }

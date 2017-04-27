@@ -294,17 +294,13 @@ class RegisteredUser
         return $this->isContentManager($organizationId);
     }
 
-    public function coworkerHasModuleAccess(Module $module)
+    public function hasAccessToContent(Module $module=null, Course $course=null)
     {
-        if ($this->isAuthorModule($module->module_ID)) {
+        $organization=$module?$module->id_organization:$course->id_organization;
+        $roles=$this->loadRoles($organization);
+        if(count(array_uintersect($roles, AllRolesDataSource::globalRoles(),"strcasecmp")))
             return true;
-        }
-
-        if ($this->isTeacherConsultantModule($module->module_ID)) {
-            return true;
-        }
-
-        if ($this->isAdmin() || $this->isContentManager())
+        if(count(array_uintersect($roles, AllRolesDataSource::teacherRoles(),"strcasecmp")))
             return true;
 
         return false;
@@ -415,7 +411,7 @@ class RegisteredUser
     public function hasLectureAccess(Lecture $lecture, $idCourse = 0){
         $enabledLessonOrder = $lecture->module->getLastAccessLectureOrder();
 
-        if (!$this->coworkerHasModuleAccess($lecture->module)) {
+        if (!$this->hasAccessToContent($lecture->module)) {
             if(!$lecture->module->getModuleStatus($idCourse)){
                 $this->lectureAccessErrorMessage=$lecture->module->errorMessage;
                 return false;
@@ -435,7 +431,7 @@ class RegisteredUser
     }
 
     public function hasLecturePagesAccess(Lecture $lecture){
-        return $this->coworkerHasModuleAccess($lecture->module);
+        return $this->hasAccessToContent($lecture->module);
     }
 
     public function lastLink()
