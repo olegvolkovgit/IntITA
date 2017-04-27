@@ -19,7 +19,12 @@ class CourseModules extends CActiveRecord
     public $durationInMonths;
     public $lessonCount;
     public $start;
-
+    public $access;
+    public $duration; //days
+    public $statusMessage;
+    public $startTime;
+    public $finishTime;
+    public $check;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -59,6 +64,7 @@ class CourseModules extends CActiveRecord
             'mandatory' => array(self::HAS_ONE, 'Module', array('module_ID' => 'mandatory_modules')),
             'moduleInCourse' => array(self::HAS_ONE, 'Module', array('module_ID' => 'id_module')),
             'course' => array(self::HAS_ONE, 'Course', array('course_ID' => 'id_course')),
+            'mandatoryCourseModule' => array(self::HAS_ONE, 'CourseModules', array('id_course' => 'id_course','id_module' => 'mandatory_modules')),
         );
     }
 
@@ -340,6 +346,59 @@ class CourseModules extends CActiveRecord
                 $transaction->rollback();
             }
             throw $e;
+        }
+    }
+
+    public static function setCourseProgress($modules, $courseAccess)
+    {
+        if($courseAccess) {
+            foreach ($modules as $module){
+                if(!$module->check)
+                CourseModules::setModuleProgressInCourse($module);
+            }
+        }else{
+            foreach ($modules as $module){
+                $module->access=false;
+                $module->statusMessage='Для доступу оплати курс або модуль';
+            }
+        }
+    }
+    public function setModuleProgressInCourse($module)
+    {
+        if(!$module->mandatory_modules){
+            $module->startTime=$module->moduleInCourse->getModuleStartTime();
+            $module->finishTime=$module->moduleInCourse->getModuleFinishedTime();
+            $module->access=true;
+            $module->check=true;
+
+            if($module->finishTime) {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            if(!self::setModuleProgressInCourse($module->mandatoryCourseModule)){
+                $module->statusMessage='Для доступу до модуля спочатку пройди модуль'.$module->mandatoryCourseModule->moduleInCourse->getTitle();
+                $module->access=false;
+                $module->check=true;
+                return false;
+            }else{
+                $module->access=true;
+                $module->check=true;
+                return true;
+            }
+        }
+    }
+
+    public function setModuleProgress($moduleAccess)
+    {
+        if($moduleAccess){
+            $this->access=true;
+            $this->startTime=$this->moduleInCourse->getModuleStartTime();
+            $this->finishTime=$this->moduleInCourse->getModuleFinishedTime();
+        }else{
+            $this->access=false;
+            $this->statusMessage='Для доступу оплати курс або модуль';
         }
     }
 }

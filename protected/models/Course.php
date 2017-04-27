@@ -90,7 +90,7 @@ class Course extends CActiveRecord implements IBillableObject
     public function relations()
     {
         return array(
-            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)', 'order' => 'module.order ASC'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)', 'order' => 'module.order ASC','with' => 'moduleInCourse'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
             'courseServiceOnline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOnline.education_form='.EducationForm::ONLINE],
             'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE],
@@ -340,7 +340,6 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->toArray();
 
         $modules = CourseModules::model()->findAll($criteria);
-
         $modules = CourseModules::sortByModuleDuration($idCourse, $modules);
         return $modules;
     }

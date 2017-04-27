@@ -47,7 +47,7 @@ class ActiveRecordToJSON {
         $result = array();
         foreach ($models as $key=>$model) {
             if($model){
-                $attributes = $model->getAttributes();
+                $attributes = array_merge($model->getAttributes(), get_object_vars($model));
                 $relations = array();
                 foreach ($model->relations() as $key => $related) {
                     if ($model->hasRelated($key)) {

@@ -293,7 +293,7 @@ class CourseManageController extends TeacherCabinetController
     {
         $adapter = new NgTableAdapter('Course',$_GET);
         $criteria =  new CDbCriteria();
-        $criteria->condition = 'id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $criteria->condition = 't.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
     }

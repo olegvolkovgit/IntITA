@@ -20,35 +20,40 @@
     <h2><?php echo Yii::t('course', '0330'); ?></h2>
     <img style="display:inline-block" class="modulesLoading" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'loading.gif'); ?>"/>
     <div ng-cloak id="modulesList">
-        <div ng-repeat="module in modulesProgress.modules track by $index">
+        <div ng-repeat="module in courseProgress.modules track by $index">
             <div class="modulesTitle"
-                 ng-class="{disableModuleStyle: (!module.access || !modulesProgress.courseStatus) && !module.isAuthor && !modulesProgress.isAdmin,
-                 availableModuleStyle: (module.access && modulesProgress.courseStatus) || module.isAuthor || modulesProgress.isAdmin,
+                 ng-class="{
+                 disableModuleStyle: (!module.access || !courseProgress.courseStatus) && !courseProgress.hasAccess,
+                 availableModuleStyle: (module.access && courseProgress.courseStatus) || courseProgress.hasAccess,
                  inProgressModuleStyle: module.progress=='inProgress',
-                 inlineModuleStyle: module.progress=='inLine',
+                 inlineModuleStyle: module.progress=='queue',
                  inFinishedModuleStyle: module.progress=='finished'}">
-                <a href="{{module.link}}">
-                <span class="moduleOrder"><?php echo Yii::t('course', '0364') ?> {{$index+1}}.</span>
-                <span class="moduleLink">{{module.title}}</span>
-                <div class="moduleProgress">
-                    <span ng-if="module.progress!='finished' || (modulesProgress.isAdmin || module.isAuthor || !modulesProgress.courseStatus)"><?php echo Yii::t('module', '0647') ?>: {{module.time}} {{daysTermination(module.time)}}.</span>
-                    <span ng-if="module.access && modulesProgress.courseStatus && !(modulesProgress.isAdmin || module.isAuthor)">
-                        <span ng-if="module.progress=='inLine'">
-                            <?php echo Yii::t('module', '0648') ?>
-                        </span>
-                        <span ng-if="module.progress=='inProgress'">
-                            <?php echo Yii::t('module', '0650') ?> {{module.spentTime}} {{daysTermination(module.spentTime)}}.
-                            <?php echo Yii::t('module', '0651') ?>
-                        </span>
-                        <span ng-if="module.progress=='finished'">
-                            <span class="greenFinished"><?php echo Yii::t('module', '0649') ?></span>
-                            (<?php echo Yii::t('module', '0650') ?>:
-                            <span ng-class="{greenFinished: module.spentTime<=module.time, redFinished: module.spentTime>module.time}"> {{module.spentTime}} {{daysTermination(module.spentTime)}}</span>
-                            <?php echo Yii::t('module', '0652') ?> {{module.time}})
-                        </span>
-                    </span>
-                    <img ng-if="!(modulesProgress.isAdmin || module.isAuthor)" ng-src="{{(!modulesProgress.userId || !modulesProgress.courseStatus)&& basePath+'/images/module/'+modulesProgress.ico || basePath+'/images/module/'+module.ico}}"/>
-                </div>
+                <a href="" ng-click="moduleLink(module.id_module)">
+                    <div uib-tooltip-html="'{{module.statusMessage}}'">
+                        <span class="moduleOrder"><?php echo Yii::t('course', '0364') ?> {{$index+1}}.</span>
+                        <span class="moduleLink">{{module.moduleInCourse[titleParam]}}</span>
+                        <div class="moduleProgress">
+                            <span ng-if="module.progress!='finished' || !courseProgress.courseStatus">
+                                <?php echo Yii::t('module', '0647') ?>: {{module.duration}} {{daysTermination(module.duration)}}.
+                            </span>
+                            <span ng-if="module.access && courseProgress.courseStatus">
+                                <span ng-if="module.progress=='queue'">
+                                    <?php echo Yii::t('module', '0648') ?>
+                                </span>
+                                <span ng-if="module.progress=='inProgress'">
+                                    <?php echo Yii::t('module', '0650') ?> {{module.spentTime}} {{daysTermination(module.spentTime)}}.
+                                    <?php echo Yii::t('module', '0651') ?>
+                                </span>
+                                <span ng-if="module.progress=='finished'">
+                                    <span class="greenFinished"><?php echo Yii::t('module', '0649') ?></span>
+                                    (<?php echo Yii::t('module', '0650') ?>:
+                                    <span ng-class="{greenFinished: module.spentTime<=module.duration, redFinished: module.spentTime>module.duration}"> {{module.spentTime}} {{daysTermination(module.spentTime)}}</span>
+                                    <?php echo Yii::t('module', '0652') ?> {{module.duration}})
+                                </span>
+                            </span>
+                            <img ng-src="{{(!courseProgress.user || !courseProgress.courseStatus) && basePath+'/images/module/'+courseProgress.ico || basePath+'/images/module/'+module.progress+'.png'}}"/>
+                        </div>
+                    </div>
                 </a>
             </div>
         </div>
@@ -61,8 +66,8 @@
         </span>
         <br>
         (<?php echo Yii::t('module', '0650') ?>:
-        <span ng-class="{greenFinished: modulesProgress.fullTime<=modulesProgress.recommendedTime, redFinished: modulesProgress.fullTime>modulesProgress.recommendedTime}"> {{modulesProgress.fullTime}} {{daysTermination(modulesProgress.fullTime)}}</span>
-        <?php echo Yii::t('module', '0652') ?> {{modulesProgress.recommendedTime}})
+        <span ng-class="{greenFinished: courseProgress.fullTime<=courseProgress.recommendedTime, redFinished: courseProgress.fullTime>courseProgress.recommendedTime}"> {{courseProgress.fullTime}} {{daysTermination(courseProgress.fullTime)}}</span>
+        <?php echo Yii::t('module', '0652') ?> {{courseProgress.recommendedTime}})
         <br>
         <?php echo Yii::t('course', '0809') ?>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'course', 'finished.png'); ?>"/>

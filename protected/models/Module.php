@@ -1075,4 +1075,22 @@ class Module extends CActiveRecord implements IBillableObject
         $average = ($module->understand_rating + $module->interesting_rating + $module->accessibility_rating)/3;
         return  $average;
     }
+
+    public function getModuleStartTime(){
+        $firstQuiz = $this->getFirstQuizId();
+        if ($firstQuiz)
+            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, Yii::app()->user->getId()))?(strtotime($start)): (false);
+        else $result = false;
+        return $result;
+    }
+
+    public function getModuleFinishedTime(){
+        if($this->getLastAccessLectureOrder()<$this->getLecturesCount())
+            $lastQuiz = false;
+        else $lastQuiz = $this->getLastQuizId();
+        if ($lastQuiz)
+            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, Yii::app()->user->getId()))?(strtotime($finish)): (false);
+        else $result = false;
+        return $result;
+    }
 }
