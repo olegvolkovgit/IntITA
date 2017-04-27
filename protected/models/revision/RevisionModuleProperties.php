@@ -18,7 +18,6 @@
  * @property integer $level
  * @property integer $hours_in_day
  * @property integer $days_in_week
- * @property integer $rating
  * @property integer $module_number
  * @property integer $cancelled
  * @property integer $status_online
@@ -70,7 +69,7 @@ class RevisionModuleProperties extends CActiveRecord
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
 			array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
 			array('id_user_created, id_user_updated, id_state, id_user', 'numerical', 'integerOnly'=>true),
-			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, start_date, update_date, change_date', 'safe'),
+			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, start_date, update_date, change_date', 'safe'),
 			array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
 			array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
 			array('module_price', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
@@ -160,7 +159,6 @@ class RevisionModuleProperties extends CActiveRecord
 		$criteria->compare('days_in_week', $this->days_in_week, true);
 		$criteria->compare('hours_in_day', $this->hours_in_day, true);
 		$criteria->compare('level', $this->level, true);
-		$criteria->compare('rating', $this->rating, true);
 		$criteria->compare('module_number', $this->module_number, true);
 		$criteria->compare('cancelled', $this->cancelled, true);
 		$criteria->compare('start_date',$this->start_date,true);
@@ -240,7 +238,6 @@ class RevisionModuleProperties extends CActiveRecord
 		$newProperties->level = $this->level;
 		$newProperties->hours_in_day = $this->hours_in_day;
 		$newProperties->days_in_week = $this->days_in_week;
-		$newProperties->rating = $this->rating;
 		$newProperties->module_number = $this->module_number;
 		$newProperties->cancelled = $this->cancelled;
 		$newProperties->status_online = $this->status_online;

@@ -173,7 +173,7 @@ class CompanyController extends TeacherCabinetController {
             $criteria = new CDbCriteria([
                 'condition' => 'corporateEntity.id = :companyId',
                 'params' => ['companyId' => $companyId],
-                'with' => ['corporateEntity', ]
+                'with' => ['corporateEntity',]
             ]);
             $ngTable = new NgTableAdapter(Service::model());
             $ngTable->mergeCriteriaWith($criteria);
@@ -182,4 +182,60 @@ class CompanyController extends TeacherCabinetController {
         $statusCode = 200;
         $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
     }
+
+    public function actionBindService() {
+        $companyId = filter_var(Yii::app()->request->getParam('companyId', null), FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var(Yii::app()->request->getParam('id', null), FILTER_SANITIZE_NUMBER_INT);
+        $type = filter_var(Yii::app()->request->getParam('type', null), FILTER_SANITIZE_STRING);
+        $educationForm = filter_var(Yii::app()->request->getParam('educationForm', null), FILTER_SANITIZE_NUMBER_INT);
+        $statusCode = 200;
+
+        if ($companyId && $id && $type && $educationForm) {
+            $organization = Yii::app()->user->model->getCurrentOrganization();
+            $criteria = new CDbCriteria([
+                'condition' => 'id = :companyId AND id_organization = :organizationId',
+                'params' => ['companyId' => $companyId, 'organizationId' => $organization->id]
+            ]);
+            $company = CorporateEntity::model()->find($criteria);
+
+            $model = ($type === 'module' ? Module::model() : Course::model())->findByPk($id);
+            $educationFormModel = EducationForm::model()->findByPk($educationForm);
+
+            if ($company && $model && $educationFormModel) {
+                $company->bindServiceByEducationUnit($model, $educationFormModel);
+                $body = $company->toArray();
+            } else {
+                $statusCode = 400;
+            }
+        } else {
+            $statusCode = 400;
+        }
+        $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
+    }
+
+    public function actionUnBindService() {
+        $companyId = filter_var(Yii::app()->request->getParam('companyId', null), FILTER_SANITIZE_NUMBER_INT);
+        $serviceId = filter_var(Yii::app()->request->getParam('serviceId', null), FILTER_SANITIZE_NUMBER_INT);
+        $statusCode = 200;
+        $body = [];
+        if ($companyId && $serviceId) {
+            $organization = Yii::app()->user->model->getCurrentOrganization();
+            $criteria = new CDbCriteria([
+                'condition' => 'id = :companyId AND id_organization = :organizationId',
+                'params' => ['companyId' => $companyId, 'organizationId' => $organization->id]
+            ]);
+            $company = CorporateEntity::model()->find($criteria);
+
+            $service = Service::model()->findByPk($serviceId);
+            if ($company && $service) {
+                $company->unBindService($service);
+            } else {
+                $statusCode = 400;
+            }
+        } else {
+            $statusCode = 400;
+        }
+        $this->renderPartial('//ajax/json', ['body' => json_encode($body, JSON_FORCE_OBJECT), 'statusCode' => $statusCode]);
+    }
+
 }

@@ -35,8 +35,10 @@
  * @property CourseService $courseServiceOnline
  * @property Organization $organization
  */
-class Course extends CActiveRecord implements IBillableObject
-{
+class Course extends CActiveRecord implements IBillableObject, IServiceableWithEducationForm {
+
+    use withToArray;
+
     const MAX_LEVEL = 5;
     const AVAILABLE = 0;
     const DELETED = 1;
@@ -90,11 +92,27 @@ class Course extends CActiveRecord implements IBillableObject
     public function relations()
     {
         return array(
-            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)', 'order' => 'module.order ASC'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)', 'order' => 'module.order ASC','with' => 'moduleInCourse'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
-            'courseServiceOnline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOnline.education_form='.EducationForm::ONLINE],
-            'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE],
             'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
+
+            'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE],
+            'corporateEntityServicesOffline' => [
+                self::HAS_MANY,
+                'CorporateEntityService',
+                ['service_id' => 'serviceId'],
+                'through' => 'courseServiceOffline',
+                'on' => 'corporateEntityServicesOffline.deletedAt IS NULL OR corporateEntityServicesOffline.deletedAt > NOW()'],
+            'corporateEntityOffline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOffline'],
+
+            'courseServiceOnline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOnline.education_form='.EducationForm::ONLINE],
+            'corporateEntityServicesOnline' => [
+                self::HAS_MANY,
+                'CorporateEntityService',
+                ['service_id' => 'serviceId'],
+                'through' => 'courseServiceOnline',
+                'on' => 'corporateEntityServicesOnline.deletedAt IS NULL OR corporateEntityServicesOnline.deletedAt > NOW()'],
+            'corporateEntityOnline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOnline']
         );
     }
 
@@ -340,7 +358,6 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->toArray();
 
         $modules = CourseModules::model()->findAll($criteria);
-
         $modules = CourseModules::sortByModuleDuration($idCourse, $modules);
         return $modules;
     }
@@ -991,17 +1008,11 @@ class Course extends CActiveRecord implements IBillableObject
 
     /**
      * @param EducationForm $educationForm
-     * @return CourseService
+     * @return Service
      * @throws Exception
      */
-    private function getService($educationForm) {
-        if ($educationForm->isOnline()) {
-            return $this->courseServiceOnline;
-        } else if ($educationForm->isOffline()) {
-            return $this->courseServiceOffline;
-        } else {
-            throw new Exception('Unknown education form');
-        }
+    public function getService(EducationForm $educationForm) {
+        return CourseService::model()->getService($this->course_ID, $educationForm)->service;
     }
 
     /**

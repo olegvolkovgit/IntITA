@@ -5,10 +5,11 @@ angular
   .directive('companyServices', [
     '$filter',
     'NgTableParams',
+    'ngToast',
     'companiesService',
     companyServices]);
 
-function companyServices($filter, NgTableParams, companiesService) {
+function companyServices($filter, NgTableParams, ngToast, companiesService) {
   function link($scope, element, attrs) {
 
     $scope.servicesTableParams = new NgTableParams({}, {
@@ -23,8 +24,35 @@ function companyServices($filter, NgTableParams, companiesService) {
       }
     });
 
-    $scope.delete = function () {
+    $scope.delete = function (serviceId) {
+      companiesService
+        .unBindService({companyId:$scope.companyId, serviceId:serviceId})
+        .$promise
+        .then(function () {
+          $scope.servicesTableParams.reload();
+        })
+        .catch(function (error) {
+          dangerToast('Виникла помилка');
+        })
     };
+
+    function toast(type, message) {
+      ngToast.create({
+        dismissOnTimeout: true,
+        dismissButton: true,
+        className: type,
+        content: message
+      });
+    }
+
+    function dangerToast(message) {
+      toast('danger', message);
+    }
+
+    function successToast(message) {
+      toast('success', message);
+    }
+
 
     function mapForNgTable(item) {
       return {
@@ -33,30 +61,6 @@ function companyServices($filter, NgTableParams, companiesService) {
         create_date: $filter('shortDate')(item.create_date, 'dd-MM-yyyy')
       }
     }
-    //
-    // function isHasCredentials(corporateEntityRepresentatives) {
-    //   var
-    //     now = new Date(),
-    //     from = new Date(corporateEntityRepresentatives.createdAt),
-    //     to = new Date(corporateEntityRepresentatives.deletedAt);
-    //   return now >= from && now <= to;
-    // }
-    //
-    // function getCredentialsPeriod(corporateEntityRepresentatives) {
-    //   var
-    //     from = new Date(corporateEntityRepresentatives.createdAt),
-    //     to = new Date(corporateEntityRepresentatives.deletedAt),
-    //     dateFormat = 'dd.MM.yyyy',
-    //     dateFormatFilter = $filter('shortDate'),
-    //     result = 'З ' + dateFormatFilter(from, dateFormat);
-    //
-    //   if (to.getFullYear() !== 9999) {
-    //     result += ' по ' + dateFormatFilter(to, dateFormat);
-    //   }
-    //
-    //   return result;
-    // }
-
   }
 
   return {

@@ -360,4 +360,9 @@ class ModuleController extends Controller
         $model=Module::model()->findByPk($id);
         echo $model->title_ua.' ('.$model->language.')';
     }
+
+    public function actionGetModuleLink()
+    {
+        echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
+    }
 }

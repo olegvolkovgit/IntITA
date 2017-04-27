@@ -264,7 +264,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $revModuleProperties->level = $module->level;
             $revModuleProperties->hours_in_day = $module->hours_in_day;
             $revModuleProperties->days_in_week = $module->days_in_week;
-            $revModuleProperties->rating = $module->rating;
             $revModuleProperties->module_number = $module->module_number;
             $revModuleProperties->cancelled = $module->cancelled;
             $revModuleProperties->status_online = $module->status_online;
