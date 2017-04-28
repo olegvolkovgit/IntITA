@@ -29,7 +29,7 @@ if($idCourse != 0) {
 }
 ?>
 
-<div class="ModuleBlock" ng-controller="moduleCtrl" ng-cloak ng-hide="!module">
+<div class="ModuleBlock" ng-controller="moduleCtrl" ng-cloak ng-hide="!moduleProgress">
     <?php $this->renderPartial('_leftModule', array('post' => $post, "idCourse"=>$idCourse));?>
 
     <div class="rightModule">

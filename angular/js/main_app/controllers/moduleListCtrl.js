@@ -41,7 +41,6 @@ function moduleListCtrl($http,$scope) {
         $scope.titleParam='title_'+lg;
         $scope.basePath=basePath;
         $scope.courseProgress=response;
-        console.log($scope.courseProgress);
         $scope.courseProgress.courseStatus=parseInt($scope.courseProgress.course.status_online) || parseInt($scope.courseProgress.course.status_offline);
 
         if(!$scope.courseProgress.user){
@@ -121,11 +120,11 @@ function moduleListCtrl($http,$scope) {
     };
 
     //redirect to module page
-    $scope.moduleLink = function (id) {
+    $scope.moduleLink = function (idModule,idCourse) {
         $http({
             url: basePath + '/module/getModuleLink',
             method: "POST",
-            data: $.param({id: id}),
+            data: $.param({idModule: idModule,idCourse: idCourse}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             window.location = response.data;

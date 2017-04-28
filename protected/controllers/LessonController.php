@@ -48,7 +48,7 @@ class LessonController extends Controller
 
         $this->initialize($id, $idCourse);
 
-        $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->isAdmin($lecture->module->id_organization));
+        $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->hasAccessToContent($lecture->module));
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
@@ -528,7 +528,7 @@ class LessonController extends Controller
             if(isset($_POST['params']['ratings']['comment'])){
                 $moduleRating->comment = $_POST['params']['ratings']['comment'];
             }
-//        var_dump($moduleRating->validate());
+
             $moduleRating->save();
         }
     }

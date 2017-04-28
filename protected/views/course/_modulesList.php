@@ -28,7 +28,7 @@
                  inProgressModuleStyle: module.progress=='inProgress',
                  inlineModuleStyle: module.progress=='queue',
                  inFinishedModuleStyle: module.progress=='finished'}">
-                <a href="" ng-click="moduleLink(module.id_module)">
+                <a href="" ng-click="moduleLink(module.id_module,courseProgress.course.course_ID)">
                     <div uib-tooltip-html="'{{module.statusMessage}}'">
                         <span class="moduleOrder"><?php echo Yii::t('course', '0364') ?> {{$index+1}}.</span>
                         <span class="moduleLink">{{module.moduleInCourse[titleParam]}}</span>

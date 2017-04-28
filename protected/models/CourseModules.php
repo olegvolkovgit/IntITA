@@ -363,7 +363,7 @@ class CourseModules extends CActiveRecord
             }
         }
     }
-    public function setModuleProgressInCourse($module)
+    public static function setModuleProgressInCourse($module)
     {
         if(!$module->mandatory_modules){
             $module->startTime=$module->moduleInCourse->getModuleStartTime();
@@ -373,19 +373,24 @@ class CourseModules extends CActiveRecord
 
             if($module->finishTime) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }else{
-            if(!self::setModuleProgressInCourse($module->mandatoryCourseModule)){
-                $module->statusMessage='Для доступу до модуля спочатку пройди модуль'.$module->mandatoryCourseModule->moduleInCourse->getTitle();
-                $module->access=false;
-                $module->check=true;
-                return false;
-            }else{
+            $module->mandatoryCourseModule->startTime=$module->mandatoryCourseModule->moduleInCourse->getModuleStartTime();
+            $module->mandatoryCourseModule->finishTime=$module->mandatoryCourseModule->moduleInCourse->getModuleFinishedTime();
+            $module->mandatoryCourseModule->access=true;
+            $module->mandatoryCourseModule->check=true;
+            if($module->mandatoryCourseModule->finishTime &&
+                (!$module->mandatoryCourseModule->mandatoryCourseModule || self::setModuleProgressInCourse($module->mandatoryCourseModule->mandatoryCourseModule))) {
                 $module->access=true;
                 $module->check=true;
                 return true;
+            }else{
+                $module->statusMessage='Для доступу до модуля спочатку пройди модуль "'.$module->mandatoryCourseModule->moduleInCourse->getTitle().'"';
+                $module->access=false;
+                $module->check=true;
+                return false;
             }
         }
     }

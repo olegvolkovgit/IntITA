@@ -112,7 +112,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             'lectures' => array(self::HAS_MANY, 'Lecture', 'idModule',
                 'order' => 'lectures.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
-            'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
+            'inCourses' => array(self::HAS_MANY, 'CourseModules', ['id_module'=>'module_ID']),
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
             'tags' => [self::HAS_MANY, 'Tags', ['id_tag' => 'id'], 'through' => 'moduleTags'],
             'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
@@ -969,7 +969,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     }
 
     /**
-     * Function check user's access to course based on user's payments
+     * Function check user's access to module (using courses) based on user's payments
      * @param $userId
      * @return bool
      */
@@ -1001,6 +1001,60 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 }
             }
         }
+        return $access;
+    }
+
+    /**
+     * Function check user's access only to module based on user's payments
+     * @param $userId
+     * @return bool
+     */
+    public function checkPaidModuleAccess($userId) {
+
+        $access = false;
+        $studentReg = StudentReg::model()->findByPk($userId);
+        $access = $studentReg->access->checkVisitorAccess($this->moduleServiceOnline);
+
+        if (!$access) {
+            $access = $studentReg->access->checkVisitorAccess($this->moduleServiceOffline);
+        }
+        if (!$access) {
+            foreach ($studentReg->offlineGroups as $group) {
+                $access = $group->access->checkVisitorAccess($this->moduleServiceOnline);
+                if (!$access) {
+                    $access = $group->access->checkVisitorAccess($this->moduleServiceOffline);
+                }
+                if ($access) {
+                    break;
+                }
+            }
+        }
+
+        return $access;
+    }
+
+    /**
+     * Function check user's access only to one (all) course(s) where is module based on user's payments
+     * @param $userId $course
+     * @param $courseId
+     * @return bool
+     */
+    public function checkPaidModuleCourseAccess($userId, $courseId=null) {
+
+        $access = false;
+
+        $course = Course::model()->findByPk($courseId);
+        if($courseId){
+            $access = $course->checkPaidAccess($userId);
+        } else {
+            foreach ($this->Course as $course) {
+                $access = $course->checkPaidAccess($userId);
+                if ($access) {
+                    break;
+                }
+            }
+        }
+
         return $access;
     }
 
@@ -1091,8 +1145,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     }
 
     public function getAverageRating(){
-        $module = new Module;
-        $average = ($module->understand_rating + $module->interesting_rating + $module->accessibility_rating)/3;
+        $average = ($this->understand_rating + $this->interesting_rating + $this->accessibility_rating)/3;
         return  $average;
     }
 

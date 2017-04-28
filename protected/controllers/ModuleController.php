@@ -50,51 +50,31 @@ class ModuleController extends Controller
         
         $idModule = Yii::app()->request->getPost('moduleId');
         $idCourse = Yii::app()->request->getPost('courseId');
-        $idUser=Yii::app()->user->getId();
+        $module = Module::model()->with('lectures')->findByPk($idModule);
+        $course=Course::model()->findByPk($idCourse);
 
-        $module = Module::model()->findByPk($idModule);
-
-        if($idCourse){
-            $data['idCourse']=$idCourse;
-            $course=Course::model()->findByPk($idCourse);
-            $data['canPayCourse']=($course->status_online || $course->status_offline) && !$course->cancelled;
-            $isReadyCourse=$course->status_online || $course->status_offline;
-        }else{
-            $isReadyCourse=true;
+        if($course){
+            $data['course']=$course->getAttributes();
         }
 
         if (!Yii::app()->user->isGuest) {
-            if(isset($course)){
-                $isPaidCourse=$course->checkPaidAccess($idUser);
-            }else{
-                $isPaidCourse=false;
-            }
-
-            $data['user']['isPaidModule']=$module->checkPaidAccess($idUser);
-            $data['user']['isPaidCourse']=$isPaidCourse;
-            $data['user']['isContentManager']=Yii::app()->user->model->isContentManager();
-            $data['user']['isAdmin']=Yii::app()->user->model->isAdmin();
-            $data['user']['canSendRequest']=Yii::app()->user->model->canSendRequest($module->module_ID);
-            $data['user']['isAuthor'] = Yii::app()->user->model->isAuthorModule($idModule);
+            $data['user']['isPaidModule']=$module->checkPaidAccess(Yii::app()->user->getId());
+            $data['user']['hasRevisionsAccess']=Yii::app()->user->model->canViewModuleRevision($idModule);
             $data['user']['lastAccessLectureOrder'] = $module->getLastAccessLectureOrder();
-        }
 
-        $data['module']=ActiveRecordToJSON::toAssocArray($module);
-        $data['canPayModule']=!$module->isDeveloping() && !$module->cancelled;
-        $data['moduleTitle']=$module->getTitle();
-        $data['modulePrice']=$module->modulePrice($idCourse);
-        $data['isReadyCourse']=$isReadyCourse;
-        $data['lectures']=ActiveRecordToJSON::toAssocArray($module->lectures);
-
-        if (!Yii::app()->user->isGuest) {
             if (!Yii::app()->user->model->hasAccessToContent($module)) {
                 if(!$module->getModuleStatus($idCourse)){
                     $data['moduleAccess']=false;
                     $data['notAccessMessage']=$module->errorMessage;
-                } else if(!$module->checkPaidAccess($idUser)){
+                }  else if(!$module->checkPaidModuleAccess(Yii::app()->user->getId()) && $idCourse && $module->checkPaidModuleCourseAccess(Yii::app()->user->getId(), $idCourse)){
+                    $courseModules=CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=>$idModule));
+                    CourseModules::setModuleProgressInCourse($courseModules);
+                    $data['user']['isPaidCourse']=$course->checkPaidAccess(Yii::app()->user->getId());
+                    $data['moduleAccess']=false;
+                    $data['notAccessMessage']=$courseModules->statusMessage;
+                }else if(!$data['user']['isPaidModule']){
                     $data['notAccessMessage']=Yii::t('exception', '0869');
                 }
-
             }else{
                 $data['moduleAccess']=true;
             }
@@ -102,8 +82,10 @@ class ModuleController extends Controller
             $data['moduleAccess']=false;
             $data['notAccessMessage']=Yii::t('exception', '0868');
         }
-        
-        
+
+        $data['module']=ActiveRecordToJSON::toAssocArrayWithRelations($module);
+        $data['modulePrice']=$module->modulePrice($idCourse);
+
         echo json_encode($data);
     }
 
@@ -363,6 +345,8 @@ class ModuleController extends Controller
 
     public function actionGetModuleLink()
     {
-        echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
+        echo Yii::app()->createUrl('module/index', array(
+            'idModule' => Yii::app()->request->getPost('idModule'),
+            'idCourse' => Yii::app()->request->getPost('idCourse')));
     }
 }

@@ -85,7 +85,7 @@
         </div>
         <div class="moduleRating">
             <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-            <?php echo CommonHelper::getRating($data->rating); ?>
+            <?php echo CommonHelper::getRating($data->getAverageRating()); ?>
         </div>
     </div>
 </div>

@@ -62,19 +62,26 @@ function moduleCtrl($scope, $http) {
     
     $scope.loadLecturesList().then(function (response) {
         $scope.basePath=basePath;
-        $scope.module=response;
-        var title='title_'+lang;
-        if($scope.module.user)
-            $scope.module.user.lastAccessLectureOrder=Number($scope.module.user.lastAccessLectureOrder);
-        $scope.module.lectures.forEach(function(item, key) {
-            $scope.module.lectures[key].order=Number($scope.module.lectures[key].order);
-            $scope.module.lectures[key].title=$scope.module.lectures[key][title]!=''?$scope.module.lectures[key][title]:$scope.module.lectures[key]['ua'];
+        $scope.moduleProgress=response;
+        if($scope.moduleProgress.course){
+            $scope.moduleProgress.course.status=parseInt($scope.moduleProgress.course.status_online) || parseInt($scope.moduleProgress.course.status_offline);
+            $scope.moduleProgress.course.canPayCourse=$scope.moduleProgress.course.status && !$scope.moduleProgress.course.cancelled;
+        }
+        $scope.moduleProgress.canPayModule=parseInt($scope.moduleProgress.module.status_online) || parseInt($scope.moduleProgress.module.status_offline) && !$scope.moduleProgress.module.cancelled;
 
-            if($scope.module.moduleAccess===true ||
-                (!$scope.module.notAccessMessage && $scope.module.lectures[key].order<=$scope.module.user.lastAccessLectureOrder) ||
-                ($scope.module.moduleAccess!==false && $scope.module.lectures[key].isFree && $scope.module.lectures[key].order<=$scope.module.user.lastAccessLectureOrder))
-                $scope.module.lectures[key].ico='enabled.png';
-            else $scope.module.lectures[key].ico='disabled.png';
+        console.log(response);
+        var title='title_'+lang;
+        if($scope.moduleProgress.user)
+            $scope.moduleProgress.user.lastAccessLectureOrder=Number($scope.moduleProgress.user.lastAccessLectureOrder);
+        $scope.moduleProgress.module.lectures.forEach(function(item, key) {
+            $scope.moduleProgress.module.lectures[key].order=Number($scope.moduleProgress.module.lectures[key].order);
+            $scope.moduleProgress.module.lectures[key].title=$scope.moduleProgress.module.lectures[key][title]!=''?$scope.moduleProgress.module.lectures[key][title]:$scope.moduleProgress.module.lectures[key]['ua'];
+
+            if($scope.moduleProgress.moduleAccess===true ||
+                (!$scope.moduleProgress.notAccessMessage && $scope.moduleProgress.module.lectures[key].order<=$scope.moduleProgress.user.lastAccessLectureOrder) ||
+                ($scope.moduleProgress.moduleAccess!==false && $scope.moduleProgress.module.lectures[key].isFree && $scope.moduleProgress.module.lectures[key].order<=$scope.moduleProgress.user.lastAccessLectureOrder))
+                $scope.moduleProgress.module.lectures[key].ico='enabled.png';
+            else $scope.moduleProgress.module.lectures[key].ico='disabled.png';
 
         });
     });
