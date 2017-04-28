@@ -564,9 +564,10 @@ class ModuleRevisionController extends Controller {
 
     public function actionGetApprovedLecture() {
         $idModule = Yii::app()->request->getPost('idModule');
+        $organization=Module::model()->findByPk($idModule)->id_organization;
 
         $rc = new RevisionCommon();
-        $lecturesData = $rc->getReleasedLectures();
+        $lecturesData = $rc->getReleasedLectures(null, $organization);
         $approvedLectureList = ['current' => ['proposed_to_release' => [],'approved' => [],'released' => []],
             'foreign' => ['proposed_to_release' => [],'approved' => [],'released' => []]];
 

@@ -49,7 +49,7 @@ function moduleListCtrl($http,$scope) {
             $scope.courseProgress.ico='development.png';
 
         for(var i=0;i<$scope.courseProgress.modules.length;i++){
-            if(!$scope.courseProgress.modules[i].access && !$scope.courseProgress.hasAccess){
+            if(!$scope.courseProgress.modules[i].access){
                 $scope.courseProgress.modules[i].progress='disabled';
             }else{
                 if($scope.courseProgress.modules[i].startTime && $scope.courseProgress.modules[i].finishTime){

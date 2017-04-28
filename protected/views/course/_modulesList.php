@@ -1,6 +1,3 @@
-<script type="text/javascript">
-    basePath = '<?php echo Config::getBaseUrl();?>';
-</script>
 <div class="courseModules">
     <?php
     if ($isEditor) { ?>
@@ -23,13 +20,13 @@
         <div ng-repeat="module in courseProgress.modules track by $index">
             <div class="modulesTitle"
                  ng-class="{
-                 disableModuleStyle: (!module.access || !courseProgress.courseStatus) && !courseProgress.hasAccess,
+                 disableModuleStyle: (!module.access || !courseProgress.courseStatus),
                  availableModuleStyle: (module.access && courseProgress.courseStatus) || courseProgress.hasAccess,
                  inProgressModuleStyle: module.progress=='inProgress',
                  inlineModuleStyle: module.progress=='queue',
                  inFinishedModuleStyle: module.progress=='finished'}">
                 <a href="" ng-click="moduleLink(module.id_module,courseProgress.course.course_ID)">
-                    <div uib-tooltip-html="'{{module.statusMessage}}'">
+                    <div uib-tooltip-html="'{{module.statusMessage}}'" >
                         <span class="moduleOrder"><?php echo Yii::t('course', '0364') ?> {{$index+1}}.</span>
                         <span class="moduleLink">{{module.moduleInCourse[titleParam]}}</span>
                         <div class="moduleProgress">

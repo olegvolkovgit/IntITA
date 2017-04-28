@@ -386,17 +386,19 @@ class CourseRevisionController extends Controller {
         if (!$revision->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
+
+        $result=array();
         if($confirm=='false'){
-            $result = $revision->checkCourseRevision();
-        }else{
-            $result= array();
+            $result['error'] = $revision->checkCourseRevision();
         }
 
-        if (empty($result)) {
+        if (empty($result['error'])) {
             $revision->state->changeTo('released', Yii::app()->user);
-        } else {
-            echo $result;
         }
+        $result['course'] = $revision->course->course_ID;
+        $result['organization'] = $revision->course->id_organization;
+
+        echo json_encode($result);
     }
 
     public function actionPreviewCourseRevision($idRevision) {
@@ -475,9 +477,10 @@ class CourseRevisionController extends Controller {
     public function actionGetModules() {
         $idCourse = Yii::app()->request->getPost('idCourse');
         $categories = Yii::app()->request->getPost('categories');
+        $organization=Course::model()->findByPk($idCourse)->id_organization;
 
         $rc = new RevisionCommon();
-        $modulesData = $rc->getAllModules($categories);
+        $modulesData = $rc->getAllModules($categories, $organization);
         $modulesList = ['current' => ['ready_module' => [],'develop_module' => []],
             'foreign' => ['ready_module' => [],'develop_module' => []]];
 

@@ -117,13 +117,17 @@ angular
                     data: $.param({idRevision: id, confirmRevision: confirmRevision}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
-                    if(response.data!='') {
-                        bootbox.confirm(response.data, function(result) {
+                    if(response.data.error.length) {
+                        bootbox.confirm(response.data.error, function(result) {
                             if(result)
                                 self.releaseCourseRevision(id, true).then(function(){
                                     location.reload();
                             });
                         });
+                    }{
+                        bootbox.alert("При змінні ревізії курсу - схема курсу онулилася. " +
+                            "Встановити та зберегти нову схему можна за посиланням: " +
+                            "<a href='"+basePath+"/cabinet/"+response.data.organization+"/#/course/edit/"+response.data.course+"/tab/4' target='_blank'>кабінет</a>");
                     }
                     return response.data;
                 }, function errorCallback() {

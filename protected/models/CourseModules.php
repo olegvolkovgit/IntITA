@@ -387,7 +387,7 @@ class CourseModules extends CActiveRecord
                 $module->check=true;
                 return true;
             }else{
-                $module->statusMessage='Для доступу до модуля спочатку пройди модуль "'.$module->mandatoryCourseModule->moduleInCourse->getTitle().'"';
+                $module->statusMessage=CHtml::encode('Для доступу до модуля спочатку пройди модуль "'.$module->mandatoryCourseModule->moduleInCourse->getTitle().'"');
                 $module->access=false;
                 $module->check=true;
                 return false;
