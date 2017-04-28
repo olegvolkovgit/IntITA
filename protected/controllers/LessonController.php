@@ -434,7 +434,11 @@ class LessonController extends Controller
                 $oldRating->comment = NULL;
             }
             $oldRating->save();
-        }else{
+
+            $lecture->updateRatingLectures($understand_rating, 'understand_rating');
+            $lecture->updateRatingLectures($interesting_rating, 'interesting_rating');
+            $lecture->updateRatingLectures($accessibility_rating, 'accessibility_rating');
+        }else if($understand_rating != 0 || $interesting_rating != 0 || $accessibility_rating != 0) {
                 // save new rating in LectureRating
             $modelRating = new LecturesRating;
             $modelRating->id_lecture = $lectureId;
@@ -448,12 +452,12 @@ class LessonController extends Controller
                 $modelRating->comment = $_POST['params']['ratings']['comment'];
             }
             $modelRating->save();
+
+            $lecture->updateRatingLectures($understand_rating, 'understand_rating');
+            $lecture->updateRatingLectures($interesting_rating, 'interesting_rating');
+            $lecture->updateRatingLectures($accessibility_rating, 'accessibility_rating');
         }
-//        var_dump($modelRating->validate());
-//        die;
-        $lecture->updateRatingLectures($understand_rating, 'understand_rating');
-        $lecture->updateRatingLectures($interesting_rating, 'interesting_rating');
-        $lecture->updateRatingLectures($accessibility_rating, 'accessibility_rating');
+//        var_dump($modelRating->validate());die;
 
         if(Yii::app()->request->isAjaxRequest){
             $data=array();
@@ -514,9 +518,9 @@ class LessonController extends Controller
             }else{
                 $oldRating->comment = NULL;
             }
-
             $oldRating->save();
-        }else{
+
+        }else if($understand_rating != 0 || $interesting_rating != 0 || $accessibility_rating != 0){
             $moduleRating = new ModuleRating;
             $moduleRating->id_user = $id_user;
             $moduleRating->id_module = $idModule;

@@ -5,12 +5,11 @@ angular
         ratingService.getOldRating({'id_lecture': idLecture})
             .$promise
             .then(function successCallback(data) {
-                if(data != null){
+                // console.log(data);
                     $scope.ratings[0].rate = data.understand_rating;
                     $scope.ratings[1].rate = data.interesting_rating;
                     $scope.ratings[2].rate = data.accessibility_rating;
                     $scope.res.comment = data.comment;
-                }
             }, function errorCallback(error, status) {
                 $scope.data.error = { message: error, status: status};
                 console.log($scope.data.error.status);

@@ -64,6 +64,9 @@ p.sharingText{
     color:#017ebc;
     font-size: 24px;
 }
+span .glyphicon-star {
+    cursor: pointer;
+}
 .modalContent :focus {
     outline: none !important;
     /*outline: thin dotted !important;*/
