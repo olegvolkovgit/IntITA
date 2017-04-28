@@ -16,12 +16,10 @@ class CourseController extends Controller
         if(Yii::app()->user->isGuest) {
             $isEditor = false;
         } else {
-            $isEditor = Yii::app()->user->model->isContentManager();
+            $isEditor = Yii::app()->user->model->canViewCourseRevisions($id);
         }
 
         $model = Course::model()->findByPk($id);
-
-//        var_dump($model->checkPaidAccess(Yii::app()->user->getId()));
 
         if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));

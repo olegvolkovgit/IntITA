@@ -567,4 +567,9 @@ class RegisteredUser
     {
         return Teacher::isTeacherAuthorModule($this->registrationData->id, $idModule) || $this->canApprove($idModule, null, null);
     }
+
+    public function canViewCourseRevisions($idCourse)
+    {
+        return $this->canApprove(null, $idCourse, null);
+    }
 }
