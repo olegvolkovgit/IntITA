@@ -198,7 +198,12 @@ class CompanyController extends TeacherCabinetController {
             ]);
             $company = CorporateEntity::model()->find($criteria);
 
-            $model = ($type === 'module' ? Module::model() : Course::model())->findByPk($id);
+            if ($type === 'module') {
+                $modelClass = Module::model();
+            } else {
+                $modelClass = Course::model();
+            }
+            $model = $modelClass->findByPk($id);
             $educationFormModel = EducationForm::model()->findByPk($educationForm);
 
             if ($company && $model && $educationFormModel) {
