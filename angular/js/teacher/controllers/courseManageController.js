@@ -42,6 +42,7 @@ function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
     $scope.formData = {};
     $scope.courseId= null;
     $scope.coursesList =null;
+    $scope.tab=parseInt($stateParams.tab?$stateParams.tab:0);
 
     $scope.saveSchema = function(idCourse){
         var url = basePath+'/_teacher/courseManage/saveschema?idCourse='+idCourse;
@@ -165,7 +166,7 @@ function mandatoryModulesCtrl ($scope, $http,$state,$templateCache){
                 .success(function(data){
                     bootbox.alert(data, function () {
                         $templateCache.remove(basePath+"/_teacher/coursemanage/update/id/"+courseId);
-                        $state.go('course/edit/:id',{'id':courseId},{reload: true});
+                        $state.go('course/edit/:id/tab/:tab',{'id':courseId,'tab':4},{reload: true});
                     })
                 })
                 .error(function (){

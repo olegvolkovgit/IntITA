@@ -450,7 +450,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
+        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_module)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
@@ -461,7 +461,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
+        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_module)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
@@ -472,7 +472,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
+        if (!$this->isUserApprover(Yii::app()->user, $lectureRev->id_module)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
@@ -601,7 +601,7 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->findByPk($idRevision);
         if(!$lectureRev)
             throw new RevisionControllerException(404);
-        if (!$this->isUserTeacher(Yii::app()->user,$lectureRev->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRev->id_revision)) {
+        if (!$this->isUserTeacher(Yii::app()->user,$lectureRev->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRev->id_module)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 

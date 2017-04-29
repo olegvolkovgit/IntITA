@@ -51,7 +51,7 @@
                     return false;
                 }')
                 )); ?>
-                <uib-tabset active="0" >
+                <uib-tabset active="tab" >
                     <uib-tab  index="0" heading="Головне" id="mainTab">
                         <?php $this->renderPartial('_mainEditTab', array('model' => $model,
                             'scenario' => 'update', 'form' => $form)); ?>

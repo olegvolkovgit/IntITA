@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-    config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
+    config.mathJaxLib = basePath+'/angular/bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 
     config.extraPlugins = 'eqneditor,pastebase64,youtube,audio,skipWord1,skipWord0';
     config.allowedContent = true;
@@ -13,9 +13,9 @@ CKEDITOR.editorConfig = function( config ) {
     //config.filebrowserUploadUrl = '/lesson/CKEUploadImage';
     //config.extraPlugins = 'Audio';
     config.extraAllowedContent = 'audio[*]{*}';
-    config.filebrowserImageUploadUrl="/lesson/CKEUploadImageAudio";
+    config.filebrowserImageUploadUrl=basePath+"/lesson/CKEUploadImageAudio";
 
     //native font for intita
-    config.contentsCss = '/css/fontface.css';
+    config.contentsCss = basePath+'/css/fontface.css';
     config.font_names = 'MyriadPro/MyriadPro;' + config.font_names;
 };

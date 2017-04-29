@@ -623,16 +623,10 @@ class Teacher extends CActiveRecord
 
         $model=RegisteredUser::userById($this->user_id);
         $result=array();
-        $roles = AllRolesDataSource::roles();
-        $value_to_delete = 'student' ; //Элемент с этим значением нужно удалить
-        $value_1_to_delete = 'admin';
-        $roles = array_flip($roles); //Меняем местами ключи и значения
-        unset ($roles[$value_to_delete]) ; //Удаляем элемент массива
-        unset ($roles[$value_1_to_delete]) ; //Удаляем элемент массива
-        $roles = array_flip($roles); //Меняем местами ключи и значения
+        $roles = $model->loadRolesByOrganizations();
+
         foreach($roles as $role){
-            if($model->hasRole($role))
-                array_push($result,Role::getInstance($role)->title());
+            array_push($result,Role::getInstance($role)->title());
         }
         return implode(", ", $result);
     }
@@ -657,7 +651,7 @@ class Teacher extends CActiveRecord
     }
 
     public function isPrint(){
-        return TeacherOrganization::model()->findByAttributes(array('id_user'=>$this->user_id,'isPrint'=>Teacher::ACTIVE,'end_date'=>null));
+        return TeacherOrganization::model()->findByAttributes(array('id_user'=>$this->user_id,'isPrint'=>TeacherOrganization::SHOW,'end_date'=>null));
     }
 
     public static function getTeacherRolesString(){

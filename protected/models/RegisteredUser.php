@@ -108,6 +108,26 @@ class RegisteredUser
         return $result;
     }
 
+    public function loadRolesByOrganizations()
+    {
+        $sql = '';
+        $roles = AllRolesDataSource::teacherRoles();
+        $lastKey = array_search(end($roles), $roles);
+        foreach($roles as $key=>$role){
+            $model = Role::getInstance($role);
+            $sql .= "(".$model->checkRoleSql().")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
+        $result = array_map(function ($row) {
+            return $row["accountant"];
+        }, $rolesArray);
+
+        return $result;
+    }
+
     public function isTeacher()
     {
         if ($this->getTeacher() === null) {
@@ -274,17 +294,13 @@ class RegisteredUser
         return $this->isContentManager($organizationId);
     }
 
-    public function coworkerHasModuleAccess(Module $module)
+    public function hasAccessToContent(Module $module=null, Course $course=null)
     {
-        if ($this->isAuthorModule($module->module_ID)) {
+        $organization=$module?$module->id_organization:$course->id_organization;
+        $roles=$this->loadRoles($organization);
+        if(count(array_uintersect($roles, AllRolesDataSource::globalRoles(),"strcasecmp")))
             return true;
-        }
-
-        if ($this->isTeacherConsultantModule($module->module_ID)) {
-            return true;
-        }
-
-        if ($this->isAdmin() || $this->isContentManager())
+        if(count(array_uintersect($roles, AllRolesDataSource::teacherRoles(),"strcasecmp")))
             return true;
 
         return false;
@@ -395,12 +411,30 @@ class RegisteredUser
     public function hasLectureAccess(Lecture $lecture, $idCourse = 0){
         $enabledLessonOrder = $lecture->module->getLastAccessLectureOrder();
 
-        if (!$this->coworkerHasModuleAccess($lecture->module)) {
+        if (!$this->hasAccessToContent($lecture->module)) {
             if(!$lecture->module->getModuleStatus($idCourse)){
                 $this->lectureAccessErrorMessage=$lecture->module->errorMessage;
                 return false;
             }
-            if(!$lecture->isFree && !$lecture->module->checkPaidAccess($this->id)){
+            if(!$lecture->module->checkPaidModuleAccess($this->id) && $idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, $idCourse)){
+                $courseModules=CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=>$lecture->module->module_ID));
+                CourseModules::setModuleProgressInCourse($courseModules);
+                $this->lectureAccessErrorMessage=$courseModules->statusMessage;
+                return false;
+            }
+            if(!$lecture->module->checkPaidModuleAccess($this->id) && !$idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, null)){
+                $arrayMsg=array();
+                foreach ($lecture->module->inCourses as $courseModules){
+                    if(!$courseModules->check) {
+                        CourseModules::setModuleProgressInCourse($courseModules);
+                        array_push($arrayMsg,$courseModules->statusMessage);
+                    }
+                }
+
+                $this->lectureAccessErrorMessage=ucfirst(strtolower(implode(" або ", $arrayMsg)));
+                return false;
+            }
+            if(!$lecture->isFree && !$lecture->module->checkPaidModuleAccess($this->id)){
                 $this->lectureAccessErrorMessage=Yii::t('exception', '0869');
                 return false;
             }else{
@@ -414,8 +448,19 @@ class RegisteredUser
         return true;
     }
 
+    public function hasModuleAccess(Lecture $lecture, $idCourse = 0){
+        if(!$lecture->module->checkPaidModuleAccess($this->id) && $idCourse && $lecture->module->checkPaidAccess($this->id)){
+            $courseModules=CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=>$lecture->module->module_ID));
+            CourseModules::setModuleProgressInCourse($courseModules);
+            $this->lectureAccessErrorMessage=$courseModules->statusMessage;
+            return false;
+        }
+
+        return true;
+    }
+
     public function hasLecturePagesAccess(Lecture $lecture){
-        return $this->coworkerHasModuleAccess($lecture->module);
+        return $this->hasAccessToContent($lecture->module);
     }
 
     public function lastLink()
@@ -516,5 +561,15 @@ class RegisteredUser
             'end_date'=>null,
             'id_organization'=>Yii::app()->user->model->getCurrentOrganizationId())
         );
+    }
+
+    public function canViewModuleRevision($idModule)
+    {
+        return Teacher::isTeacherAuthorModule($this->registrationData->id, $idModule) || $this->canApprove($idModule, null, null);
+    }
+
+    public function canViewCourseRevisions($idCourse)
+    {
+        return $this->canApprove(null, $idCourse, null);
     }
 }

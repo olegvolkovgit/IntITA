@@ -13,7 +13,6 @@ const EDITOR_DISABLED = 0;
  * @property string $title_en
  * @property string $alias
  * @property string $language
- * @property integer $lesson_count
  * @property string $module_price
  * @property string $for_whom
  * @property string $what_you_learn
@@ -22,11 +21,15 @@ const EDITOR_DISABLED = 0;
  * @property integer $hours_in_day
  * @property integer $days_in_week
  * @property integer $level
- * @property integer $rating
+ * @property integer $understand_rating
+ * @property integer $interesting_rating
+ * @property integer $accessibility_rating
  * @property integer $module_number
  * @property integer $cancelled
- * @property integer $status
+ * @property integer $status_online
+ * @property integer $status_offline
  * @property integer $id_organization
+ * @property integer $id_module_revision
  *
  * The followings are the available model relations:
  * @property Course[] $Course
@@ -69,13 +72,11 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('status', 'required'),
             array('language, title_ua, level, id_organization', 'required', 'message' => 'Поле не може бути пустим'),
             array('alias', 'unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
             array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
             array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
-            array('lesson_count,
-            module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min' => 0, 'message' => Yii::t('module', '0413'), 'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
+            array('module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min' => 0, 'message' => Yii::t('module', '0413'), 'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
             array('hours_in_day', 'numerical', 'integerOnly' => true, 'min'=>0,'max'=>24, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним', 'tooBig'=>'Занадто велике число'),
             array('days_in_week', 'numerical', 'integerOnly' => true, 'min'=>0,'max'=>7, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним', 'tooBig'=>'Занадто велике число'),
             array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
@@ -87,14 +88,14 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
-            array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, status', 'safe'),
+            array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, status_online, status_offline, understand_rating, interesting_rating, accessibility_rating', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
             array('module_price', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
             // The following rule is used by search().
-            array('module_ID, title_ua, title_ru, title_en, alias, language, lesson_count, module_price, for_whom,
+            array('module_ID, title_ua, title_ru, title_en, alias, language, module_price, for_whom,
             what_you_learn, what_you_get, module_img,
-			days_in_week, hours_in_day, level, module_number, cancelled, id_module_revision, status', 'safe', 'on' => 'search'),
+			days_in_week, hours_in_day, level, module_number, cancelled, id_module_revision, status_online, status_offline', 'safe', 'on' => 'search'),
         );
     }
 
@@ -111,7 +112,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             'lectures' => array(self::HAS_MANY, 'Lecture', 'idModule',
                 'order' => 'lectures.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
-            'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
+            'inCourses' => array(self::HAS_MANY, 'CourseModules', ['id_module'=>'module_ID']),
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
             'tags' => [self::HAS_MANY, 'Tags', ['id_tag' => 'id'], 'through' => 'moduleTags'],
             'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
@@ -168,7 +169,6 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             'title_en' => 'Назва англійською',
             'alias' => 'Псевдонім',
             'language' => 'Мова',
-            'lesson_count' => 'Кількість лекцій',
             'module_price' => 'Ціна модуля базова, USD',
             'for_whom' => 'Для кого',
             'what_you_learn' => 'Що ти вивчиш',
@@ -176,11 +176,15 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             'module_img' => 'Фото',
             'module_number' => 'Унікальний ідентифікатор, використовується при генерації номера договора про оплату модуля.',
             'cancelled' => 'Видалений',
-            'status' => 'Статус',
+            'status_online' => 'Онлайн-статус',
+            'status_offline' => 'Офлайн-статус',
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',
             'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
             'level' => 'Рівень',
             'id_organization' => 'Id організації',
+            'understand_rating' => 'Рейтинг заняття по зрозумiлостi',
+            'interesting_rating' => 'Рейтинг заняття по цiкавостi',
+            'accessibility_rating' => 'Рейтинг заняття по доступностi',
         );
     }
 
@@ -206,7 +210,6 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('alias', $this->alias, true);
         $criteria->compare('language', $this->language, true);
-        $criteria->compare('lesson_count', $this->lesson_count);
         $criteria->compare('module_price', $this->module_price, true);
         $criteria->compare('for_whom', $this->for_whom, true);
         $criteria->compare('what_you_learn', $this->what_you_learn, true);
@@ -215,10 +218,13 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $criteria->compare('days_in_week', $this->days_in_week, true);
         $criteria->compare('hours_in_day', $this->hours_in_day, true);
         $criteria->compare('level', $this->level, true);
-        $criteria->compare('rating', $this->rating, true);
+        $criteria->compare('understand_rating', $this->understand_rating, true);
+        $criteria->compare('interesting_rating', $this->interesting_rating, true);
+        $criteria->compare('accessibility_rating', $this->accessibility_rating, true);
         $criteria->compare('module_number', $this->module_number, true);
         $criteria->compare('cancelled', $this->cancelled, true);
-        $criteria->compare('status', $this->status, true);
+        $criteria->compare('status_online', $this->status_online, true);
+        $criteria->compare('status_offline', $this->status_offline, true);
         $criteria->compare('id_module_revision', $this->id_module_revision, true);
         $criteria->compare('id_organization', $this->id_organization);
         
@@ -242,7 +248,6 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     {
         return $this->module_price;
     }
-
 
     public function getBasePriceUAH()
     {
@@ -402,13 +407,6 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $days = ($this->days_in_week != 0) ? $this->days_in_week : 2;
 
         return round($hours * $days / Config::getLectureDurationInHours());
-    }
-
-    public function statusTitle()
-    {
-        if ($this->status == 0) return 'в розробці';
-        if ($this->status == 1) return 'готовий';
-        else return false;
     }
 
     public function cancelledTitle()
@@ -581,7 +579,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     //true if $pathString is a module alias
     public static function checkModuleAlias($pathString)
     {
-        if (in_array($pathString, array('index', 'saveLesson', 'saveModule', 'unableLesson', 'upLesson',
+        if (in_array($pathString, array('index', 'upLesson',
             'downLesson', 'lecturesUpdate', 'updateModuleAttribute', 'updateModuleImage'
         ))) {
             return false;
@@ -623,125 +621,14 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     }
 
     /**
-     * Creates new lecture.
-     * @param array $params must include fields 'titleUa', 'titleRu', 'titleEn', 'order';
-     * @return Lecture - created lecture instance.
-     */
-
-    public function addLecture($params)
-    {
-
-        $teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()));
-
-        //todo: rafactor static method
-        $lecture = Lecture::model()->addNewLesson(
-            $this->module_ID,
-            $params['titleUa'],
-            $params['titleRu'],
-            $params['titleEn'],
-            $teacher->teacher_id
-        );
-
-        $this->lesson_count = $this->getLecturesCount(true);
-        $this->update(array('lesson_count'));
-
-        LecturePage::addNewPage($lecture->id, 1);
-
-        return $lecture;
-    }
-
-    /**
      * Returns count of lectures in the module
      * @return int
      * @throws CDbException
      */
 
-    public function getLecturesCount($reloadLectures = false)
+    public function getLecturesCount()
     {
-        if (!isset($this->lectures) || $reloadLectures) {
-            $this->getRelated('lectures');
-        }
         return count($this->lectures);
-    }
-
-
-    /**
-     * Disables lecture from the module and shifting order of lessons;
-     * @param $idLecture
-     * @throws CDbException
-     */
-    public function disableLesson($idLecture)
-    {
-
-        $lecture = Lecture::model()->findByPk($idLecture);
-
-        $oldLecturePosition = $lecture->order;
-
-        $count = $this->getLecturesCount();
-
-        $lecture->idModule = 0;
-        $lecture->order = 0;
-        $lecture->update(array('idModule', 'order'));
-
-        for ($i = $oldLecturePosition; $i < $count; $i++) {
-            $this->lectures[$i]->decreaseOrderByOne();
-        }
-
-        $this->lesson_count = $count - 1;
-        $this->update(array('lesson_count'));
-    }
-
-    /**
-     * Initialises a new module and returns its instance.
-     * @param $course
-     * @param $titleUa
-     * @param $titleRu
-     * @param $titleEn
-     * @param $lang
-     * @return $this|null
-     * @throws CDbException
-     * @throws \application\components\Exceptions\ModuleValidationException
-     */
-    public function initNewModule($course, $titleUa, $titleRu, $titleEn, $lang)
-    {
-
-        $this->level = $course->level;
-        $this->language = $lang;
-        $this->title_ua = $titleUa;
-        $this->title_ru = $titleRu;
-        $this->title_en = $titleEn;
-
-        if ($this->save()) {
-            //$this->alias = $this->module_ID;
-            $this->module_img = "module.png";
-            $this->update(array('alias', 'module_img'));
-
-            if (!file_exists(Yii::app()->basePath . "/../content/module_" . $this->module_ID)) {
-                mkdir(Yii::app()->basePath . "/../content/module_" . $this->module_ID);
-            }
-
-            $courseModule = new CourseModules();
-            $courseModule->id_course = $course->course_ID;
-            $courseModule->id_module = $this->module_ID;
-            $courseModule->order = $course->getModuleCount() + 1;
-            if ($courseModule->save()) {
-                return $this;
-            }
-        } else {
-            $errors = "";
-            foreach ($this->getErrors() as $field => $errorMessages) {
-                $errors .= $field;
-                if (is_array($errorMessages)) {
-                    $errors .= ':';
-                    foreach ($errorMessages as $message) {
-                        $errors .= ' ' . $message;
-                    }
-                }
-                $errors .= ', ';
-            }
-
-            throw new \application\components\Exceptions\ModuleValidationException($errors);
-        }
     }
 
     /**
@@ -952,19 +839,27 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return json_encode($result);
     }
 
-    public function isReady()
-    {
-        return $this->status == Module::READY;
-    }
-
     public function isCancelled()
     {
         return $this->cancelled == Module::DELETED;
     }
 
-    public function statusLabel()
-    {
-        return ($this->isReady()) ? 'готовий' : 'в розробці';
+    public function onlineStatusLabel(){
+        return ($this->isReadyOnline())?'готовий':'в розробці';
+    }
+    public function offlineStatusLabel(){
+        return ($this->isReadyOffline())?'готовий':'в розробці';
+    }
+
+    public function isReadyOnline(){
+        return $this->status_online == MODULE::READY;
+    }
+    public function isReadyOffline(){
+        return $this->status_offline == MODULE::READY;
+    }
+
+    public function isDeveloping(){
+        return ($this->status_online == Module::DEVELOP && $this->status_offline == Module::DEVELOP);
     }
 
     public function cancelledLabel()
@@ -1074,7 +969,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     }
 
     /**
-     * Function check user's access to course based on user's payments
+     * Function check user's access to module (using courses) based on user's payments
      * @param $userId
      * @return bool
      */
@@ -1109,6 +1004,60 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return $access;
     }
 
+    /**
+     * Function check user's access only to module based on user's payments
+     * @param $userId
+     * @return bool
+     */
+    public function checkPaidModuleAccess($userId) {
+
+        $access = false;
+        $studentReg = StudentReg::model()->findByPk($userId);
+        $access = $studentReg->access->checkVisitorAccess($this->moduleServiceOnline);
+
+        if (!$access) {
+            $access = $studentReg->access->checkVisitorAccess($this->moduleServiceOffline);
+        }
+        if (!$access) {
+            foreach ($studentReg->offlineGroups as $group) {
+                $access = $group->access->checkVisitorAccess($this->moduleServiceOnline);
+                if (!$access) {
+                    $access = $group->access->checkVisitorAccess($this->moduleServiceOffline);
+                }
+                if ($access) {
+                    break;
+                }
+            }
+        }
+
+        return $access;
+    }
+
+    /**
+     * Function check user's access only to one (all) course(s) where is module based on user's payments
+     * @param $userId $course
+     * @param $courseId
+     * @return bool
+     */
+    public function checkPaidModuleCourseAccess($userId, $courseId=null) {
+
+        $access = false;
+
+        $course = Course::model()->findByPk($courseId);
+        if($courseId){
+            $access = $course->checkPaidAccess($userId);
+        } else {
+            foreach ($this->Course as $course) {
+                $access = $course->checkPaidAccess($userId);
+                if ($access) {
+                    break;
+                }
+            }
+        }
+
+        return $access;
+    }
+
     public function getLastAccessLectureOrder()
     {
         $user = Yii::app()->user->getId();
@@ -1136,7 +1085,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             $this->errorMessage=Yii::t('lecture', '0811');
             return false;
         }
-        if ($this->status==Module::DEVELOP) {
+        if ($this->isDeveloping()) {
             $this->errorMessage=Yii::t('lecture', '0894');
             return false;
         }
@@ -1146,6 +1095,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public static function checkMandatoryModule($idCourse,$idModule,$mandatory)
     {
+        if($mandatory=="NULL") return true;
         $nextMandatory=$mandatory;
         $i=0;
         do {
@@ -1192,6 +1142,29 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     public function removeTag(Tags $tag) {
         $affectedRows = ModuleTags::model()->deleteAll('id_tag = :tagId AND id_module = :moduleId', ['tagId' => $tag->id, 'moduleId' => $this->module_ID]);
         return $affectedRows > 0;
+    }
+
+    public function getAverageRating(){
+        $average = ($this->understand_rating + $this->interesting_rating + $this->accessibility_rating)/3;
+        return  $average;
+    }
+
+    public function getModuleStartTime(){
+        $firstQuiz = $this->getFirstQuizId();
+        if ($firstQuiz)
+            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, Yii::app()->user->getId()))?(strtotime($start)): (false);
+        else $result = false;
+        return $result;
+    }
+
+    public function getModuleFinishedTime(){
+        if($this->getLastAccessLectureOrder()<$this->getLecturesCount())
+            $lastQuiz = false;
+        else $lastQuiz = $this->getLastQuizId();
+        if ($lastQuiz)
+            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, Yii::app()->user->getId()))?(strtotime($finish)): (false);
+        else $result = false;
+        return $result;
     }
 
     /**

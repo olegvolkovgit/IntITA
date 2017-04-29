@@ -50,11 +50,11 @@ $lecturesCount = $lecture->module->lecturesCount();
             <span ng-repeat="lecture in lecturesData.lectures track by $index">
                 <a ng-if=lecture.access
                    ng-attr-href="{{ lecture.order!='<?php echo $lecture->order; ?>' && lecture.link || undefined }}"
-                   tooltip-html-unsafe="{{lecture.title}}">
+                   uib-tooltip-html="lecture.title">
                     <div class="lectureAccess" ng-class="{thisLecture: lecture.order=='<?php echo $lecture->order; ?>'}"></div>
                 </a>
                 <a ng-if=!lecture.access
-                   tooltip-html-unsafe="<span class='titleNoAccessMin'>{{lecture.title}}</span><span class='noAccessMin'> (Заняття недоступне)</span>">
+                   uib-tooltip-html="'<span class=\'titleNoAccessMin\'>{{lecture.title}}</span><span class=\'noAccessMin\'> (Заняття недоступне)</span>'">
                     <div class="lectureDisabled"></div>
                 </a>
             </span>

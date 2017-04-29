@@ -167,12 +167,17 @@
             ?>
         </td>
 
-        <td>Готовність модуля:</td>
-        <td><?=$moduleRevision->properties->status?'Готовий':'В розробці' ?></td>
+        <td>Готовність модуля онлайн:</td>
+        <td><?=$moduleRevision->properties->status_online?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
+        <td>Готовність модуля офлайн:</td>
+        <td><?=$moduleRevision->properties->status_offline?'Готовий':'В розробці' ?></td>
+
         <td>Автор:</td>
         <td><?=StudentReg::getUserNamePayment($moduleRevision->properties->id_user_created).' (id='.$moduleRevision->properties->id_user_created.')'?></td>
+    </tr>
+    <tr>
         <td>Логотип:</td>
         <td>
             <img class="moduleImg"

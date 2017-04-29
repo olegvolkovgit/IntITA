@@ -28,7 +28,7 @@ class CourseManageController extends TeacherCabinetController
 
     public function actionView($id)
     {
-        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id),array('order'=>'`order` ASC'));
         $model = $this->loadModel($id);
         $linkedCourses = $model->linkedCourses();
 
@@ -90,7 +90,7 @@ class CourseManageController extends TeacherCabinetController
      */
     public function actionUpdate($id)
     {
-        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id),array('order'=>'`order` ASC'));
 
         $model = $this->loadModel($id);
         Yii::app()->user->model->hasAccessToOrganizationModel($model);
@@ -293,7 +293,7 @@ class CourseManageController extends TeacherCabinetController
     {
         $adapter = new NgTableAdapter('Course',$_GET);
         $criteria =  new CDbCriteria();
-        $criteria->condition = 'id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $criteria->condition = 't.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
     }

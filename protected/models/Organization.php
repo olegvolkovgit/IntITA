@@ -8,10 +8,12 @@
  * @property string $name
  *
  * Relations
- * @property Course[] courses
- * @property Module[] modules
- * @property Course[] coursesWithCorporateEntity
- * @property Module[] modulesWithCorporateEntity
+ * @property Course[] $courses
+ * @property Module[] $modules
+ * @property Course[] $coursesWithCorporateEntity
+ * @property Module[] $modulesWithCorporateEntity
+ * @property CorporateEntity[] $corporateEntity
+ * @property CorporateEntity $latestCorporateEntity
  *
  */
 class Organization extends CActiveRecord {
@@ -47,7 +49,8 @@ class Organization extends CActiveRecord {
             'courses' => [self::HAS_MANY, 'Course', 'id_organization'],
             'modules' => [self::HAS_MANY, 'Module', 'id_organization'],
             'coursesWithCorporateEntity' => [self::HAS_MANY, 'Course', 'id_organization', 'with' => ['corporateEntityOffline', 'corporateEntityOnline']],
-            'modulesWithCorporateEntity' => [self::HAS_MANY, 'Module', 'id_organization', 'with' => ['corporateEntityOffline', 'corporateEntityOnline']]
+            'modulesWithCorporateEntity' => [self::HAS_MANY, 'Module', 'id_organization', 'with' => ['corporateEntityOffline', 'corporateEntityOnline']],
+            'latestCorporateEntity' => [self::HAS_ONE, 'CorporateEntity', 'id_organization', 'scopes' => 'latest']
         ];
     }
 
@@ -99,6 +102,19 @@ class Organization extends CActiveRecord {
      */
     public function getCoursesAndModulesWithCorporateEntity() {
         return array_merge($this->coursesWithCorporateEntity, $this->modulesWithCorporateEntity);
+    }
+
+    private function getDefaultAgreementCorporateEntity() {
+        return $this->latestCorporateEntity;
+    }
+
+    public function getCorporateEntityFor(IServiceableWithEducationForm $model, EducationForm $educationForm) {
+        $service = $model->getService($educationForm);
+        $corporateEntity = $service->corporateEntity;
+        if (!$corporateEntity) {
+            $corporateEntity = $this->getDefaultAgreementCorporateEntity();
+        }
+        return $corporateEntity;
     }
 
 }

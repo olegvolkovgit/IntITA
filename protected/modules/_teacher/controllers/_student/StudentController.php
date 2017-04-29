@@ -9,7 +9,7 @@ class StudentController extends TeacherCabinetController
         return Yii::app()->user->model->isStudent() || (!Yii::app()->user->isGuest && in_array(Yii::app()->controller->action->id,$allowedUserActions));
     }
 
-    public function actionIndex($id)
+    public function actionIndex($id = 0)
     {
         $student = RegisteredUser::userById($id);
         $role = new Student();

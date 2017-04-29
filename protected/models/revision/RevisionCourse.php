@@ -288,7 +288,6 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 			$revCourseProperties->course_img = $course->course_img;
 			$revCourseProperties->alias = $course->alias;
 			$revCourseProperties->language = $course->language;
-			$revCourseProperties->course_price = $course->course_price;
 			$revCourseProperties->for_whom_ua = $course->for_whom_ua;
 			$revCourseProperties->what_you_learn_ua = $course->what_you_learn_ua;
 			$revCourseProperties->what_you_get_ua = $course->what_you_get_ua;
@@ -301,7 +300,8 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 			$revCourseProperties->level = $course->level;
 			$revCourseProperties->course_number = $course->course_number;
 			$revCourseProperties->cancelled = $course->cancelled;
-			$revCourseProperties->status = $course->status;
+			$revCourseProperties->status_online = $course->status_online;
+            $revCourseProperties->status_offline = $course->status_offline;
 			$revCourseProperties->start_date = new CDbExpression('NOW()');
 			$revCourseProperties->id_user_created = $user->getId();
 			$revCourseProperties->id_user = $user->getId();
@@ -502,9 +502,10 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		$module->what_you_get_en = $this->properties->what_you_get_en;
 		$module->level = $this->properties->level;
 		$module->language = $this->properties->language;
-		$module->course_price = $this->properties->course_price;
 		$module->cancelled = $this->properties->cancelled;
-		$module->status = 1;
+		$module->status_online = $this->properties->status_online;
+        $module->status_offline = $this->properties->status_offline;
+
 		$module->update();
 		$module->updateByPk($this->id_course, array('course_img'=>$this->properties->course_img));
 	}

@@ -17,7 +17,10 @@
  * @property integer $preLecture
  * @property integer $nextLecture
  * @property integer $isFree
- * @property integer $rate
+// * @property integer $rate
+ * @property integer $understand_rating
+ * @property integer $interesting_rating
+ * @property integer $accessibility_rating
  * @property integer $verified
  *
  * The followings are the available model relations:
@@ -51,7 +54,8 @@ class Lecture extends CActiveRecord
         // will receive user inputs.
         return array(
             array('idModule, order, title_ua, durationInMinutes', 'required', 'message' => Yii::t('validation', '0576')),
-            array('idModule, order, idType, rate, verified', 'numerical', 'integerOnly' => true),
+            array('idModule, order, idType, verified', 'numerical', 'integerOnly' => true),
+//            array('idModule, order, idType, rate, verified', 'numerical', 'integerOnly' => true),
             array('durationInMinutes', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('validation', '057'), 'message' => Yii::t('validation', '0577')),
             array('image', 'length', 'max' => 255),
             array('alias', 'length', 'max' => 10),
@@ -61,7 +65,7 @@ class Lecture extends CActiveRecord
             array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
-            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
+            array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, understand_rating, interesting_rating, accessibility_rating', 'safe', 'on' => 'search'),
         );
     }
 
@@ -99,7 +103,10 @@ class Lecture extends CActiveRecord
             'idType' => 'Тип',
             'isFree' => 'Безкоштовно',
             'durationInMinutes' => 'Тривалість лекції(хв)',
-            'rate' => 'Рейтинг заняття',
+//            'rate' => 'Рейтинг заняття',
+            'understand_rating' => 'Рейтинг заняття по зрозумiлостi',
+            'interesting_rating' => 'Рейтинг заняття по цiкавостi',
+            'accessibility_rating' => 'Рейтинг заняття по доступностi',
             'verified' => 'Підтверджено адміністратором',
         );
     }
@@ -131,7 +138,10 @@ class Lecture extends CActiveRecord
         $criteria->compare('idType', $this->idType, true);
         $criteria->compare('isFree', $this->isFree, true);
         $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
-        $criteria->compare('rate', $this->rate);
+//        $criteria->compare('rate', $this->rate);
+        $criteria->compare('understand_rating', $this->understand_rating);
+        $criteria->compare('interesting_rating', $this->interesting_rating);
+        $criteria->compare('accessibility_rating', $this->accessibility_rating);
         $criteria->compare('verified', $this->verified);
 
         $criteria->with = array('ModuleTitle');
@@ -219,33 +229,6 @@ class Lecture extends CActiveRecord
             return $contentList;
         }
 
-    }
-
-    public static function addNewLesson($module, $title_ua, $title_ru, $title_en, $teacher)
-    {
-        $lecture = new Lecture();
-        $lecture->title_ua = $title_ua;
-        $lecture->title_ru = $title_ru;
-        $lecture->title_en = $title_en;
-        $lecture->idModule = $module;
-
-        $order = Lecture::model()->count("idModule=$module and `order`>0");
-
-        $lecture->order = ++$order;
-        $lecture->alias = 'lecture' . $order;
-
-        $lecture->save();
-        if (!file_exists(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id)) {
-            mkdir(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id);
-        }
-        if (!file_exists(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/images")) {
-            mkdir(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/images");
-        }
-        if (!file_exists(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/audio")) {
-            mkdir(Yii::app()->basePath . "/../content/module_" . $module . "/lecture_" . $lecture->id . "/audio");
-        }
-
-        return $lecture;
     }
 
     public function getLecturesTitles($id)
@@ -966,4 +949,139 @@ class Lecture extends CActiveRecord
                 break;
         };
     }
+
+    public function updateRatingLectures($rate, $ratingName){
+
+        $oldRating = $this->$ratingName;
+
+        if($oldRating == NULL){
+            $this->$ratingName = $rate;
+            $this->save();
+            return;
+        }
+
+        $count = LecturesRating::model()->count('id_lecture = :id_lecture and '.$ratingName.' is not NULL', array(':id_lecture' => $this->id));
+        $newRating = ($count*$oldRating + $rate)/($count + 1);
+
+        $newRating = round($newRating);
+
+        $this->$ratingName = $newRating;
+        $this->save();
+    }
+
+    public static function getAverageRatingLecture($idModule){
+        $result = array();
+        $id_user = Yii::app()->user->getId();
+        $module = Module::model()->findByPk($idModule);
+        $isRatingExist = ModuleRating::model()->exists('id_module=:id_module and `id_module_revision`=:id_module_revision and `id_user`=:id_user',
+                                                        array('id_module' => $idModule,
+                                                              'id_module_revision' => $module->id_module_revision,
+                                                              'id_user' => $id_user
+                                                            ));
+        if($isRatingExist){
+            $oldRating = ModuleRating::model()->findByAttributes(array('id_user' => $id_user, 'id_module' => $idModule));
+            $result['understand_rating'] = $oldRating->understand_rating;
+            $result['interesting_rating'] = $oldRating->interesting_rating;
+            $result['accessibility_rating'] = $oldRating->accessibility_rating;
+            $result['comment'] = $oldRating->comment;
+
+            return json_encode($result);
+
+        }else{
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'lr';
+            $criteria->join = 'LEFT JOIN lectures l on l.id = lr.id_lecture';
+            $criteria->addCondition('l.idModule = '.$idModule.'');
+
+            $data = LecturesRating::model()->findAll($criteria);
+            if($data){
+                $res_und = 0;
+                $res_inter = 0;
+                $res_acc = 0;
+                foreach ($data as $item){
+                    $res_und +=  $item->understand_rating;
+                    $res_inter +=  $item->interesting_rating;
+                    $res_acc +=  $item->accessibility_rating;
+                }
+                $len = count($data);
+                $result['understand_rating'] = round($res_und / $len);
+                $result['interesting_rating'] = round($res_inter / $len);
+                $result['accessibility_rating'] = round($res_acc / $len);
+                $result['comment'] = '';
+            }else{
+                $result['understand_rating'] = 0;
+                $result['interesting_rating'] = 0;
+                $result['accessibility_rating'] = 0;
+                $result['comment'] = '';
+            }
+
+            return json_encode($result);
+        }
+    }
+
+    public static function getAverageRatingModule($moduleId){
+        $result = array();
+
+        $count1 = Lecture::model()->count('idModule = :moduleId and understand_rating is not NULL', array(':moduleId' => $moduleId));
+
+        $criteria = new CDbCriteria;
+        $criteria->select='sum(understand_rating) as understand_rating';  // подходит только то имя поля, которое уже есть в модели
+        $criteria->condition='idModule=:moduleId';
+        $criteria->params=array(':moduleId'=>$moduleId);
+        $sum1 = Lecture::model()->find($criteria)->getAttribute('understand_rating');
+
+        $result['understand_rating'] = round($sum1 / $count1);
+
+        $count2 = Lecture::model()->count('idModule = :moduleId and interesting_rating is not NULL', array(':moduleId' => $moduleId));
+        $criteria = new CDbCriteria;
+        $criteria->select = 'sum(interesting_rating) as interesting_rating';
+        $criteria->condition = 'idModule = :moduleId';
+        $criteria->params = array(':moduleId' => $moduleId);
+        $sum2 = Lecture::model()->find($criteria)->getAttribute('interesting_rating');
+
+        $result['interesting_rating'] = round($sum2 / $count2);
+
+        $count3 = Lecture::model()->count('idModule = :moduleId and accessibility_rating is not NULL', array(':moduleId' => $moduleId));
+        $criteria = new CDbCriteria;
+        $criteria->select = 'sum(accessibility_rating) as accessibility_rating';
+        $criteria->condition = 'idModule = :moduleId';
+        $criteria->params = array(':moduleId' => $moduleId);
+        $sum3 = Lecture::model()->find($criteria)->getAttribute('accessibility_rating');
+
+        $result['accessibility_rating'] = round($sum3 / $count3);
+
+        return json_encode($result);
+    }
+
+    public static function getRatingData($id_lecture, $id_user){
+        $result = array();
+        $user_ratings = LecturesRating::model()->findByAttributes(array('id_user'=> $id_user, 'id_lecture' => $id_lecture));
+        if($user_ratings != NULL){
+            $understand_rating = $user_ratings->understand_rating;
+            $interesting_rating = $user_ratings->interesting_rating;
+            $accessibility_rating = $user_ratings->accessibility_rating;
+
+            if($understand_rating != NULL){
+                $result['understand_rating'] = $understand_rating;
+            };
+            if($interesting_rating != NULL){
+                $result['interesting_rating'] = $interesting_rating;
+            };
+            if($accessibility_rating != NULL){
+                $result['accessibility_rating'] = $accessibility_rating;
+            };
+
+            if($understand_rating < 5 || $interesting_rating < 5 || $accessibility_rating < 5){
+                $result['comment'] = $user_ratings->comment;
+            }
+        }else{
+            $result['understand_rating'] = 0;
+            $result['interesting_rating'] = 0;
+            $result['accessibility_rating'] = 0;
+            $result['comment'] = '';
+        }
+//        var_dump($result); die;
+        return json_encode($result);
+    }
+
 }

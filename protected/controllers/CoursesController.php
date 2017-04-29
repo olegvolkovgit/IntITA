@@ -30,7 +30,7 @@ class CoursesController extends Controller
 
         if($selector=='modules'){
             $criteria = new CDbCriteria();
-            $criteria->condition = 'cancelled='.Module::ACTIVE.' and status='.Module::READY;
+            $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='.Module::READY.')';
             $dataProvider = new CActiveDataProvider('Module', array(
                 'criteria' => $criteria,
                 'sort' => array(

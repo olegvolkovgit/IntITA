@@ -98,4 +98,11 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/coursemanage/update/id/"+$stateParams.id;
             }
         })
+        .state('course/edit/:id/tab/:tab', {
+            url: "/course/edit/:id/tab/:tab",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/coursemanage/update/id/"+$stateParams.id;
+            }
+        })
 });

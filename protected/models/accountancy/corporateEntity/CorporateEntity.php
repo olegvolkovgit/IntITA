@@ -142,6 +142,15 @@ class CorporateEntity extends CActiveRecord {
         return parent::model($className);
     }
 
+    public function scopes() {
+        return [
+          'latest' => [
+              'order' => 'id DESC',
+              'limit' => 1
+          ]
+        ];
+    }
+
     public static function companiesList($params) {
         $adapter = new NgTableAdapter('CorporateEntity', $params);
         return json_encode($adapter->getData());
