@@ -994,18 +994,26 @@ class Lecture extends CActiveRecord
             $criteria->addCondition('l.idModule = '.$idModule.'');
 
             $data = LecturesRating::model()->findAll($criteria);
-            $res_und = 0;
-            $res_inter = 0;
-            $res_acc = 0;
-            foreach ($data as $item){
-                $res_und +=  $item->understand_rating;
-                $res_inter +=  $item->interesting_rating;
-                $res_acc +=  $item->accessibility_rating;
+            if($data){
+                $res_und = 0;
+                $res_inter = 0;
+                $res_acc = 0;
+                foreach ($data as $item){
+                    $res_und +=  $item->understand_rating;
+                    $res_inter +=  $item->interesting_rating;
+                    $res_acc +=  $item->accessibility_rating;
+                }
+                $len = count($data);
+                $result['understand_rating'] = round($res_und / $len);
+                $result['interesting_rating'] = round($res_inter / $len);
+                $result['accessibility_rating'] = round($res_acc / $len);
+                $result['comment'] = '';
+            }else{
+                $result['understand_rating'] = 0;
+                $result['interesting_rating'] = 0;
+                $result['accessibility_rating'] = 0;
+                $result['comment'] = '';
             }
-            $len = count($data);
-            $result['understand_rating'] = round($res_und / $len);
-            $result['interesting_rating'] = round($res_inter / $len);
-            $result['accessibility_rating'] = round($res_acc / $len);
 
             return json_encode($result);
         }
@@ -1048,24 +1056,31 @@ class Lecture extends CActiveRecord
     public static function getRatingData($id_lecture, $id_user){
         $result = array();
         $user_ratings = LecturesRating::model()->findByAttributes(array('id_user'=> $id_user, 'id_lecture' => $id_lecture));
-        $understand_rating = $user_ratings->understand_rating;
-        $interesting_rating = $user_ratings->interesting_rating;
-        $accessibility_rating = $user_ratings->accessibility_rating;
+        if($user_ratings != NULL){
+            $understand_rating = $user_ratings->understand_rating;
+            $interesting_rating = $user_ratings->interesting_rating;
+            $accessibility_rating = $user_ratings->accessibility_rating;
 
-        if($understand_rating != NULL){
-            $result['understand_rating'] = $understand_rating;
-        };
-        if($interesting_rating != NULL){
-            $result['interesting_rating'] = $interesting_rating;
-        };
-        if($accessibility_rating != NULL){
-            $result['accessibility_rating'] = $accessibility_rating;
-        };
+            if($understand_rating != NULL){
+                $result['understand_rating'] = $understand_rating;
+            };
+            if($interesting_rating != NULL){
+                $result['interesting_rating'] = $interesting_rating;
+            };
+            if($accessibility_rating != NULL){
+                $result['accessibility_rating'] = $accessibility_rating;
+            };
 
-        if($understand_rating < 5 || $interesting_rating < 5 || $accessibility_rating < 5){
-          $result['comment'] = $user_ratings->comment;
+            if($understand_rating < 5 || $interesting_rating < 5 || $accessibility_rating < 5){
+                $result['comment'] = $user_ratings->comment;
+            }
+        }else{
+            $result['understand_rating'] = 0;
+            $result['interesting_rating'] = 0;
+            $result['accessibility_rating'] = 0;
+            $result['comment'] = '';
         }
-
+//        var_dump($result); die;
         return json_encode($result);
     }
 
