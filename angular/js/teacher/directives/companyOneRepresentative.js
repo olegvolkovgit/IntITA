@@ -43,15 +43,13 @@ function companyOneRepresentative($state, companiesService, ngToast) {
         .then(function (response) {
           successToast('Дані збережено');
           if (response.id) {
-            $state.go("accountant/viewCompany/representative/edit", {
+            $state.go("accountant.company.view.representatives.list", {
               companyId: $scope.companyId,
-              representativeId: response.id
             });
+          } else {
+            return loadData()
           }
-        }).then(function () {
-          return loadData()
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
           console.error(error);
           dangerToast('Виникла помилка')
         });
