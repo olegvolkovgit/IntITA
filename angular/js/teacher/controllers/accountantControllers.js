@@ -1112,11 +1112,12 @@ angular
         }
       ];
     }])
-  .controller('documentsCtrl', ['$scope', '$stateParams', 'NgTableParams', 'accountantService', '$http', function ($scope, $stateParams, NgTableParams, accountantService, $http) {
+  .controller('documentsCtrl', ['$scope', '$stateParams', 'NgTableParams', 'accountantService', '$http','$attrs',
+      function ($scope, $stateParams, NgTableParams, accountantService, $http, $attrs) {
     $scope.changePageHeader('Копії документів');
 
     $scope.docStatus = [{id: 0, title: 'не перевірені'}, {id: 1, title: 'перевірені'}];
-    $scope.documentsTableParams = new NgTableParams({filter: {'check': 0}}, {
+    $scope.documentsTableParams = new NgTableParams({filter: {'check': 0},organization:$attrs.organization}, {
       getData: function (params) {
         return accountantService
           .documentsList(params.url())

@@ -9,13 +9,21 @@ class AccountantController extends TeacherCabinetController {
         $this->renderPartial('/_accountant/_dashboard', array(), false, true);
     }
 
-    public function actionUsersDocuments() {
-        $this->renderPartial('/_accountant/documents/index', array(), false, true);
+    public function actionUsersDocuments($organization) {
+        $this->renderPartial('/_accountant/documents/index', array('organization'=>$organization), false, true);
     }
 
-    public function actionGetDocumentsList() {
+    public function actionGetDocumentsList()
+    {
+        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserDocuments', $requestParams);
+        if ($_GET['organization']){
+            $criteria = new CDbCriteria();
+            $criteria->join = 'left join user_student us on us.id_user=t.id_user';
+            $criteria->addCondition('us.id_organization=' . Yii::app()->user->model->getCurrentOrganization()->id.' and us.end_date IS NULL');
+            $ngTable->mergeCriteriaWith($criteria);
+        }
         $result = $ngTable->getData();
         echo json_encode($result);
     }

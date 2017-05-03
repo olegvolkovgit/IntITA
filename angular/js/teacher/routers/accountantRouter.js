@@ -229,7 +229,7 @@ angular
       .state('accountant/documents', {
         url: "/accountant/documents",
         cache: false,
-        templateUrl: accountantUrl + "accountant/usersDocuments"
+        templateUrl: accountantUrl + "accountant/usersDocuments?organization=1"
       })
       .state('accountant/paymentSchemas/schemas/displaypromotion', {
         url: '/accountant/paymentSchemas/schemas/displaypromotion',
