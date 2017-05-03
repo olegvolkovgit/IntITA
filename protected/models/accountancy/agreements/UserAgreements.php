@@ -32,6 +32,7 @@
  * @property StudentReg $cancelUser
  * @property UserAgreementStatus $status0
  * @property Invoice[] invoice
+ * @property CorporateEntity $corporateEntity
  */
 class UserAgreements extends CActiveRecord {
 
@@ -575,7 +576,8 @@ class UserAgreements extends CActiveRecord {
     }
 
     public function canBeCanceled() {
-        if ($this->getAgreementPaidSum()==0) {
+        if ($this->getAgreementPaidSum()==0 &&
+            $this->corporateEntity->organization->id==Yii::app()->user->model->getCurrentOrganizationId()) {
            return true;
         } else {
             return false;

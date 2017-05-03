@@ -4,8 +4,8 @@
 
 angular
   .module('teacherApp')
-  .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams', 'lodash',
-    function ($scope, agreements, paymentSchema, NgTableParams, _) {
+  .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams', 'lodash','agreementsInformation',
+    function ($scope, agreements, paymentSchema, NgTableParams, _, agreementsInformation) {
       $scope.changePageHeader('Список договорів');
       $scope.currentDate = currentDate;
       $scope.agreementsTableParams = new NgTableParams({sorting: {create_date: "desc"}}, {
@@ -15,26 +15,7 @@ angular
             .$promise
             .then(function (data) {
               params.total(data.count);
-              data.rows.forEach(function (row) {
-                var paid = 0;
-                //get paid sum for agreement
-                row.internalPayment.forEach(function (pay) {
-                  paid = paid + Number(pay.summa);
-                });
-                row.paidAmount = paid;
-                //get agreement payment_date and expiration_date
-                for (var index = 0; index < row.invoice.length; ++index) {
-                  var invoicePaid = 0;
-                  _.filter(row.internalPayment, ['invoice_id', row.invoice[index].id]).forEach(function (pay) {
-                    invoicePaid = invoicePaid + Number(pay.summa);
-                  });
-                  if (invoicePaid < row.invoice[index].summa) {
-                    row.payment_date = row.invoice[index].payment_date;
-                    row.expiration_date = row.invoice[index].expiration_date;
-                    break;
-                  }
-                }
-              });
+              agreementsInformation.setInformation(data);
               return data.rows;
             });
         }
@@ -1481,8 +1462,8 @@ angular
             };
         }])
 
-    .controller('userAgreementsCtrl', ['$scope', 'agreementsService', 'NgTableParams','lodash','$stateParams','paymentSchemaService',
-        function ($scope, agreements, NgTableParams, _,$stateParams, paymentSchema) {
+    .controller('userAgreementsCtrl', ['$scope', 'agreementsService', 'NgTableParams','lodash','$stateParams','paymentSchemaService','agreementsInformation',
+        function ($scope, agreements, NgTableParams, _,$stateParams, paymentSchema,agreementsInformation) {
             $scope.changePageHeader('Договори студента');
             $scope.currentDate = currentDate;
             $scope.userAgreementsTableParams = new NgTableParams({user:$stateParams.studentId,sorting: { create_date: "desc" } }, {
@@ -1492,26 +1473,7 @@ angular
                         .$promise
                         .then(function (data) {
                             params.total(data.count);
-                            data.rows.forEach(function(row) {
-                                var paid=0;
-                                //get paid sum for agreement
-                                row.internalPayment.forEach(function (pay) {
-                                    paid = paid+Number(pay.summa);
-                                });
-                                row.paidAmount=paid;
-                                //get agreement payment_date and expiration_date
-                                for (var index = 0; index < row.invoice.length; ++index) {
-                                    var invoicePaid=0;
-                                    _.filter(row.internalPayment, ['invoice_id', row.invoice[index].id]).forEach(function (pay) {
-                                        invoicePaid = invoicePaid+Number(pay.summa);
-                                    });
-                                    if(invoicePaid<row.invoice[index].summa){
-                                        row.payment_date=row.invoice[index].payment_date;
-                                        row.expiration_date=row.invoice[index].expiration_date;
-                                        break;
-                                    }
-                                }
-                            });
+                            agreementsInformation.setInformation(data);
                             return data.rows;
                         });
                 }
@@ -1526,8 +1488,8 @@ angular
                     })
                 });
         }])
-    .controller('trainerUsersAgreementsCtrl', ['$scope', 'agreementsService', 'NgTableParams','lodash','$stateParams','paymentSchemaService',
-        function ($scope, agreements, NgTableParams, _,$stateParams, paymentSchema) {
+    .controller('trainerUsersAgreementsCtrl', ['$scope', 'agreementsService', 'NgTableParams','lodash','$stateParams','paymentSchemaService','agreementsInformation',
+        function ($scope, agreements, NgTableParams, _,$stateParams, paymentSchema,agreementsInformation) {
             $scope.changePageHeader('Договори студентів закріплених за тренером');
             $scope.currentDate = currentDate;
             $scope.trainerUsersAgreementsTableParams = new NgTableParams({user:$stateParams.studentId,sorting: { create_date: "desc" } }, {
@@ -1537,26 +1499,7 @@ angular
                         .$promise
                         .then(function (data) {
                             params.total(data.count);
-                            data.rows.forEach(function(row) {
-                                var paid=0;
-                                //get paid sum for agreement
-                                row.internalPayment.forEach(function (pay) {
-                                    paid = paid+Number(pay.summa);
-                                });
-                                row.paidAmount=paid;
-                                //get agreement payment_date and expiration_date
-                                for (var index = 0; index < row.invoice.length; ++index) {
-                                    var invoicePaid=0;
-                                    _.filter(row.internalPayment, ['invoice_id', row.invoice[index].id]).forEach(function (pay) {
-                                        invoicePaid = invoicePaid+Number(pay.summa);
-                                    });
-                                    if(invoicePaid<row.invoice[index].summa){
-                                        row.payment_date=row.invoice[index].payment_date;
-                                        row.expiration_date=row.invoice[index].expiration_date;
-                                        break;
-                                    }
-                                }
-                            });
+                            agreementsInformation.setInformation(data);
                             return data.rows;
                         });
                 }

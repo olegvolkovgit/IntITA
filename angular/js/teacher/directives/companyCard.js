@@ -83,6 +83,10 @@ function companyCard($q, ngToast, cityService, companiesService) {
         .$promise
         .then(function (response) {
           if (response.message === 'OK') {
+            if(!$scope.companyId){
+                angular.copy({}, $scope.company);
+                $scope.companyForm.$setPristine();
+            }
             successToast('Зміни збережено');
           } else {
             dangerToast('Виникла помилка.');
