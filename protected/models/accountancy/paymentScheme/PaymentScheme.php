@@ -11,6 +11,9 @@
  * @property integer $serviceType
  * @property string $startDate
  * @property string $endDate
+ * @property integer $id_organization
+ * @property integer $id_user_approved
+ * @property string $approved_date
  */
 class PaymentScheme extends CActiveRecord {
 
@@ -50,12 +53,12 @@ class PaymentScheme extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_template', 'required'),
+            array('id_template, id_user_approved', 'required'),
             array('userId, serviceId, id_template', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType, id_organization, id_user_approved, approved_date', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe', 'on' => 'search'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType, id_organization, id_user_approved, approved_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -70,6 +73,7 @@ class PaymentScheme extends CActiveRecord {
             'schemesTemplate' => array(self::BELONGS_TO, 'PaymentSchemeTemplate', ['id_template'=>'id']),
             'user' => array(self::BELONGS_TO, 'StudentReg', 'userId'),
             'service' => array(self::HAS_ONE, 'Service', ['service_id' => 'serviceId']),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
     }
 
@@ -92,7 +96,10 @@ class PaymentScheme extends CActiveRecord {
             'serviceId' => 'Id сервіса',
             'endDate' => 'Закінчення дії шаблону схем',
             'startDate' => 'Початок дії шаблону схем',
-            'serviceType' => 'Тип сервісу, на який застосовується шаблон'
+            'serviceType' => 'Тип сервісу, на який застосовується шаблон',
+            'id_organization' => 'ID organization',
+            'id_user_approved' => 'ID користувача, котрий призначив схему',
+            'approved_date' => 'Дата призначення схеми',
         );
     }
 
@@ -120,6 +127,9 @@ class PaymentScheme extends CActiveRecord {
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate);
         $criteria->compare('serviceType', $this->serviceType);
+        $criteria->compare('id_organization', $this->id_organization, true);
+        $criteria->compare('id_user_approved', $this->id_user_approved, true);
+        $criteria->compare('approved_date', $this->approved_date, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -233,5 +243,5 @@ class PaymentScheme extends CActiveRecord {
 
         return !empty($paymentSchemas) ? $paymentSchemas : PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_MODULE_SCHEME);
     }
-    
+
 }

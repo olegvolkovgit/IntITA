@@ -51,9 +51,9 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
-    public function actionSchemasTemplates()
+    public function actionSchemasTemplates($organization)
     {
-        $this->renderPartial('schemasTemplates',array(),false,true);
+        $this->renderPartial('schemasTemplates',array('organization'=>$organization),false,true);
     }
 
     public function actionApplyTemplateView($request=null)
@@ -73,12 +73,14 @@ class PaymentSchemaController extends TeacherCabinetController
     
     public function actionViewSchemasTemplate($id)
     {
-        $this->renderPartial('update', array(), false, true);
+        $paymentSchema=PaymentSchemeTemplate::model()->findByPk($id);
+        $canEdit=$paymentSchema->canEditPaymentSchema();
+        $this->renderPartial('update', array('canEdit'=>$canEdit), false, true);
     }
     
-    public function actionTemplateCreate()
+    public function actionTemplateCreate($organization)
     {
-        $this->renderPartial('create',array('scenario'=>'create'),false,true);
+        $this->renderPartial('create',array('scenario'=>'create','organization'=>$organization),false,true);
     }
 
     public function actionDisplayPromotionSchemes()
@@ -114,6 +116,7 @@ class PaymentSchemaController extends TeacherCabinetController
         $templateModel->description_ua=isset($template->description_ua)?$template->description_ua:null;
         $templateModel->description_ru=isset($template->description_ru)?$template->description_ru:null;
         $templateModel->description_en=isset($template->description_en)?$template->description_en:null;
+        $templateModel->id_organization=$template->id_organization;
         $transaction = Yii::app()->db->beginTransaction();
 
         try {
@@ -143,6 +146,7 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
         $templateModel= PaymentSchemeTemplate::model()->findByPk($template->id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($templateModel);
         $templateModel->template_name_ua=$template->name_ua;
         $templateModel->template_name_ru=isset($template->name_ru)?$template->name_ru:null;
         $templateModel->template_name_en=isset($template->name_en)?$template->name_en:null;
@@ -197,6 +201,12 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('PaymentSchemeTemplate', $requestParams);
+        if($_GET['organization']){
+            $criteria = new CDbCriteria();
+            $criteria->addCondition(
+                't.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' or t.id_organization is null');
+            $ngTable->mergeCriteriaWith($criteria);
+        }
         $result = $ngTable->getData();
 
         echo json_encode($result);

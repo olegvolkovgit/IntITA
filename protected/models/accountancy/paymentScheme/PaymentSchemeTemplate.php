@@ -11,6 +11,7 @@
  * @property string $description_ua
  * @property string $description_ru
  * @property string $description_en
+ * @property integer $id_organization
  */
 class PaymentSchemeTemplate extends CActiveRecord {
 
@@ -30,9 +31,9 @@ class PaymentSchemeTemplate extends CActiveRecord {
         return array(
             array('template_name_ua', 'required'),
             // The following rule is used by search().
-            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en', 'safe'),
+            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en, id_organization', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en', 'safe', 'on' => 'search'),
+            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en, id_organization', 'safe', 'on' => 'search'),
         );
     }
 
@@ -44,6 +45,7 @@ class PaymentSchemeTemplate extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'schemes' => array(self::HAS_MANY, 'TemplateSchemes', 'id_template', 'order' => 'schemes.pay_count'),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
     }
 
@@ -59,6 +61,7 @@ class PaymentSchemeTemplate extends CActiveRecord {
             'description_ua' => 'опис ua',
             'description_ru' => 'опис ru',
             'description_en' => 'опис en',
+            'id_organization' => 'ID organization',
         );
     }
 
@@ -86,7 +89,8 @@ class PaymentSchemeTemplate extends CActiveRecord {
         $criteria->compare('description_ua', $this->description_ua, true);
         $criteria->compare('description_ru', $this->description_ru, true);
         $criteria->compare('description_en', $this->description_en, true);
-        
+        $criteria->compare('id_organization', $this->id_organization, true);
+
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
@@ -126,5 +130,13 @@ class PaymentSchemeTemplate extends CActiveRecord {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "description_" . $lang;
         return CHtml::encode($this->$title)?CHtml::encode($this->$title):CHtml::encode($this->description_ua);
+    }
+
+    public function canEditPaymentSchema() {
+        if($this->id_organization){
+            return Yii::app()->user->model->getCurrentOrganizationId()==$this->id_organization;
+        }else{
+            return Yii::app()->user->model->isAuditor();
+        }
     }
 }

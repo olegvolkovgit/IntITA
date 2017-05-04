@@ -759,11 +759,11 @@ angular
     $scope.startDateOptions = new ExternalPaymentDateOptions();
   })
 
-  .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams', 'paymentSchemaService', '$http',
-    function ($scope, $stateParams, NgTableParams, paymentSchemaService, $http) {
+  .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams', 'paymentSchemaService', '$http','$attrs',
+    function ($scope, $stateParams, NgTableParams, paymentSchemaService, $http, $attrs) {
       $scope.changePageHeader('Шаблони схем');
 
-      $scope.schemesTemplateTableParams = new NgTableParams({}, {
+      $scope.schemesTemplateTableParams = new NgTableParams({organization:$attrs.organization}, {
         getData: function (params) {
           return paymentSchemaService
             .schemesTemplatesList(params.url())
