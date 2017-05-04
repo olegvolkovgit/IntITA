@@ -23,9 +23,10 @@
  * @property CorporateEntity $company
  * @property InternalPays[] $internalPays
  */
-class ExternalPays extends CActiveRecord
-{
-	/**
+class ExternalPays extends CActiveRecord {
+
+    use withBelongsToOrganization;
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -64,7 +65,8 @@ class ExternalPays extends CActiveRecord
 		return array(
             'source' => array(self::BELONGS_TO, 'ExternalSources', 'sourceId'),
             'company' => [self::BELONGS_TO, 'CorporateEntity', 'companyId'],
-            'internalPays' => [self::HAS_MANY, 'InternalPays', 'externalPaymentId']
+            'internalPays' => [self::HAS_MANY, 'InternalPays', 'externalPaymentId'],
+            'organization' => [self::HAS_ONE, 'Organization', ['id_organization' => 'id'], 'through' => 'company']
 		);
 	}
 
@@ -149,4 +151,18 @@ class ExternalPays extends CActiveRecord
 		}
 		return round(floatval($this->amount)-$sum,2);
 	}
+
+    /**
+     * The method should return CDBCriteria to select entity belong to organisation
+     * @param Organization $organization
+     * @return CDbCriteria
+     */
+    public function getOrganizationCriteria(Organization $organization) {
+        $criteria = new CDbCriteria([
+            'condition' => 'organization.id = :organizationId',
+            'params' => ['organizationId' => $organization->id],
+            'with' => 'organization'
+        ]);
+        return $criteria;
+    }
 }

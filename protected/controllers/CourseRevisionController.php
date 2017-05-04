@@ -15,26 +15,53 @@ class CourseRevisionController extends Controller {
         } else return true;
     }
 
-    public function actionIndex() {
-        if (!Yii::app()->user->model->canApprove()) {
+    public function initialize()
+    {
+        $app = Yii::app();
+        $organizations=Yii::app()->user->model->getOrganizations();
+        if(!$organizations) {
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не є співробітником організації для перегляду');
+        }
+
+        if(count($organizations)>1 && !isset($app->session['organization'])){
+            $this->render('set_organization', array('revisionController'=>'courseRevision'));
+            die();
+        }else if(count($organizations)>1 && isset($app->session['organization'])){
+            $this->redirect(Yii::app()->createUrl('/courseRevision/index', array('organizationId'=>$app->session['organization'])));
+        }else{
+            $this->redirect(Yii::app()->createUrl('/courseRevision/index', array('organizationId'=>$organizations[0])));
+        }
+    }
+
+    public function actionIndex($organizationId=0) {
+
+        $model = Yii::app()->user->model;
+        if($organizationId && $model->hasOrganizationById($organizationId)){
+            Yii::app()->session->add('organization', $organizationId);
+        }else if($organizationId || Yii::app()->user->model->getOrganizations()){
+            $this->initialize();
+        }
+
+        if (!Yii::app()->user->model->canApprove(null, null, $organizationId)) {
             throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій курсу');
         }
 
         $this->render('index',array(
             'isApprover' => true,
             'userId' => Yii::app()->user->getId(),
+            'organization' => $organizationId,
         ));
     }
 
     public function actionCourseRevisions($idCourse) {
-        if (!Yii::app()->user->model->canApprove()) {
+        if (!Yii::app()->user->model->canApprove(null, $idCourse)) {
             throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курсу');
         }
         $course = Course::model()->findByPk($idCourse);
         $courseRevision = RevisionCourse::model()->exists('id_course='.$idCourse);
         $this->render('courseRevisions', array(
             'course' => $course,
-            'isApprover' => Yii::app()->user->model->canApprove(),
+            'isApprover' => Yii::app()->user->model->canApprove(null, $idCourse),
             'userId' => Yii::app()->user->getId(),
             'revisionExists' => $courseRevision,
         ));
@@ -60,7 +87,12 @@ class CourseRevisionController extends Controller {
     }
 
     public function actionBuildAllCoursesRevisions() {
-        $courseRev = RevisionCourse::model()->findAll();
+        $organization = Yii::app()->request->getPost('organization');
+        $criteria=new CDbCriteria;
+        $criteria->alias='vcc';
+        $criteria->join = 'left join course c on c.course_ID=vcc.id_course';
+        $criteria->addCondition('c.id_organization='.$organization);
+        $courseRev = RevisionCourse::model()->findAll($criteria);
         $relatedTree = RevisionCourse::getCoursesTree();
         $json = $this->buildCourseTreeJson($courseRev, $relatedTree);
 
@@ -235,7 +267,7 @@ class CourseRevisionController extends Controller {
             return;
         }
 
-        if (!Yii::app()->user->model->isContentManager()) {
+        if (!Yii::app()->user->model->isContentManager($course->id_organization)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
@@ -246,7 +278,7 @@ class CourseRevisionController extends Controller {
 
     public function actionCreateCourseRevision($idRevision) {
         $courseRevision = RevisionCourse::model()->findByPk($idRevision);
-        if (!Yii::app()->user->model->isContentManager()) {
+        if (!Yii::app()->user->model->isContentManager($courseRevision->course->id_organization)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
         $courseRevision = $courseRevision->cloneCourse(Yii::app()->user);
@@ -354,17 +386,19 @@ class CourseRevisionController extends Controller {
         if (!$revision->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
+
+        $result=array();
         if($confirm=='false'){
-            $result = $revision->checkCourseRevision();
-        }else{
-            $result= array();
+            $result['error'] = $revision->checkCourseRevision();
         }
 
-        if (empty($result)) {
+        if (empty($result['error'])) {
             $revision->state->changeTo('released', Yii::app()->user);
-        } else {
-            echo $result;
         }
+        $result['course'] = $revision->course->course_ID;
+        $result['organization'] = $revision->course->id_organization;
+
+        echo json_encode($result);
     }
 
     public function actionPreviewCourseRevision($idRevision) {
@@ -372,7 +406,7 @@ class CourseRevisionController extends Controller {
         $revision = RevisionCourse::model()->findByPk($idRevision);
         if(!$revision)
             throw new RevisionControllerException(404);
-        if (!Yii::app()->user->model->isContentManager()) {
+        if (!Yii::app()->user->model->isContentManager($revision->course->id_organization)) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
 
@@ -411,7 +445,8 @@ class CourseRevisionController extends Controller {
             $modules[$key]["id"] = $module->module_ID;
             $modules[$key]["module_order"] = $modulesModel->module_order;
             $modules[$key]["title"] = $module->title_ua;
-            $modules[$key]["status"] = $module->status?'Готовий':'В розробці';
+            $modules[$key]["status_online"] = $module->status_online?'Готовий':'В розробці';
+            $modules[$key]["status_offline"] = $module->status_offline?'Готовий':'В розробці';
             $modules[$key]["cancelled"] = $module->cancelled?true:false;
         }
 
@@ -442,9 +477,10 @@ class CourseRevisionController extends Controller {
     public function actionGetModules() {
         $idCourse = Yii::app()->request->getPost('idCourse');
         $categories = Yii::app()->request->getPost('categories');
+        $organization=Course::model()->findByPk($idCourse)->id_organization;
 
         $rc = new RevisionCommon();
-        $modulesData = $rc->getAllModules($categories);
+        $modulesData = $rc->getAllModules($categories, $organization);
         $modulesList = ['current' => ['ready_module' => [],'develop_module' => []],
             'foreign' => ['ready_module' => [],'develop_module' => []]];
 

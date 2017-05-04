@@ -15,25 +15,52 @@ class ModuleRevisionController extends Controller {
         } else return true;
     }
 
-    public function actionIndex() {
-        if (!Yii::app()->user->model->canApprove()) {
+    public function initialize()
+    {
+        $app = Yii::app();
+        $organizations=Yii::app()->user->model->getOrganizations();
+        if(!$organizations) {
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не є співробітником організації для перегляду');
+        }
+
+        if(count($organizations)>1 && !isset($app->session['organization'])){
+            $this->render('set_organization', array('revisionController'=>'moduleRevision'));
+            die();
+        }else if(count($organizations)>1 && isset($app->session['organization'])){
+            $this->redirect(Yii::app()->createUrl('/moduleRevision/index', array('organizationId'=>$app->session['organization'])));
+        }else{
+            $this->redirect(Yii::app()->createUrl('/moduleRevision/index', array('organizationId'=>$organizations[0])));
+        }
+    }
+
+    public function actionIndex($organizationId=0) {
+
+        $model = Yii::app()->user->model;
+        if($organizationId && $model->hasOrganizationById($organizationId)){
+            Yii::app()->session->add('organization', $organizationId);
+        }else if($organizationId || Yii::app()->user->model->getOrganizations()){
+            $this->initialize();
+        }
+
+        if (!Yii::app()->user->model->canApprove(null, null, $organizationId)) {
             throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів');
         }
 
         $this->render('index',array(
             'isApprover' => true,
             'userId' => Yii::app()->user->getId(),
+            'organization' => $organizationId,
         ));
     }
 
     public function actionCourseModulesRevisions($idCourse) {
-        if (!Yii::app()->user->model->canApprove()) {
+        if (!Yii::app()->user->model->canApprove(null, $idCourse)) {
             throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курсу');
         }
 
         $this->render('courseModulesRevisions', array(
             'idCourse' => $idCourse,
-            'isApprover' => Yii::app()->user->model->canApprove(),
+            'isApprover' => Yii::app()->user->model->canApprove(null, $idCourse),
             'userId' => Yii::app()->user->getId(),
         ));
     }
@@ -48,7 +75,7 @@ class ModuleRevisionController extends Controller {
         $this->render('moduleRevisions', array(
             'idCourse' => $idCourse,
             'module' => $module,
-            'isApprover' => Yii::app()->user->model->canApprove(),
+            'isApprover' => Yii::app()->user->model->canApprove($idModule),
             'userId' => Yii::app()->user->getId(),
         ));
     }
@@ -107,7 +134,7 @@ class ModuleRevisionController extends Controller {
             } else {
                 $this->render('moduleRevisions', array(
                     'module' => $module,
-                    'isApprover' => Yii::app()->user->model->canApprove(),
+                    'isApprover' => Yii::app()->user->model->canApprove($idModule),
                     'userId' => Yii::app()->user->getId(),
                 ));
                 return;
@@ -150,7 +177,12 @@ class ModuleRevisionController extends Controller {
     }
 
     public function actionBuildAllModulesRevisions() {
-        $moduleRev = RevisionModule::model()->findAll();
+        $organization = Yii::app()->request->getPost('organization');
+        $criteria=new CDbCriteria;
+        $criteria->alias='vcm';
+        $criteria->join = 'left join module m on m.module_ID=vcm.id_module';
+        $criteria->addCondition('m.id_organization='.$organization);
+        $moduleRev = RevisionModule::model()->findAll($criteria);
         $relatedTree = RevisionModule::getModulesTree();
         $json = $this->buildModuleTreeJson($moduleRev, $relatedTree);
 
@@ -532,9 +564,10 @@ class ModuleRevisionController extends Controller {
 
     public function actionGetApprovedLecture() {
         $idModule = Yii::app()->request->getPost('idModule');
+        $organization=Module::model()->findByPk($idModule)->id_organization;
 
         $rc = new RevisionCommon();
-        $lecturesData = $rc->getReleasedLectures();
+        $lecturesData = $rc->getReleasedLectures(null, $organization);
         $approvedLectureList = ['current' => ['proposed_to_release' => [],'approved' => [],'released' => []],
             'foreign' => ['proposed_to_release' => [],'approved' => [],'released' => []]];
 

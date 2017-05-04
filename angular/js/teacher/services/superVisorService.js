@@ -4,8 +4,8 @@
 
 angular
     .module('teacherApp')
-    .factory('superVisorService', ['$resource',
-        function ($resource) { 
+    .factory('superVisorService', ['$resource','transformRequest',
+        function ($resource, transformRequest) { 
             var url = basePath+'/_teacher/_supervisor/superVisor';
             return $resource(
                 '',
@@ -35,14 +35,6 @@ angular
                         url: url + '/getSpecializationsList',
                         isArray:true
                     },
-                    usersList: {
-                        url: url + '/getUsersList',
-                        method: 'GET',
-                    },
-                    studentsList: {
-                        url: url + '/getStudentsList',
-                        method: 'GET',
-                    },
                     courseAccessList: {
                         url: url + '/getCourseAccessList',
                         method: 'GET',
@@ -58,6 +50,22 @@ angular
                     groupData: {
                         url: url + '/getGroupData',
                         method: 'GET',
+                    },
+                    trainersStudentsList: {
+                        url: url + '/getTrainersStudentsList',
+                        method: 'GET',
+                    },
+                    setTrainer: {
+                        url: url + '/setTrainer',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    removeTrainer: {
+                        url: url + '/removeTrainer',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
                     },
                 });
         }])

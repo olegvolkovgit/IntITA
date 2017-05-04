@@ -23,6 +23,7 @@
  * @property string $inn
  * @property string $passport_issued
  * @property integer $status
+ * @property integer $id_corporate_entity
  *
  * @property Service $service
  * @property StudentReg $user
@@ -32,8 +33,10 @@
  * @property UserAgreementStatus $status0
  * @property Invoice[] invoice
  */
-class UserAgreements extends CActiveRecord
-{
+class UserAgreements extends CActiveRecord {
+
+    use withBelongsToOrganization;
+
     const PAYABLE_STATUS = 'payable';
     const PAID_STATUS = 'paid';
     const DELAY_STATUS = 'delay';
@@ -84,7 +87,9 @@ class UserAgreements extends CActiveRecord
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
             'paymentSchema' => array(self::BELONGS_TO, 'SchemesName', 'payment_schema'),
             'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status'),
-            'internalPayment' => [self::HAS_MANY, 'InternalPays', array('id'=>'invoice_id'), 'through' => 'invoice', 'order' => 'internalPayment.create_date DESC']
+            'internalPayment' => [self::HAS_MANY, 'InternalPays', array('id'=>'invoice_id'), 'through' => 'invoice', 'order' => 'internalPayment.create_date DESC'],
+            'corporateEntity' => [self::BELONGS_TO, 'CorporateEntity', 'id_corporate_entity'],
+            'organization' => [self::BELONGS_TO, 'Organization', ['id_organization' => 'id'], 'through' => 'corporateEntity']
         );
     }
 
@@ -287,13 +292,18 @@ class UserAgreements extends CActiveRecord
         $calculator = array_filter($calculators, function($item) use ($schemaId) {
             return $item->id == $schemaId;
         });
+
+        $billableObjectOrganization = $billableObject->organization;
+        $corporateEntity = $billableObjectOrganization->getCorporateEntityFor($billableObject, $educForm);
+
         $calculator = array_values($calculator)[0];
         $model = new UserAgreements();
         $model->user_id = $userId;
         $model->payment_schema = $calculator->payCount;
         $model->service_id = $serviceModel->service_id;
+        $model->id_corporate_entity = $corporateEntity->id;
 
-        //create fantom billableObject model for converting object's price to UAH
+        //create phantom billableObject model for converting object's price to UAH
         //used only in computing agreement and invoices price
         $billableObjectUAH = clone $billableObject->getModelUAH();
 
@@ -611,6 +621,28 @@ class UserAgreements extends CActiveRecord
             }
         }
         return UserAgreements::NO_AGREEMENT;
+    }
+
+    /**
+     * The method should return CDBCriteria to select entity belong to organisation
+     * @param Organization $organization
+     * @return CDbCriteria
+     */
+    public function getOrganizationCriteria(Organization $organization) {
+        $criteria = new CDbCriteria([
+            'condition' => 'organization.id = :organizationId',
+            'params' => ['organizationId' => $organization->id],
+            'with' => 'organization'
+        ]);
+        return $criteria;
+    }
+
+    public function getAgreementContentModel() {
+//        todo
+        if($this->service->courseServices) 
+            return $this->service->courseServices->courseModel;
+        if($this->service->moduleServices)
+            return $this->service->moduleServices->moduleModel;
     }
 }
 

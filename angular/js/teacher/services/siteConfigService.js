@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .factory('siteConfig', ['$resource',
         function ($resource) {
-            var url = basePath+'/_teacher/_admin/config/getconfiglist';
+            var url = basePath+'/_teacher/_super_admin/config/getconfiglist';
             return $resource(
                 '',
                 {},
@@ -17,6 +17,10 @@ angular
                             page: 'page',
                             pageCount: 'pageCount',
                         }
-                    }
+                    },
+                    getSpecializationsList: {
+                        url: basePath+'/studentReg/getSpecializationsList',
+                        isArray:true
+                    },
                 });
         }]);

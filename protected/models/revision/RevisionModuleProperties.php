@@ -18,11 +18,10 @@
  * @property integer $level
  * @property integer $hours_in_day
  * @property integer $days_in_week
- * @property integer $rating
  * @property integer $module_number
  * @property integer $cancelled
- * @property integer $status
- * @property integer $price_offline
+ * @property integer $status_online
+ * @property integer $status_offline
  * @property string $start_date
  * @property integer $id_user_created
  * @property string $update_date
@@ -54,7 +53,7 @@ class RevisionModuleProperties extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status, , start_date', 'required'),
+			array('start_date', 'required'),
 			array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
 			array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
 			array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
@@ -70,7 +69,7 @@ class RevisionModuleProperties extends CActiveRecord
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
 			array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
 			array('id_user_created, id_user_updated, id_state, id_user', 'numerical', 'integerOnly'=>true),
-			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, start_date, update_date, change_date', 'safe'),
+			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, start_date, update_date, change_date', 'safe'),
 			array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
 			array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
 			array('module_price', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
@@ -113,7 +112,8 @@ class RevisionModuleProperties extends CActiveRecord
 			'module_img' => 'Фото',
 			'module_number' => 'Номер модуля',
 			'cancelled' => 'Видалений',
-			'status' => 'Статус',
+            'status_online' => 'Онлайн-статус',
+            'status_offline' => 'Офлайн-статус',
 			'hours_in_day' => 'Годин в день (рекомендований графік занять)',
 			'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
 			'level' => 'Рівень',
@@ -159,7 +159,6 @@ class RevisionModuleProperties extends CActiveRecord
 		$criteria->compare('days_in_week', $this->days_in_week, true);
 		$criteria->compare('hours_in_day', $this->hours_in_day, true);
 		$criteria->compare('level', $this->level, true);
-		$criteria->compare('rating', $this->rating, true);
 		$criteria->compare('module_number', $this->module_number, true);
 		$criteria->compare('cancelled', $this->cancelled, true);
 		$criteria->compare('start_date',$this->start_date,true);
@@ -204,7 +203,8 @@ class RevisionModuleProperties extends CActiveRecord
 		$this->hours_in_day = 3;
 		$this->days_in_week = 3;
 		$this->cancelled = 0;
-		$this->status = 0;
+		$this->status_online = 0;
+        $this->status_offline = 0;
 		$this->title_ua = $titleUa;
 		$this->title_ru = $titleRu;
 		$this->title_en = $titleEn;
@@ -238,11 +238,10 @@ class RevisionModuleProperties extends CActiveRecord
 		$newProperties->level = $this->level;
 		$newProperties->hours_in_day = $this->hours_in_day;
 		$newProperties->days_in_week = $this->days_in_week;
-		$newProperties->rating = $this->rating;
 		$newProperties->module_number = $this->module_number;
 		$newProperties->cancelled = $this->cancelled;
-		$newProperties->status = $this->status;
-		$newProperties->price_offline = $this->price_offline;
+		$newProperties->status_online = $this->status_online;
+        $newProperties->status_offline = $this->status_offline;
 
 		$newProperties->start_date = new CDbExpression('NOW()');
 		$newProperties->id_user_created = $user->getId();

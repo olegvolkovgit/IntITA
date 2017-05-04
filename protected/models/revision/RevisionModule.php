@@ -12,6 +12,7 @@
  * The followings are the available model relations:
  * @property RevisionModuleProperties $properties
  * @property RevisionLecture[] moduleLectures
+ * @property Module $module
  * @property RevisionModuleLecture[] moduleLecturesModels
  */
 class RevisionModule extends CRevisionUnitActiveRecord
@@ -54,6 +55,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
             'moduleLecturesModels' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
                 'with' => 'lecture',
                 'order' => 'lecture_order ASC'),
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module')
         );
     }
 
@@ -262,11 +264,10 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $revModuleProperties->level = $module->level;
             $revModuleProperties->hours_in_day = $module->hours_in_day;
             $revModuleProperties->days_in_week = $module->days_in_week;
-            $revModuleProperties->rating = $module->rating;
             $revModuleProperties->module_number = $module->module_number;
             $revModuleProperties->cancelled = $module->cancelled;
-            $revModuleProperties->status = $module->status;
-            $revModuleProperties->price_offline = $module->price_offline;
+            $revModuleProperties->status_online = $module->status_online;
+            $revModuleProperties->status_offline = $module->status_offline;
             $revModuleProperties->start_date = new CDbExpression('NOW()');
             $revModuleProperties->id_user_created = $user->getId();
             $revModuleProperties->id_user = $user->getId();
@@ -613,7 +614,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $module->level = $this->properties->level;
         $module->hours_in_day = $this->properties->hours_in_day;
         $module->days_in_week = $this->properties->days_in_week;
-        $module->status = 1;
+        $module->status_online = $this->properties->status_online;
+        $module->status_offline = $this->properties->status_offline;
         $module->update();
     }
 
@@ -651,7 +653,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
     public static function canCreateModuleRevisions($idModule)
     {
-        return Yii::app()->user->model->isContentManager() || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
+        $idRevision=Module::model()->findByPk($idModule)->id_organization;
+        return Yii::app()->user->model->isContentManager($idRevision) || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
     }
 
     public static function getModuleRevisionsAuthors($idModule=null) {
@@ -685,7 +688,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $status=array();
 
         $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
-        $isApprover=Yii::app()->user->model->canApprove();
+        $isApprover=Yii::app()->user->model->canApprove($this->id_module);
 
         $status['canEdit'] =  $status['canCancelEdit'] = $status['canSend'] =$isRevisionCreator && $this->isEditable();
         $status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();
@@ -695,5 +698,21 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $status['canRelease'] = $isApprover && $this->isReleaseable();
 
         return $status;
+    }
+
+    public function canApprove() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canRejectRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+    }
+
+    public function canReleaseRevision() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isReleaseable());
+    }
+
+    public function canCancel() {
+        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isCancellable());
     }
 }

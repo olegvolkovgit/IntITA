@@ -135,7 +135,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $this->id_teacher = $user->id;
         $this->author = $user;
         $this->teacher = $user;
-        $this->receivers = MessageReceiver::requestsReceiversArray();
+        $this->receivers = MessageReceiver::requestsReceiversArray($module->id_organization);
     }
 
     public function create()

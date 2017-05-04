@@ -67,14 +67,12 @@ class TeachersController extends Controller
 
     private function renderIndex($teacherLetter)
     {
-
         $dataProvider = Teacher::getTeacherAsPrint();
         $teachers = Teacher::getAllTeachersId();
         $this->render('index', array(
             'post' => $dataProvider,
             'teachers' => $teachers,
             'teacherletter' => $teacherLetter
-
         ));
 
     }

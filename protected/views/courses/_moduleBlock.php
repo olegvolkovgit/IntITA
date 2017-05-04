@@ -48,9 +48,23 @@
         </div>
         <!--Стан модуля-->
         <div class="courseStatusBox">
-            <?php echo Yii::t('module', '0893'); ?>:
-            <span id="courseStatus<?php echo $data->status; ?>">
-                <?php if ($data->status == Module::DEVELOP) { ?>
+<!--            --><?php //echo Yii::t('module', '0893'); ?><!--:-->
+            Стан онлайн:
+            <span id="courseStatus<?php echo $data->status_online; ?>">
+                <?php if ($data->status_online == Module::DEVELOP) { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                    <?php echo Yii::t('courses', '0230');
+                } else { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                    <?php echo Yii::t('courses', '0231');
+                } ?>
+            </span>
+        </div>
+        <div class="courseStatusBox">
+<!--            --><?php //echo Yii::t('module', '0893'); ?><!--:-->
+            Стан офлайн:
+            <span id="courseStatus<?php echo $data->status_offline; ?>">
+                <?php if ($data->status_offline == Module::DEVELOP) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
                     <?php echo Yii::t('courses', '0230');
                 } else { ?>
@@ -71,7 +85,7 @@
         </div>
         <div class="moduleRating">
             <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-            <?php echo CommonHelper::getRating($data->rating); ?>
+            <?php echo CommonHelper::getRating($data->getAverageRating()); ?>
         </div>
     </div>
 </div>

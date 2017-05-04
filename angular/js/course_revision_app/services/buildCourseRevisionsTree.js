@@ -51,10 +51,11 @@ angular
                 return promise;
             };
             
-            this.getAllCoursesRevisionsJson = function() {
+            this.getAllCoursesRevisionsJson = function(data) {
                 var promise = $http({
                     url: basePath+'/courseRevision/buildAllCoursesRevisions',
                     method: "POST",
+                    data: $.param({organization: data.organization}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;

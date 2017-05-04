@@ -14,10 +14,12 @@ class TeacherConsultant extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role teacher consultant.
      */
-    public function checkRoleSql(){
-        return 'select "teacher_consultant" from user_teacher_consultant utc where utc.id_user = :id and end_date IS NULL';
+    public function checkRoleSql($organization=null){
+        $condition=$organization?' and utc.id_organization='.$organization:'';
+        return 'select "teacher_consultant" from user_teacher_consultant utc where utc.id_user = :id and utc.end_date IS NULL'.$condition;
     }
 
     public function getErrorMessage()
@@ -30,7 +32,7 @@ class TeacherConsultant extends Role
         return "Викладач";
     }
 
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         if ($this->user == null)
             $this->user = $user;
@@ -84,21 +86,28 @@ class TeacherConsultant extends Role
 
     private function loadModules()
     {
+        $organization=Yii::app()->user->model->getCurrentOrganizationId();
         $records = Yii::app()->db->createCommand()
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date, m.cancelled')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
-            ->where('id_teacher=:id AND tcm.end_date IS NULL', array(':id' => $this->user->id))
+            ->join('user_teacher_consultant utc', 'utc.id_user=tcm.id_teacher')
+            ->where('id_teacher=:id AND tcm.end_date IS NULL and utc.end_date IS NULL and utc.id_organization=:id_org 
+            and m.id_organization=:id_org', array(':id' => $this->user->id, ':id_org'=>$organization))
             ->queryAll();
 
         return $records;
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user)
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
         return true;
     }
-    
+
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return true;
+    }
+
     public function checkBeforeSetAttribute(StudentReg $user){
         $user = RegisteredUser::userById($user->id);
         if($user->isTeacherConsultant())
@@ -109,20 +118,36 @@ class TeacherConsultant extends Role
         }
     }
 
+    public function checkBeforeUnsetAttribute($userId, $module){
+        $user = RegisteredUser::userById($userId);
+        $model=Module::model()->findByPk($module);
+
+        if(!$user->isTeacherConsultant() || $model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+            $this->errorMessage="Ти не можеш скасувати модуль викладачу в межах даної організації";
+            return false;
+        }
+        return true;
+    }
+
     public function cancelAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'module':
-                if(Yii::app()->db->createCommand()->
-                update('teacher_consultant_module', array(
-                    'end_date' => date("Y-m-d H:i:s"),
-                ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value))){
-                    $user->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelModule',
-                        array(Module::model()->findByPk($value)),
-                        'Скасовано модуль');
-                    return true;
+                if($this->checkBeforeUnsetAttribute($user->id, $value)) {
+                    if (Yii::app()->db->createCommand()->
+                    update('teacher_consultant_module', array(
+                        'end_date' => date("Y-m-d H:i:s"),
+                    ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value))
+                    ) {
+                        $user->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelModule',
+                            array(Module::model()->findByPk($value)),
+                            'Скасовано модуль', Yii::app()->user->getId());
+                        return true;
+                    } else {
+                        $this->errorMessage = "Скасувати модуль не вдалося";
+                        return false;
+                    }
                 }else{
-                    $this->errorMessage="Скасувати модуль не вдалося";
                     return false;
                 }
                 break;
@@ -132,7 +157,7 @@ class TeacherConsultant extends Role
         }
     }
 
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";
@@ -142,8 +167,10 @@ class TeacherConsultant extends Role
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+        $criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
         $criteria->join .= ' LEFT JOIN user_teacher_consultant u ON u.id_user = s.id';
-        $criteria->addCondition('t.user_id IS NOT NULL and (u.id_user IS NULL or u.end_date IS NOT NULL)');
+        $criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+        and (u.id_user IS NULL or u.end_date IS NOT NULL or (u.end_date IS NULL and u.id_organization!='.$organization.'))');
         $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
@@ -192,23 +219,19 @@ class TeacherConsultant extends Role
 
     public function setStudentAttribute(StudentReg $teacher, $student, $module)
     {
-       // if ($this->checkStudent($student, $module)) {
-            if (Yii::app()->db->createCommand()->
-            insert('teacher_consultant_student', array(
-                'id_teacher' => $teacher->id,
-                'id_module' => $module,
-                'id_student' => $student
-            ))){
-                $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_assignNewStudent', array(
-                    StudentReg::model()->findByPk($student),
-                    Module::model()->findByPk($module)
-                ), 'Призначено нового студента');
-                return true;
-            }
-            return false;
-//        } else {
-//            return false;
-//        }
+        if (Yii::app()->db->createCommand()->
+        insert('teacher_consultant_student', array(
+            'id_teacher' => $teacher->id,
+            'id_module' => $module,
+            'id_student' => $student
+        ))){
+            $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_assignNewStudent', array(
+                StudentReg::model()->findByPk($student),
+                Module::model()->findByPk($module)
+            ), 'Призначено нового студента', Yii::app()->user->getId());
+            return true;
+        }
+        return false;
     }
 
 
@@ -223,6 +246,11 @@ class TeacherConsultant extends Role
 
     public function checkModule($teacher, $module)
     {
+        $model=Module::model()->findByPk($module);
+        if($model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id) {
+            $this->errorMessage="Викладачу не можна призначити модуль, який не належить його організації";
+            return true;
+        }
         if (empty(Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module=' . $module .
                 ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
             return false;
@@ -258,6 +286,8 @@ class TeacherConsultant extends Role
      */
     public function checkCancelStudent($teacher, $module, $student)
     {
+        if(Module::model()->findByPk($module)->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id)
+            return false;
         if (Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module=' . $module .
                 ' and id_teacher=' . $teacher . ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar() == 0
         ) {
@@ -278,13 +308,13 @@ class TeacherConsultant extends Role
             $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelStudent', array(
                 StudentReg::model()->findByPk($student),
                 Module::model()->findByPk($module)
-            ), 'Скасовано студента');
+            ), 'Скасовано студента', Yii::app()->user->getId());
             return true;
         }
         return false;
     }
 
-    public static function teacherConsultantsByQuery($query){
+    public static function teacherConsultantsByQuery($query, $organization){
         $criteria = new CDbCriteria();
         $criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
@@ -292,8 +322,11 @@ class TeacherConsultant extends Role
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->join = 'LEFT JOIN user_teacher_consultant utc ON utc.id_user = s.id';
-        $criteria->addCondition('utc.id_user IS NOT NULL and utc.end_date IS NULL');
+        $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+        $criteria->join .= ' LEFT JOIN teacher_organization tco on tco.id_user=s.id';
+        $criteria->join .= ' LEFT JOIN user_teacher_consultant utc ON utc.id_user = s.id';
+        $criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+		and utc.id_user IS NOT NULL and utc.end_date IS NULL and utc.id_organization='.$organization);
         $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
@@ -322,7 +355,8 @@ class TeacherConsultant extends Role
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
-            ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel', array(
+            ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel 
+            and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id, array(
                 ':id' => $teacher->id,
                 ':isCancel' => Module::ACTIVE
             ))
@@ -336,14 +370,35 @@ class TeacherConsultant extends Role
         $criteria = new CDbCriteria();
         $criteria->alias = 's';
         $criteria->join = 'left join teacher_consultant_student tcs on tcs.id_student = s.id';
-        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL');
+        $criteria->join .= ' left join module m on m.module_ID = tcs.id_module';
+        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL 
+        and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->group = 's.id';
 
         return StudentReg::model()->findAll($criteria);
     }
 
+    public function activeStudentsModules(StudentReg $teacher){
+        $records = Yii::app()->db->createCommand()
+            ->select('tcs.id_student, tcs.id_module, 
+            u.firstName, u.secondName, u.email, m.title_ua, m.language')
+            ->from('teacher_consultant_student tcs')
+            ->leftJoin('user u', 'u.id=tcs.id_student')
+            ->leftJoin('module m', 'm.module_ID=tcs.id_module')
+            ->where('tcs.id_teacher=:id_teacher and tcs.end_date IS NULL 
+            and m.id_organization=:id_org and u.cancelled=:u_status',
+                array(
+                    ':id_teacher'=>$teacher->id,
+                    ':id_org' =>Yii::app()->user->model->getCurrentOrganization()->id,
+                    ':u_status' => StudentReg::ACTIVE,
+                    ),'')
+            ->queryAll();
+
+        return $records;
+    }
+
     public function notify(StudentReg $user, $idModule){
-        $user->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля');
+        $user->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля', Yii::app()->user->getId());
     }
 
     function getMembers($criteria = null)
@@ -352,7 +407,7 @@ class TeacherConsultant extends Role
     }
 
     //cancel teacher_consultant role
-    public function cancelRole(StudentReg $user)
+    public function cancelRole(StudentReg $user, $organizationId = null)
     {
         if(!$this->checkBeforeDeleteRole($user)){
             return false;

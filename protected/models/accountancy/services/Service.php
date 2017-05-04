@@ -13,10 +13,12 @@
  * The followings are the available model relations:
  * @property CourseService $courseServices
  * @property ModuleService $moduleServices
+ * @property CorporateEntity $corporateEntity
  */
 class Service extends CActiveRecord {
-    const COURSE=1;
-    const MODULE=2;
+    const COURSE = 1;
+    const MODULE = 2;
+
     /**
      * @return string the associated database table name
      */
@@ -49,6 +51,8 @@ class Service extends CActiveRecord {
         return array(
             'courseServices' => array(self::HAS_ONE, 'CourseService', 'service_id'),
             'moduleServices' => array(self::HAS_ONE, 'ModuleService', 'service_id'),
+            'corporateEntityService' => [self::HAS_ONE, 'CorporateEntityService', 'serviceId', 'on' => 'corporateEntityService.deletedAt IS NULL OR corporateEntityService.deletedAt > NOW()'],
+            'corporateEntity' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityService']
         );
     }
 

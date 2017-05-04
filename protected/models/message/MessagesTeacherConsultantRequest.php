@@ -142,7 +142,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         $this->id_teacher = $teacher->id;
         $this->author = $user;
         $this->teacher = $teacher;
-        $this->receivers = MessageReceiver::requestsReceiversArray();
+        $this->receivers = MessageReceiver::requestsReceiversArray($module->id_organization);
     }
 
     public function create()

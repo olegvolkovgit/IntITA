@@ -48,7 +48,7 @@ class LessonController extends Controller
 
         $this->initialize($id, $idCourse);
 
-        $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->isAdmin());
+        $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->hasAccessToContent($lecture->module));
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
@@ -75,11 +75,8 @@ class LessonController extends Controller
 
         $this->setUserLastLink();
 
-        if($lecture->verified) {
-            $view='indexTemplate';
-        } else $view='index1';
-
-        $this->render($view, array(
+        $this->render('index', array(
+            'isVerified'=>$lecture->verified,
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
@@ -406,15 +403,144 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->createUrl("lesson/index", array('id' => $id, 'idCourse' => $idCourse, 'page' => $nextPage)));
     }
 
-    public function actionNextLecture($lectureId, $idCourse = 0)
+    public function actionNextLecture()
     {
+        $lectureId = $_POST ["params"]["lecture_id"];
+        $idCourse = $_POST ["params"]["courses_id"];
+        $revisions = RevisionLecture::getParentRevisionForLecture($lectureId);
         $lecture = Lecture::model()->findByPk($lectureId);
-        if ($lecture->order < $lecture->lastLectureOrder()) {
-            $nextId = $lecture->nextLectureId();
-            $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse)));
-        } else {
-            $this->redirect($_SERVER["HTTP_REFERER"]);
+        $understand_rating = $_POST['params']['ratings']['ratings']['0']['rate'];
+        $interesting_rating = $_POST['params']['ratings']['ratings']['1']['rate'];
+        $accessibility_rating = $_POST['params']['ratings']['ratings']['2']['rate'];
+        $id_user = Yii::app()->user->getId();
+
+        $isRatingExist = LecturesRating::model()->exists('id_user=:id_user and `id_lecture`=:id_lecture and                                                                             `id_revision`=:id_revision',
+                                                        array('id_user'=> $id_user,
+                                                              'id_lecture' => $lectureId,
+                                                              'id_revision' => $revisions->id_revision
+                                                            ));
+        if($isRatingExist){
+                // rewrite rating in LectureRating
+            $oldRating = LecturesRating::model()->findByAttributes(array('id_user'=> $id_user, 'id_lecture' => $lectureId));
+            $oldRating->understand_rating = $understand_rating;
+            $oldRating->interesting_rating = $interesting_rating;
+            $oldRating->accessibility_rating = $accessibility_rating;
+
+            if($understand_rating < 5 || $interesting_rating < 5 || $accessibility_rating < 5){
+                if(isset($_POST['params']['ratings']['comment'])){
+                    $oldRating->comment = $_POST['params']['ratings']['comment'];
+                }
+            }else{
+                $oldRating->comment = NULL;
+            }
+            $oldRating->save();
+
+            $lecture->updateRatingLectures($understand_rating, 'understand_rating');
+            $lecture->updateRatingLectures($interesting_rating, 'interesting_rating');
+            $lecture->updateRatingLectures($accessibility_rating, 'accessibility_rating');
+        }else if($understand_rating != 0 || $interesting_rating != 0 || $accessibility_rating != 0) {
+                // save new rating in LectureRating
+            $modelRating = new LecturesRating;
+            $modelRating->id_lecture = $lectureId;
+            $modelRating->understand_rating = $understand_rating;
+            $modelRating->interesting_rating = $interesting_rating;
+            $modelRating->accessibility_rating = $accessibility_rating;
+            $modelRating->id_user = $id_user;
+            $modelRating->id_revision = $revisions->id_revision;
+
+            if(isset($_POST['params']['ratings']['comment'])){
+                $modelRating->comment = $_POST['params']['ratings']['comment'];
+            }
+            $modelRating->save();
+
+            $lecture->updateRatingLectures($understand_rating, 'understand_rating');
+            $lecture->updateRatingLectures($interesting_rating, 'interesting_rating');
+            $lecture->updateRatingLectures($accessibility_rating, 'accessibility_rating');
         }
+//        var_dump($modelRating->validate());die;
+
+        if(Yii::app()->request->isAjaxRequest){
+            $data=array();
+            if ($lecture->order < $lecture->lastLectureOrder()) {
+                $nextId = $lecture->nextLectureId();
+                $data['url'] = Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse));
+                echo json_encode($data);
+                // $lecture = Lecture::model()->updateByPk($idLecture, array('order' => 0));  // *** обновление старого поля
+            } else {
+                echo $_SERVER["HTTP_REFERER"];
+            }
+        }else{
+            if ($lecture->order < $lecture->lastLectureOrder()) {
+                $nextId = $lecture->nextLectureId();  // old
+                $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse)));  // old
+            } else {
+                $this->redirect($_SERVER["HTTP_REFERER"]);  // old
+            }
+        }
+    }
+
+    public function actionAverageRatingLecture($idModule)
+    {
+        echo Lecture::getAverageRatingLecture($idModule);
+    }
+
+    public function actionAverageRatingModule()
+    {
+        $idModule = $_POST['idModule'];
+        echo Lecture::getAverageRatingModule($idModule);
+    }
+
+    public function actionSaveRatingModule(){
+        $data = array_filter($_POST);
+        $idModule = $data['params']['idModule'];
+        $understand_rating = $data['params']['ratings']['ratings']['0']['rate'];
+        $interesting_rating = $data['params']['ratings']['ratings']['1']['rate'];
+        $accessibility_rating = $data['params']['ratings']['ratings']['2']['rate'];
+        $module = Module::model()->findByPk($idModule);
+        $id_user = Yii::app()->user->getId();
+
+        $isRatingExist = ModuleRating::model()->exists('id_module=:id_module and `id_module_revision`=:id_module_revision and                                                           `id_user`=:id_user',
+                                                       array('id_module' => $idModule,
+                                                             'id_module_revision' => $module->id_module_revision,
+                                                             'id_user' => $id_user
+                                                           ));
+
+        if($isRatingExist){
+            $oldRating = ModuleRating::model()->findByAttributes(array('id_user'=>$id_user, 'id_module'=>$idModule));
+            $oldRating->understand_rating = $understand_rating;
+            $oldRating->interesting_rating = $interesting_rating;
+            $oldRating->accessibility_rating = $accessibility_rating;
+
+            if($understand_rating < 5 || $interesting_rating < 5 || $accessibility_rating < 5){
+                if(isset($_POST['params']['ratings']['comment'])){
+                    $oldRating->comment = $_POST['params']['ratings']['comment'];
+                }
+            }else{
+                $oldRating->comment = NULL;
+            }
+            $oldRating->save();
+
+        }else if($understand_rating != 0 || $interesting_rating != 0 || $accessibility_rating != 0){
+            $moduleRating = new ModuleRating;
+            $moduleRating->id_user = $id_user;
+            $moduleRating->id_module = $idModule;
+            $moduleRating->understand_rating = $understand_rating;
+            $moduleRating->interesting_rating = $interesting_rating;
+            $moduleRating->accessibility_rating = $accessibility_rating;
+            $moduleRating->id_module_revision = $module->id_module_revision;
+
+            if(isset($_POST['params']['ratings']['comment'])){
+                $moduleRating->comment = $_POST['params']['ratings']['comment'];
+            }
+
+            $moduleRating->save();
+        }
+    }
+
+    public function actionGetOldRating($id_lecture)
+    {
+        $id_user = Yii::app()->user->getId();
+        echo Lecture::getRatingData($id_lecture, $id_user);
     }
 
     public function actionUpdateLectureAttribute()

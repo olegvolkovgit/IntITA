@@ -67,11 +67,11 @@ class NgTableAdapter {
 
     /**
      * NgTableAdapter constructor.
-     * @param CActiveRecord|string $activeRecord
+     * @param {CActiveRecord|string} $activeRecord
      * @param array $requestParams
      * @param array $modelsBehaviours
      */
-    public function __construct($activeRecord = null, $requestParams = null, $modelsBehaviours = []) {
+    public function __construct($activeRecord = null, $requestParams = [], $modelsBehaviours = []) {
         $this->setModelBehaviours($modelsBehaviours);
         $this->setActiveRecord($activeRecord);
         $this->setRequestParams($requestParams);
@@ -131,7 +131,7 @@ class NgTableAdapter {
      * @param array $requestParams
      */
     private function setRequestParams($requestParams) {
-        $this->requestParams = $requestParams;
+        $this->requestParams = filter_var_array($requestParams, FILTER_SANITIZE_STRING);
         $this->page = key_exists('page', $this->requestParams) ? $this->requestParams['page'] : self::DEFAULT_PAGE;
         $this->count = key_exists('count', $this->requestParams) ? $this->requestParams['count'] : self::DEFAULT_COUNT;
         $this->offset = $this->page * $this->count - $this->count;

@@ -7,9 +7,35 @@ class CabinetController extends TeacherCabinetController
         return !Yii::app()->user->isGuest;
     }
 
-    public function actionIndex($scenario = "dashboard", $receiver = 0, $course = 0, $module = 0)
+    public function initialize()
+    {
+        $app = Yii::app();
+        $organizations=Yii::app()->user->model->getOrganizations();
+        if(!$organizations) {
+            unset(Yii::app()->session['organization']);
+            $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
+        }
+
+        if(count($organizations)>1 && !isset($app->session['organization'])){
+            $this->render('set_organization');
+            die();
+        }else if(count($organizations)>1 && isset($app->session['organization'])){
+            $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('organizationId'=>$app->session['organization'])));
+        }else{
+            $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('organizationId'=>$organizations[0])));
+        }
+    }
+
+    public function actionIndex($organizationId = 0, $scenario = "dashboard", $receiver = 0, $course = 0, $module = 0)
     {
         $model = Yii::app()->user->model;
+
+        if($organizationId && $model->hasOrganizationById($organizationId)){
+            Yii::app()->session->add('organization', $organizationId);
+        }else if($organizationId || Yii::app()->user->model->getOrganizations()){
+            $this->initialize();
+        }
+ 
         if ($course != 0 || $module != 0) {
             if (!$model->isStudent()) {
                 UserStudent::addStudent($model->registrationData);
@@ -153,23 +179,23 @@ class CabinetController extends TeacherCabinetController
         } else $roles = $inRole;
 
         foreach ($roles as $role) {
-            switch ($role) {
-                case "trainer":
-                case "author":
-                case 'consultant':
-                case 'student':
-                case 'tenant':
-                case 'content_manager':
-                case 'teacher_consultant':
-                case 'admin':
-                case 'accountant':
-                case 'supervisor':
+//            switch ($role) {
+//                case "trainer":
+//                case "author":
+//                case 'consultant':
+//                case 'student':
+//                case 'tenant':
+//                case 'content_manager':
+//                case 'teacher_consultant':
+//                case 'admin':
+//                case 'accountant':
+//                case 'supervisor':
                     $this->renderDashboard($role, $user);
-                    break;
-                default:
-                    throw new CHttpException(400, 'Неправильно вибрана роль!');
-                    break;
-            }
+//                    break;
+//                default:
+//                    throw new CHttpException(400, 'Неправильно вибрана роль!');
+//                    break;
+//            }
         }
     }
 
@@ -199,20 +225,22 @@ class CabinetController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
-    public function actionAuthorsByQuery($query)
+    public function actionAuthorsByQuery($query, $organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         if ($query) {
-            $authors = UserAuthor::authorsList($query);
+            $authors = UserAuthor::authorsList($query, $organization);
             echo $authors;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 
-    public function actionModulesByQuery($query)
+    public function actionModulesByQuery($query, $organization=null)
     {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
         if ($query) {
-            $modules = Module::allModules($query);
+            $modules = Module::allModules($query, $organization);
             echo $modules;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
@@ -229,9 +257,20 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
-    public function actionCoursesByQuery($query)
+    public function actionStudentsWithoutTrainerByQuery($query)
     {
-        echo Course::readyCoursesList($query);
+        if ($query) {
+            $users = UserStudent::studentWithoutTrainerByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+    
+    public function actionCoursesByQuery($query, $organization=null)
+    {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        echo Course::readyCoursesList($query, $organization);
     }
     
     public function actionModulesTitleById()
@@ -246,9 +285,10 @@ class CabinetController extends TeacherCabinetController
         echo json_encode($result);
     }
 
-    public function actionTeacherConsultantsByQuery($query)
+    public function actionTeacherConsultantsByQuery($query, $organization=null)
     {
-        echo TeacherConsultant::teacherConsultantsByQuery($query);
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        echo TeacherConsultant::teacherConsultantsByQuery($query, $organization);
     }
 
     public function actionConsultantsByQuery($query)
@@ -266,6 +306,19 @@ class CabinetController extends TeacherCabinetController
         if ($query) {
             $users = StudentReg::usersNotTeacherByQuery($query);
             echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionUsersAddForm($role, $query, $organization=null)
+    {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+
+        $roleModel = Role::getInstance(new UserRoles($role));
+  
+        if ($query && $roleModel) {
+            echo $roleModel->addRoleFormList($query, $organization);
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
@@ -364,5 +417,14 @@ class CabinetController extends TeacherCabinetController
         $token = urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, Yii::app()->params['secretKey'], $test, MCRYPT_MODE_ECB)));
         $this->redirect(Config::getRoundcubeAddress().'/?intitaLogon='.$token);
     }
-    
+
+    public function actionRedirectToCabinet(){
+        $organizationId= Yii::app()->request->getPost('organization');
+        $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index', array('organizationId'=>$organizationId)));
+    }
+
+    public function actionChangeOrganization(){
+        unset(Yii::app()->session['organization']);
+        $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
+    }
 }

@@ -10,9 +10,8 @@
  * @property string $title_ua
  * @property string $title_ru
  * @property string $title_en
- * @property integer $modules_count
- * @property string $course_price
- * @property integer $status
+ * @property integer $status_online
+ * @property integer $status_offline
  * @property string $for_whom_ua
  * @property string $what_you_learn_ua
  * @property string $what_you_get_ua
@@ -27,16 +26,19 @@
  * @property integer $level
  * @property integer $cancelled
  * @property integer $course_number
- *
+ * @property integer $id_organization
+ * 
  * The followings are the available model relations:
- * @property Module[] $modules
- * @property Module $module
+ * @property CourseModules $module
  * @property Level $level0
  * @property CourseService $courseServiceOffline
  * @property CourseService $courseServiceOnline
+ * @property Organization $organization
  */
-class Course extends CActiveRecord implements IBillableObject
-{
+class Course extends CActiveRecord implements IBillableObject, IServiceableWithEducationForm {
+
+    use withToArray;
+
     const MAX_LEVEL = 5;
     const AVAILABLE = 0;
     const DELETED = 1;
@@ -60,11 +62,11 @@ class Course extends CActiveRecord implements IBillableObject
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
-            array('course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
+            array('language, title_ua, title_ru, title_en, alias, id_organization', 'required', 'message' => Yii::t('coursemanage', '0387')),
+            array('cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
             array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
-            array('alias, course_price', 'length', 'max' => 20),
+            array('alias', 'length', 'max' => 20),
             array('alias, course_number', 'unique', 'message' => Yii::t('course', '0740')),
             array('language', 'length', 'max' => 6),
             array('title_ua, title_ru, title_en', 'length', 'max' => 100),
@@ -75,10 +77,10 @@ class Course extends CActiveRecord implements IBillableObject
             array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('start', 'date', 'format' => 'yyyy-MM-dd', 'message' => Yii::t('coursemanage', '0389')),
             array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
-			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
+			for_whom_en, what_you_learn_en, what_you_get_en, level, start, status_online, status_offline, review, rating, id_organization', 'safe'),
             // The following rule is used by search().
-            array('course_ID,alias, language, title_ua, title_ru, title_en, modules_count,
-			course_price, status, for_whom_ua, what_you_learn_ua,what_you_get_ua,
+            array('course_ID,alias, language, title_ua, title_ru, title_en, 
+            status_online, status_offline, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
 			 course_img, cancelled, course_number', 'safe', 'on' => 'search'),
         );
@@ -89,15 +91,38 @@ class Course extends CActiveRecord implements IBillableObject
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return array(
-            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)',
-                                                'order' => 'module.order ASC'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)', 'order' => 'module.order ASC','with' => 'moduleInCourse'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
+
+            'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE],
+            'corporateEntityServicesOffline' => [
+                self::HAS_MANY,
+                'CorporateEntityService',
+                ['service_id' => 'serviceId'],
+                'through' => 'courseServiceOffline',
+                'on' => 'corporateEntityServicesOffline.deletedAt IS NULL OR corporateEntityServicesOffline.deletedAt > NOW()'],
+            'corporateEntityOffline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOffline'],
+
             'courseServiceOnline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOnline.education_form='.EducationForm::ONLINE],
-            'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE]
+            'corporateEntityServicesOnline' => [
+                self::HAS_MANY,
+                'CorporateEntityService',
+                ['service_id' => 'serviceId'],
+                'through' => 'courseServiceOnline',
+                'on' => 'corporateEntityServicesOnline.deletedAt IS NULL OR corporateEntityServicesOnline.deletedAt > NOW()'],
+            'corporateEntityOnline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOnline']
         );
+    }
+
+    protected function beforeValidate()
+    {
+        if($this->isNewRecord){
+            $this->id_organization=Yii::app()->user->model->getCurrentOrganization()->id;
+        }
+
+        return parent::beforeValidate();
     }
 
     /**
@@ -112,8 +137,6 @@ class Course extends CActiveRecord implements IBillableObject
             'title_ua' => Yii::t('course', '0401'),
             'title_ru' => Yii::t('course', '0744'),
             'title_en' => Yii::t('course', '0743'),
-            'modules_count' => Yii::t('course', '0403'),
-            'course_price' => Yii::t('course', '0404'),
             'for_whom_ua' => Yii::t('course', '0405') . " (UA)",
             'what_you_learn_ua' => Yii::t('course', '0406') . " (UA)",
             'what_you_get_ua' => Yii::t('course', '0407') . " (UA)",
@@ -126,9 +149,14 @@ class Course extends CActiveRecord implements IBillableObject
             'course_img' => Yii::t('course', '0408'),
             'level' => Yii::t('course', '0409'),
             'start' => Yii::t('course', '0410'),
-            'status' => Yii::t('course', '0411'),
+//            'status' => Yii::t('course', '0411'),
+            'status_online' => 'Онлайн-статус',
+            'status_offline' => 'Офлайн-статус',
             'cancelled' => Yii::t('course', '0741'),
-            'course_number' => Yii::t('course', '0742'),
+//          'course_number' => Yii::t('course', '0742')
+            'course_number' => 'Унікальний ідентифікатор, використовується при генерації номера договора про оплату курса.',
+
+            'id_organization' => 'Id організації',
         );
     }
 
@@ -155,8 +183,6 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('title_ua', $this->title_ua, true);
         $criteria->compare('title_ru', $this->title_ru, true);
         $criteria->compare('title_en', $this->title_en, true);
-        $criteria->compare('modules_count', $this->modules_count);
-        $criteria->compare('course_price', $this->course_price, true);
         $criteria->compare('for_whom_ua', $this->for_whom_ua, true);
         $criteria->compare('what_you_learn_ua', $this->what_you_learn_ua, true);
         $criteria->compare('what_you_get_ua', $this->what_you_get_ua, true);
@@ -168,8 +194,10 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('what_you_get_en', $this->what_you_get_en, true);
         $criteria->compare('course_img', $this->course_img, true);
         $criteria->compare('cancelled', $this->cancelled, true);
-        $criteria->compare('status', $this->status, true);
+        $criteria->compare('status_online', $this->status_online, true);
+        $criteria->compare('status_offline', $this->status_offline, true);
         $criteria->compare('course_number', $this->course_number);
+        $criteria->compare('id_organization', $this->id_organization);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -330,7 +358,6 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->toArray();
 
         $modules = CourseModules::model()->findAll($criteria);
-
         $modules = CourseModules::sortByModuleDuration($idCourse, $modules);
         return $modules;
     }
@@ -380,9 +407,14 @@ class Course extends CActiveRecord implements IBillableObject
         return 'K';
     }
 
-    public static function getStatus($id)
+    public static function getStatus_online($id)
     {
-        return Course::model()->findByPk($id)->status;
+        return Course::model()->findByPk($id)->status_online;
+    }
+
+    public static function getStatus_offline($id)
+    {
+        return Course::model()->findByPk($id)->status_offline;
     }
 
     public static function generateCoursesList()
@@ -580,7 +612,9 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function selectModulesCount()
     {
-        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE,'status'=>Module::READY));
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='.Module::READY.')';
+        $modules = Module::model()->findAll($criteria);
         return count($modules);
     }
 
@@ -605,25 +639,8 @@ class Course extends CActiveRecord implements IBillableObject
         else return false;
     }
 
-    /**
-     * Returns modules count
-     * @param bool $reloadModules
-     * @return int
-     * @throws CDbException
-     */
-    public function getModuleCount($reloadModules = false) {
-        if ($this->module === null || $reloadModules) {
-            $this->getRelated("module");
-        }
+    public function getModuleCount() {
         return count($this->module);
-    }
-
-    /**
-     * Updates modules_count in model according to actual database
-     */
-    public function updateCount() {
-        $this->modules_count = $this->getModuleCount(true);
-        $this->update(array('modules_count'));
     }
 
     /**
@@ -659,8 +676,6 @@ class Course extends CActiveRecord implements IBillableObject
             $transaction->rollback();
             throw $e;
         }
-
-        $this->updateCount();
     }
 
     public static function coursesList(){
@@ -685,8 +700,11 @@ class Course extends CActiveRecord implements IBillableObject
         return json_encode($return);
     }
 
-    public function statusLabel(){
-        return ($this->isReady())?'готовий':'в розробці';
+    public function onlineStatusLabel(){
+        return ($this->isReadyOnline())?'готовий':'в розробці';
+    }
+    public function offlineStatusLabel(){
+        return ($this->isReadyOffline())?'готовий':'в розробці';
     }
 
     public function cancelledLabel(){
@@ -806,12 +824,14 @@ class Course extends CActiveRecord implements IBillableObject
         return $this->cancelled == Course::DELETED;
     }
 
-    public function isReady(){
-        return $this->status == Course::READY;
+    public function isReadyOnline(){
+        return $this->status_online == Course::READY;
     }
-
+    public function isReadyOffline(){
+        return $this->status_offline == Course::READY;
+    }
     public function isDeveloping(){
-        return $this->status == Course::DEVELOP;
+        return ($this->status_online == Course::DEVELOP && $this->status_offline == Course::DEVELOP);
     }
 
     public function changeStatus(){
@@ -840,7 +860,7 @@ class Course extends CActiveRecord implements IBillableObject
         return 'Доступ до курсу';
     }
 
-    public static function readyCoursesList($query){
+    public static function readyCoursesList($query, $organization){
         $criteria = new CDbCriteria();
         $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
         $criteria->alias = "s";
@@ -849,8 +869,9 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
-        $criteria->addCondition('cancelled=0');
-
+        $criteria->addCondition('s.cancelled=0');
+        if($organization) $criteria->addCondition('s.id_organization='.$organization);
+        
         $data = Course::model()->findAll($criteria);
 
         $result = array();
@@ -944,7 +965,8 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
         $criteria->join = ' left join course_languages cl on cl.lang_'.$lang.'=c.course_ID';
-        $criteria->addCondition('cl.lang_'.$currentCourseLang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
+        $criteria->addCondition('cl.lang_'.$currentCourseLang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'" 
+        and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
 
         $data = Course::model()->findAll($criteria);
         $result = array();
@@ -986,17 +1008,11 @@ class Course extends CActiveRecord implements IBillableObject
 
     /**
      * @param EducationForm $educationForm
-     * @return CourseService
+     * @return Service
      * @throws Exception
      */
-    private function getService($educationForm) {
-        if ($educationForm->isOnline()) {
-            return $this->courseServiceOnline;
-        } else if ($educationForm->isOffline()) {
-            return $this->courseServiceOffline;
-        } else {
-            throw new Exception('Unknown education form');
-        }
+    public function getService(EducationForm $educationForm) {
+        return CourseService::model()->getService($this->course_ID, $educationForm)->service;
     }
 
     /**

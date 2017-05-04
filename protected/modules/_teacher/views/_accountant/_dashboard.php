@@ -38,12 +38,10 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/accountant/company">Компанії</a>
-                    </li>
-                    <li>
-                        <a href="#/accountant/representative">Представники</a>
+                        <a ui-sref="accountant.company.list">Компанії</a>
                     </li>
                 </ul>
+                <br>
                 <br>
                 <br>
             </div>
@@ -87,13 +85,11 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/accountant/paymentSchemas/schemas/template">Шаблони схем</a>
-                    </li>
-                    <li>
                         <a href="#/accountant/paymentSchemas/schemas/apply">Застосувати шаблон схем</a>
                     </li>
                     <li>
-                        <a href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів схем</a>
+                        <a href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів
+                            схем</a>
                     </li>
                     <li>
                         <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion">
@@ -156,3 +152,5 @@
         </div>
     </div>
 </div>
+
+<ui-view></ui-view>

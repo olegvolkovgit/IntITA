@@ -18,9 +18,10 @@ class Student extends Role
     /**
      * @return string sql for check role student.
      */
-    public function checkRoleSql()
+    public function checkRoleSql($organization=null)
     {
-        return 'select "student" from user_student st where st.id_user = :id and end_date IS NULL';
+        $condition=$organization?' and st.id_organization='.$organization:'';
+        return 'select "student" from user_student st where st.id_user = :id and st.end_date IS NULL'.$condition;
     }
 
     public function getErrorMessage()
@@ -36,15 +37,15 @@ class Student extends Role
         return 'Студент';
     }
 
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         if (!$this->courses) {
-            $this->loadCourses($user);
+            $this->loadCourses($user, $organization);
         }
         $courses = $this->courses;
 
         if (!$this->modules) {
-            $this->loadModules($user);
+            $this->loadModules($user, $organization);
         }
         $modules = $this->modules;
 
@@ -64,22 +65,25 @@ class Student extends Role
         );
     }
 
-    private function loadCourses(StudentReg $user)
+    private function loadCourses(StudentReg $user, $organization=null)
     {
         $groupCourses=[];
         foreach ($user->offlineGroups as $group) {
-            $groupCourses=array_merge($groupCourses,$group->availableCoursesList());
+            $groupCourses=array_merge($groupCourses,$group->availableCoursesList($organization));
         }
 
         $now = new CDbExpression("NOW()");
+        $condition='sa.userId=' . $user->id.' and sa.endDate>='.$now;
+        if($organization) $condition=$condition.' and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $accessCourses= Yii::app()->db->createCommand()
             ->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en, 
-            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
             ->from('user_service_access sa')
             ->join('acc_course_service cs', 'cs.service_id=sa.serviceId')
             ->join('course c', 'c.course_ID=cs.course_id')
             ->join('level l', 'l.id=c.level')
-            ->where('sa.userId=' . $user->id.' and sa.endDate>='.$now)
+            ->join('organization org', 'org.id=c.id_organization')
+            ->where($condition)
             ->queryAll();
 
         $allCourses=array_merge($groupCourses,$accessCourses);
@@ -91,22 +95,25 @@ class Student extends Role
         $this->courses=$result;
     }
 
-    private function loadModules(StudentReg $user)
+    private function loadModules(StudentReg $user, $organization=null)
     {
         $groupModules=[];
         foreach ($user->offlineGroups as $group) {
-            $groupModules=array_merge($groupModules,$group->availableModulesList());
+            $groupModules=array_merge($groupModules,$group->availableModulesList($organization));
         }
 
         $now = new CDbExpression("NOW()");
+        $condition='sa.userId=' . $user->id.' and sa.endDate>='.$now;
+        if($organization) $condition=$condition.' and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $accessModules= Yii::app()->db->createCommand()
             ->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en, 
-            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, ')
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
             ->from('user_service_access sa')
             ->join('acc_module_service ms', 'ms.service_id=sa.serviceId')
             ->join('module m', 'm.module_ID=ms.module_id')
             ->join('level l', 'l.id=m.level')
-            ->where('sa.userId=' . $user->id.' and sa.endDate>='.$now)
+            ->join('organization org', 'org.id=m.id_organization')
+            ->where($condition)
             ->queryAll();
 
         $allModules=array_merge($groupModules,$accessModules);
@@ -135,13 +142,17 @@ class Student extends Role
         return false;
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user)
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
         return true;
     }
 
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return true;
+    }
+
     //not supported
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         return array();
     }
@@ -150,7 +161,7 @@ class Student extends Role
     {
         $records = Yii::app()->db->createCommand()
             ->select('module_ID id, CONCAT(IFNULL(u.secondName, ""), " ", IFNULL(u.firstName, ""), " ", IFNULL(u.middleName, ""),
-             ", ", IFNULL(u.email, "")) as teacherName')
+             " ", IFNULL(u.email, "")) as teacherName')
             ->from('module m')
             ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
             ->leftJoin('user u', 'u.id=tcs.id_teacher')
@@ -163,17 +174,31 @@ class Student extends Role
     }
 
     //not supported for this role
-    public function notifyAssignRole(StudentReg $user){
+    public function notifyAssignRole(StudentReg $user, $organization = null){
         return false;
     }
 
     //not supported for this role
-    public function notifyCancelRole(StudentReg $user){
+    public function notifyCancelRole(StudentReg $user, $organization = null){
         return false;
     }
 
     function getMembers($criteria = null)
     {
         return UserStudent::model()->findAll($criteria);
+    }
+
+    public function setRole(StudentReg $user, $organization)
+    {
+        if(Yii::app()->db->createCommand()->
+        insert($this->tableName(), array(
+            'id_user' => $user->id,
+            'assigned_by'=>Yii::app()->user->getId(),
+            'id_organization'=>$organization,
+        ))){
+            $this->notifyAssignRole($user, $organization);
+            return true;
+        }
+        return false;
     }
 }

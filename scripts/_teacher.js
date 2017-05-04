@@ -57,27 +57,6 @@ function deleteDialog(url, partner1, partner2) {
             "json"
         );
 }
-function editOffer(url, lang) {
-    $jq.ajax({
-        type: "POST",
-        url: url,
-        data: {
-            lang: lang,
-            text: $jq("#offerText").val()
-        },
-        cache: false,
-        success: function (response) {
-            bootbox.alert(response, loadTemplateIndex);
-        },
-        error: function () {
-            bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
-                adminEmail);
-        }
-    });
-}
-function loadTemplateIndex() {
-    load(basePath + '/_teacher/_accountant/template/index/', 'Шаблони, оферта')
-}
 
 function deleteMessage(url, receiver) {
     var command = {
@@ -568,7 +547,7 @@ function addCountry(url) {
         },
         async: true,
         success: function (response) {
-            bootbox.alert(response, load(basePath + '/_teacher/_admin/address/index', 'Країни, міста'));
+            bootbox.alert(response, load(basePath + '/_teacher/_super_admin/address/index', 'Країни, міста'));
         },
         error: function () {
             bootbox.alert("Операцію не вдалося виконати.");

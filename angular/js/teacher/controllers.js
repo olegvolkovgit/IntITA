@@ -10,15 +10,8 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('addressCtrl', addressCtrl);
-
-angular
-    .module('teacherApp')
     .controller('contentManagerCtrl', contentManagerCtrl);
 
-angular
-    .module('teacherApp')
-    .controller('moduleAddTeacherCtrl', moduleAddTeacherCtrl);
 angular
     .module('teacherApp')
     .controller('editTeacherRoleCtrl', editTeacherRoleCtrl);
@@ -34,6 +27,10 @@ angular
 angular
     .module('teacherApp')
     .controller('mainAccountantCtrl', mainAccountantCtrl);
+
+angular
+    .module('teacherApp')
+    .controller('teacherProfileCtrl', teacherProfileCtrl);
 
 function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
     //function back() redirect to prev link
@@ -163,23 +160,24 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     var usersTypeaheadUrl = basePath+'/_teacher/cabinet/usersByQuery';
     var coursesTypeaheadUrl = basePath+'/_teacher/cabinet/coursesByQuery';
     var usersNotTeacherTypeaheadUrl = basePath+'/_teacher/cabinet/usersNotTeacherByQuery';
-    var usersForRoleTypeaheadUrl = basePath+'/_teacher/_admin/users/usersAddForm';
+    var usersForRoleTypeaheadUrl = basePath+'/_teacher/cabinet/usersAddForm';
     var trainersTypeaheadUrl = basePath+'/_teacher/cabinet/trainers';
     var studentsTypeaheadUrl = basePath+'/_teacher/cabinet/studentsByQuery';
+    var studentsWithoutTrainerTypeaheadUrl = basePath+'/_teacher/cabinet/studentsWithoutTrainerByQuery';
     var teacherConsultantsByQueryAndModuleTypeaheadUrl = basePath+'/_teacher/cabinet/teacherConsultantsByQueryAndModule';
     var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
 
     $scope.getActiveUsers = function(value){
-        return typeAhead.getData(activeUsersTypeaheadUrl,{query : value})
+        return typeAhead.getData(activeUsersTypeaheadUrl,{query : value});
     };
     $scope.getTeachers = function(value){
-        return typeAhead.getData(teachersTypeaheadUrl,{query : value})
+        return typeAhead.getData(teachersTypeaheadUrl,{query : value});
     };
     $scope.getAuthors = function(value) {
-        return typeAhead.getData(authorsTypeaheadUrl,{query : value})
+        return typeAhead.getData(authorsTypeaheadUrl,{query : value});
     };
     $scope.getTeachersConsultant = function(value) {
-        return typeAhead.getData(teachersConsultantTypeaheadUrl,{query : value})
+        return typeAhead.getData(teachersConsultantTypeaheadUrl,{query : value});
     };
     $scope.getModules = function(value){
         return typeAhead.getData(moduleTypeaheadUrl,{query : value});
@@ -196,8 +194,8 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     $scope.getUsersNotTeacher = function(value){
         return typeAhead.getData(usersNotTeacherTypeaheadUrl,{query : value});
     };
-    $scope.getUsersForRole = function(role, value){
-        return typeAhead.getData(usersForRoleTypeaheadUrl,{role:role, query : value});
+    $scope.getUsersForRole = function(role, value, organization){
+        return typeAhead.getData(usersForRoleTypeaheadUrl,{role:role, query : value, organization:organization});
     };
     $scope.getTrainers = function(value){
         return typeAhead.getData(trainersTypeaheadUrl,{query : value});
@@ -210,6 +208,9 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     };
     $scope.getGroups = function(value){
         return typeAhead.getData(groupTypeaheadUrl,{query : value});
+    };
+    $scope.getStudentsWithoutTrainer = function(value){
+        return typeAhead.getData(studentsWithoutTrainerTypeaheadUrl,{query : value});
     };
 }
 
@@ -457,136 +458,8 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
     }
 }
 
-function addressCtrl($scope, $http, $resource, NgTableParams, $state) {
-    $scope.countriesTable = new NgTableParams({},
-    {
-        getData: function (params) {
-            return $resource(basePath + "/_teacher/_admin/address/getCountriesList").get(params.url()).$promise.then(function (data) {
-                params.total(data.count);
-                return data.rows;
-            });
-        }
-    });
-
-    $scope.citiesTable = new NgTableParams({},
-        {
-            getData: function (params) {
-                return $resource(basePath + "/_teacher/_admin/address/getCitiesList").get(params.url()).$promise.then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
-                });
-            }
-        }
-    );
-
-    $scope.editCity = function (url) {
-        country = $jq('#country').val();
-        if (country == 0) {
-            bootbox.alert('Виберіть країну.');
-        } else {
-            id = $jq('[name="id"]').val();
-            titleUa = $jq('[name="titleUa"]').val();
-            titleRu = $jq('[name="titleRu"]').val();
-            titleEn = $jq('[name="titleEn"]').val();
-
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({
-                    id: id,
-                    country: country,
-                    titleUa: titleUa,
-                    titleRu: titleRu,
-                    titleEn: titleEn
-                }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go("admin/address", {}, {reload: true});
-                });
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
-    };
-
-    $scope.addCity = function (url) {
-        country = $jq('#country').val();
-        if (country == 0) {
-            bootbox.alert('Виберіть країну.');
-        } else {
-            titleUa = $jq('[name="titleUa"]').val();
-            titleRu = $jq('[name="titleRu"]').val();
-            titleEn = $jq('[name="titleEn"]').val();
-
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({
-                    country: country,
-                    titleUa: titleUa,
-                    titleRu: titleRu,
-                    titleEn: titleEn
-                }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go("admin/address", {}, {reload: true});
-                });
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
-    }
-}
-
 function contentManagerCtrl($scope, $location) {
     $scope.changePageHeader('Контент менеджер');
-}
-
-
-function moduleAddTeacherCtrl($scope) {
-    var teachers = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/module/teachersByQuery?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (users) {
-                return $jq.map(users.results, function (user) {
-                    return {
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        url: user.url
-                    };
-                });
-            }
-        }
-    });
-    teachers.initialize();
-
-    $jq('#typeahead').typeahead(null, {
-
-            name: 'teachers',
-            display: 'email',
-            limit: 10,
-            source: teachers,
-            templates: {
-                empty: [
-                    '<div class="empty-message">',
-                    'немає користувачів з таким іменем або email\`ом',
-                    '</div>'
-                ].join('\n'),
-                suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
-            }
-        }
-    );
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
-        $jq("#user").val(item.id);
-    });
 }
 
 function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $stateParams, roleAttributeService) {
@@ -646,8 +519,7 @@ function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $statePar
                     if(response.data=='success'){
                         $scope.loadTeacherData($scope.userId, $scope.currentRole);
                         $scope.addUIHandlers('Операцію успішно виконано');
-                    }
-                    else $scope.addUIHandlers(response.data);
+                    } else $scope.addUIHandlers(response.data);
                     $scope.clearInputs();
                 }, function errorCallback(response) {
                     console.log(response);
@@ -663,6 +535,59 @@ function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $statePar
         if (attributeId && userId){
             roleAttributeService
                 .unsetRoleAttribute({
+                    'attribute': attribute,
+                    'attributeValue':attributeId,
+                    'role': role,
+                    'userId' : userId
+                })
+                .$promise
+                .then(function successCallback(response) {
+                    if(response.data=='success'){
+                        $scope.loadTeacherData($scope.userId, $scope.currentRole);
+                        $scope.addUIHandlers('Операцію успішно виконано');
+                    }
+                    else $scope.addUIHandlers(response.data);
+                }, function errorCallback(data) {
+                    console.log(data);
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+        }else{
+            bootbox.alert("Введено не всі дані");
+        }
+
+    };
+
+    // params: role, role's attribute, users's id, attribute's id
+    $scope.setTrainerRoleAttribute = function(role, attribute, userId, attributeId){
+        if (attributeId && userId){
+            roleAttributeService
+                .setTrainerRoleAttribute({
+                    'attribute': attribute,
+                    'attributeValue':attributeId,
+                    'role': role,
+                    'userId' : userId
+                })
+                .$promise
+                .then(function successCallback(response) {
+                    if(response.data=='success'){
+                        $scope.loadTeacherData($scope.userId, $scope.currentRole);
+                        $scope.addUIHandlers('Операцію успішно виконано');
+                    } else $scope.addUIHandlers(response.data);
+                    $scope.clearInputs();
+                }, function errorCallback(response) {
+                    console.log(response);
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+        }else{
+            bootbox.alert("Введено не всі дані");
+        }
+    };
+
+    // params: role, role's attribute, users's id, attribute's id
+    $scope.cancelTrainerRoleAttribute = function(role, attribute, userId, attributeId){
+        if (attributeId && userId){
+            roleAttributeService
+                .unsetTrainerRoleAttribute({
                     'attribute': attribute,
                     'attributeValue':attributeId,
                     'role': role,
@@ -732,4 +657,28 @@ function mainAccountantCtrl($rootScope, paymentSchemaService) {
     paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
         $rootScope.countOfActualSchemesRequests=response[0];
     });
+}
+
+function teacherProfileCtrl($scope, usersService, $state) {
+    $scope.changePageHeader('Профіль співробітника');
+    $scope.loadTeacherProfileData=function(){
+        var promise = usersService.teacherProfileData().$promise.then(
+            function successCallback(response) {
+                return response.data;
+            }, function errorCallback() {
+                bootbox.alert("Отримати дані профілю співробітника не вдалося");
+            });
+        return promise;
+    };
+    $scope.loadTeacherProfileData().then(function (data) {$scope.teacher=data});
+
+    $scope.updateTeacherProfile= function () {
+        usersService.updateTeacherProfile($scope.teacher).$promise.then(function (data) {
+            if (data.message === 'OK') {
+                bootbox.alert('Профіль співробітника успішно оновлено',function () {});
+            } else {
+                bootbox.alert('Під час оновлення профілю викладача виникла помилка');
+            }
+        });
+    };
 }

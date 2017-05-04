@@ -121,6 +121,7 @@ return array(
                 'courses/<selector:\w+>' => 'courses/index',
                 'aboutus/<id:\d+>' => 'aboutus/index',
                 'invoice/<id:\d+>' => 'payments/invoice',
+                'cabinet/<organizationId:\d+>' => '_teacher/cabinet/index',
                 'cabinet' => '_teacher/cabinet/index',
                 'cabinet/mail' => '_teacher/cabinet/mail',
                 'profile/edit' => 'studentreg/edit',

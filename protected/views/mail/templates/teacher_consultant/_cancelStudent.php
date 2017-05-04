@@ -23,5 +23,3 @@ $module = $params[1];
     <em>студенти</em>
 </a>
 <br>
-Зв'язатися з адміністрацією: <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index')?>#/newmessages/receiver/<?php echo Config::getAdminId(); ?>">написати адміністратору</a>написати адміністратору</a>.

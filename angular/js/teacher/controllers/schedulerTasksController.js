@@ -12,7 +12,8 @@ function schedulerTasksCtrl($scope, $state, $resource, NgTableParams, $http){
                           { id: 2, title: "Раз на день"},
                           { id: 3, title: "Раз на тиждень"},
                           { id: 4, title: "Раз на місяць"},
-                          { id: 5, title: "Раз на рік"}
+                          { id: 5, title: "Раз на рік"},
+                          { id: 6, title: "По днях тижня"}
 
     ];
 
@@ -60,6 +61,28 @@ function schedulerTasksCtrl($scope, $state, $resource, NgTableParams, $http){
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).success(function (response) {
                     if (response == 'success'){
+                        $scope.schedulerTasksTable.reload();
+                    }
+                    else bootbox.alert('Помилка')
+                })
+            }
+        }).error(function(){
+            bootbox.alert('Помилка')
+        })
+    }
+
+    $scope.deleteTask = function(taskId){
+        bootbox.confirm('Ви впевнені, що бажаєта видалити завдання',function (response) {
+            if (response){
+                $http({
+                    method:'POST',
+                    url: basePath+'/_teacher/schedulerTasks/deleteTask',
+                    data: $jq.param({
+                        "id": taskId,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).success(function (response) {
+                    if (response == '1'){
                         $scope.schedulerTasksTable.reload();
                     }
                     else bootbox.alert('Помилка')

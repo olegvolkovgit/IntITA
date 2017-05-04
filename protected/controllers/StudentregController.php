@@ -271,7 +271,7 @@ class StudentRegController extends Controller
         $model = StudentReg::model()->findByPk($id);
         $atr = Yii::app()->request->getPost('StudentReg');
         $pass = $atr ['password'];
-        if ($model->password == sha1($pass)) {
+        if ($model->getPassword() == sha1($pass)) {
             if (isset($_POST['StudentReg'])) {
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['new_password'])));
                 $this->redirect(Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId())));

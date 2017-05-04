@@ -1,0 +1,11 @@
+<table ng-table="servicesTableParams" class="table table-bordered table-hover">
+    <tr ng-repeat="row in $data track by row.service_id">
+        <td data-title="'Опис'">{{row.description}}</td>
+        <td data-title="'Дата створення'" class="text-center">{{row.create_date}}</td>
+        <td class="text-center">
+            <button class="btn btn-danger" ng-click="delete(row.service_id)">
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        </td>
+    </tr>
+</table>

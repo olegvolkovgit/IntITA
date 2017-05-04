@@ -10,7 +10,7 @@ angular
         };
     });
 
-function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
+function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions, $attrs) {
     $scope.formData = {};
     //load list of module authors. First params - id module, second - id lecture revision. If two params are null - load all authors of revisions 
     revisionsTree.getRevisionsAuthors().then(function(response){
@@ -19,7 +19,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
         $scope.selectedAuthor = $scope.authors[0];
     });
     //init tree after load json
-    revisionsTree.getAllRevisionsJson().then(function(response){
+    revisionsTree.getAllRevisionsJson({organization:$attrs.organization}).then(function(response){
         $rootScope.revisionsJson=response;
         $scope.revisionsTreeInit();
     });

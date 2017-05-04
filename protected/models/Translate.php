@@ -163,24 +163,18 @@ class Translate extends CActiveRecord
                 leftJoin('sourcemessages s', 's.id = tr.id')->leftJoin('message_comment c', 'c.message_code = tr.id')->
                 limit($pageCount)->offset($page*$pageCount -$pageCount);
         return $command->queryAll();
-
-//        $return = array('data' => array());
-//
-//        foreach ($result as $record) {
-//            $row = array();
-//            $row["id"] = $record["id"];
-//            $row["language"] = $record["language"];
-//            $row["category"] = CHtml::encode($record["category"]);
-//            $row["comment"] = CHtml::encode($record["comment"]);
-//            $row["translation"]["text"]=CHtml::encode($record['translation']);
-//            $row["translation"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$record["id_record"]))."'";
-//            array_push($return['data'], $row);
-//        }
-//
-//        return json_encode($return);
     }
 
     public function getData(){
         return $this->with('source', 'comment')->findAll();
+    }
+
+    // 'day' terminations
+    public static function dayTerminations(){
+        return array(
+            Yii::t('module', '0653'),
+            Yii::t('module', '0654'),
+            Yii::t('module', '0655')
+        );
     }
 }

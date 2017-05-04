@@ -15,13 +15,7 @@
             <a href="#/accountant/operation">Проплати</a>
         </li>
         <li>
-            <a href="#/accountant/company">Компанії</a>
-        </li>
-        <li>
-            <a href="#/accountant/representative">Представники</a>
-        </li>
-        <li>
-            <a href="#/accountant/template">Шаблони, оферта</a>
+            <a ui-sref="accountant.company.list">Компанії</a>
         </li>
         <li>
             <a href="#/accountant/externalsources">Зовнішні джерела коштів</a>

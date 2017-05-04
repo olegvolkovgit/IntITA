@@ -14,8 +14,9 @@
  * The followings are the available model relations:
  * @property StudentReg $createUser
  */
-class InternalPays extends CActiveRecord
-{
+class InternalPays extends CActiveRecord {
+
+    use withBelongsToOrganization;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -50,7 +51,9 @@ class InternalPays extends CActiveRecord
 		return array(
             'createUser' => array(self::BELONGS_TO, 'StudentReg', 'create_user'),
             'externalPayment' => [self::BELONGS_TO, 'ExternalPays', 'externalPaymentId'],
-            'invoice' => [self::BELONGS_TO, 'Invoice', 'invoice_id']
+            'invoice' => [self::BELONGS_TO, 'Invoice', 'invoice_id'],
+            'corporateEntity' => [self::BELONGS_TO, 'CorporateEntity', ['companyId' => 'id'], 'through' => 'externalPayment'],
+            'organization' => [self::BELONGS_TO, 'Organization', ['id_organization' => 'id'], 'through' => 'corporateEntity']
 		);
 	}
 
@@ -116,5 +119,19 @@ class InternalPays extends CActiveRecord
         } else {
             return $model->getErrors();
         }
+    }
+
+    /**
+     * The method should return CDBCriteria to select entity belong to organisation
+     * @param Organization $organization
+     * @return CDbCriteria
+     */
+    public function getOrganizationCriteria(Organization $organization) {
+        return new CDbCriteria([
+            'condition' => 'organization.id = :organizationId',
+            'params' => ['organizationId' => $organization->id],
+            'with' => 'organization'
+        ]);
+
     }
 }

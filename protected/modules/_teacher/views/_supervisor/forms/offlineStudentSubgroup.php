@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li ng-if="defaultStudent">
-                <a type="button" class="btn btn-primary" ng-href="#/supervisor/userProfile/{{defaultStudent}}">
+                <a type="button" class="btn btn-primary" ng-href="#/users/profile/{{defaultStudent}}">
                     Профіль студента
                 </a>
             </li>

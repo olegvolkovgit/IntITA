@@ -9,6 +9,8 @@ angular
 function careerStartTableCtrl ($scope, careerService, $state, $http){
     $scope.changePageHeader("Варіанти кар'єри в IT");
 
+    var url=basePath+'/_teacher/_super_admin/config';
+
     $scope.loadCareers=function(){
         return careerService
             .getCareersList()
@@ -21,7 +23,7 @@ function careerStartTableCtrl ($scope, careerService, $state, $http){
 
     $scope.createCareer= function () {
         $http({
-            url: basePath+'/_teacher/_admin/config/createCareer',
+            url: url+'/createCareer',
             method: "POST",
             data: $jq.param({
                 title_ua: $scope.career.title_ua,
@@ -41,10 +43,10 @@ function careerStartTableCtrl ($scope, careerService, $state, $http){
 
 function careerStartCtrl ($scope, $state, $http, $stateParams){
     $scope.changePageHeader("Кар'єра");
-    
+    var url=basePath+'/_teacher/_super_admin/config';
     $scope.loadCareerData=function(){
         $http({
-            url: basePath+'/_teacher/_admin/config/getCareerData',
+            url: url+'/getCareerData',
             method: "POST",
             data: $jq.param({id:$stateParams.id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -58,7 +60,7 @@ function careerStartCtrl ($scope, $state, $http, $stateParams){
 
     $scope.editCareer= function () {
         $http({
-            url: basePath+'/_teacher/_admin/config/updateCareer',
+            url: url+'/updateCareer',
             method: "POST",
             data: $jq.param({
                 id:$stateParams.id,

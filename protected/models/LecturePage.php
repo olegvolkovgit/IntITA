@@ -178,11 +178,10 @@ class LecturePage extends CActiveRecord
         return $result;
     }
 
-    public static function isQuizDone($quiz){
+    public static function isQuizDone($quiz, $user){
         if (!$quiz){
             return true;
         }
-        $user = Yii::app()->user->getId();
         if ($user != 0){
             if(LectureElement::model()->findByPk($quiz)){
             switch(LectureElement::model()->findByPk($quiz)->id_type){

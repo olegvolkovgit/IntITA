@@ -7,12 +7,13 @@ angular
     .controller('coursemanageCtrl',coursemanageCtrl)
     .controller('mandatoryModulesCtrl',mandatoryModulesCtrl);
 
-function coursesTableCtrl ($scope, NgTableParams, $resource){
+function coursesTableCtrl ($scope, NgTableParams, $resource, $attrs){
+    $scope.changePageHeader('Курси');
     /* Sorting params  */
     $scope.statuses = [{id:'0', title:'в розробці'},{id:'1', title:'готовий'}];
     $scope.cancelled = [{id:'0', title:'доступний'},{id:'1', title:'видалений'}];
     $scope.languages = [{id:'ua', title:'ua'},{id:'ru', title:'ru'},{id:'en', title:'en'}];
-    $scope.levels = $resource(basePath+'/_teacher/_admin/level/getlevelslist').get()
+    $scope.levels = $resource(basePath+'/_teacher/_super_admin/level/getlevelslist').get()
         .$promise.then(function(data){
             var levels = [];
             data.rows.forEach(function(element){
@@ -25,7 +26,7 @@ function coursesTableCtrl ($scope, NgTableParams, $resource){
         });
 
     /* Init course table  */
-    var dataFromServer = $resource(basePath+'/_teacher/_admin/coursemanage/getCoursesList');
+    var dataFromServer = $attrs.organization?$resource(basePath+'/_teacher/coursemanage/getOrganizationCoursesList'):$resource(basePath+'/_teacher/coursemanage/getCoursesList');
     $scope.courseTable = new NgTableParams({
         sorting:{'course_ID':"asc"}
     }, {
@@ -41,9 +42,10 @@ function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
     $scope.formData = {};
     $scope.courseId= null;
     $scope.coursesList =null;
+    $scope.tab=parseInt($stateParams.tab?$stateParams.tab:0);
 
     $scope.saveSchema = function(idCourse){
-        var url = basePath+'/_teacher/_admin/coursemanage/saveschema?idCourse='+idCourse;
+        var url = basePath+'/_teacher/courseManage/saveschema?idCourse='+idCourse;
         $http({
             method: "POST",
             url:  url,
@@ -61,12 +63,12 @@ function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
     };
     /* Change course status  */
     $scope.changeCourse = function(courseId) {
-        var url = basePath+'/_teacher/_admin/coursemanage/changeStatus/id/' + courseId + '/';
+        var url = basePath+'/_teacher/courseManage/changeStatus/id/' + courseId + '/';
         bootbox.confirm("Змінити статус курсу?", function (result) {
             if (result) {
                 $http.post(url).success(function (data) {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+courseId);
+                        $templateCache.remove(basePath+"/_teacher/courseManage/update/id/"+courseId);
                         $state.go('course/edit/:id',{'id':courseId},{reload: true});
                     })
                 }).error(function (data) {
@@ -80,7 +82,7 @@ function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
     };
     /* Get modules List   */
     $scope.getCoursesByLang = function(value, currentCourseLang) {
-        return $http.get(basePath+'/_teacher/_admin/coursemanage/coursesByQueryAndLang', {
+        return $http.get(basePath+'/_teacher/coursemanage/coursesByQueryAndLang', {
             params: {
                 query: value,
                 lang: $stateParams.lang,
@@ -101,20 +103,20 @@ function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
 
     $scope.editCourse = function(courseId){
       $state.go('course/edit/:id',{'id':courseId},{reload: true});
-        $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/view?id="+courseId);
+        $templateCache.remove(basePath+"/_teacher/coursemanage/view?id="+courseId);
     };
 
     $scope.addLinkedCourse = function(courseId, language, linkedCourseId) {
         $http({
             method: "POST",
-            url:  basePath+"/_teacher/_admin/coursemanage/changeLinkedCourses/",
+            url:  basePath+"/_teacher/coursemanage/changeLinkedCourses/",
             data: $jq.param({"course":courseId, "lang":language, "linkedCourse":linkedCourseId }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         })
             .success(function(data){
                 bootbox.alert(data, function () {
-                    $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+$stateParams.course);
+                    $templateCache.remove(basePath+"/_teacher/coursemanage/update/id/"+$stateParams.course);
                     $state.go('course/edit/:id', {id:$stateParams.course},{reload:true});
                 })
             }).error(function (){
@@ -128,14 +130,14 @@ function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
             if (result) {
                 $http({
                     method: "POST",
-                    url:  basePath+"/_teacher/_admin/coursemanage/deleteLinkedCourse/",
+                    url:  basePath+"/_teacher/coursemanage/deleteLinkedCourse/",
                     data: $jq.param({"id":courseId, "lang":language}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                     cache: false
                 })
                     .success(function(data){
                         bootbox.alert(data, function () {
-                            $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+$stateParams.id);
+                            $templateCache.remove(basePath+"/_teacher/coursemanage/update/id/"+$stateParams.id);
                             $state.reload();
                         })
                     }).error(function (){
@@ -163,8 +165,8 @@ function mandatoryModulesCtrl ($scope, $http,$state,$templateCache){
             })
                 .success(function(data){
                     bootbox.alert(data, function () {
-                        $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+courseId);
-                        $state.go('course/edit/:id',{'id':courseId},{reload: true});
+                        $templateCache.remove(basePath+"/_teacher/coursemanage/update/id/"+courseId);
+                        $state.go('course/edit/:id/tab/:tab',{'id':courseId,'tab':4},{reload: true});
                     })
                 })
                 .error(function (){

@@ -14,10 +14,12 @@ class Admin extends Role
 	}
 
 	/**
+	 * @param $organization Organization
 	 * @return string sql for check role admin.
 	 */
-	public function checkRoleSql(){
-		return 'select "admin" from user_admin a where a.id_user = :id and end_date IS NULL';
+	public function checkRoleSql($organization=null){
+		$condition=$organization?' and a.id_organization='.$organization:'';
+		return 'select "admin" from user_admin a where a.id_user = :id and a.end_date IS NULL'.$condition;
 	}
 
 	/**
@@ -31,7 +33,7 @@ class Admin extends Role
         return $this->errorMessage;
     }
 
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
 	{
 		return array();
 	}
@@ -41,15 +43,19 @@ class Admin extends Role
 		return false;
 	}
 
-	public function checkBeforeDeleteRole(StudentReg $user){
-		return true;
+	public function checkBeforeDeleteRole(StudentReg $user, $organization=null){
+        return Yii::app()->user->model->isDirector();
 	}
 
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
+        return Yii::app()->user->model->isDirector();
+    }
 	/**
 	 * @param $query string - query from typeahead
+	 * @param $organization - query from typeahead
 	 * @return string - json for typeahead field in user manage page (cabinet, add)
 	 */
-	public function addRoleFormList($query)
+	public function addRoleFormList($query, $organization)
 	{
 		$criteria = new CDbCriteria();
 		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
@@ -58,10 +64,9 @@ class Admin extends Role
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-		$criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
-		$criteria->join .= ' LEFT JOIN user_admin u ON u.id_user = s.id';
-		$criteria->addCondition('t.user_id IS NOT NULL and (u.id_user IS NULL or u.end_date IS NOT NULL)');
-        $criteria->group = 's.id';
+		$criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
+		$criteria->addCondition('u.id_user IS NULL or u.end_date IS NOT NULL or (u.end_date IS NULL and u.id_organization!='.$organization.')');
+		$criteria->group = 's.id';
 
 		$data = StudentReg::model()->findAll($criteria);
 
@@ -79,4 +84,18 @@ class Admin extends Role
     {
         return UserAdmin::model()->findAll($criteria);
     }
+
+	public function setRole(StudentReg $user, $organization)
+	{
+		if(Yii::app()->db->createCommand()->
+		insert($this->tableName(), array(
+			'id_user' => $user->id,
+			'assigned_by'=>Yii::app()->user->getId(),
+			'id_organization'=>$organization,
+		))){
+			$this->notifyAssignRole($user, $organization);
+			return true;
+		}
+		return false;
+	}
 }

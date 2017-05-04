@@ -82,7 +82,11 @@ class StudentReg extends CActiveRecord
     public $studentName;
 
     private $_identity;
-    
+    private $_password;
+    private $_token;
+    private $_passport;
+    private $_inn;
+
     public $fullName = '';
 
     public function getDbConnection()
@@ -175,7 +179,7 @@ class StudentReg extends CActiveRecord
     public function authenticatePass()
     {
         $model = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if (sha1($this->password) !== $model->password)
+        if (sha1($this->password) !== $model->getPassword())
             $this->addError('password', Yii::t('error', '0274'));
     }
 
@@ -189,7 +193,7 @@ class StudentReg extends CActiveRecord
     public function passdiff()
     {
         $model = StudentReg::model()->findByPk(Yii::app()->user->id);
-        if (!empty($model->password)) {
+        if (!empty($model->getPassword())) {
             return;
         }
         if (isset($this->password) || isset($this->password_repeat)) {
@@ -207,14 +211,14 @@ class StudentReg extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
-            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'on' => 'trainer.end_time IS NULL'),
+            'trainer' => array(self::HAS_MANY, 'TrainerStudent', 'student', 'on' => 'trainer.end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', ['id'=>'country']),
             'city0' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
             'serviceAccess' => array(self::HAS_MANY, 'UserServiceAccess', 'userId', 'on' => 'serviceAccess.endDate > NOW()'),
-            'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
+            'student' => array(self::HAS_MANY, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
             'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
             'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
-            'offlineStudents' => [self::HAS_ONE, 'OfflineStudents', 'id_user', 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()'],
+            'offlineStudents' => [self::HAS_MANY, 'OfflineStudents', 'id_user', 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()'],
             'offlineSubGroups' => [self::HAS_MANY, 'OfflineSubgroups', ['id_subgroup' => 'id'], 'through' => 'offlineStudents'],
             'offlineGroups' => [self::HAS_MANY, 'OfflineGroups', ['group' => 'id'], 'through' => 'offlineSubGroups'],
             'educationForm' => array(self::HAS_ONE, 'EducationForm', ['id'=>'educform']),
@@ -388,10 +392,10 @@ class StudentReg extends CActiveRecord
     {
         return parent::model($className);
     }
-    
+
     public function afterFind() {
         /* setup full name field after find */
-        $this->fullName = trim($this->firstName . " " . $this->secondName);
+        $this->fullName = trim($this->firstName . " " . $this->secondName. " ".$this->email);
         //format birthday
         if ($this->birthday != null){
             $format = "Y-m-d";
@@ -401,8 +405,19 @@ class StudentReg extends CActiveRecord
             $format = "Y-m-d";
             $this->document_issued_date = date_format(DateTime::createFromFormat($format, $this->document_issued_date),'d/m/Y');
         }
+
+        $this->_password=$this->password;
+        $this->password=null;
+        $this->_token=$this->token;
+        $this->token=null;
+        $this->_passport=$this->passport;
+        $this->passport=null;
+        $this->_inn=$this->inn;
+        $this->inn=null;
+
+        parent::afterFind();
     }
-    
+
     public function beforeSave(){
         if ($this->birthday != null){
             $format = "d/m/Y";
@@ -686,7 +701,7 @@ class StudentReg extends CActiveRecord
 
     public function isTeacher()
     {
-        return Teacher::model()->exists('user_id=' . $this->id);
+        return Teacher::model()->exists('user_id=' . $this->id.' and cancelled='.Teacher::ACTIVE);
     }
 
     public static function getUserName($id)
@@ -712,6 +727,11 @@ class StudentReg extends CActiveRecord
         }
     }
 
+    public function fullName()
+    {
+        return trim($this->firstName . " " . $this->secondName . " " . $this->email);
+    }
+    
     public function userIdFullName()
     {
         $data=array();
@@ -912,20 +932,6 @@ class StudentReg extends CActiveRecord
         $notificationsMessages = MessagesNotifications::model()->findAll($criteria);
 
         $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages, $rejectModuleRevisionMessages);
-        $user = Yii::app()->user->model;
-//        if($user->isAdmin() || $user->isContentManager()){
-//            $criteria1 = new CDbCriteria();
-//            $criteria1->select = '*';
-//            $criteria1->alias = 'm';
-//            $criteria1->order = 'm.id_message DESC';
-//            $criteria1->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
-//            $criteria1->addCondition('r.id_receiver =:id and r.deleted IS NULL and m.cancelled=0');
-//            $criteria1->params = array(':id' => $this->id);
-//
-//            $authorRequests = MessagesAuthorRequest::model()->findAll($criteria1);
-//            $teacherConsultantRequests = MessagesTeacherConsultantRequest::model()->findAll($criteria1);
-//            $all =  array_merge($all, $authorRequests, $teacherConsultantRequests);
-//        }
 
         function sortById($a, $b)
         {
@@ -1247,7 +1253,11 @@ class StudentReg extends CActiveRecord
         if($senderId) 
             $senderModel=StudentReg::model()->findByPk($senderId);
         else $senderModel=StudentReg::model()->findByPk(Config::getAdminId());
-        $transaction = Yii::app()->db->beginTransaction();
+        $connection = Yii::app()->db;
+        $transaction = null;
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
         try {
             $message = new MessagesNotifications();
             $sender = new MailTransport();
@@ -1256,9 +1266,13 @@ class StudentReg extends CActiveRecord
             $message->create();
 
             $message->send($sender);
-            $transaction->commit();
+            if ($transaction != null) {
+                $transaction->commit();
+            }
         } catch (Exception $e){
-            $transaction->rollback();
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
     }
@@ -1322,12 +1336,15 @@ class StudentReg extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
-        $criteria->join = 'left join teacher t on t.user_id=s.id';
+        $criteria->join = 'left join teacher_organization t on t.id_user=s.id';
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and t.user_id IS NULL');
+        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and 
+        (t.id_user IS NULL or (t.id_user IS NOT NULL and t.id_organization!='.Yii::app()->session['organization'].') or 
+        (t.id_user IS NOT NULL and t.id_organization='.Yii::app()->session['organization'].' and t.end_date IS NOT NULL))');
+        $criteria->group = 's.id';
         $data = StudentReg::model()->findAll($criteria);
         $result = array();
         foreach ($data as $key => $model) {
@@ -1368,74 +1385,6 @@ class StudentReg extends CActiveRecord
     public static function currentCareers(){
         $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
         return CJSON::encode($user->startCareers);
-    }
-
-    public static function userData($id){
-        $result = array();
-        $model=RegisteredUser::userById($id);
-        $teacher = Teacher::model()->findByPk($id);
-
-        $user = $model->registrationData->getAttributes(array(
-            'avatar','address','birthday','cancelled','city','country','education','educform','email','firstName',
-            'fullName','id','middleName','nickname','skype','state','status','phone','reg_time','education_shift','prev_job',
-            'current_job','passport','document_issued_date','inn','passport_issued'
-        ));
-        if($user===null)
-            throw new CHttpException(404,'The requested page does not exist.');
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-
-        $result['user']=$user;
-        $result['user']['roles']=$model->getRoles();
-        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
-
-        foreach($model->getRoles() as $key=>$role){
-            $result['user']['roles'][$key]= $role->__toString();
-        }
-        $result['trainer']=$trainer;
-        if($model->isStudent()){
-            $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
-            $result['modules']=$model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
-            foreach($result['courses'] as $key=>$course){
-                $result['courses'][$key]['modules']=CourseModules::modulesInfoByCourse($course["id"]);
-                foreach($result['courses'][$key]['modules'] as $index=>$module){
-                    $result['courses'][$key]['modules'][$index]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
-                }
-            }
-            foreach($result['modules'] as $key=>$module){
-                $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
-            }
-        }
-        if ($teacher) {
-            $result['teacher'] = (array)$teacher->getAttributes();
-            $result['teacher']['modules'] = $teacher->modulesActive;
-        }
-        $studentSubgroups = OfflineStudents::model()->findAllByAttributes(array('id_user'=>$id));
-        if($studentSubgroups){
-            foreach ($studentSubgroups as $key=>$subgroup){
-                $result["offlineStudent"][$key]["idOfflineStudent"] = $subgroup->id;
-                $result["offlineStudent"][$key]["startDate"] = $subgroup->start_date;
-                $result["offlineStudent"][$key]["endDate"] = $subgroup->end_date;
-                $result["offlineStudent"][$key]["graduateDate"] = $subgroup->graduate_date;
-                $result["offlineStudent"][$key]["idSubgroup"] = $subgroup->id_subgroup;
-                $result["offlineStudent"][$key]["subgroupName"] = $subgroup->subgroupName->name;
-                $result["offlineStudent"][$key]["idGroup"] = $subgroup->group->id;
-                $result["offlineStudent"][$key]["groupName"] = $subgroup->group->name;
-                $result["offlineStudent"][$key]["specialization"] = $subgroup->group->specializationName->title_ua;
-            }
-        }
-
-        foreach($model->startCareers as $key=>$career){
-            $result['careers'][$key]=$career->career->title_ua;
-        }
-        foreach($model->preferSpecializations as $key=>$specialization){
-            $result['specializations'][$key]=$specialization->specialization->title_ua;
-        }
-
-        if (Yii::app()->user->model->isAccountant()){
-            $result['documents']['passport']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'passport'));
-            $result['documents']['inn']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'inn'));
-        }
-        return $result;
     }
 
     public function getEducationFormStr()
@@ -1520,5 +1469,32 @@ class StudentReg extends CActiveRecord
                 $model->save();
             }
         }
+    }
+
+    public function isOrganizationTeacher($organization=null)
+    {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        return TeacherOrganization::model()->findByAttributes(array(
+            'id_user' => $this->id,
+            'id_organization'=>$organization,
+            'end_date'=>null
+        ));
+    }
+
+    public function getPassword()
+    {
+       return $this->_password;
+    }
+    public function getToken()
+    {
+        return $this->_token;
+    }
+    public function getPassport()
+    {
+        return $this->_passport;
+    }
+    public function getInn()
+    {
+        return $this->_inn;
     }
 }
