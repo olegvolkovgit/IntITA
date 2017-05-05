@@ -130,7 +130,7 @@ class UserSpecialOffer extends ASpecialOffer {
 
     protected function getTableScope() {
         return [
-            'condition' => 'userId IS NOT NULL'
+            'condition' => 'userId IS NOT NULL and serviceId IS NOT NULL'
         ];
     }
 }

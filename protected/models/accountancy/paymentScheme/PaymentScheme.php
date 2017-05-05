@@ -14,6 +14,9 @@
  * @property integer $id_organization
  * @property integer $id_user_approved
  * @property string $approved_date
+ *
+ * Relations
+ * @property PaymentSchemeTemplate $schemesTemplate
  */
 class PaymentScheme extends CActiveRecord {
 
@@ -23,9 +26,7 @@ class PaymentScheme extends CActiveRecord {
     const MODULE_SERVICE = 2;
     
     const DEFAULT_COURSE_SCHEME = 1;
-    const PROMOTIONAL_COURSE_SCHEME = 2;
-    const DEFAULT_MODULE_SCHEME = 3;
-    const PROMOTIONAL_MODULE_SCHEME = 4;
+    const DEFAULT_MODULE_SCHEME = 2;
     
     const ADVANCE = 1;
     const BASE_TWO_PAYS = 2;
@@ -79,8 +80,7 @@ class PaymentScheme extends CActiveRecord {
 
 
     protected function beforeDelete() {
-        if ($this->id==PaymentScheme::DEFAULT_COURSE_SCHEME || $this->id==PaymentScheme::PROMOTIONAL_COURSE_SCHEME
-        || $this->id==PaymentScheme::DEFAULT_MODULE_SCHEME || $this->id==PaymentScheme::PROMOTIONAL_MODULE_SCHEME) {
+        if ($this->id==PaymentScheme::DEFAULT_COURSE_SCHEME || $this->id==PaymentScheme::DEFAULT_MODULE_SCHEME) {
             return false;
         }
         return parent::beforeDelete();
@@ -167,9 +167,9 @@ class PaymentScheme extends CActiveRecord {
             return $specialOffer;
         } else {
             if (isset($service->course_id)) {
-                $id=PaymentScheme::PROMOTIONAL_COURSE_SCHEME;
+                $id=PaymentScheme::DEFAULT_COURSE_SCHEME;
             } else if (isset($service->module_id)) {
-                $id=PaymentScheme::PROMOTIONAL_MODULE_SCHEME;
+                $id=PaymentScheme::DEFAULT_MODULE_SCHEME;
             }
             return PaymentScheme::model()->findByPk($id);
         }
@@ -226,18 +226,20 @@ class PaymentScheme extends CActiveRecord {
         return SchemesName::model()->findByPk($agreement->payment_schema)->$param;
     }
 
-    public static function getCourseActualSchemeTemplate() {
+    public static function getCourseActualSchemeTemplate($idOrganization) {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("id=" . PaymentScheme::PROMOTIONAL_COURSE_SCHEME);
+        $criteria->addCondition("id_organization=" . $idOrganization.' and userId is NULL 
+        and serviceId is null and serviceType='.PaymentScheme::COURSE_SERVICE);
         $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         $paymentSchemas = PaymentScheme::model()->find($criteria);
 
         return !empty($paymentSchemas) ? $paymentSchemas : PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_COURSE_SCHEME);
     }
 
-    public static function getModuleActualSchemeTemplate() {
+    public static function getModuleActualSchemeTemplate($idOrganization) {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("id=" . PaymentScheme::PROMOTIONAL_MODULE_SCHEME);
+        $criteria->addCondition("id_organization=" . $idOrganization.' and userId is NULL 
+        and serviceId is null and serviceType='.PaymentScheme::MODULE_SERVICE);
         $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         $paymentSchemas = PaymentScheme::model()->find($criteria);
 

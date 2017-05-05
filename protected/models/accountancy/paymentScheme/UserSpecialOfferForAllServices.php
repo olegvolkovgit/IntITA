@@ -116,13 +116,16 @@ class UserSpecialOfferForAllServices extends ASpecialOffer {
 
         if (isset($params['service']->course_id)) {
             $serviceType=PaymentScheme::COURSE_SERVICE;
+            $idOrganization=$params['service']->courseModel->id_organization;
         } else if (isset($params['service']->module_id)) {
             $serviceType=PaymentScheme::MODULE_SERVICE;
+            $idOrganization=$params['service']->moduleModel->id_organization;
         }
 
         if (key_exists('user', $params) && !empty($params['user'])) {
             $criteria = new CDbCriteria();
-            $criteria->addCondition("userId=" . $params["user"]->id."  and serviceType=".$serviceType);
+            $criteria->addCondition("userId=" . $params["user"]->id."  
+            and serviceType=".$serviceType.' and id_organization='.$idOrganization);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         }
 
