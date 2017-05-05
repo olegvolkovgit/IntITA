@@ -1,4 +1,7 @@
 <?php
+/* @var $scenario */
+?>
+<?php
 $actualCourseScheme=PaymentScheme::getCourseActualSchemeTemplate(Yii::app()->user->model->getCurrentOrganization()->id);
 $actualModuleScheme=PaymentScheme::getModuleActualSchemeTemplate(Yii::app()->user->model->getCurrentOrganization()->id)
 ?>
@@ -195,7 +198,8 @@ $actualModuleScheme=PaymentScheme::getModuleActualSchemeTemplate(Yii::app()->use
     <div class="row m-b-20">
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <input type="button" class="btn btn-primary btn-block" value="Застосувати шаблон" ng-click="applyTemplate()" ng-disabled="!paymentSchema.template"/>
+            <input type="button" class="btn btn-primary btn-block" value="Застосувати шаблон"
+                   ng-click="sendFormApplyTemplate('<?php echo $scenario ?>');" ng-disabled="!paymentSchema.template"/>
         </div>
     </div>
     <div style="border-radius: 5px; border:1px solid #ccc;padding: 5px">

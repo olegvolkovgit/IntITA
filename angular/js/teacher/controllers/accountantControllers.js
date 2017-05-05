@@ -987,7 +987,13 @@ angular
 
   .controller('paymentsSchemaTemplateApplyCtrl', ['$scope', 'lodash', '$http', '$state', '$stateParams', 'paymentSchemaService', '$q', '$rootScope',
     function ($scope, _, $http, $state, $stateParams, paymentSchemaService, $q, $rootScope) {
-    $scope.changePageHeader('Застосування шаблону схем');
+
+    if ($stateParams.id) {
+        $scope.changePageHeader('Редагування застосованого шаблону схем');
+    } else {
+        $scope.changePageHeader('Застосування шаблону схем');
+    }
+
     $scope.paymentSchema={};
     $scope.today = function() {
         $scope.paymentSchema.startDate = new Date();
@@ -995,34 +1001,38 @@ angular
     $scope.today();
 
     $scope.loadService = function (id) {
-      var promise = $http({
-        url: basePath + '/_teacher/_accountant/paymentSchema/getServiceContent',
-        method: "POST",
-        data: $jq.param({
-          serviceId: id,
-        }),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-      }).then(function successCallback(response) {
-        return response.data;
-      }, function errorCallback() {
-        bootbox.alert("Вибачте, виникла помилка при завантажені сервісу.");
-      });
-      return promise;
+      if(id){
+          var promise = $http({
+              url: basePath + '/_teacher/_accountant/paymentSchema/getServiceContent',
+              method: "POST",
+              data: $jq.param({
+                  serviceId: id,
+              }),
+              headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+          }).then(function successCallback(response) {
+              return response.data;
+          }, function errorCallback() {
+              bootbox.alert("Вибачте, виникла помилка при завантажені сервісу.");
+          });
+          return promise;
+      }
     };
     $scope.loadUserName = function (id) {
-      var promise = $http({
-        url: basePath + '/_teacher/user/loadUserName',
-        method: "POST",
-        data: $jq.param({
-          userId: id,
-        }),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-      }).then(function successCallback(response) {
-        return response.data;
-      }, function errorCallback() {
-        bootbox.alert("Вибачте, виникла помилка при завантажені ім'я користувача.");
-      });
-      return promise;
+        if(id) {
+            var promise = $http({
+                url: basePath + '/_teacher/user/loadUserName',
+                method: "POST",
+                data: $jq.param({
+                    userId: id,
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                return response.data;
+            }, function errorCallback() {
+                bootbox.alert("Вибачте, виникла помилка при завантажені ім'я користувача.");
+            });
+            return promise;
+        }
     };
     $scope.loadTemplates = function () {
       $http({
@@ -1056,6 +1066,9 @@ angular
             });
           });
         }
+        // else if($stateParams.id){
+        //     $scope.loadAppliedTemplateData($stateParams.id);
+        // }
       }, function errorCallback() {
         bootbox.alert("Отримати шаблони схем не вдалося");
       });
@@ -1084,6 +1097,54 @@ angular
       $scope.paymentSchema['userId'] = null;
     };
 
+    //load service title
+    $scope.loadModuleTitle = function (moduleId) {
+        $http.get(basePath + "/module/getModuleTitle/?id=" + moduleId).then(function (response) {
+            $scope.selectedModule = response.data;
+        });
+    };
+    $scope.loadCourseTitle = function (courseId) {
+        $http.get(basePath + "/course/getCourseTitle/?id=" + courseId).then(function (response) {
+            $scope.selectedCourse = response.data;
+        });
+    };
+
+    $scope.loadAppliedTemplateData = function (id) {
+        $http({
+            url: basePath + '/_teacher/_accountant/paymentSchema/getPaymentSchemeData',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+          $q.all([$scope.loadUserName(response.data.userId), $scope.loadService(response.data.serviceId)]).then(function (results) {
+              $scope.userSelected = results[0];
+              $scope.paymentSchema = {
+                  id: response.data.id,
+                  userId: response.data.userId,
+                  courseId: results[1]['courseId'],
+                  moduleId: results[1]['moduleId'],
+                  serviceType: Number(response.data.serviceType ? response.data.serviceType : 1),
+                  template: _.find($scope.templates, ['id', response.data.id_template]),
+                  startDate: response.data.startDate ? new Date(response.data.startDate) : null,
+                  endDate: response.data.endDate ? new Date(response.data.endDate) : null,
+              };
+              if ($scope.paymentSchema.courseId) {
+                  $scope.loadCourseTitle($scope.paymentSchema.courseId);
+              }
+              if ($scope.paymentSchema.moduleId) {
+                  $scope.loadModuleTitle($scope.paymentSchema.moduleId);
+              }
+          });
+        }, function errorCallback() {
+            bootbox.alert("Отримати дані акційної схеми не вдалося");
+        });
+    };
+
+    $scope.sendFormApplyTemplate = function (scenario) {
+        if (scenario == 'create') $scope.applyTemplate();
+        else $scope.updateAppliedTemplate();
+    };
+
     $scope.applyTemplate = function () {
       paymentSchemaService
         .applyTemplate($scope.paymentSchema)
@@ -1104,7 +1165,22 @@ angular
             bootbox.alert(data.reason);
           }
         });
-    }
+    };
+
+    $scope.updateAppliedTemplate = function () {
+        // paymentSchemaService
+        //     .updateAppliedTemplate($scope.paymentSchema)
+        //     .$promise
+        //     .then(function (data) {
+        //         if (data.message === 'OK') {
+        //             bootbox.alert('Шаблон схем успішно оновлено', function () {
+        //                 $state.reload();
+        //             });
+        //         } else {
+        //             bootbox.alert(data.reason);
+        //         }
+        //     });
+    };
 
     $scope.services = [
       {

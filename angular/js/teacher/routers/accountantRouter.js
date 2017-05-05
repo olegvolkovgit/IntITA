@@ -244,13 +244,17 @@ angular
       .state('accountant/paymentSchemas/schemas/promotionupdate/:id', {
         url: "/accountant/paymentSchemas/schemas/promotionupdate/:id",
         cache: false,
-        controller: function ($scope) {
-          $scope.changePageHeader('Редагувати зовнішнє джерело коштів');
-        },
         templateUrl: function ($stateParams) {
           return accountantUrl + "paymentSchema/promotionupdate/id/" + $stateParams.id;
         }
       })
+        // .state('accountant/paymentSchemas/schemas/appliedupdate/:id', {
+        //     url: "/accountant/paymentSchemas/schemas/appliedupdate/:id",
+        //     cache: false,
+        //     templateUrl: function ($stateParams) {
+        //         return accountantUrl + "paymentSchema/appliedTemplateUpdate/id/" + $stateParams.id;
+        //     }
+        // })
       .state('accountant/schemesrequests', {
         url: "/accountant/schemesrequests",
         cache: false,

@@ -66,6 +66,7 @@
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
                             <td data-title="">
                                 <a href="" ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
+<!--                                <a title="редагувати" ng-href="#/accountant/paymentSchemas/schemas/appliedupdate/{{row.id}}"><i class="fa fa-pencil-square-o fa-fw"></i></a>-->
                             </td>
                         </tr>
                     </table>
@@ -95,7 +96,8 @@
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
                             <td data-title="">
-                                <a href="" ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
+                                <a href="" title="скасувати" ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
+<!--                                <a title="редагувати" ng-href="#/accountant/paymentSchemas/schemas/appliedupdate/{{row.id}}"><i class="fa fa-pencil-square-o fa-fw"></i></a>-->
                             </td>
                         </tr>
                     </table>

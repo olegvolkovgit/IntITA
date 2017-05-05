@@ -63,7 +63,7 @@ class PaymentSchemaController extends TeacherCabinetController
                 throw new Exception('Статус запиту не дозволяє його застосувати');
         }
        
-        $this->renderPartial('applyTemplateView',array(),false,true);
+        $this->renderPartial('applyTemplateView',array('scenario'=>'create'),false,true);
     }
 
     public function actionAppliedTemplatesList($organization)
@@ -106,7 +106,16 @@ class PaymentSchemaController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('404', 'Данного акційної пропозиції не існує');
         $this->renderPartial('displayPromotionSchemesView',array('scenario'=>'update'),false,true);
     }
-    
+
+    public function actionAppliedTemplateUpdate($id)
+    {
+        $paymentScheme = PaymentScheme::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($paymentScheme);
+        if(!$paymentScheme)
+            throw new \application\components\Exceptions\IntItaException('404', 'Данного сторінки не існує');
+        $this->renderPartial('applyTemplateView',array('scenario'=>'update'),false,true);
+    }
+
     public function actionCreateSchemeTemplate()
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
@@ -563,9 +572,84 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
+//todo update for two forms services
+//    public function actionUpdateAppliedTemplate () {
+//        function valueNull($value) {
+//            return !$value?null:$value;
+//        }
+//
+//        $result = ['message' => 'OK'];
+//        $statusCode = 201;
+//        try {
+//            $params = array_map("valueNull", $_POST);
+//            $params['id_template'] =$params['template']['id'];
+//            $params['id_user_approved']=Yii::app()->user->getId();
+//
+//            $paymentScheme=PaymentScheme::model()->findByPk($params['id']);
+//            Yii::app()->user->model->hasAccessToOrganizationModel($paymentScheme);
+//
+//            $services = array();
+//            $educationForms = EducationForm::model()->findAllByPk(array(EducationForm::ONLINE,EducationForm::OFFLINE));
+//
+//            $user = null;
+//
+//            if (key_exists('courseId', $params) && $params['courseId']) {
+//                Yii::app()->user->model->hasAccessToOrganizationModel(Course::model()->findByPk($params['courseId']));
+//
+//                foreach ($educationForms as $key=>$form){
+//                    array_push($services,CourseService::model()->getService($params['courseId'], $form));
+//                }
+//            } else if (key_exists('moduleId', $params) && $params['moduleId']) {
+//                Yii::app()->user->model->hasAccessToOrganizationModel(Module::model()->findByPk($params['moduleId']));
+//
+//                foreach ($educationForms as $form) {
+//                    array_push($services, ModuleService::model()->getService($params['moduleId'], $form));
+//                }
+//            }
+//
+//            if (key_exists('userId', $params)) {
+//                $user = StudentReg::model()->findByPk($params['userId']);
+//            }
+////todo update for two forms services
+//            foreach ($services as $service) {
+//                $offer = PaymentScheme::model()->findByPk($params['id']);
+//                $offer->setAttributes($params);
+//
+//                if($offer->checkDateConflict($offer)){
+//                    $offer->save();
+//                }else{
+//                    throw new Exception('Оновити схему не вдалося, оскільки дата її дії
+//                    пересікається з іншою схемою застосованою раніше за такими ж параметрами');
+//                }
+//
+//                if (count($offer->getErrors())) {
+//                    throw new Exception(json_encode($offer->getErrors()));
+//                }
+//            }
+//
+//            if(isset($params['request']) && $user){
+//                if(MessagesServiceSchemesRequest::model()->findByPk($params['request'])->approve()){
+//                    $this->approvedNotify($offer);
+//                };
+//            }else if($user){
+//                $this->approvedNotify($offer);
+//            }
+//        } catch (Exception $error) {
+//            $statusCode = 500;
+//            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+//        }
+//        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+//    }
+
     public function actionGetPromotionSchemeData() {
         $id=Yii::app()->request->getParam('id');
         $model = PromotionPaymentScheme::model()->findByPk($id);
+        echo CJSON::encode($model);
+    }
+
+    public function actionGetPaymentSchemeData() {
+        $id=Yii::app()->request->getParam('id');
+        $model = PaymentScheme::model()->findByPk($id);
         echo CJSON::encode($model);
     }
 
