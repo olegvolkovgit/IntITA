@@ -220,13 +220,13 @@ class CourseController extends Controller
         $id=Yii::app()->request->getPost('id');
         $service=Yii::app()->request->getPost('service');
         if($service=='course'){
-            $serviceId=CourseService::model()->findByPk(array('course_id'=>$id, 'education_form'=>1))->service_id;
+            $service=CourseService::model()->findByPk(array('course_id'=>$id, 'education_form'=>1));
             $criteria = new CDbCriteria;
-            $criteria->condition = 'courseId='.$id.' or serviceType=1';
+            $criteria->condition = 'courseId='.$id.' or (serviceType=1 and id_organization='.$service->courseModel->id_organization.')';
         }else{
-            $serviceId=ModuleService::model()->findByPk(array('module_id'=>$id, 'education_form'=>1))->service_id;
+            $service=ModuleService::model()->findByPk(array('module_id'=>$id, 'education_form'=>1));
             $criteria = new CDbCriteria;
-            $criteria->condition = 'moduleId='.$id.' or serviceType=2';
+            $criteria->condition = 'moduleId='.$id.' or (serviceType=2 and id_organization='.$service->moduleModel->id_organization.')';
         }
          $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
             (showDate IS NULL && endDate IS NULL) or (showDate IS NOT NULL && NOW()>=showDate && endDate IS NULL))');
@@ -236,7 +236,7 @@ class CourseController extends Controller
             $data[$key]['template']['name']=$promotion->schemesTemplate->getName();
             $data[$key]['template']['description']=$promotion->schemesTemplate->getDescription();
             $data[$key]['template']['isRequestOpen']=MessagesServiceSchemesRequest::model()->isRequestOpen(
-                array('service'=>$serviceId,'schemaTemplate'=>$promotion->schemesTemplate->id,'user'=>Yii::app()->user->getId())
+                array('service'=>$service->service_id,'schemaTemplate'=>$promotion->schemesTemplate->id,'user'=>Yii::app()->user->getId())
             );
         }
         echo CJSON::encode($data);

@@ -30,12 +30,12 @@
                     <td class="titleColumn">
                         <a ng-if="moduleProgress.moduleAccess===true ||
                         (!moduleProgress.notAccessMessage && lecture.order<=moduleProgress.user.lastAccessLectureOrder) ||
-                        (moduleProgress.moduleAccess!==false && parseInt(lecture.isFree) && lecture.order<=moduleProgress.user.lastAccessLectureOrder)"
+                        (moduleProgress.moduleAccess!==false && +lecture.isFree && lecture.order<=moduleProgress.user.lastAccessLectureOrder)"
                            href="" ng-click="lectureLink(lecture.id, moduleProgress.course.course_ID)" >{{lecture.title}}</a>
                         <span ng-if="!(moduleProgress.moduleAccess===true ||
                         (!moduleProgress.notAccessMessage && lecture.order<=moduleProgress.user.lastAccessLectureOrder) ||
-                        (moduleProgress.moduleAccess!==false && parseInt(lecture.isFree) && lecture.order<=moduleProgress.user.lastAccessLectureOrder))" class="disablesLink"
-                              uib-tooltip-html="'{{(moduleProgress.moduleAccess!==false && parseInt(lecture.isFree) || !moduleProgress.notAccessMessage)?finishedPrevLectureMsg:moduleProgress.notAccessMessage}}'">{{lecture.title}}
+                        (moduleProgress.moduleAccess!==false && +lecture.isFree && lecture.order<=moduleProgress.user.lastAccessLectureOrder))" class="disablesLink"
+                              uib-tooltip-html="'{{(moduleProgress.moduleAccess!==false && +lecture.isFree || !moduleProgress.notAccessMessage)?finishedPrevLectureMsg:moduleProgress.notAccessMessage}}'">{{lecture.title}}
                         </span>
                     </td>
                 </tr>
