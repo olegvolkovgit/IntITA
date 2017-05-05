@@ -1,4 +1,4 @@
-<div class="panel panel-default" ng-controller="promotionPaymentsSchemesTableCtrl">
+<div class="panel panel-default" ng-controller="promotionPaymentsSchemesTableCtrl" organization="<?php echo $organization ?>">
     <div class="panel-body">
         <ul class="list-inline">
             <li>
@@ -29,6 +29,16 @@
         </ul>
         <div class="tab-content">
             <table ng-table="promotionPaymentsSchemaTableParams" class="table table-bordered table-striped table-condensed">
+                <colgroup>
+                    <col width="20%"/>
+                    <col/>
+                    <col/>
+                    <col width="10%"/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col width="5%"/>
+                </colgroup>
                 <tr ng-repeat="row in $data track by row.id">
                     <td data-title="'Назва шаблону'" filter="{'schemesTemplate.template_name_ua': 'text'}" sortable="'schemesTemplate.template_name_ua'">
                         <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id_template}}">{{row.schemesTemplate.template_name_ua}}</a>
@@ -50,7 +60,7 @@
                     <td data-title="'відображається з'" filter="{'showDate': 'text'}" sortable="'showDate'">{{row.showDate | shortDate:'yyyy-MM-dd'}}</td>
                     <td data-title="'діє з'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                     <td data-title="'діє до'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
-                    <td data-title="'Навігація'">
+                    <td data-title="">
                         <a title="скасувати" href="" ng-click="cancelPromotionPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
                         <a title="редагувати" ng-href="#/accountant/paymentSchemas/schemas/promotionupdate/{{row.id}}"><i class="fa fa-pencil-square-o fa-fw"></i></a>
                     </td>

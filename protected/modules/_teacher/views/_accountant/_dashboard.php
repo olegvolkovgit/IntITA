@@ -98,6 +98,8 @@
                         <a ng-href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів
                             схем</a>
                     </li>
+                    <br>
+                    <hr>
                     <li>
                         <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion">
                             Застосування акцій до сервісів

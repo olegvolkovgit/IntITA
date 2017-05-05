@@ -27,4 +27,17 @@ trait WithGetSchemaCalculator {
 
         return $actualAdvancePaymentSchema;
     }
+
+    public function checkDateConflict(){
+        $criteria = new CDbCriteria;
+        $criteria->alias='ps';
+        $criteria->condition='ps.id_organization='.$this->id_organization.' 
+        and ps.startDate<="'.$this->endDate.'" and "'.$this->startDate.'"<=ps.endDate';
+        $criteria->addInCondition('ps.userId',array($this->userId),'AND');
+        $criteria->addInCondition('ps.serviceId',array($this->serviceId),'AND');
+        $criteria->addInCondition('ps.serviceType',array($this->serviceType),'AND');
+        $criteria->limit=1;
+
+        return !PaymentScheme::model()->find($criteria);
+    }
 }

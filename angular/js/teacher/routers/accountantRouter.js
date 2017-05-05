@@ -184,7 +184,7 @@ angular
       .state('accountant/paymentSchemas/schemas/appliedTemplates', {
         url: '/accountant/paymentSchemas/schemas/appliedTemplates',
         cache: false,
-        templateUrl: accountantUrl + "paymentSchema/appliedTemplatesList"
+        templateUrl: accountantUrl + "paymentSchema/appliedTemplatesList?organization=1"
       })
       .state('accountant/paymentSchemas/schemas/template/:id', {
         url: '/accountant/paymentSchemas/schemas/template/:id',
@@ -239,7 +239,7 @@ angular
       .state('accountant/paymentSchemas/schemas/displaypromotionlist', {
         url: '/accountant/paymentSchemas/schemas/displaypromotionlist',
         cache: false,
-        templateUrl: accountantUrl + "paymentSchema/displayPromotionSchemesList"
+        templateUrl: accountantUrl + "paymentSchema/displayPromotionSchemesList?organization=1"
       })
       .state('accountant/paymentSchemas/schemas/promotionupdate/:id', {
         url: "/accountant/paymentSchemas/schemas/promotionupdate/:id",
