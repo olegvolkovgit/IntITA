@@ -549,7 +549,7 @@ class RegisteredUser
     public function hasAccessToOrganizationModel($model)
     {
         if(!$model || $model->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
-            throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до сторінки в межах даної організації');
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до дії в межах даної організації');
         }
         return true;
     }

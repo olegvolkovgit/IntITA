@@ -54,23 +54,25 @@
     <div class="col-lg-4">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Налаштування
+                Користувачі та їх документи
             </div>
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/accountant/template">Шаблони, оферта</a>
+                        <a href="#/registeredUsers">Зареєстровані користувачі</a>
                     </li>
                     <li>
-                        <a href="#/accountant/externalsources">Зовнішні джерела коштів</a>
+                        <a href="#/students">Студенти</a>
                     </li>
                     <li>
-                        <a href="#/accountant/cancelreasontype">Причини відміни проплат</a>
+                        <a href="#/accountant/documents">Копії документів</a>
                     </li>
                 </ul>
+                <br>
+                <br>
             </div>
             <div class="panel-footer">
-                <em>Налаштування параметрів проплат</em>
+                <em>Копії документів користувачів</em>
             </div>
         </div>
     </div>
@@ -85,12 +87,19 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/accountant/paymentSchemas/schemas/apply">Застосувати шаблон схем</a>
+                        <a ng-href="#/accountant/paymentSchemas/schemas/template">
+                            Шаблони схем
+                        </a>
                     </li>
                     <li>
-                        <a href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів
+                        <a ng-href="#/accountant/paymentSchemas/schemas/apply">Застосувати шаблон схем</a>
+                    </li>
+                    <li>
+                        <a ng-href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів
                             схем</a>
                     </li>
+                    <br>
+                    <hr>
                     <li>
                         <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion">
                             Застосування акцій до сервісів
@@ -111,26 +120,6 @@
 
     <div class="col-lg-4">
         <div class="panel panel-yellow">
-            <div class="panel-heading">
-                Документи користувачів
-            </div>
-            <div class="panel-body">
-                <ul>
-                    <li>
-                        <a href="#/accountant/documents">Копії документів</a>
-                    </li>
-                </ul>
-                <br>
-                <br>
-            </div>
-            <div class="panel-footer">
-                <em>Копії документів користувачів</em>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4">
-        <div class="panel panel-primary">
             <div class="panel-heading">
                 Запити
             </div>

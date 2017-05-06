@@ -1,13 +1,16 @@
 <?php
 
 /**
- * The followings are the available columns in table 'acc_user_special_offer_payment':
  * @property integer $id
  * @property integer $id_template
+ * @property integer $userId
  * @property integer $serviceId
- * @property string $userId
+ * @property integer $serviceType
  * @property string $startDate
  * @property string $endDate
+ * @property integer $id_organization
+ * @property integer $id_user_approved
+ * @property string $approved_date
  * 
  * @property Course $course
  * @property Module $module
@@ -26,10 +29,10 @@ class ServiceSpecialOffer extends ASpecialOffer {
 		return array(
 			array('serviceId, id_template', 'required'),
 			array('userId, serviceId', 'numerical', 'integerOnly' => true),
-			array('startDate, endDate', 'safe'),
+			array('id, id_template, userId, serviceId, serviceType, startDate, endDate, id_organization, id_user_approved, approved_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_template, userId, serviceId, startDate, endDate', 'safe', 'on' => 'search'),
+			array('id, id_template, userId, serviceId, serviceType, startDate, endDate, id_organization, id_user_approved, approved_date', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -58,6 +61,9 @@ class ServiceSpecialOffer extends ASpecialOffer {
 			'serviceId' => 'Id service',
 			'startDate' => 'Start Date',
 			'endDate' => 'End Date',
+            'id_organization' => 'ID organization',
+            'id_user_approved' => 'ID користувача, котрий призначив схему',
+            'approved_date' => 'Дата призначення схеми',
 		);
 	}
 
@@ -85,6 +91,9 @@ class ServiceSpecialOffer extends ASpecialOffer {
 		$criteria->compare('serviceId', $this->serviceId);
 		$criteria->compare('startDate', $this->startDate, true);
 		$criteria->compare('endDate', $this->endDate, true);
+        $criteria->compare('id_organization', $this->id_organization, true);
+        $criteria->compare('id_user_approved', $this->id_user_approved, true);
+        $criteria->compare('approved_date', $this->approved_date, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

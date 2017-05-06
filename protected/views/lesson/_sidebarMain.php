@@ -54,7 +54,7 @@ $lecturesCount = $lecture->module->lecturesCount();
                     <div class="lectureAccess" ng-class="{thisLecture: lecture.order=='<?php echo $lecture->order; ?>'}"></div>
                 </a>
                 <a ng-if=!lecture.access
-                   uib-tooltip-html="'<span class=\'titleNoAccessMin\'>{{lecture.title}}</span><span class=\'noAccessMin\'> (Заняття недоступне)</span>'">
+                   uib-tooltip-html="'<span class=\'titleNoAccessMin\'>{{lecture.title | unsafe}}</span><span class=\'noAccessMin\'> (Заняття недоступне)</span>'">
                     <div class="lectureDisabled"></div>
                 </a>
             </span>

@@ -1,4 +1,4 @@
-<div class="col-lg-12" ng-controller="documentsCtrl">
+<div class="col-lg-12" ng-controller="documentsCtrl" organization="<?php echo $organization ?>">
     <a type="button" class="btn btn-success" href="" ng-click="createDocumentsFolder()">
         Створити папку для документів
     </a>
@@ -25,12 +25,13 @@
                     <td data-title="'Час завантаження'" sortable="'upload_time'" filter="{'upload_time': 'text'}" >
                         {{row.upload_time}}
                     </td>
-                    <td data-title="'Статус документа'" filter="{'check': 'select'}" filter-data="docStatus">
-                        {{row.check ? "перевірені":"не перевірені"}}
-                        <button type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeDocStatus(row.id);">
-                            змінити статус
-                        </button>
-                    </td>
+<!--                    todo-->
+<!--                    <td data-title="'Статус документа'" filter="{'check': 'select'}" filter-data="docStatus">-->
+<!--                        {{row.check ? "перевірені":"не перевірені"}}-->
+<!--                        <button type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeDocStatus(row.id);">-->
+<!--                            змінити статус-->
+<!--                        </button>-->
+<!--                    </td>-->
                 </tr>
             </table>
         </div>
