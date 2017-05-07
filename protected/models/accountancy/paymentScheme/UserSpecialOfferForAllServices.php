@@ -5,9 +5,12 @@
  * @property integer $id_template
  * @property integer $serviceId
  * @property integer $serviceType
- * @property string $userId
+ * @property integer $userId
  * @property string $startDate
  * @property string $endDate
+ * @property integer $id_organization
+ * @property integer $id_user_approved
+ * @property string $approved_date
  *
  */
 class UserSpecialOfferForAllServices extends ASpecialOffer {
@@ -21,12 +24,12 @@ class UserSpecialOfferForAllServices extends ASpecialOffer {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('userId, id_template, serviceType', 'required'),
+            array('userId, id_template, serviceType, id_user_approved', 'required'),
             array('userId, serviceId', 'numerical', 'integerOnly' => true),
-            array('startDate, endDate', 'safe'),
+            array('id, id_template, userId, serviceId, serviceType, startDate, endDate, id_organization, id_user_approved, approved_date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, id_template, userId, serviceId, serviceType, startDate, endDate', 'safe', 'on' => 'search'),
+            array('id, id_template, userId, serviceId, serviceType, startDate, endDate, id_organization, id_user_approved, approved_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -54,6 +57,9 @@ class UserSpecialOfferForAllServices extends ASpecialOffer {
             'serviceType' => 'Service Type',
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
+            'id_organization' => 'ID organization',
+            'id_user_approved' => 'ID користувача, котрий призначив схему',
+            'approved_date' => 'Дата призначення схеми',
         );
     }
 
@@ -81,6 +87,9 @@ class UserSpecialOfferForAllServices extends ASpecialOffer {
         $criteria->compare('serviceType', $this->serviceType);
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate, true);
+        $criteria->compare('id_organization', $this->id_organization, true);
+        $criteria->compare('id_user_approved', $this->id_user_approved, true);
+        $criteria->compare('approved_date', $this->approved_date, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -107,13 +116,16 @@ class UserSpecialOfferForAllServices extends ASpecialOffer {
 
         if (isset($params['service']->course_id)) {
             $serviceType=PaymentScheme::COURSE_SERVICE;
+            $idOrganization=$params['service']->courseModel->id_organization;
         } else if (isset($params['service']->module_id)) {
             $serviceType=PaymentScheme::MODULE_SERVICE;
+            $idOrganization=$params['service']->moduleModel->id_organization;
         }
 
         if (key_exists('user', $params) && !empty($params['user'])) {
             $criteria = new CDbCriteria();
-            $criteria->addCondition("userId=" . $params["user"]->id."  and serviceType=".$serviceType);
+            $criteria->addCondition("userId=" . $params["user"]->id."  
+            and serviceType=".$serviceType.' and id_organization='.$idOrganization);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         }
 

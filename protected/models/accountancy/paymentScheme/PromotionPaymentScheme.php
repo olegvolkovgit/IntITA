@@ -12,6 +12,9 @@
  * @property string $showDate
  * @property string $startDate
  * @property string $endDate
+ * @property integer $id_organization
+ * @property integer $id_user_approved
+ * @property string $approved_date
  */
 class PromotionPaymentScheme extends CActiveRecord {
 
@@ -29,12 +32,12 @@ class PromotionPaymentScheme extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_template', 'required'),
+            array('id_template, id_user_approved', 'required'),
             array('courseId, moduleId, id_template', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, courseId, moduleId, id_template, showDate, endDate, startDate, serviceType', 'safe'),
+            array('id, courseId, moduleId, id_template, showDate, endDate, startDate, serviceType, id_organization, id_user_approved, approved_date', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, courseId, moduleId, id_template, showDate, endDate, startDate, serviceType', 'safe', 'on' => 'search'),
+            array('id, courseId, moduleId, id_template, showDate, endDate, startDate, serviceType, id_organization, id_user_approved, approved_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -48,6 +51,7 @@ class PromotionPaymentScheme extends CActiveRecord {
             'schemesTemplate' => array(self::BELONGS_TO, 'PaymentSchemeTemplate', ['id_template'=>'id']),
             'course' => array(self::BELONGS_TO, 'Course', 'courseId'),
             'module' => array(self::BELONGS_TO, 'Module', 'moduleId'),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
     }
 
@@ -63,7 +67,10 @@ class PromotionPaymentScheme extends CActiveRecord {
             'showDate' => 'початок відображення спеціальної пропозиції',
             'endDate' => 'початок дії шаблону схем',
             'startDate' => 'закінчення дії шаблону схем',
-            'serviceType' => 'Тип сервісу, на який застосовується шаблон'
+            'serviceType' => 'Тип сервісу, на який застосовується шаблон',
+            'id_organization' => 'ID organization',
+            'id_user_approved' => 'ID користувача, котрий установив акцію',
+            'approved_date' => 'Дата встановлення акції',
         );
     }
 
@@ -92,6 +99,9 @@ class PromotionPaymentScheme extends CActiveRecord {
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate);
         $criteria->compare('serviceType', $this->serviceType);
+        $criteria->compare('id_organization', $this->id_organization, true);
+        $criteria->compare('id_user_approved', $this->id_user_approved, true);
+        $criteria->compare('approved_date', $this->approved_date, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

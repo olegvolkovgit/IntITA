@@ -174,7 +174,7 @@ angular
       .state('accountant/paymentSchemas/schemas/template', {
         url: '/accountant/paymentSchemas/schemas/template',
         cache: false,
-        templateUrl: accountantUrl + "paymentSchema/schemasTemplates"
+        templateUrl: accountantUrl + "paymentSchema/schemasTemplates?organization=1"
       })
       .state('accountant/paymentSchemas/schemas/apply', {
         url: '/accountant/paymentSchemas/schemas/apply',
@@ -184,7 +184,7 @@ angular
       .state('accountant/paymentSchemas/schemas/appliedTemplates', {
         url: '/accountant/paymentSchemas/schemas/appliedTemplates',
         cache: false,
-        templateUrl: accountantUrl + "paymentSchema/appliedTemplatesList"
+        templateUrl: accountantUrl + "paymentSchema/appliedTemplatesList?organization=1"
       })
       .state('accountant/paymentSchemas/schemas/template/:id', {
         url: '/accountant/paymentSchemas/schemas/template/:id',
@@ -196,7 +196,7 @@ angular
       .state('accountant/paymentSchemas/schemas/createTemplate', {
         url: '/accountant/paymentSchemas/schemas/createTemplate',
         cache: false,
-        templateUrl: accountantUrl + "paymentSchema/templateCreate"
+        templateUrl: accountantUrl + "paymentSchema/templateCreate?organization=1"
       })
       .state('accountant/externalsource/create', {
         url: "/accountant/externalsource/create",
@@ -229,7 +229,7 @@ angular
       .state('accountant/documents', {
         url: "/accountant/documents",
         cache: false,
-        templateUrl: accountantUrl + "accountant/usersDocuments"
+        templateUrl: accountantUrl + "accountant/usersDocuments?organization=1"
       })
       .state('accountant/paymentSchemas/schemas/displaypromotion', {
         url: '/accountant/paymentSchemas/schemas/displaypromotion',
@@ -239,18 +239,22 @@ angular
       .state('accountant/paymentSchemas/schemas/displaypromotionlist', {
         url: '/accountant/paymentSchemas/schemas/displaypromotionlist',
         cache: false,
-        templateUrl: accountantUrl + "paymentSchema/displayPromotionSchemesList"
+        templateUrl: accountantUrl + "paymentSchema/displayPromotionSchemesList?organization=1"
       })
       .state('accountant/paymentSchemas/schemas/promotionupdate/:id', {
         url: "/accountant/paymentSchemas/schemas/promotionupdate/:id",
         cache: false,
-        controller: function ($scope) {
-          $scope.changePageHeader('Редагувати зовнішнє джерело коштів');
-        },
         templateUrl: function ($stateParams) {
           return accountantUrl + "paymentSchema/promotionupdate/id/" + $stateParams.id;
         }
       })
+        // .state('accountant/paymentSchemas/schemas/appliedupdate/:id', {
+        //     url: "/accountant/paymentSchemas/schemas/appliedupdate/:id",
+        //     cache: false,
+        //     templateUrl: function ($stateParams) {
+        //         return accountantUrl + "paymentSchema/appliedTemplateUpdate/id/" + $stateParams.id;
+        //     }
+        // })
       .state('accountant/schemesrequests', {
         url: "/accountant/schemesrequests",
         cache: false,

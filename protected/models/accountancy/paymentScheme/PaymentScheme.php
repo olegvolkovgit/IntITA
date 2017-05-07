@@ -11,6 +11,12 @@
  * @property integer $serviceType
  * @property string $startDate
  * @property string $endDate
+ * @property integer $id_organization
+ * @property integer $id_user_approved
+ * @property string $approved_date
+ *
+ * Relations
+ * @property PaymentSchemeTemplate $schemesTemplate
  */
 class PaymentScheme extends CActiveRecord {
 
@@ -20,9 +26,7 @@ class PaymentScheme extends CActiveRecord {
     const MODULE_SERVICE = 2;
     
     const DEFAULT_COURSE_SCHEME = 1;
-    const PROMOTIONAL_COURSE_SCHEME = 2;
-    const DEFAULT_MODULE_SCHEME = 3;
-    const PROMOTIONAL_MODULE_SCHEME = 4;
+    const DEFAULT_MODULE_SCHEME = 2;
     
     const ADVANCE = 1;
     const BASE_TWO_PAYS = 2;
@@ -50,12 +54,12 @@ class PaymentScheme extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_template', 'required'),
+            array('id_template, id_user_approved', 'required'),
             array('userId, serviceId, id_template', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType, id_organization, id_user_approved, approved_date', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe', 'on' => 'search'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType, id_organization, id_user_approved, approved_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -70,13 +74,13 @@ class PaymentScheme extends CActiveRecord {
             'schemesTemplate' => array(self::BELONGS_TO, 'PaymentSchemeTemplate', ['id_template'=>'id']),
             'user' => array(self::BELONGS_TO, 'StudentReg', 'userId'),
             'service' => array(self::HAS_ONE, 'Service', ['service_id' => 'serviceId']),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
     }
 
 
     protected function beforeDelete() {
-        if ($this->id==PaymentScheme::DEFAULT_COURSE_SCHEME || $this->id==PaymentScheme::PROMOTIONAL_COURSE_SCHEME
-        || $this->id==PaymentScheme::DEFAULT_MODULE_SCHEME || $this->id==PaymentScheme::PROMOTIONAL_MODULE_SCHEME) {
+        if ($this->id==PaymentScheme::DEFAULT_COURSE_SCHEME || $this->id==PaymentScheme::DEFAULT_MODULE_SCHEME) {
             return false;
         }
         return parent::beforeDelete();
@@ -92,7 +96,10 @@ class PaymentScheme extends CActiveRecord {
             'serviceId' => 'Id сервіса',
             'endDate' => 'Закінчення дії шаблону схем',
             'startDate' => 'Початок дії шаблону схем',
-            'serviceType' => 'Тип сервісу, на який застосовується шаблон'
+            'serviceType' => 'Тип сервісу, на який застосовується шаблон',
+            'id_organization' => 'ID organization',
+            'id_user_approved' => 'ID користувача, котрий призначив схему',
+            'approved_date' => 'Дата призначення схеми',
         );
     }
 
@@ -120,6 +127,9 @@ class PaymentScheme extends CActiveRecord {
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate);
         $criteria->compare('serviceType', $this->serviceType);
+        $criteria->compare('id_organization', $this->id_organization, true);
+        $criteria->compare('id_user_approved', $this->id_user_approved, true);
+        $criteria->compare('approved_date', $this->approved_date, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -157,9 +167,9 @@ class PaymentScheme extends CActiveRecord {
             return $specialOffer;
         } else {
             if (isset($service->course_id)) {
-                $id=PaymentScheme::PROMOTIONAL_COURSE_SCHEME;
+                $id=PaymentScheme::DEFAULT_COURSE_SCHEME;
             } else if (isset($service->module_id)) {
-                $id=PaymentScheme::PROMOTIONAL_MODULE_SCHEME;
+                $id=PaymentScheme::DEFAULT_MODULE_SCHEME;
             }
             return PaymentScheme::model()->findByPk($id);
         }
@@ -216,22 +226,24 @@ class PaymentScheme extends CActiveRecord {
         return SchemesName::model()->findByPk($agreement->payment_schema)->$param;
     }
 
-    public static function getCourseActualSchemeTemplate() {
+    public static function getCourseActualSchemeTemplate($idOrganization) {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("id=" . PaymentScheme::PROMOTIONAL_COURSE_SCHEME);
+        $criteria->addCondition("id_organization=" . $idOrganization.' and userId is NULL 
+        and serviceId is null and serviceType='.PaymentScheme::COURSE_SERVICE);
         $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         $paymentSchemas = PaymentScheme::model()->find($criteria);
 
         return !empty($paymentSchemas) ? $paymentSchemas : PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_COURSE_SCHEME);
     }
 
-    public static function getModuleActualSchemeTemplate() {
+    public static function getModuleActualSchemeTemplate($idOrganization) {
         $criteria = new CDbCriteria();
-        $criteria->addCondition("id=" . PaymentScheme::PROMOTIONAL_MODULE_SCHEME);
+        $criteria->addCondition("id_organization=" . $idOrganization.' and userId is NULL 
+        and serviceId is null and serviceType='.PaymentScheme::MODULE_SERVICE);
         $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         $paymentSchemas = PaymentScheme::model()->find($criteria);
 
         return !empty($paymentSchemas) ? $paymentSchemas : PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_MODULE_SCHEME);
     }
-    
+
 }
