@@ -11,7 +11,7 @@
     <pre class="offer">
     <?php
     $param = (isset(Yii::app()->session['lg'])) ? "offer_" . Yii::app()->session['lg'] . ".html" : "offer_ua.html";
-    echo file_get_contents(Config::getBaseUrl() . '/files/offers/' . $param);
+    echo file_get_contents(Config::getBaseUrl() . '/files/offers/' . $param,false,stream_context_create(array('ssl' => array('verify_peer' => false, 'verify_peer_name' => false))));
     ?>
         </pre>
     <br>
