@@ -53,7 +53,7 @@ if (!$model->isDeveloping()) { ?>
         </div>
 
         <a href="<?php echo Yii::app()->createUrl('course/schemes', array('id' => $model->course_ID)); ?>"
-           style="color:green;text-decoration:underline" target="_blank"><em>Спеціальні пропозиції</em></a>
+           style="color:green;text-decoration:underline" target="_blank"><em><?php Yii::t('course', '0959'); ?></em></a>
 
         <div class="markAndButton">
             <div class="markCourse">
@@ -72,7 +72,7 @@ if (!$model->isDeveloping()) { ?>
                                ng-if="!((status=='payable') || (status=='paid') && (status!='no_agreement'))"
                                ng-class="{'expired': (status=='expired'), 'warning': (status=='delay'), 'paymentButton' : true}"
                                ng-click="redirectToCabinet('payCourse',<?php echo $model->course_ID ?>,selectedScheme)"
-                               ng-value="(status=='delay' || status=='expired')? 'ПРОДОВЖИТИ КУРС />':'<?php echo Yii::t('course', '0328'); ?>'">
+                               ng-value="(status=='delay' || status=='expired')? '<?php echo Yii::t('module', '0957'); ?> />':'<?php echo Yii::t('course', '0328'); ?>'">
                         <?php
                     }
                 } ?>

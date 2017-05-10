@@ -15,18 +15,6 @@ angular
                 console.log($scope.data.error.status);
             });
 
-        $scope.ratings = [
-            {
-                description: 'заняття викладене зрозуміло'
-            },
-            {
-                description: 'матеріал подано цікаво'
-            },
-            {
-                description: 'завдання в міру вимогливі'
-            }
-        ];
-
         $scope.res={
             ratings: $scope.ratings
         };
@@ -77,18 +65,6 @@ angular
                 console.log(response);
                 bootbox.alert("Операцію не вдалося виконати");
             });
-
-        $scope.ratings = [
-            {
-                description: 'модуль викладений зрозуміло'
-            },
-            {
-                description: 'матеріал подано цікаво'
-            },
-            {
-                description: 'завдання в міру вимогливі'
-            }
-        ];
 
         $scope.res={
             ratings: $scope.ratings

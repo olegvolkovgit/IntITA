@@ -59,12 +59,11 @@
             </div>
         </div>
         <div ng-if="onlineSchemeData && offlineSchemeData && !item.template.isRequestOpen">
-            Якщо ти виконав усі умови для отримання даної акційної схеми, відправ запит для отримання схеми,
-            та чекай повідомлення про її активацію в найближчий час
+            <?php echo Yii::t('course', '0960'); ?>
             <div style="text-align: right;">
                 <input style="margin: 5px" type="button" class="paymentButton"
                        ng-click="sendSchemaRequest('<?php echo $model->course_ID ?>',1,item.promotion.id_template)"
-                       value="ОТРИМАТИ СХЕМУ />">
+                       value="<?php echo Yii::t('course', '0958'); ?> />">
             </div>
         </div>
     </div>

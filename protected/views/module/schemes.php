@@ -7,7 +7,7 @@
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         $model->getTitleForBreadcrumbs() => Yii::app()->createUrl('module/index', array('idModule' => $model->module_ID)),
-        'Спеціальні пропозиції',
+        Yii::t('course', '0959'),
     );
 ?>
 <script>
@@ -58,12 +58,11 @@
             </div>
         </div>
         <div ng-if="onlineSchemeData && offlineSchemeData && !item.template.isRequestOpen">
-            Якщо ти виконав усі умови для отримання даної акційної схеми, відправ запит для отримання схеми,
-            та чекай повідомлення про її активацію в найближчий час
+            <?php echo Yii::t('course', '0960'); ?>
             <div style="text-align: right;">
                 <input style="margin: 5px" type="button" class="paymentButton" 
                        ng-click="sendSchemaRequest('<?php echo $model->module_ID ?>',2,item.promotion.id_template)"
-                       value="ОТРИМАТИ СХЕМУ />">
+                       value="<?php echo Yii::t('course', '0958'); ?> />">
             </div>
         </div>
     </div>
