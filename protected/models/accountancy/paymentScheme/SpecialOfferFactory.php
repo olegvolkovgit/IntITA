@@ -46,29 +46,23 @@ class SpecialOfferFactory {
         if ($this->user && $this->service) {
             $params['userId'] = $this->user->id;
             $params['serviceId'] = $this->service->service_id;
-            $offer=UserSpecialOffer::model()->findByAttributes(array('userId'=>$params['userId'],'serviceId'=>$params['serviceId']));
-            if(!$offer){
-                $offer = new UserSpecialOffer();
-            }
+            $offer = new UserSpecialOffer();
         } else if($this->user && !$this->service) {
             $params['userId'] = $this->user->id;
-            $offer=UserSpecialOfferForAllServices::model()->findByAttributes(
-                array('userId'=>$params['userId'],'serviceId'=>null, 'serviceType'=>$params['serviceType'])
-            );
-            if(!$offer){
-                $offer = new UserSpecialOfferForAllServices();
-            }
-        }else if ($this->service) {
+            $offer = new UserSpecialOfferForAllServices();
+        } else if ($this->service) {
             $params['serviceId'] = $this->service->service_id;
-            $offer=ServiceSpecialOffer::model()->findByAttributes(array('userId'=>null,'serviceId'=>$params['serviceId']));
-            if(!$offer){
-                $offer = new ServiceSpecialOffer();
-            }
+            $offer = new ServiceSpecialOffer();
         }
 
         if (!empty($offer)) {
             $offer->setAttributes($params);
-            $offer->save();
+            if($offer->checkDateConflict()){
+                $offer->save();
+            }else{
+                throw new Exception('Застосувати схему не вдалося, оскільки дата її дії 
+                        пересікається з іншою схемою застосованою раніше за такими ж параметрами');
+            }
         }
 
         return $offer;
@@ -77,9 +71,13 @@ class SpecialOfferFactory {
     private function pickPaymentSchemaParams($params) {
         $paymentSchemaParams = [
             'id_template' => true,
+            'userId'=>true,
+            'serviceId'=>true,
             'serviceType' => true,
             'startDate' => true,
-            'endDate' => true
+            'endDate' => true,
+            'id_organization' => true,
+            'id_user_approved' => true
         ];
         return array_intersect_key($params, $paymentSchemaParams);
     }

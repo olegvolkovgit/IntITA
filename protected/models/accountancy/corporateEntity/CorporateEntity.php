@@ -27,6 +27,7 @@
  * @property CourseService[] $coursesService
  * @property Module[] $modules
  * @property Course[] $courses
+ * @property Organization $organization
  */
 class CorporateEntity extends CActiveRecord {
 

@@ -65,11 +65,10 @@ function moduleCtrl($scope, $http) {
         $scope.moduleProgress=response;
         if($scope.moduleProgress.course){
             $scope.moduleProgress.course.status=parseInt($scope.moduleProgress.course.status_online) || parseInt($scope.moduleProgress.course.status_offline);
-            $scope.moduleProgress.course.canPayCourse=$scope.moduleProgress.course.status && !$scope.moduleProgress.course.cancelled;
+            $scope.moduleProgress.course.canPayCourse=$scope.moduleProgress.course.status && !parseInt($scope.moduleProgress.course.cancelled);
         }
-        $scope.moduleProgress.canPayModule=parseInt($scope.moduleProgress.module.status_online) || parseInt($scope.moduleProgress.module.status_offline) && !$scope.moduleProgress.module.cancelled;
+        $scope.moduleProgress.canPayModule=parseInt($scope.moduleProgress.module.status_online) || parseInt($scope.moduleProgress.module.status_offline) && !parseInt($scope.moduleProgress.module.cancelled);
 
-        console.log(response);
         var title='title_'+lang;
         if($scope.moduleProgress.user)
             $scope.moduleProgress.user.lastAccessLectureOrder=Number($scope.moduleProgress.user.lastAccessLectureOrder);
@@ -79,7 +78,7 @@ function moduleCtrl($scope, $http) {
 
             if($scope.moduleProgress.moduleAccess===true ||
                 (!$scope.moduleProgress.notAccessMessage && $scope.moduleProgress.module.lectures[key].order<=$scope.moduleProgress.user.lastAccessLectureOrder) ||
-                ($scope.moduleProgress.moduleAccess!==false && $scope.moduleProgress.module.lectures[key].isFree && $scope.moduleProgress.module.lectures[key].order<=$scope.moduleProgress.user.lastAccessLectureOrder))
+                ($scope.moduleProgress.moduleAccess!==false && parseInt($scope.moduleProgress.module.lectures[key].isFree) && $scope.moduleProgress.module.lectures[key].order<=$scope.moduleProgress.user.lastAccessLectureOrder))
                 $scope.moduleProgress.module.lectures[key].ico='enabled.png';
             else $scope.moduleProgress.module.lectures[key].ico='disabled.png';
 

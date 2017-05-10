@@ -2,6 +2,18 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <table ng-table="agreementsTableParams" class="table table-bordered table-striped table-condensed">
+                <colgroup>
+                    <col/>
+                    <col width="20%"/>
+                    <col width="10%"/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col width="10%"/>
+                    <col width="10%"/>
+                    <col/>
+                    <col/>
+                </colgroup>
                 <tr ng-repeat="row in $data track by row.id"
                     ng-class="{'bg-warning': (currentDate>=(row.payment_date  | shortDate:'yyyy-MM-dd') && currentDate<=(row.expiration_date  | shortDate:'yyyy-MM-dd')),
                     'bg-danger': (currentDate>(row.expiration_date  | shortDate:'yyyy-MM-dd') || row.cancel_date),
