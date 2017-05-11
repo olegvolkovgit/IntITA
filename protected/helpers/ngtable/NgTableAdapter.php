@@ -151,7 +151,7 @@ class NgTableAdapter {
      * @param CActiveRecord $model
      * @return array
      */
-    private function getModelAssoc($model) {
+    public function getModelAssoc($model) {
         $provider = $this->getBehavior($model);
 
         $result = array_filter($model->getAttributes());
@@ -358,7 +358,7 @@ class NgTableAdapter {
      * @param CActiveRecord $model
      * @return INgTableProvider
      */
-    private function getBehavior($model) {
+    public function getBehavior($model) {
         $ngTableProvider = null;
         if (!isset($model->ngTable)) {
 

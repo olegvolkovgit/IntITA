@@ -8,7 +8,14 @@ angular
 
 
 function responseCtrl ($scope, NgTableParams, responseService){
-    $scope.responsesTableParams = new NgTableParams({}, {
+    $scope.responseStatuses = [{id:null, title:'не перевірено'},{id:'0', title:'приховано'},{id:'1', title:'опубліковано'}];
+
+    $scope.responsesTableParams = new NgTableParams({
+        filter:{'is_checked':null},
+        sorting: {
+            date: 'desc'
+        },
+    }, {
         getData: function (params) {
             return responseService
                 .responsesList(params.url())
