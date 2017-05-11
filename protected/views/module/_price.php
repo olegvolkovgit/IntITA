@@ -53,6 +53,7 @@ if (!$model->isDeveloping()) { ?>
         </div>
     </div>
 <?php } ?>
+<?php if($model->hasPromotionSchemes()) {?>
 <a href="<?php echo Yii::app()->createUrl('module/schemes', array('id' => $model->module_ID)); ?>"
    style="color:green;text-decoration:underline" target="_blank"><em>Спеціальні пропозиції</em></a>
-
+<?php } ?>
