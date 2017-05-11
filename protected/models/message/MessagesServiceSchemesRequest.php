@@ -153,7 +153,10 @@ class MessagesServiceSchemesRequest extends Messages implements IMessage
         $this->schema_template = $schemesTemplate;
         $this->id_user = $user->id;
         $this->user = $user;
-        $this->receivers = MessagesServiceSchemesRequest::requestsReceiversArray();
+        if($service->courseServices)
+            $idOrganization=$service->courseServices->courseModel->id_organization;
+        else $idOrganization=$service->moduleServices->moduleModel->id_organization;
+        $this->receivers = MessagesServiceSchemesRequest::requestsReceiversArray($idOrganization);
     }
 
     public function create()
@@ -283,7 +286,7 @@ class MessagesServiceSchemesRequest extends Messages implements IMessage
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
+            $message->build($subject, $sender->template(), array($user), StudentReg::model()->findByPk(Yii::app()->user->getId()));
             $message->create();
 
             $message->send($sender);
@@ -416,11 +419,12 @@ class MessagesServiceSchemesRequest extends Messages implements IMessage
         }
     }
 
-    public static function requestsReceiversArray(){
+    public static function requestsReceiversArray($idOrganization=null){
+        $sql=$idOrganization?' and ua.id_organization='.$idOrganization:'';
         $criteria = new CDbCriteria();
         $criteria->alias = 'u';
         $criteria->join = 'join user_accountant ua on ua.id_user=u.id';
-        $criteria->addCondition('ua.end_date IS NULL');
+        $criteria->addCondition('ua.end_date IS NULL'.$sql);
         $criteria->distinct = true;
 
         return StudentReg::model()->findAll($criteria);

@@ -759,7 +759,7 @@ class PaymentSchemaController extends TeacherCabinetController
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
+            $message->build($subject, $sender->template(), array($user), StudentReg::model()->findByPk(Yii::app()->user->getId()));
             $message->create();
 
             $message->send($sender);
