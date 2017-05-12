@@ -38,10 +38,7 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a ui-sref="company">Компанії</a>
-                    </li>
-                    <li>
-                        <a ui-sref="representative">Представники</a>
+                        <a ng-href="#/accountant/company">Компанії</a>
                     </li>
                 </ul>
                 <br>
@@ -73,6 +70,24 @@
             </div>
             <div class="panel-footer">
                 <em>Налаштування параметрів проплат</em>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                Користувачі
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a ui-sref="users.registeredUsers">Користувачі</a></li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Користувачі та їх ролі</em>
             </div>
         </div>
     </div>

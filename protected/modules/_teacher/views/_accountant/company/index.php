@@ -20,6 +20,9 @@
                 <td data-title="'Фактична адреса'" filter="{'actual_address' : 'text'}"
                     sortable="'actual_address '">{{row.actual_address}}
                 </td>
+                <td data-title="'Компанія'" filter="{'organization.name' : 'text'}" sortable="'organization.name'">
+                    {{row.organization.name}}
+                </td>
             </tr>
         </table>
     </div>

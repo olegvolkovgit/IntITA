@@ -2,7 +2,10 @@
 
 class CompanyController extends TeacherCabinetController {
     public function hasRole() {
-        return Yii::app()->user->model->isAccountant();
+        $allowedAuditorsActions = ['index','list','viewCompany','upsert','representatives','servicesList'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorsActions));
     }
 
     public function actionIndex($id = 0) {
