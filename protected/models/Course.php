@@ -981,12 +981,12 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             $result["total"] = Course::selectCoursesCount(null, Course::OUR_ORGANISATION);
             $result["modules"] = Module::selectModulesCount(null);
 
-            if($result['our']==NULL){
+            if(!isset($result['our'])){
                 $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
             }
 
-            if($result['partner']==NULL){
+            if(!isset($result['partner'])){
                 $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
             }
@@ -997,12 +997,12 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             $result["total"] = Course::selectCoursesCount(null, Course::OTHER_ORGANISATION);
             $result["modules"] = Module::selectModulesCount(null);
 
-            if($result['our']==NULL){
+            if(!isset($result['our'])){
                 $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
             }
 
-            if($result['partner']==NULL){
+            if(!isset($result['partner'])){
                 $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
             }
@@ -1012,13 +1012,13 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             $result["senior"] = Course::selectCoursesCount(Level::SENIOR, Course::ALL_ORGANIZATION);
             $result["total"] = Course::selectCoursesCount(null, Course::OTHER_ORGANISATION);
             $result["modules"] = Module::selectModulesCount(null);
-
-            if($result['our']==NULL){
+//var_dump($result['our']);die;
+            if(!isset($result['our'])){
                 $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
             }
 
-            if($result['partner']==NULL){
+            if(!isset($result['partner'])){
                 $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
             }
@@ -1029,11 +1029,11 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             $result["total"] = Course::selectCoursesCount(null, Course::OUR_ORGANISATION);
             $result["modules"] = Module::selectModulesCount(null);
 
-            if($result['our']==NULL){
+            if(!isset($result['our'])){
                 $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
             }
-            if($result['partner']==NULL){
+            if(!isset($result['partner'])){
                 $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
                     Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
             }

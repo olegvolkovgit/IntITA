@@ -7,7 +7,7 @@
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         Course::getCourseTitleForBreadcrumbs($model->course_ID) => Yii::app()->createUrl('course/index', array('id' => $model->course_ID)),
-        'Спеціальні пропозиції',
+        Yii::t('course', '0959'),
     );
 ?>
 <script type="text/javascript">
@@ -26,8 +26,8 @@
                 <em style="color:red">{{item.template.description}}</em>
                 <div ng-if="item.promotion.startDate || item.promotion.endDate" style="overflow:hidden">
                     <em style="color:red;float:right">
-                        Акція діє <span ng-if="item.promotion.startDate">з {{item.promotion.startDate}}</span>
-                        <span ng-if="item.promotion.endDate"> по {{item.promotion.endDate}}</span>
+                        <?php echo Yii::t('course', '0961'); ?><span ng-if="item.promotion.startDate"><?php echo Yii::t('course', '0962'); ?> {{item.promotion.startDate}}</span>
+                        <span ng-if="item.promotion.endDate"> <?php echo Yii::t('course', '0963'); ?> {{item.promotion.endDate}}</span>
                     </em>
                 </div>
             </div>
