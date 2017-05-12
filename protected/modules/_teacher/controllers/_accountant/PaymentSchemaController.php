@@ -6,7 +6,7 @@ class PaymentSchemaController extends TeacherCabinetController
         $allowedTrainerActions = ['getSchemas'];
         $action = Yii::app()->controller->action->id;
         return Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isAdmin() ||
-        (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions));
+        (Yii::app()->user->model->isTrainer() || Yii::app()->user->model->isAuditor() && in_array($action, $allowedTrainerActions));
     }
 
     public function actionGetSchemas() {

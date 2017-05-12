@@ -13,13 +13,13 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a ui-sref="agreements">Договори</a>
+                        <a href="#/auditor/agreements">Список договорів</a>
                     </li>
                     <li>
-                        <a ui-sref="invoices">Рахунки</a>
+                        <a href="#/auditor/invoices">Список рахунків</a>
                     </li>
                     <li>
-                        <a ui-sref="operation">Проплати</a>
+                        <a href="#/auditor/operation">Проплати</a>
                     </li>
                 </ul>
                 <br>
@@ -64,10 +64,10 @@
                         <a ng-href="#/auditor/offerTemplate">Шаблони, оферта</a>
                     </li>
                     <li>
-                        <a ui-sref="externalsources">Зовнішні джерела коштів</a>
+                        <a ng-href="#/auditor/externalsources">Зовнішні джерела коштів</a>
                     </li>
                     <li>
-                        <a ui-sref="cancelreasontype">Причини відміни проплат</a>
+                        <a ng-href="#/auditor/cancelreasontype">Причини відміни проплат</a>
                     </li>
                 </ul>
             </div>
