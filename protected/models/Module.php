@@ -1174,4 +1174,5 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     public function getService(EducationForm $educationForm) {
         return ModuleService::model()->getService($this->module_ID, $educationForm)->service;
     }
+
 }

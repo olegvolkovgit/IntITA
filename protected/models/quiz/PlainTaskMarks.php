@@ -43,9 +43,23 @@ class PlainTaskMarks extends CActiveRecord
 	 */
 	public function relations()
 	{
+
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'taskAnswer' => array(self::BELONGS_TO, 'PlainTaskAnswer', ['id_answer'=>'id']),
+            'plainTask' => [
+                self::BELONGS_TO,
+                'PlainTask',
+                ['id_plain_task' => 'id'],
+                'through' => 'taskAnswer',
+                ],
+            'idLecture' => [
+                self::BELONGS_TO,
+                'LectureElement',
+                ['block_element' => 'id_block'],
+                'through' => 'plainTask',
+            ],
 		);
 	}
 
