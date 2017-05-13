@@ -81,4 +81,18 @@ class CoursesController extends Controller
         }
     }
 
+    public static function nameCourses($organization = 'allcourses'){
+        if ($organization == 'modules'){
+            return Yii::t('courses', '0918');
+        }
+        else if ($organization == 'ourcourses'){
+            return Yii::t('courses', '0945');
+        }
+        else if ($organization == 'partnerscourses'){
+            return Yii::t('courses', '0946');
+        }
+        else if ($organization == 'allcourses'){
+            return Yii::t('courses', '0143');
+        }
+    }
 }

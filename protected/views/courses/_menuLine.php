@@ -7,11 +7,8 @@
 <?php if (isset($_GET['organization'])) $organization = $_GET['organization']; else $organization = 'allcourses'; ?>
 <div class="coursesHeader">
     <h1>
-        <?php if ($organization == 'modules')
-            echo Yii::t('courses', '0918');
-        else echo Yii::t('courses', '0066'); ?>
+        <?php echo CoursesController::nameCourses($organization) ?>
     </h1>
-
             <!-- line 1 -->
     <div class="coursesType">
 
