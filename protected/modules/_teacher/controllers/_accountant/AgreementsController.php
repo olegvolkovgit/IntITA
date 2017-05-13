@@ -3,9 +3,11 @@
 class AgreementsController extends TeacherCabinetController {
     public function hasRole() {
         $allowedTrainerActions = ['renderUserAgreements','getUserAgreementsList','agreement','getAgreement'];
+        $allowedAuditorsActions = ['index','getAgreementsList','agreement','getAgreement'];
         $action = Yii::app()->controller->action->id;
         return Yii::app()->user->model->isAccountant() ||
-        (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions));
+            (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions)) ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorsActions));
     }
 
     /**
@@ -35,9 +37,10 @@ class AgreementsController extends TeacherCabinetController {
 
     /**
      * Lists all models.
+     * @param $organization
      */
-    public function actionIndex($id=0) {
-        $this->renderPartial('index');
+    public function actionIndex($organization) {
+        $this->renderPartial('index', array('organization'=>$organization));
     }
 
     public function actionGetAgreementsList() {

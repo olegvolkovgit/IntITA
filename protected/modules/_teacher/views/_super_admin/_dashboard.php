@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="mainSuperAdminCtrl">
     <div class="col-lg-12">
         Суперадмін
     </div>
@@ -43,7 +43,9 @@
                         <a href="#/users/blockedUsers">Заблоковані користувачі</a>
                     </li>
                     <li>
-                        <a href="#/response">Відгуки про викладачів</a>
+                        <a href="#/response">Відгуки про викладачів
+                            <span ng-cloak class="label label-success" ng-if="countOfNewResponses > 0">{{countOfNewResponses}}</span>
+                        </a>
                     </li>
                 </ul>
             </div>

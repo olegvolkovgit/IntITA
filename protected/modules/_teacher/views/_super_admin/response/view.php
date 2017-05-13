@@ -18,9 +18,14 @@
                     Видалити
                 </a>
             </li>
-            <li>
-                <a type="button" class="btn btn-success" ng-click="changeResponseStatus(response.id,response.is_checked==1?'hide':'publish')">
-                    {{response.is_checked==1? "Приховати" : "Опублікувати"}}
+            <li ng-if="response.is_checked!=0">
+                <a type="button" class="btn btn-success" ng-click="changeResponseStatus(response.id,'hide')">
+                    Приховати
+                </a>
+            </li>
+            <li ng-if="response.is_checked!=1">
+                <a type="button" class="btn btn-success" ng-click="changeResponseStatus(response.id,'publish')">
+                    Опублікувати
                 </a>
             </li>
         </ul>
@@ -34,7 +39,11 @@
                 <li class="list-group-item"><span class="view-label">Знання: </span>{{response.knowledge}}</li>
                 <li class="list-group-item"><span class="view-label">Поведінка: </span>{{response.behavior}}</li>
                 <li class="list-group-item"><span class="view-label">Мотивація: </span>{{response.motivation}}</li>
-                <li class="list-group-item"><span class="view-label">Статус: </span>{{response.is_checked==1 ? "опубліковано" : "прихований"}}</li>
+                <li class="list-group-item"><span class="view-label">Статус: </span>
+                    <span ng-if="response.is_checked==1">опублікованно</span>
+                    <span ng-if="response.is_checked==0">приховано</span>
+                    <span ng-if="!response.is_checked">не перевірено</span>
+                </li>
             </ul>
         </div>
     </div>

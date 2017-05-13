@@ -126,7 +126,7 @@ angular
       .state('accountant/agreements', {
         url: "/accountant/agreements",
         cache: false,
-        templateUrl: accountantUrl + "agreements/index"
+        templateUrl: accountantUrl + "agreements/index?organization=1"
       })
       .state('accountant/agreement/', {
         url: "/accountant/agreement/{agreementId:[0-9]*}",
@@ -138,7 +138,7 @@ angular
       .state('accountant/invoices', {
         url: "/accountant/invoices",
         cache: false,
-        templateUrl: accountantUrl + "invoices/index"
+        templateUrl: accountantUrl + "invoices/index?organization=1"
       })
       .state('accountant/invoice/', {
         url: "/accountant/invoice/{invoiceId:[0-9]*}",
@@ -148,7 +148,7 @@ angular
       .state('accountant/operation', {
         url: "/accountant/operation",
         cache: false,
-        templateUrl: accountantUrl + "operation/index/"
+        templateUrl: accountantUrl + "operation/index?organization=1"
       })
       .state('accountant/operation/create', {
         url: "/accountant/operation/create",
@@ -160,16 +160,6 @@ angular
         controller: 'representativesCtrl',
         cache: false,
         templateUrl: accountantUrl + "representative/index"
-      })
-      .state('accountant/externalsources', {
-        url: "/accountant/externalsources",
-        cache: false,
-        templateUrl: accountantUrl + "externalSources/index"
-      })
-      .state('accountant/cancelreasontype', {
-        url: "/accountant/cancelreasontype",
-        cache: false,
-        templateUrl: accountantUrl + "cancelReasonType/index"
       })
       .state('accountant/paymentSchemas/schemas/template', {
         url: '/accountant/paymentSchemas/schemas/template',

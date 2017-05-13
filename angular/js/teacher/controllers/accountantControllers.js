@@ -609,14 +609,39 @@ angular
     }
   })
 
-  .controller('cancelReasonTypeCtrl', function ($scope) {
-    $jq('#cancelReasonTypes').DataTable({
-        "autoWidth": false,
-        language: {
-          "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
+  .controller('cancelReasonTypeCtrl', function ($http, $scope, NgTableParams, auditorService) {
+      $scope.changePageHeader('Додати причину відміни проплат');
+
+      $scope.cancelReasonTypeTableParams = new NgTableParams({}, {
+          getData: function (params) {
+              return auditorService
+                  .cancelReasonTypeList(params.url())
+                  .$promise
+                  .then(function (data) {
+                      params.total(data.count);
+                      return data.rows;
+                  });
+          }
+      });
+
+      $scope.deleteCancelReasonTypes=function(id){
+          bootbox.confirm('Ви впевнені що хочете видалити причину відміни проплат?', function(result) {
+              if (result != null) {
+                  $http({
+                      url: basePath + '/_teacher/_auditor/cancelReasonType/delete',
+                      method: "POST",
+                      data: $jq.param({id: id}),
+                      headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                  }).then(function successCallback() {
+                      $scope.cancelReasonTypeTableParams.reload();
+                  }, function errorCallback() {
+                      bootbox.alert("Операцію не вдалося виконати.");
+                  });
+              } else {
+                  bootbox.alert("Операцію не вдалося виконати.");
+              }
+          });
       }
-    );
   })
 
   .controller('paymentsSchemaCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {

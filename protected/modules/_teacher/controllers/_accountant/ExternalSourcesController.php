@@ -3,7 +3,10 @@
 class ExternalSourcesController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAccountant();
+        $denyForAuditor = ['create','createExternalSource'];
+        $action = Yii::app()->controller->action->id;
+        return (Yii::app()->user->model->isAccountant() && !in_array($action, $denyForAuditor)) ||
+            Yii::app()->user->model->isAuditor();
     }
 
     /**

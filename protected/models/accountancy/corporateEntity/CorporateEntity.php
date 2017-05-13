@@ -146,7 +146,7 @@ class CorporateEntity extends CActiveRecord {
     public function scopes() {
         return [
           'latest' => [
-              'order' => 'id DESC',
+              'order' => 't.id DESC',
               'limit' => 1
           ]
         ];

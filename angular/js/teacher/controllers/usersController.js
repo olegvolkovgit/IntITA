@@ -96,6 +96,7 @@ function studentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
                 .studentsList($scope.params)
                 .$promise
                 .then(function (data) {
+                    params.total(data.count);
                     return data.rows;
                 });
         }

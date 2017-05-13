@@ -1,8 +1,9 @@
 <div ng-controller="operationCtrl">
+    <?php if(Yii::app()->user->model->isAccountant()) {?>
     <div class="row m-t-20 m-b-20">
         <button class="btn btn-primary" ng-click="createOperation()">Нова проплата</button>
     </div>
-
+    <?php } ?>
     <div class="row m-t-20">
         <uib-tabset type="pills" justified="true" active="activeTab">
             <uib-tab index="0" heading="Зовнішні надходження" classes="p-b-20">

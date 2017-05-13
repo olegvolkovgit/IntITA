@@ -6,12 +6,12 @@
                     <colgroup>
                         <col/>
                         <col/>
+                        <col width="20%"/>
                         <col/>
-                        <col width="10%"/>
+                        <col width="20%"/>
                         <col/>
-                        <col width="8%"/>
-                        <col  width="15%"/>
-                        <col  width="15%"/>
+                        <col/>
+                        <col/>
                         <col width="4%"/>
                     </colgroup>
                     <tr ng-repeat="row in $data track by $index">
@@ -26,13 +26,13 @@
                             </a>
                         </td>
                         <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                            <a ng-href="#/users/profile/{{row.user.id}}" target="_blank">{{row.user.fullName}} {{row.user.email}}</a>
+                            <a ng-href="#/users/profile/{{row.user.id}}" target="_blank">{{row.user.fullName}}</a>
                         </td>
                         <td data-title="'Дата запиту'" filter="{'date_create': 'text'}" sortable="'date_create'">
                             {{row.date_create}}
                         </td>
                         <td data-title="'Перевірив'" filter="{'coworkerChecked.fullName': 'text'}" sortable="'coworkerChecked.fullName'">
-                            <a ng-href="#/users/profile/{{row.coworkerChecked.user_id}}" target="_blank">{{row.coworkerChecked.fullName}} {{row.coworkerChecked.email}}</a>
+                            <a ng-href="#/users/profile/{{row.coworkerChecked.id}}" target="_blank">{{row.coworkerChecked.fullName}}</a>
                         </td>
                         <td data-title="'Статус'" filter="{'status': 'select'}" filter-data="status">
                             <span ng-if="!row.status">нові</span>
