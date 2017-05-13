@@ -696,10 +696,10 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $modulesRequestsCount=count(MessagesServiceSchemesRequest::model()->with('service.moduleServices.moduleModel')->findAll(
             'moduleModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
-            and status='.MessagesServiceSchemesRequest::NEW_REQUEST));
+            and t.status='.MessagesServiceSchemesRequest::NEW_REQUEST));
         $coursesRequestsCount=count(MessagesServiceSchemesRequest::model()->with('service.courseServices.courseModel')->findAll(
             'courseModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
-            and status='.MessagesServiceSchemesRequest::NEW_REQUEST));
+            and t.status='.MessagesServiceSchemesRequest::NEW_REQUEST));
 
          echo $modulesRequestsCount+$coursesRequestsCount;
     }
