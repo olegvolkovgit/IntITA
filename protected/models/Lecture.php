@@ -103,7 +103,6 @@ class Lecture extends CActiveRecord
             'idType' => 'Тип',
             'isFree' => 'Безкоштовно',
             'durationInMinutes' => 'Тривалість лекції(хв)',
-//            'rate' => 'Рейтинг заняття',
             'understand_rating' => 'Рейтинг заняття по зрозумiлостi',
             'interesting_rating' => 'Рейтинг заняття по цiкавостi',
             'accessibility_rating' => 'Рейтинг заняття по доступностi',
@@ -138,7 +137,6 @@ class Lecture extends CActiveRecord
         $criteria->compare('idType', $this->idType, true);
         $criteria->compare('isFree', $this->isFree, true);
         $criteria->compare('durationInMinutes', $this->durationInMinutes, true);
-//        $criteria->compare('rate', $this->rate);
         $criteria->compare('understand_rating', $this->understand_rating);
         $criteria->compare('interesting_rating', $this->interesting_rating);
         $criteria->compare('accessibility_rating', $this->accessibility_rating);

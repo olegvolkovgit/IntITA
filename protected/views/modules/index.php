@@ -1,7 +1,7 @@
 <? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'module.css'); ?>"/>
 
-<h2 id="modulesHeader">Всі модулі</h2>
+<h2 id="modulesHeader"><?php echo Yii::t('module', '0964'); ?></h2>
 <div class="lessonModule" id="lectures">
     <?php
     $this->pageTitle = 'INTITA';

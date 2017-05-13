@@ -23,9 +23,7 @@
                 <p><?php echo Yii::t('lecture', '0801'); ?></p>
 
                 <p>
-                    <!--                    todo-->
-                    <!--                    --><?php //echo Yii::t('lecture', '0676'); ?>
-                    Вітаємо з закінченням модуля! На основі Твоїх оцінок кожного з занять ми склали середню оцінку модуля. Будь-ласка,                             підтверди її або відкоригуй.
+                    <?php echo Yii::t('module', '0952'); ?>
                 </p>
 
                 <div ng-repeat="rating in ratings track by $index">
@@ -46,7 +44,9 @@
                 <div ng-if="ratings[0].rate>=1 && ratings[0].rate<=4 ||
                             ratings[1].rate>=1 && ratings[1].rate<=4 ||
                             ratings[2].rate>=1 && ratings[2].rate<=4">
-                    <p>Будь-ласка допоможи нам зробити заняття кращими! Поясни, чому саме ти поставив(ла) таку оцінку:</p>
+                    <p>
+                        <?php echo Yii::t('lecture', '0948'); ?>
+                    </p>
                     <p ng-if="ratings[0].rate>=1 && ratings[0].rate<=4">{{ ratings[0].description }} - {{ ratings[0].rate }}</p>
                     <p ng-if="ratings[1].rate>=1 && ratings[1].rate<=4">{{ ratings[1].description }} - {{ ratings[1].rate }}</p>
                     <p ng-if="ratings[2].rate>=1 && ratings[2].rate<=4">{{ ratings[2].description }} - {{ ratings[2].rate }}</p>
@@ -55,6 +55,12 @@
 
                 <p class="sharingText"><?php echo Yii::t('lecture', '0677'); ?></p>
                 <p><?php echo Yii::t('lecture', '0678'); ?></p>
+
+                    <!-- Description for stars of module ratings  -->
+                <div ng-init="ratings[0].description='<?php echo Yii::t('rating', '0953'); ?>'"></div>
+                <div ng-init="ratings[1].description='<?php echo Yii::t('rating', '0950'); ?>'"></div>
+                <div ng-init="ratings[2].description='<?php echo Yii::t('rating', '0951'); ?>'"></div>
+
             </div>
             <div class='finishedShare'>
 

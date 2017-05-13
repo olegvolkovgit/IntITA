@@ -1175,6 +1175,23 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return ModuleService::model()->getService($this->module_ID, $educationForm)->service;
     }
 
+
+    public static function selectModulesCount($arr)
+    {
+        if(isset($arr)){
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='                       .Module::READY.')';
+            $criteria->addInCondition('level', $arr);
+            $modules = Module::model()->findAll( $criteria );
+        }else{
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='                       .Module::READY.')';
+            $modules = Module::model()->findAll($criteria);
+        }
+
+        return count($modules);
+    }
+
     public function hasPromotionSchemes()
     {
         $service=ModuleService::model()->findByPk(array('module_id'=>$this->module_ID, 'education_form'=>1));

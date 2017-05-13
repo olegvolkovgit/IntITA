@@ -118,7 +118,7 @@ return array(
             'rules' => array(
                 '' => array('site/index', 'urlSuffix' => ''),
                 '<action:login|logout|error|rapidReg>' => 'site/<action>',
-                'courses/<selector:\w+>' => 'courses/index',
+                'courses/<selector:\w+>/<organization:\w+>' => 'courses/index',
                 'aboutus/<id:\d+>' => 'aboutus/index',
                 'invoice/<id:\d+>' => 'payments/invoice',
                 'cabinet/<organizationId:\d+>' => '_teacher/cabinet/index',
