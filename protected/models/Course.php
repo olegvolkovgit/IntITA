@@ -1129,4 +1129,16 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
         }
         return $access;
     }
+
+    public function hasPromotionSchemes()
+    {
+        $service=CourseService::model()->findByPk(array('course_id'=>$this->course_ID, 'education_form'=>1));
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'courseId='.$this->course_ID.' or (serviceType=1 and id_organization='.$service->courseModel->id_organization.')';
+        $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
+            (showDate IS NULL && endDate IS NULL) or (showDate IS NOT NULL && NOW()>=showDate && endDate IS NULL))');
+        $promotions=PromotionPaymentScheme::model()->findAll($criteria);
+
+        return $promotions?true:false;
+    }
 }

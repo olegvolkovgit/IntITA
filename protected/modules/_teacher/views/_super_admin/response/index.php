@@ -26,8 +26,10 @@
                     <td data-title="'Оцінка'" filter="{'rate': 'text'}" sortable="'rate'">
                         {{row.rate}}
                     </td>
-                    <td data-title="'Статус'" filter="{'is_checked': 'text'}" sortable="'is_checked'">
-                        {{row.is_checked==1?'опублікованно':'приховано'}}
+                    <td data-title="'Статус'" filter="{'is_checked': 'select'}" filter-data="responseStatuses">
+                        <span ng-if="row.is_checked==1">опублікованно</span>
+                        <span ng-if="row.is_checked==0">приховано</span>
+                        <span ng-if="!row.is_checked">не перевірено</span>
                     </td>
                 </tr>
             </table>

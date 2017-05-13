@@ -142,4 +142,4 @@
     </div>
 </div>
 
-<ui-view></ui-view>
+<!--<ui-view></ui-view>-->

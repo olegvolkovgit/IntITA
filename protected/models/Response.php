@@ -224,7 +224,9 @@ class Response extends CActiveRecord
 
     public function publishLabel()
     {
-        return ($this->is_checked) ? 'опубліковано' : 'прихований';
+        if($this->is_checked==self::PUBLISHED) return 'опубліковано';
+        if($this->is_checked==self::HIDDEN) return 'прихований';
+        if($this->is_checked==null) return 'не перевірено';
     }
 
     public function setTeacherRating()
