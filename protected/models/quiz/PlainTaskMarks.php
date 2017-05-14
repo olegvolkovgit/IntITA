@@ -54,7 +54,7 @@ class PlainTaskMarks extends CActiveRecord
                 ['id_plain_task' => 'id'],
                 'through' => 'taskAnswer',
                 ],
-            'idLecture' => [
+            'lectureElement' => [
                 self::BELONGS_TO,
                 'LectureElement',
                 ['block_element' => 'id_block'],

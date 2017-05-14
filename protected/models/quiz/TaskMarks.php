@@ -52,7 +52,7 @@ class TaskMarks extends CActiveRecord
 		return array(
 			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
             'task' => array(self::BELONGS_TO, 'SkipTask', ['id_task' => 'id']),
-            'idLecture'=>[self::BELONGS_TO,'LectureElement', ['condition' => 'id_block'],'through' => 'idTask',],
+            'lectureElement'=>[self::BELONGS_TO,'LectureElement', ['condition' => 'id_block'],'through' => 'idTask',],
 		);
 	}
 

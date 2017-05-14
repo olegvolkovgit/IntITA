@@ -5,9 +5,11 @@ class RateController extends Controller
 {
 	public function actionRate()
 	{
-
-		$rating = RatingUserModule::model()->findByPk(2);
+        $start = microtime(true);
+		$rating = RatingUserModule::model()->find('id_user = 740');
 		$rating->rateUser(740);
+        $time = microtime(true) - $start;
+        printf('Скрипт выполнялся %.4F сек.', $time);
 	}
 
 }

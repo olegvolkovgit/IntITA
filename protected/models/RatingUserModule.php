@@ -116,54 +116,88 @@ class RatingUserModule extends CActiveRecord implements IUserRating
     public function rateUser($user)
     {
         $rate = 0;
-        $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll('id_module_revision=:moduleRevision',[':moduleRevision'=>$this->module_revision]);
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id_module_revision=:moduleRevision');
+        $criteria->params = [':moduleRevision'=>$this->module_revision];
+        $criteria->order = 'lecture_order';
+        $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
         foreach ($lectures as $lecture){
-            $lectureRate = $this->checkLectureRate($lecture->lecture, $user);
-            if ($lectureRate){
+            $lectureRate = (float)$this->checkLectureRate($lecture->lecture, $user);
+            if ($lectureRate != 0){
                 $rate += $lectureRate;
             }
             else return false;
-        }
-        $this->rating = $rate/count($lectures);
+        };
+        $this->rating = round($rate/count($lectures),2);
         $this->module_done = true;
         $this->save();
         return true;
     }
 
     private function checkLectureRate($lecture, $user){
-
-        $tasks = TasksInLectures::model()->findAll('id_lecture=:lecture AND id_state=:revisionState',[':lecture'=>$lecture->id_lecture, ':revisionState'=>RevisionState::ReleasedState]);
+        $lectureRate = 0;
+        $tasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,6,9,12,13)',[':lecture'=>$lecture->id_lecture]);
         foreach ($tasks as $task){
-
             switch ($task->id_type){
                 case LectureElement::TEST;
-                    $tests = TestsMarks::model()->with(['idLecture'])->findAll('id_lecture=:lecture AND id_user=:user',[':lecture'=>$lecture->id_lecture, ':user'=>$user]);
-                    if (!$tests)
+                    $testRate =0;
+                    $answers =TestsMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$task->id_block, ':user'=>$user]);
+                    $answersCount = 0;
+                    foreach ($answers as $key=>$answer){
+                        $testRate += $answer->mark;
+                        if ($answer->mark){
+                            $answersCount = ++$key;
+                            break;
+                        }
+                    }
+                    unset($key);
+                    unset($answer);
+                    if (!$answers || !$testRate){
                         return 0;
+                    }
+                    $lectureRate +=$testRate/count($answersCount);
+                    unset($answersCount);
                 break;
                 case LectureElement::SKIP_TASK;
-                    $tests = SkipTaskMarks::model()->with(['idLecture'])->findAll('id_lecture=:lecture  AND user=:user',[':lecture'=>$lecture->id_lecture, ':user'=>$user]);
-                    if (!$tests)
-                        return 0;
+                    $skipTaskRate = 0;
+                    $answers =SkipTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND user=:user',['block'=>$task->id_block, ':user'=>$user]);
+                    $answersCount = 0;
+                    foreach ($answers as $key=>$answer){
+                        $skipTaskRate += $answer->mark;
+                        if ($answer->mark){
+                            $answersCount = ++$key;
+                            break;
+                        }
+                    }
+                    if (!$answers || !$skipTaskRate){
+                       // return 1;
+                    }
+                    $lectureRate +=$skipTaskRate/count($answersCount);
                 break;
                 case LectureElement::PLAIN_TASK;
-                    $tests = PlainTaskMarks::model()->with(['idLecture'])->findAll('id_lecture=:lecture  AND id_user=:user',[':lecture'=>$lecture->id_lecture, ':user'=>$user]);
-                    if (!$tests)
+                    $plainTaskRate = 0;
+                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user AND read_mark = 1',['block'=>$task->id_block, ':user'=>$user]);
+                    foreach ($answers as $answer){
+                        $plainTaskRate += $answer->mark;
+                    }
+                    if (!$answers || !$plainTaskRate){
                         return 0;
+                    }
+                    $lectureRate +=$plainTaskRate/count($answers);
                 break;
                 case LectureElement::TASK;
-                    $tests = TaskMarks::model()->with(['idLecture'])->findAll('id_lecture=:lecture',[':lecture'=>$lecture->id_lecture]);
-                    if (!$tests)
+                    $taskRate = 0;
+                    $answers = TaskMarks::model()->with(['idLecture'])->findAll('id_lecture=:lecture',[':lecture'=>$lecture->id_lecture]);
+                    foreach ($answers as $answer){
+                        $taskRate += $answer->mark;
+                    }
+                    if (!$answers || !$taskRate){
                         return 0;
+                    }
+                    $lectureRate +=$taskRate/count($answers);
                     break;
              }
         }
-
-	    $lectureRate = 0;
-
-        foreach ($tests as $test){
-            $lectureRate +=$test->mark;
-        }
-	    return $lectureRate/count($tests);
+	    return (float)$lectureRate/count($tasks);
     }
 }
