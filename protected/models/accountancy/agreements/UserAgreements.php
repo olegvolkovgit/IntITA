@@ -643,12 +643,23 @@ class UserAgreements extends CActiveRecord {
         return $criteria;
     }
 
-    public function getAgreementContentModel() {
-//        todo
-        if($this->service->courseServices) 
-            return $this->service->courseServices->courseModel;
-        if($this->service->moduleServices)
-            return $this->service->moduleServices->moduleModel;
+    public function checkAgreementView() {
+        if(Yii::app()->user->model->isAuditor()){
+            return true;
+        }
+        if(Yii::app()->user->model->isAccountant() && $this->corporateEntity->id_organization==Yii::app()->user->model->getCurrentOrganizationId()){
+            return true;
+        }
+        if(Yii::app()->user->model->isTrainer() && TrainerStudent::model()->findByAttributes(array(
+                'student'=>$this->user_id,
+                'trainer'=>Yii::app()->user->getId(),
+                'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
+                'end_time'=>null,
+            ))==Yii::app()->user->model->getCurrentOrganizationId()){
+            return true;
+        }
+
+        return false;
     }
 }
 

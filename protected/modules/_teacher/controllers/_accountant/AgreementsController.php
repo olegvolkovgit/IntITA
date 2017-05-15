@@ -104,19 +104,11 @@ class AgreementsController extends TeacherCabinetController {
     }
 
     public function actionAgreement($id) {
-        if(Yii::app()->user->model->isTrainer()){
-            $agreement=UserAgreements::model()->findByPk($id);
-            Yii::app()->user->model->hasAccessToOrganizationModel(
-                TrainerStudent::model()->findByAttributes(
-                    array(
-                        'student'=>$agreement->user_id,
-                        'trainer'=>Yii::app()->user->getId(),
-                        'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
-                        'end_time'=>null,
-                    )
-                ));
-            Yii::app()->user->model->hasAccessToOrganizationModel($agreement->getAgreementContentModel());
+        $agreement=UserAgreements::model()->findByPk($id);
+        if(!$agreement->checkAgreementView()){
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до дії в межах даної організації');
         }
+
         $this->renderPartial('agreement');
     }
 
