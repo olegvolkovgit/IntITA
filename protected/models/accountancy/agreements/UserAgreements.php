@@ -286,6 +286,10 @@ class UserAgreements extends CActiveRecord {
     {
         $user = StudentReg::model()->findByPk($userId);
         $serviceModel = $modelFactory::getService($param_id, $educForm);
+        if(!$serviceModel->checkServiceAccess()){
+            throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Статус сервісу: "В РОЗРОБЦІ"');
+        }
+
         $billableObject = $serviceModel->getBillableObject();
 
         $schemas = PaymentScheme::model()->getPaymentScheme($user, $serviceModel);

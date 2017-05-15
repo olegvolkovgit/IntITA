@@ -205,4 +205,20 @@ class CourseService extends AbstractIntITAService
     {
         return Yii::app()->createAbsoluteUrl('course/index', array('id' => $this->course_id));;
     }
+
+    public function checkServiceAccess(){
+        if($this->education_form==EducationForm::ONLINE && $this->courseModel->status_online)
+            return true;
+        if($this->education_form==EducationForm::OFFLINE && $this->courseModel->status_offline)
+            return true;
+
+        return false;
+    }
+
+    public function getStatus(){
+        if($this->education_form==EducationForm::ONLINE)
+            return $this->courseModel->status_online;
+        if($this->education_form==EducationForm::OFFLINE)
+            return $this->courseModel->status_offline;
+    }
 }
