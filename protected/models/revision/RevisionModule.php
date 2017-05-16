@@ -15,7 +15,7 @@
  * @property Module $module
  * @property RevisionModuleLecture[] moduleLecturesModels
  */
-class RevisionModule extends CRevisionUnitActiveRecord
+class RevisionModule extends CRevisionUnitActiveRecord implements ITask
 {
 
     /**
@@ -714,5 +714,24 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
     public function canCancel() {
         return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isCancellable());
+    }
+    /**
+     * starts by cron when Module revision was changed
+     * check student module rating
+     */
+    public function run()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id_module_revision=:moduleRevision');
+        $criteria->params = [':moduleRevision'=>$this->id_module_revision];
+        $criteria->order = 'lecture_order';
+        $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id_parent=:moduleRevision');
+        $criteria->params = [':moduleRevision'=>$this->id_module_revision];
+        $criteria->order = 'lecture_order';
+        $lecturesOld = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
+
+
     }
 }

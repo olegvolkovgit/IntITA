@@ -116,7 +116,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
     public function rateUser($user)
     {
       $rate = 0;
-      $modules = RevisionCourseModule::model()->findAll('id_course_revision=:idREvision',[':idREvision'=>$this->course_revision]);
+      $modules = RevisionCourseModule::model()->findAll('id_course_revision=:idRevision',[':idRevision'=>$this->course_revision]);
       foreach ($modules as $module){
           $rateModule = RatingUserModule::model()->find('id_module=:module AND id_user=:user',[':module'=>$module->id_module,':user'=>$user]);
           if($rateModule->module_done){
@@ -126,6 +126,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
               return false;
           }
       }
+
       $this->rating = $rate/count($modules);
       $this->course_done = true;
       $this->save();

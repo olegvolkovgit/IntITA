@@ -11,17 +11,17 @@
 class TaskFactory
 {
     const NEWSLETTER = 1;
+    const CHANGEMODULEREVISION = 2;
+    const CHANGECOURCEREVISION = 3;
 
     public static function getInstance($taskType, $relatedModelId){
         switch($taskType) {
             case TaskFactory::NEWSLETTER:
-//                if (isset($params['recipients']))
-//                    $recipients = $params['recipients'];
-//                $subject = urldecode($params['subject']);
-//                $message = urldecode($params['message']);
-//                $email = $params['email'];
-//                $emailBaseCategory = $params['emailBaseCategory'];
                 return $newsLetter = Newsletters::model()->findByPk($relatedModelId);
+            case TaskFactory::CHANGEMODULEREVISION:
+                return $newsLetter = RevisionModule::model()->findByPk($relatedModelId);
+            case TaskFactory::CHANGECOURCEREVISION:
+                return $newsLetter = RevisionCourse::model()->findByPk($relatedModelId);
         }
         return null;
     }
