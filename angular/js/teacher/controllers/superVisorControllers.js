@@ -15,6 +15,10 @@ angular
     .controller('groupAccessCtrl', groupAccessCtrl)
     .controller('offlineStudentSubgroupCtrl', offlineStudentSubgroupCtrl)
     .controller('trainersStudentsCtrl', trainersStudentsCtrl)
+    .controller('groupModulesAttributesCtrl', groupModulesAttributesCtrl)
+    .controller('groupModulesTeachersFormCtrl', groupModulesTeachersFormCtrl)
+    .controller('lecturesRatingTableCtrl', lecturesRatingTableCtrl)
+    .controller('modulesRatingTableCtrl', modulesRatingTableCtrl)
 
 function superVisorCtrl (){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
@@ -783,4 +787,85 @@ function trainersStudentsCtrl ($scope, superVisorService, NgTableParams, $stateP
         $scope.userSelected=null;
         $scope.selectedUser=null;
     };
+}
+
+function groupModulesAttributesCtrl ($scope, superVisorService){
+    superVisorService
+        .courseModuleAccessList({'idGroup':$scope.groupId})
+        .$promise
+        .then(function (response) {
+            $scope.courses=response.courses;
+            $scope.modules=response.modules;
+        });
+}
+
+function groupModulesTeachersFormCtrl ($scope, $http, $state,$templateCache,$stateParams){
+    $scope.changePageHeader('Призначення викладача модулю групи');
+    $scope.selectedTeacher = null;
+    $scope.onSelect = function ($item) {
+        $scope.selectedTeacher = $item;
+    };
+
+    $scope.assignGroupTeacherModule = function (groupId,moduleId) {
+        if ($scope.selectedTeacher)
+            $http({
+                method:'POST',
+                url:basePath + '/_teacher/_supervisor/superVisor/assignTeacherForGroupModule',
+                data: $jq.param({teacher: $scope.selectedTeacher.id, module: moduleId, group: groupId}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function(response){
+                bootbox.alert(response,function(){
+                    $templateCache.remove(basePath + "/_teacher/_supervisor/superVisor/editOfflineGroupTeacherModule/idGroup/"+$stateParams.idGroup+"/idModule/" + $stateParams.idModule);
+                    $state.reload();
+                });
+            }).error(function(){
+                bootbox.alert("Операцію не вдалося виконати.");
+            })
+
+    };
+
+    $scope.cancelGroupTeacherModule = function(modelId){
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/_supervisor/superVisor/cancelTeacherForGroupModule',
+            data: $jq.param({id: modelId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function (response){
+            bootbox.alert(response,function(){
+                $templateCache.remove(basePath + "/_teacher/_supervisor/superVisor/editOfflineGroupTeacherModule/idGroup/"+$stateParams.idGroup+"/idModule/" + $stateParams.idModule);
+                $state.reload();
+            });
+        }).error(function(){
+            bootbox.alert("Операцію не вдалося виконати.");
+        });
+    };
+}
+function lecturesRatingTableCtrl($scope, superVisorService, NgTableParams) {
+    $scope.lecturesRatingTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return superVisorService
+                .lecturesRatingList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                     console.log(data);
+                    return data.rows;
+                });
+        }
+    });
+}
+
+function modulesRatingTableCtrl($scope, superVisorService, NgTableParams) {
+    $scope.modulesRatingTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return superVisorService
+                .modulesRatingList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+            console.log(data);
+                    return data.rows;
+                });
+        }
+    });
 }

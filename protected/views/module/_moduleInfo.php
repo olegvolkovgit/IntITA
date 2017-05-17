@@ -42,8 +42,8 @@
         </div>
         <div>
             <span id="titleModule">
-<!--                --><?php //echo Yii::t('module', '0893'); ?><!--: -->
-                Статус онлайн:
+                <?php echo Yii::t('courses', '0094'); ?>:
+<!--                Статус онлайн:-->
             </span>
             <?php if ($post->status_online == Module::DEVELOP) { ?>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
@@ -56,8 +56,8 @@
         </div>
         <div>
             <span id="titleModule">
-<!--                --><?php //echo Yii::t('module', '0893'); ?><!--: -->
-                Статус офлайн:
+                <?php echo Yii::t('courses', '0944'); ?>:
+<!--                Статус офлайн:-->
             </span>
             <?php if ($post->status_offline == Module::DEVELOP) { ?>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">

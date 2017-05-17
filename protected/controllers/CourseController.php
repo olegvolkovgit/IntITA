@@ -197,6 +197,7 @@ class CourseController extends Controller
         }else{
             $result['schemes']=$service->getPaymentSchemas($educationForm);
         }
+        $result['status']=$service->getStatus();
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
         $result['translates']['price']=Yii::t('courses', '0147');
         $result['translates']['free']=Yii::t('module', '0421');

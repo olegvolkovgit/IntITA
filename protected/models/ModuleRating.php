@@ -15,7 +15,7 @@
  * @property string $create_date
  *
  * The followings are the available model relations:
- * @property User $idUser
+ * @property StudentReg $idUser
  */
 class ModuleRating extends CActiveRecord
 {
@@ -52,7 +52,8 @@ class ModuleRating extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
+			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module'),
 		);
 	}
 

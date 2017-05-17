@@ -15,8 +15,8 @@
  * @property string $create_date
  *
  * The followings are the available model relations:
- * @property User $idUser
- * @property VcLecture $idRevision
+ * @property StudentReg $idUser
+ * @property RevisionLecture $idRevision
  */
 class LecturesRating extends CActiveRecord
 {
@@ -53,8 +53,10 @@ class LecturesRating extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
-			'idRevision' => array(self::BELONGS_TO, 'VcLecture', 'id_revision'),
+			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
+			'idRevision' => array(self::BELONGS_TO, 'RevisionLecture', 'id_revision'),
+            'idLecture' => array(self::BELONGS_TO, 'Lecture', 'id_lecture'),
+            'idModule' => array(self::HAS_ONE, 'Module', ['idModule'=>'module_ID'], 'through' => 'idLecture'),
 		);
 	}
 

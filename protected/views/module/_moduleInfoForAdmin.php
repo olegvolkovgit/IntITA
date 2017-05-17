@@ -135,8 +135,8 @@
 <!--            </div>-->
         <div>
             <span id="titleModule">
-<!--                --><?php //echo Yii::t('module', '0893'); ?><!--: -->
-                Статус онлайн:
+                <?php echo Yii::t('courses', '0094'); ?>:
+<!--                Статус онлайн:-->
             </span>
             <?php
             $lg = Yii::app()->session['lg'];
@@ -151,15 +151,15 @@
                         '1' => Yii::t('courses', '0231'),
                     )
                 ),
-                'title' => Yii::t('module', '0893').':',
+                'title' => Yii::t('courses', '0094').':',
                 'placement' => 'right',
             ));
             ?>
         </div>
         <div>
             <span id="titleModule">
-<!--                --><?php //echo Yii::t('module', '0893'); ?><!--: -->
-                Статус офлайн:
+                <?php echo Yii::t('courses', '0944'); ?>:
+<!--                Статус офлайн:-->
             </span>
             <?php
             $lg = Yii::app()->session['lg'];
@@ -174,7 +174,7 @@
                         '1' => Yii::t('courses', '0231'),
                     )
                 ),
-                'title' => Yii::t('module', '0893').':',
+                'title' => Yii::t('courses', '0944').':',
                 'placement' => 'right',
             ));
             ?>
@@ -186,7 +186,7 @@
 
         <div class="moduleRating">
             <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-            <?php echo CommonHelper::getRating($post->rating); ?>
+            <?php echo CommonHelper::getRating($post->getAverageRating()); ?>
         </div>
     </div>
 </div>

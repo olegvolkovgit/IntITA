@@ -104,4 +104,22 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Рейтинг контенту
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <a href="#/supervisor/lecturesRating">Рейтинг лекції</a>
+                    </li>
+                    <li>
+                        <a href="#/supervisor/modulesRating">Рейтинг модуля</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
