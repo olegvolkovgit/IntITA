@@ -15,6 +15,8 @@ angular
     .controller('groupAccessCtrl', groupAccessCtrl)
     .controller('offlineStudentSubgroupCtrl', offlineStudentSubgroupCtrl)
     .controller('trainersStudentsCtrl', trainersStudentsCtrl)
+    .controller('lecturesRatingTableCtrl', lecturesRatingTableCtrl)
+    .controller('modulesRatingTableCtrl', modulesRatingTableCtrl)
 
 function superVisorCtrl (){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
@@ -783,4 +785,34 @@ function trainersStudentsCtrl ($scope, superVisorService, NgTableParams, $stateP
         $scope.userSelected=null;
         $scope.selectedUser=null;
     };
+}
+
+function lecturesRatingTableCtrl($scope, superVisorService, NgTableParams) {
+    $scope.lecturesRatingTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return superVisorService
+                .lecturesRatingList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                     console.log(data);
+                    return data.rows;
+                });
+        }
+    });
+}
+
+function modulesRatingTableCtrl($scope, superVisorService, NgTableParams) {
+    $scope.modulesRatingTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return superVisorService
+                .modulesRatingList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+            console.log(data);
+                    return data.rows;
+                });
+        }
+    });
 }

@@ -148,4 +148,14 @@ config(function ($stateProvider) {
                 return basePath + "/_teacher/_supervisor/superVisor/trainersStudents/idTrainer/" + $stateParams.idTrainer;
             }
         })
+        .state('supervisor/lecturesRating', {
+            url: "/supervisor/lecturesRating",
+            cache: false,
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/lecturesRating",
+        })
+        .state('supervisor/modulesRating', {
+            url: "/supervisor/modulesRating",
+            cache: false,
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/modulesRating",
+        })
 });
