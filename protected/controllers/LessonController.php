@@ -698,6 +698,20 @@ class LessonController extends Controller
             if (Yii::app()->user->model->hasLectureAccess($item)) {
                 if($item->id==$idLecture) $currentOrder=$key+1;
                 $lectures[$key]['access'] = true;
+                if (Yii::app()->user->model->isStudent() && $lectures[$key]['access']){
+                    $moduleRating = RatingUserModule::model()->find('id_user=:user AND id_module=:idModule',[':user'=>Yii::app()->user->id,':idModule'=>$module->module_ID]);
+                    if (!$moduleRating){
+                        $moduleRating = new RatingUserModule();
+                        $moduleRating->id_user = Yii::app()->user->id;
+                        $moduleRating->id_module = $module->module_ID;
+                        $moduleRating->module_revision = RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
+                                                        [':module'=>$module->module_ID,':activeState'=>RevisionState::ReleasedState])->id_module_revision;
+                        $moduleRating->module_done = (int)false;
+                        $moduleRating->rating = 0;
+                        $moduleRating->save(false);
+                    }
+
+                }
                 $lectures[$key]['order'] = $item->order;
                 $lectures[$key]['title'] = $item->$moduleTitle?$item->$moduleTitle:$item->title_ua;
                 $lectures[$key]['link'] = Yii::app()->createUrl("lesson/index", array("id" => $item->id, "idCourse" => $idCourse));

@@ -1175,7 +1175,6 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return ModuleService::model()->getService($this->module_ID, $educationForm)->service;
     }
 
-
     public static function selectModulesCount($arr)
     {
         if(isset($arr)){
