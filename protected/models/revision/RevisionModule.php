@@ -721,17 +721,13 @@ class RevisionModule extends CRevisionUnitActiveRecord implements ITask
      */
     public function run()
     {
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('id_module_revision=:moduleRevision');
-        $criteria->params = [':moduleRevision'=>$this->id_module_revision];
-        $criteria->order = 'lecture_order';
-        $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('id_parent=:moduleRevision');
-        $criteria->params = [':moduleRevision'=>$this->id_module_revision];
-        $criteria->order = 'lecture_order';
-        $lecturesOld = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
-
+        $oldRating = RatingUserModule::model()->find('module_revision=:oldRevision AND module_done=0',[':oldRevision'=>$this->id_parent]);
+        foreach ($oldRating as $rating){
+            $rating->module_revision = $this->id_module_revision;
+            $rating->save();
+            $rating->rateUser($rating->id_user);
+        }
 
     }
+
 }
