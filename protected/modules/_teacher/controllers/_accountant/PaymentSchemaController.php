@@ -6,7 +6,7 @@ class PaymentSchemaController extends TeacherCabinetController
         $allowedTrainerActions = ['getSchemas'];
         $action = Yii::app()->controller->action->id;
         return Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isAdmin() ||
-        (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions));
+        (Yii::app()->user->model->isTrainer() || Yii::app()->user->model->isAuditor() && in_array($action, $allowedTrainerActions));
     }
 
     public function actionGetSchemas() {
@@ -59,10 +59,17 @@ class PaymentSchemaController extends TeacherCabinetController
     public function actionApplyTemplateView($request=null)
     {
         if($request){
-            if(!MessagesServiceSchemesRequest::model()->findByPk($request)->isApprovable())
+            $model=MessagesServiceSchemesRequest::model()->findByPk($request);
+            if(!$model->isApprovable())
                 throw new Exception('Статус запиту не дозволяє його застосувати');
+            if($model->service->courseServices){
+                $contentModel=$model->service->courseServices->courseModel;
+            }else{
+                $contentModel=$model->service->moduleServices->moduleModel;
+            }
+            Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         }
-       
+
         $this->renderPartial('applyTemplateView',array('scenario'=>'create'),false,true);
     }
 
@@ -287,16 +294,20 @@ class PaymentSchemaController extends TeacherCabinetController
     public function actionGetSchemesRequestsNgTable()
     {
         $requestParams = $_GET;
+        $criteria =  new CDbCriteria();
+        $criteria->join = 'left join acc_service s on s.service_id=t.id_service';
+        $criteria->join .= ' left join acc_module_service ms on ms.service_id=s.service_id';
+        $criteria->join .= ' left join module m on m.module_ID=ms.module_id';
+        $criteria->join .= ' left join acc_course_service cs on cs.service_id=s.service_id';
+        $criteria->join .= ' left join course c on c.course_ID=cs.course_id';
         if(isset($requestParams['filter']['status']) && $requestParams['filter']['status']=='4'){
-            $criteria =  new CDbCriteria();
             $criteria->condition = 't.status='.MessagesServiceSchemesRequest::NEW_REQUEST.' or t.status='.MessagesServiceSchemesRequest::IN_PROCESS;
             unset($requestParams['filter']);
-            $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
-            $ngTable->mergeCriteriaWith($criteria);
-        }else{
-            $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
         }
-
+        $criteria->addCondition('c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+        or m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -394,6 +405,12 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $comment=$_POST['reject_comment']?$_POST['reject_comment']:null;
         $model=MessagesServiceSchemesRequest::model()->findByPk($_POST['id_message']);
+        if($model->service->courseServices){
+            $contentModel=$model->service->courseServices->courseModel;
+        }else{
+            $contentModel=$model->service->moduleServices->moduleModel;
+        }
+        Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         $model->setCancelled($comment);
     }
 
@@ -402,12 +419,24 @@ class PaymentSchemaController extends TeacherCabinetController
         $idMessage=Yii::app()->request->getParam('idMessage');
         $status=Yii::app()->request->getParam('status');
         $model=MessagesServiceSchemesRequest::model()->findByPk($idMessage);
+        if($model->service->courseServices){
+            $contentModel=$model->service->courseServices->courseModel;
+        }else{
+            $contentModel=$model->service->moduleServices->moduleModel;
+        }
+        Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         $model->setStatus($status);
     }
     
     public function actionSetRequestComment()
     {
         $model=MessagesServiceSchemesRequest::model()->findByPk($_POST['id_message']);
+        if($model->service->courseServices){
+            $contentModel=$model->service->courseServices->courseModel;
+        }else{
+            $contentModel=$model->service->moduleServices->moduleModel;
+        }
+        Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         $model->setComment($_POST['comment']);
     }
     
@@ -665,7 +694,14 @@ class PaymentSchemaController extends TeacherCabinetController
 
     public function actionGetActualSchemesRequestsCount()
     {
-         echo count(MessagesServiceSchemesRequest::model()->findAllByAttributes(array('status'=>MessagesServiceSchemesRequest::NEW_REQUEST)));
+        $modulesRequestsCount=count(MessagesServiceSchemesRequest::model()->with('service.moduleServices.moduleModel')->findAll(
+            'moduleModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+            and t.status='.MessagesServiceSchemesRequest::NEW_REQUEST));
+        $coursesRequestsCount=count(MessagesServiceSchemesRequest::model()->with('service.courseServices.courseModel')->findAll(
+            'courseModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+            and t.status='.MessagesServiceSchemesRequest::NEW_REQUEST));
+
+         echo $modulesRequestsCount+$coursesRequestsCount;
     }
 
     public static function approvedNotify($offer)
@@ -723,7 +759,7 @@ class PaymentSchemaController extends TeacherCabinetController
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
+            $message->build($subject, $sender->template(), array($user), StudentReg::model()->findByPk(Yii::app()->user->getId()));
             $message->create();
 
             $message->send($sender);

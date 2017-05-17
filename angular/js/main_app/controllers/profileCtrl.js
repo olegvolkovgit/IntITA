@@ -95,10 +95,7 @@ function profileCtrl($http,$scope) {
         return promise;
     };
     $scope.getProgressData(userId).then(function (response) {
-        console.log(response);
-
         $scope.determinColorSheme(response.count_total_cell, response.count_full_cell);
-
     });
     $scope.determinColorSheme = function(total, full_cell) {
         var counter = $scope.percentDefinition(total, full_cell);

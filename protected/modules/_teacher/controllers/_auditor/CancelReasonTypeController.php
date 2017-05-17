@@ -3,7 +3,7 @@
 class CancelReasonTypeController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAccountant();
+        return Yii::app()->user->model->isAuditor();
     }
 
     /**
@@ -32,7 +32,7 @@ class CancelReasonTypeController extends TeacherCabinetController
         {
             $model->attributes=$_POST['CancelReasonType'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet().'#/auditor/cancelreasontype');
         }
 
         $this->renderPartial('create',array(
@@ -56,7 +56,7 @@ class CancelReasonTypeController extends TeacherCabinetController
         {
             $model->attributes=$_POST['CancelReasonType'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet().'#/auditor/cancelreasontype');
         }
 
         $this->renderPartial('update',array(
@@ -69,9 +69,9 @@ class CancelReasonTypeController extends TeacherCabinetController
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        return $this->loadModel($id)->delete();
+        return $this->loadModel(Yii::app()->request->getPost("id"))->delete();
     }
 
     /**
@@ -111,5 +111,13 @@ class CancelReasonTypeController extends TeacherCabinetController
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    public function actionGetCancelReasonTypeList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('CancelReasonType', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 }

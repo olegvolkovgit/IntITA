@@ -1,4 +1,5 @@
-var auditorUrl = basePath+"/_teacher/_auditor";
+var auditorUrl = basePath+"/_teacher/_auditor",
+    accountantUrl = basePath + "/_teacher/_accountant/";
 
 angular
     .module('auditorRouter',['ui.router'])
@@ -25,6 +26,51 @@ angular
             cache         : false,
             templateUrl: function ($stateParams) {
                 return auditorUrl+"/template/editOffer/?lang="+$stateParams.lang;
+            }
+        })
+
+        .state('auditor/agreements', {
+            url: "/auditor/agreements",
+            cache: false,
+            templateUrl: accountantUrl + "agreements/index?organization=0"
+        })
+        .state('auditor/invoices', {
+            url: "/auditor/invoices",
+            cache: false,
+            templateUrl: accountantUrl + "invoices/index?organization=0"
+        })
+        .state('auditor/operation', {
+            url: "/auditor/operation",
+            cache: false,
+            templateUrl: accountantUrl + "operation/index?organization=0"
+        })
+        .state('auditor/externalsources', {
+            url: "/auditor/externalsources",
+            cache: false,
+            templateUrl: accountantUrl + "externalSources/index"
+        })
+        .state('auditor/cancelreasontype', {
+            url: "/auditor/cancelreasontype",
+            cache: false,
+            templateUrl: auditorUrl + "/cancelReasonType/index"
+        })
+        .state('auditor/createCancelreasontype', {
+            url: "/auditor/createCancelreasontype",
+            cache: false,
+            templateUrl: auditorUrl + "/cancelReasonType/create"
+        })
+        .state('auditor/cancelReasonType/view/:id', {
+            url: "/auditor/cancelReasonType/view/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return auditorUrl+"/cancelReasonType/view/?id="+$stateParams.id;
+            }
+        })
+        .state('auditor/cancelReasonType/update/:id', {
+            url: "/auditor/cancelReasonType/update/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return auditorUrl+"/cancelReasonType/update/?id="+$stateParams.id;
             }
         })
 });

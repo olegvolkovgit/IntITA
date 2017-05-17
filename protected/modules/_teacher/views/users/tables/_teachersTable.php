@@ -1,9 +1,12 @@
 <br>
 <div style="overflow: hidden">
     <?php if (Yii::app()->user->model->isAdmin()) { ?>
-    <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
-        Додати співробітника
-    </a>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
+            Додати співробітника
+        </a>
+        <a type="button" class="btn btn-success" ng-href="" ng-click="updateRolesChat()">
+            Оновити кімнати по ролях (чат)
+        </a>
     <?php } ?>
     <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
        href="/_teacher/_admin/users/export/type/teachers">

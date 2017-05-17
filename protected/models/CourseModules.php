@@ -359,7 +359,7 @@ class CourseModules extends CActiveRecord
         }else{
             foreach ($modules as $module){
                 $module->access=false;
-                $module->statusMessage='Для доступу оплати курс або модуль';
+                $module->statusMessage=Yii::t('modul', '0954');
             }
         }
     }
@@ -387,7 +387,7 @@ class CourseModules extends CActiveRecord
                 $module->check=true;
                 return true;
             }else{
-                $module->statusMessage=CHtml::encode('Для доступу до модуля спочатку пройди модуль "'.$module->mandatoryCourseModule->moduleInCourse->getTitle().'"');
+                $module->statusMessage=CHtml::encode(Yii::t('modul', '0955').' "'.$module->mandatoryCourseModule->moduleInCourse->getTitle().'"');
                 $module->access=false;
                 $module->check=true;
                 return false;
@@ -403,7 +403,7 @@ class CourseModules extends CActiveRecord
             $this->finishTime=$this->moduleInCourse->getModuleFinishedTime();
         }else{
             $this->access=false;
-            $this->statusMessage='Для доступу оплати курс або модуль';
+            $this->statusMessage=Yii::t('modul', '0954');
         }
     }
 }

@@ -1175,4 +1175,44 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return ModuleService::model()->getService($this->module_ID, $educationForm)->service;
     }
 
+    public static function selectModulesCount($arr)
+    {
+        if(isset($arr)){
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='                       .Module::READY.')';
+            $criteria->addInCondition('level', $arr);
+            $modules = Module::model()->findAll( $criteria );
+        }else{
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='                       .Module::READY.')';
+            $modules = Module::model()->findAll($criteria);
+        }
+
+        return count($modules);
+    }
+
+    public function hasPromotionSchemes()
+    {
+        $service=ModuleService::model()->getService($this->module_ID, EducationForm::model()->findByPk(1));
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'moduleId='.$this->module_ID.' or (serviceType=2 and id_organization='.$service->moduleModel->id_organization.')';
+        $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
+            (showDate IS NULL && endDate IS NULL) or (showDate IS NOT NULL && NOW()>=showDate && endDate IS NULL))');
+        $promotions=PromotionPaymentScheme::model()->findAll($criteria);
+
+        return $promotions?true:false;
+    }
+
+    //cancel teacher's students for module
+    public function cancelTeacherStudentsForModule($student)
+    {
+        if(Yii::app()->db->createCommand()->
+        update('teacher_consultant_student', array(
+            'end_date'=>date("Y-m-d H:i:s"),
+        ), 'id_student=:idStudent and id_module=:idModule and end_date IS NULL',
+                array(':idStudent'=>$student,':idModule'=>$this->module_ID))){
+            return true;
+        }
+        return false;
+    }
 }

@@ -13,13 +13,13 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a ui-sref="agreements">Договори</a>
+                        <a href="#/auditor/agreements">Список договорів</a>
                     </li>
                     <li>
-                        <a ui-sref="invoices">Рахунки</a>
+                        <a href="#/auditor/invoices">Список рахунків</a>
                     </li>
                     <li>
-                        <a ui-sref="operation">Проплати</a>
+                        <a href="#/auditor/operation">Проплати</a>
                     </li>
                 </ul>
                 <br>
@@ -38,10 +38,7 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a ui-sref="company">Компанії</a>
-                    </li>
-                    <li>
-                        <a ui-sref="representative">Представники</a>
+                        <a ng-href="#/accountant/company">Компанії</a>
                     </li>
                 </ul>
                 <br>
@@ -64,15 +61,33 @@
                         <a ng-href="#/auditor/offerTemplate">Шаблони, оферта</a>
                     </li>
                     <li>
-                        <a ui-sref="externalsources">Зовнішні джерела коштів</a>
+                        <a ng-href="#/auditor/externalsources">Зовнішні джерела коштів</a>
                     </li>
                     <li>
-                        <a ui-sref="cancelreasontype">Причини відміни проплат</a>
+                        <a ng-href="#/auditor/cancelreasontype">Причини відміни проплат</a>
                     </li>
                 </ul>
             </div>
             <div class="panel-footer">
                 <em>Налаштування параметрів проплат</em>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                Користувачі
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a ui-sref="users.registeredUsers">Користувачі</a></li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Користувачі та їх ролі</em>
             </div>
         </div>
     </div>

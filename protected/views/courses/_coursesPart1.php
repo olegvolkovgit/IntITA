@@ -50,8 +50,7 @@
                     </div>
                     <!--Стан курсу-->
                     <div class="courseStatusBox">
-<!--                        --><?php //echo Yii::t('courses', '0094'); ?>
-                        Стан онлайн:
+                        <?php echo Yii::t('courses', '0094'); ?>
                         <span id="courseStatus<?php echo $val[0]->status_online; ?>">
                                 <?php if ($val[0]->status_online == 0) { ?>
                                     <img
@@ -68,8 +67,8 @@
                         </span>
                     </div>
                     <div class="courseStatusBox">
-<!--                        --><?php //echo Yii::t('courses', '0094'); ?>
-                        Стан офлайн:
+                        <?php echo Yii::t('courses', '0944'); ?>
+<!--                        Стан офлайн:-->
                         <span id="courseStatus<?php echo $val[0]->status_offline; ?>">
                                 <?php if ($val[0]->status_offline == 0) { ?>
                                     <img

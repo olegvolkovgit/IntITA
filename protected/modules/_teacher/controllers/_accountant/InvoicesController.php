@@ -4,17 +4,20 @@ class InvoicesController extends TeacherCabinetController
 {
     public function hasRole(){
         $allowedTrainerActions = ['getInvoices'];
+        $allowedAuditorActions = ['getInvoices','invoice','getInvoicesByParams','index'];
         $action = Yii::app()->controller->action->id;
         return Yii::app()->user->model->isAccountant() ||
-        (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions));
+            (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions)) ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorActions));
     }
 
     /**
      * Lists all models.
+     * @param $organization
      */
-    public function actionIndex($id=0)
+    public function actionIndex($organization)
     {
-        $this->renderPartial('index');
+        $this->renderPartial('index', array('organization'=>$organization));
     }
 
     public function actionInvoice()

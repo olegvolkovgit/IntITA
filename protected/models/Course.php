@@ -44,6 +44,9 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
     const DELETED = 1;
     const READY = 1;
     const DEVELOP = 0;
+    const ALL_ORGANIZATION = 0;
+    const OUR_ORGANISATION = 1;
+    const OTHER_ORGANISATION = 2;
     public $logo = array(), $oldLogo;
 
     /**
@@ -149,13 +152,10 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             'course_img' => Yii::t('course', '0408'),
             'level' => Yii::t('course', '0409'),
             'start' => Yii::t('course', '0410'),
-//            'status' => Yii::t('course', '0411'),
-            'status_online' => 'Онлайн-статус',
-            'status_offline' => 'Офлайн-статус',
+            'status_online' => Yii::t('course', '0411'),  // ++
+            'status_offline' => Yii::t('course', '0943'),  // ++
             'cancelled' => Yii::t('course', '0741'),
-//          'course_number' => Yii::t('course', '0742')
-            'course_number' => 'Унікальний ідентифікатор, використовується при генерації номера договора про оплату курса.',
-
+            'course_number' => Yii::t('course', '0742'),  // ++
             'id_organization' => 'Id організації',
         );
     }
@@ -325,28 +325,37 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
         return $dataProvider;
     }
 
-    public static function getCriteriaBySelector($selector)
+    public static function getCriteriaBySelector($selector, $organization)
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 'course';
         $criteria->order = 'rating DESC';
         $criteria->condition = 'cancelled='.Course::AVAILABLE;
-        if ($selector !== 'all') {
-            switch ($selector) {
-                case 'junior':
-                    $criteria->addInCondition('level', array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR));
-                    break;
-                case 'middle':
-                    $criteria->addCondition('level='.Level::MIDDLE, 'AND');
-                    break;
-                case 'senior':
-                    $criteria->addCondition('level='.Level::SENIOR, 'AND');
-                    break;
-                default:
-                    break;
+
+        if($organization == 'ourcourses' || $organization == 'partnerscourses' || $organization == 'allcourses'){
+
+            if($organization == 'ourcourses'){
+                $criteria->addColumnCondition(array('id_organization'=>1));
+            }elseif($organization == 'partnerscourses'){
+                $criteria->addColumnCondition(array('id_organization'=>2));
+            }
+
+            if ($selector !== 'all') {
+                switch ($selector) {
+                    case 'junior':
+                        $criteria->addInCondition('level', array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR));
+                        break;
+                    case 'middle':
+                        $criteria->addCondition('level='.Level::MIDDLE, 'AND');
+                        break;
+                    case 'senior':
+                        $criteria->addCondition('level='.Level::SENIOR, 'AND');
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-
         return $criteria;
     }
 
@@ -580,13 +589,30 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
         return $courses;
     }
 
-    public static function selectCoursesCount($arr)
+    public static function selectCoursesCount($arr, $organisation)
     {
+        if($organisation == Course::OUR_ORGANISATION){
+            $condition = 'id_organization='.$organisation;
+        }elseif($organisation == Course::OTHER_ORGANISATION ){
+            $condition = 'id_organization!='.Course::OUR_ORGANISATION;
+        }elseif($organisation == Course::ALL_ORGANIZATION){
+            $condition = 'id_organization';
+        }
+
+        if(!is_array($arr) && $arr != NULL){
+            $arr = array(0 => $arr);
+        }
+
         if(isset($arr)){
-            $courses = Course::model()->findAllByAttributes(array('level'=>$arr, 'cancelled'=>Course::AVAILABLE));   
+            $criteria=new CDbCriteria;
+            $criteria->condition = $condition;
+            $criteria->addInCondition('level', $arr);
+            $criteria->addCondition('cancelled='.Course::AVAILABLE);
+            $courses = Course::model()->findAll( $criteria );
         }else{
             $courses = Course::model()->findAllByAttributes(array('cancelled'=>Course::AVAILABLE));
         }
+
         $coursesLangs = CourseLanguages::model()->findAll();
         $langs = array('ua', 'ru', 'en');
         $duplicate=0;
@@ -606,17 +632,16 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
                 $duplicate=$duplicate+$linkedCourses-1;
             }
         }
-
         return count($courses)-$duplicate;
     }
 
-    public static function selectModulesCount()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='.Module::READY.')';
-        $modules = Module::model()->findAll($criteria);
-        return count($modules);
-    }
+//    public static function selectModulesCount()
+//    {
+//        $criteria = new CDbCriteria();
+//        $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or status_offline='.Module::READY.')';
+//        $modules = Module::model()->findAll($criteria);
+//        return count($modules);
+//    }
 
     public function modulesCount()
     {
@@ -908,8 +933,11 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
      * @param $selector string course's level ID
      * @return array
      */
-    public static function getCoursesByLang($selector){
-        $criteria = Course::getCriteriaBySelector($selector);
+    public static function getCoursesByLang($selector, $organization){
+        $criteria = Course::getCriteriaBySelector($selector, $organization);
+
+//        var_dump($criteria);die;
+
         $courses = Course::model()->findAll($criteria);
 
         $result = [];
@@ -944,13 +972,72 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
         return array_merge($result, $courses);
     }
 
-    public static function countersBySelectors(){
+    public static function countersBySelectors($organization){
         $result = [];
-        $result["junior"] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR));
-        $result["middle"] = Course::selectCoursesCount(Level::MIDDLE);
-        $result["senior"] = Course::selectCoursesCount(Level::SENIOR);
-        $result["total"] = Course::selectCoursesCount(null);
-        $result["modules"] = Course::selectModulesCount();
+        if($organization == 'ourcourses'){
+            $result["junior"] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR), Course::OUR_ORGANISATION);
+            $result["middle"] = Course::selectCoursesCount(Level::MIDDLE, Course::OUR_ORGANISATION);
+            $result["senior"] = Course::selectCoursesCount(Level::SENIOR, Course::OUR_ORGANISATION);
+            $result["total"] = Course::selectCoursesCount(null, Course::OUR_ORGANISATION);
+            $result["modules"] = Module::selectModulesCount(null);
+
+            if(!isset($result['our'])){
+                $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
+            }
+
+            if(!isset($result['partner'])){
+                $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
+            }
+        }elseif($organization == 'partnerscourses'){
+            $result["junior"] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR), Course::OTHER_ORGANISATION);
+            $result["middle"] = Course::selectCoursesCount(Level::MIDDLE, Course::OTHER_ORGANISATION);
+            $result["senior"] = Course::selectCoursesCount(Level::SENIOR, Course::OTHER_ORGANISATION);
+            $result["total"] = Course::selectCoursesCount(null, Course::OTHER_ORGANISATION);
+            $result["modules"] = Module::selectModulesCount(null);
+
+            if(!isset($result['our'])){
+                $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
+            }
+
+            if(!isset($result['partner'])){
+                $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
+            }
+        }elseif($organization == 'allcourses'){
+            $result["junior"] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR), Course::ALL_ORGANIZATION);
+            $result["middle"] = Course::selectCoursesCount(Level::MIDDLE, Course::ALL_ORGANIZATION);
+            $result["senior"] = Course::selectCoursesCount(Level::SENIOR, Course::ALL_ORGANIZATION);
+            $result["total"] = Course::selectCoursesCount(null, Course::OTHER_ORGANISATION);
+            $result["modules"] = Module::selectModulesCount(null);
+//var_dump($result['our']);die;
+            if(!isset($result['our'])){
+                $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
+            }
+
+            if(!isset($result['partner'])){
+                $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
+            }
+        }elseif($organization == 'modules'){
+            $result["junior"] = Module::selectModulesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR));
+            $result["middle"] = Module::selectModulesCount(array(Level::MIDDLE));
+            $result["senior"] = Module::selectModulesCount(array(Level::SENIOR));
+            $result["total"] = Course::selectCoursesCount(null, Course::OUR_ORGANISATION);
+            $result["modules"] = Module::selectModulesCount(null);
+
+            if(!isset($result['our'])){
+                $result['our'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OUR_ORGANISATION);
+            }
+            if(!isset($result['partner'])){
+                $result['partner'] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR,
+                    Level::MIDDLE, Level::SENIOR), Course::OTHER_ORGANISATION);
+            }
+        }
 
         return $result;
     }
@@ -1041,5 +1128,17 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             }
         }
         return $access;
+    }
+
+    public function hasPromotionSchemes()
+    {
+        $service=CourseService::model()->getService($this->course_ID, EducationForm::model()->findByPk(1));
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'courseId='.$this->course_ID.' or (serviceType=1 and id_organization='.$service->courseModel->id_organization.')';
+        $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
+            (showDate IS NULL && endDate IS NULL) or (showDate IS NOT NULL && NOW()>=showDate && endDate IS NULL))');
+        $promotions=PromotionPaymentScheme::model()->findAll($criteria);
+
+        return $promotions?true:false;
     }
 }

@@ -12,7 +12,9 @@
                     <col width="10%"/>
                     <col width="10%"/>
                     <col/>
+                    <?php if($organization) {?>
                     <col/>
+                    <?php } ?>
                 </colgroup>
                 <tr ng-repeat="row in $data track by row.id"
                     ng-class="{'bg-warning': (currentDate>=(row.payment_date  | shortDate:'yyyy-MM-dd') && currentDate<=(row.expiration_date  | shortDate:'yyyy-MM-dd')),
@@ -50,6 +52,7 @@
                     <td data-title="'Скасовано'" filter="{cancel_date: 'text'}" sortable="'cancel_date'">
                         {{row.cancel_date | shortDate:'dd.MM.yyyy'}}
                     </td>
+                    <?php if($organization) {?>
                     <td data-title="'Управління'" style="text-align: center">
 <!--                        <button ng-if="!row.approval_date" class="btn btn-success"-->
 <!--                                ng-click="confirm(row.id)">-->
@@ -63,6 +66,7 @@
 <!--                                Закрити-->
 <!--                        </button>-->
                     </td>
+                    <?php } ?>
                 </tr>
             </table>
         </div>

@@ -32,7 +32,7 @@ angular
     .module('teacherApp')
     .controller('teacherProfileCtrl', teacherProfileCtrl);
 
-function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
+function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger) {
     //function back() redirect to prev link
     $rootScope.back = function () {
         window.history.back();
@@ -211,6 +211,10 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     };
     $scope.getStudentsWithoutTrainer = function(value){
         return typeAhead.getData(studentsWithoutTrainerTypeaheadUrl,{query : value});
+    };
+
+    $scope.updateRolesChat=function(){
+        chatIntITAMessenger.updateRoles();
     };
 }
 

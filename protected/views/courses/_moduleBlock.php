@@ -48,8 +48,7 @@
         </div>
         <!--Стан модуля-->
         <div class="courseStatusBox">
-<!--            --><?php //echo Yii::t('module', '0893'); ?><!--:-->
-            Стан онлайн:
+            <?php echo Yii::t('courses', '0944'); ?>:
             <span id="courseStatus<?php echo $data->status_online; ?>">
                 <?php if ($data->status_online == Module::DEVELOP) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
@@ -61,8 +60,7 @@
             </span>
         </div>
         <div class="courseStatusBox">
-<!--            --><?php //echo Yii::t('module', '0893'); ?><!--:-->
-            Стан офлайн:
+            <?php echo Yii::t('courses', '0944'); ?>:
             <span id="courseStatus<?php echo $data->status_offline; ?>">
                 <?php if ($data->status_offline == Module::DEVELOP) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">

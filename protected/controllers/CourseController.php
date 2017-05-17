@@ -35,6 +35,11 @@ class CourseController extends Controller
 
     public function actionSchemes($id)
     {
+        if (Yii::app()->user->isGuest) {
+            $this->render('/site/authorize');
+            die();
+        }
+
         $model = Course::model()->findByPk($id);
         if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
@@ -192,6 +197,7 @@ class CourseController extends Controller
         }else{
             $result['schemes']=$service->getPaymentSchemas($educationForm);
         }
+        $result['status']=$service->getStatus();
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
         $result['translates']['price']=Yii::t('courses', '0147');
         $result['translates']['free']=Yii::t('module', '0421');

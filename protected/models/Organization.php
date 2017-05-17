@@ -48,8 +48,8 @@ class Organization extends CActiveRecord {
             'corporateEntity' => [self::HAS_MANY, 'CorporateEntity', 'id_organization'],
             'courses' => [self::HAS_MANY, 'Course', 'id_organization'],
             'modules' => [self::HAS_MANY, 'Module', 'id_organization'],
-            'coursesWithCorporateEntity' => [self::HAS_MANY, 'Course', 'id_organization', 'with' => ['corporateEntityOffline', 'corporateEntityOnline']],
-            'modulesWithCorporateEntity' => [self::HAS_MANY, 'Module', 'id_organization', 'with' => ['corporateEntityOffline', 'corporateEntityOnline']],
+            'coursesWithCorporateEntity' => [self::HAS_MANY, 'Course', 'id_organization', 'with' => array('corporateEntityOffline', 'corporateEntityOnline')],
+            'modulesWithCorporateEntity' => [self::HAS_MANY, 'Module', 'id_organization', 'with' => array('corporateEntityOffline', 'corporateEntityOnline')],
             'latestCorporateEntity' => [self::HAS_ONE, 'CorporateEntity', 'id_organization', 'scopes' => 'latest']
         ];
     }
@@ -62,6 +62,14 @@ class Organization extends CActiveRecord {
             'id' => 'ID',
             'name' => 'Name',
         );
+    }
+
+    public function behaviors() {
+        return [
+            'ngTable' => [
+                'class' => 'NgTableProviderOrganization'
+            ]
+        ];
     }
 
     /**

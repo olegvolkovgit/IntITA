@@ -67,6 +67,19 @@ angular
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         transformRequest : transformRequest.bind(null)
                     },
+                    courseModuleAccessList: {
+                        url: url + '/getCourseModuleAccessList',
+                        method: 'GET',
+                    },
+                    lecturesRatingList: {
+                        url: url + '/getLecturesRatingList',
+                        method: 'GET'
+                    },
+                    modulesRatingList: {
+                        url: url + '/getModulesRatingList',
+                        method: 'GET'
+                    }
+
                 });
         }])
     .service('chatIntITAMessenger', ['$http',
@@ -89,7 +102,18 @@ angular
                     return response;
                 }, function errorCallback(response) {
                     console.log(response);
-                    alert('Оновити чат підгрупи не вдалося');
+                    bootbox.alert('Оновити чат підгрупи не вдалося');
+                });
+                return promise;
+            };
+            this.updateRoles = function (id) {
+                var url=baseChatPath+'/roles_operations/update';
+                var promise = $http({url: url, method: "GET", headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    bootbox.alert('Оновити ролі не вдалося');
                 });
                 return promise;
             };

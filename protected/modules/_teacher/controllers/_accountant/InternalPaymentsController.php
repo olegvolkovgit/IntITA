@@ -3,7 +3,10 @@
 class InternalPaymentsController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAccountant();
+        $allowedAuditorActions = ['getNgTable'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorActions));
     }
 
     public function actionGetNgTable() {

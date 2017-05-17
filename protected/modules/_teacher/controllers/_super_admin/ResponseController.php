@@ -148,8 +148,24 @@ class ResponseController extends TeacherCabinetController{
     public function actionGetResponsesList()
     {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('Response', $requestParams);
+
+        $new=false;
+        if(isset($requestParams['filter']['is_checked']) && $requestParams['filter']['is_checked']=='null'){
+            unset($requestParams['filter']['is_checked']);
+            $new=true;
+        }
+        $ngTable = new NgTableAdapterWithoutFilter('Response', $requestParams);
+        if($new){
+            $criteria = new CDbCriteria();
+            $criteria->addCondition('is_checked IS NULL');
+            $ngTable->mergeCriteriaWith($criteria);
+        }
         $result = $ngTable->getData();
         echo json_encode($result);
+    }
+
+    public function actionGetNewResponsesCount()
+    {
+        echo count(Response::model()->findAllByAttributes(array('is_checked'=>null)));
     }
 }

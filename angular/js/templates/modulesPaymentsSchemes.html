@@ -3,7 +3,7 @@
         <div ng-repeat="scheme in schemes.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'" ng-hide="scheme.fullPrice==0 && $index!=0">
             <div>
                 <label class="priceLabel" >
-                    <input type="radio" class="paymentPlan_value" name="payment" ng-click="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme" ng-value=scheme>
+                    <input ng-disabled="!+schemes.status" ng-hide="!+schemes.status" type="radio" class="paymentPlan_value" name="payment" ng-click="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme" ng-value=scheme>
                     <div ng-if="scheme.fullPrice==0" class="mainPay">
                         {{schemes.translates.price}} <span class="colorGreen">{{schemes.translates.free}}</span>
                     </div>

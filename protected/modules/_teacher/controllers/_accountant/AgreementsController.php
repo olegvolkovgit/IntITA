@@ -3,9 +3,11 @@
 class AgreementsController extends TeacherCabinetController {
     public function hasRole() {
         $allowedTrainerActions = ['renderUserAgreements','getUserAgreementsList','agreement','getAgreement'];
+        $allowedAuditorsActions = ['index','getAgreementsList','agreement','getAgreement'];
         $action = Yii::app()->controller->action->id;
         return Yii::app()->user->model->isAccountant() ||
-        (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions));
+            (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions)) ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorsActions));
     }
 
     /**
@@ -35,9 +37,10 @@ class AgreementsController extends TeacherCabinetController {
 
     /**
      * Lists all models.
+     * @param $organization
      */
-    public function actionIndex($id=0) {
-        $this->renderPartial('index');
+    public function actionIndex($organization) {
+        $this->renderPartial('index', array('organization'=>$organization));
     }
 
     public function actionGetAgreementsList() {
@@ -101,19 +104,11 @@ class AgreementsController extends TeacherCabinetController {
     }
 
     public function actionAgreement($id) {
-        if(Yii::app()->user->model->isTrainer()){
-            $agreement=UserAgreements::model()->findByPk($id);
-            Yii::app()->user->model->hasAccessToOrganizationModel(
-                TrainerStudent::model()->findByAttributes(
-                    array(
-                        'student'=>$agreement->user_id,
-                        'trainer'=>Yii::app()->user->getId(),
-                        'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
-                        'end_time'=>null,
-                    )
-                ));
-            Yii::app()->user->model->hasAccessToOrganizationModel($agreement->getAgreementContentModel());
+        $agreement=UserAgreements::model()->findByPk($id);
+        if(!$agreement->checkAgreementView()){
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до дії в межах даної організації');
         }
+
         $this->renderPartial('agreement');
     }
 

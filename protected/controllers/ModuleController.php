@@ -33,6 +33,11 @@ class ModuleController extends Controller
 
     public function actionSchemes($id)
     {
+        if (Yii::app()->user->isGuest) {
+            $this->render('/site/authorize');
+            die();
+        }
+
         $model = Module::model()->findByPk($id);
         if ($model->cancelled == Module::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
