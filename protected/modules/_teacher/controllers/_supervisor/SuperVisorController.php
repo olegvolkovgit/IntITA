@@ -783,4 +783,40 @@ class SuperVisorController extends TeacherCabinetController
         }
     }
 
+
+    public function actionLecturesRating()
+    {
+        $this->renderPartial('/_supervisor/tables/lecturesRating', array(), false, true);
+    }
+
+    public function actionGetLecturesRatingList(){
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN lectures as l ON l.id = t.id_lecture';
+        $criteria->join  .= ' LEFT JOIN module as m ON m.module_ID = l.idModule';
+        $criteria->condition = 'm.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('LecturesRating', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+
+    }
+
+    public function actionModulesRating()
+    {
+        $this->renderPartial('/_supervisor/tables/modulesRating', array(), false, true);
+    }
+
+    public function actionGetModulesRatingList(){
+
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN module m ON m.module_ID = t.id_module';
+        $criteria->condition = 'm.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('ModuleRating', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+
+        echo json_encode($result);
+    }
 }

@@ -71,6 +71,15 @@ angular
                         url: url + '/getCourseModuleAccessList',
                         method: 'GET',
                     },
+                    lecturesRatingList: {
+                        url: url + '/getLecturesRatingList',
+                        method: 'GET'
+                    },
+                    modulesRatingList: {
+                        url: url + '/getModulesRatingList',
+                        method: 'GET'
+                    }
+
                 });
         }])
     .service('chatIntITAMessenger', ['$http',

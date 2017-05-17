@@ -155,4 +155,14 @@ config(function ($stateProvider) {
                 return basePath + "/_teacher/_supervisor/superVisor/editOfflineGroupTeacherModule/idGroup/"+$stateParams.idGroup+"/idModule/" + $stateParams.idModule;
             }
         })
+        .state('supervisor/lecturesRating', {
+            url: "/supervisor/lecturesRating",
+            cache: false,
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/lecturesRating",
+        })
+        .state('supervisor/modulesRating', {
+            url: "/supervisor/modulesRating",
+            cache: false,
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/modulesRating",
+        })
 });

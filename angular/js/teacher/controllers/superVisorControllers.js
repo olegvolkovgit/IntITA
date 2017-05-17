@@ -17,6 +17,8 @@ angular
     .controller('trainersStudentsCtrl', trainersStudentsCtrl)
     .controller('groupModulesAttributesCtrl', groupModulesAttributesCtrl)
     .controller('groupModulesTeachersFormCtrl', groupModulesTeachersFormCtrl)
+    .controller('lecturesRatingTableCtrl', lecturesRatingTableCtrl)
+    .controller('modulesRatingTableCtrl', modulesRatingTableCtrl)
 
 function superVisorCtrl (){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
@@ -837,4 +839,33 @@ function groupModulesTeachersFormCtrl ($scope, $http, $state,$templateCache,$sta
             bootbox.alert("Операцію не вдалося виконати.");
         });
     };
+}
+function lecturesRatingTableCtrl($scope, superVisorService, NgTableParams) {
+    $scope.lecturesRatingTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return superVisorService
+                .lecturesRatingList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                     console.log(data);
+                    return data.rows;
+                });
+        }
+    });
+}
+
+function modulesRatingTableCtrl($scope, superVisorService, NgTableParams) {
+    $scope.modulesRatingTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return superVisorService
+                .modulesRatingList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+            console.log(data);
+                    return data.rows;
+                });
+        }
+    });
 }
