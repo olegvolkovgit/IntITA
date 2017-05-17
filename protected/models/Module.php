@@ -1194,7 +1194,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public function hasPromotionSchemes()
     {
-        $service=ModuleService::model()->findByPk(array('module_id'=>$this->module_ID, 'education_form'=>1));
+        $service=ModuleService::model()->getService($this->module_ID, EducationForm::model()->findByPk(1));
         $criteria = new CDbCriteria;
         $criteria->condition = 'moduleId='.$this->module_ID.' or (serviceType=2 and id_organization='.$service->moduleModel->id_organization.')';
         $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 

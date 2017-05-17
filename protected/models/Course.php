@@ -1132,7 +1132,7 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public function hasPromotionSchemes()
     {
-        $service=CourseService::model()->findByPk(array('course_id'=>$this->course_ID, 'education_form'=>1));
+        $service=CourseService::model()->getService($this->course_ID, EducationForm::model()->findByPk(1));
         $criteria = new CDbCriteria;
         $criteria->condition = 'courseId='.$this->course_ID.' or (serviceType=1 and id_organization='.$service->courseModel->id_organization.')';
         $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
