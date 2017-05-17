@@ -67,6 +67,10 @@ angular
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         transformRequest : transformRequest.bind(null)
                     },
+                    courseModuleAccessList: {
+                        url: url + '/getCourseModuleAccessList',
+                        method: 'GET',
+                    },
                 });
         }])
     .service('chatIntITAMessenger', ['$http',

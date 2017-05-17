@@ -260,6 +260,17 @@ class TeacherConsultant extends Role
         }
     }
 
+    public function checkOfflineGroupModule($group, $module)
+    {
+        if (empty(Yii::app()->db->createCommand('select id_module from offline_groups_teacher_consultant_module where id_module=' . $module .
+            ' and id_group=' . $group . ' and end_date IS NULL')->queryAll())) {
+            return false;
+        } else {
+            $this->errorMessage = "Для даного модуля вже призначено викладача";
+            return true;
+        }
+    }
+
     public function existOpenTaskAnswers(StudentReg $teacher)
     {
         return (count($this->openPlainTaskAnswers($teacher)) > 0);

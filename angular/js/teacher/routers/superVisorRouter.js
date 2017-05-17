@@ -148,4 +148,11 @@ config(function ($stateProvider) {
                 return basePath + "/_teacher/_supervisor/superVisor/trainersStudents/idTrainer/" + $stateParams.idTrainer;
             }
         })
+        .state('supervisor/changeModuleTeacher/module/:idModule/group/:idGroup', {
+            url: "/supervisor/changeModuleTeacher/module/:idModule/group/:idGroup",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_supervisor/superVisor/editOfflineGroupTeacherModule/idGroup/"+$stateParams.idGroup+"/idModule/" + $stateParams.idModule;
+            }
+        })
 });

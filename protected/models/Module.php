@@ -1203,4 +1203,17 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
         return $promotions?true:false;
     }
+
+    //cancel teacher's students for module
+    public function cancelTeacherStudentsForModule($student)
+    {
+        if(Yii::app()->db->createCommand()->
+        update('teacher_consultant_student', array(
+            'end_date'=>date("Y-m-d H:i:s"),
+        ), 'id_student=:idStudent and id_module=:idModule and end_date IS NULL',
+                array(':idStudent'=>$student,':idModule'=>$this->module_ID))){
+            return true;
+        }
+        return false;
+    }
 }
