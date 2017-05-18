@@ -7,6 +7,5 @@ angular
     .filter('unsafe', ['$sce', function ($sce) {
         return function (text) {
             return $sce.trustAsHtml(text.replace(/([.*+?^=!:${}()|[\]\/\\'"])/g, '\\$&'));
-            // return $sce.trustAsHtml(text.replace(/'/g, '\\'));
         };
     }]);
