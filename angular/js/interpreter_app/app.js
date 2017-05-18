@@ -2,4 +2,4 @@
 angular.module('chatIntITAMessenger', []);
 
 angular
-    .module('interpreterApp', ['ui.codemirror','chatIntITAMessenger']);
+    .module('interpreterApp', ['ui.codemirror','chatIntITAMessenger','interpreterJsonFilter']);

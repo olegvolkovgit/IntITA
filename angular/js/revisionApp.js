@@ -17,7 +17,7 @@ angular
     .module('revisionTreesApp', ['revisionSendMessage','service.revisionsActions']);
 
 angular
-    .module('revisionEdit', ['ngCkeditor','ngBootbox','hljs','service.taskJson','revisionServices']);
+    .module('revisionEdit', ['ngCkeditor','ngBootbox','hljs','service.taskJson','revisionServices','interpreterJsonFilter']);
 
 angular
     .module('moduleRevisionsApp', ['moduleRevisionServices','angular-loading-bar','moduleRevisionSendMessage']);
