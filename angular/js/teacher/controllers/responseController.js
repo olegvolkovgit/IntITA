@@ -87,20 +87,15 @@ function responseModelCtrl ($scope, $http, $state,$stateParams){
                 url = basePath + '/_teacher/_super_admin/response/unsetpublish/id/'+responseId;
                 break
         }
-        bootbox.confirm("Змінити статус відгука?", function (result) {
-            if(result){
-                $http({
-                    method: 'POST',
-                    url: url,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                }).success(function(){
-                    bootbox.alert("Операцію успішно виконано.",function() {
-                        $scope.loadResponse($stateParams.responseId);
-                    })
-                }).error(function () {
-                    bootbox.alert('Операцію не вдалося виконати.');
-                })
-            }
+
+        $http({
+            method: 'POST',
+            url: url,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+        }).success(function(){
+            $scope.loadResponse($stateParams.responseId);
+        }).error(function () {
+            bootbox.alert('Операцію не вдалося виконати.');
         })
 
     };
