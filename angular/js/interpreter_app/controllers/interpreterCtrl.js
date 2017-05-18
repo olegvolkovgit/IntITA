@@ -93,7 +93,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         {name:'Integer', type:0},
         {name:'Float', type:1},
         {name:'Bool', type:2},
-        {name:'String', type:3}
+        {name:'String', type:3},
+        {name:'Char', type:4},
+        {name:'Range', type:5}
     ];
     $scope.is_array = [
         {name:'Primitive', value:0},
@@ -388,6 +390,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 case 3:
                     $scope.args[index].pattern=/./;
                     break;
+                case 4:
+                    $scope.args[index].pattern=/^(.)$/;
+                    break;
                 default:
                     $scope.args[index].pattern=/./;
             }
@@ -407,6 +412,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 3:
                     $scope.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
+                    break;
+                case 4:
+                    $scope.args[index].pattern=new RegExp("^(.,){" + (size-1) + "}(.)$");
                     break;
                 default:
                     $scope.args[index].pattern=/./;
@@ -431,6 +439,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 case 3:
                     $scope.resultPattern=/./;
                     break;
+                case 4:
+                    $scope.resultPattern=/^(.)$/;
+                    break;
                 default:
                     $scope.resultPattern=/./;
             }
@@ -450,6 +461,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 3:
                     $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
+                    break;
+                case 4:
+                    $scope.resultPattern=new RegExp("^(.,){" + (size-1) + "}(.)$");
                     break;
                 default:
                     $scope.resultPattern=/./;
@@ -472,6 +486,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 case 3:
                     $scope.editedJson.function.args[index].pattern=/./;
                     break;
+                case 4:
+                    $scope.editedJson.function.args[index].pattern=/^(.)$/;
+                    break;
                 default:
                     $scope.editedJson.function.args[index].pattern=/./;
             }
@@ -488,6 +505,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 3:
                     $scope.editedJson.function.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
+                    break;
+                case 4:
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^(.,){" + (size-1) + "}(.)$");
                     break;
                 default:
                     $scope.editedJson.function.args[index].pattern=/./;
@@ -509,6 +529,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 case 3:
                     $scope.resultPattern=/./;
                     break;
+                case 4:
+                    $scope.resultPattern=/^(.)$/;
+                    break;
                 default:
                     $scope.resultPattern=/./;
             }
@@ -525,7 +548,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     break;
                 case 3:
                     $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
-
+                    break;
+                case 4:
+                    $scope.resultPattern=new RegExp("^(.,){" + (size-1) + "}(.)$");
                     break;
                 default:
                     $scope.resultPattern=/./;
