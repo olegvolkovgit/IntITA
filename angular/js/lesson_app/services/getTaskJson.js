@@ -4,8 +4,8 @@
 angular
     .module('lessonApp')
     .service('getTaskJson', [
-        '$http',
-        function($http) {
+        '$http','$filter',
+        function($http, $filter) {
             this.getJson = function (id,url) {
                 var json={
                     "operation": "getJson",
@@ -18,14 +18,10 @@ angular
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     if(response.data.status=='success'){
-                        //replace space symbols for json
-                        var oldSymbol = ['\n','\t','\r'];
-                        var newSymbol = ['\\n','\\t','\\r'];
-                        for (var i in oldSymbol) {
-                            response.data.json=response.data.json.replace( RegExp( oldSymbol[i], "g" ), newSymbol[i]);
-                        }
 
-                        var result=JSON.parse(response.data.json);
+                        //replace space symbols for json
+                        var result = $filter('interpreterJsonFilter')(response.data.json);
+
                         var type, arg_type,res_type;
                         var variable = [];
                         for(var i=0;i<result.function.args.length;i++){
@@ -68,6 +64,12 @@ function getType(type) {
             break;
         case 3:
             return 'string';
+            break;
+        case 4:
+            return 'char';
+            break;
+        case 5:
+            return 'range';
             break;
     }
 }

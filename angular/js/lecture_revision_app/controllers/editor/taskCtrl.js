@@ -2,7 +2,7 @@ angular
     .module('revisionEdit')
     .controller('taskCtrl', taskCtrl)
 
-function taskCtrl($scope, $http,taskJson) {
+function taskCtrl($scope, $http,taskJson, $filter) {
 
     $scope.getDataTask = function(id) {
         var promise = $http({
@@ -31,12 +31,7 @@ function taskCtrl($scope, $http,taskJson) {
                                 if (response != undefined){
                                     $scope.editedJson=response;
                                     //replace space symbols for json
-                                    var oldSymbol = ['\n','\t','\r'];
-                                    var newSymbol = ['\\n','\\t','\\r'];
-                                    for (var i in oldSymbol) {
-                                        $scope.editedJson=$scope.editedJson.replace( RegExp( oldSymbol[i], "g" ), newSymbol[i]);
-                                    }
-                                    $scope.editedJson=JSON.parse($scope.editedJson);
+                                    $scope.editedJson = $filter('interpreterJsonFilter')($scope.editedJson);
 
                                     var tempLang=originLang;
                                     $scope.editedJson.lang=selectedLang;

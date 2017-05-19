@@ -1,11 +1,10 @@
 /**
  * Created by Wizlight on 21.01.2016.
  */
-angular.module('service.taskJson', [])
-
+angular.module('service.taskJson', ['interpreterJsonFilter'])
     .service('taskJson', [
-        '$http',
-        function($http) {
+        '$http','$filter',
+        function($http,$filter) {
             this.getJson = function (id,url) {
                 var json={
                     "operation": "getJson",
@@ -38,13 +37,8 @@ angular.module('service.taskJson', [])
                 }).then(function successCallback(response) {
                     if(response.data.status=='success'){
                         //replace space symbols for json
-                        var oldSymbol = ['\n','\t','\r'];
-                        var newSymbol = ['\\n','\\t','\\r'];
-                        for (var i in oldSymbol) {
-                            response.data.json=response.data.json.replace( RegExp( oldSymbol[i], "g" ), newSymbol[i]);
-                        }
-                        
-                        var result=JSON.parse(response.data.json);
+                        var result = $filter('interpreterJsonFilter')(response.data.json);
+
                         var type, arg_type,res_type;
                         var variable = [];
                         for(var i=0;i<result.function.args.length;i++){
@@ -113,6 +107,12 @@ function getType(type) {
             break;
         case 3:
             return 'string';
+            break;
+        case 4:
+            return 'char';
+            break;
+        case 5:
+            return 'range';
             break;
     }
 }

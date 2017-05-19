@@ -42,8 +42,11 @@ if ($editMode){
             </div>
             <div class="TeacherProfiletitles">
                 <?php echo Yii::t('teacher', '0065') ?>
+                <?php if ($editMode && $model->profile_text_first != ''){
+                    echo "<br><em>(Натисніть нижче для редагування профілю)</em>";
+                }?>
             </div>
-            <div class="editableText" id="t1" onclick="function(){order = 't1'; block='t1';}">
+            <div <?php if ($editMode){ ?> class="editableText" class="editableText" id="t1" onclick="function(){order = 't1'; block='t1';}" <?php } ?>>
                 <p>
                 <?php if($model->profile_text_first != '') {
                     echo $model->profile_text_first;
@@ -56,7 +59,12 @@ if ($editMode){
             </div>
             <?php $this->renderPartial('_courses', array('model' => $model));?>
 
-            <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t2';}">
+            <?php if ($editMode && $model->profile_text_first != ''){ ?>
+                <span class="TeacherProfiletitles">
+                    <br><em>(Натисніть нижче для редагування профілю)</em>
+                </span>
+            <?php }?>
+            <div  <?php if ($editMode){ ?> class="editableText" id="t2" onclick="function(){order = 't2'; block='t2';}" <?php } ?>>
                 <p>
                     <?php if($model->profile_text_last != '') {
                         echo $model->profile_text_last;

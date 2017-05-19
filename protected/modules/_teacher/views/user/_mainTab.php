@@ -32,10 +32,6 @@ $user = $model->registrationData;
                     <div ng-if='teacher.teacher'>
                         Електронна пошта (корпоративна): {{teacher.teacher.corporate_mail}}
                         <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                            <button type="button" class="btn btn-outline btn-primary btn-xs"
-                                    ng-click="addCorpAddress()" ng-show="!teacher.teacher.corporate_mail">
-                                Додати корпоративну адресу
-                            </button>
                             <button class="btn btn-outline btn-primary btn-xs" ng-show="!teacher.teacher.corporate_mail"
                                     ng-bootbox-title="Адреса корпоративної пошти без домену"
                                     ng-bootbox-custom-dialog
