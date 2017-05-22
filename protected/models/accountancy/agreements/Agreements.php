@@ -16,7 +16,7 @@ class Agreements {
     }
 
     public function getTypeahead($agreementNumber) {
-        $models = TypeAheadHelper::getTypeahead($agreementNumber, 'UserAgreements', ['number']);
+        $models = TypeAheadHelper::getTypeahead($agreementNumber, 'UserAgreements', ['number'], 10, true);
         return ActiveRecordToJSON::toAssocArray($models, $this->agreementRelationMapping);
     }
 }

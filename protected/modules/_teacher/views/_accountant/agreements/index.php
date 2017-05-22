@@ -23,7 +23,7 @@
                     <td data-title="'Номер'" filter="{number: 'text'}" sortable="'number'"><a
                             href="#/accountant/agreement/{{row.id}}">{{row.number}}</a></td>
                     <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                        <a ng-href="#/users/profile/{{row.user_id}}">{{row.user.fullName}} {{row.user.email}}</a>
+                        <a ng-href="#/users/profile/{{row.user_id}}">{{row.user.fullName}}</a>
                     </td>
                     <td data-title="'Дата створення'" filter="{create_date: 'text'}" sortable="'create_date'">
                         {{row.create_date | shortDate:'dd.MM.yyyy'}}
