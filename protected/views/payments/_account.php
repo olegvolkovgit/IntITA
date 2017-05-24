@@ -9,13 +9,11 @@
 <div id="account">
     <div id="accountTable">
         <br>
-        <b>Отримувач коштів:</b> ТОВ «Вінницька ІТ-Академія»
-        <br>
-        <b>Банк: </b>АТ «ОТП Банк»
-        <br>
-        <b>МФО: </b> 300528<br>
-        <b>р/р: </b> 26005001352431<br>
-        <b>код ЄДРПОУ: </b> 33263663
+        <b>Отримувач коштів:</b> <?php echo $model->corporateEntity->title ?><br>
+        <b>Банк: </b> <?php echo $model->checkingAccount->bank_name ?><br>
+        <b>МФО: </b> <?php echo $model->checkingAccount->bank_code ?><br>
+        <b>р/р: </b> <?php echo $model->checkingAccount->checking_account ?><br>
+        <b>код ЄДРПОУ: </b> <?php echo $model->corporateEntity->EDPNOU ?>
         <br>
         <br>
         <br>

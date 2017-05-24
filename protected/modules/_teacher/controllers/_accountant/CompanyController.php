@@ -191,9 +191,10 @@ class CompanyController extends TeacherCabinetController {
         $id = filter_var(Yii::app()->request->getParam('id', null), FILTER_SANITIZE_NUMBER_INT);
         $type = filter_var(Yii::app()->request->getParam('type', null), FILTER_SANITIZE_STRING);
         $educationForm = filter_var(Yii::app()->request->getParam('educationForm', null), FILTER_SANITIZE_NUMBER_INT);
+        $checkingAccountId = filter_var(Yii::app()->request->getParam('checkingAccountId', null), FILTER_SANITIZE_NUMBER_INT);
         $statusCode = 200;
 
-        if ($companyId && $id && $type && $educationForm) {
+        if ($companyId && $id && $type && $educationForm && $checkingAccountId) {
             $organization = Yii::app()->user->model->getCurrentOrganization();
             $criteria = new CDbCriteria([
                 'condition' => 'id = :companyId AND id_organization = :organizationId',
@@ -208,9 +209,9 @@ class CompanyController extends TeacherCabinetController {
             }
             $model = $modelClass->findByPk($id);
             $educationFormModel = EducationForm::model()->findByPk($educationForm);
-
-            if ($company && $model && $educationFormModel) {
-                $company->bindServiceByEducationUnit($model, $educationFormModel);
+            $checkingAccountModel=CheckingAccounts::model()->findByPk($checkingAccountId);
+            if ($company && $model && $educationFormModel && $checkingAccountModel) {
+                $company->bindServiceByEducationUnit($model, $educationFormModel, $checkingAccountModel);
                 $body = $company->toArray();
             } else {
                 $statusCode = 400;
@@ -246,4 +247,71 @@ class CompanyController extends TeacherCabinetController {
         $this->renderPartial('//ajax/json', ['body' => json_encode($body, JSON_FORCE_OBJECT), 'statusCode' => $statusCode]);
     }
 
+    public function actionCheckingAccounts() {
+        $companyId = Yii::app()->request->getParam('companyId', null);
+        $checkingAccountId = Yii::app()->request->getParam('checkingAccountId', null);
+        $ngTable = new NgTableAdapter(CheckingAccounts::model());
+        if ($companyId) {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'corporate_entity = :companyId';
+            $criteria->params = ['companyId' => $companyId];
+            $ngTable->mergeCriteriaWith($criteria);
+        }
+        if ($checkingAccountId) {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 't.id = :checkingAccountId';
+            $criteria->params = ['checkingAccountId' => $checkingAccountId];
+            $ngTable->mergeCriteriaWith($criteria);
+        }
+        $result = $ngTable->getData();
+
+        $this->renderPartial('//ajax/json', ['body' => json_encode($result)]);
+    }
+
+    public function actionSaveCheckingAccount() {
+        $companyId = Yii::app()->request->getParam('companyId', null);
+        $checkingAccountId = Yii::app()->request->getParam('checkingAccountId', null);
+        $body = [];
+        $statusCode = 200;
+        try {
+            $criteria = new CDbCriteria([
+                'condition' => 't.id = :checkingAccountId AND corporate_entity = :companyId',
+                'params' => ['checkingAccountId' => $checkingAccountId, 'companyId' => $companyId],
+                'with' => ['corporateEntity']
+            ]);
+            $model = CheckingAccounts::model()->find($criteria);
+            if ($model) {
+                $model->updateData($_POST);
+                $body = ['message' => 'OK'];
+            } else {
+                $checkingAccount = CheckingAccounts::model()->createCheckingAccount($_POST);
+                if (!empty($checkingAccount)) {
+                    $statusCode = 201;
+                    $body = ['message' => 'OK', 'id' => $checkingAccount->id];
+                } else {
+                    $statusCode = 400;
+                }
+            }
+        } catch (Exception $exception) {
+            $statusCode = 400;
+            $body = ['error' => $exception->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
+
+    }
+
+    public function actionCompanyCheckingAccountsList() {
+        $company=CorporateEntity::model()->findByPk($_GET['companyId']);
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 'corporate_entity='.$company->id.' and 
+        (deletedAt IS NULL OR deletedAt > NOW())';
+        $checkingAccounts=CheckingAccounts::model()->findAll($criteria);
+
+        $statusCode = 200;
+        $body = array_map(function($item) {
+            return $item->toArray();
+        }, $checkingAccounts);
+
+        $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
+    }
 }

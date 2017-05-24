@@ -107,6 +107,7 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
                 'through' => 'courseServiceOffline',
                 'on' => 'corporateEntityServicesOffline.deletedAt IS NULL OR corporateEntityServicesOffline.deletedAt > NOW()'],
             'corporateEntityOffline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOffline'],
+            'checkingAccountOffline' => [self::HAS_ONE, 'CheckingAccounts', ['id' => 'corporate_entity'], 'through' => 'corporateEntityOffline'],
 
             'courseServiceOnline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOnline.education_form='.EducationForm::ONLINE],
             'corporateEntityServicesOnline' => [
@@ -115,7 +116,8 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
                 ['service_id' => 'serviceId'],
                 'through' => 'courseServiceOnline',
                 'on' => 'corporateEntityServicesOnline.deletedAt IS NULL OR corporateEntityServicesOnline.deletedAt > NOW()'],
-            'corporateEntityOnline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOnline']
+            'corporateEntityOnline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOnline'],
+            'checkingAccountOnline' => [self::HAS_ONE, 'CheckingAccounts', ['id' => 'corporate_entity'], 'through' => 'corporateEntityOnline'],
         );
     }
 
