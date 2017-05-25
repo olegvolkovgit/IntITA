@@ -89,7 +89,7 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
                 .then(function(serverResponse) {
                     switch (serverResponse.status) {
                         case 'in proccess':
-                            getTaskResult();
+                            setTimeout( function() { getTaskResult(); }, 2000);
                             break;
                         case 'done':
                             $('#ajaxLoad').hide();

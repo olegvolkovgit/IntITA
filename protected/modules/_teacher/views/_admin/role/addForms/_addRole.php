@@ -12,7 +12,9 @@
                 <i class="glyphicon glyphicon-remove"></i> співробітника не знайдено
             </div>
             <em>Зверніть увагу, що деяких користувачів може не бути в списку. 
-                В списку немає користувачів, які не є співробітниками.</em>
+                В списку немає користувачів, які не є співробітниками.
+                <a ng-href="#/admin/teacher/create">Додати співробітника</a>
+            </em>
         </div>
         
         <button class="btn btn-primary" ng-click="assignLocalRole(selectedUser.id,'<?php echo $role ?>');">

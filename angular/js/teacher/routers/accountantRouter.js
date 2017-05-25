@@ -98,6 +98,39 @@ angular
           return '<company-one-representative data-company-id=' + params.companyId + ' data-representative-id=' + params.representativeId + '></company-one-representative>'
         }
       })
+      .state('accountant.company.view.checkingAccounts', {
+         url: "/checkingAccounts",
+         abstract: true,
+         template: '<ui-view></ui-view>'
+      })
+      .state('accountant.company.view.checkingAccounts.list', {
+          url: "",
+          cache: false,
+          params: {
+              header: 'Розрахункові рахунки команії'
+          },
+          templateUrl: templatesPath + '/company/checkingAccounts.html'
+      })
+      .state('accountant.company.view.checkingAccounts.add', {
+          url: "/add",
+          cache: false,
+          params: {
+              header: 'Додати розрахункові рахунки компанії'
+          },
+          template: function (params) {
+              return '<company-one-checking-account data-company-id=' + params.companyId + '></company-one-checking-account>'
+          }
+      })
+      .state('accountant.company.view.checkingAccounts.edit', {
+          url: "/{checkingAccountId:[0-9]*}",
+          cache: false,
+          params: {
+              header: 'Редагувати розрахунковий рахунок'
+          },
+          template: function (params) {
+              return '<company-one-checking-account data-company-id=' + params.companyId + ' data-checking-account-id=' + params.checkingAccountId + '></company-one-checking-account>'
+          }
+      })
       .state('accountant.company.view.services', {
         url: "/services",
         abstract: true,

@@ -6,9 +6,10 @@ angular
     'ngToast',
     'organizationService',
     'companiesService',
+    '$q',
     organizationCourses]);
 
-function organizationCourses(ngToast, organizationService, companiesService) {
+function organizationCourses(ngToast, organizationService, companiesService, $q) {
   function link($scope, element, attrs) {
 
     loadData();
@@ -16,12 +17,14 @@ function organizationCourses(ngToast, organizationService, companiesService) {
     $scope.bindToCompany = function (item, educationForm) {
       var type = item.type,
         id = type === 'course' ? item.course_ID : item.module_ID;
+      var checkingAccount=educationForm==1?item.checkingAccountOnline:item.checkingAccountOffline;
       return companiesService
         .bindService({
           type: type,
           id: id,
           educationForm: educationForm,
-          companyId: $scope.companyId
+          companyId: $scope.companyId,
+          checkingAccountId: checkingAccount
         })
         .$promise
         .then(function () {
@@ -34,15 +37,14 @@ function organizationCourses(ngToast, organizationService, companiesService) {
     };
 
     function loadData() {
-      organizationService
-        .coursesAndModules()
-        .$promise
-        .then(function ($response) {
-          $scope.data = $response;
-        })
-        .catch(function () {
-          dangerToast('Помилка завантаження данних')
-        });
+        $q.all([organizationService.coursesAndModules(), companiesService.companyCheckingAccountsList({companyId:$scope.companyId})])
+            .then(function ($response) {
+                $scope.data = $response[0];
+                $scope.checkingAccounts = $response[1];
+            })
+            .catch(function () {
+                dangerToast('Помилка завантаження данних')
+            });
     }
 
     function toast(type, message) {

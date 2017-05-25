@@ -50,6 +50,21 @@ angular
             headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},
             transformRequest: transformRequest.bind(null),
             url: url + '/unBindService'
+          },
+          checkingAccounts : {
+            url: url + '/checkingAccounts',
+            method: "GET",
+          },
+          saveCheckingAccount : {
+            url: url + '/saveCheckingAccount',
+            headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8;'},
+            transformRequest: transformRequest.bind(null),
+            method: 'POST',
+          },
+          companyCheckingAccountsList: {
+            method: 'GET',
+            url : url + '/companyCheckingAccountsList',
+            isArray : true
           }
         });
     }]);

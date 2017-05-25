@@ -21,6 +21,8 @@
  * @property StudentReg $userCreated
  * @property StudentReg $userCancelled
  * @property InternalPays $internalPayment
+ * @property CorporateEntity $corporateEntity
+ * @property CheckingAccounts $checkingAccount
  */
 class Invoice extends CActiveRecord {
 
@@ -59,7 +61,8 @@ class Invoice extends CActiveRecord {
             'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
             'internalPayment' => [self::HAS_MANY, 'InternalPays', 'invoice_id', 'order' => 'internalPayment.create_date DESC'],
             'corporateEntity' => [self::HAS_ONE, 'CorporateEntity', ['id_corporate_entity' => 'id'], 'through' => 'agreement'],
-            'organization' => [self::HAS_ONE, 'Organization', ['id_organization' => 'id'], 'through' => 'corporateEntity']
+            'organization' => [self::HAS_ONE, 'Organization', ['id_organization' => 'id'], 'through' => 'corporateEntity'],
+            'checkingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['id_checking_account' => 'id'], 'through' => 'agreement'],
         );
     }
 

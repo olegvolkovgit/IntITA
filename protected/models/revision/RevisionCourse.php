@@ -554,19 +554,19 @@ class RevisionCourse extends CRevisionUnitActiveRecord implements ITask
 	}
 
     public function canApprove() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isSended());
     }
 
     public function canRejectRevision() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isSended());
     }
 
     public function canReleaseRevision() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isReleaseable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isReleaseable());
     }
 
     public function canCancel() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isCancellable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isCancellable());
     }
 
     public function run()

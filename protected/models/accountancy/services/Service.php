@@ -14,6 +14,7 @@
  * @property CourseService $courseServices
  * @property ModuleService $moduleServices
  * @property CorporateEntity $corporateEntity
+ * @property CheckingAccounts $checkingAccount
  */
 class Service extends CActiveRecord {
     const COURSE = 1;
@@ -52,7 +53,8 @@ class Service extends CActiveRecord {
             'courseServices' => array(self::HAS_ONE, 'CourseService', 'service_id'),
             'moduleServices' => array(self::HAS_ONE, 'ModuleService', 'service_id'),
             'corporateEntityService' => [self::HAS_ONE, 'CorporateEntityService', 'serviceId', 'on' => 'corporateEntityService.deletedAt IS NULL OR corporateEntityService.deletedAt > NOW()'],
-            'corporateEntity' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityService']
+            'corporateEntity' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityService'],
+            'checkingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['checkingAccountId' => 'id'], 'through' => 'corporateEntityService']
         );
     }
 

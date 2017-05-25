@@ -56,9 +56,12 @@ function companyServices($filter, NgTableParams, ngToast, companiesService) {
 
     function mapForNgTable(item) {
       return {
-        service_id: item.service_id,
-        description: item.description,
-        create_date: $filter('shortDate')(item.create_date, 'dd-MM-yyyy')
+          bank_name: item.checkingAccount.bank_name,
+          bank_code: item.checkingAccount.bank_code,
+          checking_account: item.checkingAccount.checking_account,
+          service_id: item.service_id,
+          description: item.description,
+          create_date: $filter('shortDate')(item.create_date, 'dd-MM-yyyy')
       }
     }
   }

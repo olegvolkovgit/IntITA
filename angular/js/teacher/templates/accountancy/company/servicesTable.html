@@ -2,6 +2,11 @@
     <tr ng-repeat="row in $data track by row.service_id">
         <td data-title="'Опис'">{{row.description}}</td>
         <td data-title="'Дата створення'" class="text-center">{{row.create_date}}</td>
+        <td data-title="'Рахунок'" class="text-center">
+            {{row.bank_name}}<br>
+            МФО:{{row.bank_code}}<br>
+            р/р:{{row.checking_account}}<br>
+        </td>
         <td class="text-center">
             <button class="btn btn-danger" ng-click="delete(row.service_id)">
                 <i class="glyphicon glyphicon-trash"></i>

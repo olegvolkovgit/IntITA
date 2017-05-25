@@ -701,19 +701,19 @@ class RevisionModule extends CRevisionUnitActiveRecord implements ITask
     }
 
     public function canApprove() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isSended());
     }
 
     public function canRejectRevision() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isSended());
     }
 
     public function canReleaseRevision() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isReleaseable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isReleaseable());
     }
 
     public function canCancel() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isCancellable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isCancellable());
     }
     /**
      * starts by cron when Module revision was changed

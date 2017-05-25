@@ -43,7 +43,8 @@
                 <td>
                     <?php if(Yii::app()->user->model->isAdmin() && Yii::app()->user->model->getCurrentOrganization()->id==$model->id_organization){ ?>
                     <div ng-controller="modulePriceCtrl">
-                        <input class="col-md-2" style="border-radius: 5px" ng-model="modulePrice" type="number" min="0" ng-init="modulePrice='<?php echo $model->module_price; ?>'">
+                        <input class="col-md-2" style="border-radius: 5px; margin-right: 5px" ng-model="modulePrice" type="number" min="0"
+                               ng-init="modulePrice=+'<?php echo $model->module_price; ?>'">
                         <button ng-click="updateModulePrice('<?php echo $model->module_ID; ?>',modulePrice)" class="btn btn-outline btn-primary btn-xs" >Зберегти</button>
                     </div>
                     <?php } else {

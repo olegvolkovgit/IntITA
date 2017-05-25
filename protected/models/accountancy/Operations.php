@@ -81,6 +81,9 @@ class Operations {
         $result = ['status'=>'ok', 'message'=>[]];
         try {
             $externalPayment = ExternalPays::model()->with('internalPays')->findByPk($operation['sourceId']);
+            //todo ExternalPays to organization
+            Yii::app()->user->model->hasAccessToOrganizationModel($externalPayment->company);
+
             $operation['amount']=$operation['amount']<0?0:$operation['amount'];
             $amount = min($operation['amount'], $externalPayment->getUnallocatedAmount());
             $operationInvoices = $this->getUnpaidInvoices($operation['agreementId'], $operation['invoices'], $amount);
@@ -91,7 +94,7 @@ class Operations {
             });
 
             foreach ($operationInvoices as $invoice){
-                //            todo round
+                //todo round
                 $paymentAmount = round(min($invoice->getUnpaidSum(), $amount, $externalPayment->amount),2);
                 if($paymentAmount==0) continue;
                 $resultMakePayment = $invoice->makePayment($externalPayment, $paymentAmount, $user);
