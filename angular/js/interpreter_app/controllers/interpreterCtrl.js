@@ -5,7 +5,7 @@ angular
     .module('interpreterApp')
     .controller('interpreterCtrl',interpreterCtrl);
 
-function interpreterCtrl($scope,sendTaskJsonService,getTaskJson, $filter) {
+function interpreterCtrl($scope, interpreterServices, $filter) {
     var codeMirrorLang;
     switch ($scope.lang) {
         case "js":
@@ -34,7 +34,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson, $filter) {
         indentUnit: 4                    // размер табуляции
     };
 
-    getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
+    interpreterServices.getJson($scope.task,$scope.interpreterServer).then(function(response){
         $scope.editedJson=response;
         //load json for edit if it is
         if ($scope.editedJson != undefined){
@@ -353,7 +353,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson, $filter) {
             $("#params").addClass('invalidParams');
         }else{
             $scope.res_finalResult.task=uid;
-            sendTaskJsonService.sendJson(url,$scope.res_finalResult, idTask);
+            interpreterServices.editInterpreterTask(url,$scope.res_finalResult, idTask);
         }
 
         function returnUnique(arr) {
