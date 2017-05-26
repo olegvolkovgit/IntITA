@@ -20,7 +20,7 @@ $(window).load(
 );
 function sendData()
 {
-    window.location.search = '&nolayout=true';
+    window.location.search = '&nolayout=print';
 }
 
 function toPhrase(summa) {

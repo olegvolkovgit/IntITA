@@ -416,6 +416,12 @@ class RegisteredUser
                 $this->lectureAccessErrorMessage=$lecture->module->errorMessage;
                 return false;
             }
+            if($lecture->isFree && $lecture->order<=$enabledLessonOrder){
+                return true;
+            }else if($lecture->isFree && $lecture->order>$enabledLessonOrder) {
+                $this->lectureAccessErrorMessage=Yii::t('exception', '0870');
+                return false;
+            }
             if(!$lecture->module->checkPaidModuleAccess($this->id) && $idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, $idCourse)){
                 $courseModules=CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=>$lecture->module->module_ID));
                 CourseModules::setModuleProgressInCourse($courseModules);
