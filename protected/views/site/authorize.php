@@ -3,7 +3,7 @@
  * @var $callBack
 */
 ?>
-<?php $url=StudentReg::authRedirect(isset($callBack)); ?>
+<?php $url=(isset($callBack) && $callBack)?$callBack:StudentReg::authRedirect(true); ?>
 
 <?php if(Yii::app()->controller->id == 'lesson' || !empty($url)){ ?>
 <div id="lessonHumMenu">
