@@ -58,7 +58,6 @@ class TeacherConsultantController extends TeacherCabinetController
         if ($module==0 || $student==0) {
             throw new \application\components\Exceptions\IntItaException(403, 'Переглядати задачу заборонено');
         }
-
         return $this->renderPartial('/_teacher_consultant/showPlainTask', array(
             'plainTask' => $plainTask
         ), false, true);
@@ -71,10 +70,13 @@ class TeacherConsultantController extends TeacherCabinetController
         $mark = Yii::app()->request->getPost('mark');
         $comment = Yii::app()->request->getPost('comment');
         $userId = Yii::app()->request->getPost('userId');
-
         if (!PlainTaskMarks::saveMark($plainTaskId, $mark, $comment, $userId))
             throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
             Спробуйте пізніше або повідомте адміністратора.');
+        $rating = RatingUserModule::model()->find(['id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>PlainTaskAnswer::model()->findByPk($plainTaskId)->plainTaskModule->module_ID, ':idUser'=>$userId]]);
+        if ($rating){
+            $rating->rateUser($userId);
+        }
     }
 
     public function actionConsultations()

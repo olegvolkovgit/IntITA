@@ -113,6 +113,12 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 		return parent::model($className);
 	}
 
+    /**
+     * Rate user
+     * @param int $user user id for rate.
+     * @return true if user passed course
+     * @return false if user don't passed course
+     */
     public function rateUser($user)
     {
         $rate = 0;
@@ -133,7 +139,12 @@ class RatingUserModule extends CActiveRecord implements IUserRating
         $this->save();
         return true;
     }
-
+    /**
+     * Checking user rate for lecture
+     * @param int $user user id for check and rate.
+     * @param int $lecture for check and rate.
+     * @return double user rating for lecture or 0 if user don't passed lecture
+     */
     private function checkLectureRate($lecture, $user){
         $lectureRate = 0;
         $tasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,6,9,12,13) AND block_order > 0',[':lecture'=>$lecture->id_lecture]);
