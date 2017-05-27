@@ -136,9 +136,10 @@ class SuperVisorController extends TeacherCabinetController
         $criteria = new CDbCriteria();
         $criteria->join = 'LEFT JOIN offline_groups og ON og.id = t.group';
         $criteria->addCondition('og.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $criteria->with = ['groupName'];
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
-        echo json_encode($result);
+        $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($result)]);
     }
 
     public function actionGetOfflineStudentsList()
