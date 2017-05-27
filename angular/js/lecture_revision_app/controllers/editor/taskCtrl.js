@@ -2,7 +2,7 @@ angular
     .module('revisionEdit')
     .controller('taskCtrl', taskCtrl)
 
-function taskCtrl($scope, $http,taskJson, $filter) {
+function taskCtrl($scope, $http, $filter, interpreterServices) {
 
     $scope.getDataTask = function(id) {
         var promise = $http({
@@ -27,7 +27,7 @@ function taskCtrl($scope, $http,taskJson, $filter) {
                 if(editResponse){
                     getTaskUID(blockId).then(function(uid) {
                         if(uid){
-                            taskJson.getJson(uid,$scope.interpreterServer).then(function(response){
+                            interpreterServices.getJson(uid,$scope.interpreterServer).then(function(response){
                                 if (response != undefined){
                                     $scope.editedJson=response;
                                     //replace space symbols for json
@@ -39,15 +39,17 @@ function taskCtrl($scope, $http,taskJson, $filter) {
                                     if($scope.editedJson.task!=uid){
                                         $scope.editedJson.task=uid;
                                     }
-                                    taskJson.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){
+                                    interpreterServices.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){
                                         if(!response){
                                             editTaskCondition(blockId, pageId, revisionId,quizType, tempLang).then(function() {
                                                 $("select#programLang option[value="+"'"+ tempLang +"'"+ "]").attr('selected', 'true');
                                             })
+                                            bootbox.alert("Зміни умови відбулися");
+                                        }else{
+                                            bootbox.alert("Зміни умови відбулися", function () {
+                                                location.reload();
+                                            });
                                         }
-                                        bootbox.alert("Зміни умови відбулися", function () {
-                                            location.reload();
-                                        });
                                     });
                                 }else{
                                     bootbox.alert("Зміни умови відбулися", function () {

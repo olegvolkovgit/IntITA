@@ -29,6 +29,7 @@
  * @property Course[] $courses
  * @property Organization $organization
  * @property CheckingAccounts[] $corporateCheckingAccounts
+ * @property CheckingAccounts $latestCheckingAccount
  *
  */
 class CorporateEntity extends CActiveRecord {
@@ -77,7 +78,8 @@ class CorporateEntity extends CActiveRecord {
             'modules' => [self::HAS_MANY, 'Module', ['module_id' => 'module_ID'], 'through' => 'modulesService'],
             'courses' => [self::HAS_MANY, 'Course', ['course_id' => 'course_ID'], 'through' => 'coursesService'],
             'organization' => [self::BELONGS_TO, 'Organization', 'id_organization'],
-            'corporateCheckingAccounts' => [self::HAS_MANY, 'CheckingAccounts', ['checking_account' => 'id'], 'on' => 'corporateCheckingAccounts.deletedAt IS NULL OR corporateCheckingAccounts.deletedAt > NOW()'],
+            'corporateCheckingAccounts' => [self::HAS_MANY, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'corporateCheckingAccounts.deletedAt IS NULL OR corporateCheckingAccounts.deletedAt > NOW()'],
+            'latestCheckingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'deletedAt IS NULL OR deletedAt > NOW()', 'scopes' => 'latestCheckingAccount'],
         );
     }
 

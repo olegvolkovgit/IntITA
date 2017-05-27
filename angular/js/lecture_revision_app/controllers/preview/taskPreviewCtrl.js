@@ -5,7 +5,7 @@ angular
     .module('lecturePreviewRevisionApp')
     .controller('taskCtrl',taskCtrl);
 
-function taskCtrl($timeout, $scope, taskJson,userAnswerTaskService,ipCookie) {
+function taskCtrl($timeout, $scope, interpreterServices, ipCookie) {
     $scope.init = function(taskLang)
     {
         $scope.taskLang=taskLang;
@@ -42,7 +42,7 @@ function taskCtrl($timeout, $scope, taskJson,userAnswerTaskService,ipCookie) {
 
     $scope.getVariables=function(id,url){
         if($scope.variables==undefined){
-            taskJson.getVariablesTask(id,url)
+            interpreterServices.getTaskVariables(id,url)
                 .then(function(variable) {
                     $scope.variables=variable;
                     angular.element('#taskVariables').toggle();
@@ -64,7 +64,7 @@ function taskCtrl($timeout, $scope, taskJson,userAnswerTaskService,ipCookie) {
             bootbox.alert('Відповідь не може бути пустою');
             button.removeAttr('disabled');
         } else {
-            userAnswerTaskService.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
+            interpreterServices.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
                 if(response=='Added to compile'){
                     getTaskResult(idTask);
                 }else if(response=='error'){
@@ -77,7 +77,7 @@ function taskCtrl($timeout, $scope, taskJson,userAnswerTaskService,ipCookie) {
         }
 
         function getTaskResult(task) {
-            return userAnswerTaskService.getResultJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
+            return interpreterServices.getResultJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
                 .then(function(serverResponse) {
                     switch (serverResponse.status) {
                         case 'in proccess':
