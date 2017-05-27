@@ -395,6 +395,9 @@ class CourseRevisionController extends Controller {
         if (empty($result['error'])) {
             $revision->state->changeTo('released', Yii::app()->user);
         }
+        $createdTask = new SchedulerTasks();
+        $createdTask->addTask($revision,TaskFactory::CHANGECOURCEREVISION,date("Y-m-d", time() + 86400).' 02:00:00');
+
         $result['course'] = $revision->course->course_ID;
         $result['organization'] = $revision->course->id_organization;
 

@@ -7,7 +7,7 @@
  * @property integer $id
  * @property string $name
  * @property integer $type
- * @property integer $owner
+ * @property integer $created_by
  * @property integer $repeat_type
  * @property string $start_time
  * @property string $end_time
@@ -151,6 +151,36 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	{
 		return parent::model($className);
 	}
+    /**
+     * Returns model save restlt.
+     * Params
+     * model - Related model for create task .
+     * type - Task type (see TaskFactory for avaliable types)
+     * startTime - Date and time in mysql format when thi task will be start
+     * repeatType - See constants in this class for availiable types (Default ONCETASK)
+     */
+	public function addTask($model, $type, $startTime, $repeatType = null){
+        $this->type = $type;
+        $this->created_by = Yii::app()->user->model->id;
+        $this->status = SchedulerTasks::STATUSNEW;
+        $repeatType ? $this->repeat_type=$repeatType : $this->repeat_type = SchedulerTasks::ONCETASK;
+        $this->start_time = $startTime;
+	    switch (get_class($model)){
+            case "RevisionModule":
+                $this->related_model_id = $model->id_module_revision;
+                $this->id_organization = $model->getRelated('module')->id_organization;
+                break;
+            case "RevisionCourse":
+                $this->related_model_id = $model->id_course_revision;
+                $this->id_organization = $model->getRelated('course')->id_organization;
+                break;
+            default:
+                $this->related_model_id = $model->id;
+                $this->id_organization = $model->id_organization;
+            break;
+        }
+        return $this->save();
+    }
 
     public function run(){
         $task = TaskFactory::getInstance($this->type,$this->related_model_id);
