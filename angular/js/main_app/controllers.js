@@ -198,7 +198,6 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             $scope.writeRatingLine = function(percent) {
 
                 var progresssLine = document.getElementById('progressLine');
-                console.log(progresssLine);
                 var i = 0;
                 var count = 0;
                 var ul = document.createElement('ul');
@@ -673,4 +672,20 @@ function promotionSchemesCtrl($scope, $http) {
             bootbox.alert("Запит не вдалося надіслати.");
         });
     }
+}
+
+function updateChatName(){
+    $.ajax({
+        url: chatPath+'/chat/update/users/name',
+        type: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (response) {
+            console.log(response);
+            bootbox.alert("Оновити ім'я в чаті не вдалося");
+        },
+        cache: false,
+    });
 }

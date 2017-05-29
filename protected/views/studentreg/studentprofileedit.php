@@ -38,6 +38,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/careerService.js'); ?>"></script>
 <script>
     basePath = '<?php echo Config::getBaseUrl(); ?>';
+    chatPath = '<?php echo Config::getFullChatPath(); ?>';
     avatar= '<?php echo $post->avatar ?>';
 </script>
 <!--StyleForm Check and radio box-->
@@ -56,7 +57,16 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
-            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
+            'afterValidate' => 'js:function(){
+            if($("div").is(".rowNetwork.error")) 
+                $(".tabs").lightTabs("1"); 
+            else if($("div").is(".error"))
+            { 
+            $(".tabs").lightTabs("0");}
+            else{
+            updateChatName();
+            }
+             return true;}',),
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'ng-submit'=>"sendForm(form)", 'ng-controller' => "editProfileController", 'name' => 'profileForm', 'novalidate' => true),
     )); ?>
     <div class="rightProfileColumn">
