@@ -6,21 +6,21 @@
 <div class="GraduatesBlock">
     <div class="graduatesTable">
         <div class="graduatesTd graduateAvatar">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', $data['avatar']); ?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', $data->user['avatar']); ?>">
             <div class="graduateHeaderMini">
                 <div class="text">
                     <?php echo Yii::t('graduates', '0320')?>
-                    <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
+                    <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->rate['date_done'],'medium',null); ?></span>
                 </div>
-                <div class="text1"><?php echo $data->name(); ?></div>
+                <div class="text1"><?php echo $data->user['firstName'].' '.$data->user['secondName']; ?></div>
             </div>
         </div>
         <div class="graduatesTd graduateInfo">
             <div class="text graduateDate">
                 <?php echo Yii::t('graduates', '0320')?>
-                <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
+                <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->rate['date_done'],'medium',null); ?></span>
             </div>
-            <div class="text1 graduateName"><?php echo $data->name(); ?></div>
+            <div class="text1 graduateName"><?php echo $data->user['firstName'].' '.$data->user['secondName']; ?></div>
             <?php if(!empty($data->recall)){?>
             <div class="spoiler-title" onclick="openComment(this)">
                 <span><?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?></span>
@@ -58,16 +58,14 @@
 
                 <div class="diploma_link_style">
                     <div>
-                        <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>
+                        <?php echo Yii::t('graduates', '0318'); ?>
                     </div>
                     <div>
-                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
+                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->rate['id_course'])); ?>"
                        target="_blank"> <?php echo $data->course->getTitle(); ?></a>
                         <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
                                                                         '<?php echo $data->course->title_en?>')">Диплом</a>
                     </div>
-                    <?php }?>
-
                 </div>
             </div>
             <?php echo $this->renderPartial('_educateHistory', array('data' => $data)); ?>

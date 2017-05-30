@@ -8,7 +8,7 @@
         <div class="panel-body">
             <div class="col-md-2">
                 <a href="<?= Yii::app()->createUrl('graduates/index'); ?>" target="_blank">
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', $model->avatar); ?>"
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', $model->user->avatar); ?>"
                          class="img-thumbnail" style="height:150px">
                 </a>
             </div>
@@ -17,7 +17,7 @@
                     <tbody>
                     <tr>
                         <td width="30%"><strong>Дата випуску</strong></td>
-                        <td><?= $model->graduate_date; ?></td>
+                        <td><?= $model->rate['date_done']; ?></td>
                     </tr>
                     <tr>
                         <td width="30%"><strong>Посада</strong></td>
@@ -42,7 +42,7 @@
                     <tr>
                         <td width="30%"><strong>Закінчив(ла) курс</strong></td>
                         <td>
-                            <a href="<?= Yii::app()->createUrl('course/index', array('id' => $model->courses_page)); ?>"
+                            <a href="<?= Yii::app()->createUrl('course/index', array('id' => $model->rate->id_course)); ?>"
                             target="_blank">
                                 <?= $model->course->getTitle(); ?>
                             </a>
@@ -51,7 +51,7 @@
                     <tr>
                         <td width="30%"><strong>Рейтинг</strong></td>
                         <td>
-                            <?= $model->rate; ?>
+                            <?= $model->rate['rating']; ?>
                         </td>
                     </tr>
                     <tr>
