@@ -6,7 +6,7 @@
     </a>
 <?php } ?>
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
-   href="/_teacher/_admin/users/export/type/admins">
+   href="/_teacher/users/export/type/admins">
 </a>
 </div>
 <div class="panel panel-default" ng-controller="adminsTableCtrl" organization="<?php echo $organization ?>">

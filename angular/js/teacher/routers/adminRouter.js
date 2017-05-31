@@ -42,36 +42,36 @@ angular
             url: "/course/schema/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/coursemanage/schema/idCourse/"+$stateParams.id;
+                return basePath+"/_teacher/courseManage/schema/idCourse/"+$stateParams.id;
             }
         })
         .state('addLinkedCourse/:course/:lang', {
             url: "/addLinkedCourse/:course/:lang",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/coursemanage/addLinkedCourse/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
+                return basePath+"/_teacher/courseManage/addLinkedCourse/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
         })
         .state('admin/usersemail', {
             url: "/admin/usersemail",
             cache: false,
-            templateUrl: basePath+"/_teacher/_admin/users/usersemail",
+            templateUrl: basePath+"/_teacher/users/usersEmail",
         })
         .state('admin/emailscategory', {
             url: "/admin/emailscategory",
             cache: false,
-            templateUrl: basePath+"/_teacher/_admin/users/emailscategory",
+            templateUrl: basePath+"/_teacher/users/emailsCategory",
         })
         .state('admin/emailscategorycreate', {
             url: "/admin/emailscategorycreate",
             cache: false,
-            templateUrl: basePath+"/_teacher/_admin/users/emailscategorycreate",
+            templateUrl: basePath+"/_teacher/users/emailsCategoryCreate",
         })
         .state('admin/emailscategoryupdate/:id', {
             url: "/admin/emailscategoryupdate/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/users/emailscategoryupdate/id/"+$stateParams.id;
+                return basePath+"/_teacher/users/emailsCategoryUpdate/id/"+$stateParams.id;
             }
         })
 });

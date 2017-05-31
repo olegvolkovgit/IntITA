@@ -9,8 +9,8 @@
     <div class="row">
         <ul class="list-inline">
             <li>
-                <a type="button" class="btn btn-primary" ng-href="#/organization/courses">
-                    <?php echo Yii::t("coursemanage", "0510"); ?>
+                <a type="button" class="btn btn-default" ng-click='back()'>
+                    Назад
                 </a>
             </li>
             <?php if(Yii::app()->user->model->canUpdateCourse($model)) { ?>

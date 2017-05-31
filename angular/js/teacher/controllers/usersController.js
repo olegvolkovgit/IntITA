@@ -464,7 +464,7 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox
             var form_data = new FormData();
             form_data.append('file', file_data);
             $jq.ajax({
-                url: basePath + "/_teacher/_admin/users/saveExcelFile", // point to server-side PHP script
+                url: basePath + "/_teacher/users/saveExcelFile", // point to server-side PHP script
                 dataType: 'text',  // what to expect back from the PHP script, if anything
                 cache: false,
                 contentType: false,
@@ -482,7 +482,7 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox
         $ngBootbox.confirm("Імпортувати список email`ів? ").then(function () {
             $http({
                 method: 'POST',
-                url: basePath+"/_teacher/_admin/users/importExcel",
+                url: basePath+"/_teacher/users/importExcel",
                 data: $jq.param({categoryId: emailCategory}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback() {
@@ -498,7 +498,7 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox
     $scope.addNewEmail=function (email,emailCategory) {
         $http({
             method: 'POST',
-            url: basePath+"/_teacher/_admin/users/addNewEmail",
+            url: basePath+"/_teacher/users/addNewEmail",
             data: $jq.param({
                 email: email,
                 categoryId:emailCategory
@@ -518,7 +518,7 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox
                 $http({
                     method: 'POST',
                     data: $jq.param({email: email}),
-                    url: basePath + "/_teacher/_admin/users/removeEmail",
+                    url: basePath + "/_teacher/users/removeEmail",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback() {
                     $scope.usersEmailTableParams.reload();
@@ -535,7 +535,7 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox
                 $http({
                     method: 'POST',
                     data: $jq.param({categoryId:emailCategory}),
-                    url: basePath + "/_teacher/_admin/users/truncateEmailsTable",
+                    url: basePath + "/_teacher/users/truncateEmailsTable",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback() {
                     $scope.usersEmailTableParams.reload();
@@ -564,7 +564,7 @@ function emailCategoryTableCtrl ($scope,  usersService, $http) {
                 $http({
                     method: 'POST',
                     data: $jq.param({categoryId: categoryId}),
-                    url: basePath + "/_teacher/_admin/users/removeEmailCategory",
+                    url: basePath + "/_teacher/users/removeEmailCategory",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback() {
                     location.reload();
@@ -596,7 +596,7 @@ function emailCategoryCtrl ($http, $scope,  usersService, $stateParams, $state) 
     };
     $scope.createEmailCategory= function () {
         $http({
-            url: basePath + "/_teacher/_admin/users/createEmailCategory",
+            url: basePath + "/_teacher/users/createEmailCategory",
             method: "POST",
             data: $jq.param({
                 name: $scope.emailCategory.title,
@@ -610,7 +610,7 @@ function emailCategoryCtrl ($http, $scope,  usersService, $stateParams, $state) 
     };
     $scope.editEmailCategory= function () {
         $http({
-            url: basePath + "/_teacher/_admin/users/updateEmailCategory",
+            url: basePath + "/_teacher/users/updateEmailCategory",
             method: "POST",
             data: $jq.param({
                 id:$stateParams.id,
