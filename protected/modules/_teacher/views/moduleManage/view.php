@@ -9,8 +9,8 @@
 <div ng-controller="moduleManageCtrl">
     <ul class="list-inline">
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/organization/modules">
-                Список модулів
+            <a type="button" class="btn btn-default" ng-click='back()'>
+                Назад
             </a>
         </li>
         <?php if(Yii::app()->user->model->isContentManager()) { ?>

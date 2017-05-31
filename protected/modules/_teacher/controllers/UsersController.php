@@ -250,7 +250,8 @@ class UsersController extends TeacherCabinetController
         if(!isset($requestParams['idGroup']) && !isset($requestParams['idSubgroup'])){
             $criteria->addCondition('t.end_date IS NULL');
         }
-        $criteria->addCondition('g.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        if($_GET['organization'])
+            $criteria->addCondition('g.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);

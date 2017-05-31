@@ -26,7 +26,7 @@ function coursesTableCtrl ($scope, NgTableParams, $resource, $attrs){
         });
 
     /* Init course table  */
-    var dataFromServer = $attrs.organization?$resource(basePath+'/_teacher/coursemanage/getOrganizationCoursesList'):$resource(basePath+'/_teacher/coursemanage/getCoursesList');
+    var dataFromServer = $attrs.organization?$resource(basePath+'/_teacher/courseManage/getOrganizationCoursesList'):$resource(basePath+'/_teacher/coursemanage/getCoursesList');
     $scope.courseTable = new NgTableParams({
         sorting:{'course_ID':"asc"}
     }, {

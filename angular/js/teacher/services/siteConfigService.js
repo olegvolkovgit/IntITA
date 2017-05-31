@@ -19,7 +19,7 @@ angular
                         }
                     },
                     getSpecializationsList: {
-                        url: basePath+'/studentReg/getSpecializationsList',
+                        url: basePath+'/studentreg/getSpecializationsList',
                         isArray:true
                     },
                 });
