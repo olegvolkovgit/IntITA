@@ -297,9 +297,16 @@ function editProfileController($scope, $http, countryCity, careerService, specia
         }
     };
 
+    $scope.avatarStringToField = function(myCroppedImage){
+        if(myCroppedImage){
+            $('input[name=avatar]').val(myCroppedImage);
+        }
+    };
+
     $scope.sendForm=function (form) {
         $scope.careersListToString(form.careerStart);
         $scope.specializationsListToString(form.specializations);
+        $scope.avatarStringToField($scope.myCroppedImage);
     };
     
     $scope.$watch('form.selectedCountry', function() {
@@ -373,6 +380,25 @@ function editProfileController($scope, $http, countryCity, careerService, specia
                 });
         });
     }
+
+    //crop image
+    $scope.myImage='';
+    $timeout(function(){
+        $scope.$digest();
+        $scope.myCroppedImage='';
+    }, 1000);
+
+    var handleFileSelect=function(evt) {
+        var file=evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            $scope.$apply(function($scope){
+                $scope.myImage=evt.target.result;
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#chooseAvatar')).on('change',handleFileSelect);
 }
 
 function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {
@@ -403,10 +429,16 @@ function registrationFormController($scope, countryCity, careerService, speciali
             $('input[name=specializations]').val(JSON.stringify(specializationsString));
         }
     };
+    $scope.avatarStringToField = function(myCroppedImage){
+        if(myCroppedImage){
+            $('input[name=avatar]').val(myCroppedImage);
+        }
+    };
     
     $scope.sendForm=function (form) {
         $scope.careersListToString(form.careerStart);
         $scope.specializationsListToString(form.specializations);
+        $scope.avatarStringToField($scope.myCroppedImage);
     };
     $scope.dataForm=[];
 
@@ -455,6 +487,25 @@ function registrationFormController($scope, countryCity, careerService, speciali
             $('input[name=educformOff]').val(null);
         }
     }, true);
+
+    //crop image
+    $scope.myImage='';
+    $timeout(function(){
+        $scope.$digest();
+        $scope.myCroppedImage='';
+    }, 1000);
+
+    var handleFileSelect=function(evt) {
+        var file=evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            $scope.$apply(function($scope){
+                $scope.myImage=evt.target.result;
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#chooseAvatar')).on('change',handleFileSelect);
 }
 
 function aboutUsCtrl($scope, $http) {

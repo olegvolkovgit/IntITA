@@ -14,4 +14,5 @@ angular
         'chatIntITAMessenger',
         'angularFileUpload',
         'angular-loading-bar',
+        'ngImgCrop',
     ]);
