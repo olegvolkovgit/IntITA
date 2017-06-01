@@ -35,7 +35,9 @@ class ResizeImagesCommand extends CConsoleCommand
      * @param int $quality - quality
      */
     public function actionResizeIM($path, $maxSizeInPixel, $quality ){
-
+        if (!file_exists($path.'/original')){
+            mkdir($path.'/original');
+        }
         $iterator = new FilesystemIterator($path);
         foreach ($iterator as $file){
             if ($file->isFile()){
