@@ -44,7 +44,7 @@ class ImageResizer
                     imagejpeg($newImage,$imageFile,$quality);
                     break;
                 case "3":
-                    imagepng($newImage,$imageFile,$quality/10);
+                    imagepng($newImage,$imageFile,round($quality/10));
                     break;
                 default:
                     return false;

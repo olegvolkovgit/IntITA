@@ -15,4 +15,5 @@ protected/config/databaseForum.php
 content/*
 mail/
 angular/bower_components/*
+images/
 images/*
