@@ -5,15 +5,15 @@ class m170530_084107_move_graduates_to_intita_users extends CDbMigration
 
 	public function up()
 	{
-//	    $this->addColumn('graduate','rate_id','INT(10) NOT NULL');
-//	    $this->addColumn('graduate','published','TINYINT DEFAULT 0');
-//	    $this->addColumn('rating_user_course','date_done','DATE DEFAULT NULL');
-//	    $this->insert('config',[
-//	        'param' => 'ratingScale',
-//            'value' => 10,
-//            'default'=>10,
-//            'label' => 'Шкала оцінювання рейтингу студента'
-//        ]);
+	    $this->addColumn('graduate','rate_id','INT(10) NOT NULL');
+	    $this->addColumn('graduate','published','TINYINT DEFAULT 0');
+	    $this->addColumn('rating_user_course','date_done','DATE DEFAULT NULL');
+	    $this->insert('config',[
+	        'param' => 'ratingScale',
+            'value' => 10,
+            'default'=>10,
+            'label' => 'Шкала оцінювання рейтингу студента'
+        ]);
         $graduates = Yii::app()->db->createCommand('SELECT graduate.id AS uid,
                                                            graduate.first_name, 
                                                            graduate.last_name, 
