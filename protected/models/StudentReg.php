@@ -112,7 +112,7 @@ class StudentReg extends CActiveRecord
         return array(
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
             array('educform, city, country', 'numerical', 'integerOnly' => true),
-            array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
+//            array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
             array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail,linkingemail'),
             array('email', 'email', 'message' => Yii::t('error', '0271'), 'on' => 'recovery,resetemail,fromraptoext,linkingemail'),

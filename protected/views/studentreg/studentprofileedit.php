@@ -38,6 +38,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/careerService.js'); ?>"></script>
 <script>
     basePath = '<?php echo Config::getBaseUrl(); ?>';
+    chatPath = '<?php echo Config::getFullChatPath(); ?>';
     avatar= '<?php echo $post->avatar ?>';
 </script>
 <!--StyleForm Check and radio box-->
@@ -56,7 +57,16 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
-            'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error")) $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
+            'afterValidate' => 'js:function(){
+            if($("div").is(".rowNetwork.error")) 
+                $(".tabs").lightTabs("1"); 
+            else if($("div").is(".error"))
+            { 
+            $(".tabs").lightTabs("0");}
+            else{
+            updateChatName();
+            }
+             return true;}',),
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'ng-submit'=>"sendForm(form)", 'ng-controller' => "editProfileController", 'name' => 'profileForm', 'novalidate' => true),
     )); ?>
     <div class="rightProfileColumn">
@@ -68,8 +78,11 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                     </td>
                 </tr>
             </table>
-            <img class='avatarimg'
+            <img class='avatarimg' ng-if="!myImage || profileForm.$error.size || profileForm.$error.fileType"
                  src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
+            <div class="cropArea avatarimg" ng-show="myImage && !profileForm.$error.size && !profileForm.$error.fileType">
+                <img-crop image="myImage" result-image="myCroppedImage" area-type="square"></img-crop>
+            </div>
             <?php if ($post->avatar !== 'noname.png') {
                 ?>
                 <div>
@@ -81,17 +94,15 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
             }
             ?>
             <div class="fileform">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "id" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+                <input type="file" tabindex='-1' id="chooseAvatar" max-file-size="5242880" ng-model="attachment" file-check="" />
+                <input type="hidden" name="avatar">
                 <label id="avatar" for="chooseAvatar"><?php echo Yii::t('regexp', '0157'); ?></label>
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
-            <div ng-cloak class="clientValidationError"
-                 ng-show="profileForm['StudentReg[avatar]'].$error.size || profileForm['StudentReg[avatar]'].$error.fileType">
-                <div
-                    ng-show="profileForm['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error', '0302'); ?></div>
-                <div
-                    ng-show="profileForm['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error', '0672'); ?></div>
+            <div ng-cloak class="clientValidationError" ng-show="profileForm.$error.size || profileForm.$error.fileType">
+                <div ng-show="profileForm.$error.size"><?php echo Yii::t('error', '0302'); ?></div>
+                <div ng-show="profileForm.$error.fileType"><?php echo Yii::t('error', '0672'); ?></div>
             </div>
             <div class="avatarError">
                 <?php echo $form->error($model, 'avatar'); ?>

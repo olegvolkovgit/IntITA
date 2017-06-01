@@ -27,6 +27,7 @@ $header = new Header();
         <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/revisionApp.js'); ?>"></script>
+        <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/interpreterServices.js'); ?>"></script>
         <?php if (!Yii::app()->user->isGuest) { ?>
             <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
         <?php } ?>
@@ -46,6 +47,7 @@ $header = new Header();
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/controllers/lectureRevisionCtrl.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/revisionsActions.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/getLectureData.js'); ?>"></script>
+        <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/filters/interpreterJsonFilter.js'); ?>"></script>
 
         <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/codemirror/lib/codemirror.css'); ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/codemirror/theme/rubyblue.css'); ?>">
@@ -63,7 +65,6 @@ $header = new Header();
         
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'ivpusic/angular-cookies.min.js'); ?>"></script>
-        <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/taskJson.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/sendRevisionMessage.js'); ?>"></script>
         
         <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>

@@ -6,12 +6,14 @@
  * The followings are the available columns in table 'acc_corporate_entity_service':
  * @property string $id
  * @property integer $corporateEntityId
+ * @property integer $checkingAccountId
  * @property string $serviceId
  * @property string $createdAt
  * @property string $deletedAt
  *
  * The followings are the available model relations:
  * @property CorporateEntity $corporateEntity
+ * @property CheckingAccounts $checkingAccount
  * @property Service $service
  */
 class CorporateEntityService extends CActiveRecord {
@@ -29,13 +31,13 @@ class CorporateEntityService extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('corporateEntityId, serviceId', 'required'),
-            array('corporateEntityId', 'numerical', 'integerOnly' => true),
+            array('corporateEntityId, checkingAccountId, serviceId', 'required'),
+            array('corporateEntityId, checkingAccountId', 'numerical', 'integerOnly' => true),
             array('serviceId', 'length', 'max' => 10),
             array('deletedAt', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, corporateEntityId, serviceId, createdAt, deletedAt', 'safe', 'on' => 'search'),
+            array('id, corporateEntityId, checkingAccountId, serviceId, createdAt, deletedAt', 'safe', 'on' => 'search'),
         );
     }
 
@@ -47,6 +49,7 @@ class CorporateEntityService extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'corporateEntity' => array(self::BELONGS_TO, 'CorporateEntity', 'corporateEntityId'),
+            'checkingAccount' => array(self::BELONGS_TO, 'CheckingAccounts', 'checkingAccountId'),
             'service' => array(self::BELONGS_TO, 'Service', 'serviceId'),
         );
     }
@@ -58,6 +61,7 @@ class CorporateEntityService extends CActiveRecord {
         return array(
             'id' => 'ID',
             'corporateEntityId' => 'Corporate Entity',
+            'checkingAccountId' => 'Checking Account',
             'serviceId' => 'Service',
             'createdAt' => 'Created At',
             'deletedAt' => 'Deleted At',
@@ -83,6 +87,7 @@ class CorporateEntityService extends CActiveRecord {
 
         $criteria->compare('id', $this->id, true);
         $criteria->compare('corporateEntityId', $this->corporateEntityId);
+        $criteria->compare('checkingAccountId', $this->checkingAccountId);
         $criteria->compare('serviceId', $this->serviceId, true);
         $criteria->compare('createdAt', $this->createdAt, true);
         $criteria->compare('deletedAt', $this->deletedAt, true);
@@ -102,9 +107,10 @@ class CorporateEntityService extends CActiveRecord {
         return parent::model($className);
     }
 
-    public function createBinding(CorporateEntity $corporateEntity, Service $service) {
+    public function createBinding(CorporateEntity $corporateEntity, Service $service, CheckingAccounts $checkingAccount) {
         $model = new CorporateEntityService();
         $model->corporateEntityId = $corporateEntity->id;
+        $model->checkingAccountId = $checkingAccount->id;
         $model->serviceId = $service->service_id;
         if ($model->validate()) {
             $model->save(false);

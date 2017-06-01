@@ -108,6 +108,8 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyOneRepresentative.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyServices.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/accountant/organizationCourses.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyCheckingAccounts.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/companyOneCheckingAccount.js'); ?>"></script>
 
     <!--Angular routers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/cabinetRouter.js'); ?>"></script>

@@ -5,7 +5,7 @@
     </a>
 <?php } ?>
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
-   href="/_teacher/_admin/users/export/type/supervisors">
+   href="/_teacher/users/export/type/supervisors">
 </a>
 <br>
 <br>

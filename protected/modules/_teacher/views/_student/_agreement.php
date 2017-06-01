@@ -35,7 +35,7 @@
                     'bg-success': (row.summa==row.paidAmount)}">
                     <td data-title="'Рахунок'">
                         <span ng-if="(row.date_cancelled || row.agreement.cancel_date)">Рахунок № {{row.number}}</span>
-                        <a ng-if="!(row.date_cancelled || row.agreement.cancel_date)" href="{{invoiceUrl}}{{row.id}}">Рахунок № {{row.number}}</a>
+                        <a ng-if="!(row.date_cancelled || row.agreement.cancel_date)" href="{{invoiceUrl}}{{row.id}}/?nolayout=1">Рахунок № {{row.number}}</a>
                     </td>
                     <td data-title="'Загальна сума, грн.'">{{row.summa}}</td>
                     <td data-title="'Сплачено, грн.'">{{row.paidAmount}}</td>

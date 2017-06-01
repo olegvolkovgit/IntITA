@@ -126,7 +126,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 'through' => 'moduleServiceOffline',
                 'on' => 'corporateEntityServicesOffline.deletedAt IS NULL OR corporateEntityServicesOffline.deletedAt > NOW()'],
             'corporateEntityOffline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOffline'],
-
+            'checkingAccountOffline' => [self::HAS_ONE, 'CheckingAccounts', ['id' => 'corporate_entity'], 'through' => 'corporateEntityOffline'],
 
 
             'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
@@ -137,6 +137,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 'through' => 'moduleServiceOnline',
                 'on' => 'corporateEntityServicesOnline.deletedAt IS NULL OR corporateEntityServicesOnline.deletedAt > NOW()'],
             'corporateEntityOnline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOnline'],
+            'checkingAccountOnline' => [self::HAS_ONE, 'CheckingAccounts', ['id' => 'corporate_entity'], 'through' => 'corporateEntityOnline'],
         );
     }
 
@@ -1175,7 +1176,6 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return ModuleService::model()->getService($this->module_ID, $educationForm)->service;
     }
 
-
     public static function selectModulesCount($arr)
     {
         if(isset($arr)){
@@ -1194,7 +1194,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public function hasPromotionSchemes()
     {
-        $service=ModuleService::model()->findByPk(array('module_id'=>$this->module_ID, 'education_form'=>1));
+        $service=ModuleService::model()->getService($this->module_ID, EducationForm::model()->findByPk(1));
         $criteria = new CDbCriteria;
         $criteria->condition = 'moduleId='.$this->module_ID.' or (serviceType=2 and id_organization='.$service->moduleModel->id_organization.')';
         $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
@@ -1202,5 +1202,18 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $promotions=PromotionPaymentScheme::model()->findAll($criteria);
 
         return $promotions?true:false;
+    }
+
+    //cancel teacher's students for module
+    public function cancelTeacherStudentsForModule($student)
+    {
+        if(Yii::app()->db->createCommand()->
+        update('teacher_consultant_student', array(
+            'end_date'=>date("Y-m-d H:i:s"),
+        ), 'id_student=:idStudent and id_module=:idModule and end_date IS NULL',
+                array(':idStudent'=>$student,':idModule'=>$this->module_ID))){
+            return true;
+        }
+        return false;
     }
 }

@@ -14,6 +14,7 @@
  * @property Module[] $modulesWithCorporateEntity
  * @property CorporateEntity[] $corporateEntity
  * @property CorporateEntity $latestCorporateEntity
+ * @property CorporateEntity $latestCheckingAccount
  *
  */
 class Organization extends CActiveRecord {
@@ -48,9 +49,9 @@ class Organization extends CActiveRecord {
             'corporateEntity' => [self::HAS_MANY, 'CorporateEntity', 'id_organization'],
             'courses' => [self::HAS_MANY, 'Course', 'id_organization'],
             'modules' => [self::HAS_MANY, 'Module', 'id_organization'],
-            'coursesWithCorporateEntity' => [self::HAS_MANY, 'Course', 'id_organization', 'with' => array('corporateEntityOffline', 'corporateEntityOnline')],
-            'modulesWithCorporateEntity' => [self::HAS_MANY, 'Module', 'id_organization', 'with' => array('corporateEntityOffline', 'corporateEntityOnline')],
-            'latestCorporateEntity' => [self::HAS_ONE, 'CorporateEntity', 'id_organization', 'scopes' => 'latest']
+            'coursesWithCorporateEntity' => [self::HAS_MANY, 'Course', 'id_organization', 'with' => array('corporateEntityOffline', 'corporateEntityOnline', 'checkingAccountOnline', 'checkingAccountOffline')],
+            'modulesWithCorporateEntity' => [self::HAS_MANY, 'Module', 'id_organization', 'with' => array('corporateEntityOffline', 'corporateEntityOnline', 'checkingAccountOnline', 'checkingAccountOffline')],
+            'latestCorporateEntity' => [self::HAS_ONE, 'CorporateEntity', 'id_organization', 'scopes' => 'latest'],
         ];
     }
 
@@ -116,6 +117,10 @@ class Organization extends CActiveRecord {
         return $this->latestCorporateEntity;
     }
 
+    private function getDefaultAgreementCheckingAccount() {
+        return $this->latestCorporateEntity->latestCheckingAccount;
+    }
+
     public function getCorporateEntityFor(IServiceableWithEducationForm $model, EducationForm $educationForm) {
         $service = $model->getService($educationForm);
         $corporateEntity = $service->corporateEntity;
@@ -125,4 +130,12 @@ class Organization extends CActiveRecord {
         return $corporateEntity;
     }
 
+    public function getCheckingAccountFor(IServiceableWithEducationForm $model, EducationForm $educationForm) {
+        $service = $model->getService($educationForm);
+        $checkingAccount = $service->checkingAccount;
+        if (!$checkingAccount) {
+            $checkingAccount = $this->getDefaultAgreementCheckingAccount();
+        }
+        return $checkingAccount;
+    }
 }

@@ -8,8 +8,7 @@
 ?>
 <?php header('Access-Control-Allow-Origin: *'); ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/controllers/interpreterCtrl.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/sendTaskJsonService.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/getTaskJson.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/interpreterServices.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/directives/interpreterForms.js'); ?>"></script>
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'interpreter.css'); ?>"/>

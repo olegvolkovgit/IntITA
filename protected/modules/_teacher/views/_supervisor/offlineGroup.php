@@ -26,6 +26,9 @@
                 <uib-tab  index="3" heading="Доступ до модулів">
                     <?php $this->renderPartial('/_supervisor/tables/_modulesAccess', array());?>
                 </uib-tab>
+                <uib-tab  index="4" heading="Викладачі">
+                    <?php $this->renderPartial('/_supervisor/tables/_modulesTeachers', array());?>
+                </uib-tab>
             </uib-tabset>
         </div>
     </div>

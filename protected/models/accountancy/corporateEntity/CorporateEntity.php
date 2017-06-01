@@ -28,6 +28,9 @@
  * @property Module[] $modules
  * @property Course[] $courses
  * @property Organization $organization
+ * @property CheckingAccounts[] $corporateCheckingAccounts
+ * @property CheckingAccounts $latestCheckingAccount
+ *
  */
 class CorporateEntity extends CActiveRecord {
 
@@ -74,7 +77,9 @@ class CorporateEntity extends CActiveRecord {
             'coursesService' => [self::HAS_MANY, 'CourseService', ['service_id' => 'service_id'], 'through' => 'services'],
             'modules' => [self::HAS_MANY, 'Module', ['module_id' => 'module_ID'], 'through' => 'modulesService'],
             'courses' => [self::HAS_MANY, 'Course', ['course_id' => 'course_ID'], 'through' => 'coursesService'],
-            'organization' => [self::BELONGS_TO, 'Organization', 'id_organization']
+            'organization' => [self::BELONGS_TO, 'Organization', 'id_organization'],
+            'corporateCheckingAccounts' => [self::HAS_MANY, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'corporateCheckingAccounts.deletedAt IS NULL OR corporateCheckingAccounts.deletedAt > NOW()'],
+            'latestCheckingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'deletedAt IS NULL OR deletedAt > NOW()', 'scopes' => 'latestCheckingAccount'],
         );
     }
 
@@ -146,7 +151,8 @@ class CorporateEntity extends CActiveRecord {
     public function scopes() {
         return [
           'latest' => [
-              'order' => 't.id DESC',
+              'alias' => 'ce',
+              'order' => 'ce.id DESC',
               'limit' => 1
           ]
         ];
@@ -194,20 +200,22 @@ class CorporateEntity extends CActiveRecord {
 
     /**
      * @param Service $service
+     * @param CheckingAccounts $checkingAccount
      * @return CorporateEntityService
      */
-    public function bindService(Service $service) {
-        return CorporateEntityService::model()->createBinding($this, $service);
+    public function bindService(Service $service, CheckingAccounts $checkingAccount) {
+        return CorporateEntityService::model()->createBinding($this, $service, $checkingAccount);
     }
 
     /**
      * @param IServiceableWithEducationForm $model
      * @param EducationForm $educationForm
+     * @param CheckingAccounts $checkingAccount
      * @return CorporateEntityService
      */
-    public function bindServiceByEducationUnit(IServiceableWithEducationForm $model, EducationForm $educationForm) {
+    public function bindServiceByEducationUnit(IServiceableWithEducationForm $model, EducationForm $educationForm, CheckingAccounts $checkingAccount) {
         $service = $model->getService($educationForm);
-        return $this->bindService($service);
+        return $this->bindService($service, $checkingAccount);
     }
 
     /**

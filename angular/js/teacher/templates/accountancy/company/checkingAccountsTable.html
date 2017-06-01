@@ -1,0 +1,18 @@
+<table ng-table="checkingAccountsTableParams" class="table table-bordered table-hover">
+    <tr ng-repeat="row in $data track by row.id" ng-class="{'danger' : !row.hasCredentials}">
+        <td data-title="'Назва банку'">{{row.bank_name}}</td>
+        <td data-title="'МФО'">{{row.bank_code}}</td>
+        <td data-title="'Р/р'" class="text-center">{{row.checking_account}}</td>
+        <td data-title="'Порядок'" class="text-center">{{row.checking_account_order}}</td>
+        <td data-title="'Актуальність'" class="text-center">
+            <span class="glyphicon" aria-hidden="true"
+            ng-class="{'glyphicon-ok success' : row.hasCredentials, 'glyphicon-remove danger' : !row.hasCredentials}"></span>
+        </td>
+        <td data-title="'Період дії р/р'">{{row.credentialsPeriod}}</td>
+        <td class="text-center">
+            <a ui-sref="^.edit({checkingAccountId:row.id})" class="btn btn-primary">
+                <i class="glyphicon glyphicon-pencil"></i>
+            </a>
+        </td>
+    </tr>
+</table>

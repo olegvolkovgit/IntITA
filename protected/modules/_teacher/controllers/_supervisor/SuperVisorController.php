@@ -136,9 +136,10 @@ class SuperVisorController extends TeacherCabinetController
         $criteria = new CDbCriteria();
         $criteria->join = 'LEFT JOIN offline_groups og ON og.id = t.group';
         $criteria->addCondition('og.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $criteria->with = ['groupName'];
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
-        echo json_encode($result);
+        $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($result)]);
     }
 
     public function actionGetOfflineStudentsList()
@@ -286,7 +287,40 @@ class SuperVisorController extends TeacherCabinetController
         $result = $ngTable->getData();
         echo json_encode($result);
     }
-    
+
+    public function actionGetCourseModuleAccessList()
+    {
+        $requestParams = $_GET;
+        $data=array();
+
+        $criteria_course =  new CDbCriteria();
+        $criteria_course->join = ' LEFT JOIN acc_course_service cs ON t.service_id = cs.service_id';
+        $criteria_course->join .= ' LEFT JOIN course c ON cs.course_id = c.course_ID';
+        $criteria_course->condition = 't.group_id='.$requestParams['idGroup'].' and cs.course_id IS NOT NULL';
+        $data['courses']=ActiveRecordToJSON::toAssocArray(GroupAccess::model()->with('course','course.module.moduleInCourse')->findAll($criteria_course));
+        foreach ($data['courses'] as $courseKey=>$course){
+            foreach ($data['courses'][$courseKey]['course']['module'] as $moduleKey=>$module) {
+                $data['courses'][$courseKey]['course']['module'][$moduleKey]['groupModuleTeacher']=
+                    ActiveRecordToJSON::toAssocArray(OfflineGroupsTeacherConsultantModule::model()->with('teacher')->findByAttributes(
+                        array('id_group'=>$requestParams['idGroup'],'id_module'=>$module['id_module'],'end_date'=>null))
+                    );
+            }
+        }
+
+        $criteria_module =  new CDbCriteria();
+        $criteria_module->join = ' LEFT JOIN acc_module_service ms ON t.service_id = ms.service_id';
+        $criteria_module->join .= ' LEFT JOIN module m ON ms.module_id = m.module_ID';
+        $criteria_module->condition = 't.group_id='.$requestParams['idGroup'].' and ms.module_id IS NOT NULL';
+        $data['modules']=ActiveRecordToJSON::toAssocArray(GroupAccess::model()->with('module')->findAll($criteria_module));
+        foreach ($data['modules'] as $moduleKey=>$module) {
+            $data['modules'][$moduleKey]['groupModuleTeacher']=ActiveRecordToJSON::toAssocArray(OfflineGroupsTeacherConsultantModule::model()->with('teacher')->findByAttributes(
+                array('id_group'=>$requestParams['idGroup'],'id_module'=>$module['module']['module_ID'],'end_date'=>null))
+            );
+        }
+
+        echo json_encode($data);
+    }
+
     public function actionCreateOfflineGroup()
     {
         $result=array();
@@ -418,18 +452,46 @@ class SuperVisorController extends TeacherCabinetController
         $student->id_subgroup=$subgroupId;
         $student->assigned_by=Yii::app()->user->getId();
 
-        if(OfflineStudents::model()->findByAttributes(array('id_user'=>$student->id_user, 'end_date'=>null,'id_subgroup'=>$subgroupId))){
-            echo 'Студент уже входить в дану підгрупу';
-        }else{
-            if($student->checkOrganization() && $student->save()){
-                $subgroup=OfflineSubgroups::model()->findByPk($subgroupId);
-                if($subgroup->id_trainer){
-                    $student->setTrainer($subgroup->id_trainer);
-                }
-                echo 'Студента додано в підгрупу';
+        $connection = Yii::app()->db;
+        $transaction=$connection->beginTransaction();
+
+        try
+        {
+            if(OfflineStudents::model()->findByAttributes(array('id_user'=>$student->id_user, 'end_date'=>null,'id_subgroup'=>$subgroupId))){
+                echo 'Студент уже входить в дану підгрупу';
             }else{
-                echo 'Додати студента не вдалося';
+                if($student->checkOrganization() && $student->save()){
+                    $subgroup=OfflineSubgroups::model()->findByPk($subgroupId);
+                    if($subgroup->id_trainer){
+                        $student->setTrainer($subgroup->id_trainer);
+                    }
+                    $offlineGroupsTeacherModule=OfflineGroupsTeacherConsultantModule::model()->findAllByAttributes(array(
+                        'id_group'=>$subgroup->group,'end_date'=>null));
+
+                    //set trainer for student
+                    if($subgroup->id_trainer){
+                        $student->setTrainer($subgroup->id_trainer);
+                    }
+
+                    //set teacher for student for all groups modules
+                    $role = new TeacherConsultant();
+                    foreach ($offlineGroupsTeacherModule as $model){
+                        if (!$role->checkStudent($model->module->module_ID, $student->id_user)) {
+                            $model->module->cancelTeacherStudentsForModule($student->id_user);
+                        }
+                        $role->setStudentAttribute($model->teacher, $student->id_user, $model->module->module_ID);
+                    }
+                    echo 'Студента додано в підгрупу';
+                }else{
+                    echo 'Додати студента не вдалося';
+                }
             }
+            $transaction->commit();
+        }
+        catch(Exception $e)
+        {
+            $transaction->rollback();
+            throw $e;
         }
     }
 
@@ -626,6 +688,103 @@ class SuperVisorController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionEditOfflineGroupTeacherModule($idGroup, $idModule)
+    {
+        $group = OfflineGroups::model()->findByPk($idGroup);
+        $module = Module::model()->findByPk($idModule);
+
+        Yii::app()->user->model->hasAccessToOrganizationModel($module);
+        Yii::app()->user->model->hasAccessToOrganizationModel($group);
+
+        if ($idGroup && $idModule) {
+            $role = new TeacherConsultant();
+            $isTeacherDefined = $role->checkOfflineGroupModule($idGroup, $idModule);
+            if ($isTeacherDefined) {
+                $model = OfflineGroupsTeacherConsultantModule::model()->findByAttributes(array('id_group'=>$idGroup,'id_module'=>$idModule,'end_date'=>null));
+                $teacher = $model->teacher;
+            } else {
+                $model= new OfflineGroupsTeacherConsultantModule();
+                $teacher = null;
+            }
+
+            $this->renderPartial('/_supervisor/forms/_editOfflineGroupTeacherModule', array(
+                'group' => $group,
+                'module' => $module,
+                'isTeacherDefined' => $isTeacherDefined,
+                'teacher' => $teacher,
+                'model' => $model,
+            ), false, true);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
+    }
+
+    public function actionAssignTeacherForGroupModule()
+    {
+        $teacher = Yii::app()->request->getPost('teacher');
+        $module = Yii::app()->request->getPost('module');
+        $group= Yii::app()->request->getPost('group');
+
+        $user = RegisteredUser::userById($teacher);
+        $model = $user->registrationData;
+
+        $connection = Yii::app()->db;
+        $transaction=$connection->beginTransaction();
+
+        try
+        {
+            if (!$user->isTeacherConsultant()) {
+                echo "Даному співробітнику не призначена роль викладача.";
+            } else {
+                $groupModule = new OfflineGroupsTeacherConsultantModule();
+                $groupModule->id_group=$group;
+                $groupModule->id_teacher=$teacher;
+                $groupModule->id_module=$module;
+                $groupModule->assigned_by=Yii::app()->user->getId();
+                if ($groupModule->checkGroupModule()) {
+                    if($groupModule->save()){
+                        $role = new TeacherConsultant();
+                        $students=OfflineGroups::model()->findByPk($group)->students;
+                        foreach ($students as $student){
+                            if ($role->checkStudent($module, $student->id)) {
+                                $role->setStudentAttribute($model, $student->id, $module);
+                            }
+                        }
+                        echo "Викладача для модуля призначено. Студентам, які входять в групу, назначено данного викладача по данному модулю";
+                    }else{
+                        echo "Викладача для модуля призначити не вдалося";
+                    }
+                } else {
+                    echo $groupModule->getErrorMessage();
+                }
+            }
+            $transaction->commit();
+        }
+        catch(Exception $e)
+        {
+            $transaction->rollback();
+            throw $e;
+        }
+
+    }
+
+    public function actionCancelTeacherForGroupModule()
+    {
+        $modelId = Yii::app()->request->getPost('id');
+        $model = OfflineGroupsTeacherConsultantModule::model()->findByPk($modelId);
+
+        if ($model->checkBeforeCancelTeacherForModule()) {
+            if ($model->cancelTeacherForGroupModule()) {
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати.";
+            }
+        } else {
+            echo "У тебе немає достатньо прав для виконання операції";
+        }
+    }
+
+
     public function actionLecturesRating()
     {
         $this->renderPartial('/_supervisor/tables/lecturesRating', array(), false, true);
@@ -635,7 +794,6 @@ class SuperVisorController extends TeacherCabinetController
         $criteria = new CDbCriteria();
         $criteria->join = 'LEFT JOIN lectures as l ON l.id = t.id_lecture';
         $criteria->join  .= ' LEFT JOIN module as m ON m.module_ID = l.idModule';
-//        if($_GET['organization'])
         $criteria->condition = 'm.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('LecturesRating', $requestParams);

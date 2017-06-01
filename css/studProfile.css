@@ -238,7 +238,7 @@ table.profileInfo {
     float: right;
     width: 59%;
 }
-img.avatarimg {
+.avatarimg {
     display: block;
     width:220px;
     margin: 0 auto;
@@ -863,4 +863,10 @@ table#emptyFieldList td{
 .uploadDocuments ul {
     padding-left:0;
     list-style-type: none;
+}
+.cropArea {
+    background: #E4E4E4;
+    overflow: hidden;
+    width:90%;
+    height:400px;
 }

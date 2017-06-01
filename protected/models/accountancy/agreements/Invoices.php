@@ -34,7 +34,7 @@ class Invoices {
     }
 
     public function getTypeahead($invoiceNumber) {
-        $models = TypeAheadHelper::getTypeahead($invoiceNumber, 'Invoice', ['number']);
+        $models = TypeAheadHelper::getTypeahead($invoiceNumber, 'Invoice', ['t.number'], 10, true);
         return ActiveRecordToJSON::toAssocArray($models, $this->relationsMapping);
     }
 

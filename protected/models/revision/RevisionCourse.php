@@ -14,7 +14,7 @@
  * @property RevisionCourseProperties $properties
  * @property RevisionCourseModule[] $courseModules
  */
-class RevisionCourse extends CRevisionUnitActiveRecord
+class RevisionCourse extends CRevisionUnitActiveRecord implements ITask
 {
 	/**
 	 * @return string the associated database table name
@@ -554,18 +554,28 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 	}
 
     public function canApprove() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isSended());
     }
 
     public function canRejectRevision() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isSended());
     }
 
     public function canReleaseRevision() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isReleaseable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isReleaseable());
     }
 
     public function canCancel() {
-        return (Yii::app()->user->model->canApprove($this->course->id_organization) && $this->isCancellable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->course->id_organization) && $this->isCancellable());
+    }
+
+    public function run()
+    {
+        $oldRatings = RatingUserCourse::model()->find('course_revision=:oldRevision AND course_done=0',[':oldRevision'=>$this->id_parent]);
+        foreach ($oldRatings as $rating){
+            $rating->course_revision = $this->id_course_revision;
+            $rating->save();
+            $rating->rateUser($rating->id_user);
+        }
     }
 }

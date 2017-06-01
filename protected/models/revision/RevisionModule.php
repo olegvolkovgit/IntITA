@@ -15,7 +15,7 @@
  * @property Module $module
  * @property RevisionModuleLecture[] moduleLecturesModels
  */
-class RevisionModule extends CRevisionUnitActiveRecord
+class RevisionModule extends CRevisionUnitActiveRecord implements ITask
 {
 
     /**
@@ -701,18 +701,33 @@ class RevisionModule extends CRevisionUnitActiveRecord
     }
 
     public function canApprove() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isSended());
     }
 
     public function canRejectRevision() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isSended());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isSended());
     }
 
     public function canReleaseRevision() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isReleaseable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isReleaseable());
     }
 
     public function canCancel() {
-        return (Yii::app()->user->model->canApprove($this->module->id_organization) && $this->isCancellable());
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isCancellable());
     }
+    /**
+     * starts by cron when Module revision was changed
+     * check student module rating
+     */
+    public function run()
+    {
+        $oldRating = RatingUserModule::model()->find('module_revision=:oldRevision AND module_done=0',[':oldRevision'=>$this->id_parent]);
+        foreach ($oldRating as $rating){
+            $rating->module_revision = $this->id_module_revision;
+            $rating->save();
+            $rating->rateUser($rating->id_user);
+        }
+
+    }
+
 }

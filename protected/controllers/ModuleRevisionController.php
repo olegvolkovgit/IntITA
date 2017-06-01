@@ -484,7 +484,8 @@ class ModuleRevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
         $result=$moduleRev->state->changeTo('released', Yii::app()->user);
-        
+        $createdTask = new SchedulerTasks();
+        $createdTask->addTask($moduleRev,TaskFactory::CHANGEMODULEREVISION,date("Y-m-d", time() + 86400).' 01:00:00');
         echo $result;
     }
 

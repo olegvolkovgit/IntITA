@@ -41,28 +41,32 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    var idEl = element.parent().attr('id').substring(1);
-                    $http({
-                        url: basePath + '/revision/upLectureElement',
-                        method: "POST",
-                        data: $.param({idElement:idEl, idPage:idPage, idRevision: idRevision}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    })
-                        .success(function () {
-                            $.fn.yiiListView.update('blocks_list', {
-                                complete: function () {
-                                    var template = angular.element('#blockList').html();
-                                    angular.element('#blockList').empty();
-                                    angular.element('#blockList').append(($compile(template)(scope)));
-                                    setTimeout(function () {
-                                        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                    });
-                                }
-                            });
+                    if($('#addBlock').is(':visible') || $('.openCKE').length){
+                        bootbox.alert("Перед тим як перемістити блок, збережіть та закрийте усі інші блоки в режимі редагування");
+                    }else{
+                        var idEl = element.parent().attr('id').substring(1);
+                        $http({
+                            url: basePath + '/revision/upLectureElement',
+                            method: "POST",
+                            data: $.param({idElement:idEl, idPage:idPage, idRevision: idRevision}),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         })
-                        .error(function () {
-                            alert(scope.errorMsg);
-                        });
+                            .success(function () {
+                                $.fn.yiiListView.update('blocks_list', {
+                                    complete: function () {
+                                        var template = angular.element('#blockList').html();
+                                        angular.element('#blockList').empty();
+                                        angular.element('#blockList').append(($compile(template)(scope)));
+                                        setTimeout(function () {
+                                            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                                        });
+                                    }
+                                });
+                            })
+                            .error(function () {
+                                alert(scope.errorMsg);
+                            });
+                    }
                 });
             }
         };
@@ -71,28 +75,32 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    var idEl = element.parent().attr('id').substring(1);
-                    $http({
-                        url: basePath + '/revision/downLectureElement',
-                        method: "POST",
-                        data: $.param({idElement:idEl, idPage:idPage, idRevision: idRevision}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    })
-                        .success(function () {
-                            $.fn.yiiListView.update('blocks_list', {
-                                complete: function () {
-                                    var template = angular.element('#blockList').html();
-                                    angular.element('#blockList').empty();
-                                    angular.element('#blockList').append(($compile(template)(scope)));
-                                    setTimeout(function () {
-                                        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                    });
-                                }
-                            });
+                    if($('#addBlock').is(':visible') || $('.openCKE').length){
+                        bootbox.alert("Перед тим як перемістити блок, збережіть та закрийте усі інші блоки в режимі редагування");
+                    }else{
+                        var idEl = element.parent().attr('id').substring(1);
+                        $http({
+                            url: basePath + '/revision/downLectureElement',
+                            method: "POST",
+                            data: $.param({idElement:idEl, idPage:idPage, idRevision: idRevision}),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         })
-                        .error(function () {
-                            alert(scope.errorMsg);
-                        });
+                            .success(function () {
+                                $.fn.yiiListView.update('blocks_list', {
+                                    complete: function () {
+                                        var template = angular.element('#blockList').html();
+                                        angular.element('#blockList').empty();
+                                        angular.element('#blockList').append(($compile(template)(scope)));
+                                        setTimeout(function () {
+                                            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                                        });
+                                    }
+                                });
+                            })
+                            .error(function () {
+                                alert(scope.errorMsg);
+                            });
+                    }
                 });
             }
         };
@@ -101,8 +109,10 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    $ngBootbox.confirm(scope.deleteMsg)
-                        .then(function() {
+                    if($('#addBlock').is(':visible') || $('.openCKE').length){
+                        bootbox.alert("Перед тим як видалити блок, збережіть та закрийте усі інші блоки в режимі редагування");
+                    }else{
+                        $ngBootbox.confirm(scope.deleteMsg).then(function() {
                             var idEl = element.parent().attr('id').substring(1);
                             $http({
                                 url: basePath + '/revision/deleteLectureElement',
@@ -127,6 +137,7 @@ angular
                                 });
                         }, function() {
                         });
+                    }
                 });
             }
         };

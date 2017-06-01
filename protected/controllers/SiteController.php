@@ -638,6 +638,7 @@ class SiteController extends Controller
         $extended = Yii::app()->request->getPost('isExtended');
         $formId = Yii::app()->request->getPost('formId');
         $offlineForm=Yii::app()->request->getPost('educationForm');
+        $callBack=Yii::app()->request->getPost('callBack');
 
         $model = new StudentReg();
         if ($signMode == 'signUp') //            SignUp
@@ -726,11 +727,11 @@ class SiteController extends Controller
         $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $email)));
     }
 
-    public function actionAuthorize()
+    public function actionAuthorize($callBack=null)
     {
         $this->layout = "//layouts/lessonlayout";
         $this->render('authorize', array(
-            'callBack' => true,
+            'callBack' => $callBack,
         ));
     }
 }

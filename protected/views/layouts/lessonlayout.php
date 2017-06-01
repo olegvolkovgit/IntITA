@@ -2,22 +2,6 @@
 <html xmlns:og="https://ogp.me/ns#">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--[if lte IE 8]>
-    <body class="ie8">
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
-    <script>
-        document.createElement('ng-include');
-        document.createElement('ng-switch');
-        document.createElement('ng-if');
-        document.createElement('ng-pluralize');
-        document.createElement('ng-view');
-
-        // needed to enable CSS reference
-        document.createElement('ng:view');
-    </script>
-    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'labelForIe.js'); ?>"></script>
-    <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
     <meta property="og:type" content="website">
@@ -40,6 +24,7 @@
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/filters/interpreterJsonFilter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
     <?php if (!Yii::app()->user->isGuest) { ?>
         <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
@@ -59,8 +44,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/accessLecturesService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/pagesDataUpdateService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/openDialogsService.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/userAnswerTaskService.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/getTaskJson.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/interpreterServices.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/ratingService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/transformRequest.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/controllers/lessonPageCtrl.js'); ?>"></script>
