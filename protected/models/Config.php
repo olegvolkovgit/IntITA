@@ -202,4 +202,8 @@ class Config extends CActiveRecord
 	public static function getRoundcubeAddress(){
 		return Yii::app()->config->get('roundcubeAddress');
 	}
+
+    public static function getRatingScale(){
+        return Yii::app()->config->get('ratingScale');
+    }
 }

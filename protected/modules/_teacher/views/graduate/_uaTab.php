@@ -12,13 +12,13 @@
                     <tr>
                         <td width="30%"><strong>Ім'я (укр.)</strong></td>
                         <td>
-                            <?= $model->first_name; ?>
+                            <?= $model->user->firstName; ?>
                         </td>
                     </tr>
                     <tr>
                         <td width="30%"><strong>Прізвище (укр.)</strong></td>
                         <td>
-                            <?= $model->last_name; ?>
+                            <?= $model->user->secondName; ?>
                         </td>
                     </tr>
                     </tbody>
