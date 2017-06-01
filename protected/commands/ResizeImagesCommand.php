@@ -6,9 +6,9 @@
  * Date: 01.06.2017
  * Time: 12:29
  */
-class ResizeAvatarCommand extends CConsoleCommand
+class ResizeImagesCommand extends CConsoleCommand
 {
-    public function actionResizeavatars($path){
+    public function actionResize($path){
         if (!file_exists($path.'/original')){
             mkdir($path.'/original');
         }
