@@ -1,6 +1,6 @@
 
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
-   href="/_teacher/_admin/users/export/type/blockedUsers">
+   href="/_teacher/users/export/type/blockedUsers">
 </a>
 
 <div class="panel panel-default" ng-controller="blockedUsersCtrl">

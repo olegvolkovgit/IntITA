@@ -1,6 +1,6 @@
 
 <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
-   href="/_teacher/_admin/users/export/type/withoutRoles">
+   href="/_teacher/users/export/type/withoutRoles">
 </a>
 
 <div ng-controller="withoutRolesTableCtrl">

@@ -37,10 +37,15 @@ class Avatar {
     }
 
 
-    public static function saveStudentAvatar($model)
+    public static function saveStudentAvatar($model, $data, $fileName, $x_resolution=200, $y_resolution=200, $quality=75)
     {
-        $fileName = FileUploadHelper::getFileName($model->avatar);
-        $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
+        $im = new Imagick();
+        $im->readimageblob($data);
+        $im->setImageFormat( "jpg" );
+        $im->thumbnailImage($x_resolution, $y_resolution,true);
+        $output = $im->getimageblob();
+//        $im->setCompressionQuality($quality);
+        file_put_contents(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName, $output);
         if(isset(Yii::app()->user->id)){
             $model->updateByPk(Yii::app()->user->id, array('avatar' => $fileName));
         }else{

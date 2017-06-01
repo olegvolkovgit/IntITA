@@ -1,7 +1,7 @@
 <div ng-controller="usersTableCtrl">
     <div class="col-lg-12">
         <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
-               href="/_teacher/_admin/users/export/type/all">
+               href="/_teacher/users/export/type/all">
         </a>
     </div>
     <table ng-table="usersTableParams" class="table table-bordered table-striped table-condensed">

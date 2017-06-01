@@ -36,6 +36,8 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-file-upload/dist/angular-file-upload.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.js'); ?>"></script>
+    <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.css'); ?>" rel="stylesheet"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-sanitize/angular-sanitize.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/paymentsSchemes.js'); ?>"></script>
@@ -242,7 +244,7 @@ $header = new Header();
                         <span><?php $footer = new Footer(); echo $footer->getTel(); ?></span><br/>
                         <span><?php echo $footer->getMobile(); ?></span><br/>
                         <span><?php echo $footer->getEmail(); ?></span><br/>
-                        <span><?php echo $footer->getSkype(); ?></span><br/>
+<!--                        <span>--><?php //echo $footer->getSkype(); ?><!--</span><br/>-->
                     </p>
                 </div>
             </div>

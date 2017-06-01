@@ -68,7 +68,9 @@ class StudentRegController extends Controller
         
         $careers=json_decode($_POST['careers']);
         $specializations=json_decode($_POST['specializations']);
-        
+        $avatarBase64=$_POST['avatar'];
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $avatarBase64));
+
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'registration-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -90,19 +92,19 @@ class StudentRegController extends Controller
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
 
-            if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
             if ($model->validate()) {
-                if (isset($model->avatar)) {
-                    Avatar::saveStudentAvatar($model);
+                if ($avatarBase64) {
+                    $fileName = FileUploadHelper::getFileNameForBase64();
+                    Avatar::saveStudentAvatar($model, $data, $fileName);
                 }
 
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
                 $model->save();
-                
+
                 if($careers) $model->createUserCareer($careers);
-                if($specializations) $model-> createUserSpecialization($specializations);
-               
+                if($specializations) $model->createUserSpecialization($specializations);
+
                 if ($model->avatar == Null) {
                     $thisModel = new StudentReg();
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
@@ -200,7 +202,9 @@ class StudentRegController extends Controller
 
         $careers=json_decode($_POST['careers']);
         $specializations=json_decode($_POST['specializations']);
-        
+        $avatarBase64=$_POST['avatar'];
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $avatarBase64));
+
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'editProfile-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -215,10 +219,10 @@ class StudentRegController extends Controller
         }
 
         $model->attributes = $_POST['StudentReg'];
-        if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
         if ($model->validate()) {
-            if (isset($model->avatar)) {
-                Avatar::saveStudentAvatar($model);
+            if ($avatarBase64) {
+                $fileName = FileUploadHelper::getFileNameForBase64();
+                Avatar::saveStudentAvatar($model, $data, $fileName);
             }
 
             $model->update(array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
