@@ -304,7 +304,7 @@ class CompanyController extends TeacherCabinetController {
         $company=CorporateEntity::model()->findByPk($_GET['companyId']);
         $criteria =  new CDbCriteria();
         $criteria->condition = 'corporate_entity='.$company->id.' and 
-        (deletedAt IS NULL OR deletedAt > NOW())';
+        (t.deletedAt IS NULL OR t.deletedAt > NOW())';
         $checkingAccounts=CheckingAccounts::model()->findAll($criteria);
 
         $statusCode = 200;

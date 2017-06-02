@@ -24,7 +24,7 @@
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-success" value="Додати модуль"
-                           onclick="addExistModule('<?=Yii::app()->createUrl("/_teacher/coursemanage/addModuleToCourse");?>',
+                           onclick="addExistModule('<?=Yii::app()->createUrl("/_teacher/courseManage/addModuleToCourse");?>',
                                '<?=$course->course_ID?>','<?=$course->getTitle();?>'); return false;">
                 </div>
             </fieldset>
@@ -36,7 +36,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/coursemanage/modulesByQuery?query=%QUERY&course=' + course,
+            url: basePath + '/_teacher/courseManage/modulesByQuery?query=%QUERY&course=' + course,
             wildcard: '%QUERY',
             filter: function (modules) {
                 return $jq.map(modules.results, function (module) {
@@ -84,7 +84,7 @@
             posting.done(function (response) {
                     if (response == "success")
                         bootbox.alert("Модуль успішно додано.", function () {
-                            load(basePath + '/_teacher/coursemanage/update/id/'+course,'Курс '+title,'','4');
+                            load(basePath + '/_teacher/courseManage/update/id/'+course,'Курс '+title,'','4');
                         });
                     else if(response == 'duplicate error') {
                         bootbox.alert("Даний модуль уже присутній в курсі");
