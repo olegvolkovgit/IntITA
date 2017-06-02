@@ -30,7 +30,9 @@ class GraduateController extends TeacherCabinetController {
      */
     public function actionCreate()
     {
-        $model = new Graduate;
+        $model = new Graduate();
+        $intitaUser = new StudentReg();
+        $rating = new RatingUserCourse();
         // Uncomment the following line if AJAX validation is needed
 //         $this->performAjaxValidation($model);
         if (isset($_POST['Graduate'])) {
@@ -48,7 +50,7 @@ class GraduateController extends TeacherCabinetController {
             }
         }
         $this->renderPartial('create', array(
-            'model' => $model,
+            'model' => $model, 'user' => $intitaUser, 'rating'=>$rating
         ),false,true);
     }
 
@@ -155,5 +157,10 @@ class GraduateController extends TeacherCabinetController {
         $adapter = new NgTableAdapter('Graduate',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
+    }
+
+    public function actionGetusers(){
+
+        echo json_encode(TypeAheadHelper::getTypeahead($_GET['q'],'StudentReg',['email','avatar']));
     }
 }

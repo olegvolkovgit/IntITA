@@ -5,7 +5,22 @@ angular
     .module('teacherApp')
     .controller('graduateCtrl',graduateCtrl);
 
-function graduateCtrl ($scope, $http, graduates, NgTableParams ){
+function graduateCtrl ($scope, $http, graduates, NgTableParams, typeAhead  ){
+
+
+    $scope.addGraduate = function () {
+        alert();
+    }
+
+    $scope.getAllUsersByOrganization = function (value) {
+        $scope.newGraduate = "";
+
+        $scope.newGraduate.user =  $http.get(basePath+"/_teacher/graduate/getusers?q="+value).success(function (response) {
+            console.log(response);
+        })
+        console.log($scope.newGraduate.user);
+    }
+
     $scope.tableParams = new NgTableParams({}, {
         getData: function(params) {
             return graduates.list(params.url())
