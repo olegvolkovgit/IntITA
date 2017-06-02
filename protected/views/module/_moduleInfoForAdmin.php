@@ -133,10 +133,10 @@
 //                }
 //                ?>
 <!--            </div>-->
+        <?php if(Yii::app()->user->model->hasOrganizationById($post->id_organization)) { ?>
         <div>
             <span id="titleModule">
                 <?php echo Yii::t('courses', '0094'); ?>:
-<!--                Статус онлайн:-->
             </span>
             <?php
             $lg = Yii::app()->session['lg'];
@@ -159,7 +159,6 @@
         <div>
             <span id="titleModule">
                 <?php echo Yii::t('courses', '0944'); ?>:
-<!--                Статус офлайн:-->
             </span>
             <?php
             $lg = Yii::app()->session['lg'];
@@ -179,6 +178,34 @@
             ));
             ?>
         </div>
+        <?php } else {?>
+            <div>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0094'); ?>:
+            </span>
+                <?php if ($post->status_online == Module::DEVELOP) { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                    <?php echo Yii::t('courses', '0230');
+                } else { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                    <?php echo Yii::t('courses', '0231');
+                }
+                ?>
+            </div>
+            <div>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0944'); ?>:
+            </span>
+                <?php if ($post->status_offline == Module::DEVELOP) { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                    <?php echo Yii::t('courses', '0230');
+                } else { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                    <?php echo Yii::t('courses', '0231');
+                }
+                ?>
+            </div>
+        <?php } ?>
         <div>
             <?php $this->renderPartial('_price', array('model'=>$post)); ?>
         </div>

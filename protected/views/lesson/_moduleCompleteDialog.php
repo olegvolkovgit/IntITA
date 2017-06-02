@@ -70,8 +70,8 @@
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'googleplus.png'); ?>"></a>
                 <a onclick="Share.linkedin('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo addslashes($lecture->module->getTitle()) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(CHtml::decode(Lecture::getLectureTitle($lecture->id))) ?>')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'linkedin.png'); ?>"></a>
-                <a onclick="Share.vkontakte('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo addslashes($lecture->module->getTitle()) ?>. INTITA - програмуй майбутнє.','<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>','Я успішно завершив(ла) заняття <?php echo addslashes(CHtml::decode(Lecture::getLectureTitle($lecture->id))) ?>')">
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'vkontakte.png'); ?>"></a>
+<!--                <a onclick="Share.vkontakte('--><?php //echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>//','<?php //echo addslashes($lecture->module->getTitle()) ?>//. INTITA - програмуй майбутнє.','<?php //echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>//','Я успішно завершив(ла) заняття <?php //echo addslashes(CHtml::decode(Lecture::getLectureTitle($lecture->id))) ?>//')">
+<!--                    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'vkontakte.png'); ?><!--"></a>-->
                 <a onclick="Share.twitter('<?php echo Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $lecture['idModule'])); ?>','<?php echo addslashes($lecture->module->getTitle()) ?>. Я успішно завершив(ла) заняття <?php echo addslashes(Lecture::getLectureTitle($lecture->id)) ?> INTITA - програмуй майбутнє!')">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'twitter.png'); ?>"></a>
             </div>
@@ -106,15 +106,15 @@
             url += '&image=' + encodeURIComponent(pimg);
             Share.popup(url);
         },
-        vkontakte: function (purl, ptitle, pimg, text) {
-            url = 'https://vkontakte.ru/share.php?';
-            url += 'url=' + encodeURIComponent(purl);
-            url += '&title=' + encodeURIComponent(ptitle);
-            url += '&description=' + encodeURIComponent(text);
-            url += '&image=' + encodeURIComponent(pimg);
-            url += '&noparse=true';
-            Share.popup(url);
-        },
+//        vkontakte: function (purl, ptitle, pimg, text) {
+//            url = 'https://vkontakte.ru/share.php?';
+//            url += 'url=' + encodeURIComponent(purl);
+//            url += '&title=' + encodeURIComponent(ptitle);
+//            url += '&description=' + encodeURIComponent(text);
+//            url += '&image=' + encodeURIComponent(pimg);
+//            url += '&noparse=true';
+//            Share.popup(url);
+//        },
         twitter: function (purl, ptitle) {
             url = 'https://twitter.com/share?';
             url += 'text=' + encodeURIComponent(ptitle);

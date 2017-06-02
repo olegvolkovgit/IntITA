@@ -25,7 +25,6 @@
  * @property string $facebook
  * @property string $googleplus
  * @property string $linkedin
- * @property string $vkontakte
  * @property string $twitter
  * @property string $token
  * @property string $activkey_lifetime
@@ -110,7 +109,7 @@ class StudentReg extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
+            array('facebook, googleplus, linkedin, twitter', 'networkValidation'),
             array('educform, city, country', 'numerical', 'integerOnly' => true),
 //            array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
@@ -136,7 +135,7 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country,
-            city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype, prev_job, current_job, education_shift', 'safe'),
+            city, education, googleplus, linkedin, twitter,token,activkey_lifetime, status, identity, skype, prev_job, current_job, education_shift', 'safe'),
             // The following rule is used by search().
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education,
             educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled,
@@ -259,7 +258,7 @@ class StudentReg extends CActiveRecord
             'facebook' => 'Facebook',
             'googleplus' => 'Google+',
             'linkedin' => 'LinkedIn',
-            'vkontakte' => 'VK',
+//            'vkontakte' => 'VK',
             'twitter' => 'Twitter',
             'reg_time' => 'Registration Time',
             'skype' => 'Skype',
@@ -355,7 +354,7 @@ class StudentReg extends CActiveRecord
         $criteria->compare('facebook', $this->facebook, true);
         $criteria->compare('googleplus', $this->googleplus, true);
         $criteria->compare('linkedin', $this->linkedin, true);
-        $criteria->compare('vkontakte', $this->vkontakte, true);
+//        $criteria->compare('vkontakte', $this->vkontakte, true);
         $criteria->compare('twitter', $this->twitter, true);
         $criteria->compare('token', $this->token, true);
         $criteria->compare('activkey_lifetime', $this->activkey_lifetime, true);
@@ -520,12 +519,12 @@ class StudentReg extends CActiveRecord
                 if ($domainPartPos === 0)
                     $result = true;
                 break;
-            case 'vkontakte':
-                $domainPartPos = strpos($value, 'http://vk.com/')===0 ||
-                    strpos($value, 'https://vk.com/')===0 ||
-                    strpos($value, 'https://new.vk.com/')===0;
-                if ($domainPartPos) $result = true;
-                break;
+//            case 'vkontakte':
+//                $domainPartPos = strpos($value, 'http://vk.com/')===0 ||
+//                    strpos($value, 'https://vk.com/')===0 ||
+//                    strpos($value, 'https://new.vk.com/')===0;
+//                if ($domainPartPos) $result = true;
+//                break;
             case 'twitter':
                 $domainPartPos = strpos($value, 'https://twitter.com/');
                 if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'http://twitter.com/');
@@ -554,10 +553,10 @@ class StudentReg extends CActiveRecord
                 if ($model->linkedin != $profile)
                     $result = true;
                 break;
-            case 'vkontakte':
-                if ($model->vkontakte != $profile)
-                    $result = true;
-                break;
+//            case 'vkontakte':
+//                if ($model->vkontakte != $profile)
+//                    $result = true;
+//                break;
             case 'twitter':
                 if ($model->twitter != $profile)
                     $result = true;

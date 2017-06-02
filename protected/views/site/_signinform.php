@@ -63,8 +63,8 @@ $form = $this->beginWidget('CActiveForm', array(
                          x-ulogin-button="googleplus" title="Google +"/></li>
                 <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'linkedin2.png'); ?>"
                          x-ulogin-button="linkedin" title="LinkedIn"/></li>
-                <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'vkontakte2.png'); ?>"
-                         x-ulogin-button="vkontakte" title="Вконтакте"/></li>
+<!--                <li><img src="--><?php //echo StaticFilesHelper::createPath('image', 'signin', 'vkontakte2.png'); ?><!--"-->
+<!--                         x-ulogin-button="vkontakte" title="Вконтакте"/></li>-->
                 <li><img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'twitter2.png'); ?>"
                          x-ulogin-button="twitter" title="Twitter"/></li>
             </ul>

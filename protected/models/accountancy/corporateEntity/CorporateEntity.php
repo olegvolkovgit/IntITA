@@ -79,7 +79,7 @@ class CorporateEntity extends CActiveRecord {
             'courses' => [self::HAS_MANY, 'Course', ['course_id' => 'course_ID'], 'through' => 'coursesService'],
             'organization' => [self::BELONGS_TO, 'Organization', 'id_organization'],
             'corporateCheckingAccounts' => [self::HAS_MANY, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'corporateCheckingAccounts.deletedAt IS NULL OR corporateCheckingAccounts.deletedAt > NOW()'],
-            'latestCheckingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'deletedAt IS NULL OR deletedAt > NOW()', 'scopes' => 'latestCheckingAccount'],
+            'latestCheckingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['corporate_entity' => 'id'], 'scopes' => 'latestCheckingAccount'],
         );
     }
 
