@@ -186,6 +186,7 @@ abstract class Role
             'Content-type: application/json',
             'Cookie: JSESSIONID='.$session->getSessionID(),
         );
+        var_dump($session->getSessionID());
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
