@@ -334,11 +334,11 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         <?php echo $form->textField($model, 'linkedin', array('ng-init' => "dataForm.linkedin='$post->linkedin'", 'ng-model' => "dataForm.linkedin", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0633'), 'placeholder' => Yii::t('regexp', '0245'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
-                    <div class="row rowNetwork">
-                        <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('ng-init' => "dataForm.vkontakte='$post->vkontakte'", 'ng-model' => "dataForm.vkontakte", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0634'), 'placeholder' => Yii::t('regexp', '0246'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
-                        <?php echo $form->error($model, 'vkontakte'); ?>
-                    </div>
+<!--                    <div class="row rowNetwork">-->
+<!--                        --><?php //echo $form->label($model, 'vkontakte'); ?>
+<!--                        --><?php //echo $form->textField($model, 'vkontakte', array('ng-init' => "dataForm.vkontakte='$post->vkontakte'", 'ng-model' => "dataForm.vkontakte", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0634'), 'placeholder' => Yii::t('regexp', '0246'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
+<!--                        --><?php //echo $form->error($model, 'vkontakte'); ?>
+<!--                    </div>-->
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('ng-init' => "dataForm.twitter='$post->twitter'", 'ng-model' => "dataForm.twitter", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0635'), 'placeholder' => Yii::t('regexp', '0247'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>

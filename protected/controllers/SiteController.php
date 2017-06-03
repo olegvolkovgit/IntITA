@@ -618,9 +618,9 @@ class SiteController extends Controller
                 case 'linkedin':
                     $model->linkedin = $user['profile'];
                     break;
-                case 'vkontakte':
-                    $model->vkontakte = $user['profile'];
-                    break;
+//                case 'vkontakte':
+//                    $model->vkontakte = $user['profile'];
+//                    break;
                 case 'twitter':
                     $model->twitter = $user['profile'];
                     break;

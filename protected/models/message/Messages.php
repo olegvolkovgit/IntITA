@@ -170,4 +170,22 @@ class Messages extends CActiveRecord
     public function getModel(){
         return $this;
     }
+
+    public function accessForOrganization()
+    {
+        switch($this->type){
+            case MessagesType::REVISION_REQUEST:
+                return Yii::app()->user->model->hasAccessToOrganizationModel(MessagesRevisionRequest::model()->findByPk($this->id)->idRevision->module);
+            case MessagesType::MODULE_REVISION_REQUEST:
+                return Yii::app()->user->model->hasAccessToOrganizationModel(MessagesModuleRevisionRequest::model()->findByPk($this->id)->idRevision->module);
+            case MessagesType::AUTHOR_REQUEST:
+                return Yii::app()->user->model->hasAccessToOrganizationModel(MessagesAuthorRequest::model()->findByPk($this->id)->idModule);
+            case MessagesType::TEACHER_CONSULTANT_REQUEST:
+                return Yii::app()->user->model->hasAccessToOrganizationModel(MessagesTeacherConsultantRequest::model()->findByPk($this->id)->idModule);
+            case MessagesType::COWORKER_REQUEST:
+                throw new \application\components\Exceptions\IntItaException(403, 'Данний ти запиту не доступний для перегляду на данний час');
+            default:
+                return true;
+        }
+    }
 }

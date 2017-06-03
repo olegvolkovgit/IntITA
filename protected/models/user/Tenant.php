@@ -46,6 +46,7 @@ class Tenant extends Role
             $sql = 'INSERT INTO user_tenant (assigned_by, chat_user_id, id_organization) VALUES ('.Yii::app()->user->getId().', (select id from chat_user where intita_user_id='.$user->id.'), '.$organizationId.')';
             if (Yii::app()->db->createCommand($sql)->query()) {
                 $this->notifyAssignRole($user, $organizationId);
+                $this->updateRolesRoom();
                 return true;
             } else {
                 $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
@@ -143,6 +144,7 @@ class Tenant extends Role
         ), 'chat_user_id=(select id from chat_user where intita_user_id=:id) and id_organization=:organization', array(':id' => $user->id,':organization'=>$organizationId))
         ) {
             $this->notifyCancelRole($user, $organizationId);
+            $this->updateRolesRoom();
             return true;
         }
         return false;

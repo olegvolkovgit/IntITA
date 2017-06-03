@@ -10,6 +10,6 @@
     <!--    </div>-->
     <div class="rat" style="padding-top: 5px;">
         <?php echo Yii::t('graduates', '0319')?>
-        <?php echo CommonHelper::getRating($data['rate']); ?>
+        <?php echo CommonHelper::getRating(((double)$data->rate['rating']*Config::getRatingScale())); ?>
     </div>
 </div>

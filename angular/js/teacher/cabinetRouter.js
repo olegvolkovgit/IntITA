@@ -23,6 +23,14 @@ angular
                     },
                     templateUrl: basePath+"/_teacher/cabinet/loadDashboard/?user="+user
                 })
+                .state("otherwise", {
+                    url: "",
+                    cache         : false,
+                    controller: function($scope){
+                        $scope.changePageHeader('Особистий кабінет');
+                    },
+                    templateUrl: basePath+"/_teacher/cabinet/loadDashboard/?user="+user
+                })
                 .state('newmessages/receiver/:id', {
                     url: "/newmessages/receiver/:id",
                     cache         : false,

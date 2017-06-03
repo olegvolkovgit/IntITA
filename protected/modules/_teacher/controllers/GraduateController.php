@@ -116,7 +116,7 @@ class GraduateController extends TeacherCabinetController {
      */
     public function loadModel($id)
     {
-        $model = Graduate::model()->findByPk($id);
+        $model = Graduate::model()->with('rate','user','course')->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -148,10 +148,9 @@ class GraduateController extends TeacherCabinetController {
     public function actionGetGraduatesJson(){
 
         $criteria = new CDbCriteria();
-
-
+        $criteria->with = ['rate','user'];
         if (isset($_GET['sorting']['first_name'])){
-            $criteria->order = 'first_name  COLLATE utf8_unicode_ci ' .$_GET['sorting']['first_name']  ;
+            $criteria->order = 'user.first_name  COLLATE utf8_unicode_ci ' .$_GET['sorting']['first_name']  ;
         }
         $adapter = new NgTableAdapter('Graduate',$_GET);
         $adapter->mergeCriteriaWith($criteria);

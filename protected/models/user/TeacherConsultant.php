@@ -432,6 +432,7 @@ class TeacherConsultant extends Role
             $this->cancelModulesRights($user);
             $this->cancelTeacherStudents($user);
             $this->notifyCancelRole($user);
+            $this->updateRolesRoom();
             return true;
         }
         return false;

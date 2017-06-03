@@ -26,7 +26,7 @@ function profileCtrl($http,$scope) {
             [$scope.profileData.facebook, 'Facebook'],
             [$scope.profileData.googleplus, 'Googleplus'],
             [$scope.profileData.linkedin, 'Linkedin'],
-            [$scope.profileData.vkontakte, 'Vkontakte'],
+            // [$scope.profileData.vkontakte, 'Vkontakte'],
             [$scope.profileData.twitter, 'Twitter']
         ];
         $scope.networks=[];

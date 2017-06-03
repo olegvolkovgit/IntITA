@@ -15,6 +15,7 @@ class RequestController extends TeacherCabinetController
     public function actionRequest($message)
     {
         $messageModel = Messages::model()->findByPk($message);
+        $messageModel->accessForOrganization();
         $model = RequestFactory::getInstance($messageModel);
         if ($model) {
             $this->renderPartial('request', array(
