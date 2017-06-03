@@ -197,6 +197,7 @@ class Student extends Role
             'id_organization'=>$organization,
         ))){
             $this->notifyAssignRole($user, $organization);
+            $this->updateRolesRoom();
             return true;
         }
         return false;

@@ -129,6 +129,7 @@ abstract class Role
             'id_organization'=>$organization,
         ))){
             $this->notifyAssignRole($user, $organization);
+            $this->updateRolesRoom();
             return true;
         }
         return false;
@@ -146,6 +147,7 @@ abstract class Role
             'cancelled_by'=>Yii::app()->user->id
         ), 'id_user=:id and id_organization=:organization', array(':id'=>$user->id,':organization'=>$organization))){
             $this->notifyCancelRole($user, $organization);
+            $this->updateRolesRoom();
             return true;
         }
         return false;
@@ -173,5 +175,19 @@ abstract class Role
             ->from($this->tableName())
             ->where('id_user=:id and end_date IS NULL', array(':id'=>Yii::app()->user->model->registrationData->id))
             ->queryAll();
+    }
+
+    public function updateRolesRoom(){
+        $url=Config::getFullChatPath()."/roles_operations/update?table=".$this->tableName();
+        $ch = curl_init();
+        // set url
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //return the transfer as a string
+        curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // $output contains the output string
+        $output = curl_exec($ch);
+        // close curl resource to free up system resources
+        curl_close($ch);
     }
 }
