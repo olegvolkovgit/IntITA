@@ -79,68 +79,70 @@
     </div>
 
             <!-- line 2 -->
-
-    <div style="margin-left: 56%; margin-bottom: 10px;">
-        <!-- junior ++ -->
-        <div class="category">
-            <div class='selectType sourse <?php if ($select == 'junior') echo 'selectedSelector' ?>'><a
-                        href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior', 'organization'=> $organization)); ?>">
-                    <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;<span
-                        class='courseNum'><?php echo $counters["junior"]; ?></span>
-            </div>
-            <div class='selectLine sourse'>&nbsp;&nbsp;<img
-                        src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
-            </div>
-        </div>
-        <!-- middle ++ -->
-        <div class="category">
-            <div class='selectType sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
-                        href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle', 'organization'=> $organization)); ?>">
-                    <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;<span
-                        class='courseNum'><?php echo $counters["middle"]; ?></span>
-            </div>
-            <div class='selectLine sourse'>&nbsp;&nbsp;<img
-                        src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
-            </div>
-        </div>
-        <!-- senior ++ -->
-        <div class="category">
-            <div class='selectType sourse <?php if ($select == 'senior') echo 'selectedSelector' ?>'><a
-                        href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior', 'organization'=> $organization)); ?>">
-                    <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;<span
-                        class='courseNum'><?php echo $counters["senior"]; ?></span>
-            </div>
-            <div class='selectLine sourse'>&nbsp;&nbsp;<img
-                        src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
-            </div>
-        </div>
-        <!-- all levels -->
-        <div class='sourse <?php if ($select == 'all') echo 'selectedSelector' ?>'>
-            <a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'all', 'organization' => $organization)); ?>">
-                <?php echo Yii::t('courses', '0947'); ?></a>
-        </div>
-
-        <div id="coursesFilter">
-            <div class="spoilerTriangle" onclick="courseTypeSpoiler(this);">
-                <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>
-                <?php echo Yii::t('courses', '0903'); ?>
-                <span id='trg'>&#9660;</span>
-            </div>
-            <div id="typeList">
-                <div class='sourse <?php if ($select == 'junior') echo 'selectedSelector' ?>'><a
-                            href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior')); ?>">
+<!--    <div style="margin-left: 56%; margin-bottom: 10px;">-->
+    <div>
+        <div class="coursesType">
+            <!-- junior ++ -->
+            <div class="category">
+                <div class='selectType sourse <?php if ($select == 'junior') echo 'selectedSelector' ?>'><a
+                            href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior', 'organization'=> $organization)); ?>">
                         <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;<span
                             class='courseNum'><?php echo $counters["junior"]; ?></span>
                 </div>
-                <div class='sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
-                            href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle')); ?>">
+                <div class='selectLine sourse'>&nbsp;&nbsp;<img
+                            src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
+                </div>
+            </div>
+            <!-- middle ++ -->
+            <div class="category">
+                <div class='selectType sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
+                            href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle', 'organization'=> $organization)); ?>">
                         <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;<span
                             class='courseNum'><?php echo $counters["middle"]; ?></span>
                 </div>
-                <div class='sourse <?php if ($select == 'senior') echo 'selectedSelector' ?>'><a
-                            href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior')); ?>">
+                <div class='selectLine sourse'>&nbsp;&nbsp;<img
+                            src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
+                </div>
+            </div>
+            <!-- senior ++ -->
+            <div class="category">
+                <div class='selectType sourse <?php if ($select == 'senior') echo 'selectedSelector' ?>'><a
+                            href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior', 'organization'=> $organization)); ?>">
                         <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;<span
                             class='courseNum'><?php echo $counters["senior"]; ?></span>
+                </div>
+                <div class='selectLine sourse'>&nbsp;&nbsp;<img
+                            src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
+                </div>
+            </div>
+            <!-- all levels -->
+            <div class='sourse <?php if ($select == 'all') echo 'selectedSelector' ?>'>
+                <a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'all', 'organization' => $organization)); ?>">
+                    <?php echo Yii::t('courses', '0947'); ?></a>
+            </div>
+
+            <div id="coursesFilter">
+                <div class="spoilerTriangle" onclick="courseTypeSpoiler(this);">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>
+                    <?php echo Yii::t('courses', '0903'); ?>
+                    <span id='trg'>&#9660;</span>
+                </div>
+                <div id="typeList">
+                    <div class='sourse <?php if ($select == 'junior') echo 'selectedSelector' ?>'><a
+                                href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior')); ?>">
+                            <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;<span
+                                class='courseNum'><?php echo $counters["junior"]; ?></span>
+                    </div>
+                    <div class='sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
+                                href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle')); ?>">
+                            <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;<span
+                                class='courseNum'><?php echo $counters["middle"]; ?></span>
+                    </div>
+                    <div class='sourse <?php if ($select == 'senior') echo 'selectedSelector' ?>'><a
+                                href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior')); ?>">
+                            <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;<span
+                                class='courseNum'><?php echo $counters["senior"]; ?></span>
+                    </div>
                 </div>
             </div>
         </div>
