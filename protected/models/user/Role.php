@@ -180,14 +180,19 @@ abstract class Role
     public function updateRolesRoom(){
         $url=Config::getFullChatPath()."/roles_operations/update?table=".$this->tableName();
         $ch = curl_init();
-        // set url
+        $session=new CHttpSession;
+        $session->open();
+        $headers = array(
+            'Content-type: application/json',
+            'Cookie: JSESSIONID='.$session->getSessionID(),
+        );
         curl_setopt($ch, CURLOPT_URL, $url);
-        //return the transfer as a string
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         // $output contains the output string
         $output = curl_exec($ch);
+        var_dump($output);
         // close curl resource to free up system resources
         curl_close($ch);
     }
