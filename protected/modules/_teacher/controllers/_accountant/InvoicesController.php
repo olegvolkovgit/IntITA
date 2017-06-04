@@ -30,6 +30,7 @@ class InvoicesController extends TeacherCabinetController
         $organization = Yii::app()->user->model->getCurrentOrganization();
         $ngTable = new NgTableAdapter(Invoice::model()->belongsToOrganization($organization), $requestParams);
         $criteria =  new CDbCriteria();
+        $criteria->with='agreement';
         $criteria->order = 't.id ASC';
         $ngTable->mergeCriteriaWith($criteria);
 

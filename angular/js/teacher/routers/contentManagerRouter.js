@@ -89,20 +89,20 @@ config(function ($stateProvider) {
         .state('courses/addcourse', {
             url: "/courses/addcourse",
             cache: false,
-            templateUrl: basePath+"/_teacher/coursemanage/create",
+            templateUrl: basePath+"/_teacher/courseManage/create",
         })
         .state('course/edit/:id', {
             url: "/course/edit/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/coursemanage/update/id/"+$stateParams.id;
+                return basePath+"/_teacher/courseManage/update/id/"+$stateParams.id;
             }
         })
         .state('course/edit/:id/tab/:tab', {
             url: "/course/edit/:id/tab/:tab",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/coursemanage/update/id/"+$stateParams.id;
+                return basePath+"/_teacher/courseManage/update/id/"+$stateParams.id;
             }
         })
 });
