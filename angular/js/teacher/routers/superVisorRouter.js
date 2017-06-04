@@ -123,7 +123,7 @@ config(function ($stateProvider) {
             url: "/users/profile/:id/addtrainer",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_supervisor/supervisor/addTrainer/id/"+$stateParams.id;
+                return basePath+"/_teacher/_supervisor/superVisor/addTrainer/id/"+$stateParams.id;
             }
         })
         .state('teacher/:id/editTrainerRole/role/:role', {

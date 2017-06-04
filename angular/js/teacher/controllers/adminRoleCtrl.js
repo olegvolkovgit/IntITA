@@ -40,6 +40,7 @@ function adminRoleCtrl ($scope, roleService){
                 })
                 .$promise
                 .then(function successCallback(response) {
+                    console.log(response);
                     $scope.addUIHandlers(response.data);
                     $scope.clearInputs();
                 }, function errorCallback(response) {

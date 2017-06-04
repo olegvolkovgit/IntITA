@@ -4,6 +4,7 @@
  * This is the model class for table "trainer_student".
  *
  * The followings are the available columns in table 'trainer_student':
+ * @property integer $id
  * @property integer $trainer
  * @property integer $student
  * @property string $start_time
@@ -35,7 +36,7 @@ class TrainerStudent extends CActiveRecord
 			array('trainer, student, id_organization', 'required'),
 			array('trainer, student', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('trainer, student, start_time, end_time, id_organization', 'safe', 'on'=>'search'),
+			array('id, trainer, student, start_time, end_time, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +62,7 @@ class TrainerStudent extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+            'id' => 'Id',
 			'trainer' => 'Trainer',
 			'student' => 'Student',
             'start_time' => 'Start time',
@@ -85,6 +87,7 @@ class TrainerStudent extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 
+        $criteria->compare('id',$this->id);
 		$criteria->compare('trainer',$this->trainer);
 		$criteria->compare('student',$this->student);
         $criteria->compare('start_time',$this->start_time);
@@ -105,10 +108,6 @@ class TrainerStudent extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-	public function primaryKey(){
-		return array('student', 'trainer', 'id_organization','start_time');
 	}
 
     public static function getStudentByTrainer($trainerId)
