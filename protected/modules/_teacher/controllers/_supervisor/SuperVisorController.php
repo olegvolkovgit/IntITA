@@ -102,7 +102,7 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/forms/offlineStudentSubgroup', array('scenario'=>'update'), false, true);
     }
 
-    public function actionGroupAccess($type, $scenario, $group, $service=null)
+    public function actionGroupAccess($type, $scenario, $group=null, $service=null)
     {
         if($type=='course'){
             $view='groupAccessToCourse';
