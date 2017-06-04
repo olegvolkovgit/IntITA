@@ -160,7 +160,12 @@ class GraduateController extends TeacherCabinetController {
     }
 
     public function actionGetusers(){
+        $result = [];
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['firstName','secondName','email','avatar']);
+        foreach ($models as &$model){
+            array_push($result,$model->getAttributes(['id','firstName','secondName','email','avatar']));
+        }
 
-        echo json_encode(TypeAheadHelper::getTypeahead($_GET['q'],'StudentReg',['email','avatar']));
+        echo json_encode(['results'=>$result]);
     }
 }

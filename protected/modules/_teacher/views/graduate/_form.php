@@ -11,16 +11,8 @@
                 <strong>Користувач:</strong>
             </label>
             <input type="text" size="135" ng-model="newGraduate.user"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Користувач" uib-typeahead="item.email for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
-                   typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html"
-                   typeahead-on-select="onSelectTrainer($item)" ng-change="reloadTrainer()" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>
-                <strong>Аватар:</strong>
-            </label>
-            <div class="errorMessage" style="display: none"></div>
+                   placeholder="Користувач" uib-typeahead="item.firstName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
+                   typeahead-no-results="noResults" class="form-control" />
         </div>
         <div class="form-group">
             <input id="date_done" type="text" class="form-control" name="user" placeholder="Введіть фразу"
@@ -132,6 +124,9 @@
         </div>
     </div><!-- form -->
 </form>
+
+
+
 </div>
 
 <script>
