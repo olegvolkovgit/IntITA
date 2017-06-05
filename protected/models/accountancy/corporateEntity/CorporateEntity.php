@@ -30,7 +30,7 @@
  * @property Organization $organization
  * @property CheckingAccounts[] $corporateCheckingAccounts
  * @property CheckingAccounts $latestCheckingAccount
- *
+ * @property CorporateEntityRepresentatives[] actualRepresentatives
  */
 class CorporateEntity extends CActiveRecord {
 
@@ -80,6 +80,11 @@ class CorporateEntity extends CActiveRecord {
             'organization' => [self::BELONGS_TO, 'Organization', 'id_organization'],
             'corporateCheckingAccounts' => [self::HAS_MANY, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'corporateCheckingAccounts.deletedAt IS NULL OR corporateCheckingAccounts.deletedAt > NOW()'],
             'latestCheckingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['corporate_entity' => 'id'], 'on' => 'deletedAt IS NULL OR deletedAt > NOW()', 'scopes' => 'latestCheckingAccount'],
+
+            'actualRepresentatives' => [self::HAS_MANY, 'CorporateEntityRepresentatives', 'corporate_entity',
+                'on' => 'NOW() BETWEEN actualRepresentatives.createdAt AND actualRepresentatives.deletedAt',
+                'order' => 'representative_order'
+            ]
         );
     }
 
