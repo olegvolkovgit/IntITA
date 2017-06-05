@@ -10,7 +10,7 @@ class TeachersController extends TeacherCabinetController{
 
     public function hasRole(){
         $allowedCMActions = ['getTeacherDataList'];
-        $denyActions=['updateTeacherProfileForm','getTeacherProfile','updateProfile'];
+        $denyActions=['updateTeacherProfileForm','teachersLinks','getTeacherProfile','updateProfile'];
         $action = Yii::app()->controller->action->id;
         return (Yii::app()->user->model->isAdmin() || 
         (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions)) && !in_array($action, $denyActions)) ||
@@ -47,7 +47,12 @@ class TeachersController extends TeacherCabinetController{
     {
         $this->renderPartial('teacherProfile', array(),false,true);
     }
-    
+
+    public function actionTeachersLinks()
+    {
+        $this->renderPartial('teachersLinks', array(),false,true);
+    }
+
     public function actionCreate()
     {
         $id=Yii::app()->request->getParam('userId');

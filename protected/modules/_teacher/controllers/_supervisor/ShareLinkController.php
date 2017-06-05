@@ -9,7 +9,8 @@
 class ShareLinkController extends TeacherCabinetController {
 
     public function hasRole(){
-        return Yii::app()->user->model->isSuperVisor();
+        return Yii::app()->user->model->isSuperVisor() ||
+            (Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,['shareLinksList']));
     }
     /**
      * Displays a particular model.
@@ -17,8 +18,10 @@ class ShareLinkController extends TeacherCabinetController {
      */
     public function actionView($id)
     {
+        $model=$this->loadModel($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($model);
         $this->renderPartial('view',array(
-            'model'=>$this->loadModel($id),
+            'model'=>$model,
         ),false,true);
     }
 
@@ -52,7 +55,7 @@ class ShareLinkController extends TeacherCabinetController {
     public function actionUpdate($id)
     {
         $model=$this->loadModel($id);
-
+        Yii::app()->user->model->hasAccessToOrganizationModel($model);
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
 
@@ -75,15 +78,17 @@ class ShareLinkController extends TeacherCabinetController {
     public function actionDelete()
     {
         $id = Yii::app()->request->getPost('id');
-        $this->loadModel($id)->delete();
+        $model=$this->loadModel($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($model);
+        $model->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if(!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
-    public function actionShareLinksList(){
-        echo ShareLink::shareLinksList();
+    public function actionShareLinksList($allLinks=false){
+        echo ShareLink::shareLinksList($allLinks);
     }
     /**
      * Lists all models.

@@ -449,6 +449,16 @@ angular
                     cache         : false,
                     templateUrl: basePath+"/_teacher/_admin/teachers/updateTeacherProfileForm"
                 })
+                .state('teacherslinks', {
+                    url: "/teacherslinks",
+                    cache         : false,
+                    templateUrl: basePath+"/_teacher/_admin/teachers/teachersLinks"
+                })
+                .state('allShareLinks', {
+                    url: "/allShareLinks",
+                    cache         : false,
+                    templateUrl: basePath+"/_teacher/_super_admin/superAdmin/shareLinks"
+                })
     }
     );
 

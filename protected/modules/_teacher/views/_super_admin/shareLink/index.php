@@ -1,13 +1,7 @@
 <?php
 /* @var $model Lecture */
 ?>
-<div class="col-lg-12" ng-controller="sharedlinksCtrl">
-    <ul class="list-inline">
-        <li>
-            <a type="button" class="btn btn-primary" ng-href="#/sharedlinks/create">
-                Створити посилання на ресурс</a>
-        </li>
-    </ul>
+<div class="col-lg-12" ng-controller="sharedlinksCtrl" alllinks="true">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
