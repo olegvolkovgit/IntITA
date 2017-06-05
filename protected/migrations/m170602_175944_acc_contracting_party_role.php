@@ -12,7 +12,7 @@ class m170602_175944_acc_contracting_party_role extends CDbMigration {
                 'name' => 'student',
             ],
             [
-                'name' => 'Company',
+                'name' => 'company',
             ]
         ]);
     }
