@@ -9,7 +9,7 @@
 class ShareLinkController extends TeacherCabinetController {
 
     public function hasRole(){
-        return Yii::app()->user->model->isSuperVisor() ||
+        return Yii::app()->user->model->isSuperVisor() || Yii::app()->user->model->isTeacherOrganization() ||
             (Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,['shareLinksList']));
     }
     /**
