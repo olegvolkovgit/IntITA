@@ -585,7 +585,6 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
         userService.userProfileData({userId: userId})
             .$promise
             .then(function (response) {
-                console.log(response);
                 $scope.selectedUser = response;
                 $scope.userSelected = response.firstName+' '+response.secondName+' '+response.email;
                 $scope.defaultStudent=$scope.selectedUser.id;
@@ -848,7 +847,6 @@ function lecturesRatingTableCtrl($scope, superVisorService, NgTableParams) {
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
-                     console.log(data);
                     return data.rows;
                 });
         }
@@ -863,7 +861,6 @@ function modulesRatingTableCtrl($scope, superVisorService, NgTableParams) {
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
-            console.log(data);
                     return data.rows;
                 });
         }

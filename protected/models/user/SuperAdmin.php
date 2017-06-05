@@ -61,6 +61,7 @@ class SuperAdmin extends Role
 			'assigned_by'=>Yii::app()->user->getId()
 		))){
 			$this->notifyAssignRole($user);
+            $this->updateRolesRoom();
 			return true;
 		}
 		return false;
@@ -77,6 +78,7 @@ class SuperAdmin extends Role
 			'cancelled_by'=>Yii::app()->user->id
 		), 'id_user=:id', array(':id'=>$user->id))){
 			$this->notifyCancelRole($user);
+            $this->updateRolesRoom();
 			return true;
 		}
 		return false;

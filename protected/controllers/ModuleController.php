@@ -210,6 +210,9 @@ class ModuleController extends Controller
     public function actionUpdateModuleAttribute()
     {
         $up = new EditableSaver('Module');
+        $module=Module::model()->findByPk(yii::app()->request->getParam('pk'));
+        if(!Yii::app()->user->model->hasOrganizationById($module->id_organization))
+            throw new CHttpException(403, 'Ти не маєш доступу до дії в межах даної організації');
         $up->update();
     }
 

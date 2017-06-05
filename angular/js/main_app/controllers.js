@@ -728,7 +728,7 @@ function promotionSchemesCtrl($scope, $http) {
 function updateChatName(){
     $.ajax({
         url: chatPath+'/chat/update/users/name',
-        type: 'POST',
+        type: 'GET',
         headers: {'Content-Type': 'application/json;charset=UTF-8'},
         success: function (response) {
             console.log(response);

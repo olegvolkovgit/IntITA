@@ -267,11 +267,11 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0245'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
-                    <div class="row rowNetwork">
-                        <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
-                        <?php echo $form->error($model, 'vkontakte'); ?>
-                    </div>
+<!--                    <div class="row rowNetwork">-->
+<!--                        --><?php //echo $form->label($model, 'vkontakte'); ?>
+<!--                        --><?php //echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+<!--                        --><?php //echo $form->error($model, 'vkontakte'); ?>
+<!--                    </div>-->
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>

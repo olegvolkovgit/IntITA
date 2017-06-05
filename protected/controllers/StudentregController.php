@@ -226,7 +226,7 @@ class StudentRegController extends Controller
             }
 
             $model->update(array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
-                'linkedin','vkontakte','twitter','skype','passport','document_type','inn','passport_issued','prev_job','current_job','education_shift'));
+                'linkedin','twitter','skype','passport','document_type','inn','passport_issued','prev_job','current_job','education_shift'));
             $model->updateUserCareer($careers);
             $model->updateUserSpecialization($specializations);
 
@@ -398,7 +398,7 @@ class StudentRegController extends Controller
         $count_total_cell = 0; // add $model->startCareers preferSpecializations
         $student_attributes = ['firstName', 'secondName', 'nickname',
                                'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
-                               'vkontakte', 'twitter', 'phone', 'address', 'education',
+                                'twitter', 'phone', 'address', 'education',
                                 'interests', 'aboutUs', 'aboutMy', 'avatar',
                                 'skype', 'country', 'city', 'prev_job', 'passport',
                                 'document_issued_date', 'inn', 'passport_issued', 'current_job'];

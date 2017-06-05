@@ -250,6 +250,7 @@ class Author extends Role
         ), 'id_user=:id and end_date IS NULL', array(':id'=>$user->id))){
             $this->cancelModulesAuthorship($user);
             $this->notifyCancelRole($user, $organization);
+            $this->updateRolesRoom();
             return true;
         }
         return false;

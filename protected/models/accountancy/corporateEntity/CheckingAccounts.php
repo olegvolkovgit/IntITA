@@ -112,6 +112,7 @@ class CheckingAccounts extends CActiveRecord {
             'latestCheckingAccount' => [
                 'alias'=>'ca',
                 'order' => 'ca.id DESC',
+                'condition' => 'ca.deletedAt IS NULL OR ca.deletedAt > NOW()',
                 'limit' => 1
             ]
         ];
