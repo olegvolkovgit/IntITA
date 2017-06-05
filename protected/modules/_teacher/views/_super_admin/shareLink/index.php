@@ -1,6 +1,3 @@
-<?php
-/* @var $model Lecture */
-?>
 <div class="col-lg-12" ng-controller="sharedlinksCtrl" alllinks="true">
     <div class="panel panel-default">
         <div class="panel-body">
