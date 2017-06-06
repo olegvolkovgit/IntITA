@@ -162,10 +162,17 @@ class GraduateController extends TeacherCabinetController {
     public function actionGetusers(){
         $result = [];
         $models = TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['firstName','secondName','email','avatar']);
-        foreach ($models as &$model){
-            array_push($result,$model->getAttributes(['id','firstName','secondName','email','avatar']));
+        foreach ($models as $model){
+            $arr = $model->getAttributes(['id','avatar','email']);
+            $arr['fullName'] = $model->firstName.' '.$model->secondName;
+            array_push($result,$arr);
+           unset($arr);
         }
-
         echo json_encode(['results'=>$result]);
+    }
+
+    public function actionAddGraduate(){
+        $request = Yii::app()->request->post();
+
     }
 }

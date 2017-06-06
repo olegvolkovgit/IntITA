@@ -4,28 +4,47 @@
 /* @var $form CActiveForm */
 ?>
 <div class="formMargin" ng-controller="graduateCtrl">
-        <form id="graduateForm" ng-submit="addGraduate()" novalidate>
 
+    <form id="graduateForm" ng-submit="addGraduate()" novalidate>
         <div class="form-group">
             <label>
                 <strong>Користувач:</strong>
             </label>
-            <input type="text" size="135" ng-model="newGraduate.user"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Користувач" uib-typeahead="item.firstName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
+            <input type="text" size="135" ng-model="user"  ng-model-options="{ debounce: 1000 }"
+                   placeholder="Користувач" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
                    typeahead-no-results="noResults" class="form-control" />
+            <div ng-if="noResults"><button>Додати користувача</button></div>
+            <pre>{{user}}</pre>
         </div>
         <div class="form-group">
-            <input id="date_done" type="text" class="form-control" name="user" placeholder="Введіть фразу"
-                   size="90" required ng-model="newGraduate.date_done">
-            <div class="error" ng-show="errors.Graduate && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
-            <div ng-cloak  class="errorMessage" ng-show="Graduate['Graduate[date_done]'].$invalid">
-                <span ng-show="Graduate['Graduate[date_done]'].$error.pattern"><?php echo Yii::t('graduate','0749') ?></span>
+            <label>
+                <strong>E-mail:</strong>
+            </label>
+            <input type="text" class="form-control" ng-model="user.email" ng-required="true"   />
+        </div>
+            <div class="form-group">
+                <label>
+                    <strong>Аватар</strong>
+                </label>
+                <div>Select an image file: <input type="file" id="fileInput" /></div>
+                <div class="cropArea">
+                    <img-crop image="myImage" result-image="graduate.user.avatar"></img-crop>
+                </div>
+                <div>Cropped Image:</div>
+                <div><img ng-src='/images/avatars/{{graduate.user.avatar}}' /></div>
             </div>
-
+        <div class="form-group">
+            <label>
+                <strong>Дата випуску:</strong>
+            </label>
+                <input type="text" class="form-control" ng-model="graduate.date_done" ng-required="true"/>
         </div>
         <div class="form-group">
+            <label>
+                <strong>Посада:</strong>
+            </label>
             <input id="position" type="text" class="form-control" name="userPosition"
-                   size="90" required ng-model="newGraduate.position">
+                   size="90" required ng-model="graduate.position">
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -34,7 +53,7 @@
                 <strong>Місце роботи:</strong>
             </label>
             <input id="position" type="text" class="form-control" name="userPosition"
-                   size="90" required ng-model="newGraduate.position">
+                   size="90" required ng-model="graduate.workplace">
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -43,7 +62,7 @@
                 <strong>Посилання на місце роботи</strong>
             </label>
             <input id="position" type="text" class="form-control" name="userPosition"
-                   size="90" required ng-model="newGraduate.position">
+                   size="90" required ng-model="graduate.workplaceUrl">
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -57,7 +76,7 @@
                 <strong>Рейтинг:</strong>
             </label>
             <input id="rate" type="text" class="form-control" name="rate"
-                   size="90" required ng-model="newGraduate.rate">
+                   size="90" required ng-model="graduate.rate">
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -67,7 +86,7 @@
             </label>
 
             <textarea id="comment" type="text" class="form-control" name="comment"
-                      size="90" required ng-model="newGraduate.comment"></textarea>
+                      size="90" required ng-model="graduate.comment"></textarea>
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -76,7 +95,7 @@
                 <strong>Ім'я англійською *</strong>
             </label>
             <input id="nameEn" type="text" class="form-control" name="nameEn"
-                   size="90" required ng-model="newGraduate.nameEn">
+                   size="90" required ng-model="graduate.nameEn">
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
             <a href="#"
                onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en', '#Graduate_first_name'); return false;">
@@ -89,7 +108,7 @@
                     <strong>Прізвище англійською *</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
-                       size="90" required ng-model="newGraduate.position">
+                       size="90" required ng-model="graduate.surnameEn">
                 <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
                 <a href="#"
                    onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en', '#Graduate_first_name'); return false;">
@@ -103,7 +122,7 @@
                     <strong>Ім'я російською *</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
-                       size="90" required ng-model="newGraduate.position">
+                       size="90" required ng-model="graduate.nameRu">
                 <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
             </div>
         </div>
@@ -114,7 +133,7 @@
                     <strong>Прізвище російською</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
-                       size="90" required ng-model="newGraduate.position">
+                       size="90" required ng-model="graduate.surnameRu">
                 <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
             </div>
         </div>
@@ -122,11 +141,7 @@
         <div class="form-group">
             <button type="submit">Створити</button>
         </div>
-    </div><!-- form -->
-</form>
-
-
-
+    </form>><!-- form -->
 </div>
 
 <script>

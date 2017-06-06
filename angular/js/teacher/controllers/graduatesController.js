@@ -5,14 +5,28 @@ angular
     .module('teacherApp')
     .controller('graduateCtrl',graduateCtrl);
 
-function graduateCtrl ($scope, $http, graduates, NgTableParams, typeAhead, $resource  ){
-
+function graduateCtrl ($scope, $http, graduates, NgTableParams, typeAhead, $httpParamSerializerJQLike ){
 
     $scope.addGraduate = function () {
-        alert();
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/addGraduate',
+            data: $httpParamSerializerJQLike($scope.graduate),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        })
     }
 
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(2020, 5, 22),
+        minDate: new Date(),
+        startingDay: 1
+    };
 
+    $scope.datepickerOpen = function() {
+        alert();
+        $scope.datepicker.opened = true;
+    };
 
     $scope.getAllUsersByOrganization = function (value) {
 
