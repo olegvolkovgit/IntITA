@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'emails_category':
  * @property integer $id
  * @property string $title
+ * @property integer $id_organization
  *
  */
 class EmailsCategory extends CActiveRecord
@@ -25,11 +26,11 @@ class EmailsCategory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title', 'required'),
+			array('title, id_organization', 'required'),
 			array('id, title', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title', 'safe', 'on'=>'search'),
+			array('id, title, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,6 +53,7 @@ class EmailsCategory extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'title' => 'Title',
+            'id_organization' => 'Organization',
 		);
 	}
 
@@ -73,7 +75,8 @@ class EmailsCategory extends CActiveRecord
 		
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('title',$this->title,true);
-		
+        $criteria->compare('id_organization',$this->id_organization,true);
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
