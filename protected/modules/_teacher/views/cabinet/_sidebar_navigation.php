@@ -81,6 +81,11 @@
                         <i class="fa fa-user fa-fw"></i>Профіль співробітника
                     </a>
                 </li>
+                <li>
+                    <a href="#/teacherslinks">
+                        <i class="fa fa-link fa-fw"></i>Корисні посилання
+                    </a>
+                </li>
             <?php }?>
             <?php
             $roles = Yii::app()->user->model->getRoles();
