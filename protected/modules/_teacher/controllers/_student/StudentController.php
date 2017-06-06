@@ -365,6 +365,8 @@ class StudentController extends TeacherCabinetController
             $subgroups[$key]['group']=$subgroup->group->name;
             $subgroups[$key]['subgroup']=$subgroup->subgroupName->name;
             $subgroups[$key]['info']=$subgroup->subgroupName->data;
+            $subgroups[$key]['journal']=$subgroup->subgroupName->journal;
+            $subgroups[$key]['link']=$subgroup->subgroupName->link;
             $subgroups[$key]['groupCurator']=$subgroup->group->userChatAuthor->userNameWithEmail();
             $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userChatAuthor->email;
             $subgroups[$key]['groupCuratorId']=$subgroup->group->userChatAuthor->id;
