@@ -5,32 +5,48 @@ angular
     .module('teacherApp')
     .controller('graduateCtrl',graduateCtrl);
 
-function graduateCtrl ($scope, $http, graduates, NgTableParams, typeAhead, $httpParamSerializerJQLike ){
+function graduateCtrl ($scope, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $filter){
 
     $scope.addGraduate = function () {
         $http({
             method:'POST',
             url: basePath+'/_teacher/graduate/addGraduate',
-            data: $httpParamSerializerJQLike($scope.graduate),
+            data: $httpParamSerializerJQLike({Graduate:$scope.graduate}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+                return false;
+            }
         })
     }
 
+    $scope.selectedUser = function ($item, $model, $label, $event) {
+        $scope.graduate.first_name_en = translitService.translitPlease('ua-en',$item.firstName);
+        $scope.graduate.last_name_en = translitService.translitPlease('ua-en',$item.secondName);
+    }
+
+    $scope.format = 'shortDate';
     $scope.dateOptions = {
-        formatYear: 'yy',
-        maxDate: new Date(2020, 5, 22),
-        minDate: new Date(),
-        startingDay: 1
+        showWeeks: true
     };
 
-    $scope.datepickerOpen = function() {
-        alert();
-        $scope.datepicker.opened = true;
+    // $scope.$watch('graduate.date_done', function (newValue) {
+    //     $scope.graduate.date_done = $filter('shortDate')(newValue, 'dd-MM-yyyy');
+    // });
+
+    $scope.openDatepicker = function() {
+        $scope.open = !$scope.open;
     };
 
     $scope.getAllUsersByOrganization = function (value) {
 
         return typeAhead.getData(basePath+"/_teacher/graduate/getusers",{query : value});
+    };
+
+    $scope.getAllCoursesByOrganization = function (value) {
+
+        return typeAhead.getData(basePath+"/_teacher/graduate/getAllCourses",{query : value});
     };
 
     $scope.tableParams = new NgTableParams({}, {

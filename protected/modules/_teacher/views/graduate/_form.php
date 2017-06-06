@@ -10,34 +10,32 @@
             <label>
                 <strong>Користувач:</strong>
             </label>
-            <input type="text" size="135" ng-model="user"  ng-model-options="{ debounce: 1000 }"
+            <input type="text" size="135" ng-model="graduate.user"  ng-model-options="{ debounce: 1000 }"
                    placeholder="Користувач" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
-                   typeahead-no-results="noResults" class="form-control" />
-            <div ng-if="noResults"><button>Додати користувача</button></div>
-            <pre>{{user}}</pre>
+                   typeahead-no-results="noResults" class="form-control"
+                   typeahead-on-select="selectedUser($item, $model, $label, $event)"/>
+            <div ng-if="noResults"><button class="btn btn-primary" ng-click="">Додати користувача</button></div>
+            <pre>{{graduate}}</pre>
         </div>
         <div class="form-group">
             <label>
-                <strong>E-mail:</strong>
+                <strong>Фото:</strong>
             </label>
-            <input type="text" class="form-control" ng-model="user.email" ng-required="true"   />
+            <div><img ng-src='/images/avatars/{{graduate.user.avatar}}' /></div>
         </div>
-            <div class="form-group">
-                <label>
-                    <strong>Аватар</strong>
-                </label>
-                <div>Select an image file: <input type="file" id="fileInput" /></div>
-                <div class="cropArea">
-                    <img-crop image="myImage" result-image="graduate.user.avatar"></img-crop>
-                </div>
-                <div>Cropped Image:</div>
-                <div><img ng-src='/images/avatars/{{graduate.user.avatar}}' /></div>
-            </div>
+
         <div class="form-group">
             <label>
                 <strong>Дата випуску:</strong>
             </label>
-                <input type="text" class="form-control" ng-model="graduate.date_done" ng-required="true"/>
+            <p class="input-group col-md-3">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="graduate.date_done"
+                       is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Закрити"
+                       alt-input-formats="altInputFormats"/>
+                <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDatepicker()"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+          </span>   </p>
         </div>
         <div class="form-group">
             <label>
@@ -53,7 +51,7 @@
                 <strong>Місце роботи:</strong>
             </label>
             <input id="position" type="text" class="form-control" name="userPosition"
-                   size="90" required ng-model="graduate.workplace">
+                   size="90" required ng-model="graduate.work_place">
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -61,8 +59,8 @@
             <label>
                 <strong>Посилання на місце роботи</strong>
             </label>
-            <input id="position" type="text" class="form-control" name="userPosition"
-                   size="90" required ng-model="graduate.workplaceUrl">
+            <input id="position" type="url" class="form-control" name="userPosition"
+                   size="90" required ng-model="graduate.work_site">
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -70,6 +68,11 @@
             <label>
                 <strong>Курс:</strong>
             </label>
+            <input type="text" size="135" ng-model="graduate.course"  ng-model-options="{ debounce: 1000 }"
+                   placeholder="Користувач" uib-typeahead="item as item.title_ua for item in getAllCoursesByOrganization($viewValue) | limitTo : 10"
+                   typeahead-no-results="noResults" class="form-control" />
+            <div ng-if="noResults"><span>Курс не знайдено</span></div>
+            <div class="error" ng-show="errors.id_course && form.user.$touched">{{errors.id_course[0]}}</div>
         </div>
         <div class="form-group">
             <label>
@@ -86,7 +89,7 @@
             </label>
 
             <textarea id="comment" type="text" class="form-control" name="comment"
-                      size="90" required ng-model="graduate.comment"></textarea>
+                      size="90" required ng-model="graduate.recall"></textarea>
             <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
         </div>
 
@@ -95,11 +98,8 @@
                 <strong>Ім'я англійською *</strong>
             </label>
             <input id="nameEn" type="text" class="form-control" name="nameEn"
-                   size="90" required ng-model="graduate.nameEn">
-            <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
-            <a href="#"
-               onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en', '#Graduate_first_name'); return false;">
-                Згенерувати автоматично</a>
+                   size="90" required ng-model="graduate.first_name_en">
+            <div class="error" ng-show="errors.first_name_en">{{errors.first_name_en[0]}}</div>
         </div>
 
         <div class="form-group">
@@ -108,22 +108,18 @@
                     <strong>Прізвище англійською *</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
-                       size="90" required ng-model="graduate.surnameEn">
-                <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
-                <a href="#"
-                   onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en', '#Graduate_first_name'); return false;">
-                    Згенерувати автоматично</a>
+                       size="90" required ng-model="graduate.last_name_en">
+                <div class="error" ng-show="errors.last_name_en">{{errors.last_name_en[0]}}</div>
             </div>
         </div>
 
         <div class="form-group">
             <div class="form-group">
                 <label>
-                    <strong>Ім'я російською *</strong>
+                    <strong>Ім'я російською</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
-                       size="90" required ng-model="graduate.nameRu">
-                <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+                       size="90" ng-model="graduate.first_name_ru">
             </div>
         </div>
 
@@ -133,23 +129,12 @@
                     <strong>Прізвище російською</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
-                       size="90" required ng-model="graduate.surnameRu">
-                <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+                       size="90" ng-model="graduate.last_name_ru">
             </div>
         </div>
 
         <div class="form-group">
             <button type="submit">Створити</button>
         </div>
-    </form>><!-- form -->
+    </form><!-- form -->
 </div>
-
-<script>
-    $jq(document).ready(function () {
-        $jq("#Graduate_graduate_date").datepicker(lang);
-    });
-    function translateName(source, id, sourceId) {
-        if(!source) source = $jq(sourceId).val();
-        $jq(id).val(toEnglish(source));
-    }
-</script>

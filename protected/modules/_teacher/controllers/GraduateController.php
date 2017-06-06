@@ -163,16 +163,49 @@ class GraduateController extends TeacherCabinetController {
         $result = [];
         $models = TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['firstName','secondName','email','avatar']);
         foreach ($models as $model){
-            $arr = $model->getAttributes(['id','avatar','email']);
-            $arr['fullName'] = $model->firstName.' '.$model->secondName;
+            $arr = $model->getAttributes(['id','avatar','email','firstName','secondName']);
+            $arr['fullName'] = $model->fullName();
             array_push($result,$arr);
            unset($arr);
         }
         echo json_encode(['results'=>$result]);
     }
 
-    public function actionAddGraduate(){
-        $request = Yii::app()->request->post();
+    public function actionGetAllCourses(){
+        $criteria = new CDbCriteria();
+        $criteria->select = ['course_ID','title_ua'];
+        $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query') , 'UTF-8'), true, 'OR');
+        $criteria->addCondition('cancelled=0');
+        if (!Yii::app()->user->model->isSuperadmin()||Yii::app()->user->model->isDirector()){
+            $criteria->addInCondition('id_organization',[1]);
+        }
+        $courses = Course::model()->findAll($criteria);
+        $result = [];
+        foreach ($courses as $course){
+            array_push($result, $course->getAttributes(['course_ID','title_ua']));
+        }
+        echo json_encode(['results'=>$result]);
+    }
 
+    public function actionAddGraduate(){
+        $request = Yii::app()->request->getPost('Graduate');
+        $graduate = new Graduate();
+        if($request){
+        $graduate->loadModel($request);
+        }
+        $courseRating = new RatingUserCourse();
+        $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
+        $courseRating->rating = isset($request['rate'])?(double)$request['rate']:null;
+        $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
+        $courseRating->course_revision = 0;
+        if (!($graduate->validate() && $courseRating->validate())){
+            echo  json_encode(['errors'=>array_merge($graduate->getErrors(),$courseRating->getErrors())]);
+            Yii::app()->end();
+        }
+        $courseRating->save(false);
+        $graduate->rate = $courseRating->id;
+        $graduate->save(false);
+        echo 'done';
+        Yii::app()->end();
     }
 }

@@ -25,6 +25,7 @@
  */
 class Graduate extends CActiveRecord
 {
+    use loadFromRequest;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -41,8 +42,8 @@ class Graduate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('first_name_en,last_name_en,first_name_ru,last_name_ru', 'required', 'message'=>"Поле обов'язкове для заповнення"),
-            array('first_name_ru, last_name_ru','match', 'pattern'=>'/^([а-яА-ЯёЁ])+$/u', 'message' => 'Недопустимі символи!'),
+            array('first_name_en,last_name_en', 'required', 'message'=>"Поле обов'язкове для заповнення"),
+            array('first_name_ru, last_name_ru','match', 'pattern'=>'/^([а-яА-ЯёЁ\s])+$/u', 'message' => 'Недопустимі символи!'),
             array('position, work_place, work_site, history', 'length', 'max'=>255),
 			array('first_name_en, last_name_en', 'length', 'max'=>50),
             // The following rule is used by search().
