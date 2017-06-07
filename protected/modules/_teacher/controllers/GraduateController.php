@@ -30,7 +30,9 @@ class GraduateController extends TeacherCabinetController {
      */
     public function actionCreate()
     {
-        $model = new Graduate;
+        $model = new Graduate();
+        $intitaUser = new StudentReg();
+        $rating = new RatingUserCourse();
         // Uncomment the following line if AJAX validation is needed
 //         $this->performAjaxValidation($model);
         if (isset($_POST['Graduate'])) {
@@ -48,7 +50,7 @@ class GraduateController extends TeacherCabinetController {
             }
         }
         $this->renderPartial('create', array(
-            'model' => $model,
+            'model' => $model, 'user' => $intitaUser, 'rating'=>$rating
         ),false,true);
     }
 
@@ -155,5 +157,82 @@ class GraduateController extends TeacherCabinetController {
         $adapter = new NgTableAdapter('Graduate',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
+    }
+
+    public function actionGetusers(){
+        $result = [];
+        $models =    TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['firstName','secondName','email','avatar']);
+        foreach ($models as $model){
+            $arr = $model->getAttributes(['id','avatar','email','firstName','secondName']);
+            $arr['fullName'] = $model->fullName();
+            array_push($result,$arr);
+           unset($arr);
+        }
+        echo json_encode(['results'=>$result]);
+    }
+
+    public function actionGetAllCourses(){
+        $criteria = new CDbCriteria();
+        $criteria->select = ['course_ID','title_ua'];
+        $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query') , 'UTF-8'), true, 'OR');
+        $criteria->addCondition('cancelled=0');
+        if (!Yii::app()->user->model->isSuperadmin()||Yii::app()->user->model->isDirector()){
+            $criteria->addInCondition('id_organization',[1]);
+        }
+        $courses = Course::model()->findAll($criteria);
+        $result = [];
+        foreach ($courses as $course){
+            array_push($result, $course->getAttributes(['course_ID','title_ua']));
+        }
+        echo json_encode(['results'=>$result]);
+    }
+
+    public function actionAddGraduate(){
+        $request = Yii::app()->request->getPost('Graduate');
+        $graduate = new Graduate();
+        if($request){
+        $graduate->loadModel($request);
+        $graduate->published = 1 ;
+        }
+
+        $courseRating = new RatingUserCourse();
+        $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
+        $courseRating->rating = isset($request['rate'])?(double)$request['rate']:null;
+        $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
+        $date = strtotime($request['date_done']);
+        $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+        $courseRating->course_revision = 1;
+        if (!($graduate->validate() && $courseRating->validate())){
+            echo  json_encode(['errors'=>array_merge($graduate->getErrors(),$courseRating->getErrors())]);
+            Yii::app()->end();
+        }
+        $courseRating->save(false);
+        $graduate->rate_id = $courseRating->id;
+        $graduate->save(false);
+        echo 'done';
+        Yii::app()->end();
+    }
+
+    public function actionAddNewUser(){
+        $request = Yii::app()->request->getPost('User');
+        $user = new StudentReg();
+        if (isset($request['user'])){
+            $pass = sha1(microtime().'hdssdgcs');
+            $user->loadModel($request['user']);
+            $user->password =  $pass;
+            $user->password_repeat = $pass;
+            $user->status = 0;
+        }
+        $user->setScenario('reguser');
+        if ($user->validate()){
+            $user->save();
+            echo $user->id;
+            Yii::app()->end();
+        }
+        else{
+            echo json_encode(['errors'=>$user->getErrors()]);
+            Yii::app()->end();
+        }
+
     }
 }

@@ -3,147 +3,144 @@
 /* @var $model Graduate */
 /* @var $form CActiveForm */
 ?>
-<div class="formMargin">
-    <div class="form">
-        <?php $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'graduate-form',
-            'htmlOptions' => array(
-                'class' => 'formatted-form',
-                'enctype' => 'multipart/form-data',
-                'method' => 'POST',
-                'name'=>'Graduate'
-            ),
-            // Please note: When you enable ajax validation, make sure the corresponding
-            // controller action is handling ajax validation correctly.
-            // There is a call to performAjaxValidation() commented in generated controller code.
-            // See class documentation of CActiveForm for details on this.
-            'enableAjaxValidation' => false,
-            'enableClientValidation' => true,
-            'clientOptions' => array(
-                'validateOnSubmit' => true,
-                'afterValidate' => 'js:function(form,data,hasError){
-                sendError(form,data,hasError);return true;
-                }',
-            )
-        )); ?>
+<div class="formMargin" ng-controller="graduateCtrl">
 
+    <form id="graduateForm" ng-submit="addGraduate()" novalidate>
         <div class="form-group">
-            <?php echo $form->labelEx($model, 'first_name'); ?>
-            <?php echo $form->textField($model, 'first_name', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
-            <?php echo $form->error($model, 'first_name'); ?>
+            <label>
+                <strong>Користувач:</strong>
+            </label>
+            <input type="text" size="135" ng-model="graduate.user"  ng-model-options="{ debounce: 1000 }"
+                   placeholder="Оберіть користувача" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
+                   typeahead-no-results="noResults" class="form-control"
+                   typeahead-on-select="selectedUser($item, $model, $label, $event)"/>
+            <div ng-if="noResults"><button class="btn btn-primary"
+                                           ng-bootbox-title="Додати нового користувача"
+                                           ng-bootbox-custom-dialog
+                                           ng-bootbox-custom-dialog-template="/angular/js/teacher/templates/addUserTemplate.html"
+                                           >
+                    Додати користувача
+                </button></div>
+            <pre>{{graduate}}</pre>
+        </div>
+        <div class="form-group">
+            <label>
+                <strong>Фото:</strong>
+            </label>
+            <div><img ng-src='/images/avatars/{{graduate.user.avatar}}' /></div>
         </div>
 
         <div class="form-group">
-            <?php echo $form->labelEx($model, 'last_name'); ?>
-            <?php echo $form->textField($model, 'last_name', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
-            <?php echo $form->error($model, 'last_name'); ?>
+            <label>
+                <strong>Дата випуску:</strong>
+            </label>
+            <p class="input-group col-md-3">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="graduate.date_done"
+                       is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Закрити"
+                       alt-input-formats="altInputFormats"/>
+                <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDatepicker()"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+          </span>   </p>
+        </div>
+        <div class="form-group">
+            <label>
+                <strong>Посада:</strong>
+            </label>
+            <input id="position" type="text" class="form-control" name="userPosition"
+                   size="90" required ng-model="graduate.position">
+
         </div>
 
         <div class="form-group">
-            <?php echo $form->labelEx($model, 'avatar'); ?>
-            <?php echo CHtml::activeFileField($model, 'avatar', array('onchange' => "CheckFile(this)")); ?>
-            <div class="errorMessage" style="display: none"></div>
+            <label>
+                <strong>Місце роботи:</strong>
+            </label>
+            <input id="position" type="text" class="form-control" name="userPosition"
+                   size="90" required ng-model="graduate.work_place">
+            <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <strong>Посилання на місце роботи</strong>
+            </label>
+            <input id="position" type="url" class="form-control" name="userPosition"
+                   size="90" required ng-model="graduate.work_site">
+
+        </div>
+
+        <div class="form-group">
+            <label>
+                <strong>Курс:</strong>
+            </label>
+            <input type="text" size="135" ng-model="graduate.course"  ng-model-options="{ debounce: 1000 }"
+                   placeholder="Оберіть курс" uib-typeahead="item as item.title_ua for item in getAllCoursesByOrganization($viewValue) | limitTo : 10"
+                   typeahead-no-results="noResults" class="form-control" />
+            <div ng-if="noResults"><span>Курс не знайдено</span></div>
+
         </div>
         <div class="form-group">
-            <?php echo $form->labelEx($model, 'graduate_date'); ?>
-            <?php echo $form->textField($model, 'graduate_date', array('class' => "form-control", 'ng-init'=>'graduateDate="'.$model->graduate_date.'"', 'ng-model'=>"graduateDate", 'ng-pattern'=>'/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/')); ?>
-            <?php echo $form->error($model, 'graduate_date'); ?>
-            <div ng-cloak  class="errorMessage" ng-show="Graduate['Graduate[graduate_date]'].$invalid">
-                <span ng-show="Graduate['Graduate[graduate_date]'].$error.pattern"><?php echo Yii::t('graduate','0749') ?></span>
+            <label>
+                <strong>Рейтинг:</strong>
+            </label>
+            <input id="rate" type="text" class="form-control" name="rate"
+                   size="90" required ng-model="graduate.rate">
+
+        </div>
+
+        <div class="form-group">
+            <label>
+                <strong>Відгук:</strong>
+            </label>
+
+            <textarea id="comment" type="text" class="form-control" name="comment"
+                      size="90" required ng-model="graduate.recall"></textarea>
+
+        </div>
+
+        <div class="form-group">
+            <label>
+                <strong>Ім'я англійською *</strong>
+            </label>
+            <input id="nameEn" type="text" class="form-control" name="nameEn"
+                   size="90" required ng-model="graduate.first_name_en">
+            <div class="error" ng-show="errors.first_name_en">{{errors.first_name_en[0]}}</div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <label>
+                    <strong>Прізвище англійською *</strong>
+                </label>
+                <input id="position" type="text" class="form-control" name="userPosition"
+                       size="90" required ng-model="graduate.last_name_en">
+                <div class="error" ng-show="errors.last_name_en">{{errors.last_name_en[0]}}</div>
             </div>
         </div>
+
         <div class="form-group">
-            <?php echo $form->labelEx($model, 'position'); ?>
-            <?php echo $form->textField($model, 'position', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
-            <?php echo $form->error($model, 'position'); ?>
+            <div class="form-group">
+                <label>
+                    <strong>Ім'я російською</strong>
+                </label>
+                <input id="position" type="text" class="form-control" name="userPosition"
+                       size="90" ng-model="graduate.first_name_ru">
+            </div>
         </div>
 
         <div class="form-group">
-            <?php echo $form->labelEx($model, 'work_place'); ?>
-            <?php echo $form->textField($model, 'work_place', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
-            <?php echo $form->error($model, 'work_place'); ?>
+            <div class="form-group">
+                <label>
+                    <strong>Прізвище російською</strong>
+                </label>
+                <input id="position" type="text" class="form-control" name="userPosition"
+                       size="90" ng-model="graduate.last_name_ru">
+            </div>
         </div>
 
         <div class="form-group">
-            <?php echo $form->labelEx($model, 'work_site'); ?>
-            <?php echo $form->textField($model, 'work_site', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
-            <?php echo $form->error($model, 'work_site'); ?>
+            <button type="submit">Створити</button>
         </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'courses_page'); ?>
-            <?php echo $form->dropDownList($model, 'courses_page', Course::getCourseTitlesList(),
-                array('class' => "form-control", 'style' => 'width:350px')); ?>
-            <?php echo $form->error($model, 'courses_page'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'history'); ?>
-            <?php echo $form->textField($model, 'history', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
-            <?php echo $form->error($model, 'history'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'rate'); ?>
-            <?php echo $form->textField($model, 'rate', array('class' => "form-control")); ?>
-            <?php echo $form->error($model, 'rate'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'recall'); ?>
-            <?php echo $form->textArea($model, 'recall', array('rows' => 6, 'cols' => 50, 'class' => "form-control")); ?>
-            <?php echo $form->error($model, 'recall'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'first_name_en'); ?>
-            <?php echo $form->textField($model, 'first_name_en', array('class' => "form-control")); ?>
-            <?php echo $form->error($model, 'first_name_en'); ?>
-            <a href="#"
-               onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en', '#Graduate_first_name'); return false;">
-                Згенерувати автоматично</a>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'last_name_en'); ?>
-            <?php echo $form->textField($model, 'last_name_en', array('class' => "form-control")); ?>
-            <?php echo $form->error($model, 'last_name_en'); ?>
-            <a href="#"
-               onclick="translateName('<?= $model->isNewRecord ? "" : $model->last_name; ?>', '#Graduate_last_name_en', '#Graduate_last_name'); return false;">
-                Згенерувати автоматично</a>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'first_name_ru'); ?>
-            <?php
-            if($model->isNewRecord) echo $form->textField($model, 'first_name_ru', array('class' => "form-control", 'value'=>''));
-            else echo $form->textField($model, 'first_name_ru', array('class' => "form-control"));
-            ?>
-            <?php echo $form->error($model, 'first_name_ru'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'last_name_ru'); ?>
-            <?php
-            if($model->isNewRecord) echo $form->textField($model, 'last_name_ru', array('class' => "form-control", 'value'=>''));
-            else echo $form->textField($model, 'last_name_ru', array('class' => "form-control"));
-            ?>
-            <?php echo $form->error($model, 'last_name_ru'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', array('class' => 'btn btn-primary', 'id' => 'submitButton', 'ng-disabled'=>'Graduate.$invalid')); ?>
-        </div>
-
-        <?php $this->endWidget(); ?>
-    </div><!-- form -->
+    </form><!-- form -->
 </div>
-<script>
-    $jq(document).ready(function () {
-        $jq("#Graduate_graduate_date").datepicker(lang);
-    });
-    function translateName(source, id, sourceId) {
-        if(!source) source = $jq(sourceId).val();
-        $jq(id).val(toEnglish(source));
-    }
-</script>
