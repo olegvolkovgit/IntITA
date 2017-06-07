@@ -427,15 +427,15 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
 }
 
 function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox) {
-    $scope.loadEmailCategory=function(){
-        return usersService
+    $scope.emailsCategoriesList = usersService
             .emailsCategoryList()
             .$promise
             .then(function (data) {
                 $scope.emailsCategory=data;
+                return data.map(function (item) {
+                    return {id: item.id, title: item.title}
+                })
             });
-    };
-    $scope.loadEmailCategory();
 
     $scope.usersEmailTableParams = new NgTableParams({}, {
         getData: function (params) {
@@ -448,7 +448,7 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox
                 });
         }
     });
-    
+
     $scope.uploadFile =function (files) {
         $scope.errormsg='';
         $scope.error=false;
@@ -512,12 +512,12 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams, $ngBootbox
         });
     }
     
-    $scope.removeEmail=function (email) {
+    $scope.removeEmail=function (email, category) {
         bootbox.confirm('Видалити email?', function (result) {
             if (result) {
                 $http({
                     method: 'POST',
-                    data: $jq.param({email: email}),
+                    data: $jq.param({email: email, category:category}),
                     url: basePath + "/_teacher/users/removeEmail",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback() {

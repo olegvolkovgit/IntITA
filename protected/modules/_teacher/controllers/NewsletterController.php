@@ -10,13 +10,16 @@ class NewsletterController extends TeacherCabinetController
 {
 
     public function hasRole(){
-        return (Yii::app()->user->model->isAdmin()
-                || Yii::app()->user->model->isAccountant()
-                || Yii::app()->user->model->isTrainer()
-                || Yii::app()->user->model->isAuthor()
-                || Yii::app()->user->model->isContentManager()
-                || Yii::app()->user->model->isTeacherConsultant()
-                || Yii::app()->user->model->isSuperVisor()
+        return (Yii::app()->user->model->isDirector()
+            || Yii::app()->user->model->isSuperAdmin()
+            || Yii::app()->user->model->isAuditor()
+            || Yii::app()->user->model->isAdmin()
+            || Yii::app()->user->model->isAccountant()
+            || Yii::app()->user->model->isTrainer()
+            || Yii::app()->user->model->isAuthor()
+            || Yii::app()->user->model->isContentManager()
+            || Yii::app()->user->model->isTeacherConsultant()
+            || Yii::app()->user->model->isSuperVisor()
         );
     }
 
@@ -152,7 +155,8 @@ class NewsletterController extends TeacherCabinetController
 
     public function actionGetEmailsCategoryList()
     {
-        echo  CJSON::encode(EmailsCategory::model()->findAll());
+        if(Yii::app()->user->model->getCurrentOrganizationId())
+            echo  CJSON::encode(EmailsCategory::model()->findAll('id_organization='.Yii::app()->user->model->getCurrentOrganizationId()));
     }
 
     public function actionGetnewsletter($id){

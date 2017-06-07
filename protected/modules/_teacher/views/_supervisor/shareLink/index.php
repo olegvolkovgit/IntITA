@@ -4,8 +4,8 @@
 <div class="col-lg-12" ng-controller="sharedlinksCtrl">
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary" ng-click="changeView('sharedlinks/create')">
-                Створити посилання на ресурс</button>
+            <a type="button" class="btn btn-primary" ng-href="#/sharedlinks/create">
+                Створити посилання на ресурс</a>
         </li>
     </ul>
     <div class="panel panel-default">
@@ -16,12 +16,14 @@
                     <tr>
                         <th>Назва</th>
                         <th>Посилання</th>
+                        <th>Організація</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="sharedLink in sharedLinksList">
-                        <td>{{sharedLink.name}} </td>
+                        <td>{{sharedLink.name}}</td>
                         <td><a ng-href="#/sharedlinks/detail/{{sharedLink.id}}">{{sharedLink.link["title"]}}</a></td>
+                        <td>{{sharedLink.organization}}</td>
                     </tr>
                     </tbody>
                 </table>

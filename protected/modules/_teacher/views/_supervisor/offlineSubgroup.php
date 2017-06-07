@@ -32,7 +32,13 @@
                             <a ng-href="#/users/profile/{{subgroupTrainer.id}}">{{subgroupTrainer.fullName}}</a>
                         </li>
                         <li class="list-group-item">
-                            <label>Інформація(розклад):</label> <span ng-bind-html="subgroup.data | linky:'_blank'">
+                            <label>Інформація(розклад):</label> <span ng-bind-html="subgroup.data | linky:'_blank'"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <label>Журнал:</label> <span ng-bind-html="subgroup.journal | linky:'_blank'"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <label>Корисні посилання:</label> <span ng-bind-html="subgroup.link | linky:'_blank'"></span>
                         </li>
                     </ul>
                 </uib-tab>

@@ -9,7 +9,7 @@ angular
             url: '/sharedlinks',
             cache: false,
             controller: function($scope){
-                $scope.changePageHeader('Ресурси для викладачів');
+                $scope.changePageHeader('Ресурси для співробітників');
             },
             templateUrl: basePath+"/_teacher/_supervisor/shareLink/index"
         })

@@ -95,12 +95,12 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/sharedlinks">Ресурси для викладачів</a>
+                        <a href="#/sharedlinks">Ресурси для співробітників</a>
                     </li>
                 </ul>
             </div>
             <div class="panel-footer">
-                <em>Корисні ресурси для викладачів</em>
+                <em>Корисні ресурси для співробітників</em>
             </div>
         </div>
     </div>

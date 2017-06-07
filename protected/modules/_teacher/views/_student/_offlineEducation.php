@@ -21,6 +21,12 @@
                     <li class="list-group-item">
                         <label>Інформація(розклад): </label><span ng-bind-html="subgroup.info | linky:'_blank'"></span>
                     </li>
+                    <li class="list-group-item">
+                        <label>Журнал:</label> <span ng-bind-html="subgroup.journal | linky:'_blank'"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <label>Корисні посилання:</label> <span ng-bind-html="subgroup.link | linky:'_blank'"></span>
+                    </li>
                     <li ng-if="subgroup.trainer" class="list-group-item">
                         <label>Тренер:</label> <a ng-href="{{subgroup.trainerLink}}" target="_blank">{{subgroup.trainer}}</a>
                         <br>
