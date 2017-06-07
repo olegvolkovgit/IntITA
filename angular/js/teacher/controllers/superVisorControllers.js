@@ -26,7 +26,11 @@ function superVisorCtrl (){
 
 function offlineGroupsTableCtrl ($scope, superVisorService, NgTableParams){
     $scope.changePageHeader('Офлайнові групи');
-    $scope.offlineGroupsTableParams = new NgTableParams({}, {
+    $scope.offlineGroupsTableParams = new NgTableParams({
+        sorting: {
+            "start_date": 'desc'
+        },
+    }, {
         getData: function (params) {
             return superVisorService
                 .offlineGroupsList(params.url())
@@ -362,12 +366,12 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
         $scope.loadSubgroupData($scope.subgroupId);
     };
 
-    $scope.sendFormSubgroup= function (scenario, name, groupId, subgroupData, selectedTrainer,subgroupId) {
-        if(scenario=='new') $scope.addSubgroup(name, groupId, subgroupData, selectedTrainer);
-        else $scope.editSubgroup(name, subgroupData, selectedTrainer,subgroupId);
+    $scope.sendFormSubgroup= function (scenario, name, groupId, subgroupData, selectedTrainer,subgroupId, journal, link) {
+        if(scenario=='new') $scope.addSubgroup(name, groupId, subgroupData, selectedTrainer, journal, link);
+        else $scope.editSubgroup(name, subgroupData, selectedTrainer,subgroupId, journal, link);
     };
 
-    $scope.addSubgroup= function (name, groupId, subgroupData, selectedTrainer) {
+    $scope.addSubgroup= function (name, groupId, subgroupData, selectedTrainer, journal, link) {
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/addSubgroup',
             method: "POST",
@@ -375,6 +379,8 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
                 name: name,
                 group: groupId,
                 data: subgroupData,
+                journal: journal,
+                link: link,
                 trainer: selectedTrainer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -392,7 +398,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             bootbox.alert("Створити групу не вдалося. Помилка сервера.");
         });
     };
-    $scope.editSubgroup= function (name, subgroupData, selectedTrainer,subgroupId) {
+    $scope.editSubgroup= function (name, subgroupData, selectedTrainer,subgroupId, journal, link) {
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/updateSubgroup',
             method: "POST",
@@ -400,6 +406,8 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
                 id:subgroupId,
                 name: name,
                 data: subgroupData,
+                journal: journal,
+                link: link,
                 trainer: selectedTrainer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

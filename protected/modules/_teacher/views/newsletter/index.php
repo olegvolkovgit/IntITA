@@ -49,6 +49,13 @@
                         Розсилка по окремих користувачах
                     </label>
                     <br>
+                    <?php if (Yii::app()->user->model->isAdmin()
+                    || Yii::app()->user->model->isAccountant()
+                    || Yii::app()->user->model->isTrainer()
+                    || Yii::app()->user->model->isAuthor()
+                    || Yii::app()->user->model->isContentManager()
+                    || Yii::app()->user->model->isTeacherConsultant()
+                    || Yii::app()->user->model->isSuperVisor()) {?>
                     <label>
                         <input type="radio" ng-model="newsletterType"  value="emailsFromDatabase"
                                ng-click="selectedRecipients = null">
@@ -62,6 +69,7 @@
                             </select>
                         </div>
                     </label>
+                    <?php } ?>
                 </div>
                 <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='roles'">
                     <label>Кому</label>

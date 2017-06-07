@@ -7,6 +7,11 @@
                 </a>
             </li>
             <li>
+                <a type="button" class="btn btn-primary" ng-href="#/supervisor/offlineGroups">
+                    Всі групи
+                </a>
+            </li>
+            <li>
                 <a type="button" class="btn btn-success" ng-href="" ng-click="updateGroupChat(groupId)">
                     Оновити чат групи
                 </a>

@@ -40,11 +40,12 @@
                 <td data-title="'Email'" sortable="'email'" filter="{'email': 'text'}" >
                     {{row.email}}
                 </td>
-                <td data-title="'Категорія'" sortable="'emailCategory.title'" filter="{'emailCategory.title': 'text'}" >
+                <td data-title="'Категорія'" sortable="'emailCategory.title'"
+                    filter="{'emailCategory.id': 'select'}" filter-data="emailsCategoriesList">
                     {{row.emailCategory.title}}
                 </td>
                 <td data-title="'Видалити'" style="text-align: center">
-                    <a href="" ng-click="removeEmail(row.email)"><i class="fa fa-trash fa-fw"></i></a>
+                    <a href="" ng-click="removeEmail(row.email, row.category)"><i class="fa fa-trash fa-fw"></i></a>
                 </td>
             </tr>
         </table>

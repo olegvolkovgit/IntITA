@@ -10,6 +10,8 @@
  * @property string $data
  * @property integer $id_user_created
  * @property integer $id_trainer
+ * @property integer $journal
+ * @property integer $link
  *
  * @property Organization $organization
  * @property OfflineGroups $groupName
@@ -35,7 +37,7 @@ class OfflineSubgroups extends CActiveRecord
 			array('name, group, id_user_created, id_trainer', 'required'),
 			array('name', 'length', 'max'=>128),
 			// The following rule is used by search().
-			array('id, name, group, data, id_user_created, id_trainer', 'safe', 'on'=>'search'),
+			array('id, name, group, data, id_user_created, id_trainer, journal, link', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,7 +77,9 @@ class OfflineSubgroups extends CActiveRecord
 			'group' => 'Група',
 			'data' => 'Інформація',
 			'id_user_created' => 'Ід автора підгрупи',
-			'id_trainer' => 'Ід тренера в групі'
+			'id_trainer' => 'Ід тренера в групі',
+            'journal' => 'Журнал',
+            'link' => 'Корисні посилання',
 		);
 	}
 
@@ -101,6 +105,8 @@ class OfflineSubgroups extends CActiveRecord
 		$criteria->compare('data',$this->data,true);
 		$criteria->compare('id_user_created',$this->id_user_created,true);
 		$criteria->compare('id_trainer',$this->id_trainer,true);
+        $criteria->compare('journal',$this->journal,true);
+        $criteria->compare('link',$this->link,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
