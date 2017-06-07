@@ -11,10 +11,16 @@
                 <strong>Користувач:</strong>
             </label>
             <input type="text" size="135" ng-model="graduate.user"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Користувач" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
+                   placeholder="Оберіть користувача" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
                    typeahead-no-results="noResults" class="form-control"
                    typeahead-on-select="selectedUser($item, $model, $label, $event)"/>
-            <div ng-if="noResults"><button class="btn btn-primary" ng-click="">Додати користувача</button></div>
+            <div ng-if="noResults"><button class="btn btn-primary"
+                                           ng-bootbox-title="Додати нового користувача"
+                                           ng-bootbox-custom-dialog
+                                           ng-bootbox-custom-dialog-template="/angular/js/teacher/templates/addUserTemplate.html"
+                                           >
+                    Додати користувача
+                </button></div>
             <pre>{{graduate}}</pre>
         </div>
         <div class="form-group">
@@ -43,7 +49,7 @@
             </label>
             <input id="position" type="text" class="form-control" name="userPosition"
                    size="90" required ng-model="graduate.position">
-            <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+
         </div>
 
         <div class="form-group">
@@ -61,7 +67,7 @@
             </label>
             <input id="position" type="url" class="form-control" name="userPosition"
                    size="90" required ng-model="graduate.work_site">
-            <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+
         </div>
 
         <div class="form-group">
@@ -69,10 +75,10 @@
                 <strong>Курс:</strong>
             </label>
             <input type="text" size="135" ng-model="graduate.course"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Користувач" uib-typeahead="item as item.title_ua for item in getAllCoursesByOrganization($viewValue) | limitTo : 10"
+                   placeholder="Оберіть курс" uib-typeahead="item as item.title_ua for item in getAllCoursesByOrganization($viewValue) | limitTo : 10"
                    typeahead-no-results="noResults" class="form-control" />
             <div ng-if="noResults"><span>Курс не знайдено</span></div>
-            <div class="error" ng-show="errors.id_course && form.user.$touched">{{errors.id_course[0]}}</div>
+
         </div>
         <div class="form-group">
             <label>
@@ -80,7 +86,7 @@
             </label>
             <input id="rate" type="text" class="form-control" name="rate"
                    size="90" required ng-model="graduate.rate">
-            <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+
         </div>
 
         <div class="form-group">
@@ -90,7 +96,7 @@
 
             <textarea id="comment" type="text" class="form-control" name="comment"
                       size="90" required ng-model="graduate.recall"></textarea>
-            <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+
         </div>
 
         <div class="form-group">

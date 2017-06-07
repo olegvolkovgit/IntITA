@@ -161,7 +161,7 @@ class GraduateController extends TeacherCabinetController {
 
     public function actionGetusers(){
         $result = [];
-        $models = TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['firstName','secondName','email','avatar']);
+        $models =    TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['firstName','secondName','email','avatar']);
         foreach ($models as $model){
             $arr = $model->getAttributes(['id','avatar','email','firstName','secondName']);
             $arr['fullName'] = $model->fullName();
@@ -192,20 +192,47 @@ class GraduateController extends TeacherCabinetController {
         $graduate = new Graduate();
         if($request){
         $graduate->loadModel($request);
+        $graduate->published = 1 ;
         }
+
         $courseRating = new RatingUserCourse();
         $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
         $courseRating->rating = isset($request['rate'])?(double)$request['rate']:null;
         $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
-        $courseRating->course_revision = 0;
+        $date = strtotime($request['date_done']);
+        $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+        $courseRating->course_revision = 1;
         if (!($graduate->validate() && $courseRating->validate())){
             echo  json_encode(['errors'=>array_merge($graduate->getErrors(),$courseRating->getErrors())]);
             Yii::app()->end();
         }
         $courseRating->save(false);
-        $graduate->rate = $courseRating->id;
+        $graduate->rate_id = $courseRating->id;
         $graduate->save(false);
         echo 'done';
         Yii::app()->end();
+    }
+
+    public function actionAddNewUser(){
+        $request = Yii::app()->request->getPost('User');
+        $user = new StudentReg();
+        if (isset($request['user'])){
+            $pass = sha1(microtime().'hdssdgcs');
+            $user->loadModel($request['user']);
+            $user->password =  $pass;
+            $user->password_repeat = $pass;
+            $user->status = 0;
+        }
+        $user->setScenario('reguser');
+        if ($user->validate()){
+            $user->save();
+            echo $user->id;
+            Yii::app()->end();
+        }
+        else{
+            echo json_encode(['errors'=>$user->getErrors()]);
+            Yii::app()->end();
+        }
+
     }
 }

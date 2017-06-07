@@ -14,7 +14,7 @@
  * @property string $work_site
  * @property string $courses_page
  * @property string $history
- * @property integer $rate
+ * @property integer $rate_id
  * @property string $recall
  * @property string $first_name_en
  * @property string $last_name_en
@@ -47,7 +47,7 @@ class Graduate extends CActiveRecord
             array('position, work_place, work_site, history', 'length', 'max'=>255),
 			array('first_name_en, last_name_en', 'length', 'max'=>50),
             // The following rule is used by search().
-			array('id, position, work_place, work_site, history, recall, first_name_en, last_name_en, first_name_ru, last_name_ru', 'safe', 'on'=>'search'),
+			array('id, position, work_place, work_site, history, recall, first_name_en, last_name_en, first_name_ru, last_name_ru, rate_id', 'safe', 'on'=>'search'),
 		);
 	}
 
