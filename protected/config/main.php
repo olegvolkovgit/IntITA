@@ -33,6 +33,7 @@ return array(
         'application.models.accountancy.paymentScheme.*',
         'application.models.accountancy.corporateEntity.*',
         'application.models.accountancy.agreements.*',
+        'application.models.accountancy.contractingParty.*',
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
