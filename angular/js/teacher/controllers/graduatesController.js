@@ -5,36 +5,19 @@ angular
     .module('teacherApp')
     .controller('graduateCtrl',graduateCtrl);
 
-function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $ngBootbox){
+function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $ngBootbox, $timeout){
+
+
 
     $rootScope.$on('userCreated', function (event, data) {
         $scope.graduate.user = data;
         $scope.noResults = false;
     });
     
-    $scope.addNewUser = function () {
-        $http({
-            method:'POST',
-            url: basePath+'/_teacher/graduate/addNewUser',
-            data: $httpParamSerializerJQLike({User:$scope.graduate}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).success(function (response) {
-            if (typeof response === 'object'){
-                $scope.errors = response.errors;
-                return false;
-            }
-            else{
-                $scope.graduate.user.id = response;
-                $scope.graduate.user.fullName = $scope.graduate.user.firstName + ' '
-                                                + $scope.graduate.user.secondName + ' '
-                                                + $scope.graduate.user.email;
-                $scope.$emit('userCreated', $scope.graduate.user);
-                $ngBootbox.hideAll();
-            }
-        })
-    };
+
 
     $scope.addGraduate = function () {
+
         $http({
             method:'POST',
             url: basePath+'/_teacher/graduate/addGraduate',
