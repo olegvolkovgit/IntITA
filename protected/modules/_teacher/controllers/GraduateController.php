@@ -199,8 +199,13 @@ class GraduateController extends TeacherCabinetController {
         $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
         $courseRating->rating = isset($request['rate'])?(double)$request['rate']:null;
         $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
-        $date = strtotime($request['date_done']);
-        $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+        if(isset($request['date_done'])){
+            $date = strtotime($request['date_done']);
+            $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+        }
+        else{
+            $courseRating->date_done = null;
+        }
         $courseRating->course_revision = 1;
         if (!($graduate->validate() && $courseRating->validate())){
             echo  json_encode(['errors'=>array_merge($graduate->getErrors(),$courseRating->getErrors())]);

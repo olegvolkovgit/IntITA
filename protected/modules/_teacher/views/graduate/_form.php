@@ -21,7 +21,7 @@
                                            >
                     Додати користувача
                 </button></div>
-            <pre>{{graduate}}</pre>
+            <div class="error" ng-show="errors.id_user">{{errors.id_user[0]}}</div>
         </div>
         <div class="form-group">
             <label>
@@ -42,32 +42,33 @@
             <button type="button" class="btn btn-default" ng-click="openDatepicker()"><i
                         class="glyphicon glyphicon-calendar"></i></button>
           </span>   </p>
+            <div class="error" ng-show="errors.date_done">{{errors.date_done[0]}}</div>
         </div>
         <div class="form-group">
             <label>
                 <strong>Посада:</strong>
             </label>
-            <input id="position" type="text" class="form-control" name="userPosition"
+            <input id="position" type="text" class="form-control" name="position"
                    size="90" required ng-model="graduate.position">
-
+            <div class="error" ng-show="errors.position">{{errors.position[0]}}</div>
         </div>
 
         <div class="form-group">
             <label>
                 <strong>Місце роботи:</strong>
             </label>
-            <input id="position" type="text" class="form-control" name="userPosition"
+            <input id="position" type="text" class="form-control" name="work_place"
                    size="90" required ng-model="graduate.work_place">
-            <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
+            <div class="error" ng-show="errors.work_place">{{errors.work_place[0]}}</div>
         </div>
 
         <div class="form-group">
             <label>
                 <strong>Посилання на місце роботи</strong>
             </label>
-            <input id="position" type="url" class="form-control" name="userPosition"
+            <input id="position" type="url" class="form-control" name="work_site"
                    size="90" required ng-model="graduate.work_site">
-
+            <div class="error" ng-show="errors.work_site">{{errors.work_site[0]}}</div>
         </div>
 
         <div class="form-group">
@@ -78,15 +79,15 @@
                    placeholder="Оберіть курс" uib-typeahead="item as item.title_ua for item in getAllCoursesByOrganization($viewValue) | limitTo : 10"
                    typeahead-no-results="noResults" class="form-control" />
             <div ng-if="noResults"><span>Курс не знайдено</span></div>
-
+            <div class="error" ng-show="errors.id_course">{{errors.id_course[0]}}</div>
         </div>
         <div class="form-group">
             <label>
                 <strong>Рейтинг:</strong>
             </label>
             <input id="rate" type="text" class="form-control" name="rate"
-                   size="90" required ng-model="graduate.rate">
-
+                   size="90" required ng-model="graduate.rating">
+            <div class="error" ng-show="errors.rating">{{errors.rating[0]}}</div>
         </div>
 
         <div class="form-group">
@@ -94,9 +95,9 @@
                 <strong>Відгук:</strong>
             </label>
 
-            <textarea id="comment" type="text" class="form-control" name="comment"
+            <textarea id="comment" type="text" class="form-control" name="recall"
                       size="90" required ng-model="graduate.recall"></textarea>
-
+            <div class="error" ng-show="errors.recall">{{errors.recall[0]}}</div>
         </div>
 
         <div class="form-group">
