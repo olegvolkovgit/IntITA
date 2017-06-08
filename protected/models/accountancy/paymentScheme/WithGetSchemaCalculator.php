@@ -34,7 +34,6 @@ trait WithGetSchemaCalculator {
         $startDate=$this->startDate?$this->startDate:'NOW()';
         $criteria->condition='ps.id_organization='.$this->id_organization.' 
         and ps.startDate<="'.$this->endDate.'" and "'.$startDate.'"<=ps.endDate';
-
         if($offer){
             $criteria->addCondition('ps.id != ' . $offer->id);
         }
