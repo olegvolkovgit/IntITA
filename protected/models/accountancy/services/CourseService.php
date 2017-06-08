@@ -221,4 +221,8 @@ class CourseService extends AbstractIntITAService
         if($this->education_form==EducationForm::OFFLINE)
             return $this->courseModel->status_offline;
     }
+
+    public function getContentModel(){
+        return $this->courseModel;
+    }
 }
