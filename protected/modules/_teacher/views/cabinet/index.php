@@ -10,7 +10,11 @@
  * @var $countNewMessages int
  */
 ?>
-<?php date_default_timezone_set(Config::getServerTimezone()); ?>
+<?php
+    date_default_timezone_set(Config::getServerTimezone());
+    $dateTimeZone = new DateTimeZone(Config::getServerTimezone());
+    $timezoneOffset=$dateTimeZone->getOffset(new DateTime(null, $dateTimeZone))/60/60;
+?>
 <script>
     user = '<?=Yii::app()->user->getId()?>';
     scenario = '<?=$scenario?>';
@@ -18,6 +22,7 @@
     <!-- kludge -->
     currentLanguage = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
     currentDate='<?php echo date("Y-m-d");?>';
+    timezoneOffset='<?php echo $timezoneOffset;?>';
 </script>
 
 
