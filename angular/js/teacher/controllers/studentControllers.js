@@ -139,7 +139,7 @@ function studentCtrl($scope, $rootScope, $http, NgTableParams,$resource, $state,
                         row.internalPayment.forEach(function (pays) {
                             paid = paid+Number(pays.summa);
                         });
-                        row.paidAmount=paid;
+                        row.paidAmount=parseFloat(paid).toFixed(2);
                     });
                     return data.rows;
                 });
@@ -161,7 +161,7 @@ function studentCtrl($scope, $rootScope, $http, NgTableParams,$resource, $state,
                         row.internalPayment.forEach(function (pays) {
                             paid = paid+Number(pays.summa);
                         });
-                        row.paidAmount=paid;
+                        row.paidAmount=parseFloat(paid).toFixed(2);
                     });
                     $scope.usd = data.usd;
                     return data.rows;
@@ -225,7 +225,7 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                         row.internalPayment.forEach(function (pays) {
                             paid = paid+Number(pays.summa);
                         });
-                        row.paidAmount=paid;
+                        row.paidAmount=parseFloat(paid).toFixed(2);
                     });
                     return data.rows;
                 });

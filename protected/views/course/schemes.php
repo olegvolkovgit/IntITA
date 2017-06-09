@@ -58,6 +58,7 @@
                 </payments-scheme-by-template>
             </div>
         </div>
+        <?php if(!$model->hasUserAgreement(Yii::app()->user->getId())) {?>
         <div ng-if="onlineSchemeData && offlineSchemeData && !item.template.isRequestOpen">
             <?php echo Yii::t('course', '0960'); ?>
             <div style="text-align: right;">
@@ -66,6 +67,7 @@
                        value="<?php echo Yii::t('course', '0958'); ?> />">
             </div>
         </div>
+        <?php } ?>
     </div>
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>

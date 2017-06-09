@@ -1143,4 +1143,10 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
 
         return $promotions?true:false;
     }
+
+    public function hasUserAgreement($idUser)
+    {
+        return UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->courseServiceOnline->service_id))
+            || UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->courseServiceOffline->service_id));
+    }
 }

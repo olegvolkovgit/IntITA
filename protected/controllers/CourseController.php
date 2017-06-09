@@ -243,7 +243,7 @@ class CourseController extends Controller
             $data[$key]['template']['description']=$promotion->schemesTemplate->getDescription();
             $data[$key]['template']['isRequestOpen']=MessagesServiceSchemesRequest::model()->isRequestOpen(
                 array('service'=>$service->service_id,'schemaTemplate'=>$promotion->schemesTemplate->id,'user'=>Yii::app()->user->getId())
-            );
+            ) || $service->getContentModel()->isDeveloping();
         }
         echo CJSON::encode($data);
     }

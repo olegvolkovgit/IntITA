@@ -187,8 +187,9 @@ angular
 
       $scope.invoicesSum = function () {
         return $scope.operation.invoices.reduce(function (sum, item) {
-          $scope.operation.sum = sum += Number(item.amount);
-          return $scope.operation.sum;
+          var roundSum=Number(parseFloat(sum).toFixed(2));
+          $scope.operation.sum = sum = roundSum+Number(item.amount);
+          return $scope.operation.sum
         }, 0);
       };
 
@@ -1021,7 +1022,9 @@ angular
 
     $scope.paymentSchema={};
     $scope.today = function() {
-        $scope.paymentSchema.startDate = new Date();
+      var nowDate=new Date();
+        nowDate.setHours(0,0,0,0);
+        $scope.paymentSchema.startDate = nowDate;
     };
     $scope.today();
 
@@ -1295,8 +1298,10 @@ angular
     function ($scope, _, $http, $state, $stateParams, paymentSchemaService, $filter) {
         $scope.paymentSchema={};
         $scope.today = function() {
-            $scope.paymentSchema.showDate = new Date();
-            $scope.paymentSchema.startDate = new Date();
+            var nowDate=new Date();
+            nowDate.setHours(0,0,0,0);
+            $scope.paymentSchema.showDate = nowDate;
+            $scope.paymentSchema.startDate = nowDate;
         };
         $scope.today();
 

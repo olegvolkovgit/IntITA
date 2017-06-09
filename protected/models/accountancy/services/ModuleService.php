@@ -253,4 +253,8 @@ class ModuleService extends AbstractIntITAService
         if($this->education_form==EducationForm::OFFLINE)
             return $this->moduleModel->status_offline;
     }
+
+    public function getContentModel(){
+        return $this->moduleModel;
+    }
 }

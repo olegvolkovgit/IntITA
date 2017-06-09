@@ -44,7 +44,10 @@ class InvoicesController extends TeacherCabinetController
             $extraParams[$attribute] = Yii::app()->request->getParam($attribute, null);
         }
         $extraParams = array_filter($extraParams);
+        $criteria =  new CDbCriteria();
+        $criteria->with='agreement';
         $ngTable = new NgTableAdapter('Invoice', ['extraParams' => $extraParams]);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
