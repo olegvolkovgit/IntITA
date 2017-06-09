@@ -26,7 +26,8 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-resource/angular-resource.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/checklist-model/checklist-model.js'); ?>"></script>
-
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.js'); ?>"></script>
+    <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.css'); ?>" rel="stylesheet"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-sanitize/angular-sanitize.min.js'); ?>"></script>
 
     <!-- Select multiple -->

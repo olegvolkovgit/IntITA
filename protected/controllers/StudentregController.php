@@ -170,7 +170,6 @@ class StudentRegController extends Controller
             $owner = true;
         }
 
-
         $this->render("profile", array(
             'dataProvider' => $dataProvider,
             'post' => $model,
@@ -304,6 +303,7 @@ class StudentRegController extends Controller
         $id = Yii::app()->request->getPost('id', 0);
         $model = RegisteredUser::userById($id);
         $teacher_attributes = [];
+        $graduate = [];
         if($model->trainer){
             $trainers=array();
             foreach ($model->trainer as $key=>$trainer) {
@@ -321,7 +321,11 @@ class StudentRegController extends Controller
         } else {
             $role = array('teacher' => false,'trainer'=>$trainers);
         }
-        $data = array_merge($model->attributes, $role, $teacher_attributes);
+        if ($model->isGraduate()){
+            $graduate = Graduate::model()->with(['rate'])->find('rate.id_user=:user',[':user'=>$model->id])->getAttributes();
+
+        }
+        $data = array_merge($model->attributes, $role, $teacher_attributes, ['review'=>$graduate]);
         echo json_encode($data);
     }
 
@@ -454,5 +458,24 @@ class StudentRegController extends Controller
         if (is_file($file))
             unlink($file);
         $model->delete();
+    }
+
+    public function actionAddReview(){
+        $request = Yii::app()->request->getPost('review');
+        if ($request){
+           $model = Graduate::model()->findByPk($request['id']);
+           $model->loadModel($request);
+           $model->published = 0;
+           if ($model->validate()){
+               $model->save();
+               echo 'true';
+
+           }
+           else{
+               echo CJSON::encode(['errors'=>$model->getErrors()]);
+           }
+        }
+        return true;
+
     }
 }

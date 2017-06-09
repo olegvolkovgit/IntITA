@@ -199,8 +199,13 @@ class GraduateController extends TeacherCabinetController {
         $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
         $courseRating->rating = isset($request['rate'])?(double)$request['rate']:null;
         $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
-        $date = strtotime($request['date_done']);
-        $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+        if(isset($request['date_done'])){
+            $date = strtotime($request['date_done']);
+            $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+        }
+        else{
+            $courseRating->date_done = null;
+        }
         $courseRating->course_revision = 1;
         if (!($graduate->validate() && $courseRating->validate())){
             echo  json_encode(['errors'=>array_merge($graduate->getErrors(),$courseRating->getErrors())]);
@@ -216,17 +221,28 @@ class GraduateController extends TeacherCabinetController {
     public function actionAddNewUser(){
         $request = Yii::app()->request->getPost('User');
         $user = new StudentReg();
-        if (isset($request['user'])){
+        if ($request){
             $pass = sha1(microtime().'hdssdgcs');
-            $user->loadModel($request['user']);
+            $user->loadModel($request);
             $user->password =  $pass;
             $user->password_repeat = $pass;
             $user->status = 0;
         }
         $user->setScenario('reguser');
         if ($user->validate()){
+            $avatarFile = 'noname.png';
+            if (isset($request['avatar']) && !empty($request['avatar'])){
+                $avatarFile = uniqid().'.jpg';
+                $code_base64 = $request['avatar'];
+                $code_base64 = str_replace('data:image/jpeg;base64,','',$code_base64);
+                $code_binary = base64_decode($code_base64);
+                $image= imagecreatefromstring($code_binary);
+                imagejpeg($image,'images/avatars/'.$avatarFile,80);
+            }
+            $user->avatar = $avatarFile;
             $user->save();
-            echo $user->id;
+            $ttttt = $user->fullName();
+            echo json_encode(['user'=>['id'=>$user->id,'avatar'=>$avatarFile,'fullName'=>$user->fullName()]]);
             Yii::app()->end();
         }
         else{

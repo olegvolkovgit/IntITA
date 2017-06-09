@@ -159,6 +159,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <li>
                     <?= ($owner) ? Yii::t('profile', '0116') : Yii::t('profile', '0824'); ?>
                 </li>
+                <?php if (Yii::app()->user->model->isGraduate()){ ?>
+                <li>
+                    <?= Yii::t('teacher', '0187'); ?>
+                </li>
+                <?php } ?>
             </ul>
             <hr class="lineUnderTab">
             <div class="tabsContent">
@@ -188,6 +193,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     ));
                     ?>
                 </div>
+                <?php if (Yii::app()->user->model->isGraduate()){ ?>
+                <div id="myReview">
+                    <?php
+                    $this->renderPartial('_review');
+                    ?>
+                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
