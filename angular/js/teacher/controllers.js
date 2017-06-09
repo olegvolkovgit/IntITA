@@ -44,7 +44,6 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
     }, 1000);
 
      $scope.handleFileSelect=function(evt) {
-         console.log(evt);
         var file=evt[0];
         var reader = new FileReader();
         reader.onload = function (evt) {
@@ -54,7 +53,6 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
         };
         reader.readAsDataURL(file);
     };
-    //angular.element(document.getElementById('#fileInput')).on('change',handleFileSelect);
 
     $scope.addNewUser = function () {
         $scope.user.avatar = $scope.avatar;

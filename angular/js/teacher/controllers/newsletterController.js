@@ -202,17 +202,16 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         recipients.push(value.id);
                         break;
                     case 'emailsFromDatabase':
-                        recipients.push($scope.selectedEmailCategory);
+                        recipients = value;
                         break;
                 }
             });
-            if(typeof $scope.selectedEmailCategory=='undefined'){
-                $scope.selectedEmailCategory=null;
-            }
-            if($scope.newsletterType=='emailsFromDatabase' && $scope.selectedEmailCategory===null){
+
+            if($scope.newsletterType=='emailsFromDatabase' && $scope.selectedRecipients == null || $scope.selectedRecipients == 'undefined'){
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
-                return;
-            }
+                return false;
+            };
+
             $http({
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
@@ -295,6 +294,16 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         method: 'POST',
                         url: basePath + '/_teacher/newsletter/getRolesById',
                         data: $jq.param({roles:$scope.model.newsletter.recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        $scope.selectedRecipients = response;
+                    });
+                    break;
+                case 'emailsFromDatabase':
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getCategoryById',
+                        data: $jq.param({Category:$scope.model.newsletter.recipients}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                     }).success(function (response) {
                         $scope.selectedRecipients = response;
