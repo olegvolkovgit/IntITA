@@ -7,8 +7,8 @@
                     <col width="20%"/>
                     <col width="10%"/>
                     <col/>
-                    <col/>
-                    <col/>
+                    <col width="10%"/>
+                    <col width="10%"/>
                     <col width="10%"/>
                     <col width="10%"/>
                     <col/>
@@ -37,10 +37,10 @@
                     <td data-title="'Схема оплати'" filter="{payment_schema: 'select'}" filter-data="getSchemas" sortable="'payment_schema'">
                         {{row.paymentSchema.title_ua}}
                     </td>
-                    <td data-title="'Сума до сплати'" filter="{summa: 'text'}" sortable="'summa'">
+                    <td style="word-break: break-all" data-title="'Сума до сплати'" filter="{summa: 'text'}" sortable="'summa'">
                         {{row.summa}}
                     </td>
-                    <td data-title="'Сплачено'">
+                    <td style="word-break: break-all" data-title="'Сплачено'">
                         {{row.paidAmount}}
                     </td>
                     <td data-title="'Наступна проплата до'">
