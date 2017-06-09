@@ -133,4 +133,17 @@ function profileCtrl($http,$scope) {
         return progressInPercent;
     }
 
+    $scope.addReview = function () {
+        $http({
+            url: basePath+'/studentreg/addReview',
+            method: "POST",
+            data: $.param({review: $scope.profileData.review}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                    $scope.errors = response.errors;
+            }
+        })
+    }
+
 }

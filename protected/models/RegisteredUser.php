@@ -578,4 +578,16 @@ class RegisteredUser
     {
         return $this->canApprove(null, $idCourse, null);
     }
+
+    /**
+     * Check user for graduate
+     * @return true if user is graduate
+     */
+    public function isGraduate()
+    {
+            if (RatingUserCourse::model()->find('id_user=:user AND course_done = 1',[':user'=>$this->registrationData->id])){
+                return true;
+            }
+        return false;
+    }
 }
