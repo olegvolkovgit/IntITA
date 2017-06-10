@@ -4,7 +4,7 @@
         'enableClientValidation' => true,
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
-        'htmlOptions' => array('ng-submit' => 'sendModuleRatingData(res)')
+        'htmlOptions' => array('ng-submit' => 'sendModuleRatingData(ratings)')
     ));
     ?>
     <div class="modalBody">
@@ -28,17 +28,19 @@
 
                 <div ng-repeat="rating in ratings track by $index">
                         <!--show stars-->
-                    <p>{{ rating.description }}</p>
-                    <span uib-rating ng-model="rating.rate" ng-init="ratings[$index].rate" max="max" read-only="isReadonly"
-                          on-hover="hoveringOver(value, $index)" on-leave="rating.overStar = null"
-                          titles="['one','two','three']" aria-labelledby="default-rating">
-                    </span>
-                    <span class="label" ng-class="{ 'label-warning': rating.number<4,
-                                                    'label-info': rating.number>=4 && rating.number<8,
-                                                    'label-success': rating.number>=8 }"
-                          ng-show="rating.overStar && !isReadonly">
-                            {{rating.number}}
-                    </span>
+                    <div ng-if="$index <= 2">
+                        <p>{{ rating.description }}</p>
+                        <span uib-rating ng-model="rating.rate" ng-init="ratings[$index].rate" max="max" read-only="isReadonly"
+                              on-hover="hoveringOver(value, $index)" on-leave="rating.overStar = null"
+                              titles="['one','two','three']" aria-labelledby="default-rating">
+                        </span>
+                        <span class="label" ng-class="{ 'label-warning': rating.number<4,
+                                                        'label-info': rating.number>=4 && rating.number<8,
+                                                        'label-success': rating.number>=8 }"
+                              ng-show="rating.overStar && !isReadonly">
+                                {{rating.number}}
+                        </span>
+                    </div>
                 </div>
 
                 <div ng-if="ratings[0].rate>=1 && ratings[0].rate<=4 ||
@@ -50,7 +52,7 @@
                     <p ng-if="ratings[0].rate>=1 && ratings[0].rate<=4">{{ ratings[0].description }} - {{ ratings[0].rate }}</p>
                     <p ng-if="ratings[1].rate>=1 && ratings[1].rate<=4">{{ ratings[1].description }} - {{ ratings[1].rate }}</p>
                     <p ng-if="ratings[2].rate>=1 && ratings[2].rate<=4">{{ ratings[2].description }} - {{ ratings[2].rate }}</p>
-                    <textarea rows="4" style="width: 90%; resize: none; border-radius: 4px;" ng-model="res.comment"></textarea>
+                    <textarea rows="4" style="width: 90%; resize: none; border-radius: 4px;" ng-model="ratings.comment"></textarea>
                 </div>
 
                 <p class="sharingText"><?php echo Yii::t('lecture', '0677'); ?></p>

@@ -28,6 +28,7 @@ div.humavatar{width:70px;height:70px;margin-right:10px;overflow:hidden;}
 .chat_icon{
     position: relative;
     top: 8px;
+    color: #4b75a4;
 }
 
 @media only screen and (max-width: 800px) {

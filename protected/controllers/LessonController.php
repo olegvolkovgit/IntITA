@@ -409,11 +409,10 @@ class LessonController extends Controller
         $idCourse = $_POST ["params"]["courses_id"];
         $revisions = RevisionLecture::getParentRevisionForLecture($lectureId);
         $lecture = Lecture::model()->findByPk($lectureId);
-        $understand_rating = $_POST['params']['ratings']['ratings']['0']['rate'];
-        $interesting_rating = $_POST['params']['ratings']['ratings']['1']['rate'];
-        $accessibility_rating = $_POST['params']['ratings']['ratings']['2']['rate'];
+        $understand_rating = $_POST['params']['ratings']['0']['rate'];
+        $interesting_rating = $_POST['params']['ratings']['1']['rate'];
+        $accessibility_rating = $_POST['params']['ratings']['2']['rate'];
         $id_user = Yii::app()->user->getId();
-
         $isRatingExist = LecturesRating::model()->exists('id_user=:id_user and `id_lecture`=:id_lecture and                                                                             `id_revision`=:id_revision',
                                                         array('id_user'=> $id_user,
                                                               'id_lecture' => $lectureId,
@@ -457,7 +456,6 @@ class LessonController extends Controller
             $lecture->updateRatingLectures($interesting_rating, 'interesting_rating');
             $lecture->updateRatingLectures($accessibility_rating, 'accessibility_rating');
         }
-//        var_dump($modelRating->validate());die;
 
         if(Yii::app()->request->isAjaxRequest){
             $data=array();
@@ -493,9 +491,9 @@ class LessonController extends Controller
     public function actionSaveRatingModule(){
         $data = array_filter($_POST);
         $idModule = $data['params']['idModule'];
-        $understand_rating = $data['params']['ratings']['ratings']['0']['rate'];
-        $interesting_rating = $data['params']['ratings']['ratings']['1']['rate'];
-        $accessibility_rating = $data['params']['ratings']['ratings']['2']['rate'];
+        $understand_rating = $data['params']['ratings']['0']['rate'];
+        $interesting_rating = $data['params']['ratings']['1']['rate'];
+        $accessibility_rating = $data['params']['ratings']['2']['rate'];
         $module = Module::model()->findByPk($idModule);
         $id_user = Yii::app()->user->getId();
 

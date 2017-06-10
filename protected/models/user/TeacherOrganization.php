@@ -51,7 +51,7 @@ class TeacherOrganization extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
-            'teacher' => array(self::BELONGS_TO, 'Teacher', ['id_user'=>'teacher_id']),
+            'teacher' => array(self::BELONGS_TO, 'Teacher', ['id_user'=>'user_id']),
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
             'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
@@ -158,5 +158,46 @@ class TeacherOrganization extends CActiveRecord
             $roleObj = Role::getInstance($role);
             $roleObj->cancelRole($user->registrationData, $organization);
         }
+    }
+
+    public function getRolesByOrganization() // !!!
+    {
+        $sql = '';
+        $id_org = $this->id_organization;
+        $roles = AllRolesDataSource::teacherRoles();
+        $lastKey = array_search(end($roles), $roles);
+
+        foreach($roles as $key=>$role){
+            $model = Role::getInstance($role);
+            $sql .= "(".$model->checkRoleSql($id_org).")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id", $this->id_user, PDO::PARAM_STR)->queryAll();
+        $result = array_map(function ($row) {
+            return $row["accountant"];
+        }, $rolesArray);
+
+        return $result;
+    }
+
+    public function getUserRoles()
+    {
+        $roles = $this->getRolesByOrganization();
+        $result=array();
+
+        foreach($roles as $role){
+            array_push($result, Role::getInstance($role)->title());
+        }
+        return implode(", ", $result);
+    }
+
+    public function getModules()
+    {
+        $models = $this->teacher->modulesActive;
+        return array_filter($models, function($model){
+            return $model->id_organization == $this->id_organization;
+        });
     }
 }

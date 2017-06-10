@@ -10,7 +10,7 @@
         <?php echo CoursesController::nameCourses($organization) ?>
     </h1>
             <!-- line 1 -->
-    <div class="coursesType">
+    <div class="coursesType mainCourses">
 
             <!-- All our courses -->
         <div class="category">
