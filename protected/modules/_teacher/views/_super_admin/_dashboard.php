@@ -120,6 +120,23 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Корисні посилання
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="#/allShareLinks">Корисні посилання</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Корисні посилання для співробітників з усіх організацій</em>
+            </div>
+        </div>
+    </div>
 </div>
 
 

@@ -14,6 +14,14 @@
             <a href="#/accountant/agreement/{{invoiceData.agreement.id}}">{{invoiceData.agreement.number}} від {{invoiceData.agreement.create_date}}</a>
         </td>
     </tr>
+    <tr>
+        <th>Компанія</th>
+        <td>{{invoiceData.corporateEntity.title}}</td>
+    </tr>
+    <tr>
+        <th>Рахунок</th>
+        <td>{{invoiceData.checkingAccount.bank_name}}: {{invoiceData.checkingAccount.checking_account}}</td>
+    </tr>
     <tr ng-if="invoiceData">
         <th>Статус:</th>
         <td ng-class="{'bg-warning': (invoiceData.currentDate>=(invoiceData.payment_date  | shortDate:'yyyy-MM-dd') && invoiceData.currentDate<=(invoiceData.expiration_date  | shortDate:'yyyy-MM-dd')),

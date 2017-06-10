@@ -59,29 +59,6 @@
         <div class="col-xs-12">
             <label class="text-left">Період дії р/р</label>
         </div>
-        <div class="form-group col-xs-6">
-            <div class="form-horizontal">
-                <label class="col-xs-2 control-label text-left" for="credentialsFrom">Від</label>
-                <p class="col-xs-10 input-group">
-                    <input id="credentialsFrom"
-                           class="form-control"
-                           type="text"
-                           name="credentialsFrom"
-                           uib-datepicker-popup="dd-MM-yyyy"
-                           popup-placement="bottom"
-                           is-open="datePopup.credentialsFrom"
-                           close-text="Закрити"
-                           clear-text="Очистити"
-                           current-text="Сьогодні"
-                           ng-class="{'has-error':!checkingAccountForm.credentialsFrom.$valid}"
-                           ng-model="checkingAccount.createdAt"
-                           ng-required="true">
-                    <span class="input-group-addon" ng-click="toggleDPPopup('credentialsFrom')">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                </span>
-                </p>
-            </div>
-        </div>
 
         <div class="form-group col-xs-6">
             <div class="form-horizontal">

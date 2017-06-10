@@ -49,7 +49,7 @@ angular
                 row.internalPayment.forEach(function (pay) {
                     paid = paid+Number(pay.summa);
                 });
-                row.paidAmount=paid;
+                row.paidAmount=parseFloat(paid).toFixed(2);
                 //get agreement payment_date and expiration_date
                 for (var index = 0; index < row.invoice.length; ++index) {
                     var invoicePaid=0;

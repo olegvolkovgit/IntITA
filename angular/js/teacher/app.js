@@ -41,6 +41,7 @@ angular
         'directorRouter',
         'superAdminRouter',
         'auditorRouter',
+        'ngImgCrop'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

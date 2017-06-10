@@ -249,7 +249,7 @@ class PaymentSchemaController extends TeacherCabinetController
         $ngTable = new NgTableAdapter('PaymentScheme', $requestParams);
 
         $criteria =  new CDbCriteria();
-        $criteria->condition = 't.serviceId IS NOT NULL and t.userId IS NULL';
+        $criteria->condition = '(t.serviceId IS NOT NULL or t.serviceType IS NOT NULL) and t.userId IS NULL';
         if($_GET['organization']){
             $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         }

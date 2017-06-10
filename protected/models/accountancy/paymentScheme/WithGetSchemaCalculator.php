@@ -31,8 +31,9 @@ trait WithGetSchemaCalculator {
     public function checkDateConflict($offer=null){
         $criteria = new CDbCriteria;
         $criteria->alias='ps';
+        $startDate=$this->startDate?$this->startDate:'NOW()';
         $criteria->condition='ps.id_organization='.$this->id_organization.' 
-        and ps.startDate<="'.$this->endDate.'" and "'.$this->startDate.'"<=ps.endDate';
+        and ps.startDate<="'.$this->endDate.'" and "'.$startDate.'"<=ps.endDate';
         if($offer){
             $criteria->addCondition('ps.id != ' . $offer->id);
         }

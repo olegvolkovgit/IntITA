@@ -52,6 +52,7 @@
                             <col width="20%"/>
                             <col/>
                             <col/>
+                            <col/>
                             <col width="5%"/>
                         </colgroup>
                         <tr ng-repeat="row in $data track by row.id">
@@ -61,6 +62,9 @@
                             </td>
                             <td data-title="'Сервіс'" filter="{'service.description': 'text'}" sortable="'service.description'">
                                 {{row.service.description}}
+                            </td>
+                            <td data-title="'Тип'" sortable="'serviceType'">
+                                {{row.serviceType==1? "Курс":"Модуль"}}
                             </td>
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
@@ -77,6 +81,7 @@
                             <col width="5%"/>
                             <col width="20%"/>
                             <col width="20%"/>
+                            <col width="10%"/>
                             <col/>
                             <col/>
                             <col/>
@@ -92,6 +97,9 @@
                             </td>
                             <td data-title="'Сервіс'" filter="{'service.description': 'text'}" sortable="'service.description'">
                                 {{row.service.description}}
+                            </td>
+                            <td data-title="'Тип'" sortable="'serviceType'">
+                                {{row.serviceType==1? "Курс":"Модуль"}}
                             </td>
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>

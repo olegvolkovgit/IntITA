@@ -195,7 +195,7 @@ class Newsletters extends CActiveRecord implements ITask
                 break;
             case "emailsFromDatabase":
                 $criteria = new CDbCriteria();
-                if(intval($this->emailBaseCategory)===0){
+                if(intval($this->recipients)===0){
                     $criteria->distinct = true;
                     $criteria->select = "email";
                 }else{

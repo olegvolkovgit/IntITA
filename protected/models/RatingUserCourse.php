@@ -10,6 +10,7 @@
  * @property integer $course_revision
  * @property double $rating
  * @property integer $course_done
+ * @property datetime $date_done
  *
  * The followings are the available model relations:
  * @property Course $idCourse
@@ -39,7 +40,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
 			array('rating', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_course, course_revision, rating, course_done', 'safe', 'on'=>'search'),
+			array('id, id_user, id_course, course_revision, rating, course_done, date_done', 'safe', 'on'=>'search'),
 		);
 	}
 

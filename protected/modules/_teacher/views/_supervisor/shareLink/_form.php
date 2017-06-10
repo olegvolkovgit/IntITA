@@ -38,6 +38,8 @@
             <?php echo $form->error($model, 'link'); ?>
         </div>
 
+        <?php echo $form->hiddenField($model,'id_organization',array('value'=>Yii::app()->user->model->getCurrentOrganization()->id)); ?>
+
         <div class="form-group">
             <?php echo CHtml::submitButton($model->isNewRecord ? 'Додати' : 'Зберегти',
                 array(

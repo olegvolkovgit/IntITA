@@ -24,6 +24,11 @@
                     </a>
                     <span ng-if="!item.corporateEntityOnline">не призначено</span>
                 </div>
+                <div class="col-xs-10" ng-if="item.corporateEntityOnline">
+                    Рахунок: <a ui-sref="accountant.company.view.checkingAccounts.edit({checkingAccountId:item.checkingAccountOnline.id})">
+                        {{item.checkingAccountOnline.bank_name}} ({{item.checkingAccountOnline.checking_account}})
+                    </a>
+                </div>
                 <div class="form-group col-xs-10">
                     <select ng-if="!item.corporateEntityOnline" class="form-control" ng-model="item.checkingAccountOnline" ng-options="account.id as (account.bank_name + ', р/р:' + account.checking_account) for account in checkingAccounts">
                         <option value="" disabled>Оберіть рахунок</option>
@@ -41,6 +46,11 @@
                         {{item.corporateEntityOffline.title}} ({{item.corporateEntityOffline.EDPNOU}})
                     </a>
                     <span ng-if="!item.corporateEntityOffline">не призначено</span>
+                </div>
+                <div class="col-xs-10" ng-if="item.corporateEntityOffline">
+                    Рахунок: <a ui-sref="accountant.company.view.checkingAccounts.edit({checkingAccountId:item.checkingAccountOffline.id})">
+                    {{item.checkingAccountOffline.bank_name}} ({{item.checkingAccountOffline.checking_account}})
+                </a>
                 </div>
                 <div class="form-group col-xs-10">
                     <select ng-if="!item.corporateEntityOffline" class="form-control" ng-model="item.checkingAccountOffline" ng-options="account.id as (account.bank_name + ', р/р:' + account.checking_account) for account in checkingAccounts">

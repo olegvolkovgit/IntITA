@@ -10,7 +10,9 @@
  * @var $countNewMessages int
  */
 ?>
-<?php date_default_timezone_set(Config::getServerTimezone()); ?>
+<?php
+    date_default_timezone_set(Config::getServerTimezone());
+?>
 <script>
     user = '<?=Yii::app()->user->getId()?>';
     scenario = '<?=$scenario?>';

@@ -19,7 +19,7 @@ class ModuleController extends TeacherCabinetController
         if(Yii::app()->user->model->getCurrentOrganization()->id==$module->id_organization){
             $result=array();
             $module->module_price=$price;
-            if($module->save())
+            if($module->update())
                 $result['data']="success";
             else $result['data']='Виникла помилка';
             echo json_encode($result);

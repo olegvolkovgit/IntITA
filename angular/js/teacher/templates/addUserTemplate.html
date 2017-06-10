@@ -1,0 +1,40 @@
+<div class="panel panel-default" ng-controller="addGraduateCtrl">
+
+    <style>
+        .cropArea {
+            background: #E4E4E4;
+            overflow: hidden;
+            width:500px;
+            height:350px;
+        }
+    </style>
+
+    <div class="panel-body" >
+        <form id="addUser" ng-submit="addNewUser()" novalidate>
+            <div class="form-group">
+                <label>
+                    <strong>Прізвище:</strong>
+                </label>
+                <input id="firstName" type="text" class="form-control" name="firstName" required ng-model="user.firstName">
+            </div>
+            <div class="form-group">
+                <label>
+                    <strong>Ім'я:</strong>
+                </label>
+                <input id="secondName" type="text" class="form-control" name="secondName" required ng-model="user.secondName">
+            </div>
+            <div class="form-group">
+                <label>
+                    <strong>E-mail:</strong>
+                </label>
+                <input id="email" type="text" class="form-control" name="emal" required ng-model="user.email">
+                <div class="error" ng-show="errors.email">{{errors.email[0]}}</div>
+            </div>
+            <div>Оберіть файл: <input type="file" id="fileInput" onchange="angular.element(this).scope().handleFileSelect(this.files)"/></div>
+            <div class="cropArea">
+                <img-crop image="myImage" area-type="square" result-image-quality="1" result-image-format="image/jpeg" result-image="avatar"></img-crop>
+            </div>
+            <button class="btn btn-primary" type="submit">Створити</button>
+        </form>
+    </div>
+</div>

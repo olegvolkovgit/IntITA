@@ -126,7 +126,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 'through' => 'moduleServiceOffline',
                 'on' => 'corporateEntityServicesOffline.deletedAt IS NULL OR corporateEntityServicesOffline.deletedAt > NOW()'],
             'corporateEntityOffline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOffline'],
-            'checkingAccountOffline' => [self::HAS_ONE, 'CheckingAccounts', ['id' => 'corporate_entity'], 'through' => 'corporateEntityOffline'],
+            'checkingAccountOffline' => [self::HAS_ONE, 'CheckingAccounts', ['checkingAccountId' => 'id'], 'through' => 'corporateEntityServicesOffline'],
 
 
             'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
@@ -137,7 +137,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 'through' => 'moduleServiceOnline',
                 'on' => 'corporateEntityServicesOnline.deletedAt IS NULL OR corporateEntityServicesOnline.deletedAt > NOW()'],
             'corporateEntityOnline' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityServicesOnline'],
-            'checkingAccountOnline' => [self::HAS_ONE, 'CheckingAccounts', ['id' => 'corporate_entity'], 'through' => 'corporateEntityOnline'],
+            'checkingAccountOnline' => [self::HAS_ONE, 'CheckingAccounts', ['checkingAccountId' => 'id'], 'through' => 'corporateEntityServicesOnline'],
         );
     }
 
@@ -945,9 +945,10 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
         $criteria->join .= ' inner join teacher_consultant_student tcs on tcm.id_teacher=tcs.id_teacher';
         $criteria->join .= ' inner join module m on tcm.id_module=m.module_ID and tcs.id_module=m.module_ID';
-        $criteria->addCondition('t.isPrint = 1 and tcs.id_student = :id and tcs.end_date IS NULL
+        $criteria->join .= ' inner join teacher_organization tor on t.user_id=tor.id_user';
+        $criteria->addCondition('tor.isPrint = 1 and tor.id_organization = :idOrganization and tcs.id_student = :id and tcs.end_date IS NULL
         and tcm.end_date IS NULL and m.module_ID=:module');
-        $criteria->params = array(':id' => $studentId, ':module'=>$this->module_ID);
+        $criteria->params = array(':id' => $studentId, ':module'=>$this->module_ID, ':idOrganization'=>$this->id_organization);
         $criteria->group = 't.teacher_id';
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
@@ -1215,5 +1216,11 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             return true;
         }
         return false;
+    }
+
+    public function hasUserAgreement($idUser)
+    {
+        return UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOnline->service_id))
+            || UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOffline->service_id));
     }
 }

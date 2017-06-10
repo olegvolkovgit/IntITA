@@ -62,6 +62,7 @@
  */
 class StudentReg extends CActiveRecord
 {
+    use loadFromRequest;
     // status - is account active
     const ACTIVATED = 1;
     const NONACTIVE = 0;
@@ -1496,4 +1497,5 @@ class StudentReg extends CActiveRecord
     {
         return $this->_inn;
     }
+
 }

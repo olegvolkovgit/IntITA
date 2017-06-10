@@ -306,6 +306,11 @@ class UserAgreements extends CActiveRecord {
         $billableObjectOrganization = $billableObject->organization;
         $corporateEntity = $billableObjectOrganization->getCorporateEntityFor($billableObject, $educForm);
         $checkingAccount = $billableObjectOrganization->getCheckingAccountFor($billableObject, $educForm);
+
+        $builder = new ContractingPartyBuilder();
+
+        $contractingParty = $builder->makeCorporateEntity($corporateEntity, $checkingAccount);
+
         $calculator = array_values($calculator)[0];
         $model = new UserAgreements();
         $model->user_id = $userId;
@@ -323,6 +328,9 @@ class UserAgreements extends CActiveRecord {
         $model->status = 1;
 
         if ($model->save()) {
+
+            $contractingParty->bindToAgreement($model, ContractingParty::ROLE_COMPANY);
+
             $invoicesList = $calculator->getInvoicesList($billableObjectUAH, new DateTime());
             $agreementId = $model->id;
             $model->updateByPk($agreementId, array(

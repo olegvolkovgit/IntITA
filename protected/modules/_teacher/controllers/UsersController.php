@@ -715,32 +715,47 @@ class UsersController extends TeacherCabinetController
     public function actionGetUsersEmailList()
     {
         $requestParams = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $ngTable = new NgTableAdapter('UsersEmailDatabase', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
 
     public function actionRemoveEmail(){
         $email = Yii::app()->request->getPost('email');
-        $model= UsersEmailDatabase::model()->findByAttributes(array('email'=>$email));
+        $category = Yii::app()->request->getPost('category');
+        $model= UsersEmailDatabase::model()->findByAttributes(array('email'=>$email,'category'=>$category));
+        Yii::app()->user->model->hasAccessToOrganizationModel($model->emailCategory);
         $model->delete();
     }
 
     public function actionTruncateEmailsTable(){
-        $emailsCategory = Yii::app()->request->getPost('categoryId');
-        UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategory));
+        $emailsCategoryId = Yii::app()->request->getPost('categoryId');
+        $emailsCategory=EmailsCategory::model()->findByPk($emailsCategoryId);
+        Yii::app()->user->model->hasAccessToOrganizationModel($emailsCategory);
+        UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategoryId));
     }
 
     public function actionRemoveEmailCategory(){
-        $emailsCategory = Yii::app()->request->getPost('categoryId');
-        if(UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategory))){
-            EmailsCategory::model()->deleteByPk($emailsCategory);
+        $emailsCategoryId = Yii::app()->request->getPost('categoryId');
+        $emailsCategory=EmailsCategory::model()->findByPk($emailsCategoryId);
+        Yii::app()->user->model->hasAccessToOrganizationModel($emailsCategory);
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategoryId));
+            $emailsCategory->delete();
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Виникла помилка при видаленні категорії");
         }
     }
 
     public function actionGetEmailsCategoryList()
     {
-        echo  CJSON::encode(EmailsCategory::model()->findAll());
+        echo  CJSON::encode(EmailsCategory::model()->findAll('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id));
     }
 
     public function actionGetEmailCategoryData($id)
@@ -754,6 +769,7 @@ class UsersController extends TeacherCabinetController
 
         $emailCategory= new EmailsCategory();
         $emailCategory->title=$title;
+        $emailCategory->id_organization=Yii::app()->user->model->getCurrentOrganization()->id;
         $emailCategory->save();
     }
 
@@ -764,6 +780,6 @@ class UsersController extends TeacherCabinetController
 
         $emailCategory=EmailsCategory::model()->findByPk($id);
         $emailCategory->title=$title;
-        $emailCategory->save();
+        $emailCategory->update();
     }
 }
