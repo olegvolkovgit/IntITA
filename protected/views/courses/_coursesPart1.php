@@ -48,6 +48,15 @@
                             ?>
                         </div>
                     </div>
+
+                    <!--назва організації ++ -->
+                    <div class="nameOrganization">
+                        <?php echo 'Назва організації: '; ?>
+                        <span class="courseLevel">
+                            <?php echo $val[0]->organization->name; ?>
+                        </span>
+                    </div>
+
                     <!--Стан курсу-->
                     <div class="courseStatusBox">
                         <?php echo Yii::t('courses', '0094'); ?>

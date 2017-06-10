@@ -3,7 +3,7 @@
 #hambButton{position:absolute;margin-top:10px;margin-left:15px;z-index:3;}
 #hambButton:hover{cursor:pointer;}
 #hambButton img{max-width: inherit}
-#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;min-height: 460px}
+#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;min-height:420px}
 #hambMenu a.logo{display:block;overflow:hidden;margin-left:90px;margin-top:10px;}
 #hambMenu a.logo img{display:block;}
 #hambMenu .humblang{display:block;margin-left:90px;margin-top:10px;clear:both;}
@@ -16,15 +16,20 @@
 #hambMenu .menulist a:hover{color:#4b70a4;}
 #hambMenu .menulist li{display:block;}
 #hambNav .humundline{width:50%;margin:0 auto;border:1px solid #4b75a4;clear:both;}
-a#hum_button{position:relative;display:block;margin:0 auto;margin-top:20px;margin-bottom:20px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;cursor:pointer}
+a#hum_button{position:relative;display:block;margin:0 auto;margin-top:16px;margin-bottom:10px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:6;cursor:pointer}
 a#hum_button:hover{background:#454545;}
 a#hum_button:active{background:#363636;}
-div.humStatus{position:relative;margin:0 auto;top:10px;right:0;display:block;overflow:hidden;text-align:center;margin-bottom:10px;}
+div.humStatus{position:relative;margin:0 auto;top:10px;right:0;display:block;overflow:hidden;text-align:center;margin-bottom:25px;}
 .humStatus div{display:inline-block;color:#4b75a4;font-family:MyriadPro;font-weight:normal;font-size:18px;line-height:100%;}
 div.humavatar{width:70px;height:70px;margin-right:10px;overflow:hidden;}
 .humavatar img{width:70px;min-height:70px;}
 .humName{text-align:left;}
 .humStatus a div{vertical-align:top;}
+.chat_icon{
+    position: relative;
+    top: 8px;
+    color: #4b75a4;
+}
 
 @media only screen and (max-width: 800px) {
     div.humavatar {margin:0}
