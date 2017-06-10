@@ -307,7 +307,7 @@ class StudentRegController extends Controller
         if($model->trainer){
             $trainers=array();
             foreach ($model->trainer as $key=>$trainer) {
-                $trainers[$key]=array('name'=>$trainer->getTrainerByStudent($id)->userNameWithEmail(),
+                $trainers[$key]=array('name'=>$trainer->trainerModel->userNameWithEmail(),
                     'link'=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => $trainer->trainer)),
                     'organization'=>$trainer->organization->name);
             }
