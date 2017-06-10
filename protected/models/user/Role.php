@@ -179,33 +179,10 @@ abstract class Role
 
     public function updateRolesRoom(){
         $url=Config::getFullChatPath()."/roles_operations/update?table=".$this->tableName();
-//        $curl = curl_init();
-//        curl_setopt($curl, CURLOPT_URL, $url);
-//        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
-//        curl_setopt($curl, CURLOPT_COOKIE, "JSESSIONID=14ui0n0kjocfi4b5t9lpdp2i61;MYSESSIONID=D5380283934C3784F28ED4CFC2B6628A");
-//        $out = curl_exec($curl);
-//        curl_close($curl);
-
-
-//        $ch = curl_init();
-//        $session=new CHttpSession;
-//        $session->open();
-//        $headers = array(
-//            'Content-type: application/json',
-//            'Cookie: JSESSIONID='.'14ui0n0kjocfi4b5t9lpdp2i61',
-//        );
-//        var_dump($session->getSessionID());
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cookie: JSESSIONID=14ui0n0kjocfi4b5t9lpdp2i61"));
-////        curl_setopt($ch, CURLOPT_COOKIEFILE, $ckfile);
-//
-//        curl_setopt($ch, CURLOPT_URL, 'https://qa.intita.com/crmChat/roles_operations/update?table=user_admin');
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-//        curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
-//        // $output contains the output string
-//        $output = curl_exec($ch);
-//        var_dump($output);
-//        // close curl resource to free up system resources
-//        curl_close($ch);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+        $out = curl_exec($curl);
+        curl_close($curl);
     }
 }
