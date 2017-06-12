@@ -64,7 +64,6 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
             { 
             $(".tabs").lightTabs("0");}
             else{
-
             }
              return true;}',),
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'ng-submit'=>"sendForm(form)", 'ng-controller' => "editProfileController", 'name' => 'profileForm', 'novalidate' => true),
