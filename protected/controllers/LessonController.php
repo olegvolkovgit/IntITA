@@ -693,7 +693,7 @@ class LessonController extends Controller
         $moduleTitle = $title;
 
         foreach ($iterator as $key =>$item) {
-            if (Yii::app()->user->model->hasLectureAccess($item)) {
+            if (Yii::app()->user->model->hasLectureAccess($item,$idCourse)) {
                 if($item->id==$idLecture) $currentOrder=$key+1;
                 $lectures[$key]['access'] = true;
                 if (Yii::app()->user->model->isStudent() && $lectures[$key]['access']){

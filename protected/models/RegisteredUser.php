@@ -300,7 +300,7 @@ class RegisteredUser
         $roles=$this->loadRoles($organization);
         if(count(array_uintersect($roles, AllRolesDataSource::globalRoles(),"strcasecmp")))
             return true;
-        if(count(array_uintersect($roles, AllRolesDataSource::teacherRoles(),"strcasecmp")))
+        if(count(array_uintersect($roles, AllRolesDataSource::localRoles(),"strcasecmp")))
             return true;
 
         return false;
@@ -422,12 +422,15 @@ class RegisteredUser
                 $this->lectureAccessErrorMessage=Yii::t('exception', '0870');
                 return false;
             }
+
             if(!$lecture->module->checkPaidModuleAccess($this->id) && $idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, $idCourse)){
                 $courseModules=CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=>$lecture->module->module_ID));
                 CourseModules::setModuleProgressInCourse($courseModules);
                 $this->lectureAccessErrorMessage=$courseModules->statusMessage;
-                return false;
+                if($this->lectureAccessErrorMessage) return false;
+                else return true;
             }
+
             if(!$lecture->module->checkPaidModuleAccess($this->id) && !$idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, null)){
                 $arrayMsg=array();
                 foreach ($lecture->module->inCourses as $courseModules){
@@ -438,7 +441,8 @@ class RegisteredUser
                 }
 
                 $this->lectureAccessErrorMessage=ucfirst(strtolower(implode(" або ", $arrayMsg)));
-                return false;
+                if($this->lectureAccessErrorMessage) return false;
+                else return true;
             }
             if(!$lecture->isFree && !$lecture->module->checkPaidModuleAccess($this->id)){
                 $this->lectureAccessErrorMessage=Yii::t('exception', '0869');

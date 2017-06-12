@@ -687,7 +687,7 @@ class UsersController extends TeacherCabinetController
             echo 'Error: ' . $_FILES['file']['error'] . '<br>';
         }
         else {
-            move_uploaded_file($_FILES['file']['tmp_name'], Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx');
+            move_uploaded_file($_FILES['file']['tmp_name'], Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base'.Yii::app()->user->model->getCurrentOrganization()->id.'.xlsx');
         }
     }
 
@@ -698,7 +698,7 @@ class UsersController extends TeacherCabinetController
         spl_autoload_register(array('YiiBase','autoload'));
 
         $emailsCategory = Yii::app()->request->getPost('categoryId');
-        $filepath=Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx';
+        $filepath=Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base'.Yii::app()->user->model->getCurrentOrganization()->id.'.xlsx';
         $exporter = new ExcelImporter('users_email',1,$filepath, $emailsCategory);
         $exporter->importExcelToMySQL();
     }
