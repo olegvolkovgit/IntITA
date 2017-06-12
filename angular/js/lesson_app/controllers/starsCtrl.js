@@ -5,19 +5,14 @@ angular
         ratingService.getOldRating({'id_lecture': idLecture})
             .$promise
             .then(function successCallback(data) {
-                // console.log(data);
                     $scope.ratings[0].rate = data.understand_rating;
                     $scope.ratings[1].rate = data.interesting_rating;
                     $scope.ratings[2].rate = data.accessibility_rating;
-                    $scope.res.comment = data.comment;
+                    $scope.ratings.comment = data.comment;
             }, function errorCallback(error, status) {
                 $scope.data.error = { message: error, status: status};
                 console.log($scope.data.error.status);
             });
-
-        $scope.res={
-            ratings: $scope.ratings
-        };
 
         $scope.max = 10;
         $scope.isReadonly = false;
@@ -34,6 +29,7 @@ angular
         $scope.sendData = function(ratings, lecture_id, courses_id){
 
             event.preventDefault();  // отмена отправки данных по submit
+
             $scope.result = {
                 ratings: ratings,
                 lecture_id: lecture_id,
@@ -60,15 +56,11 @@ angular
                     $scope.ratings[0].rate = data.understand_rating;
                     $scope.ratings[1].rate = data.interesting_rating;
                     $scope.ratings[2].rate = data.accessibility_rating;
-                    $scope.res.comment = data.comment;
+                    $scope.ratings.comment = data.comment;
             }, function errorCallback(response) {
                 console.log(response);
                 bootbox.alert("Операцію не вдалося виконати");
             });
-
-        $scope.res={
-            ratings: $scope.ratings
-        };
 
         $scope.max = 10;
         $scope.isReadonly = false;
@@ -83,7 +75,7 @@ angular
         ];
 
         $scope.sendModuleRatingData = function (ratings) {
-            //event.preventDefault();  // отмена перегрузки страницы по submit
+            event.preventDefault();  // отмена перегрузки страницы по submit
             $scope.result = {
                 ratings: ratings,
                 idModule: idModule
@@ -92,7 +84,7 @@ angular
             ratingService.saveRatingModule({'params': $scope.result})
                 .$promise
                 .then(function successCallback(data) {
-
+                    location.reload();
                 }, function errorCallback(response) {
                     console.log(response);
                     bootbox.alert("Операцію не вдалося виконати");

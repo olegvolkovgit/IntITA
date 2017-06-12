@@ -57,35 +57,47 @@ class SchedulerTasksController extends TeacherCabinetController
 				$data['fullName']=$model->user->fullName;
 				$data['newsletter']= $model->newsletter->attributes;
 				if (isset($data['newsletter']['recipients'])){
-				    $_recipients = unserialize($data['newsletter']['recipients']);
+
 				    $recipients = [];
 				    switch ($data['newsletter']['type']){
                         case 'roles':{
+                            $_recipients = unserialize($data['newsletter']['recipients']);
                             foreach ($_recipients as $role)
                                 array_push($recipients,Role::getInstance($role)->title());
                             break;
                         }
                         case 'users':{
+                            $_recipients = unserialize($data['newsletter']['recipients']);
                             $users = StudentReg::model()->findAll((new CDbCriteria())->addInCondition('email',$_recipients));
                             foreach ($users as $user)
                             array_push($recipients,$user->fullName());
                             break;
                         }
                         case "groups":{
+                            $_recipients = unserialize($data['newsletter']['recipients']);
                             $groups = OfflineGroups::model()->findAll((new CDbCriteria())->addInCondition('id',$_recipients));
                             foreach ($groups as $group)
                                 array_push($recipients,$group->name);
                             break;
                         }
                         case "subGroups":{
+                            $_recipients = unserialize($data['newsletter']['recipients']);
                             $subGroups = OfflineSubgroups::model()->with(['groupName'])->findAll((new CDbCriteria())->addInCondition('t.id',$_recipients));
                             foreach ($subGroups as $subGroupe)
                                 array_push($recipients,'<'.$subGroupe->groupName->name.'>'.$subGroupe->name);
                             break;
                         }
                         case "emailsFromDatabase":{
-                            $emailCategory = EmailsCategory::model()->findAll((new CDbCriteria())->addInCondition('id',$_recipients));
-                            array_push($recipients,$emailCategory->title);
+                            if ($data['newsletter']['recipients'] > 0){
+                                $emailCategory = EmailsCategory::model()->findByPk($data['newsletter']['recipients']);
+                                array_push($recipients,$emailCategory->title);
+                            }
+                            else
+                            {
+                                array_push($recipients,"Вся база e-mail");
+                            }
+
+
                         }
 
                     }

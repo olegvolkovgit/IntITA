@@ -26,6 +26,7 @@
  * @property StudentReg $user
  * @property Module $modules
  * @property Module $modulesActive
+ * @property TeacherOrganization $teacherOrganizations
  */
 class Teacher extends CActiveRecord
 {

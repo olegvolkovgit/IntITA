@@ -1497,4 +1497,5 @@ class StudentReg extends CActiveRecord
     {
         return $this->_inn;
     }
+
 }

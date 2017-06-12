@@ -32,6 +32,51 @@ angular
     .module('teacherApp')
     .controller('teacherProfileCtrl', teacherProfileCtrl);
 
+angular
+    .module('teacherApp')
+    .controller('addGraduateCtrl', addGraduateCtrl);
+
+function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $ngBootbox) {
+    $scope.myImage='';
+    $timeout(function(){
+        $scope.$digest();
+        $scope.avatar='';
+    }, 1000);
+
+     $scope.handleFileSelect=function(evt) {
+        var file=evt[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            $scope.$apply(function($scope){
+                $scope.myImage= evt.target.result;
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    $scope.addNewUser = function () {
+        $scope.user.avatar = $scope.avatar;
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/addNewUser',
+            data: $httpParamSerializerJQLike({User:$scope.user}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (response.errors){
+                $scope.errors = response.errors;
+                return false;
+            }
+            else{
+                $scope.user.id = response.user.id;
+                $scope.user.avatar = response.user.avatar;
+                $scope.user.fullName = response.user.fullName;
+                $scope.$emit('userCreated', $scope.user);
+                $ngBootbox.hideAll();
+            }
+        })
+    };
+}
+
 function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger) {
     //function back() redirect to prev link
     $rootScope.back = function () {

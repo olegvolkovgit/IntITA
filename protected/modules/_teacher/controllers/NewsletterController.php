@@ -130,6 +130,19 @@ class NewsletterController extends TeacherCabinetController
         }
     }
 
+    public function actionGetCategoryById(){
+        if (isset($_POST['Category'])){
+            $models = EmailsCategory::model()->findAllByPk($_POST['Category']);
+            $result = [];
+            if (isset($models)){
+                foreach ($models as $model){
+                    array_push($result,['id'=>$model->id,'name'=>$model->title]);
+                }
+            }
+            echo json_encode($result);
+        }
+    }
+
     public function actionGetRolesById(){
         if (isset($_POST['roles'])){
             $roles = $_POST['roles'];

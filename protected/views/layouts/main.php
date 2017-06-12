@@ -226,9 +226,9 @@ $header = new Header();
                         </a>
                     </td>
                     <td>
-                        <a href="https://vk.com/intita" target="_blank" title="Vkontakte">
+                        <a href="#" target="_blank" title="Instagram">
                             <img
-                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'vkontakte.png'); ?>"/>
+                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'instagram.png'); ?>"/>
                         </a>
                     </td>
                 </tr>
