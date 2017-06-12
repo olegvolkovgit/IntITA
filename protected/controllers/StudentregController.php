@@ -258,6 +258,9 @@ class StudentRegController extends Controller
             if (!empty($_POST['StudentReg']['password']) && sha1($_POST['StudentReg']['password']) == sha1($_POST['StudentReg']['password_repeat']))
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['password'])));
 
+            $callUrl = new CurlHelper();
+            $callUrl->callPageByCurl(Config::getFullChatPath().'/chat/update/users/name');
+
             $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
         } else
             $this->render("studentprofileedit", array('model' => $model));
