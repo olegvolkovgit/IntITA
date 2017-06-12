@@ -7,8 +7,7 @@ angular
 
 function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $ngBootbox, $timeout){
 
-
-
+    $scope.publishStatus = [{id:'0', title:'Не опубліковано'},{id:'1', title:'Опубліковано'}];
     $rootScope.$on('userCreated', function (event, data) {
         $scope.graduate.user = data;
         $scope.noResults = false;
@@ -85,7 +84,7 @@ function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, tran
                 })
             }
             else{
-                bootbox.confirm('Операцію відмінено.')
+                bootbox.alert('Операцію відмінено.')
             }
         })
     };
@@ -105,7 +104,24 @@ function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, tran
                 })
             }
             else{
-                bootbox.confirm('Операцію відмінено.')
+                bootbox.alert('Операцію відмінено.')
+            }
+        })
+    };
+
+    $scope.changeGraduateStatus = function (item) {
+        bootbox.confirm('Змінити статус публікації відгуку на сайті?', function (result) {
+            if(result){
+                $http({
+                    method: 'POST',
+                    url: basePath+'/_teacher/graduate/changeStatus/',
+                    data: $jq.param({'id': item.id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).success(function(response){
+                    item.published = !item.published;
+                }).error(function(){
+                    bootbox.alert('Операцію не вдалося виконати.');
+                })
             }
         })
     };
