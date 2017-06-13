@@ -747,10 +747,7 @@ class LessonController extends Controller
         $id = $_GET['lectureId'];
         $actualOrder = $_GET['page'];
         $lecture = Lecture::model()->findByPk($id);
-
-        $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
-
-        $this->initialize($id, $editMode);
+        $this->initialize($id);
 
         $page=$lecture->pages[$actualOrder-1];
 
@@ -766,7 +763,7 @@ class LessonController extends Controller
         $actualOrder = $_GET['page'];
         $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
 
-        $this->initialize($id, $editMode);
+        $this->initialize($id);
 
         $page=$lecture->pages[$actualOrder-1];
 
@@ -786,7 +783,7 @@ class LessonController extends Controller
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
 
-        $this->initialize($id, $editMode);
+        $this->initialize($id);
         $page=$lecture->pages[$actualOrder-1];
 
         echo $this->renderPartial('/lesson/_quiz',
