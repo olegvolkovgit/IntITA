@@ -197,7 +197,7 @@ class GraduateController extends TeacherCabinetController {
 
         $courseRating = new RatingUserCourse();
         $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
-        $courseRating->rating = isset($request['rate'])?(double)$request['rate']:null;
+        $courseRating->rating = isset($request['rate'])?((double)$request['rate']/Config::getRatingScale()):null;
         $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
         if(isset($request['date_done'])){
             $date = strtotime($request['date_done']);
@@ -241,7 +241,6 @@ class GraduateController extends TeacherCabinetController {
             }
             $user->avatar = $avatarFile;
             $user->save();
-            $ttttt = $user->fullName();
             echo json_encode(['user'=>['id'=>$user->id,'avatar'=>$avatarFile,'fullName'=>$user->fullName()]]);
             Yii::app()->end();
         }
@@ -250,5 +249,18 @@ class GraduateController extends TeacherCabinetController {
             Yii::app()->end();
         }
 
+    }
+
+    public function actionChangeStatus(){
+        $id = Yii::app()->request->getPost('id');
+        if($id){
+            $model = $this->loadModel($id);
+            $model->published = !$model->published;
+            $model->save();
+            echo 'done';
+            Yii::app()->end();
+        }
+        echo 'error';
+        Yii::app()->end();
     }
 }

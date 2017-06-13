@@ -300,7 +300,7 @@ class RegisteredUser
         $roles=$this->loadRoles($organization);
         if(count(array_uintersect($roles, AllRolesDataSource::globalRoles(),"strcasecmp")))
             return true;
-        if(count(array_uintersect($roles, AllRolesDataSource::teacherRoles(),"strcasecmp")))
+        if(count(array_uintersect($roles, AllRolesDataSource::localRoles(),"strcasecmp")))
             return true;
 
         return false;
@@ -416,31 +416,37 @@ class RegisteredUser
                 $this->lectureAccessErrorMessage=$lecture->module->errorMessage;
                 return false;
             }
+
+            if(!$lecture->module->checkPaidModuleAccess($this->id) && $idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, $idCourse)){
+                $courseModules=CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=>$lecture->module->module_ID));
+                CourseModules::setModuleProgressInCourse($courseModules);
+                $this->lectureAccessErrorMessage=$courseModules->statusMessage;
+                if($this->lectureAccessErrorMessage) return false;
+            }
+
+            if(!$lecture->module->checkPaidModuleAccess($this->id) && !$idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, null)){
+                $arrayMsg=array();
+                foreach ($lecture->module->inCourses as $courseModules){
+                    if(!$courseModules->check) {
+                        CourseModules::setModuleProgressInCourse($courseModules);
+                        if($courseModules->statusMessage)
+                            array_push($arrayMsg,$courseModules->statusMessage);
+                    }
+                }
+
+                if(!empty($arrayMsg)) {
+                    $this->lectureAccessErrorMessage=ucfirst(strtolower(implode(" або ", $arrayMsg)));
+                    return false;
+                };
+            }
+
             if($lecture->isFree && $lecture->order<=$enabledLessonOrder){
                 return true;
             }else if($lecture->isFree && $lecture->order>$enabledLessonOrder) {
                 $this->lectureAccessErrorMessage=Yii::t('exception', '0870');
                 return false;
             }
-            if(!$lecture->module->checkPaidModuleAccess($this->id) && $idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, $idCourse)){
-                $courseModules=CourseModules::model()->findByAttributes(array('id_course'=>$idCourse,'id_module'=>$lecture->module->module_ID));
-                CourseModules::setModuleProgressInCourse($courseModules);
-                $this->lectureAccessErrorMessage=$courseModules->statusMessage;
-                return false;
-            }
-            if(!$lecture->module->checkPaidModuleAccess($this->id) && !$idCourse && $lecture->module->checkPaidModuleCourseAccess($this->id, null)){
-                $arrayMsg=array();
-                foreach ($lecture->module->inCourses as $courseModules){
-                    if(!$courseModules->check) {
-                        CourseModules::setModuleProgressInCourse($courseModules);
-                        array_push($arrayMsg,$courseModules->statusMessage);
-                    }
-                }
-
-                $this->lectureAccessErrorMessage=ucfirst(strtolower(implode(" або ", $arrayMsg)));
-                return false;
-            }
-            if(!$lecture->isFree && !$lecture->module->checkPaidModuleAccess($this->id)){
+            if(!$lecture->isFree && !$lecture->module->checkPaidModuleCourseAccess($this->id)){
                 $this->lectureAccessErrorMessage=Yii::t('exception', '0869');
                 return false;
             }else{

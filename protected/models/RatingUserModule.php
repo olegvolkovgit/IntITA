@@ -147,7 +147,9 @@ class RatingUserModule extends CActiveRecord implements IUserRating
      */
     private function checkLectureRate($lecture, $user){
         $lectureRate = 0;
-        $tasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,6,9,12,13) AND block_order > 0',[':lecture'=>$lecture->id_lecture]);
+        $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6 AND block_order > 0',[':lecture'=>$lecture->id_lecture]);
+        $ohterTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,9,12,13)',[':lecture'=>$lecture->id_lecture]);
+        $tasks = array_merge($ohterTasks,$plainTasks);
         foreach ($tasks as $task){
             switch ($task->id_type){
                 case LectureElement::TEST;

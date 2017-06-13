@@ -6,6 +6,7 @@
  */
 $price = $module->getBasePrice();
 ?>
+<h2><?php echo $module->getTitle() ?></h2>
 <div class="panel panel-default" ng-controller="paymentsCtrl">
     <div class="panel-body">
         <div class="tab-content" ng-cloak>

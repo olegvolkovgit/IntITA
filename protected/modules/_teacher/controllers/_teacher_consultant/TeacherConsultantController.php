@@ -73,7 +73,7 @@ class TeacherConsultantController extends TeacherCabinetController
         if (!PlainTaskMarks::saveMark($plainTaskId, $mark, $comment, $userId))
             throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
             Спробуйте пізніше або повідомте адміністратора.');
-        $rating = RatingUserModule::model()->find(['id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>PlainTaskAnswer::model()->findByPk($plainTaskId)->plainTaskModule->module_ID, ':idUser'=>$userId]]);
+        $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>PlainTaskAnswer::model()->findByPk($plainTaskId)->plainTaskModule->module_ID, ':idUser'=>$userId]);
         if ($rating){
             $rating->rateUser($userId);
         }
