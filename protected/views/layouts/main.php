@@ -223,7 +223,7 @@ $header = new Header();
                         </a>
                     </td>
                     <td>
-                        <a href="#" target="_blank" title="Instagram">
+                        <a href="https://www.instagram.com/intitaedu/" target="_blank" title="Instagram">
                             <img
                                 src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'instagram.png'); ?>"/>
                         </a>

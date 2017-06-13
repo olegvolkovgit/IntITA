@@ -37,9 +37,9 @@ $lastLink=Yii::app()->user->isGuest?null:Yii::app()->user->model->lastLink();
             <?php if ($lastLink) { ?>
             <li><a href="<?php echo $lastLink ?>"><?php echo Yii::t('header', '0917'); ?></a></li>
             <?php } ?>
-            <?php if(!Yii::app()->user->isGuest): ?>
-                <li>Онлайн чат <i class="logo material-icons chat_icon">chat</i></li>
-            <?php endif; ?>
+<!--            --><?php //if(!Yii::app()->user->isGuest): ?>
+<!--                <li>Онлайн чат <i class="logo material-icons chat_icon">chat</i></li>-->
+<!--            --><?php //endif; ?>
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {

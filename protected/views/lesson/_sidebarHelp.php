@@ -3,6 +3,7 @@
     <div id="discussion"></div>
 </div>
 
+<?php //if(1){ ?>
 <?php if($lecture->module->checkPaidAccess(Yii::app()->user->getId())){ ?>
     <div class="consultations">
         <a class='consultationButtons'
