@@ -39,6 +39,18 @@
                     ?>
                 </div>
             </td>
+            <td>
+                <div>
+                    <?php echo CHtml::textField('Text', 'search',
+                        array('id'=>'searchStudent',
+                            'width'=>300,
+                            'maxlength'=>100)
+                        ); ?>
+                    <?php
+                        echo CHtml::button('Пошук');
+                    ?>
+                </div>
+            </td>
         </tr>
     </table>
 </div>
