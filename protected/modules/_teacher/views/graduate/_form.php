@@ -85,7 +85,7 @@
             <label>
                 <strong>Рейтинг:</strong>
             </label>
-            <input id="rate" type="text" class="form-control" name="rate"
+            <input id="rate" type="number" min="1" max="10" class="form-control" name="rate"
                    size="90" required ng-model="graduate.rating">
             <div class="error" ng-show="errors.rating">{{errors.rating[0]}}</div>
         </div>

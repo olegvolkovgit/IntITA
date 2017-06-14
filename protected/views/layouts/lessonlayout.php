@@ -26,6 +26,9 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/filters/interpreterJsonFilter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
+    <!-- trimEmail-->
+    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
+    <!-- trimEmail -->
     <?php if (!Yii::app()->user->isGuest) { ?>
         <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
     <?php } ?>
@@ -78,9 +81,6 @@
     <!-- passEye, jQuery -->
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
     <!-- passEye, jQuery -->
-    <!-- trimEmail-->
-    <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
-    <!-- trimEmail -->
     <title><?php echo CHtml::encode(Yii::app()->name); ?></title>
 </head>
 

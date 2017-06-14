@@ -51,7 +51,7 @@
                     <tr>
                         <td width="30%"><strong>Рейтинг</strong></td>
                         <td>
-                            <?= $model->rate['rating']; ?>
+                            <?= $model->rate['rating']*Config::getRatingScale(); ?>
                         </td>
                     </tr>
                     <tr>

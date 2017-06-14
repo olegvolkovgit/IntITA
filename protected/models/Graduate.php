@@ -15,6 +15,7 @@
  * @property string $courses_page
  * @property string $history
  * @property integer $rate_id
+ * @property integer $published
  * @property string $recall
  * @property string $first_name_en
  * @property string $last_name_en
@@ -48,7 +49,7 @@ class Graduate extends CActiveRecord
 
 			array('first_name_en, last_name_en', 'length', 'max'=>50),
             // The following rule is used by search().
-			array('id, position, work_place, work_site, history, recall, first_name_en, last_name_en, first_name_ru, last_name_ru, rate_id', 'safe', 'on'=>'search'),
+			array('id, position, work_place, work_site, history, recall, first_name_en, last_name_en, first_name_ru, last_name_ru, rate_id, published', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -120,6 +121,7 @@ class Graduate extends CActiveRecord
 		$criteria->compare('last_name_en',$this->last_name_en,true);
         $criteria->compare('first_name_en',$this->first_name_ru,true);
         $criteria->compare('last_name_en',$this->last_name_ru,true);
+        $criteria->compare('published',$this->published);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

@@ -136,7 +136,7 @@ class Newsletters extends CActiveRecord implements ITask
             case "roles":
                 foreach (unserialize($this->recipients) as $role) {
                     if ($role == 'coworkers'){
-                        $users = Teacher::model()->with(['user'])->find(['t.end_date IS NULL AND user.cancelled=0']);
+                        $users = Teacher::model()->with(['user'])->find('t.end_date IS NULL AND user.cancelled=0');
                         if (isset($models)){
                             foreach ($users as $user){
                                 array_push($mailList, $user->user->email);
