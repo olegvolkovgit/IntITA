@@ -33,6 +33,5 @@ class CurlHelper
         $header['errno']   = $err;
         $header['errmsg']  = $errmsg;
         $header['content'] = $content;
-        var_dump($header);
     }
 }
