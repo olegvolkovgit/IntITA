@@ -58,21 +58,21 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                     </td>
                 </tr>
             </table>
-            <img class='avatarimg'
+            <img class='avatarimg' ng-if="!myImage || StudentReg.$error.size || StudentReg.$error.fileType"
                  src="<?php echo StaticFilesHelper::createPath('image', 'avatars', 'noname.png'); ?>"/>
-
+            <div class="cropArea avatarimg" ng-show="myImage && !StudentReg.$error.size && !StudentReg.$error.fileType">
+                <img-crop image="myImage" ng-init="myCroppedImage=''" result-image="myCroppedImage" area-type="square"></img-crop>
+            </div>
             <div class="fileform">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "id" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+                <input type="file" tabindex='-1' id="chooseAvatar" max-file-size="5242880" ng-model="attachment" file-check="" />
+                <input type="hidden" name="avatar">
                 <label id="avatar" for="chooseAvatar"><?php echo Yii::t('regexp', '0157'); ?></label>
             </div>
             <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
             <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
-            <div class="clientValidationError"
-                 ng-show="StudentReg['StudentReg[avatar]'].$error.size || StudentReg['StudentReg[avatar]'].$error.fileType">
-                <div ng-cloak
-                     ng-show="StudentReg['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
-                <div ng-cloak
-                     ng-show="StudentReg['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
+            <div ng-cloak class="clientValidationError" ng-show="StudentReg.$error.size || StudentReg.$error.fileType">
+                <div ng-cloak ng-show="StudentReg.$error.size"><?php echo Yii::t('error','0302'); ?></div>
+                <div ng-cloak ng-show="StudentReg.$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
             </div>
             <div class="avatarError">
                 <?php echo $form->error($model, 'avatar'); ?>
@@ -267,11 +267,11 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0245'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
-                    <div class="row rowNetwork">
-                        <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
-                        <?php echo $form->error($model, 'vkontakte'); ?>
-                    </div>
+<!--                    <div class="row rowNetwork">-->
+<!--                        --><?php //echo $form->label($model, 'vkontakte'); ?>
+<!--                        --><?php //echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+<!--                        --><?php //echo $form->error($model, 'vkontakte'); ?>
+<!--                    </div>-->
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>

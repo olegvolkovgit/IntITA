@@ -1,5 +1,5 @@
 <?php
-if ($model->isReady()   ) { ?>
+if (!$model->isDeveloping()) { ?>
     <div ng-show="onlineSchemeData && offlineSchemeData">
         <div ng-if="onlineSchemeData.schemes[0].fullPrice==0">
             {{onlineSchemeData.translates.price}} <span class="colorGreen">{{onlineSchemeData.translates.free}}</span>
@@ -53,6 +53,7 @@ if ($model->isReady()   ) { ?>
         </div>
     </div>
 <?php } ?>
+<?php if($model->hasPromotionSchemes()) {?>
 <a href="<?php echo Yii::app()->createUrl('module/schemes', array('id' => $model->module_ID)); ?>"
    style="color:green;text-decoration:underline" target="_blank"><em>Спеціальні пропозиції</em></a>
-
+<?php } ?>

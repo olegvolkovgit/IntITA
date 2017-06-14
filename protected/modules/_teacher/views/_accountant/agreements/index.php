@@ -2,6 +2,20 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <table ng-table="agreementsTableParams" class="table table-bordered table-striped table-condensed">
+                <colgroup>
+                    <col/>
+                    <col width="20%"/>
+                    <col width="10%"/>
+                    <col/>
+                    <col width="10%"/>
+                    <col width="10%"/>
+                    <col width="10%"/>
+                    <col width="10%"/>
+                    <col/>
+                    <?php if($organization) {?>
+                    <col/>
+                    <?php } ?>
+                </colgroup>
                 <tr ng-repeat="row in $data track by row.id"
                     ng-class="{'bg-warning': (currentDate>=(row.payment_date  | shortDate:'yyyy-MM-dd') && currentDate<=(row.expiration_date  | shortDate:'yyyy-MM-dd')),
                     'bg-danger': (currentDate>(row.expiration_date  | shortDate:'yyyy-MM-dd') || row.cancel_date),
@@ -9,7 +23,7 @@
                     <td data-title="'Номер'" filter="{number: 'text'}" sortable="'number'"><a
                             href="#/accountant/agreement/{{row.id}}">{{row.number}}</a></td>
                     <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                        <a ng-href="#/users/profile/{{row.user_id}}">{{row.user.fullName}} {{row.user.email}}</a>
+                        <a ng-href="#/users/profile/{{row.user_id}}">{{row.user.fullName}}</a>
                     </td>
                     <td data-title="'Дата створення'" filter="{create_date: 'text'}" sortable="'create_date'">
                         {{row.create_date | shortDate:'dd.MM.yyyy'}}
@@ -23,10 +37,10 @@
                     <td data-title="'Схема оплати'" filter="{payment_schema: 'select'}" filter-data="getSchemas" sortable="'payment_schema'">
                         {{row.paymentSchema.title_ua}}
                     </td>
-                    <td data-title="'Сума до сплати'" filter="{summa: 'text'}" sortable="'summa'">
+                    <td style="word-break: break-all" data-title="'Сума до сплати'" filter="{summa: 'text'}" sortable="'summa'">
                         {{row.summa}}
                     </td>
-                    <td data-title="'Сплачено'">
+                    <td style="word-break: break-all" data-title="'Сплачено'">
                         {{row.paidAmount}}
                     </td>
                     <td data-title="'Наступна проплата до'">
@@ -38,6 +52,7 @@
                     <td data-title="'Скасовано'" filter="{cancel_date: 'text'}" sortable="'cancel_date'">
                         {{row.cancel_date | shortDate:'dd.MM.yyyy'}}
                     </td>
+                    <?php if($organization) {?>
                     <td data-title="'Управління'" style="text-align: center">
 <!--                        <button ng-if="!row.approval_date" class="btn btn-success"-->
 <!--                                ng-click="confirm(row.id)">-->
@@ -51,6 +66,7 @@
 <!--                                Закрити-->
 <!--                        </button>-->
                     </td>
+                    <?php } ?>
                 </tr>
             </table>
         </div>

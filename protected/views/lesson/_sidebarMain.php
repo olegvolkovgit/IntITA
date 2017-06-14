@@ -1,7 +1,5 @@
 <?php
 /* @var $course Course */
-$enabledLessonOrder = $lecture->module->getLastAccessLectureOrder();
-$lecturesCount = $lecture->module->lecturesCount();
 ?>
 <div class="titlesBlock" id="titlesBlock">
     <ul><?php if ($idCourse != 0) {
@@ -44,17 +42,18 @@ $lecturesCount = $lecture->module->lecturesCount();
             </div>
         </li>
         <li ng-if=lecturesData.currentOrder class="lecturesSpots">
-            ({{lecturesData.currentOrder}} / {{lecturesData.lectures.length}} <?php echo Yii::t('lecture', '0616'); ?>)
+            ({{lecturesData.currentOrder}} / {{lecturesData.module.lectures.length}} <?php echo Yii::t('lecture', '0616'); ?>)
         </li>
         <div id="counter">
-            <span ng-repeat="lecture in lecturesData.lectures track by $index">
-                <a ng-if=lecture.access
-                   ng-attr-href="{{ lecture.order!='<?php echo $lecture->order; ?>' && lecture.link || undefined }}"
-                   tooltip-html-unsafe="{{lecture.title}}">
+            <span ng-repeat="lecture in lecturesData.module.lectures track by $index">
+                <a ng-if=(+lecture.order<=+lecturesData.lastAccessLectureOrder)
+                   href=""
+                   ng-click="lectureLink(lecture.id, lecturesData.courseId)"
+                   uib-tooltip-html="lecture.title">
                     <div class="lectureAccess" ng-class="{thisLecture: lecture.order=='<?php echo $lecture->order; ?>'}"></div>
                 </a>
-                <a ng-if=!lecture.access
-                   tooltip-html-unsafe="<span class='titleNoAccessMin'>{{lecture.title}}</span><span class='noAccessMin'> (Заняття недоступне)</span>">
+                <a ng-if=!(lecture.order<=+lecturesData.lastAccessLectureOrder)
+                   uib-tooltip-html="'<span class=\'titleNoAccessMin\'>{{lecture.title | unsafe}}</span><span class=\'noAccessMin\'> (Заняття недоступне)</span>'">
                     <div class="lectureDisabled"></div>
                 </a>
             </span>

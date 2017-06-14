@@ -7,6 +7,7 @@
  * @property string $email
  * @property integer $category
  *
+ * @property EmailsCategory $emailCategory
  */
 class UsersEmailDatabase extends CActiveRecord
 {

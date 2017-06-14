@@ -1,4 +1,4 @@
-<div class="col-lg-12" ng-controller="paymentsSchemaTemplateTableCtrl">
+<div class="col-lg-12" ng-controller="paymentsSchemaTemplateTableCtrl" organization="<?php echo $organization ?>">
     <ul class="list-inline">
         <li>
             <a ng-href="#/accountant/paymentSchemas/schemas/createTemplate" class="btn btn-primary">
@@ -39,6 +39,9 @@
                         </td>
                         <td data-title="'Опис, умови'">
                            {{row.description_ua}}
+                        </td>
+                        <td data-title="'Організація'">
+                            {{row.organization.name?row.organization.name:'Шаблон за замовчуванням'}}
                         </td>
                     </tr>
                 </table>

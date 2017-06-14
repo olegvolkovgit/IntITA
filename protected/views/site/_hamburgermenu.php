@@ -31,12 +31,15 @@ $lastLink=Yii::app()->user->isGuest?null:Yii::app()->user->model->lastLink();
             <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
             <li><a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a></li>
             <?php if (!Yii::app()->user->isGuest) { ?>
-            <li><a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a></li>
             <?php } ?>
             <li><a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a></li>
             <?php if ($lastLink) { ?>
             <li><a href="<?php echo $lastLink ?>"><?php echo Yii::t('header', '0917'); ?></a></li>
             <?php } ?>
+<!--            --><?php //if(!Yii::app()->user->isGuest): ?>
+<!--                <li>Онлайн чат <i class="logo material-icons chat_icon">chat</i></li>-->
+<!--            --><?php //endif; ?>
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {

@@ -4,10 +4,12 @@
  * @var $modules array
  * @var $teachersByModule array
  */
-$modules = $student->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
-$courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
+$organization=Yii::app()->user->model->getCurrentOrganization()->id;
+$modules = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[0]["value"];
+$courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["value"];
 ?>
-<div class="row">
+*Тренер закріплює студенту викладача по конкретному модулю, який доступний студенту
+<div class="row" ng-controller="trainersStudentViewCtrl" ng-init="changePageHeader('Студент: <?php echo $student->registrationData->fullName() ?>')">
     <table class="table table-hover">
         <tbody>
         <tr>

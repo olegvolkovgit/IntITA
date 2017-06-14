@@ -64,7 +64,9 @@ angular
         }
 
     })
-    .controller('teacherConsultantCtrl', function ($scope, typeAhead, $http, $state,$templateCache) {
+    .controller('teacherConsultantCtrl', function ($scope, typeAhead, $http, $state,$templateCache,$stateParams) {
+        $templateCache.remove(basePath + "/_teacher/_trainer/trainer/editTeacherModule/id/"+$stateParams.studentId+"/idModule/" + $stateParams.idModule);
+        $scope.changePageHeader('Призначення студенту викладача');
         var teachersTypeaheadUrl = basePath+ '/_teacher/_trainer/trainer/teacherConsultantsByQuery';
         $scope.selectedTeacher = null;
         $scope.consultantSelected = null;
@@ -73,7 +75,6 @@ angular
         };
         $scope.onSelect = function ($item) {
             $scope.selectedTeacher = $item;
-            console.log($item);
         };
 
         $scope.onConsultantSelect = function ($item) {
@@ -115,25 +116,6 @@ angular
                     "операцію пізніше або напишіть на адресу " + adminEmail);
             });
         };
-
-        $scope.assignConsultantModule = function(idModule){
-            console.log($scope.consultantSelected);
-            if ($scope.consultantSelected)
-            $http({
-                method: 'POST',
-                url: basePath + '/_teacher/_teacher_consultant/teacherConsultant/assignModule',
-                data: $jq.param({userId: $scope.consultantSelected.id, module: idModule}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).success(function(response){
-                bootbox.alert(response,function(){
-                    $templateCache.remove(basePath + "/_teacher/_trainer/trainer/viewStudent/id/" + studentId);
-                    $state.go('trainer/students',{studentId:studentId},{reload:true})
-                });
-            }).error(function(){
-                bootbox.alert("Викладачу не вдалося призначити обраний модуль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу "+adminEmail);
-            });
-        }
     })
     .controller('consultantCtrl',function($scope, $resource, NgTableParams, $http, $state){
     

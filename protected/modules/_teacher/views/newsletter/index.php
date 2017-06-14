@@ -49,6 +49,13 @@
                         Розсилка по окремих користувачах
                     </label>
                     <br>
+                    <?php if (Yii::app()->user->model->isAdmin()
+                    || Yii::app()->user->model->isAccountant()
+                    || Yii::app()->user->model->isTrainer()
+                    || Yii::app()->user->model->isAuthor()
+                    || Yii::app()->user->model->isContentManager()
+                    || Yii::app()->user->model->isTeacherConsultant()
+                    || Yii::app()->user->model->isSuperVisor()) {?>
                     <label>
                         <input type="radio" ng-model="newsletterType"  value="emailsFromDatabase"
                                ng-click="selectedRecipients = null">
@@ -57,11 +64,12 @@
                         <div ng-show="newsletterType=='emailsFromDatabase'" class="form-group">
                             <label>Категорія*:</label>
                             <select class="form-control" ng-options="item.id as item.title for item in emailsCategory"
-                                    ng-model="selectedEmailCategory">
+                                    ng-model="selectedRecipients">
                                 <option name="emailCategory" value="" disabled selected>(Виберіть категорію)</option>
                             </select>
                         </div>
                     </label>
+                    <?php } ?>
                 </div>
                 <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='roles'">
                     <label>Кому</label>
@@ -154,6 +162,12 @@
                             ng-options="taskRepeat.value as taskRepeat.name for taskRepeat in taskRepeatTypes">
                     </select>
                 </div>
+                    <div class="form-group col-md-8" ng-show="taskRepeat==6">
+                        <label for="selectSchedulerType">По днях тижня</label>
+                        <label ng-repeat="weekday in weekdays" style="display: block">
+                            <input type="checkbox" checklist-model="weekdaysList" checklist-value="weekday.id"> {{weekday.name}}
+                        </label>
+                    </div>
                 <div class="form-group col-md-8">
                     <label for="selectSchedulerType">Дата</label>
                     <p class="input-group col-md-3">

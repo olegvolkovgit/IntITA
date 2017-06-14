@@ -12,4 +12,7 @@ class FileUploadHelper
         $fileName=uniqid().'.'.$fileExtension->getExtension();
         return $fileName;
     }
+    public static function getFileNameForBase64(){
+        return uniqid().'.jpg';
+    }
 }

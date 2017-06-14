@@ -67,6 +67,8 @@ class Response extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'StudentReg', 'who'),
+            'teacherResponse' => array(self::BELONGS_TO, 'TeacherResponse', array('id'=>'id_response')),
+            'teacher' => array(self::BELONGS_TO, 'StudentReg', array('id_teacher'=>'id'), 'through' => 'teacherResponse'),
         );
     }
 
@@ -222,7 +224,9 @@ class Response extends CActiveRecord
 
     public function publishLabel()
     {
-        return ($this->is_checked) ? 'опубліковано' : 'прихований';
+        if($this->is_checked==self::PUBLISHED) return 'опубліковано';
+        if($this->is_checked==self::HIDDEN) return 'прихований';
+        if($this->is_checked==null) return 'не перевірено';
     }
 
     public function setTeacherRating()
@@ -283,26 +287,6 @@ class Response extends CActiveRecord
     {
         $this->is_checked = Response::HIDDEN;
         return $this->save();
-    }
-
-    public static function getTeacherResponsesData()
-    {
-        $users = Response::model()->findAll();
-        $return = array('data' => array());
-        foreach ($users as $record) {
-            $row = array();
-            $row["id"] = $record->id;
-            $row["author"] = $record->getResponseAuthorName();
-            $row["about"] = $record->getResponseAboutTeacherName();
-            $row["date"] = $record->timeDesc();
-            $row["response"]["text"] = strip_tags ($record->text);
-            $row["rate"] = $record->rate;
-            $row["response"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/response/view", array("id" => $record->id)) . "'";
-            $row["publish"] = $record->publishLabel();
-
-            array_push($return['data'], $row);
-        }
-        return json_encode($return);
     }
 
     public function isChecked()

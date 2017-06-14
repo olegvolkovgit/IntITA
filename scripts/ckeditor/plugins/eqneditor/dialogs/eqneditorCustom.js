@@ -79,7 +79,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
         onOk : function() {
             $.ajax({
                 type: "POST",
-                url: "/lesson/SaveFormulaImage",
+                url: basePath+"/lesson/SaveFormulaImage",
                 data: {'imageUrl': EqEditor.getTextArea().exportEquation('urlencoded')},
                 success: function (result) {
                     var eqn = editor.document.createElement( 'img' );

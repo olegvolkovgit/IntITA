@@ -6,9 +6,6 @@ $header = new Header();
 <html id="ng-app" ng-app="mainApp" xmlns:ng="https://angularjs.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--[if lte IE 8]>
-    <body class="ie8">
-    <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
     <meta property="og:type" content="website">
@@ -34,26 +31,16 @@ $header = new Header();
           type="image/x-icon"/>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
-    <!--[if lte IE 8]>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
-    <script>
-        document.createElement('ng-include');
-        document.createElement('ng-switch');
-        document.createElement('ng-if');
-        document.createElement('ng-pluralize');
-        document.createElement('ng-view');
-
-        // needed to enable CSS reference
-        document.createElement('ng:view');
-    </script>
-    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'labelForIe.js'); ?>"></script>
-    <![endif]-->
+    <!-- trimEmail-->
+    <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'trimField.js'); ?>"></script>
+    <!-- trimEmail -->
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-file-upload/dist/angular-file-upload.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.js'); ?>"></script>
+    <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.css'); ?>" rel="stylesheet"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-sanitize/angular-sanitize.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/paymentsSchemes.js'); ?>"></script>
@@ -66,10 +53,10 @@ $header = new Header();
     <?php if (!Yii::app()->user->isGuest) { ?>
     <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
     <?php } ?>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-1.3.3.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-2.5.0.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     <script>
-        lang = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
+        lang = lg = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
         basePath = '<?php echo Config::getBaseUrl(); ?>';
     </script>
 </head>
@@ -239,9 +226,9 @@ $header = new Header();
                         </a>
                     </td>
                     <td>
-                        <a href="https://vk.com/intita" target="_blank" title="Vkontakte">
+                        <a href="https://www.instagram.com/intitaedu/" target="_blank" title="Instagram">
                             <img
-                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'vkontakte.png'); ?>"/>
+                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'instagram.png'); ?>"/>
                         </a>
                     </td>
                 </tr>
@@ -260,7 +247,7 @@ $header = new Header();
                         <span><?php $footer = new Footer(); echo $footer->getTel(); ?></span><br/>
                         <span><?php echo $footer->getMobile(); ?></span><br/>
                         <span><?php echo $footer->getEmail(); ?></span><br/>
-                        <span><?php echo $footer->getSkype(); ?></span><br/>
+<!--                        <span>--><?php //echo $footer->getSkype(); ?><!--</span><br/>-->
                     </p>
                 </div>
             </div>
@@ -313,9 +300,6 @@ $header = new Header();
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'goToTop.js'); ?>"></script>
-<!-- trimEmail-->
-<script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'trimField.js'); ?>"></script>
-<!-- trimEmail -->
 <div id="rocket">
     <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
 </div>

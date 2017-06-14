@@ -6,8 +6,7 @@ class AdminController extends TeacherCabinetController
         return Yii::app()->user->model->isAdmin();
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex($id=0) {
         $this->renderPartial('/_admin/_dashboard', array(), false, true);
     }
 }

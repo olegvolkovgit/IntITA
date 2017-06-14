@@ -1,3 +1,10 @@
+<?php
+/* @var $scenario */
+?>
+<?php
+$actualCourseScheme=PaymentScheme::getCourseActualSchemeTemplate(Yii::app()->user->model->getCurrentOrganization()->id);
+$actualModuleScheme=PaymentScheme::getModuleActualSchemeTemplate(Yii::app()->user->model->getCurrentOrganization()->id)
+?>
 <div ng-controller="paymentsSchemaTemplateApplyCtrl">
     <ul class="list-inline">
         <li>
@@ -33,9 +40,9 @@
             <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_COURSE_SCHEME)->schemesTemplate->template_name_ua ?></b>
         </div>
         <div class="col-md-10">
-            <span class="control-label">Актуальний шаблон схем на всі курси:</span>
-            <b><?php echo PaymentScheme::getCourseActualSchemeTemplate()->schemesTemplate->template_name_ua; ?></b>
-            <span class="control-label"><br>Діє до: <?php echo PaymentScheme::getCourseActualSchemeTemplate()->endDate ?></span>
+            <span class="control-label">Актуальний шаблон схем на всі курси організації:</span>
+            <b><?php echo $actualCourseScheme->schemesTemplate->template_name_ua; ?></b>
+            <span class="control-label"><br>Діє до: <?php echo $actualCourseScheme->endDate ?></span>
         </div>
         <br>
         <div class="col-md-10">
@@ -44,9 +51,9 @@
             <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_MODULE_SCHEME)->schemesTemplate->template_name_ua ?></b>
         </div>
         <div class="col-md-10">
-            <span class="control-label">Актуальний шаблон схем на всі модулі:</span>
-            <b><?php echo PaymentScheme::getModuleActualSchemeTemplate()->schemesTemplate->template_name_ua; ?></b>
-            <span class="control-label"><br>Діє до: <?php echo PaymentScheme::getModuleActualSchemeTemplate()->endDate ?></span>
+            <span class="control-label">Актуальний шаблон схем на всі модулі організації:</span>
+            <b><?php echo $actualModuleScheme->schemesTemplate->template_name_ua; ?></b>
+            <span class="control-label"><br>Діє до: <?php echo $actualModuleScheme->endDate ?></span>
         </div>
     </div>
     <div class="row m-b-20">
@@ -91,7 +98,7 @@
                 <span ng-show="noResultsStudent" class="input-group-addon">
                     <i class="glyphicon glyphicon-remove"></i>
                 </span>
-                <input ng-disabled="!paymentSchema.template" type="text" name="student" size="50" ng-model="userSelected"  ng-model-options="{ debounce: 1000 }"
+                <input autocomplete="off" ng-disabled="!paymentSchema.template" type="text" name="student" size="50" ng-model="userSelected"  ng-model-options="{ debounce: 1000 }"
                        placeholder="Користувач" uib-typeahead="item.email for item in getUsers($viewValue) | limitTo : 10"
                        typeahead-loading="user.loading"
                        typeahead-no-results="noResultsStudent"  typeahead-template-url="customTemplate.html"
@@ -115,7 +122,7 @@
                 <span ng-show="noResultsCourse" class="input-group-addon">
                     <i class="glyphicon glyphicon-remove"></i>
                 </span>
-                <input ng-disabled="!paymentSchema.template" type="text" size="135" ng-model="selectedCourse" ng-model-options="{ debounce: 1000 }"
+                <input autocomplete="off" ng-disabled="!paymentSchema.template" type="text" size="135" ng-model="selectedCourse" ng-model-options="{ debounce: 1000 }"
                        placeholder="Назва курсу" uib-typeahead="item.title for item in getCourses($viewValue) | limitTo : 10"
                        typeahead-loading="course.loading"
                        typeahead-no-results="noResultsCourse"  typeahead-on-select="onSelectCourse($item)"
@@ -139,7 +146,7 @@
                 <span ng-show="noResultsModule" class="input-group-addon">
                     <i class="glyphicon glyphicon-remove"></i>
                 </span>
-                <input ng-disabled="!paymentSchema.template" type="text" size="135" ng-model="selectedModule" ng-model-options="{ debounce: 1000 }"
+                <input autocomplete="off" ng-disabled="!paymentSchema.template" type="text" size="135" ng-model="selectedModule" ng-model-options="{ debounce: 1000 }"
                        placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo : 10"
                        typeahead-loading="module.loading"
                        typeahead-no-results="noResultsModule"  typeahead-on-select="onSelectModule($item)"
@@ -191,7 +198,8 @@
     <div class="row m-b-20">
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <input type="button" class="btn btn-primary btn-block" value="Застосувати шаблон" ng-click="applyTemplate()" ng-disabled="!paymentSchema.template"/>
+            <input type="button" class="btn btn-primary btn-block" value="Застосувати шаблон"
+                   ng-click="sendFormApplyTemplate('<?php echo $scenario ?>');" ng-disabled="!paymentSchema.template"/>
         </div>
     </div>
     <div style="border-radius: 5px; border:1px solid #ccc;padding: 5px">
@@ -203,7 +211,7 @@
             <br>
             Приорітет відображення схем для користувача:
             <br>
-            <b>1.Індивідуальні схеми на конкретний курс/модуль 2.Індивідуальні схеми на всі курси/модулі 3.Схеми на конкретний курс/модуль 4.Схеми за замовчуванням</b>
+            <b>1.Індивідуальні схеми на конкретний курс/модуль 2.Індивідуальні схеми на всі курси/модулі 3.Схеми на конкретний курс/модуль 4.Схеми на всі курси/модулі. 5.Схеми за замовчуванням</b>
         </em>
     </div>
 </div>

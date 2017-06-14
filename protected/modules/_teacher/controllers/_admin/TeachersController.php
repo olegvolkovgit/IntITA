@@ -10,8 +10,11 @@ class TeachersController extends TeacherCabinetController{
 
     public function hasRole(){
         $allowedCMActions = ['getTeacherDataList'];
+        $denyActions=['updateTeacherProfileForm','teachersLinks','getTeacherProfile','updateProfile'];
         $action = Yii::app()->controller->action->id;
-        return Yii::app()->user->model->isAdmin() || (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions));
+        return (Yii::app()->user->model->isAdmin() || 
+        (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions)) && !in_array($action, $denyActions)) ||
+        (Yii::app()->user->model->isTeacher() && in_array($action, $denyActions));
     }
 
     protected function performAjaxValidation($model)
@@ -35,117 +38,138 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionAddModule($id)
-    {
-        $user = RegisteredUser::userById($id);
-        if(!$user->isTeacher()){
-            throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
-        }
-        $attributes = $user->getAttributesByRole(UserRoles::AUTHOR);
-
-
-        $this->renderPartial('_moduleList',array(
-            'user' => $user->id,
-            'model' => $user,
-            'role' => UserRoles::AUTHOR,
-            'attribute' => $attributes["module"]
-        ),false,true);
-    }
-
     public function actionCreateForm()
     {
-        $messageId = Yii::app()->request->getPost('message', 0);
-        $userApproved = Yii::app()->request->getPost('user', 0);
+        $this->renderPartial('create', array(),false,true);
+    }
 
-        $predefinedUser = null;
-        if($messageId && $userApproved){
-            $predefinedUser = StudentReg::model()->findByPk($userApproved);
-        }
+    public function actionUpdateTeacherProfileForm()
+    {
+        $this->renderPartial('teacherProfile', array(),false,true);
+    }
 
-        $this->renderPartial('create', array(
-            'message' => $messageId,
-            'predefinedUser' => $predefinedUser
-        ),false,true);
+    public function actionTeachersLinks()
+    {
+        $this->renderPartial('teachersLinks', array(),false,true);
     }
 
     public function actionCreate()
     {
-        $result=array();
-        $messageId = Yii::app()->request->getPost('message', 0);
-        $userApproved = Yii::app()->request->getPost('user', 0);
-        
-        $teacher = new Teacher();
-
-        $teacher->user_id=Yii::app()->request->getParam('userId');
-        $teacher->first_name_en=Yii::app()->request->getParam('firstNameEn');
-        $teacher->middle_name_en=Yii::app()->request->getParam('middleNameEn');
-        $teacher->last_name_en=Yii::app()->request->getParam('lastNameEn');
-        $teacher->first_name_ru=Yii::app()->request->getParam('firstNameRu');
-        $teacher->middle_name_ru=Yii::app()->request->getParam('middleNameRu');
-        $teacher->last_name_ru=Yii::app()->request->getParam('lastNameRu');
-        $teacher->profile_text_first=Yii::app()->request->getParam('profileTextFirst');
-        $teacher->profile_text_short=Yii::app()->request->getParam('profileTextShort');
-        $teacher->profile_text_last=Yii::app()->request->getParam('profileTextLast');
-
-        if ($teacher->validate()) {
-            if ($teacher->save()) {
-                if($messageId && $userApproved){
-                    $message = MessagesCoworkerRequest::model()->findByPk($messageId);
-                    $user = StudentReg::model()->findByPk($userApproved);
-                    $message->approve($user);
-                }else{
-                    $revisionRequest=MessagesCoworkerRequest::model()->findByAttributes(array('id_teacher'=>$teacher->user_id,'cancelled'=>0));
-                    if($revisionRequest){
-                        $revisionRequest->setApproved();
-                    }
-                }
-                $result['userId']=$teacher->user_id;
+        $id=Yii::app()->request->getParam('userId');
+        $user = StudentReg::model()->findByPk($id);
+        $organizationId = Yii::app()->session['organization'];
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $this->initTeacher($id);
+            $criteria = new CDbCriteria();
+            $criteria->condition = "id_user=".$id." and id_organization=".$organizationId." and end_date IS NOT NULL";
+            $teacher=TeacherOrganization::model()->find($criteria);
+            if($teacher){
+                $teacher->start_date=new CDbExpression('NOW()');
+                $teacher->end_date=null;
+                $teacher->assigned_by=Yii::app()->user->getId();
             }else{
-                $result['error']='Не вдалося додати співробітника.';
+                $teacher = new TeacherOrganization();
+                $teacher->id_user=$id;
+                $teacher->id_organization=Yii::app()->session['organization'];
+                $teacher->assigned_by=Yii::app()->user->getId();
             }
-        } else {
-            $result['error']=$teacher->getValidationErrors();
+            $teacher->save();
+            $this->activeTeacher($id);
+            $transaction->commit();
+            Teacher::model()->notifyAssignCoworker($user,$organizationId);
+            echo $teacher->id_user;
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Виникла помилка. ".$teacher->getValidationErrors());
         }
-        echo CJSON::encode($result);
     }
 
-    public function actionUpdateForm($id)
+    public function initTeacher($id)
     {
-        $model = $this->loadModel($id);
-        $this->renderPartial('update', array('model'=>$model),false,true);
+        $exists = Teacher::model()->exists('user_id = :id',array(':id'=> $id));
+        if(!$exists){
+            $model= new Teacher();
+            $model->user_id=$id;
+            if($model->save()) return true;
+            else throw new \application\components\Exceptions\IntItaException(500, $model->getValidationErrors());
+        }
+        return true;
     }
 
-    public function actionUpdate()
+    public function activeTeacher($id)
+    {
+        $model= Teacher::model()->findByPk($id);
+        if($model->isDeleted() && TeacherOrganization::model()->resetScope()->exists('id_user='.$id.' and end_date IS NULL')){
+            $model->setActive();
+        }
+    }
+
+    public function inactiveTeacher($id)
+    {
+        $exists = TeacherOrganization::model()->resetScope()->exists('id_user='.$id.' and end_date IS NULL');
+        if(!$exists){
+            $model= Teacher::model()->findByPk($id);
+            $model->setInactive();
+        }
+    }
+
+    public function actionCancelTeacher($userId)
+    {
+        $organizationId = Yii::app()->session['organization'];
+        $user = StudentReg::model()->findByPk($userId);
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $teacher = TeacherOrganization::model()->findByPk(array('id_user'=>$userId,'id_organization'=>$organizationId));
+            $teacher->end_date=new CDbExpression('NOW()');
+            $teacher->cancelled_by=Yii::app()->user->getId();
+            $teacher->cancelTeacherRoles();
+            $teacher->save();
+            $this->inactiveTeacher($userId);
+            $transaction->commit();
+            Teacher::model()->notifyCancelCoworker($user,$organizationId);
+            echo 'success';
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Виникла помилка. ".$teacher->getValidationErrors());
+        }
+    }
+
+    public function actionGetTeacherProfile()
     {
         $result=array();
-        $id = Yii::app()->request->getPost('teacherId');
-        $teacher = $this->loadModel($id);
-        
-        $teacher->first_name_en=Yii::app()->request->getParam('firstNameEn');
-        $teacher->middle_name_en=Yii::app()->request->getParam('middleNameEn');
-        $teacher->last_name_en=Yii::app()->request->getParam('lastNameEn');
-        $teacher->first_name_ru=Yii::app()->request->getParam('firstNameRu');
-        $teacher->middle_name_ru=Yii::app()->request->getParam('middleNameRu');
-        $teacher->last_name_ru=Yii::app()->request->getParam('lastNameRu');
-        $teacher->profile_text_first=Yii::app()->request->getParam('profileTextFirst');
-        $teacher->profile_text_short=Yii::app()->request->getParam('profileTextShort');
-        $teacher->profile_text_last=Yii::app()->request->getParam('profileTextLast');
-
-        if ($teacher->validate()) {
-            if ($teacher->update()) {
-                $result['userId']=$teacher->user_id;
-            }else{
-                $result['error']='Не вдалося оновити дані співробітника.';
-            }
-        } else {
-            $result['error']=$teacher->getValidationErrors();
-        }
+        $result['data']=Teacher::model()->findByPk(Yii::app()->user->getId());
         echo CJSON::encode($result);
+    }
+    
+    public function actionUpdateProfile()
+    {
+        function valueNull($value) {
+            return !$value?null:$value;
+        }
+
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        try {
+            $params = array_map("valueNull", $_POST);
+            $teacher = Teacher::model()->findByPk($params['user_id']);
+            $teacher->setAttributes($params);
+            $teacher->save();
+
+            if (count($teacher->getErrors())) {
+                throw new Exception(json_encode($teacher->getErrors()));
+            }
+
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
     
     public function loadModel($id)
     {
-        $model = Teacher::model()->findByAttributes(array('user_id' => $id));
+        $model = TeacherOrganization::model()->findByAttributes(array('id_user' => $id));
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -153,7 +177,7 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionDelete($id)
     {
-        $model = Teacher::model()->findByPk($id);
+        $model = TeacherOrganization::model()->findByPk(array('id_user'=>$id,'id_organization'=>Yii::app()->session['organization']));
         $model->setHideMode();
         if($model->isHide()) echo 'success';
         else echo "error";
@@ -161,7 +185,7 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionRestore($id)
     {
-        $model = Teacher::model()->findByPk($id);
+        $model = TeacherOrganization::model()->findByPk(array('id_user'=>$id,'id_organization'=>Yii::app()->session['organization']));
         $model->setShowMode();
         if($model->isShow()) echo 'success';
         else echo "error";
@@ -205,19 +229,6 @@ class TeachersController extends TeacherCabinetController{
         } else {
             throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
         }
-    }
-
-    public function actionEditRole($id, $role)
-    {
-        $user = RegisteredUser::userById($id);
-        $role = new UserRoles($role);
-        $attributes = $user->getAttributesByRole($role);
-
-        $this->renderPartial('editRole', array(
-            'model' => $user->registrationData,
-            'role' => $role,
-            'attributes' => $attributes
-        ),false,true);
     }
 
     public function actionChangeTeacherStatus(){

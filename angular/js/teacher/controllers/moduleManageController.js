@@ -3,15 +3,16 @@
  */
 angular
   .module('teacherApp')
-  .controller('modulesTableCtrl', ['$scope', 'NgTableParams', '$resource', modulesTableCtrl])
-  .controller('moduleManageCtrl', ['$scope', '$http', '$stateParams', 'tagsService', 'lodash', moduleManageCtrl])
-  .controller('moduleAuthorsTableCtrl', moduleAuthorsTableCtrl)
-  .controller('moduleTeachersConsultantTableCtrl', moduleTeachersConsultantTableCtrl);
+    .controller('modulesTableCtrl', ['$scope', 'NgTableParams', '$resource', '$attrs', modulesTableCtrl])
+    .controller('moduleManageCtrl', ['$scope', '$http', '$stateParams', 'tagsService', 'lodash', moduleManageCtrl])
+    .controller('moduleAuthorsTableCtrl', moduleAuthorsTableCtrl)
+    .controller('moduleTeachersConsultantTableCtrl', moduleTeachersConsultantTableCtrl)
+    .controller('modulePriceCtrl', modulePriceCtrl)
 
-function modulesTableCtrl($scope, NgTableParams, $resource) {
+function modulesTableCtrl($scope, NgTableParams, $resource, $attrs) {
   $scope.changePageHeader('Модулі');
 
-  var dataFromServer = $resource(basePath + '/_teacher/_admin/module/getModulesList');
+  var dataFromServer = $attrs.organization?$resource(basePath+'/_teacher/moduleManage/getOrganizationModulesList'):$resource(basePath+'/_teacher/moduleManage/getModulesList');
   $scope.modulesTable = new NgTableParams({
     sorting: {'module_ID': "asc"}
   }, {
@@ -27,7 +28,7 @@ function modulesTableCtrl($scope, NgTableParams, $resource) {
   $scope.cancelled = [{id: '0', title: 'доступний'}, {id: '1', title: 'видалений'}];
   $scope.lang = [{id: 'ua', title: 'ua'}, {id: 'ru', title: 'ru'}, {id: 'en', title: 'en'}];
 
-  $scope.levels = $resource(basePath + '/_teacher/_admin/level/getlevelslist').get()
+  $scope.levels = $resource(basePath + '/_teacher/_super_admin/level/getlevelslist').get()
     .$promise.then(function (data) {
       var levels = [];
       data.rows.forEach(function (element) {
@@ -49,10 +50,10 @@ function moduleManageCtrl($scope, $http, $stateParams, tagsService, _) {
     var url;
     switch (status) {
       case 'delete':
-        url = basePath + '/_teacher/_admin/module/delete/id/' + moduleId;
+        url = basePath + '/_teacher/moduleManage/delete/id/' + moduleId;
         break;
       case 'restore':
-        url = basePath + '/_teacher/_admin/module/restore/id/' + moduleId;
+        url = basePath + '/_teacher/moduleManage/restore/id/' + moduleId;
         break;
     }
     bootbox.confirm("Ви впевнені?", function (result) {
@@ -63,7 +64,7 @@ function moduleManageCtrl($scope, $http, $stateParams, tagsService, _) {
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
         }).success(function (message) {
           bootbox.alert(message);
-          location.hash = '/module/view/' + moduleId;
+          location.hash = '/module/id/' + moduleId;
         }).error(function () {
           bootbox.alert("Операцію не вдалося виконати.");
         })
@@ -147,7 +148,7 @@ function moduleManageCtrl($scope, $http, $stateParams, tagsService, _) {
 }
 
 function moduleAuthorsTableCtrl($scope, NgTableParams, $resource, $stateParams, roleAttributeService) {
-  var dataFromServer = $resource(basePath + '/_teacher/_admin/module/getModuleAuthorsList');
+  var dataFromServer = $resource(basePath + '/_teacher/moduleManage/getModuleAuthorsList');
   $scope.moduleAuthorsTable = new NgTableParams({'idModule': $stateParams.moduleId}, {
     getData: function (params) {
       return dataFromServer.get(params.url()).$promise.then(function (data) {
@@ -178,7 +179,7 @@ function moduleAuthorsTableCtrl($scope, NgTableParams, $resource, $stateParams, 
 }
 
 function moduleTeachersConsultantTableCtrl($scope, NgTableParams, $resource, $stateParams, roleAttributeService) {
-  var dataFromServer = $resource(basePath + '/_teacher/_admin/module/getModuleTeachersConsultantList');
+  var dataFromServer = $resource(basePath + '/_teacher/moduleManage/getModuleTeachersConsultantList');
   $scope.moduleTeachersConsultantTable = new NgTableParams({'idModule': $stateParams.moduleId}, {
     getData: function (params) {
       return dataFromServer.get(params.url()).$promise.then(function (data) {
@@ -205,5 +206,25 @@ function moduleTeachersConsultantTableCtrl($scope, NgTableParams, $resource, $st
         console.log(data);
         bootbox.alert("Операцію не вдалося виконати");
       });
+  };
+}
+
+function modulePriceCtrl($scope, moduleService) {
+  $scope.updateModulePrice = function (id, price) {
+    moduleService
+        .updateModulePrice({
+          'id': id,
+          'price': price,
+        })
+        .$promise
+        .then(function successCallback(response) {
+          if (response.data == 'success')
+            bootbox.alert("Ціна оновлена", function () {
+              location.reload();
+            });
+          else bootbox.alert("Операцію не вдалося виконати");
+        }, function errorCallback() {
+          bootbox.alert("Операцію не вдалося виконати");
+        });
   };
 }

@@ -102,9 +102,14 @@ class GraduateController extends Controller
      */
     public function actionIndex()
     {
+
         $dataProvider = new CActiveDataProvider('Graduate', array(
+            'criteria'=>array(
+                'condition'=>'published=1',
+                'with'=>['rate','user','course']
+            ),
             'sort' => array(
-                'defaultOrder' => 'rate DESC',
+                'defaultOrder' => 'rate.rating DESC',
             ),
             'pagination' => array(
                 'pageSize' => 5,

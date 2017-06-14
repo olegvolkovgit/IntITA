@@ -15,22 +15,6 @@ config(function ($stateProvider) {
         },
         templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=content_manager",
         })
-        .state('content_manager/authors', {
-            url: "/content_manager/authors",
-            cache         : false,
-            controller: function($scope){
-                $scope.changePageHeader('Автори модулів');
-            },
-            templateUrl: contentManagerUrl+"/authors",
-        })
-        .state('content_manager/teacherConsultants', {
-            url: "/content_manager/teacherConsultants",
-            cache         : false,
-            controller: function($scope){
-                $scope.changePageHeader('Викладачі');
-            },
-            templateUrl: contentManagerUrl+"/teacherConsultants",
-        })
         .state('content_manager/revisions', {
             url: "/content_manager/revisions",
             cache         : false,
@@ -70,18 +54,12 @@ config(function ($stateProvider) {
         .state('content_manager/authorAttributes', {
             url: "/content_manager/authorAttributes",
             cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Атрибути автора контента');
-            },
-            templateUrl: basePath+"/_teacher/_admin/roleAttributes/authorAttributes",
+            templateUrl: basePath+"/_teacher/_content_manager/roleAttributes/authorAttributes",
         })
         .state('content_manager/teacherConsultantAttributes', {
             url: "/content_manager/teacherConsultantAttributes",
             cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Атрибути викладача');
-            },
-            templateUrl: basePath+"/_teacher/_admin/roleAttributes/teacherConsultantAttributes",
+            templateUrl: basePath+"/_teacher/_content_manager/roleAttributes/teacherConsultantAttributes",
         })
         .state('content_manager/sendCoworkerRequest', {
             url: "/content_manager/sendCoworkerRequest",
@@ -96,5 +74,35 @@ config(function ($stateProvider) {
                 return contentManagerUrl+"/userAttributesList/id/"+$stateParams.id+"/role/"+$stateParams.role;
             }
         })
-    
+        .state('lectures/verifycontent', {
+            url: "/lectures/verifycontent",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_content_manager/verifyContent/index",
+        })
+        .state('teacher/:id/editRole/role/:role', {
+            url: "/teacher/:id/editRole/role/:role",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_content_manager/roleAttributes/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
+            }
+        })
+        .state('courses/addcourse', {
+            url: "/courses/addcourse",
+            cache: false,
+            templateUrl: basePath+"/_teacher/courseManage/create",
+        })
+        .state('course/edit/:id', {
+            url: "/course/edit/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/courseManage/update/id/"+$stateParams.id;
+            }
+        })
+        .state('course/edit/:id/tab/:tab', {
+            url: "/course/edit/:id/tab/:tab",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/courseManage/update/id/"+$stateParams.id;
+            }
+        })
 });

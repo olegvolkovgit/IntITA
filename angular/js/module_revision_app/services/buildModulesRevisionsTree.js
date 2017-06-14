@@ -65,10 +65,11 @@ angular
                 return promise;
             };
             
-            this.getAllModulesRevisionsJson = function() {
+            this.getAllModulesRevisionsJson = function(data) {
                 var promise = $http({
                     url: basePath+'/moduleRevision/buildAllModulesRevisions',
                     method: "POST",
+                    data: $.param({organization: data.organization}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;

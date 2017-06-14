@@ -3,36 +3,23 @@
 class UserController extends TeacherCabinetController {
 
     public function hasRole(){
-        $allowedAccountantActions=['loadJsonUserModel','getRolesHistory','index'];
-        $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory','index'];
-        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm', 'setStudentShift'];
-        $allowedProfileActions=['loadJsonUserModel','index'];
+        $allowedUserDataActions=['loadJsonUserProfile','loadJsonUserOfflineEducation','loadUserName',
+            'loadJsonTeacherProfile','loadJsonUserRoles','loadJsonStudentAttributes','getRolesHistory','index','loadUserOrganizationTrainer'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isTrainer() ||
-        (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action->id,$allowedContentManagerActions)) ||
-        (Yii::app()->user->model->isSuperVisor() && in_array(Yii::app()->controller->action->id,$allowedSupervisorActions)) ||
-        (Yii::app()->user->model->isAccountant() && in_array(Yii::app()->controller->action->id,$allowedAccountantActions)) ||
-        (Yii::app()->user->model->isTeacher() && in_array(Yii::app()->controller->action->id,$allowedProfileActions));
+        Yii::app()->user->model->isDirector() ||
+        Yii::app()->user->model->isSuperAdmin() ||
+        Yii::app()->user->model->isAuditor() ||
+        (in_array(Yii::app()->controller->action->id,$allowedUserDataActions) &&
+            (Yii::app()->user->model->isContentManager() || Yii::app()->user->model->isSuperVisor() || Yii::app()->user->model->isAccountant()
+            || Yii::app()->user->model->isTeacher()));
     }
 
     public function actionIndex($id)
     {
         $model = RegisteredUser::userById($id);
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-
         $this->renderPartial('index', array(
             'model' => $model,
-            'trainer' => $trainer
-        ), false, true);
-    }
-
-    public function actionAddRole($id){
-        $model = RegisteredUser::userById($id);
-        $roles = array_diff(AllRolesDataSource::roles(), $model->getRoles());
-
-        $this->renderPartial('addUserRole', array(
-            'model' => $model,
-            'roles' => $roles
         ), false, true);
     }
 
@@ -55,38 +42,6 @@ class UserController extends TeacherCabinetController {
         $model = StudentReg::model()->findByPk($user);
         if($model){
             if($model->changeUserStatus()){
-                echo "Операцію успішно виконано.";
-            } else {
-                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
-            }
-        } else {
-            echo "Неправильний запит. Такого користувача не існує.";
-        }
-    }
-
-    public function actionSetStudentEducForm(){
-        $user = Yii::app()->request->getPost('user');
-        $form = Yii::app()->request->getPost('form');
-        $model = StudentReg::model()->findByPk($user);
-
-        if($model){
-            if($model->setUserForm($form)){
-                echo "Операцію успішно виконано.";
-            } else {
-                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
-            }
-        } else {
-            echo "Неправильний запит. Такого користувача не існує.";
-        }
-    }
-
-    public function actionSetStudentShift(){
-        $user = Yii::app()->request->getPost('user');
-        $shift = Yii::app()->request->getPost('shift');
-        $model = StudentReg::model()->findByPk($user);
-
-        if($model){
-            if($model->setUserShift($shift)){
                 echo "Операцію успішно виконано.";
             } else {
                 echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
@@ -130,10 +85,72 @@ class UserController extends TeacherCabinetController {
             throw new \application\components\Exceptions\IntItaException(400);
         }
     }
-    
-    public function actionLoadJsonUserModel($id)
+
+    public function actionLoadJsonUserProfile($userId)
     {
-        echo  CJSON::encode(StudentReg::userData($id));
+        $model = StudentReg::model()->with(array('student','student.organization'=>array('alias'=>'trainerOrganization'),
+                'student.studentTrainer','student.studentTrainer.trainerModel',
+                'startCareers','startCareers.career','preferSpecializations', 'preferSpecializations.specialization'
+            )
+        )->findByPk($userId);
+        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($model));
+    }
+    public function actionLoadJsonUserOfflineEducation($userId)
+    {
+        $model = StudentReg::model()->with(array('offlineStudents', 'offlineStudents.subgroupName', 'offlineStudents.subgroupName.groupName',
+                'offlineStudents.subgroupName.groupName.specializationName', 'offlineStudents.subgroupName.organization')
+        )->findByPk($userId);
+        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($model));
+    }
+    public function actionLoadJsonTeacherProfile($userId)
+    {
+        $model = StudentReg::model()->with(array('teacher','teacher.modulesActive'))->findByPk($userId);
+        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($model));
+    }
+    public function actionLoadJsonUserRoles($userId)
+    {
+        $model=RegisteredUser::userById($userId);
+        $result=[];
+        foreach ($model->getRoles() as $key=>$role){
+            $result['actual_roles'][$key]['role']=$role->__toString();
+            $result['actual_roles'][$key]['name']=Role::getInstance($role)->title();
+        }
+        $editableRoles=$model->isTeacherOrganization()?AllRolesDataSource::teacherRoles():array();
+        array_push($editableRoles,'student');
+        $noroles=array_diff($editableRoles, $model->getRoles());
+        foreach ($noroles as $key=>$role){
+            $result['no_roles'][$key]['role']=$role;
+            $result['no_roles'][$key]['name']=Role::getInstance($role)->title();
+        }
+        echo json_encode($result);
+    }
+    public function actionLoadJsonStudentAttributes($userId)
+    {
+        $model=RegisteredUser::userById($userId);
+        $result=array('courses'=>array(),'modules'=>array());
+        if($model->isStudent()) {
+            $result['courses'] = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
+            $result['modules'] = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
+
+            foreach ($result['courses'] as $key => $course) {
+                $result['courses'][$key]['modules'] = CourseModules::modulesInfoByCourse($course["id"]);
+                foreach ($result['courses'][$key]['modules'] as $index => $module) {
+                    $result['courses'][$key]['modules'][$index] += ['link' => Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
+                }
+            }
+            foreach ($result['modules'] as $key => $module) {
+                $result['modules'][$key] += ['link' => Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
+            }
+        }
+
+        echo json_encode($result);
+    }
+    public function actionLoadUserOrganizationTrainer($userId)
+    {
+        $model=UserStudent::model()->with('idUser','studentTrainer','studentTrainer.trainerModel','studentTrainer.studentModel')->findByAttributes(array(
+            'id_user'=>$userId,'id_organization'=>Yii::app()->user->model->getCurrentOrganizationId(),'end_date'=>null
+        ));
+        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($model));
     }
 
     public function actionLoadUserName()
@@ -143,43 +160,44 @@ class UserController extends TeacherCabinetController {
         echo $name;
     }
     
-    public function actionGetRolesHistory($id){
+    public function actionGetRolesHistory($userId){
+        $organization=Yii::app()->user->model->getCurrentOrganizationId();
+        if($organization){
+            $historyAdmin =  UserAdmin::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $historyAccountant = UserAccountant::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $historyStudent = UserStudent::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$userId));
+            $historyTenant = UserTenant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('(select id from chat_user where intita_user_id=:id) and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $historyTrainer = UserTrainer::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $historyContentManager = UserContentManager::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $historyTeacherConsultant = UserTeacherConsultant::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $historyAuthor = UserAuthor::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $historySuperVisor = UserSuperVisor::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id and id_organization=:id_org', array(':id'=>$userId,':id_org'=>$organization));
+            $array = array_merge($historyAdmin,$historyAccountant,$historyStudent,$historyTenant,$historyTrainer,$historyContentManager,$historyTeacherConsultant,$historyAuthor,$historySuperVisor);
+            $history = [];
+            foreach ($array as $value)
+            {
+                $role = $value->getAttributes();
+                $role['role'] = $value->getRoleName();
 
-        $historyAdmin =  UserAdmin::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyAccountant = UserAccountant::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyStudent = UserStudent::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyTenant = UserTenant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('chat_user_id=:id', array(':id'=>$id));
-        $historyTrainer = UserTrainer::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyConsultant = UserConsultant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $historyContentManager = UserContentManager::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
-        $historyTeacherConsultant = UserTeacherConsultant::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
-        $historyAuthor = UserAuthor::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
-        $historySuperVisor = UserSuperVisor::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
-        $array = array_merge($historyAuthor,$historyAdmin,$historyAccountant,$historyTenant,$historyStudent,$historyTrainer,$historyConsultant,$historyContentManager,$historyTeacherConsultant,$historySuperVisor);
-        $history = [];
-        foreach ($array as $value)
-        {
-            $role = $value->getAttributes();
-            $role['role'] = $value->getRoleName();
-            
-            $relation = $value->getRelated('assigned_by_user');
-            if (isset($relation)){
-                $role['assigned_by_user'] = $value->getRelated('assigned_by_user')->getAttributes(['firstName','middleName','secondName']);
+                $relation = $value->getRelated('assigned_by_user');
+                if (isset($relation)){
+                    $role['assigned_by_user'] = $value->getRelated('assigned_by_user')->getAttributes(['firstName','middleName','secondName']);
+                }
+                $relation = $value->getRelated('cancelled_by_user');
+                if (isset($relation)){
+                    $role['cancelled_by_user'] = $value->getRelated('cancelled_by_user')->getAttributes(['firstName','middleName','secondName']);
+                }
+                array_push($history,$role);
             }
-            $relation = $value->getRelated('cancelled_by_user');
-            if (isset($relation)){
-                $role['cancelled_by_user'] = $value->getRelated('cancelled_by_user')->getAttributes(['firstName','middleName','secondName']);
-            }
-            array_push($history,$role);
+            usort($history,function($a,$b){
+                if (strtotime ($a['start_date']) == strtotime ($b['start_date'])) {
+                    return 0;
+                }
+                return (strtotime ($a['start_date']) > strtotime ($b['start_date'])) ? -1 : 1;
+            });
+
+            echo CJSON::encode($history);
         }
-        usort($history,function($a,$b){
-            if (strtotime ($a['start_date']) == strtotime ($b['start_date'])) {
-                return 0;
-            }
-            return (strtotime ($a['start_date']) > strtotime ($b['start_date'])) ? -1 : 1;
-        });
-        echo CJSON::encode($history);
-
     }
 
     public function actionAddCorpMail(){

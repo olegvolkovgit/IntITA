@@ -5,9 +5,9 @@ angular
     .module('teacherApp')
     .controller('sharedlinksCtrl',sharedlinksCtrl);
 
-function sharedlinksCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder ){
-
-    $http.get(basePath+'/_teacher/_admin/shareLink/shareLinksList').then(function (data) {
+function sharedlinksCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $attrs){
+    var condition=$attrs.alllinks?'?allLinks=true':'';
+    $http.get(basePath+'/_teacher/_supervisor/shareLink/shareLinksList'+condition).then(function (data) {
         $scope.sharedLinksList = data.data["data"];
     });
 
@@ -21,11 +21,11 @@ function sharedlinksCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder ){
     ];
 
     $scope.deleteSharedLink = function(sharedLinkId){
-        bootbox.confirm('Видалити посилання для викладачів?',function(result){
+        bootbox.confirm('Видалити посилання для співробітників?',function(result){
             if (result){
                 $http({
                     method: 'POST',
-                    url: basePath+'/_teacher/_admin/shareLink/delete/',
+                    url: basePath+'/_teacher/_supervisor/shareLink/delete/',
                     data: $jq.param({'id': sharedLinkId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 }).success(function(){

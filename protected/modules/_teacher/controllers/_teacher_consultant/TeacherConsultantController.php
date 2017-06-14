@@ -6,28 +6,6 @@ class TeacherConsultantController extends TeacherCabinetController
         return Yii::app()->user->model->isTeacherConsultant();
     }
 
-    public function actionAssignModule(){
-        $userId = Yii::app()->request->getPost('userId', 0);
-        $module = Yii::app()->request->getPost('module', 0);
-
-        if($userId && $module){
-            $user = RegisteredUser::userById($userId);
-            $role = Role::getInstance(UserRoles::TEACHER_CONSULTANT);
-            if($role->checkModule($userId, $module)){
-                if($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $module)){
-                    echo "Викладача для модуля успішно призначено.";
-                    Yii::app()->end();
-                } else {
-                    echo "Операцію не вдалося виконати.";
-                    Yii::app()->end();
-                }
-            } else {
-                echo "Даний викладач вже має права консультанта для обраного модуля.";
-                Yii::app()->end();
-            }
-        }
-    }
-
     public function actionShowTeacherPlainTaskList()
     {
         return $this->renderPartial('/_teacher_consultant/teacherPlainTaskList',array());
@@ -49,7 +27,7 @@ class TeacherConsultantController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400);
         }
         $role = new TeacherConsultant();
-        $students = $role->activeStudents($user);
+        $students = $role->activeStudentsModules($user);
 
         return $this->renderPartial('/_teacher_consultant/_students', array(
             'students' => $students,
@@ -58,6 +36,7 @@ class TeacherConsultantController extends TeacherCabinetController
 
     public function actionShowPlainTask($idPlainTask)
     {
+        Yii::app()->user->model->hasAccessToOrganizationModel(PlainTaskAnswer::model()->findByPk($idPlainTask)->plainTaskModule);
         if ($idPlainTask == 0) {
             throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
         }
@@ -79,7 +58,6 @@ class TeacherConsultantController extends TeacherCabinetController
         if ($module==0 || $student==0) {
             throw new \application\components\Exceptions\IntItaException(403, 'Переглядати задачу заборонено');
         }
-
         return $this->renderPartial('/_teacher_consultant/showPlainTask', array(
             'plainTask' => $plainTask
         ), false, true);
@@ -88,13 +66,17 @@ class TeacherConsultantController extends TeacherCabinetController
     public function actionMarkPlainTask()
     {
         $plainTaskId = Yii::app()->request->getPost('idPlainTask');
+        Yii::app()->user->model->hasAccessToOrganizationModel(PlainTaskAnswer::model()->findByPk($plainTaskId)->plainTaskModule);
         $mark = Yii::app()->request->getPost('mark');
         $comment = Yii::app()->request->getPost('comment');
         $userId = Yii::app()->request->getPost('userId');
-
         if (!PlainTaskMarks::saveMark($plainTaskId, $mark, $comment, $userId))
             throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
             Спробуйте пізніше або повідомте адміністратора.');
+        $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>PlainTaskAnswer::model()->findByPk($plainTaskId)->plainTaskModule->module_ID, ':idUser'=>$userId]);
+        if ($rating){
+            $rating->rateUser($userId);
+        }
     }
 
     public function actionConsultations()
@@ -104,7 +86,7 @@ class TeacherConsultantController extends TeacherCabinetController
 
     public function actionConsultation($id){
         $model = Consultationscalendar::model()->findByPk($id);
-
+        Yii::app()->user->model->hasAccessToOrganizationModel($model->lecture->module);
         if($model) {
             $this->renderPartial('/_teacher_consultant/consultations/_viewConsultation', array(
                 'model' => $model
@@ -119,10 +101,11 @@ class TeacherConsultantController extends TeacherCabinetController
         $params = $_GET;
         $currentDate = new DateTime();
         $criteria = new CDbCriteria();
-        $criteria->with = ['user','teacher','lecture'];
+        $criteria->with = ['user','teacher','lecture','lecture.module'];
         $criteria->addCondition('date_cancelled IS NULL');
         $criteria->addBetweenCondition('date_cons',date_format($currentDate, "Y-m-d"),date_format($currentDate, "Y-m-d"));
         $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $criteria->compare('module.id_organization' , Yii::app()->user->model->getCurrentOrganization()->id);
         $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
         $adapter->mergeCriteriaWith($criteria);
         $records = $adapter->getData();
@@ -149,10 +132,11 @@ class TeacherConsultantController extends TeacherCabinetController
         $params = $_GET;
         $currentDate = new DateTime();
         $criteria = new CDbCriteria();
-        $criteria->with = ['user','teacher','lecture'];
+        $criteria->with = ['user','teacher','lecture','lecture.module'];
         $criteria->addCondition('date_cancelled IS NULL');
         $criteria->addCondition('date_cons < "'.date_format($currentDate, "Y-m-d").'" ');
         $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $criteria->compare('module.id_organization' , Yii::app()->user->model->getCurrentOrganization()->id);
         $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
@@ -163,9 +147,10 @@ class TeacherConsultantController extends TeacherCabinetController
         date_default_timezone_set('Europe/Kiev');
         $params = $_GET;
         $criteria = new CDbCriteria();
-        $criteria->with = ['user','teacher','lecture'];
+        $criteria->with = ['user','teacher','lecture','lecture.module'];
         $criteria->addCondition('date_cancelled IS NOT NULL');
         $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $criteria->compare('module.id_organization' , Yii::app()->user->model->getCurrentOrganization()->id);
         $adapter = new NgTableAdapter('Consultationscalendar',$params);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
@@ -175,10 +160,11 @@ class TeacherConsultantController extends TeacherCabinetController
         $params = $_GET;
         $currentDate = new DateTime();
         $criteria = new CDbCriteria();
-        $criteria->with = ['user','teacher','lecture'];
+        $criteria->with = ['user','teacher','lecture','lecture.module'];
         $criteria->addCondition('date_cancelled IS NULL');
         $criteria->addCondition('date_cons > "'.date_format($currentDate, "Y-m-d").'" ');
         $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $criteria->compare('module.id_organization' , Yii::app()->user->model->getCurrentOrganization()->id);
         $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());

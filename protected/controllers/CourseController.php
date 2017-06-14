@@ -16,12 +16,10 @@ class CourseController extends Controller
         if(Yii::app()->user->isGuest) {
             $isEditor = false;
         } else {
-            $isEditor = Yii::app()->user->model->isContentManager();
+            $isEditor = Yii::app()->user->model->canViewCourseRevisions($id);
         }
 
         $model = Course::model()->findByPk($id);
-
-//        var_dump($model->checkPaidAccess(Yii::app()->user->getId()));
 
         if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
@@ -37,6 +35,11 @@ class CourseController extends Controller
 
     public function actionSchemes($id)
     {
+        if (Yii::app()->user->isGuest) {
+            $this->render('/site/authorize');
+            die();
+        }
+
         $model = Course::model()->findByPk($id);
         if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
@@ -137,96 +140,41 @@ class CourseController extends Controller
             throw new \application\components\Exceptions\CourseNotFoundException();
     }
 
-    public function actionModulesData()
+    public function actionCourseProgress()
     {
-        //init data json
         $data = [];
-        $data["courseId"] = Yii::app()->request->getPost('id');
-        $course=Course::model()->findByPk($data["courseId"]);
+        $course=Course::model()->findByPk(Yii::app()->request->getPost('id'));
 
-        if(Yii::app()->user->getId())
-        $data["userId"] = Yii::app()->user->getId();
-        else $data["userId"]=false;
-        $data["isAdmin"] = (Yii::app()->user->isGuest)?false:(Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager());
-        $data["termination"][0] = Yii::t('module', '0653');
-        $data["termination"][1] = Yii::t('module', '0654');
-        $data["termination"][2] = Yii::t('module', '0655');
-        $data["modules"]=[];
-        if($course->status=='1')
-            $data["courseStatus"]=true;
-        else $data["courseStatus"]=false;
-
-        //if guest or admin return json
-        if(!$data["userId"] || $data["isAdmin"]){
-            $modules=Course::model()->modulesInCourse($data["courseId"]);
-            if($data["isAdmin"])
-                $data["isPaidCourse"]=$course->checkPaidAccess(Yii::app()->user->getId());
-            for($i = 0;$i < count($modules);$i++){
-                if(!$data["userId"])
-                    $data["modules"][$i]['access']=false;
-                else $data["modules"][$i]['access']=true;
-                $module=Module::model()->findByPk($modules[$i]['id_module']);
-                $data["modules"][$i]['id']= $modules[$i]['id_module'];
-                $data["modules"][$i]['time']= $module->monthsCount();
-                $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
-                $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
-            }
-            echo CJSON::encode($data);
-            return;
+        $data['course']=$course->getAttributes();
+        $data['translations']=Translate::dayTerminations();
+        foreach ($course->module as $module){
+            $module->duration=$module->moduleInCourse->monthsCount();
         }
 
-        if(Yii::app()->user->model->isTeacher()){
-            $data["teacherId"] = Yii::app()->user->getId();
-            $data["isPaidCourse"]=$course->checkPaidAccess(Yii::app()->user->getId());
+        if(!Yii::app()->user->getId()){
+            foreach ($course->module as $module){
+                $module->access=false;
+                $module->statusMessage='Для доступу до контента модуля спочатку авторизуйся';
+            }
         }else{
-            $data["teacherId"] = false;
+            $data['user']=Yii::app()->user->getId();
+            $data['hasAccess']=Yii::app()->user->model->hasAccessToContent(null, $course);
             $data["isPaidCourse"]=$course->checkPaidAccess(Yii::app()->user->getId());
-        }
-
-        $modules=Course::model()->modulesInCourse($data["courseId"]);
-
-        for($i = 0;$i < count($modules);$i++){
-            $module=Module::model()->findByPk($modules[$i]['id_module']);
-            $data["modules"][$i]['id']= $modules[$i]['id_module'];
-            $data["modules"][$i]['time']= $module->monthsCount();
-            $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
-            $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
-
-            if( $data["teacherId"]){
-                $data["modules"][$i]['isAuthor']=Yii::app()->user->model->isAuthorModule($modules[$i]['id_module']);
-            }else{
-                $data["modules"][$i]['isAuthor']=false;
-            }
             if($data["isPaidCourse"]){
-                $data["modules"][$i]['access']=true;
-                $firstQuiz = $module->getFirstQuizId();
-                if($module->getLastAccessLectureOrder()<$module->getLecturesCount())
-                    $lastQuiz = false;
-                else $lastQuiz = $module->getLastQuizId();
-                if ($firstQuiz)
-                    $data["modules"][$i]['startTime'] = (Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))): (false);
-                else $data["modules"][$i]['startTime'] = false;
-                if ($lastQuiz)
-                    $data["modules"][$i]['finishTime'] = (Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))): (false);
-                else $data["modules"][$i]['finishTime'] = false;
+                CourseModules::setCourseProgress($course->module, true);
             }else{
-                if($module->checkPaidAccess(Yii::app()->user->getId())) {
-                    $data["modules"][$i]['access']=true;
-                    $firstQuiz = $module->getFirstQuizId();
-                    if($module->getLastAccessLectureOrder()<$module->getLecturesCount())
-                        $lastQuiz = false;
-                    else $lastQuiz = $module->getLastQuizId();
-                    if ($firstQuiz)
-                        $data["modules"][$i]['startTime'] = (Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))): (false);
-                    else $data["modules"][$i]['startTime'] = false;
-                    if ($lastQuiz)
-                        $data["modules"][$i]['finishTime'] = (Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))): (false);
-                    else $data["modules"][$i]['finishTime'] = false;
-                }else{$data["modules"][$i]['access']=false;}
+                $isDeveloping=$course->isDeveloping();
+                foreach ($course->module as $module){
+                    if(!$isDeveloping || $data['hasAccess'])
+                        $module->setModuleProgress($module->moduleInCourse->checkPaidAccess(Yii::app()->user->getId()));
+                    else $module->statusMessage='Курс знаходиться в розробці';
+                }
             }
-
         }
-        echo CJSON::encode($data);
+
+        $data['modules']=ActiveRecordToJSON::toAssocArrayWithRelations($course->module);
+
+        echo json_encode($data);
     }
 
     public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE, $templateId=null) {
@@ -249,6 +197,7 @@ class CourseController extends Controller
         }else{
             $result['schemes']=$service->getPaymentSchemas($educationForm);
         }
+        $result['status']=$service->getStatus();
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
         $result['translates']['price']=Yii::t('courses', '0147');
         $result['translates']['free']=Yii::t('module', '0421');
@@ -277,13 +226,13 @@ class CourseController extends Controller
         $id=Yii::app()->request->getPost('id');
         $service=Yii::app()->request->getPost('service');
         if($service=='course'){
-            $serviceId=CourseService::model()->findByPk(array('course_id'=>$id, 'education_form'=>1))->service_id;
+            $service=CourseService::model()->findByPk(array('course_id'=>$id, 'education_form'=>1));
             $criteria = new CDbCriteria;
-            $criteria->condition = 'courseId='.$id.' or serviceType=1';
+            $criteria->condition = 'courseId='.$id.' or (serviceType=1 and id_organization='.$service->courseModel->id_organization.')';
         }else{
-            $serviceId=ModuleService::model()->findByPk(array('module_id'=>$id, 'education_form'=>1))->service_id;
+            $service=ModuleService::model()->findByPk(array('module_id'=>$id, 'education_form'=>1));
             $criteria = new CDbCriteria;
-            $criteria->condition = 'moduleId='.$id.' or serviceType=2';
+            $criteria->condition = 'moduleId='.$id.' or (serviceType=2 and id_organization='.$service->moduleModel->id_organization.')';
         }
          $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
             (showDate IS NULL && endDate IS NULL) or (showDate IS NOT NULL && NOW()>=showDate && endDate IS NULL))');
@@ -293,8 +242,8 @@ class CourseController extends Controller
             $data[$key]['template']['name']=$promotion->schemesTemplate->getName();
             $data[$key]['template']['description']=$promotion->schemesTemplate->getDescription();
             $data[$key]['template']['isRequestOpen']=MessagesServiceSchemesRequest::model()->isRequestOpen(
-                array('service'=>$serviceId,'schemaTemplate'=>$promotion->schemesTemplate->id,'user'=>Yii::app()->user->getId())
-            );
+                array('service'=>$service->service_id,'schemaTemplate'=>$promotion->schemesTemplate->id,'user'=>Yii::app()->user->getId())
+            ) || $service->getContentModel()->isDeveloping();
         }
         echo CJSON::encode($data);
     }

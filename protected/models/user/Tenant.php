@@ -11,14 +11,16 @@ class Tenant extends Role
     }
 
     /**
+     * @param $organization Organization
      * @return string sql for check role tenant.
      */
-    public function checkRoleSql()
+    public function checkRoleSql($organization=null)
     {
+        $condition=$organization?' and ut.id_organization='.$organization:'';
         return 'select "tenant" from user u
                     right join chat_user as cu on u.id = cu.intita_user_id
                     right join user_tenant ut on ut.chat_user_id=cu.id
-                    where cu.intita_user_id = :id and ut.end_date IS NULL';
+                    where cu.intita_user_id = :id and ut.end_date IS NULL'.$condition;
     }
 
     public function getErrorMessage()
@@ -28,12 +30,12 @@ class Tenant extends Role
 
     public function title()
     {
-        return "Tenant";
+        return "Консультант";
     }
 
-    public function setRole(StudentReg $user)
+    public function setRole(StudentReg $user, $organizationId = null)
     {
-        if (!$this->isActiveTenant($user)) {
+        if (!$this->isActiveTenant($user, $organizationId)) {
             if (!$this->isChatUserDefined($user)) {
                 if (!$this->addChatUser($user)) {
                     $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
@@ -41,9 +43,10 @@ class Tenant extends Role
                     return false;
                 }
             }
-            $sql = 'INSERT INTO user_tenant (assigned_by, chat_user_id) VALUES ('.Yii::app()->user->getId().', (select id from chat_user where intita_user_id='.$user->id.'))';
+            $sql = 'INSERT INTO user_tenant (assigned_by, chat_user_id, id_organization) VALUES ('.Yii::app()->user->getId().', (select id from chat_user where intita_user_id='.$user->id.'), '.$organizationId.')';
             if (Yii::app()->db->createCommand($sql)->query()) {
-                $this->notifyAssignRole($user);
+                $this->notifyAssignRole($user, $organizationId);
+                $this->updateRolesRoom();
                 return true;
             } else {
                 $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
@@ -74,22 +77,26 @@ class Tenant extends Role
         ));
     }
 
-    public function attributes(StudentReg $user)
+    public function attributes(StudentReg $user, $organization=null)
     {
         return array();
     }
 
-    private function isActiveTenant(StudentReg $user)
+    private function isActiveTenant(StudentReg $user, $organization)
     {
-        $sql = 'select count(id) from user_tenant where chat_user_id =  (select id from chat_user where intita_user_id=' . $user->id . ') and end_date IS NULL';
+        $sql = 'select count(id) from user_tenant where chat_user_id =  (select id from chat_user where intita_user_id=' . $user->id . ') and end_date IS NULL and id_organization='.$organization;
         if (Yii::app()->db->createCommand($sql)->queryScalar() > 0) {
             $this->errorMessage = "Даному користувачу уже призначена роль tenant";
             return true;
         } else return false;
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user)
+    public function checkBeforeDeleteRole(StudentReg $user, $organization=null)
     {
+        return true;
+    }
+
+    public function checkBeforeSetRole(StudentReg $user, $organization=null){
         return true;
     }
 
@@ -98,7 +105,7 @@ class Tenant extends Role
         return false;
     }
 
-    public function addRoleFormList($query)
+    public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "u.id, secondName, firstName, middleName, email, avatar";
@@ -108,9 +115,11 @@ class Tenant extends Role
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'left join chat_user as cu on u.id = cu.intita_user_id';
-        $criteria->join .= ' LEFT JOIN teacher t on t.user_id = u.id';
+        $criteria->join .= ' left join teacher t on t.user_id = u.id';
+        $criteria->join .= ' left join teacher_organization tco on tco.id_user=u.id';
         $criteria->join .= ' left join user_tenant ut on ut.chat_user_id=cu.id';
-        $criteria->addCondition('t.user_id IS NOT NULL and ut.chat_user_id IS NULL or ut.end_date IS NOT NULL');
+        $criteria->addCondition('t.user_id IS NOT NULL and tco.id_user IS NOT NULL and tco.end_date IS NULL and tco.id_organization='.$organization.' 
+        and (ut.chat_user_id IS NULL or ut.end_date IS NOT NULL or (ut.end_date IS NULL and ut.id_organization!='.$organization.'))');
         $criteria->group = 'u.id';
         $data = StudentReg::model()->findAll($criteria);
 
@@ -124,7 +133,7 @@ class Tenant extends Role
         return json_encode($result);
     }
 
-    public function cancelRole(StudentReg $user)
+    public function cancelRole(StudentReg $user, $organizationId = null)
     {
         if (!$this->checkBeforeDeleteRole($user)) {
             return false;
@@ -132,9 +141,10 @@ class Tenant extends Role
         if (Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date' => date("Y-m-d H:i:s"),
-        ), 'chat_user_id=(select id from chat_user where intita_user_id=:id)', array(':id' => $user->id))
+        ), 'chat_user_id=(select id from chat_user where intita_user_id=:id) and id_organization=:organization', array(':id' => $user->id,':organization'=>$organizationId))
         ) {
-            $this->notifyCancelRole($user);
+            $this->notifyCancelRole($user, $organizationId);
+            $this->updateRolesRoom();
             return true;
         }
         return false;
@@ -276,5 +286,14 @@ class Tenant extends Role
     function getMembers($criteria = null)
     {
         return UserTenant::model()->with('user')->findAll($criteria);
+    }
+
+    public function getOrganizations()
+    {
+        return Yii::app()->db->createCommand()
+            ->selectDistinct('id_organization')
+            ->from($this->tableName())
+            ->where('chat_user_id=(select id from chat_user where intita_user_id=:id) and end_date IS NULL', array(':id'=>Yii::app()->user->model->registrationData->id))
+            ->queryAll();
     }
 }

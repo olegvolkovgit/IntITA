@@ -7,6 +7,9 @@
  * @property integer $id_user
  * @property string $start_date
  * @property string $end_date
+ * @property integer $assigned_by
+ * @property integer $cancelled_by
+ * @property integer $id_organization
  *
  * The followings are the available model relations:
  * @property StudentReg $idUser
@@ -32,11 +35,11 @@ class UserStudent extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user', 'required'),
+			array('id_user, assigned_by, id_organization', 'required'),
 			array('id_user', 'numerical', 'integerOnly'=>true),
 			array('end_date', 'safe'),
 			// The following rule is used by search().
-			array('id_user, start_date, end_date', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date, assigned_by, cancelled_by, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,12 +55,17 @@ class UserStudent extends CActiveRecord
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
             'activeMembers' => array(self::BELONGS_TO, 'StudentReg', 'id_user','condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
+            'studentTrainer' => array(self::HAS_ONE, 'TrainerStudent', array('student'=>'id_user','id_organization'=>'id_organization'),
+                'on' => 'end_time IS NULL'),
+            'trainer' => [self::BELONGS_TO,  'StudentReg', ['trainer' => 'id'], 'through' => 'studentTrainer'],
+            'city' => array(self::BELONGS_TO, 'AddressCity', ['city'=>'id'], 'through' => 'idUser'),
 		);
 	}
 
 	public function primaryKey()
 	{
-		return array('id_user', 'start_date');
+		return array('id_user', 'start_date', 'id_organization');
 	}
 
 	/**
@@ -69,6 +77,9 @@ class UserStudent extends CActiveRecord
 			'id_user' => 'Id User',
 			'start_date' => 'Start Date',
 			'end_date' => 'End Date',
+            'assigned_by' => 'Assigned by',
+            'cancelled_by' => 'Cancelled by',
+            'id_organization' => 'Id organization',
 		);
 	}
 
@@ -91,6 +102,9 @@ class UserStudent extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
+        $criteria->compare('assigned_by',$this->assigned_by,true);
+        $criteria->compare('cancelled_by',$this->cancelled_by,true);
+        $criteria->compare('id_organization',$this->id_organization,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -138,6 +152,33 @@ class UserStudent extends CActiveRecord
 		foreach ($data as $key=>$model) {
 			$result["results"][$key]["id"] = $model->id;
 			$result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
+			$result["results"][$key]["email"] = $model->email;
+			$result["results"][$key]["url"] = $model->avatarPath();
+		}
+		return json_encode($result);
+	}
+
+	public static function studentWithoutTrainerByQuery($query){
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->alias = "s";
+		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+		$criteria->join = 'LEFT JOIN user_student us ON us.id_user = s.id';
+		$criteria->join .= ' LEFT JOIN trainer_student ts ON ts.student = us.id_user';
+		$criteria->addCondition('us.id_user IS NOT NULL and us.end_date is NULL 
+		and us.id_user NOT IN (SELECT student FROM trainer_student WHERE id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.')');
+		$criteria->group = 's.id';
+
+		$data = StudentReg::model()->findAll($criteria);
+
+		$result = [];
+		foreach ($data as $key=>$model) {
+			$result["results"][$key]["id"] = $model->id;
+			$result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
+			$result["results"][$key]["fullName"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName." ".$model->email);
 			$result["results"][$key]["email"] = $model->email;
 			$result["results"][$key]["url"] = $model->avatarPath();
 		}

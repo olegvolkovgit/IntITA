@@ -20,7 +20,17 @@ class ScheduleCommand extends CConsoleCommand
         $tasks = SchedulerTasks::model()->findAll($criteria);
         foreach ($tasks as $task)
         {
-            $this->startTask($task);
+            $weekdays = unserialize($task->parameters);
+            if ($weekdays)
+            {
+                $dayOfWeek =  (new DateTime('now'))->format('N');
+                if (in_array($dayOfWeek,$weekdays) && (new DateTime($task->end_time))->format('N') !=$dayOfWeek || !$task->end_time){
+                    $this->startTask($task);
+                }
+            }
+            else{
+                $this->startTask($task);
+            }
         }
 
     }
@@ -29,7 +39,7 @@ class ScheduleCommand extends CConsoleCommand
         date_default_timezone_set('Europe/Kiev');
         $task->status = SchedulerTasks::STATUSPROGRESS;
         $task->save();
-        $scheduleTask = TaskFactory::getInstance($task->type,$task->parameters);
+        $scheduleTask = TaskFactory::getInstance($task->type,$task->related_model_id);
         try {
             $scheduleTask->run();
         } catch (Exception $e) {
@@ -54,6 +64,10 @@ class ScheduleCommand extends CConsoleCommand
                 break;
             case 5:
                 $this->repeatTask($task,'1 year');
+                break;
+            case 6:
+                $task->status = SchedulerTasks::STATUSNEW;
+                $task->save();
                 break;
         }
     }
@@ -97,4 +111,6 @@ class ScheduleCommand extends CConsoleCommand
 
 
     }
+
+
 }

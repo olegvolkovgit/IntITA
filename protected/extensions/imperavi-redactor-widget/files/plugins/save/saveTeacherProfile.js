@@ -22,7 +22,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                 $.ajax({
                     cache: false,
                     type: "POST",
-                    url: '/profile/save',
+                    url: basePath+'/profile/save',
                     data: {'content':html,'id':idTeacher,'block':block}
                 });
             }

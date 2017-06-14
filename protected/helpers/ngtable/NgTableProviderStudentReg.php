@@ -2,7 +2,7 @@
 
 class NgTableProviderStudentReg extends NgTableProviderDefault implements INgTableProvider{
 
-    private $relationAttributes = ['firstName', 'middleName', 'secondName', 'email', 'phone', 'education_shift'];
+    private $relationAttributes = ['firstName', 'middleName', 'secondName', 'avatar', 'email','phone', 'education_shift'];
 
     public function getAttributes() {
         return parent::getAttributes();

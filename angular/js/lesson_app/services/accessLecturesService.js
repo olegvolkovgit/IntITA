@@ -6,12 +6,11 @@ angular
     .service('accessLectureService', [
         '$rootScope','$http',
         function($rootScope, $http) {
-
             this.getAccessLectures = function() {
                 $http({
-                    url: basePath + '/lesson/GetAccessLectures',
+                    url: basePath+'/lesson/getAccessLectures',
                     method: "POST",
-                    data: $.param({module: idModule, course:idCourse,lecture:idLecture}),
+                    data: $.param({lectureId:idLecture,courseId:idCourse}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response){
                     $rootScope.lecturesData=response.data;

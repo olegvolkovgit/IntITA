@@ -3,15 +3,21 @@
 class InvoicesController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAccountant();
+        $allowedTrainerActions = ['getInvoices'];
+        $allowedAuditorActions = ['getInvoices','invoice','getInvoicesByParams','index'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() ||
+            (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions)) ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorActions));
     }
 
     /**
      * Lists all models.
+     * @param $organization
      */
-    public function actionIndex($id=0)
+    public function actionIndex($organization)
     {
-        $this->renderPartial('index');
+        $this->renderPartial('index', array('organization'=>$organization));
     }
 
     public function actionInvoice()
@@ -21,9 +27,10 @@ class InvoicesController extends TeacherCabinetController
 
     public function actionGetInvoices() {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('Invoice', $requestParams);
-
+        $organization = Yii::app()->user->model->getCurrentOrganization();
+        $ngTable = new NgTableAdapter(Invoice::model()->belongsToOrganization($organization), $requestParams);
         $criteria =  new CDbCriteria();
+        $criteria->with='agreement';
         $criteria->order = 't.id ASC';
         $ngTable->mergeCriteriaWith($criteria);
 
@@ -37,7 +44,10 @@ class InvoicesController extends TeacherCabinetController
             $extraParams[$attribute] = Yii::app()->request->getParam($attribute, null);
         }
         $extraParams = array_filter($extraParams);
+        $criteria =  new CDbCriteria();
+        $criteria->with='agreement';
         $ngTable = new NgTableAdapter('Invoice', ['extraParams' => $extraParams]);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }

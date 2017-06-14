@@ -353,6 +353,9 @@ span.moduleNum{
 .selectedSelector .courseNum, .selectedSelector .moduleNum{
     color:#999999;
 }
+.mainCourses a {
+    font-size: 18px;
+}
 .coursesType{
     float: right;
 }

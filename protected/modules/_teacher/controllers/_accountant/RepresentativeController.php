@@ -6,7 +6,7 @@ class RepresentativeController extends TeacherCabinetController
         return Yii::app()->user->model->isAccountant();
     }
 
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
         $this->renderPartial('index', array(), false, true);
     }
@@ -22,10 +22,16 @@ class RepresentativeController extends TeacherCabinetController
         echo CorporateRepresentative::representativesList($params);
     }
 
+    /**
+     * @deprecated
+     */
     public function actionRenderAddForm(){
         $this->renderPartial('_addForm', array(), false, true);
     }
 
+    /**
+     * @deprecated
+     */
     public function actionViewRepresentative($id){
         $model = CorporateRepresentative::model()->findByPk($id);
         $companies = $model->companies();

@@ -2,7 +2,12 @@
 
 class AgreementsController extends TeacherCabinetController {
     public function hasRole() {
-        return Yii::app()->user->model->isAccountant();
+        $allowedTrainerActions = ['renderUserAgreements','getUserAgreementsList','agreement','getAgreement'];
+        $allowedAuditorsActions = ['index','getAgreementsList','agreement','getAgreement'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() ||
+            (Yii::app()->user->model->isTrainer() && in_array($action, $allowedTrainerActions)) ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorsActions));
     }
 
     /**
@@ -32,18 +37,43 @@ class AgreementsController extends TeacherCabinetController {
 
     /**
      * Lists all models.
+     * @param $organization
      */
-    public function actionIndex($id=0) {
-        $this->renderPartial('index');
+    public function actionIndex($organization) {
+        $this->renderPartial('index', array('organization'=>$organization));
     }
 
     public function actionGetAgreementsList() {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('UserAgreements', $requestParams);
+        $organization = Yii::app()->user->model->getCurrentOrganization();
+        $ngTable = new NgTableAdapter(UserAgreements::model()->belongsToOrganization($organization), $requestParams);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
 
+    public function actionGetUserAgreementsList() {
+//        $requestParams = $_GET;
+//        $organization = Yii::app()->user->model->getCurrentOrganization();
+//        $ngTable = new NgTableAdapter(UserAgreements::model()->belongsToOrganization($organization), $requestParams);
+//        $result = $ngTable->getData();
+//        echo json_encode($result);
+
+//        todo
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAgreements', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->alias = 't';
+        $criteria->join = 'left join acc_course_service cs on cs.service_id=t.service_id';
+        $criteria->join .= ' left join course c on c.course_ID=cs.course_id';
+        $criteria->join .= ' left join acc_module_service ms on ms.service_id=t.service_id';
+        $criteria->join .= ' left join module m on m.module_ID=ms.module_id';
+        $criteria->addCondition('t.user_id='.$requestParams['user'].' and (m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+        or c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.')');
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+    
     public function actionGetTypeahead($query) {
         $agreements = new Agreements();
         $models = $agreements->getTypeahead($query);
@@ -73,7 +103,12 @@ class AgreementsController extends TeacherCabinetController {
         echo json_encode($response);
     }
 
-    public function actionAgreement() {
+    public function actionAgreement($id) {
+        $agreement=UserAgreements::model()->findByPk($id);
+        if(!$agreement->checkAgreementView()){
+            throw new \application\components\Exceptions\IntItaException(403, 'Ти не маєш доступу до дії в межах даної організації');
+        }
+
         $this->renderPartial('agreement');
     }
 
@@ -81,5 +116,18 @@ class AgreementsController extends TeacherCabinetController {
         $agreements = new Agreements();
         $agreements->getUserAgreement($id);
         echo json_encode($agreements->getUserAgreement($id), JSON_FORCE_OBJECT);
+    }
+
+    public function actionRenderUserAgreements($idUser) {
+        Yii::app()->user->model->hasAccessToOrganizationModel(
+            TrainerStudent::model()->findByAttributes(
+                array(
+                    'student'=>$idUser,
+                    'trainer'=>Yii::app()->user->getId(),
+                    'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
+                    'end_time'=>null,
+                )
+            ));
+        $this->renderPartial('userAgreements');
     }
 }

@@ -68,7 +68,9 @@ class StudentRegController extends Controller
         
         $careers=json_decode($_POST['careers']);
         $specializations=json_decode($_POST['specializations']);
-        
+        $avatarBase64=$_POST['avatar'];
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $avatarBase64));
+
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'registration-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -90,19 +92,19 @@ class StudentRegController extends Controller
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
 
-            if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
             if ($model->validate()) {
-                if (isset($model->avatar)) {
-                    Avatar::saveStudentAvatar($model);
+                if ($avatarBase64) {
+                    $fileName = FileUploadHelper::getFileNameForBase64();
+                    Avatar::saveStudentAvatar($model, $data, $fileName);
                 }
 
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
                 $model->save();
-                
+
                 if($careers) $model->createUserCareer($careers);
-                if($specializations) $model-> createUserSpecialization($specializations);
-               
+                if($specializations) $model->createUserSpecialization($specializations);
+
                 if ($model->avatar == Null) {
                     $thisModel = new StudentReg();
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
@@ -168,7 +170,6 @@ class StudentRegController extends Controller
             $owner = true;
         }
 
-
         $this->render("profile", array(
             'dataProvider' => $dataProvider,
             'post' => $model,
@@ -200,7 +201,9 @@ class StudentRegController extends Controller
 
         $careers=json_decode($_POST['careers']);
         $specializations=json_decode($_POST['specializations']);
-        
+        $avatarBase64=$_POST['avatar'];
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $avatarBase64));
+
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'editProfile-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -215,14 +218,14 @@ class StudentRegController extends Controller
         }
 
         $model->attributes = $_POST['StudentReg'];
-        if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
         if ($model->validate()) {
-            if (isset($model->avatar)) {
-                Avatar::saveStudentAvatar($model);
+            if ($avatarBase64) {
+                $fileName = FileUploadHelper::getFileNameForBase64();
+                Avatar::saveStudentAvatar($model, $data, $fileName);
             }
 
             $model->update(array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
-                'linkedin','vkontakte','twitter','skype','passport','document_type','inn','passport_issued','prev_job','current_job','education_shift'));
+                'linkedin','twitter','skype','passport','document_type','inn','passport_issued','prev_job','current_job','education_shift'));
             $model->updateUserCareer($careers);
             $model->updateUserSpecialization($specializations);
 
@@ -255,6 +258,9 @@ class StudentRegController extends Controller
             if (!empty($_POST['StudentReg']['password']) && sha1($_POST['StudentReg']['password']) == sha1($_POST['StudentReg']['password_repeat']))
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['password'])));
 
+            $callUrl = new CurlHelper();
+            $callUrl->callPageByCurl(Config::getFullChatPath().'/chat/update/users/name');
+
             $this->redirect(Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)));
         } else
             $this->render("studentprofileedit", array('model' => $model));
@@ -271,7 +277,7 @@ class StudentRegController extends Controller
         $model = StudentReg::model()->findByPk($id);
         $atr = Yii::app()->request->getPost('StudentReg');
         $pass = $atr ['password'];
-        if ($model->password == sha1($pass)) {
+        if ($model->getPassword() == sha1($pass)) {
             if (isset($_POST['StudentReg'])) {
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['new_password'])));
                 $this->redirect(Yii::app()->createUrl('studentreg/profile', array('idUser' => Yii::app()->user->getId())));
@@ -300,21 +306,29 @@ class StudentRegController extends Controller
         $id = Yii::app()->request->getPost('id', 0);
         $model = RegisteredUser::userById($id);
         $teacher_attributes = [];
+        $graduate = [];
         if($model->trainer){
-            $trainer=array('name'=>$model->trainer->getTrainerByStudent($id)->userNameWithEmail(),
-                'link'=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => $model->trainer->trainer)));
+            $trainers=array();
+            foreach ($model->trainer as $key=>$trainer) {
+                $trainers[$key]=array('name'=>$trainer->trainerModel->userNameWithEmail(),
+                    'link'=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => $trainer->trainer)),
+                    'organization'=>$trainer->organization->name);
+            }
         } else{
-            $trainer=false;
+            $trainers=false;
         }
 
         if ($model->isTeacher()) {
-            $role = array('teacher' => true,'trainer'=>$trainer);
+            $role = array('teacher' => true,'trainer'=>$trainers);
             $teacher_attributes = Teacher::model()->findByPk($id)->getAttributes(array('corporate_mail','mailActive'));
-
         } else {
-            $role = array('teacher' => false,'trainer'=>$trainer);
+            $role = array('teacher' => false,'trainer'=>$trainers);
         }
-        $data = array_merge($model->attributes, $role, $teacher_attributes);
+        if ($model->isGraduate()){
+            $graduate = Graduate::model()->with(['rate'])->find('rate.id_user=:user',[':user'=>$model->id])->getAttributes();
+
+        }
+        $data = array_merge($model->attributes, $role, $teacher_attributes, ['review'=>$graduate]);
         echo json_encode($data);
     }
 
@@ -391,7 +405,7 @@ class StudentRegController extends Controller
         $count_total_cell = 0; // add $model->startCareers preferSpecializations
         $student_attributes = ['firstName', 'secondName', 'nickname',
                                'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
-                               'vkontakte', 'twitter', 'phone', 'address', 'education',
+                                'twitter', 'phone', 'address', 'education',
                                 'interests', 'aboutUs', 'aboutMy', 'avatar',
                                 'skype', 'country', 'city', 'prev_job', 'passport',
                                 'document_issued_date', 'inn', 'passport_issued', 'current_job'];
@@ -447,5 +461,24 @@ class StudentRegController extends Controller
         if (is_file($file))
             unlink($file);
         $model->delete();
+    }
+
+    public function actionAddReview(){
+        $request = Yii::app()->request->getPost('review');
+        if ($request){
+           $model = Graduate::model()->findByPk($request['id']);
+           $model->loadModel($request);
+           $model->published = 0;
+           if ($model->validate()){
+               $model->save();
+               echo 'true';
+
+           }
+           else{
+               echo CJSON::encode(['errors'=>$model->getErrors()]);
+           }
+        }
+        return true;
+
     }
 }

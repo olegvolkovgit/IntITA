@@ -219,12 +219,13 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->join .= ' LEFT JOIN lectures l ON le.id_lecture = l.id';
         $criteria->join .= ' RIGHT JOIN teacher_consultant_student tcs ON t.id_student = tcs.id_student and l.idModule = tcs.id_module';
         $criteria->join .= ' RIGHT JOIN teacher_consultant_module tcm ON l.idModule = tcm.id_module';
+        $criteria->join .= ' LEFT JOIN module m ON m.module_ID = tcm.id_module';
         if($untested){
             $criteria->join .= ' LEFT JOIN plain_task_marks ptm ON t.id = ptm.id_answer';
             $criteria->addCondition('ptm.id_answer IS NULL');
         }
         $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL 
-        and tcm.end_date IS NULL and tcm.id_teacher=:id');
+        and tcm.end_date IS NULL and tcm.id_teacher=:id and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->params = array(':id' => Yii::app()->user->getId());
         $criteria->group = 't.id DESC';
         $ngTable->mergeCriteriaWith($criteria);
@@ -243,8 +244,10 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->join .= ' LEFT JOIN lectures l ON le.id_lecture = l.id';
         $criteria->join .= ' RIGHT JOIN teacher_consultant_student tcs ON ans.id_student = tcs.id_student and l.idModule = tcs.id_module';
         $criteria->join .= ' RIGHT JOIN teacher_consultant_module tcm ON l.idModule = tcm.id_module';
+        $criteria->join .= ' LEFT JOIN module m ON m.module_ID = tcm.id_module';
         $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL 
-        and tcm.end_date IS NULL and tcm.id_teacher=:id and ans.read_answer=0');
+        and tcm.end_date IS NULL and tcm.id_teacher=:id and ans.read_answer=0 
+        and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->params = array(':id' => $id);
 
         return PlainTaskAnswer::model()->findAll($criteria);

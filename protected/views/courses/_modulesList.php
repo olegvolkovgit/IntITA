@@ -4,6 +4,7 @@ $this->widget('application.components.ColumnListView', array(
     'itemView' => '_moduleBlock',
     'viewData'=>array( 'lang' => $lang ),
     'summaryText' => '',
+    'emptyText' => 'Модулi не знайдено',
     'columns' => array("one", "two"),
     'pager' => array(
         'firstPageLabel' => '&#171;&#171;',

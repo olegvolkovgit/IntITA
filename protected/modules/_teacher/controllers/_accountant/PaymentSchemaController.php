@@ -3,7 +3,10 @@
 class PaymentSchemaController extends TeacherCabinetController
 {
     public function hasRole() {
-        return Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isAdmin();
+        $allowedTrainerActions = ['getSchemas'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isAdmin() ||
+        (Yii::app()->user->model->isTrainer() || Yii::app()->user->model->isAuditor() && in_array($action, $allowedTrainerActions));
     }
 
     public function actionGetSchemas() {
@@ -48,34 +51,43 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
-    public function actionSchemasTemplates()
+    public function actionSchemasTemplates($organization)
     {
-        $this->renderPartial('schemasTemplates',array(),false,true);
+        $this->renderPartial('schemasTemplates',array('organization'=>$organization),false,true);
     }
 
     public function actionApplyTemplateView($request=null)
     {
         if($request){
-            if(!MessagesServiceSchemesRequest::model()->findByPk($request)->isApprovable())
+            $model=MessagesServiceSchemesRequest::model()->findByPk($request);
+            if(!$model->isApprovable())
                 throw new Exception('Статус запиту не дозволяє його застосувати');
+            if($model->service->courseServices){
+                $contentModel=$model->service->courseServices->courseModel;
+            }else{
+                $contentModel=$model->service->moduleServices->moduleModel;
+            }
+            Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         }
-       
-        $this->renderPartial('applyTemplateView',array(),false,true);
+
+        $this->renderPartial('applyTemplateView',array('scenario'=>'create'),false,true);
     }
 
-    public function actionAppliedTemplatesList()
+    public function actionAppliedTemplatesList($organization)
     {
-        $this->renderPartial('appliedTemplatesList',array(),false,true);
+        $this->renderPartial('appliedTemplatesList',array('organization'=>$organization),false,true);
     }
     
     public function actionViewSchemasTemplate($id)
     {
-        $this->renderPartial('update', array(), false, true);
+        $paymentSchema=PaymentSchemeTemplate::model()->findByPk($id);
+        $canEdit=$paymentSchema->canEditPaymentSchema();
+        $this->renderPartial('update', array('canEdit'=>$canEdit), false, true);
     }
     
-    public function actionTemplateCreate()
+    public function actionTemplateCreate($organization)
     {
-        $this->renderPartial('create',array('scenario'=>'create'),false,true);
+        $this->renderPartial('create',array('scenario'=>'create','organization'=>$organization),false,true);
     }
 
     public function actionDisplayPromotionSchemes()
@@ -83,9 +95,9 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('displayPromotionSchemesView',array('scenario'=>'create'),false,true);
     }
 
-    public function actionDisplayPromotionSchemesList()
+    public function actionDisplayPromotionSchemesList($organization)
     {
-        $this->renderPartial('displayPromotionSchemesList',array(),false,true);
+        $this->renderPartial('displayPromotionSchemesList',array('organization'=>$organization),false,true);
     }
 
     public function actionSchemesRequests()
@@ -96,11 +108,21 @@ class PaymentSchemaController extends TeacherCabinetController
     public function actionPromotionUpdate($id)
     {
         $promotion = PromotionPaymentScheme::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($promotion);
         if(!$promotion)
-            throw new \application\components\Exceptions\IntItaException('404', 'Данного акційного предложення не існує');
+            throw new \application\components\Exceptions\IntItaException('404', 'Данного акційної пропозиції не існує');
         $this->renderPartial('displayPromotionSchemesView',array('scenario'=>'update'),false,true);
     }
-    
+
+    public function actionAppliedTemplateUpdate($id)
+    {
+        $paymentScheme = PaymentScheme::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($paymentScheme);
+        if(!$paymentScheme)
+            throw new \application\components\Exceptions\IntItaException('404', 'Данного сторінки не існує');
+        $this->renderPartial('applyTemplateView',array('scenario'=>'update'),false,true);
+    }
+
     public function actionCreateSchemeTemplate()
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
@@ -111,6 +133,7 @@ class PaymentSchemaController extends TeacherCabinetController
         $templateModel->description_ua=isset($template->description_ua)?$template->description_ua:null;
         $templateModel->description_ru=isset($template->description_ru)?$template->description_ru:null;
         $templateModel->description_en=isset($template->description_en)?$template->description_en:null;
+        $templateModel->id_organization=$template->id_organization;
         $transaction = Yii::app()->db->beginTransaction();
 
         try {
@@ -140,6 +163,7 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
         $templateModel= PaymentSchemeTemplate::model()->findByPk($template->id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($templateModel);
         $templateModel->template_name_ua=$template->name_ua;
         $templateModel->template_name_ru=isset($template->name_ru)?$template->name_ru:null;
         $templateModel->template_name_en=isset($template->name_en)?$template->name_en:null;
@@ -194,6 +218,12 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('PaymentSchemeTemplate', $requestParams);
+        if($_GET['organization']){
+            $criteria = new CDbCriteria();
+            $criteria->addCondition(
+                't.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' or t.id_organization is null');
+            $ngTable->mergeCriteriaWith($criteria);
+        }
         $result = $ngTable->getData();
 
         echo json_encode($result);
@@ -205,8 +235,7 @@ class PaymentSchemaController extends TeacherCabinetController
         $ngTable = new NgTableAdapter('PaymentScheme', $requestParams);
 
         $criteria =  new CDbCriteria();
-        $criteria->condition = 't.id ='.PaymentScheme::DEFAULT_COURSE_SCHEME.' OR t.id ='.PaymentScheme::PROMOTIONAL_COURSE_SCHEME.' 
-        OR t.id ='.PaymentScheme::DEFAULT_MODULE_SCHEME.' OR t.id ='.PaymentScheme::PROMOTIONAL_MODULE_SCHEME;
+        $criteria->condition = 't.id ='.PaymentScheme::DEFAULT_COURSE_SCHEME.' OR t.id ='.PaymentScheme::DEFAULT_MODULE_SCHEME;
         $ngTable->mergeCriteriaWith($criteria);
 
         $result = $ngTable->getData();
@@ -220,7 +249,10 @@ class PaymentSchemaController extends TeacherCabinetController
         $ngTable = new NgTableAdapter('PaymentScheme', $requestParams);
 
         $criteria =  new CDbCriteria();
-        $criteria->condition = 't.serviceId IS NOT NULL and t.userId IS NULL';
+        $criteria->condition = '(t.serviceId IS NOT NULL or t.serviceType IS NOT NULL) and t.userId IS NULL';
+        if($_GET['organization']){
+            $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        }
         $ngTable->mergeCriteriaWith($criteria);
 
         $result = $ngTable->getData();
@@ -232,6 +264,11 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('PromotionPaymentScheme', $requestParams);
+        if($_GET['organization']){
+            $criteria =  new CDbCriteria();
+            $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+            $ngTable->mergeCriteriaWith($criteria);
+        }
         $result = $ngTable->getData();
 
         echo json_encode($result);
@@ -244,6 +281,9 @@ class PaymentSchemaController extends TeacherCabinetController
 
         $criteria =  new CDbCriteria();
         $criteria->condition = 't.userId IS NOT NULL';
+        if($_GET['organization']){
+            $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        }
         $ngTable->mergeCriteriaWith($criteria);
 
         $result = $ngTable->getData();
@@ -254,16 +294,20 @@ class PaymentSchemaController extends TeacherCabinetController
     public function actionGetSchemesRequestsNgTable()
     {
         $requestParams = $_GET;
+        $criteria =  new CDbCriteria();
+        $criteria->join = 'left join acc_service s on s.service_id=t.id_service';
+        $criteria->join .= ' left join acc_module_service ms on ms.service_id=s.service_id';
+        $criteria->join .= ' left join module m on m.module_ID=ms.module_id';
+        $criteria->join .= ' left join acc_course_service cs on cs.service_id=s.service_id';
+        $criteria->join .= ' left join course c on c.course_ID=cs.course_id';
         if(isset($requestParams['filter']['status']) && $requestParams['filter']['status']=='4'){
-            $criteria =  new CDbCriteria();
             $criteria->condition = 't.status='.MessagesServiceSchemesRequest::NEW_REQUEST.' or t.status='.MessagesServiceSchemesRequest::IN_PROCESS;
             unset($requestParams['filter']);
-            $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
-            $ngTable->mergeCriteriaWith($criteria);
-        }else{
-            $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
         }
-
+        $criteria->addCondition('c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+        or m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -282,10 +326,15 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $id=Yii::app()->request->getParam('id');
         $paymentScheme=PaymentScheme::model()->findByPk($id);
+
+        Yii::app()->user->model->hasAccessToOrganizationModel($paymentScheme);
+
         $params=array(
             'id_template'=>$paymentScheme->id_template,
             'userId'=>$paymentScheme->userId,
-            'serviceId'=>$paymentScheme->serviceId
+            'serviceId'=>$paymentScheme->serviceId,
+            'serviceType'=>$paymentScheme->serviceId,
+            'id_organization'=>$paymentScheme->id_organization
         );
 
         $transaction = Yii::app()->db->beginTransaction();
@@ -336,12 +385,17 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $id=Yii::app()->request->getParam('id');
         $promotionPaymentScheme=PromotionPaymentScheme::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($promotionPaymentScheme);
         $promotionPaymentScheme->delete();
     }
 
-    public function actionGetSchemesTemplatesList()
+    public function actionGetSchemesTemplatesList($organization=0)
     {
-        $schemesTemplates=PaymentSchemeTemplate::model()->with()->findAll();
+        $criteria = new CDbCriteria();
+        if($organization){
+            $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' or id_organization is NULL');
+        }
+        $schemesTemplates=PaymentSchemeTemplate::model()->findAll($criteria);
         $result=ActiveRecordToJSON::toAssocArray($schemesTemplates);
 
         echo json_encode($result);
@@ -351,6 +405,12 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $comment=$_POST['reject_comment']?$_POST['reject_comment']:null;
         $model=MessagesServiceSchemesRequest::model()->findByPk($_POST['id_message']);
+        if($model->service->courseServices){
+            $contentModel=$model->service->courseServices->courseModel;
+        }else{
+            $contentModel=$model->service->moduleServices->moduleModel;
+        }
+        Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         $model->setCancelled($comment);
     }
 
@@ -359,12 +419,24 @@ class PaymentSchemaController extends TeacherCabinetController
         $idMessage=Yii::app()->request->getParam('idMessage');
         $status=Yii::app()->request->getParam('status');
         $model=MessagesServiceSchemesRequest::model()->findByPk($idMessage);
+        if($model->service->courseServices){
+            $contentModel=$model->service->courseServices->courseModel;
+        }else{
+            $contentModel=$model->service->moduleServices->moduleModel;
+        }
+        Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         $model->setStatus($status);
     }
     
     public function actionSetRequestComment()
     {
         $model=MessagesServiceSchemesRequest::model()->findByPk($_POST['id_message']);
+        if($model->service->courseServices){
+            $contentModel=$model->service->courseServices->courseModel;
+        }else{
+            $contentModel=$model->service->moduleServices->moduleModel;
+        }
+        Yii::app()->user->model->hasAccessToOrganizationModel($contentModel);
         $model->setComment($_POST['comment']);
     }
     
@@ -380,17 +452,26 @@ class PaymentSchemaController extends TeacherCabinetController
         try {
             $params = array_filter($_POST);
             $params['id_template'] =$params['template']['id'];
+            $params['id_user_approved']=Yii::app()->user->getId();
+            $params['id_organization']=Yii::app()->user->model->getCurrentOrganization()->id;
             unset($params['id']);
+
+            $template=PaymentSchemeTemplate::model()->findByPk($params['id_template']);
+            $template->id_organization===null || Yii::app()->user->model->hasAccessToOrganizationModel($template);
 
             $services = array();
             $educationForms = EducationForm::model()->findAllByPk(array(EducationForm::ONLINE,EducationForm::OFFLINE));
 
             $user = null;
             if (key_exists('courseId', $params)) {
+                Yii::app()->user->model->hasAccessToOrganizationModel(Course::model()->findByPk($params['courseId']));
+
                 foreach ($educationForms as $key=>$form){
                     array_push($services,CourseService::model()->getService($params['courseId'], $form));
                 }
             } else if (key_exists('moduleId', $params)) {
+                Yii::app()->user->model->hasAccessToOrganizationModel(Module::model()->findByPk($params['moduleId']));
+
                 foreach ($educationForms as $form) {
                     array_push($services, ModuleService::model()->getService($params['moduleId'], $form));
                 }
@@ -406,16 +487,15 @@ class PaymentSchemaController extends TeacherCabinetController
             foreach ($services as $service) {
                 $soFactory = new SpecialOfferFactory($user, $service);
                 $offer = $soFactory->createSpecialOffer($params);
-
                 if ($offer === null) {
-                    if ($params['serviceType']==PaymentScheme::COURSE_SERVICE) {
-                        $id=PaymentScheme::PROMOTIONAL_COURSE_SCHEME;
-                    } else if ($params['serviceType']==PaymentScheme::MODULE_SERVICE) {
-                        $id=PaymentScheme::PROMOTIONAL_MODULE_SCHEME;
-                    }
-                    $offer = PaymentScheme::model()->findByPk($id);
+                    $offer = new PaymentScheme();
                     $offer->setAttributes($params);
-                    $offer->save();
+                    if($offer->checkDateConflict()){
+                        $offer->save();
+                    }else{
+                        throw new Exception('Застосувати схему не вдалося, оскільки дата її дії 
+                        пересікається з іншою схемою застосованою раніше за такими ж параметрами');
+                    }
 
                     if (count($offer->getErrors())) {
                         throw new Exception(json_encode($offer->getErrors()));
@@ -443,12 +523,25 @@ class PaymentSchemaController extends TeacherCabinetController
         try {
             $params = array_filter($_POST);
             $params['id_template'] = $params['template']['id'];
+            $params['id_user_approved']=Yii::app()->user->getId();
+            $params['id_organization']=Yii::app()->user->model->getCurrentOrganization()->id;
             unset($params['template']);
+
+            $template=PaymentSchemeTemplate::model()->findByPk($params['id_template']);
+            $template->id_organization===null || Yii::app()->user->model->hasAccessToOrganizationModel($template);
 
             if(isset($params['courseId']) && isset($params['moduleId']))
                 unset($params['moduleId']);
             if((isset($params['courseId']) || isset($params['moduleId'])) && isset($params['serviceType']))
                 unset($params['serviceType']);
+
+            //check for access to organization services
+            if(isset($params['courseId'])){
+                Yii::app()->user->model->hasAccessToOrganizationModel(Course::model()->findByPk($params['courseId']));
+            }
+            if(isset($params['moduleId'])){
+                Yii::app()->user->model->hasAccessToOrganizationModel(Module::model()->findByPk($params['moduleId']));
+            }
 
             $promotion = new PromotionPaymentScheme();
             $promotion->setAttributes($params);
@@ -477,10 +570,21 @@ class PaymentSchemaController extends TeacherCabinetController
             $params['id_template'] = $params['template']['id'];
             unset($params['template']);
 
+            $template=PromotionPaymentScheme::model()->findByPk($params['id']);
+            Yii::app()->user->model->hasAccessToOrganizationModel($template);
+
             if(isset($params['courseId']) && isset($params['moduleId']))
                 $params['moduleId']=null;
             if((isset($params['courseId']) || isset($params['moduleId'])) && isset($params['serviceType']))
                 $params['serviceType']=null;
+
+            //check for access to organization services
+            if(isset($params['courseId'])){
+                Yii::app()->user->model->hasAccessToOrganizationModel(Course::model()->findByPk($params['courseId']));
+            }
+            if(isset($params['moduleId'])){
+                Yii::app()->user->model->hasAccessToOrganizationModel(Module::model()->findByPk($params['moduleId']));
+            }
 
             $promotion = PromotionPaymentScheme::model()->findByPk($params['id']);
             $promotion->setAttributes($params);
@@ -497,9 +601,84 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
+//todo update for two forms services
+//    public function actionUpdateAppliedTemplate () {
+//        function valueNull($value) {
+//            return !$value?null:$value;
+//        }
+//
+//        $result = ['message' => 'OK'];
+//        $statusCode = 201;
+//        try {
+//            $params = array_map("valueNull", $_POST);
+//            $params['id_template'] =$params['template']['id'];
+//            $params['id_user_approved']=Yii::app()->user->getId();
+//
+//            $paymentScheme=PaymentScheme::model()->findByPk($params['id']);
+//            Yii::app()->user->model->hasAccessToOrganizationModel($paymentScheme);
+//
+//            $services = array();
+//            $educationForms = EducationForm::model()->findAllByPk(array(EducationForm::ONLINE,EducationForm::OFFLINE));
+//
+//            $user = null;
+//
+//            if (key_exists('courseId', $params) && $params['courseId']) {
+//                Yii::app()->user->model->hasAccessToOrganizationModel(Course::model()->findByPk($params['courseId']));
+//
+//                foreach ($educationForms as $key=>$form){
+//                    array_push($services,CourseService::model()->getService($params['courseId'], $form));
+//                }
+//            } else if (key_exists('moduleId', $params) && $params['moduleId']) {
+//                Yii::app()->user->model->hasAccessToOrganizationModel(Module::model()->findByPk($params['moduleId']));
+//
+//                foreach ($educationForms as $form) {
+//                    array_push($services, ModuleService::model()->getService($params['moduleId'], $form));
+//                }
+//            }
+//
+//            if (key_exists('userId', $params)) {
+//                $user = StudentReg::model()->findByPk($params['userId']);
+//            }
+////todo update for two forms services
+//            foreach ($services as $service) {
+//                $offer = PaymentScheme::model()->findByPk($params['id']);
+//                $offer->setAttributes($params);
+//
+//                if($offer->checkDateConflict($offer)){
+//                    $offer->save();
+//                }else{
+//                    throw new Exception('Оновити схему не вдалося, оскільки дата її дії
+//                    пересікається з іншою схемою застосованою раніше за такими ж параметрами');
+//                }
+//
+//                if (count($offer->getErrors())) {
+//                    throw new Exception(json_encode($offer->getErrors()));
+//                }
+//            }
+//
+//            if(isset($params['request']) && $user){
+//                if(MessagesServiceSchemesRequest::model()->findByPk($params['request'])->approve()){
+//                    $this->approvedNotify($offer);
+//                };
+//            }else if($user){
+//                $this->approvedNotify($offer);
+//            }
+//        } catch (Exception $error) {
+//            $statusCode = 500;
+//            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+//        }
+//        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+//    }
+
     public function actionGetPromotionSchemeData() {
         $id=Yii::app()->request->getParam('id');
         $model = PromotionPaymentScheme::model()->findByPk($id);
+        echo CJSON::encode($model);
+    }
+
+    public function actionGetPaymentSchemeData() {
+        $id=Yii::app()->request->getParam('id');
+        $model = PaymentScheme::model()->findByPk($id);
         echo CJSON::encode($model);
     }
 
@@ -515,7 +694,14 @@ class PaymentSchemaController extends TeacherCabinetController
 
     public function actionGetActualSchemesRequestsCount()
     {
-         echo count(MessagesServiceSchemesRequest::model()->findAllByAttributes(array('status'=>MessagesServiceSchemesRequest::NEW_REQUEST)));
+        $modulesRequestsCount=count(MessagesServiceSchemesRequest::model()->with('service.moduleServices.moduleModel')->findAll(
+            'moduleModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+            and t.status='.MessagesServiceSchemesRequest::NEW_REQUEST));
+        $coursesRequestsCount=count(MessagesServiceSchemesRequest::model()->with('service.courseServices.courseModel')->findAll(
+            'courseModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+            and t.status='.MessagesServiceSchemesRequest::NEW_REQUEST));
+
+         echo $modulesRequestsCount+$coursesRequestsCount;
     }
 
     public static function approvedNotify($offer)
@@ -573,7 +759,7 @@ class PaymentSchemaController extends TeacherCabinetController
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
+            $message->build($subject, $sender->template(), array($user), StudentReg::model()->findByPk(Yii::app()->user->getId()));
             $message->create();
 
             $message->send($sender);

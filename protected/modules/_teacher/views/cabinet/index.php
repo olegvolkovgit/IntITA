@@ -10,7 +10,9 @@
  * @var $countNewMessages int
  */
 ?>
-<?php date_default_timezone_set(Config::getServerTimezone()); ?>
+<?php
+    date_default_timezone_set(Config::getServerTimezone());
+?>
 <script>
     user = '<?=Yii::app()->user->getId()?>';
     scenario = '<?=$scenario?>';
@@ -47,9 +49,6 @@
             </div>
         </a>
     </script>
-</div>
-<div style="display: none;text-align: center;" id="ajaxLoad" data-loading>
-    <img style="position:relative;top:68px" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
 </div>
 <div class="col-lg-6">
     <!-- Modal -->

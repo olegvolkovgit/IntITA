@@ -133,26 +133,79 @@
 //                }
 //                ?>
 <!--            </div>-->
+        <?php if(Yii::app()->user->model->hasOrganizationById($post->id_organization)) { ?>
         <div>
-            <span id="titleModule"><?php echo Yii::t('module', '0893'); ?>: </span>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0094'); ?>:
+            </span>
             <?php
             $lg = Yii::app()->session['lg'];
-            $status = $post->status;
+            $status = $post->status_online;
             $this->widget('editable.EditableField', array(
                 'type' => 'select',
                 'model' => $post,
-                'attribute' => 'status',
+                'attribute' => 'status_online',
                 'url' => $this->createUrl('module/updateModuleAttribute'),
                 'source' => Editable::source(array(
                         '0' => Yii::t('courses', '0230'),
                         '1' => Yii::t('courses', '0231'),
                     )
                 ),
-                'title' => Yii::t('module', '0893').':',
+                'title' => Yii::t('courses', '0094').':',
                 'placement' => 'right',
             ));
             ?>
         </div>
+        <div>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0944'); ?>:
+            </span>
+            <?php
+            $lg = Yii::app()->session['lg'];
+            $status = $post->status_offline;
+            $this->widget('editable.EditableField', array(
+                'type' => 'select',
+                'model' => $post,
+                'attribute' => 'status_offline',
+                'url' => $this->createUrl('module/updateModuleAttribute'),
+                'source' => Editable::source(array(
+                        '0' => Yii::t('courses', '0230'),
+                        '1' => Yii::t('courses', '0231'),
+                    )
+                ),
+                'title' => Yii::t('courses', '0944').':',
+                'placement' => 'right',
+            ));
+            ?>
+        </div>
+        <?php } else {?>
+            <div>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0094'); ?>:
+            </span>
+                <?php if ($post->status_online == Module::DEVELOP) { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                    <?php echo Yii::t('courses', '0230');
+                } else { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                    <?php echo Yii::t('courses', '0231');
+                }
+                ?>
+            </div>
+            <div>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0944'); ?>:
+            </span>
+                <?php if ($post->status_offline == Module::DEVELOP) { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                    <?php echo Yii::t('courses', '0230');
+                } else { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                    <?php echo Yii::t('courses', '0231');
+                }
+                ?>
+            </div>
+        <?php } ?>
         <div>
             <?php $this->renderPartial('_price', array('model'=>$post)); ?>
         </div>
@@ -160,7 +213,7 @@
 
         <div class="moduleRating">
             <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-            <?php echo CommonHelper::getRating($post->rating); ?>
+            <?php echo CommonHelper::getRating($post->getAverageRating()); ?>
         </div>
     </div>
 </div>

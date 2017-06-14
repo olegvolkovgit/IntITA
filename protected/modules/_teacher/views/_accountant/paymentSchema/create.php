@@ -1,5 +1,7 @@
 <?php
-/* @var $scenario */
+/* @var $scenario
+* @var $organization
+ */
 ?>
 <div class="panel-body" ng-controller="paymentsSchemaTemplateCtrl">
     <div class="row">
@@ -70,9 +72,11 @@
                     </tbody>
                 </table>
             </div>
-
+            <input type="hidden" ng-model="template.id_organization"
+                   ng-init="template.id_organization='<?php echo $organization?Yii::app()->user->model->getCurrentOrganizationId():null ?>'">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" ng-click="createTemplate(template)" ng-disabled="!template.name_ua || !template.schemes.length">
+                <button type="submit" class="btn btn-primary" ng-click="createTemplate(template)"
+                        ng-disabled="!template.name_ua || !template.schemes.length">
                     Зберегти
                 </button>
                 <a type="button" class="btn btn-default" ng-click='back()'>

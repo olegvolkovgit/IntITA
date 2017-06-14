@@ -34,7 +34,7 @@
     <tr>
         <th>Користувач:</th>
         <td>
-            <a ng-href="#/users/profile/{{agreementData.user_id.user_id}}">{{agreementData.user_id.fullName}} {{agreementData.user.email}}</a>
+            <a ng-href="#/users/profile/{{agreementData.user_id.user_id}}">{{agreementData.user_id.fullName}}</a>
         </td>
     </tr>
     <tr>
@@ -49,6 +49,14 @@
         <th>Наступна проплата до:</th>
         <td>{{agreementData.payment_date  | shortDate:'dd.MM.yyyy'}}</td>
 
+    </tr>
+    <tr>
+        <th>Компанія</th>
+        <td>{{agreementData.corporateEntity.title}}</td>
+    </tr>
+    <tr>
+        <th>Рахунок</th>
+        <td>{{agreementData.checkingAccount.bank_name}}: {{agreementData.checkingAccount.checking_account}}</td>
     </tr>
     <tr>
         <th>Крайній термін сплати</th>

@@ -47,10 +47,11 @@ angular
                 return promise;
             };
 
-            this.getAllRevisionsJson = function() {
+            this.getAllRevisionsJson = function(data) {
                 var promise = $http({
                     url: basePath+'/revision/buildAllRevisions',
                     method: "POST",
+                    data: $.param({organization: data.organization}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;

@@ -1,6 +1,5 @@
 <h2 class="m-b-10">Додати нову проплату</h2>
 <div class="row" ng-controller="createOperationCtrl">
-    <toast style="left:0px"></toast>
     <div class="panel-body">
         <div class="formMargin">
             <div class="col-lg-8">
@@ -72,7 +71,7 @@
                             </div>
                             <div class="col-md-1">
                                 <a class="btn btn-default no-blur"
-                                   ng-href="#/admin/users/user/{{operation.userId}}"
+                                   ng-href="#/users/profile/{{operation.userId}}"
                                    target="_blank"
                                    ng-class="{disabled:!operation.userId}">
                                     <i class="glyphicon glyphicon-eye-open"></i>

@@ -3,7 +3,10 @@
 class OperationController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAccountant();
+        $allowedAuditorActions = ['index'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAccountant() ||
+            (Yii::app()->user->model->isAuditor() && in_array($action, $allowedAuditorActions));
     }
 
     /**
@@ -68,10 +71,11 @@ class OperationController extends TeacherCabinetController
 
     /**
      * Manages all models.
+     * @param $organization
      */
-    public function actionIndex($id=0)
+    public function actionIndex($organization)
     {
-        $this->renderPartial('index');
+        $this->renderPartial('index', array('organization'=>$organization));
     }
 
     public function actionGetOperations($page = 1, $pageCount=10) {

@@ -1,7 +1,7 @@
 <?php
 /* @var $scenario */
 ?>
-<div class="panel-body">
+<div class="panel-body" ng-controller="offlineGroupCtrl">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">

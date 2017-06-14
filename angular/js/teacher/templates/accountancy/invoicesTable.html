@@ -1,4 +1,15 @@
 <table ng-table="invoiceTableParams" class="table table-bordered table-striped table-condensed">
+    <colgroup>
+        <col/>
+        <col/>
+        <col width="20%"/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+    </colgroup>
     <tr ng-repeat="row in $data track by row.id"
         ng-class="{'bg-warning': (currentDate>=(row.payment_date  | shortDate:'yyyy-MM-dd') && currentDate<=(row.expiration_date  | shortDate:'yyyy-MM-dd')),
                     'bg-danger': (currentDate>(row.expiration_date  | shortDate:'yyyy-MM-dd')),
@@ -10,7 +21,7 @@
             <a href="#/accountant/agreement/{{row.agreement.id}}">{{row.agreement.number}}</a>
         </td>
         <td data-title="'Користувач'" filter="{'userCreated.fullName': 'text'}" sortable="'userCreated.fullName'">
-            <a ng-href="#/users/profile/{{row.user_created}}">{{row.userCreated.fullName}} {{row.userCreated.email}}</a>
+            <a ng-href="#/users/profile/{{row.user_created}}">{{row.userCreated.fullName}}</a>
         </td>
         <td data-title="'Дата заведення'" filter="{'date_created': 'text'}" sortable="'date_created'">{{row.date_created}}</td>
         <td data-title="'Сума до сплати'" filter="{summa: 'text'}" sortable="'summa'">{{row.summa}}</td>

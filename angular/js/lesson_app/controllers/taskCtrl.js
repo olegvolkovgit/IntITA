@@ -10,7 +10,7 @@ angular
         };
     });
 
-function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, accessLectureService, ipCookie, getTaskJson) {
+function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsService, pagesUpdateService, interpreterServices, accessLectureService, ipCookie) {
     $scope.init = function(taskLang)
     {
         $scope.taskLang=taskLang;
@@ -47,7 +47,7 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
 
     $scope.getVariables=function(id,url){
         if($scope.variables==undefined){
-            getTaskJson.getJson(id,interpreterServer)
+            interpreterServices.getTaskVariables(id,interpreterServer)
                 .then(function(variable) {
                     $scope.variables=variable;
                     angular.element('#taskVariables').toggle();
@@ -70,7 +70,7 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
             bootbox.alert('Відповідь не може бути пустою');
             button.removeAttr('disabled');
         } else {
-            userAnswerTaskService.sendAnswerJson(interpreterServer, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
+            interpreterServices.sendAnswerJson(interpreterServer, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
                 if(response=='Added to compile'){
                     getTaskResult(idTask);
                 }else if(response=='error'){
@@ -85,11 +85,11 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
         }
 
         function getTaskResult(task) {
-            return userAnswerTaskService.getResultJson(interpreterServer, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
+            return interpreterServices.getResultJson(interpreterServer, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
                 .then(function(serverResponse) {
                     switch (serverResponse.status) {
                         case 'in proccess':
-                            getTaskResult();
+                            setTimeout( function() { getTaskResult(); }, 2000);
                             break;
                         case 'done':
                             $('#ajaxLoad').hide();

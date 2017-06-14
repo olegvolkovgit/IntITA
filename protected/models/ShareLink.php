@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $name
  * @property string $link
+ * @property string $id_organization
  */
 class ShareLink extends CActiveRecord
 {
@@ -27,11 +28,11 @@ class ShareLink extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, link', 'length', 'max'=>255 ),
-            array('name', 'required' ),
+            array('name, id_organization', 'required' ),
             array('link', 'safe'),
             array('link','required'),
 			// The following rule is used by search().
-			array('id, name, link', 'safe', 'on'=>'search'),
+			array('id, name, link, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,6 +44,7 @@ class ShareLink extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
 		);
 	}
 
@@ -55,6 +57,7 @@ class ShareLink extends CActiveRecord
 			'id' => 'ID',
 			'name' => 'Назва ресурса',
 			'link' => 'Посилання',
+            'id_organization' => 'Організація',
 		);
 	}
 
@@ -77,6 +80,7 @@ class ShareLink extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('link',$this->link,true);
+        $criteria->compare('id_organization',$this->id_organization,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -94,8 +98,9 @@ class ShareLink extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function shareLinksList(){
-        $links = ShareLink::model()->findAll();
+	public static function shareLinksList($allLinks){
+        $condition=$allLinks?'':'id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $links = ShareLink::model()->findAll($condition);
         $return = array('data' => array());
 
         foreach ($links as $record) {
@@ -103,7 +108,8 @@ class ShareLink extends CActiveRecord
             $row["id"] = $record->id;
             $row["name"] = CHtml::encode($record->name);
             $row["link"]["title"] = CHtml::encode($record->link);
-            $row["link"]["url"] = "'".Yii::app()->createUrl("/_teacher/_admin/shareLink/view", array("id"=>$record->id))."'";
+            $row["link"]["url"] = "'".Yii::app()->createUrl("/_teacher/_supervisor/shareLink/view", array("id"=>$record->id))."'";
+            $row["organization"] = $record->organization->name;
             array_push($return['data'], $row);
         }
 

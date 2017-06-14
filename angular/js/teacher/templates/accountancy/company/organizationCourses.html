@@ -1,0 +1,66 @@
+<div>
+    <div class="form-group">
+        <label for="text-filter"></label>
+        <input id='text-filter' type="text" class="form-control" ng-model="textFilter" ng-change="applyFilter()"/>
+    </div>
+</div>
+
+<div class="list-group">
+    <div ng-repeat="item in data | filter : textFilter as results" class="list-group-item">
+        <div class="list-group-item-heading">
+            <span ng-switch="item.type">
+                <span ng-switch-when="course">Курс:</span>
+                <span ng-switch-when="module">Модуль:</span>
+            </span>
+            {{item.title_ua}} ({{item.language}})
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="col-xs-2 text-left">Online:</div>
+                <div class="col-xs-10">
+                    <a ng-if="item.corporateEntityOnline"
+                       ui-sref="accountant.company.view.card({companyId:item.corporateEntityOnline.id})">
+                        {{item.corporateEntityOnline.title}} ({{item.corporateEntityOnline.EDPNOU}})
+                    </a>
+                    <span ng-if="!item.corporateEntityOnline">не призначено</span>
+                </div>
+                <div class="col-xs-10" ng-if="item.corporateEntityOnline">
+                    Рахунок: <a ui-sref="accountant.company.view.checkingAccounts.edit({checkingAccountId:item.checkingAccountOnline.id})">
+                        {{item.checkingAccountOnline.bank_name}} ({{item.checkingAccountOnline.checking_account}})
+                    </a>
+                </div>
+                <div class="form-group col-xs-10">
+                    <select ng-if="!item.corporateEntityOnline" class="form-control" ng-model="item.checkingAccountOnline" ng-options="account.id as (account.bank_name + ', р/р:' + account.checking_account) for account in checkingAccounts">
+                        <option value="" disabled>Оберіть рахунок</option>
+                    </select>
+                </div>
+                <div class="col-xs-12">
+                    <span ng-if="!item.corporateEntityOnline" class="btn btn-default" ng-click="bindToCompany(item, 1)" ng-disabled="!item.checkingAccountOnline">Призначити</span>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="col-xs-2">Offline:</div>
+                <div class="col-xs-10">
+                    <a ng-if="item.corporateEntityOffline"
+                       ui-sref="accountant.company.view.card({companyId:item.corporateEntityOffline.id})">
+                        {{item.corporateEntityOffline.title}} ({{item.corporateEntityOffline.EDPNOU}})
+                    </a>
+                    <span ng-if="!item.corporateEntityOffline">не призначено</span>
+                </div>
+                <div class="col-xs-10" ng-if="item.corporateEntityOffline">
+                    Рахунок: <a ui-sref="accountant.company.view.checkingAccounts.edit({checkingAccountId:item.checkingAccountOffline.id})">
+                    {{item.checkingAccountOffline.bank_name}} ({{item.checkingAccountOffline.checking_account}})
+                </a>
+                </div>
+                <div class="form-group col-xs-10">
+                    <select ng-if="!item.corporateEntityOffline" class="form-control" ng-model="item.checkingAccountOffline" ng-options="account.id as (account.bank_name + ', р/р:' + account.checking_account) for account in checkingAccounts">
+                        <option value="" disabled>Оберіть рахунок</option>
+                    </select>
+                </div>
+                <div class="col-xs-12">
+                    <span class="btn btn-default" ng-if="!item.corporateEntityOffline" ng-click="bindToCompany(item, 2)" ng-disabled="!item.checkingAccountOffline">Призначити</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

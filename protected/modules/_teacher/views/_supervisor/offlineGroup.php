@@ -1,9 +1,14 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="offlineGroupCtrl">
     <div class="panel-body">
         <ul class="list-inline">
             <li>
                 <a type="button" class="btn btn-primary" ng-href="#/supervisor/editOfflineGroup/{{groupId}}">
                     Редагувати групу
+                </a>
+            </li>
+            <li>
+                <a type="button" class="btn btn-primary" ng-href="#/supervisor/offlineGroups">
+                    Всі групи
                 </a>
             </li>
             <li>
@@ -25,6 +30,9 @@
                 </uib-tab>
                 <uib-tab  index="3" heading="Доступ до модулів">
                     <?php $this->renderPartial('/_supervisor/tables/_modulesAccess', array());?>
+                </uib-tab>
+                <uib-tab  index="4" heading="Викладачі">
+                    <?php $this->renderPartial('/_supervisor/tables/_modulesTeachers', array());?>
                 </uib-tab>
             </uib-tabset>
         </div>

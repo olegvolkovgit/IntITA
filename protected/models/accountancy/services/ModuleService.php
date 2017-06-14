@@ -12,6 +12,7 @@
  * @property Service $service
  * @property Module $module
  * @property EducationForm $educForm
+ * @property Module $moduleModel
  *
  * Behaviours
  * @property ServiceAccessBehavior access
@@ -235,5 +236,25 @@ class ModuleService extends AbstractIntITAService
     public function getContentLink()
     {
         return Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $this->module_id));
+    }
+
+    public function checkServiceAccess(){
+        if($this->education_form==EducationForm::ONLINE && $this->moduleModel->status_online)
+            return true;
+        if($this->education_form==EducationForm::OFFLINE && $this->moduleModel->status_offline)
+            return true;
+
+        return false;
+    }
+
+    public function getStatus(){
+        if($this->education_form==EducationForm::ONLINE)
+            return $this->moduleModel->status_online;
+        if($this->education_form==EducationForm::OFFLINE)
+            return $this->moduleModel->status_offline;
+    }
+
+    public function getContentModel(){
+        return $this->moduleModel;
     }
 }

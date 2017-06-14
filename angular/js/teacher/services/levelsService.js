@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .factory('levels', ['$resource',
         function ($resource) {
-            var url = basePath+'/_teacher/_admin/level/getlevelslist';
+            var url = basePath+'/_teacher/_super_admin/level/getlevelslist';
             return $resource(
                 url,
                 {

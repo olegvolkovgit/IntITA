@@ -4,10 +4,12 @@
  * This is the model class for table "trainer_student".
  *
  * The followings are the available columns in table 'trainer_student':
+ * @property integer $id
  * @property integer $trainer
  * @property integer $student
  * @property string $start_time
  * @property string $end_time
+ * @property integer $id_organization
  *
  * The followings are the available model relations:
  * @property Teacher $trainer0
@@ -31,10 +33,10 @@ class TrainerStudent extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('trainer, student', 'required'),
+			array('trainer, student, id_organization', 'required'),
 			array('trainer, student', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('trainer, student, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id, trainer, student, start_time, end_time, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,7 +49,10 @@ class TrainerStudent extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'trainer0' => array(self::BELONGS_TO, 'Teacher', ['trainer'=>'user_id']),
+            'trainerModel' => array(self::BELONGS_TO, 'StudentReg', 'trainer'),
             'trainerStudent' => array(self::HAS_MANY, 'StudentReg','id'),
+			'studentModel' => array(self::BELONGS_TO, 'StudentReg', 'student'),
+			'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
         );
 	}
 
@@ -57,10 +62,12 @@ class TrainerStudent extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+            'id' => 'Id',
 			'trainer' => 'Trainer',
 			'student' => 'Student',
             'start_time' => 'Start time',
-            'end_time' => 'End time'
+            'end_time' => 'End time',
+			'id_organization' => 'Id Organization'
 		);
 	}
 
@@ -80,10 +87,12 @@ class TrainerStudent extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 
+        $criteria->compare('id',$this->id);
 		$criteria->compare('trainer',$this->trainer);
 		$criteria->compare('student',$this->student);
         $criteria->compare('start_time',$this->start_time);
         $criteria->compare('end_time',$this->end_time);
+		$criteria->compare('id_organization',$this->id_organization);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,17 +110,13 @@ class TrainerStudent extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function primaryKey(){
-        return 'student';
-    }
-
     public static function getStudentByTrainer($trainerId)
     {
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'INNER JOIN trainer_student on user.id = trainer_student.student';
         $criteria->addCondition('user.id = trainer_student.student');
-        $criteria->condition = 'trainer = :trainer and end_time IS NULL';
+        $criteria->condition = 'trainer = :trainer and end_time IS NULL and trainer_student.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $criteria->params = array(':trainer' => $trainerId);
 
         $users = StudentReg::model()->findAll($criteria);
@@ -125,7 +130,7 @@ class TrainerStudent extends CActiveRecord
 		$criteria->select = 'user.id, user.avatar, user.email, user.nickname, user.skype, user.phone, user.reg_time,user.firstName, user.middleName, user.secondName';
 		$criteria->alias = 'user';
 		$criteria->join = 'INNER JOIN trainer_student on user.id = trainer_student.trainer';
-		$criteria->condition = 'student = :student and end_time IS NULL';
+		$criteria->condition = 'student = :student and end_time IS NULL and trainer_student.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$criteria->params = array(':student' => $studentId);
 
 		return StudentReg::model()->find($criteria);

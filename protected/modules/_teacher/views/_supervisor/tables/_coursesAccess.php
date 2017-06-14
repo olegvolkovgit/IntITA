@@ -10,9 +10,6 @@
                 <td data-title="'Курс'" filter="{'course.title_ua': 'text'}" sortable="'course.title_ua'">
                     <a href="" ng-click="courseLink(row.course.course_ID)" >{{row.course.title_ua}}</a>
                 </td>
-<!--                <td data-title="'Початок доступу'" sortable="'start_date'" filter="{'start_date': 'text'}">-->
-<!--                    {{row.start_date}}-->
-<!--                </td>-->
                 <td data-title="'Закінчення доступу'" sortable="'end_date'" filter="{'end_date': 'text'}">
                     {{row.end_date}}
                 </td>

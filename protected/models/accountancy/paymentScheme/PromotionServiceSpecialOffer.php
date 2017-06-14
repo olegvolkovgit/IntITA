@@ -103,13 +103,13 @@ class PromotionServiceSpecialOffer extends ASpecialOffer {
 		$id=null;
 
 		if (isset($params['service']->course_id)) {
-			$id=PaymentScheme::PROMOTIONAL_COURSE_SCHEME;
+			$idOrganization=$params['service']->courseModel->id_organization;
 		} else if (isset($params['service']->module_id)) {
-			$id=PaymentScheme::PROMOTIONAL_MODULE_SCHEME;
+            $idOrganization=$params['service']->moduleModel->id_organization;
 		}
 
 		$criteria = $criteria ? $criteria : new CDbCriteria();
-		$criteria->addCondition("id=" . $id);
+		$criteria->addCondition("id_organization=" . $idOrganization);
 		$criteria->addCondition('NOW() BETWEEN startDate and endDate');
 		$criteria->order = 'startDate DESC';
 

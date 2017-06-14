@@ -32,16 +32,38 @@
                 <?php } ?>
             </div>
         </div>
+        <!--назва організації ++ -->
+        <div>
+            <span id="titleModule"><?php echo 'Назва організації: '; ?></span>
+            <?php echo $post->organization->name; ?>
+        </div>
+
         <div>
             <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
             <b> <?php echo $post->getLecturesCount() . " " . Yii::t('module', '0216'); ?></b>
             <?php if ($post->getLecturesCount() != 0) { ?>
                 <?=", " . Yii::t('module', '0217')?> - <b><?=$post->monthsCount() . " " . Yii::t('module', '0218');?></b>
-                (<?=$post->hours_in_day . " " . Yii::t('module', '0219') . ", " . $post->days_in_week . " " . Yii::t('module', '0220');} ?>)
+                (<?=$post->hours_in_day . " " . Yii::t('module', '0219') . ", " . $post->days_in_week . " " . Yii::t('module', '0220'); ?>)
+            <?php } ?>
         </div>
         <div>
-            <span id="titleModule"><?php echo Yii::t('module', '0893'); ?>: </span>
-            <?php if ($post->status == Module::DEVELOP) { ?>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0094'); ?>:
+            </span>
+            <?php if ($post->status_online == Module::DEVELOP) { ?>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                <?php echo Yii::t('courses', '0230');
+            } else { ?>
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                <?php echo Yii::t('courses', '0231');
+            }
+            ?>
+        </div>
+        <div>
+            <span id="titleModule">
+                <?php echo Yii::t('courses', '0944'); ?>:
+            </span>
+            <?php if ($post->status_offline == Module::DEVELOP) { ?>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
                 <?php echo Yii::t('courses', '0230');
             } else { ?>
@@ -57,7 +79,7 @@
 
         <div class="moduleRating">
             <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
-            <?php echo CommonHelper::getRating($post->rating); ?>
+            <?php echo CommonHelper::getRating($post->getAverageRating()); ?>
         </div>
     </div>
 </div>

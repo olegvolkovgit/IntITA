@@ -1,0 +1,96 @@
+<form name="checkingAccountForm">
+    <input type="hidden" name="checkingAccountId" ng-model="checkingAccount.id">
+    <input type="hidden" name="companyId" ng-model="checkingAccount.companyId">
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="bank_name">Банк</label>
+            <input id="bank_name"
+                   type="text"
+                   name="bank_name"
+                   placeholder="Назва установи"
+                   class="form-control"
+                   ng-class="{'has-error':!checkingAccountForm.bank_name.$valid}"
+                   ng-model="checkingAccount.bank_name"
+                   ng-maxlength="255"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="bank_code">МФО</label>
+            <input id="bank_code"
+                   type="number"
+                   name="bank_code"
+                   class="form-control"
+                   placeholder="код банку"
+                   ng-class="{'has-error':!checkingAccountForm.bank_code.$valid}"
+                   ng-model="checkingAccount.bank_code"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="checking_account">Р/р</label>
+            <input id="checking_account"
+                   type="number"
+                   name="checking_account"
+                   class="form-control"
+                   placeholder="розрахунковий рахунок"
+                   ng-class="{'has-error':!checkingAccountForm.checking_account.$valid}"
+                   ng-model="checkingAccount.checking_account"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="checking_account_order">Порядок</label>
+            <input id="checking_account_order"
+                   type="number"
+                   name="checking_account_order"
+                   placeholder="приорітетний номер"
+                   class="form-control"
+                   min="1"
+                   ng-class="{'has-error':!checkingAccountForm.checking_account_order.$valid}"
+                   ng-model="checkingAccount.checking_account_order"
+                   ng-required="true"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <label class="text-left">Період дії р/р</label>
+        </div>
+
+        <div class="form-group col-xs-6">
+            <div class="form-horizontal">
+                <label class="col-xs-2 control-label text-left" for="credentialsTo">До</label>
+                <p class="col-xs-10 input-group">
+                    <input id="credentialsTo"
+                           class="form-control"
+                           type="text"
+                           name="credentialsTo"
+                           uib-datepicker-popup="dd-MM-yyyy"
+                           popup-placement="bottom"
+                           is-open="datePopup.credentialsTo"
+                           close-text="Закрити"
+                           clear-text="Очистити"
+                           current-text="Сьогодні"
+                           ng-class="{'has-error':!checkingAccountForm.credentialsTo.$valid}"
+                           ng-model="checkingAccount.deletedAt">
+                    <span class="input-group-addon" ng-click="toggleDPPopup('credentialsTo')">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3" ng-if="checkingAccount.checkingAccountId">
+            <input class="btn btn-danger pull-right" type="button" value="Припинити актуальність" ng-click="revokeCredentials()">
+        </div>
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-3">
+            <input class="btn btn-primary pull-right" type="button" value="Зберегти" ng-click="save()" ng-disabled="!checkingAccountForm.$valid">
+        </div>
+    </div>
+</form>

@@ -1,9 +1,5 @@
-<?php
-/**
- * @var $model StudentReg
- */
-?>
-<li id="nav">
+<li>
     <a href="#/admin">
-        <i class="fa fa-table fa-fw"></i> Адміністратор</a>
+        <i class="fa fa-table fa-fw"></i>Адміністратор
+    </a>
 </li>

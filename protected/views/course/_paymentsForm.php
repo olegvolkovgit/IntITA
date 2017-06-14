@@ -1,5 +1,5 @@
 <?php
-if ($model->isReady()   ) { ?>
+if (!$model->isDeveloping()) { ?>
     <div ng-show="onlineSchemeData && offlineSchemeData && status">
         <div ng-if="onlineSchemeData.schemes[0].fullPrice==0">
             {{onlineSchemeData.translates.price}} <span class="colorGreen">{{onlineSchemeData.translates.free}}</span>
@@ -51,10 +51,12 @@ if ($model->isReady()   ) { ?>
                 </payments-scheme>
             </div>
         </div>
-        
-        <a href="<?php echo Yii::app()->createUrl('course/schemes', array('id' => $model->course_ID)); ?>"
-           style="color:green;text-decoration:underline" target="_blank"><em>Спеціальні пропозиції</em></a>
-        
+
+        <?php if($model->hasPromotionSchemes()) {?>
+            <a href="<?php echo Yii::app()->createUrl('course/schemes', array('id' => $model->course_ID)); ?>"
+               style="color:green;text-decoration:underline" target="_blank"><em><?php Yii::t('course', '0959'); ?></em></a>
+        <?php } ?>
+
         <div class="markAndButton">
             <div class="markCourse">
                 <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
@@ -66,13 +68,13 @@ if ($model->isReady()   ) { ?>
                     echo CHtml::button(Yii::t('course', '0328'), array('class' => "paymentButton",
                         'onclick' => 'openSignIn();'));
                 } else {
-                    if ($model->isReady()) {
+                    if ($model->isReadyOnline() || $model->isReadyOffline()) {
                         ?>
                         <input type="button" ng-cloak
                                ng-if="!((status=='payable') || (status=='paid') && (status!='no_agreement'))"
                                ng-class="{'expired': (status=='expired'), 'warning': (status=='delay'), 'paymentButton' : true}"
-                               ng-click="redirectToCabinet('payCourse',<?php echo $model->course_ID ?>,selectedScheme)"
-                               ng-value="(status=='delay' || status=='expired')? 'ПРОДОВЖИТИ КУРС />':'<?php echo Yii::t('course', '0328'); ?>'">
+                               ng-click="redirectToCabinet('payCourse',<?php echo $model->course_ID ?>, selectedScheme)"
+                               ng-value="(status=='delay' || status=='expired')? '<?php echo Yii::t('module', '0957'); ?> />':'<?php echo Yii::t('course', '0328'); ?>'">
                         <?php
                     }
                 } ?>

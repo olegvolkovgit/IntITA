@@ -5,9 +5,9 @@ angular
     .module('teacherApp')
     .controller('levelsCtrl',levelsCtrl)
 
-function levelsCtrl ($scope, $http, levels, NgTableParams){
+function levelsCtrl ($scope, levels, NgTableParams){
 
-    angular.element(document.querySelector("#pageTitle")).text("Рівні курсів, модулів");
+    $scope.changePageHeader('Рівні курсів, модулів');
     $scope.tableParams = new NgTableParams({}, {
         getData: function(params) {
             return levels.list({

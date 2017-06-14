@@ -7,15 +7,18 @@
  * @property integer $id
  * @property string $name
  * @property integer $type
+ * @property integer $created_by
  * @property integer $repeat_type
  * @property string $start_time
  * @property string $end_time
- * @property string $parameters
- * @property integer $status
+ * @property integer $status 
+ * @property integer $related_model_id
+ * @property integer $id_organization
  * @property string $error
  */
 class SchedulerTasks extends CActiveRecord implements ITask
 {
+    use loadFromRequest;
 
     /**
      * Statuses constant
@@ -34,6 +37,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
     const WEEKLY = 3;
     const MONTLY = 4;
     const YEARLY = 5;
+    const WEEKDAYS =6 ;
 
 	/**
 	 * @return string the associated database table name
@@ -43,6 +47,17 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		return 'scheduler_tasks';
 	}
 
+	public function beforeValidate(){
+	    if ($this->isNewRecord){
+	        switch ($this->type){
+                case TaskFactory::NEWSLETTER:
+                    $this->name = 'Розсилка';
+                    $this->status = $this::STATUSNEW;
+            }
+        }
+        return parent::beforeValidate();
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -51,13 +66,13 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, type, status', 'required'),
-			array('type, repeat_type, status', 'numerical', 'integerOnly'=>true),
+			array('status, created_by, id_organization','required'),
+			array('type, repeat_type, status, created_by, related_model_id, id_organization', 'numerical', 'integerOnly'=>true),
 			array('name, error', 'length', 'max'=>255),
-			array('start_time, end_time, parameters', 'safe'),
+			array('start_time, end_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type, repeat_type, start_time, end_time, parameters, status, error', 'safe', 'on'=>'search'),
+			array('id, name, type, repeat_type, start_time, end_time, status, error, created_by, related_model_id id_organization','safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,9 +81,9 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::HAS_ONE, 'StudentReg', array('id'=>'created_by')),
+            'newsletter'=>array(self::HAS_ONE, 'Newsletters', array('id'=>'related_model_id')),
 		);
 	}
 
@@ -84,9 +99,11 @@ class SchedulerTasks extends CActiveRecord implements ITask
 			'repeat_type' => 'Repeat',
 			'start_time' => 'Start Time',
 			'end_time' => 'End Time',
-			'parameters' => 'Parameters',
 			'status' => 'Status',
 			'error' => 'Error',
+			'related_model_id' => 'Ид связанной задачи',
+			'id_organization' => 'Ид Организации',
+
 		);
 	}
 
@@ -114,8 +131,9 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		$criteria->compare('repeat_type',$this->repeat_type);
 		$criteria->compare('start_time',$this->start_time,true);
 		$criteria->compare('end_time',$this->end_time,true);
-		$criteria->compare('parameters',$this->parameters,true);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('related_model_id',$this->related_model_id);
+		$criteria->compare('id_organization',$this->id_organization);
 		$criteria->compare('error',$this->error,true);
 
 		return new CActiveDataProvider($this, array(
@@ -133,9 +151,39 @@ class SchedulerTasks extends CActiveRecord implements ITask
 	{
 		return parent::model($className);
 	}
+    /**
+     * Returns model save restlt.
+     * Params
+     * model - Related model for create task .
+     * type - Task type (see TaskFactory for avaliable types)
+     * startTime - Date and time in mysql format when thi task will be start
+     * repeatType - See constants in this class for availiable types (Default ONCETASK)
+     */
+	public function addTask($model, $type, $startTime, $repeatType = null){
+        $this->type = $type;
+        $this->created_by = Yii::app()->user->model->id;
+        $this->status = SchedulerTasks::STATUSNEW;
+        $repeatType ? $this->repeat_type=$repeatType : $this->repeat_type = SchedulerTasks::ONCETASK;
+        $this->start_time = $startTime;
+	    switch (get_class($model)){
+            case "RevisionModule":
+                $this->related_model_id = $model->id_module_revision;
+                $this->id_organization = $model->getRelated('module')->id_organization;
+                break;
+            case "RevisionCourse":
+                $this->related_model_id = $model->id_course_revision;
+                $this->id_organization = $model->getRelated('course')->id_organization;
+                break;
+            default:
+                $this->related_model_id = $model->id;
+                $this->id_organization = $model->id_organization;
+            break;
+        }
+        return $this->save();
+    }
 
     public function run(){
-        $task = TaskFactory::getInstance($this->type, $this->parameters);
+        $task = TaskFactory::getInstance($this->type,$this->related_model_id);
         $task->run();
     }
 }

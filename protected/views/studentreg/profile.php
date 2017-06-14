@@ -131,8 +131,14 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                             </div>
                             <br>
                             <div class="aboutInfo">
-                                <p ng-if="profileData.trainer"><span
-                                        class="colorP"><?php echo Yii::t('profile', '0901') ?>:</span><a ng-href={{profileData.trainer.link}} target="_blank">{{profileData.trainer.name}}</a>
+                                <p ng-if="profileData.trainer">
+                                    <span class="colorP"><?php echo Yii::t('profile', '0901') ?>:</span>
+                                    <ul>
+                                        <li ng-repeat="trn in profileData.trainer track by $index">
+                                            {{trn.organization}}:
+                                            <a ng-href={{trn.link}} target="_blank">{{trn.name}}</a>
+                                        </li>
+                                    </ul>
                                 </p>
                             </div>
                         </div>
@@ -153,6 +159,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <li>
                     <?= ($owner) ? Yii::t('profile', '0116') : Yii::t('profile', '0824'); ?>
                 </li>
+                <?php if (Yii::app()->user->model->isGraduate()){ ?>
+                <li>
+                    <?= Yii::t('teacher', '0187'); ?>
+                </li>
+                <?php } ?>
             </ul>
             <hr class="lineUnderTab">
             <div class="tabsContent">
@@ -182,6 +193,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     ));
                     ?>
                 </div>
+                <?php if (Yii::app()->user->model->isGraduate()){ ?>
+                <div id="myReview">
+                    <?php
+                    $this->renderPartial('_review');
+                    ?>
+                </div>
+                <?php } ?>
             </div>
         </div>
     </div>

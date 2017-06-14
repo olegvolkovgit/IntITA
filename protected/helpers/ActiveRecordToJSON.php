@@ -35,4 +35,33 @@ class ActiveRecordToJSON {
         }
         return $result;
     }
+
+    public static function toAssocArrayWithRelations($models) {
+        if (is_array($models))
+            $arrayMode = TRUE;
+        else {
+            $models = array($models);
+            $arrayMode = FALSE;
+        }
+
+        $result = array();
+        foreach ($models as $key=>$model) {
+            if($model){
+                $attributes = array_merge($model->getAttributes(), get_object_vars($model));
+                $relations = array();
+                foreach ($model->relations() as $key => $related) {
+                    if ($model->hasRelated($key)) {
+                        $relations[$key] = ActiveRecordToJSON::toAssocArrayWithRelations($model->$key);
+                    }
+                }
+                $all = array_merge($attributes, $relations);
+
+                if ($arrayMode)
+                    array_push($result, $all);
+                else
+                    $result = $all;
+            }
+        }
+        return $result;
+    }
 }

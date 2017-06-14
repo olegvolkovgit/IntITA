@@ -1,0 +1,210 @@
+<form name="companyForm">
+    <div class="row">
+        <div class="form-group col-xs-12" ng-class="{'has-error':!companyForm.title.$valid}">
+            <label for="title">Назва</label>
+            <input type="text"
+                   id="title"
+                   name="title"
+                   class="form-control"
+                   ng-model="company.title"
+                   ng-maxlength="255"
+                   size="50"
+                   ng-required="true">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.EDPNOU.$valid}">
+            <label for="EDPNOU">ЄДРПОУ</label>
+            <input type="text"
+                   id="EDPNOU"
+                   name="EDPNOU"
+                   class="form-control"
+                   placeholder="8-ми значне число"
+                   ng-maxlength="8"
+                   ng-minlength="8"
+                   ng-pattern="/[0-9]{8}/"
+                   ng-model="company.EDPNOU"
+                   ng-required="true">
+        </div>
+        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.edpnou_issue_date.$valid}">
+            <label for="edpnou_issue_date">Дата видачі ЄДРПОУ</label>
+            <p class="input-group">
+                <input id="edpnou_issue_date"
+                       class="form-control"
+                       type="text"
+                       name="edpnou_issue_date"
+                       uib-datepicker-popup="dd-MM-yyyy"
+                       popup-placement="bottom"
+                       is-open="datePopup.edpnou_issue_date"
+                       close-text="Закрити"
+                       clear-text="Очистити"
+                       current-text="Сьогодні"
+                       ng-model="company.edpnou_issue_date"
+                       ng-required="true">
+                <span class="input-group-addon" ng-click="toggleDPPopup('edpnou_issue_date')">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.certificate_of_vat.$valid}">
+            <label for="certificate_of_vat">Свідоцтво платника ПДВ</label>
+            <input name="certificate_of_vat"
+                   id="certificate_of_vat"
+                   class="form-control"
+                   placeholder="Номер платника ПДВ"
+                   ng-maxlength="12"
+                   ng-pattern="/^[0-9]+$/"
+                   ng-model="company.certificate_of_vat"
+                   ng-required="true">
+        </div>
+
+        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.certificate_of_vat_issue_date.$valid}">
+            <label for="certificate_of_vat_issue_date">Дата видачі свідоцтва платника ПДВ</label>
+            <p class="input-group">
+                <input id="certificate_of_vat_issue_date"
+                       class="form-control"
+                       type="text"
+                       name="certificate_of_vat_issue_date"
+                       uib-datepicker-popup="dd-MM-yyyy"
+                       popup-placement="bottom"
+                       is-open="datePopup.certificate_of_vat_issue_date"
+                       close-text="Закрити"
+                       clear-text="Очистити"
+                       current-text="Сьогодні"
+                       ng-model="company.certificate_of_vat_issue_date"
+                       ng-required="true">
+                <span class="input-group-addon" ng-click="toggleDPPopup('certificate_of_vat_issue_date')">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.tax_certificate.$valid}">
+            <label for="tax_certificate">Свідоцтво платника податку</label>
+            <input name="tax_certificate"
+                   id="tax_certificate"
+                   class="form-control"
+                   placeholder="Свідоцтво платника податку"
+                   ng-maxlength="12"
+                   ng-pattern="/^[0-9]+$/"
+                   ng-model="company.tax_certificate"
+                   ng-required="true">
+        </div>
+
+        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.tax_certificate_issue_date.$valid}">
+            <label for="tax_certificate_issue_date">Дата видачі свідоцтва платника податку</label>
+            <p class="input-group">
+                <input id="tax_certificate_issue_date"
+                       class="form-control"
+                       type="text"
+                       name="tax_certificate_issue_date"
+                       uib-datepicker-popup="dd-MM-yyyy"
+                       popup-placement="bottom"
+                       is-open="datePopup.tax_certificate_issue_date"
+                       close-text="Закрити"
+                       clear-text="Очистити"
+                       current-text="Сьогодні"
+                       ng-model="company.tax_certificate_issue_date"
+                       ng-required="true">
+                <span class="input-group-addon" ng-click="toggleDPPopup('tax_certificate_issue_date')">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-12" ng-class="{'has-error':!companyForm.legal_address_city.$valid}">
+            <label for="cityLegal">Місто (юридична адреса)</label>
+            <div class="input-group">
+                    <span ng-show="!city.legal.noResults && !city.legal.loading" class="input-group-addon" id="gl_icon">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </span>
+                <span ng-show="city.legal.loading" class="input-group-addon" id="gl_icon">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                    </span>
+                <span ng-show="city.legal.noResults" class="input-group-addon" id="gl_icon">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </span>
+                <input id="cityLegal"
+                       class="form-control"
+                       placeholder="виберіть місто"
+                       name="legal_address_city"
+                       type="text"
+                       autocomplete="off"
+                       aria-describedby="gl_icon"
+                       ng-model="company.legal_address_city"
+                       ng-required="true"
+                       uib-typeahead="typeahead.title for typeahead in city.legal.getData($viewValue)"
+                       typeahead-loading="city.legal.loading"
+                       typeahead-no-results="city.legal.noResults"
+                       typeahead-on-select="city.legal.onSelect($item, $model, $label, $event)">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12" ng-class="{'has-error':!companyForm.legal_address.$valid}">
+            <label for="legal_address">Повна юридична адреса адреса</label>
+            <input type="text"
+                   id="legal_address"
+                   name="legal_address"
+                   class="form-control"
+                   ng-model="company.legal_address"
+                   ng-required="true">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-12" ng-class="{'has-error':!companyForm.actual_address_city.$valid}">
+            <label for="cityActual">Місто (фактична адреса)</label>
+            <div class="input-group">
+                    <span ng-show="!city.actual.noResults && !city.actual.loading" class="input-group-addon"
+                          id="gl_icon">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </span>
+                <span ng-show="city.actual.loading" class="input-group-addon" id="gl_icon">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                    </span>
+                <span ng-show="city.actual.noResults" class="input-group-addon" id="gl_icon">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </span>
+                <input id="cityActual"
+                       class="form-control"
+                       placeholder="виберіть місто"
+                       name="actual_address_city"
+                       type="text"
+                       autocomplete="off"
+                       aria-describedby="gl_icon"
+                       ng-model="company.actual_address_city"
+                       ng-required="true"
+                       uib-typeahead="typeahead.title for typeahead in city.actual.getData($viewValue)"
+                       typeahead-loading="city.actual.loading"
+                       typeahead-no-results="city.actual.noResults"
+                       typeahead-on-select="city.actual.onSelect($item, $model, $label, $event)">
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12" ng-class="{'has-error':!companyForm.actual_address.$valid}">
+            <label for="actual_address">Повна фактична адреса адреса</label>
+            <input id="actual_address"
+                   type="text"
+                   name="actual_address"
+                   class="form-control"
+                   ng-model="company.actual_address"
+                   ng-required="true">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-6 col-xs-6">
+            <input class="btn btn-primary pull-right" type="button" value="Зберегти" ng-click="save()"
+                   ng-disabled="!companyForm.$valid">
+        </div>
+    </div>
+</form>

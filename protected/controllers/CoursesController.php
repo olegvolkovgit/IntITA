@@ -24,21 +24,41 @@ class CoursesController extends Controller
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex($selector = 'all')
+    public function actionIndex($selector = 'all', $organization = 'allcourses')
     {
-        $counters = Course::countersBySelectors();
+            $counters = Course::countersBySelectors($organization);
 
-        if($selector=='modules'){
+        if($organization=='modules'){
+
             $criteria = new CDbCriteria();
-            $criteria->condition = 'cancelled='.Module::ACTIVE.' and status='.Module::READY;
+
+                $criteria->condition = 'cancelled='.Module::ACTIVE.' and (status_online='.Module::READY.' or                                                                                         status_offline='.Module::READY.')';
+            if ($selector !== 'all') {
+                switch ($selector) {
+                    case 'junior':
+                        $criteria->addInCondition('level', array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR));
+                        break;
+                    case 'middle':
+                        $criteria->addCondition('level=' . Level::MIDDLE, 'AND');
+//                        $criteria->addInCondition('level', array(Level::MIDDLE));  // ++
+                        break;
+                    case 'senior':
+                        $criteria->addCondition('level=' . Level::SENIOR, 'AND');
+                        break;
+                    default:
+                        break;
+                }
+            };
+            $selector = 'modules';
+
             $dataProvider = new CActiveDataProvider('Module', array(
                 'criteria' => $criteria,
                 'sort' => array(
                     'defaultOrder' => 'module_ID DESC',
                 ),
                 'pagination' => array(
-                    'pageSize' => 20,
-                ),
+                                        'pageSize' => 20,
+                                    ),
             ));
             if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')
                 $lang = 'uk';
@@ -46,19 +66,33 @@ class CoursesController extends Controller
 
             $this->render('index', array(
                 'dataProvider' => $dataProvider,
-                'lang'=>$lang,
-                'selector'=>$selector,
+                'lang' => $lang,
+                'selector' => $selector,
                 'counters' => $counters,
             ));
         }else{
-            $blocks = Course::getCoursesByLang($selector);
+            $blocks = Course::getCoursesByLang($selector, $organization);
 
             $this->render('index', array(
-                'selector'=>$selector,
+                'selector' => $selector,
                 'blocks' => $blocks,
                 'counters' => $counters,
             ));
         }
     }
 
+    public static function nameCourses($organization = 'allcourses'){
+        if ($organization == 'modules'){
+            return Yii::t('courses', '0918');
+        }
+        else if ($organization == 'ourcourses'){
+            return Yii::t('courses', '0945');
+        }
+        else if ($organization == 'partnerscourses'){
+            return Yii::t('courses', '0946');
+        }
+        else if ($organization == 'allcourses'){
+            return Yii::t('courses', '0143');
+        }
+    }
 }

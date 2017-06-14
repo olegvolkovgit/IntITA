@@ -1046,7 +1046,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $status=array();
 
         $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
-        $isApprover=Yii::app()->user->model->canApprove();
+        $isApprover=Yii::app()->user->model->canApprove($this->id_module);
         
         $status['canCreate'] = $this->canCreate();
         $status['canEdit'] = $status['canCancelEdit'] = $status['canSend'] = $isRevisionCreator && $this->isEditable();
@@ -1058,5 +1058,17 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $status['canCancelProposedToRelease'] =  $isApprover && $this->isProposedToRelease();
 
         return $status;
+    }
+
+    public function canApprove() {
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isSended());
+    }
+
+    public function canRejectRevision() {
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isSended());
+    }
+
+    public function canReleaseRevision() {
+        return (Yii::app()->user->model->canApprove(null, null, $this->module->id_organization) && $this->isReleaseable());
     }
 }

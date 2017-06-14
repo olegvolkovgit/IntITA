@@ -1,4 +1,7 @@
 <?php
+/* @var $organization */
+?>
+<?php
     $this->breadcrumbs = array(
         'Усі ревізії занять',
     );
@@ -13,7 +16,7 @@
 </script>
 <div id="revisionMainBox">
     <div class="form-group" ng-controller="revisionTreesCtrl" ng-cloak>
-        <div ng-controller="allRevisionsCtrl">
+        <div ng-controller="allRevisionsCtrl" organization="<?php echo $organization ?>">
             <?php
             $this->renderPartial('_revisionsTree');
             ?>

@@ -11,6 +11,7 @@
  * @property integer $city
  * @property integer $id_user_created
  * @property integer $chat_author_id
+ * @property integer $id_organization
  *
  * Relations
  * @property OfflineSubgroups[] $subGroups
@@ -23,6 +24,7 @@
 
 class OfflineGroups extends CActiveRecord
 {
+	private $errorMessage = "";
 	/**
 	 * @return string the associated database table name
 	 */
@@ -39,11 +41,11 @@ class OfflineGroups extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, start_date, specialization, city, id_user_created, chat_author_id', 'required'),
+			array('name, start_date, specialization, city, id_user_created, chat_author_id, id_organization', 'required'),
 			array('name', 'length', 'max'=>128),
 			array('name', 'unique', 'caseSensitive' => false, 'message' => 'Група з такою назвою вже існує'),
 			// The following rule is used by search().
-			array('id, name, start_date, specialization, city, id_user_created, chat_author_id', 'safe', 'on'=>'search'),
+			array('id, name, start_date, specialization, city, id_user_created, chat_author_id, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,10 +63,21 @@ class OfflineGroups extends CActiveRecord
 			'userChatAuthor' => array(self::BELONGS_TO, 'StudentReg', 'chat_author_id'),
             'subGroups' => [self::HAS_MANY, 'OfflineSubgroups', 'group'],
             'offlineStudents' => [self::HAS_MANY, 'OfflineStudents', ['id' => 'id_subgroup'], 'through' =>'subGroups'],
-            'students' => [self::HAS_MANY, 'StudentReg', ['id_user' => 'id'], 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()', 'through' =>'offlineStudents']
+            'students' => [self::HAS_MANY, 'StudentReg', ['id_user' => 'id'], 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()', 'through' =>'offlineStudents'],
+			'organization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
 		);
 	}
 
+	protected function beforeValidate()
+	{
+		if(!$this->isNewRecord && $this->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+			throw new \application\components\Exceptions\IntItaException(403, 'Ваші права не дозволяють змінювати групу в межах даної організації');
+			return false;
+		}
+
+		return parent::beforeValidate();
+	}
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -77,7 +90,8 @@ class OfflineGroups extends CActiveRecord
 			'specialization' => 'Спеціалізація',
 			'city' => 'Місто',
 			'id_user_created' => 'Ід автора групи',
-			'chat_author_id' => 'Ід автора чату групи'
+			'chat_author_id' => 'Ід автора чату групи',
+			'id_organization' => 'Id організації',
 		);
 	}
 
@@ -104,6 +118,7 @@ class OfflineGroups extends CActiveRecord
 		$criteria->compare('city',$this->city,true);
 		$criteria->compare('id_user_created',$this->id_user_created,true);
 		$criteria->compare('chat_author_id',$this->chat_author_id,true);
+		$criteria->compare('id_organization',$this->id_organization,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -139,6 +154,7 @@ class OfflineGroups extends CActiveRecord
 		$criteria->select = "id, name";
 		$criteria->alias = "g";
 		$criteria->addSearchCondition('LOWER(name)', mb_strtolower($query,'UTF-8'), true, "OR", "LIKE");
+		$criteria->addCondition('g.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
 		$data = OfflineGroups::model()->findAll($criteria);
 		$result = array();
 		foreach ($data as $key => $model) {
@@ -155,34 +171,49 @@ class OfflineGroups extends CActiveRecord
 				array_push($errors,$error);
 			}
 		}
+		array_push($errors,$this->errorMessage);
 		return implode(", ", $errors);
 	}
 
-	public function availableCoursesList()
+	public function availableCoursesList($organization=null)
 	{
+		$condition='NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id;
+		if($organization) $condition=$condition.' and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$courses = Yii::app()->db->createCommand()
 			->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en,
-			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
 			->from('acc_course_service acs')
 			->join('group_access_to_content ga', 'ga.service_id=acs.service_id')
 			->join('course c', 'c.course_ID=acs.course_id')
 			->join('level l', 'l.id=c.level')
-			->where('NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id)
+            ->join('organization org', 'org.id=c.id_organization')
+			->where($condition)
 			->queryAll();
 		return $courses;
 	}
 
-	public function availableModulesList()
+	public function availableModulesList($organization=null)
 	{
+		$condition='NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id;
+		if($organization) $condition=$condition.' and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$modules = Yii::app()->db->createCommand()
 			->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en,
-			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
 			->from('acc_module_service ams')
 			->join('group_access_to_content ga', 'ga.service_id=ams.service_id')
 			->join('module m', 'm.module_ID=ams.module_id')
 			->join('level l', 'l.id=m.level')
-			->where('NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id)
+            ->join('organization org', 'org.id=m.id_organization')
+			->where($condition)
 			->queryAll();
 		return $modules;
+	}
+
+	public function checkOrganization(){
+		if($this->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+			$this->errorMessage='Організація групи не співпадає з застосованою організацією';
+			return false;
+		}
+		return true;
 	}
 }

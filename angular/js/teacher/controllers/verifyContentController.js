@@ -6,15 +6,16 @@ angular
     .controller('verifyContentCtrl', verifyContentCtrl);
 
 function verifyContentCtrl($scope, $http, DTOptionsBuilder) {
-
+    $scope.changePageHeader('Контент лекцій');
+    
     $scope.waitLectures = null;
     $scope.verifiedlectures = null;
     
-    $http.get(basePath+'/_teacher/_admin/verifyContent/waitLecturesList').then(function (data) {
+    $http.get(basePath+'/_teacher/_content_manager/verifyContent/waitLecturesList').then(function (data) {
         $scope.waitLectures = data.data["data"];
 
     });
-    $http.get(basePath+'/_teacher/_admin/verifyContent/verifiedLecturesList').then(function (data) {
+    $http.get(basePath+'/_teacher/_content_manager/verifyContent/verifiedLecturesList').then(function (data) {
         $scope.verifiedlectures = data.data["data"];
 
 
@@ -26,9 +27,9 @@ function verifyContentCtrl($scope, $http, DTOptionsBuilder) {
 
     $scope.actionLecture = function (action, index, lectureId) {
         if (action === "confirmLecture")
-            url = basePath+'/_teacher/_admin/verifyContent/confirm/id/' + lectureId;
+            url = basePath+'/_teacher/_content_manager/verifyContent/confirm/id/' + lectureId;
         else
-            url = basePath+'/_teacher/_admin/verifyContent/cancel/id/' + lectureId;
+            url = basePath+'/_teacher/_content_manager/verifyContent/cancel/id/' + lectureId;
 
         bootbox.confirm('Змінити статус лекції?', function (result) {
             if (result) {
@@ -54,19 +55,4 @@ function verifyContentCtrl($scope, $http, DTOptionsBuilder) {
         });
 
     };
-
-    $scope.reindexContent = function (url) {
-        $jq.ajax({
-            url: url,
-            type: "POST",
-            success: function () {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    $scope.changeView('admin/verifycontent');//
-                });
-            },
-            error: function () {
-                showDialog("Операцію не вдалося виконати.");
-            }
-        });
-    }
 }

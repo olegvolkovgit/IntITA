@@ -60,6 +60,12 @@ angular
                         url: url + '/applySchemesTemplate',
                         transformRequest : transformRequest.bind(null)
                     },
+                    updateAppliedTemplate : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/updateAppliedTemplate',
+                        transformRequest : transformRequest.bind(null)
+                    },
                     applyPromotionTemplate : {
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},

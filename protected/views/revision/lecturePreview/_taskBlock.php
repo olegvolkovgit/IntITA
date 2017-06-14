@@ -12,6 +12,7 @@
                     <div ng-class="{quizDone: pageData[(currentPage || lastAccessPage)-1].isQuizDone}"></div>
                 </div>
                 <div class="content"  ng-controller="taskCtrl" ng-init="init('<?php echo $taskLang ?>')">
+                    <img style="display: none" id="ajaxLoad" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
                     <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" >
                         <div ng-non-bindable>
                             <?php echo $data['html_block'];?>

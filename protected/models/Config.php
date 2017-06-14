@@ -183,25 +183,6 @@ class Config extends CActiveRecord
 		return Yii::app()->config->get('newsletterMail');
 	}
 
-	public static function getItemsList(){
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('hidden='.Config::VISIBLE);
-        $configs = Config::model()->findAll($criteria);
-        $return = array('data' => array());
-
-        foreach ($configs as $record) {
-            $row = array();
-            $row["param"]["name"] = $record->param;
-            $row["id"] = $record->id;
-            $row["param"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/config/view", array("id"=>$record->id))."'";
-            $row["value"] = $record["param"]=='adminId'?'id='.$record->value.' ('.StudentReg::model()->findByPk($record->value)->email.')':$record->value;
-            $row["label"] = $record->label;
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-	}
-
 	public static function getServerTimezone(){
 		return Yii::app()->config->get('serverTimezone');
 	}
@@ -221,4 +202,8 @@ class Config extends CActiveRecord
 	public static function getRoundcubeAddress(){
 		return Yii::app()->config->get('roundcubeAddress');
 	}
+
+    public static function getRatingScale(){
+        return Yii::app()->config->get('ratingScale');
+    }
 }

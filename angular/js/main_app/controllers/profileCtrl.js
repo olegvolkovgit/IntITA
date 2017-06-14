@@ -26,7 +26,7 @@ function profileCtrl($http,$scope) {
             [$scope.profileData.facebook, 'Facebook'],
             [$scope.profileData.googleplus, 'Googleplus'],
             [$scope.profileData.linkedin, 'Linkedin'],
-            [$scope.profileData.vkontakte, 'Vkontakte'],
+            // [$scope.profileData.vkontakte, 'Vkontakte'],
             [$scope.profileData.twitter, 'Twitter']
         ];
         $scope.networks=[];
@@ -95,10 +95,7 @@ function profileCtrl($http,$scope) {
         return promise;
     };
     $scope.getProgressData(userId).then(function (response) {
-        console.log(response);
-
         $scope.determinColorSheme(response.count_total_cell, response.count_full_cell);
-
     });
     $scope.determinColorSheme = function(total, full_cell) {
         var counter = $scope.percentDefinition(total, full_cell);
@@ -134,6 +131,19 @@ function profileCtrl($http,$scope) {
         var percentProgress = document.getElementById('percentProgress');
         percentProgress.innerHTML = progressInPercent;
         return progressInPercent;
+    }
+
+    $scope.addReview = function () {
+        $http({
+            url: basePath+'/studentreg/addReview',
+            method: "POST",
+            data: $.param({review: $scope.profileData.review}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                    $scope.errors = response.errors;
+            }
+        })
     }
 
 }

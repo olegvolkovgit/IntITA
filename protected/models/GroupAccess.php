@@ -9,6 +9,10 @@
  * @property string $start_date
  * @property string $end_date
  *
+ * Relations
+ * @property OfflineGroups $group
+ * @property Course $course
+ * @property Module $module
  */
 class GroupAccess extends CActiveRecord
 {
@@ -49,6 +53,20 @@ class GroupAccess extends CActiveRecord
 			'module' => array(self::BELONGS_TO, 'Module', array('module_id'=>'module_ID'), 'through' => 'moduleService'),
 			'service' => array(self::BELONGS_TO, 'Service', ['service_id'=>'service_id']),
 		);
+	}
+
+	protected function beforeValidate()
+	{
+		if($this->group->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+			throw new \application\components\Exceptions\IntItaException(403, 'Ваші права не дозволяють змінювати модель в межах даної організації');
+		}
+		if($this->course && $this->course->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+			throw new \application\components\Exceptions\IntItaException(403, 'Ваші права не дозволяють змінювати модель в межах даної організації');
+		}
+		if($this->module && $this->module->id_organization!=Yii::app()->user->model->getCurrentOrganization()->id){
+			throw new \application\components\Exceptions\IntItaException(403, 'Ваші права не дозволяють змінювати модель в межах даної організації');
+		}
+		return parent::beforeValidate();
 	}
 
 	/**

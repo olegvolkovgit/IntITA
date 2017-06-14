@@ -23,6 +23,8 @@
  * @property string $inn
  * @property string $passport_issued
  * @property integer $status
+ * @property integer $id_corporate_entity
+ * @property integer $id_checking_account
  *
  * @property Service $service
  * @property StudentReg $user
@@ -31,9 +33,13 @@
  * @property StudentReg $cancelUser
  * @property UserAgreementStatus $status0
  * @property Invoice[] invoice
+ * @property CorporateEntity $corporateEntity
+ * @property CheckingAccounts $checkingAccount
  */
-class UserAgreements extends CActiveRecord
-{
+class UserAgreements extends CActiveRecord {
+
+    use withBelongsToOrganization;
+
     const PAYABLE_STATUS = 'payable';
     const PAID_STATUS = 'paid';
     const DELAY_STATUS = 'delay';
@@ -56,7 +62,7 @@ class UserAgreements extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, service_id, payment_schema', 'required'),
+            array('user_id, service_id, payment_schema, id_checking_account', 'required'),
             array('user_id, approval_user, cancel_user, status', 'numerical', 'integerOnly' => true),
             array('service_id, payment_schema', 'length', 'max' => 10),
             array('number', 'length', 'max' => 50),
@@ -65,7 +71,7 @@ class UserAgreements extends CActiveRecord
             // The following rule is used by search().
             array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
 			cancel_date, close_date, payment_schema, cancel_reason_type, passport, document_type, inn,
-			document_issued_date, passport_issued, status', 'safe', 'on' => 'search'),
+			document_issued_date, passport_issued, status, id_checking_account', 'safe', 'on' => 'search'),
         );
     }
 
@@ -84,7 +90,10 @@ class UserAgreements extends CActiveRecord
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
             'paymentSchema' => array(self::BELONGS_TO, 'SchemesName', 'payment_schema'),
             'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status'),
-            'internalPayment' => [self::HAS_MANY, 'InternalPays', array('id'=>'invoice_id'), 'through' => 'invoice', 'order' => 'internalPayment.create_date DESC']
+            'internalPayment' => [self::HAS_MANY, 'InternalPays', array('id'=>'invoice_id'), 'through' => 'invoice', 'order' => 'internalPayment.create_date DESC'],
+            'corporateEntity' => [self::BELONGS_TO, 'CorporateEntity', 'id_corporate_entity'],
+            'organization' => [self::BELONGS_TO, 'Organization', ['id_organization' => 'id'], 'through' => 'corporateEntity'],
+            'checkingAccount' => [self::BELONGS_TO, 'CheckingAccounts', 'id_checking_account'],
         );
     }
 
@@ -112,6 +121,7 @@ class UserAgreements extends CActiveRecord
             'document_type' => 'Тип документа, серія/номер якого зазначений в полі паспорт',
             'document_issued_date' => 'Дата видачі паспорта',
             'passport_issued' => 'Ким виданий (паспорт)',
+            'id_checking_account' => 'Р/р',
         );
     }
 
@@ -149,6 +159,7 @@ class UserAgreements extends CActiveRecord
         $criteria->compare('document_type', $this->document_type, true);
         $criteria->compare('document_issued_date', $this->document_issued_date, true);
         $criteria->compare('passport_issued', $this->passport_issued, true);
+        $criteria->compare('id_checking_account', $this->id_checking_account, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -280,6 +291,10 @@ class UserAgreements extends CActiveRecord
     {
         $user = StudentReg::model()->findByPk($userId);
         $serviceModel = $modelFactory::getService($param_id, $educForm);
+        if(!$serviceModel->checkServiceAccess()){
+            throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Статус сервісу: "В РОЗРОБЦІ"');
+        }
+
         $billableObject = $serviceModel->getBillableObject();
 
         $schemas = PaymentScheme::model()->getPaymentScheme($user, $serviceModel);
@@ -287,13 +302,24 @@ class UserAgreements extends CActiveRecord
         $calculator = array_filter($calculators, function($item) use ($schemaId) {
             return $item->id == $schemaId;
         });
+
+        $billableObjectOrganization = $billableObject->organization;
+        $corporateEntity = $billableObjectOrganization->getCorporateEntityFor($billableObject, $educForm);
+        $checkingAccount = $billableObjectOrganization->getCheckingAccountFor($billableObject, $educForm);
+
+        $builder = new ContractingPartyBuilder();
+
+        $contractingParty = $builder->makeCorporateEntity($corporateEntity, $checkingAccount);
+
         $calculator = array_values($calculator)[0];
         $model = new UserAgreements();
         $model->user_id = $userId;
         $model->payment_schema = $calculator->payCount;
         $model->service_id = $serviceModel->service_id;
+        $model->id_corporate_entity = $corporateEntity->id;
+        $model->id_checking_account = $checkingAccount->id;
 
-        //create fantom billableObject model for converting object's price to UAH
+        //create phantom billableObject model for converting object's price to UAH
         //used only in computing agreement and invoices price
         $billableObjectUAH = clone $billableObject->getModelUAH();
 
@@ -302,6 +328,9 @@ class UserAgreements extends CActiveRecord
         $model->status = 1;
 
         if ($model->save()) {
+
+            $contractingParty->bindToAgreement($model, ContractingParty::ROLE_COMPANY);
+
             $invoicesList = $calculator->getInvoicesList($billableObjectUAH, new DateTime());
             $agreementId = $model->id;
             $model->updateByPk($agreementId, array(
@@ -565,7 +594,8 @@ class UserAgreements extends CActiveRecord
     }
 
     public function canBeCanceled() {
-        if ($this->getAgreementPaidSum()==0) {
+        if ($this->getAgreementPaidSum()==0 &&
+            $this->corporateEntity->organization->id==Yii::app()->user->model->getCurrentOrganizationId()) {
            return true;
         } else {
             return false;
@@ -611,6 +641,39 @@ class UserAgreements extends CActiveRecord
             }
         }
         return UserAgreements::NO_AGREEMENT;
+    }
+
+    /**
+     * The method should return CDBCriteria to select entity belong to organisation
+     * @param Organization $organization
+     * @return CDbCriteria
+     */
+    public function getOrganizationCriteria(Organization $organization) {
+        $criteria = new CDbCriteria([
+            'condition' => 'organization.id = :organizationId',
+            'params' => ['organizationId' => $organization->id],
+            'with' => 'organization'
+        ]);
+        return $criteria;
+    }
+
+    public function checkAgreementView() {
+        if(Yii::app()->user->model->isAuditor()){
+            return true;
+        }
+        if(Yii::app()->user->model->isAccountant() && $this->corporateEntity->id_organization==Yii::app()->user->model->getCurrentOrganizationId()){
+            return true;
+        }
+        if(Yii::app()->user->model->isTrainer() && TrainerStudent::model()->findByAttributes(array(
+                'student'=>$this->user_id,
+                'trainer'=>Yii::app()->user->getId(),
+                'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id,
+                'end_time'=>null,
+            ))==Yii::app()->user->model->getCurrentOrganizationId()){
+            return true;
+        }
+
+        return false;
     }
 }
 

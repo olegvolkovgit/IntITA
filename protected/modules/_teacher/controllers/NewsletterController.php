@@ -10,13 +10,16 @@ class NewsletterController extends TeacherCabinetController
 {
 
     public function hasRole(){
-        return (Yii::app()->user->model->isAdmin()
-                || Yii::app()->user->model->isAccountant()
-                || Yii::app()->user->model->isTrainer()
-                || Yii::app()->user->model->isAuthor()
-                || Yii::app()->user->model->isContentManager()
-                || Yii::app()->user->model->isTeacherConsultant()
-                || Yii::app()->user->model->isSuperVisor()
+        return (Yii::app()->user->model->isDirector()
+            || Yii::app()->user->model->isSuperAdmin()
+            || Yii::app()->user->model->isAuditor()
+            || Yii::app()->user->model->isAdmin()
+            || Yii::app()->user->model->isAccountant()
+            || Yii::app()->user->model->isTrainer()
+            || Yii::app()->user->model->isAuthor()
+            || Yii::app()->user->model->isContentManager()
+            || Yii::app()->user->model->isTeacherConsultant()
+            || Yii::app()->user->model->isSuperVisor()
         );
     }
 
@@ -32,7 +35,7 @@ class NewsletterController extends TeacherCabinetController
 
     public function actionGetRoles(){
         $roles = AllRolesDataSource::roles();
-        $result = [];
+        $result = [['id'=>'Coworkers','name'=>'Всі співробітники організації']];
         foreach ($roles as $role)
         {
             array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
@@ -41,16 +44,28 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionSendLetter(){
-        $task = new SchedulerTasks();
-        $task->type = TaskFactory::NEWSLETTER;
-        $task->name = 'Розсилка';
-        $task->status = SchedulerTasks::STATUSNEW;
-        $task->parameters = json_encode($_POST['parameters']);
-        $task->repeat_type = $_POST['taskRepeat'];
-        date_default_timezone_set('Europe/Kiev');
-        ($_POST['taskType'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
-        $task->start_time = $date->format('Y-m-d H:i:s');
-        $task->save();
+        $newsLetter= new Newsletters();
+        $newsLetter->loadModel($_POST['newsletter']);
+        if ($newsLetter->save()){
+            $task = new SchedulerTasks();
+            $task->loadModel($_POST);
+            $task->type = TaskFactory::NEWSLETTER;
+            date_default_timezone_set('Europe/Kiev');
+            ($_POST['repeat_type'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
+            $task->start_time = $date->format('Y-m-d H:i:s');
+            $task->related_model_id = $newsLetter->id;
+
+            if($task->save()){
+                echo true;
+            }
+            echo json_encode($task->getErrors());
+            Yii::app()->end();
+        }
+        else{
+            echo json_encode($newsLetter->getErrors());
+            Yii::app()->end();
+        }
+
     }
 
     public function actionGetUserEmail(){
@@ -115,6 +130,19 @@ class NewsletterController extends TeacherCabinetController
         }
     }
 
+    public function actionGetCategoryById(){
+        if (isset($_POST['Category'])){
+            $models = EmailsCategory::model()->findAllByPk($_POST['Category']);
+            $result = [];
+            if (isset($models)){
+                foreach ($models as $model){
+                    array_push($result,['id'=>$model->id,'name'=>$model->title]);
+                }
+            }
+            echo json_encode($result);
+        }
+    }
+
     public function actionGetRolesById(){
         if (isset($_POST['roles'])){
             $roles = $_POST['roles'];
@@ -140,6 +168,16 @@ class NewsletterController extends TeacherCabinetController
 
     public function actionGetEmailsCategoryList()
     {
-        echo  CJSON::encode(EmailsCategory::model()->findAll());
+        if(Yii::app()->user->model->getCurrentOrganizationId())
+            echo  CJSON::encode(EmailsCategory::model()->findAll('id_organization='.Yii::app()->user->model->getCurrentOrganizationId()));
+    }
+
+    public function actionGetnewsletter($id){
+         if ((int)$id){
+             $model = Newsletters::model()->findByPk($id);
+             $model->recipients = unserialize($model->recipients);
+             echo CJSON::encode($model);
+
+         }
     }
 }

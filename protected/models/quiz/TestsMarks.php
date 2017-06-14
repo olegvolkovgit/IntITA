@@ -41,9 +41,10 @@ class TestsMarks extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
+
 		return array(
+		    'test' => [self::BELONGS_TO,'Tests',['id_test'=>'id']],
+            'lectureElement'=>[self::BELONGS_TO,'LectureElement', ['block_element' => 'id_block'],'through' => 'test',],
 		);
 	}
 
