@@ -1685,7 +1685,13 @@ a.cke_dialog_ui_fileButton{
     .lectureFooterMini{display: block}
     .helpButtons{width:22%;display: inline-block;vertical-align: top;min-width: 160px}
     .forum{width:45%;display: inline-block;vertical-align: top;min-width: 300px}
-    .consultations{width:22%;vertical-align: top;min-width: 200px;}
+    .consultations{
+        width:22%;
+        vertical-align: top;
+        min-width: 200px;
+        display: block;
+        margin: 1px auto;
+    }
     .consultations .consultationText {width: 90px;}
     .lectureFooterMini{margin-bottom: 15px}
     #discussion{border-radius: 0}
@@ -1710,7 +1716,7 @@ a.cke_dialog_ui_fileButton{
     #consultationAssistance {
         width: 160px;
         height: 50px;
-        margin-top: 25px;
+        margin-bottom: 65px;
     }
     .consultationText, .mibewText {
         font-size: 14px;
@@ -1748,7 +1754,10 @@ a.cke_dialog_ui_fileButton{
     .helpButtons{width:100%;margin-left: 0}
     .forum{width:100%;display:block;margin: 0 auto;margin-bottom: 15px}
     #discussion, #discussionHeader{margin-left: 0}
-    .consultations{margin-left: 0}
+    .consultations {
+        display: block;
+        margin: 1px auto;
+    }
     .skypeAssistance{
         margin-left:0;
     }

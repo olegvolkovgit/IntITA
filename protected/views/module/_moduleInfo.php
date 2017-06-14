@@ -32,6 +32,12 @@
                 <?php } ?>
             </div>
         </div>
+        <!--назва організації ++ -->
+        <div>
+            <span id="titleModule"><?php echo 'Назва організації: '; ?></span>
+            <?php echo $post->organization->name; ?>
+        </div>
+
         <div>
             <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
             <b> <?php echo $post->getLecturesCount() . " " . Yii::t('module', '0216'); ?></b>
