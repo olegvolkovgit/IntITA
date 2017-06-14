@@ -37,6 +37,7 @@ class Lecture extends CActiveRecord
     public $logo = array();
     public $oldLogo;
     public $module_title;
+    public $title = '';
     /**
      * @return string the associated database table name
      */
@@ -196,6 +197,11 @@ class Lecture extends CActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
+    }
+
+    public function afterFind() {
+        $this->title = $this->getTitle();
+        parent::afterFind();
     }
 
     public function pagesList()
@@ -369,6 +375,17 @@ class Lecture extends CActiveRecord
             return CHtml::encode(Lecture::model()->findByPk($id)->title_ua);
         } else {
             return CHtml::encode($title);
+        }
+    }
+
+    public function getTitle()
+    {
+        $titleParam = Lecture::getTypeTitleParam();
+        $title = $this->$titleParam;
+        if ($title == '') {
+            return $this->title_ua;
+        } else {
+            return $title;
         }
     }
 
@@ -1078,7 +1095,6 @@ class Lecture extends CActiveRecord
             $result['accessibility_rating'] = 0;
             $result['comment'] = '';
         }
-//        var_dump($result); die;
         return json_encode($result);
     }
 
