@@ -5,7 +5,7 @@ angular
     .module('lessonApp')
     .controller('lessonPageCtrl',lessonPageCtrl);
 
-function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
+function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService, $http) {
     $scope.currentLocation = window.location.pathname;
     $scope.nextPage=function(){
         if($rootScope.currentPage>=$rootScope.pageCount){
@@ -54,46 +54,36 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
         }
     };
     $scope.startLogQuiz=function(){
-        $.post("/track/index", {  events: 'Open_Quiz', lesson: idLecture,part: $rootScope.currentPage } );
+        $.post(basePath+"/track/index", {  events: 'Open_Quiz', lesson: idLecture,part: $rootScope.currentPage } );
 
     };
     $scope.startLogText=function(){
-        $.post("/track/index", {  events: 'Open_Text', lesson: idLecture,part: $rootScope.currentPage } );
+        $.post(basePath+"/track/index", {  events: 'Open_Text', lesson: idLecture,part: $rootScope.currentPage } );
 
     };
     $scope.startLogVideo=function(){
-      $.post("/track/index", {  events: 'Start_Video', lesson: idLecture,part: $rootScope.currentPage } );
+      $.post(basePath+"/track/index", {  events: 'Start_Video', lesson: idLecture,part: $rootScope.currentPage } );
 
        }
+
+    //redirect to lecture page
+    $scope.lectureLink = function (idLecture, idCourse) {
+        $http
+            .get(basePath + '/lesson/getLectureLink', {
+                params: {
+                    idLecture: idLecture,
+                    idCourse: idCourse
+                }
+            })
+            .then(function successCallback(response) {
+                location.href = response.data;
+            }, function errorCallback() {
+                return false;
+            });
+    };
 }
 // celebre
 document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen;
-
-// function getInternetExplorerVersion()
-// {
-//     var rv = -1;
-//     if (navigator.appName == 'Microsoft Internet Explorer')
-//     {
-//         var ua = navigator.userAgent;
-//         var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-//         if (re.exec(ua) != null)
-//             rv = parseFloat( RegExp.$1 );
-//     }
-//     else if (navigator.appName == 'Netscape')
-//     {
-//         var ua = navigator.userAgent;
-//         var re  = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
-//         if (re.exec(ua) != null)
-//             rv = parseFloat( RegExp.$1 );
-//     }
-//     return rv;
-// }
-//
-// if(getInternetExplorerVersion()!==-1){
-//     //Значит это IE
-//     $('#changeColor .fullScreen').hide();
-//     alert($('#changeColor .fullScreen').css('display', 'none'));
-// }
 
 function enterFullscreen(id) {
     var el =  document.getElementById(id);
