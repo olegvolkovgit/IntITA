@@ -139,4 +139,19 @@
     </div>
 </div>
 
-
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                Адмінка чата
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="https://intita.com/crmChat/admin" target="_blank">Адмінка чата</a></li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+</div>
