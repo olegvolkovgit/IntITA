@@ -52,7 +52,7 @@ class CorporateEntity extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('EDPNOU, certificate_of_vat, tax_certificate, legal_address, legal_address_city_code, actual_address, actual_address_city_code, id_organization', 'required'),
+            array('EDPNOU, legal_address, legal_address_city_code, id_organization', 'required'),
             array('legal_address_city_code, actual_address_city_code, id_organization', 'numerical', 'integerOnly' => true),
             array('EDPNOU, certificate_of_vat, tax_certificate', 'length', 'max' => 14),
             array('legal_address, actual_address, title', 'length', 'max' => 255),
