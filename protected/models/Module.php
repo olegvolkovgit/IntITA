@@ -1062,6 +1062,9 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public function getLastAccessLectureOrder()
     {
+        if (Yii::app()->user->model->hasAccessToContent($this)) {
+            return count($this->lectures);
+        }
         $user = Yii::app()->user->getId();
         $moduleAccess=$this->checkPaidAccess($user);
         
