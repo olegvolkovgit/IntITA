@@ -1,0 +1,29 @@
+web:
+    image: devopsintita/intita:nginx
+    ports:
+        - "80:80"
+    volumes:
+        - ./code:/code
+        - ./mysql:/var/lib/mysql
+    links:
+       - php    
+php:
+    image: devopsintita/intita:php5.6-fpm
+    links:
+        - db
+        - redis
+    volumes:
+        - ./code:/code
+        - ./mysql:/var/lib/mysql
+db:
+  image: devopsintita/intita:mysql
+  volumes:
+  - ./mysql:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: 1
+    MYSQL_USER: intita
+    MYSQL_PASSWORD: 1
+    MYSQL_DATABASE: intita
+redis:
+    image: redis
+
