@@ -19,8 +19,8 @@
                    id="EDPNOU"
                    name="EDPNOU"
                    class="form-control"
-                   placeholder="8-ми значне число"
-                   ng-maxlength="8"
+                   placeholder="8-ми або 10-ти значне число"
+                   ng-maxlength="10"
                    ng-minlength="8"
                    ng-pattern="/[0-9]{8}/"
                    ng-model="company.EDPNOU"
@@ -40,7 +40,7 @@
                        clear-text="Очистити"
                        current-text="Сьогодні"
                        ng-model="company.edpnou_issue_date"
-                       ng-required="true">
+                >
                 <span class="input-group-addon" ng-click="toggleDPPopup('edpnou_issue_date')">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
@@ -58,7 +58,7 @@
                    ng-maxlength="12"
                    ng-pattern="/^[0-9]+$/"
                    ng-model="company.certificate_of_vat"
-                   ng-required="true">
+            >
         </div>
 
         <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.certificate_of_vat_issue_date.$valid}">
@@ -75,7 +75,7 @@
                        clear-text="Очистити"
                        current-text="Сьогодні"
                        ng-model="company.certificate_of_vat_issue_date"
-                       ng-required="true">
+                >
                 <span class="input-group-addon" ng-click="toggleDPPopup('certificate_of_vat_issue_date')">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
@@ -93,7 +93,7 @@
                    ng-maxlength="12"
                    ng-pattern="/^[0-9]+$/"
                    ng-model="company.tax_certificate"
-                   ng-required="true">
+            >
         </div>
 
         <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.tax_certificate_issue_date.$valid}">
@@ -110,7 +110,7 @@
                        clear-text="Очистити"
                        current-text="Сьогодні"
                        ng-model="company.tax_certificate_issue_date"
-                       ng-required="true">
+                >
                 <span class="input-group-addon" ng-click="toggleDPPopup('tax_certificate_issue_date')">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
@@ -181,7 +181,6 @@
                        autocomplete="off"
                        aria-describedby="gl_icon"
                        ng-model="company.actual_address_city"
-                       ng-required="true"
                        uib-typeahead="typeahead.title for typeahead in city.actual.getData($viewValue)"
                        typeahead-loading="city.actual.loading"
                        typeahead-no-results="city.actual.noResults"
@@ -198,7 +197,7 @@
                    name="actual_address"
                    class="form-control"
                    ng-model="company.actual_address"
-                   ng-required="true">
+            >
         </div>
     </div>
     <div class="row">
