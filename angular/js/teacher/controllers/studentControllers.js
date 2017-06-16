@@ -260,6 +260,20 @@ function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
+                    setTimeout(function() {
+                        MathJax.Hub.Config({
+                            tex2jax: {
+                                inlineMath: [['$','$'], ['\\(','\\)']]
+                            },
+                            "HTML-CSS": {
+                                linebreaks: { automatic: true }
+                            },
+                            SVG: {
+                                linebreaks: { automatic: true }
+                            }
+                        });
+                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                    });
                     return data.rows;
                 });
         }
@@ -278,6 +292,20 @@ function studentPlainTaskViewCtrl($scope, NgTableParams, $stateParams, studentSe
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
+                    setTimeout(function() {
+                        MathJax.Hub.Config({
+                            tex2jax: {
+                                inlineMath: [['$','$'], ['\\(','\\)']]
+                            },
+                            "HTML-CSS": {
+                                linebreaks: { automatic: true }
+                            },
+                            SVG: {
+                                linebreaks: { automatic: true }
+                            }
+                        });
+                        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                    });
                     return data.rows;
                 });
         }
