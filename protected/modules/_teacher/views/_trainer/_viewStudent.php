@@ -48,7 +48,15 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["v
                                                         <?= $record["title"] . " (" . $record["lang"] . ")";
                                                         if (isset($teachersByModule[$record["id"]])) {
                                                             ?>
-                                                            <em>(викладач - <?= $teachersByModule[$record["id"]]; ?>)</em>
+                                                            <em>
+                                                                (викладач - <?= $teachersByModule[$record["id"]]; ?>)
+                                                                <a class="btnChat"  ng-href="#/newmessages/receiver/<?php echo $teachersByModule[$record["id"]]['id'] ?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                                                                    <i class="fa fa-envelope fa-fw"></i>
+                                                                </a>
+                                                                <a class="btnChat" href="<?php echo Config::getChatPath(); ?><?php echo $teachersByModule[$record["id"]]['id'] ?>" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
+                                                                    <i class="fa fa-weixin fa-fw"></i>
+                                                                </a>
+                                                            </em>
                                                         <?php } else { ?>
                                                             <span class="warningMessage"><em>викладача не призначено</em></span>
                                                         <?php } ?>
@@ -81,7 +89,15 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["v
                                     <?= $module["title_ua"] . " (" . $module["lang"] . ")";
                                     if (isset($teachersByModule[$module["id"]])) {
                                         ?>
-                                        <em>(викладач - <?= $teachersByModule[$module["id"]]; ?>)</em>
+                                        <em>
+                                            (викладач - <?= $teachersByModule[$module["id"]]['name']; ?>)
+                                            <a class="btnChat"  ng-href="#/newmessages/receiver/<?php echo $teachersByModule[$module["id"]]['id'] ?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                                                <i class="fa fa-envelope fa-fw"></i>
+                                            </a>
+                                            <a class="btnChat" href="<?php echo Config::getChatPath(); ?><?php echo $teachersByModule[$module["id"]]['id'] ?>" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
+                                                <i class="fa fa-weixin fa-fw"></i>
+                                            </a>
+                                        </em>
                                     <?php } else { ?>
                                         <span class="warningMessage"><em>викладача не призначено</em></span>
                                     <?php } ?>

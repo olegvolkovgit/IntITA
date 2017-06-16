@@ -33,4 +33,17 @@ $this->breadcrumbs = array(
     </div>
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML'); ?>"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']]
+        },
+        "HTML-CSS": {
+            linebreaks: { automatic: true }
+        },
+        SVG: {
+            linebreaks: { automatic: true }
+        }
+    });
+</script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
