@@ -62,4 +62,21 @@ angular
                     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                             $templateCache.remove(fromState.templateUrl);
                     });
+                    $rootScope.$on('$stateChangeSuccess',
+                        function () {
+                            setTimeout(function() {
+                                MathJax.Hub.Config({
+                                    tex2jax: {
+                                        inlineMath: [['$','$'], ['\\(','\\)']]
+                                    },
+                                    "HTML-CSS": {
+                                        linebreaks: { automatic: true }
+                                    },
+                                    SVG: {
+                                        linebreaks: { automatic: true }
+                                    }
+                                });
+                                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                            });
+                        });
             }]);

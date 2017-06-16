@@ -13,7 +13,7 @@ angular
             if(text){
                 var str=String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').trim();
                 if(str.length>50){
-                    return str.substr(0, 50)+"..."
+                    return str;
                 }else{
                     return str;
                 }
@@ -25,7 +25,7 @@ angular
             if(text){
                 var str=String(text).trim();
                 if(str.length>50){
-                    return str.substr(0, 50)+"..."
+                    return str;
                 }else{
                     return str;
                 }
