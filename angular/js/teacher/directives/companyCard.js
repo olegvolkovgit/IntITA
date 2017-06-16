@@ -29,9 +29,9 @@ function companyCard($q, ngToast, cityService, companiesService) {
         legal_address_city_code: response.legal_address_city_code,
         tax_certificate: response.tax_certificate,
         title: response.title,
-        edpnou_issue_date: new Date(response.edpnou_issue_date),
-        certificate_of_vat_issue_date: new Date(response.certificate_of_vat_issue_date),
-        tax_certificate_issue_date: new Date(response.tax_certificate_issue_date)
+        edpnou_issue_date: response.edpnou_issue_date=='0000-00-00 00:00:00'?'':new Date(response.edpnou_issue_date),
+        certificate_of_vat_issue_date: response.certificate_of_vat_issue_date=='0000-00-00 00:00:00'?'':new Date(response.certificate_of_vat_issue_date),
+        tax_certificate_issue_date: response.tax_certificate_issue_date=='0000-00-00 00:00:00'?'':new Date(response.tax_certificate_issue_date),
       }
     }
 
