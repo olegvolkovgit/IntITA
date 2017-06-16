@@ -1,14 +1,7 @@
-web:
-    image: devopsintita/intita:nginx
-    ports:
-        - "80:80"
-    volumes:
-        - ./code:/code
-        - ./mysql:/var/lib/mysql
-    links:
-       - php    
 php:
     image: devopsintita/intita:php5.6-fpm
+    ports:
+        - "9001:9001"
     links:
         - db
         - redis
@@ -26,4 +19,22 @@ db:
     MYSQL_DATABASE: intita
 redis:
     image: redis
-
+chat:
+    image: devopsintita/intita:chat
+    entrypoint: sh /chat/chat.sh
+    links:
+        - db
+        - redis
+    volumes:
+       - ./chat:/chat
+web:
+    image: devopsintita/intita:nginx
+    ports:
+        - "80:80"
+        - "443:443"
+    volumes:
+        - ./code:/code
+        - ./mysql:/var/lib/mysql
+    links:
+       - php
+       - chat
