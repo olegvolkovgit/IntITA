@@ -161,16 +161,26 @@ class Student extends Role
     {
         $records = Yii::app()->db->createCommand()
             ->select('module_ID id, CONCAT(IFNULL(u.secondName, ""), " ", IFNULL(u.firstName, ""), " ", IFNULL(u.middleName, ""),
-             " ", IFNULL(u.email, "")) as teacherName')
+             " ", IFNULL(tc.corporate_mail, u.email)) as teacherName, u.id teacherId')
             ->from('module m')
             ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
             ->leftJoin('user u', 'u.id=tcs.id_teacher')
+            ->leftJoin('teacher tc', 'u.id=tc.user_id')
             ->leftJoin('user_teacher_consultant utc', 'utc.id_user=u.id')
             ->where('tcs.id_student = :id and tcs.end_date IS NULL and u.id IS NOT NULL and utc.end_date IS NULL',
                 array(':id' => $student->id))
             ->queryAll();
 
-        return array_column($records, 'teacherName', 'id');
+        $tempArray=$records;
+        $records=array_column($records, 'teacherName', 'id');
+
+        $i=0;
+        foreach ($records as $key=>$record){
+            $records[$key]=array('name'=>$record,'id'=>$tempArray[$i]['teacherId']);
+            $i++;
+        }
+
+        return $records;
     }
 
     //not supported for this role
