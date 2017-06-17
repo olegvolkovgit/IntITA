@@ -6,6 +6,7 @@
                     <col/>
                     <col/>
                     <col/>
+                    <col width="8%"/>
                     <col width="10%"/>
                 </colgroup>
                 <tr ng-repeat="row in $data track by $index" ng-class="{success: row.plainTaskMark.mark, danger: row.plainTaskMark && !row.plainTaskMark.mark}">
@@ -25,10 +26,13 @@
                     </td>
                     <td data-title="'Викладач'" >
                         <a href="/profile/{{row.markedBy.id}}" target="_blank">
-                            {{row.markedBy.fullName}} {{row.markedBy.email}}
+                            {{row.markedBy.fullName}}
                         </a>
                         <a class="btnChat" ng-if="row.markedBy.id" ng-href="#/newmessages/receiver/{{row.markedBy.id}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
                             <i class="fa fa-envelope fa-fw"></i>
+                        </a>
+                        <a class="btnChat" ng-if="row.markedBy.id" href="<?php echo Config::getChatPath(); ?>{{row.markedBy.id}}" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
+                            <i class="fa fa-weixin fa-fw"></i>
                         </a>
                     </td>
                 </tr>
