@@ -260,6 +260,10 @@ function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
+
+                    $jq(".question span").remove();
+                    $jq(".question script").remove();
+
                     setTimeout(function() {
                         MathJax.Hub.Config({
                             tex2jax: {

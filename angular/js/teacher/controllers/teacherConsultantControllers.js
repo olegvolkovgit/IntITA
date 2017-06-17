@@ -37,6 +37,10 @@ angular
                     .$promise
                     .then(function (data) {
                         params.total(data.count);
+
+                        // $jq(".question a span").remove();
+                        // $jq(".question a script").remove();
+
                         setTimeout(function() {
                             MathJax.Hub.Config({
                                 tex2jax: {
@@ -75,33 +79,27 @@ angular
         };
 
         $scope.setMarkTaskInTable = function (id, mark, userId) {
-            if(mark==0){
-                bootbox.dialog({
-                        title: "Коментар",
-                        message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
-                        '<textarea class="form-control" style="resize: none" rows="6" id="commentText" ' +
-                        'placeholder="тут можна залишити коментар"></textarea>'+
-                        '</div></form></div></div>',
-                        buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+            bootbox.dialog({
+                    title: "Коментар",
+                    message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
+                    '<textarea class="form-control" style="resize: none" rows="6" id="commentText" ' +
+                    'placeholder="тут можна залишити коментар"></textarea>'+
+                    '</div></form></div></div>',
+                    buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                        callback: function () {
+                            var comment = $jq('#commentText').val();
+                            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId}).$promise.then(function(){
+                                $scope.tasksTableParams.reload();
+                            });
+                        }
+                    },
+                        cancel: {label: "Скасувати", className: "btn btn-default",
                             callback: function () {
-                                var comment = $jq('#commentText').val();
-                                teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId}).$promise.then(function(){
-                                    $scope.tasksTableParams.reload();
-                                });
-                            }
-                        },
-                            cancel: {label: "Скасувати", className: "btn btn-default",
-                                callback: function () {
-                                }
                             }
                         }
                     }
-                );
-            }else{
-                teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': '', 'userId': userId}).$promise.then(function(){
-                    $scope.tasksTableParams.reload();
-                });
-            }
+                }
+            );
         }
 
     })

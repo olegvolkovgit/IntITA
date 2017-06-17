@@ -35,8 +35,10 @@
                             {{row.user.fullName}}
                         </a>
                     </td>
-                    <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}">
-                        {{row.plainTaskQuestion.html_block | htmlToShotPlaintext}}
+                    <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}" class="question">
+                        <a ng-href="#/teacherConsultant/task/{{row.id}}">
+                            {{row.plainTaskQuestion.html_block | htmlToShotPlaintext}}
+                        </a>
                     </td>
                     <td data-title="'Відповідь'" filter="{'answer': 'text'}">
                         <a ng-href="#/teacherConsultant/task/{{row.id}}">
