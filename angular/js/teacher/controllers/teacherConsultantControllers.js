@@ -37,6 +37,24 @@ angular
                     .$promise
                     .then(function (data) {
                         params.total(data.count);
+
+                        // $jq(".question a span").remove();
+                        // $jq(".question a script").remove();
+
+                        setTimeout(function() {
+                            MathJax.Hub.Config({
+                                tex2jax: {
+                                    inlineMath: [['$','$'], ['\\(','\\)']]
+                                },
+                                "HTML-CSS": {
+                                    linebreaks: { automatic: true }
+                                },
+                                SVG: {
+                                    linebreaks: { automatic: true }
+                                }
+                            });
+                            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                        });
                         return data.rows;
                     });
             }
@@ -47,20 +65,41 @@ angular
             var mark = $jq('#mark').val();
             var comment = $jq('[name = comment]').val();
             var userId = $jq('#userId').val();
-            $http({
-                method: 'POST',
-                url: basePath + '/_teacher/_teacher_consultant/teacherConsultant/markPlainTask',
-                data: $jq.param({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).success(function () {
-                bootbox.alert('Ваша оцінка записана в базу', function () {
-                    $templateCache.remove(basePath + "/_teacher/_teacher_consultant/teacherConsultant/showPlainTask/idPlainTask/" + id);
-                    $state.go('teacherConsultant/tasks');
-                });
-            }).error(function () {
-                bootbox.alert('Помилка, зверніться до адміністратора');
+            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId})
+                .$promise
+                .then(function() {
+                    bootbox.alert('Ваша оцінка записана в базу', function () {
+                        $templateCache.remove(basePath + "/_teacher/_teacher_consultant/teacherConsultant/showPlainTask/idPlainTask/" + id);
+                        $state.go('teacherConsultant/tasks');
+                    });
             })
+                .catch(function() {
+                    bootbox.alert('Помилка, зверніться до адміністратора');
+                });
+        };
 
+        $scope.setMarkTaskInTable = function (id, mark, userId) {
+            bootbox.dialog({
+                    title: "Коментар",
+                    message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
+                    '<textarea class="form-control" style="resize: none" rows="6" id="commentText" ' +
+                    'placeholder="тут можна залишити коментар"></textarea>'+
+                    '</div></form></div></div>',
+                    buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                        callback: function () {
+                            var comment = $jq('#commentText').val();
+                            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId}).$promise.then(function(){
+                                $scope.tasksTableParams.reload();
+                            });
+                        }
+                    },
+                        cancel: {label: "Скасувати", className: "btn btn-default",
+                            callback: function () {
+                            }
+                        }
+                    }
+                }
+            );
         }
 
     })

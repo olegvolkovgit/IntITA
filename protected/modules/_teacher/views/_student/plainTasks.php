@@ -15,7 +15,7 @@
                         </a>
                         <span ng-if="!row.plainTaskLecture.title_ua">скасовано</span>
                     </td>
-                    <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}">
+                    <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}" class="question">
                         <a ng-href="#/student/plainTask/{{row.id}}">
                             {{row.plainTaskQuestion.html_block | htmlToShotPlaintext}}
                         </a>
