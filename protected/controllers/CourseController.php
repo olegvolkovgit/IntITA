@@ -160,13 +160,13 @@ class CourseController extends Controller
             $data['user']=Yii::app()->user->getId();
             $data['hasAccess']=Yii::app()->user->model->hasAccessToContent(null, $course);
             $data["isPaidCourse"]=$course->checkPaidAccess(Yii::app()->user->getId());
-            if($data["isPaidCourse"]){
+            if($data["isPaidCourse"] && !$data['hasAccess']){
                 CourseModules::setCourseProgress($course->module, true);
             }else{
                 $isDeveloping=$course->isDeveloping();
-                foreach ($course->module as $module){
+                foreach ($course->module as $module){;
                     if(!$isDeveloping || $data['hasAccess'])
-                        $module->setModuleProgress($module->moduleInCourse->checkPaidAccess(Yii::app()->user->getId()));
+                        $module->setModuleProgress($data['hasAccess'] || $module->moduleInCourse->checkPaidAccess(Yii::app()->user->getId()));
                     else $module->statusMessage='Курс знаходиться в розробці';
                 }
             }

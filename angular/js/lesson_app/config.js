@@ -58,8 +58,19 @@ angular
                             $('#MyTab-Menu').tabs("option","active",jQuery("#MyTab-Menu a[href*='#text']").parent().index());
                         }
                     }
-                    
+
                     setTimeout(function() {
+                        MathJax.Hub.Config({
+                            tex2jax: {
+                                inlineMath: [['$','$'], ['\\(','\\)']]
+                            },
+                            "HTML-CSS": {
+                                linebreaks: { automatic: true }
+                            },
+                            SVG: {
+                                linebreaks: { automatic: true }
+                            }
+                        });
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
                     });
                 });

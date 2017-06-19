@@ -302,7 +302,7 @@ class CourseModules extends CActiveRecord
     }
 
    public static function modulesInfoByCourse($course){
-       $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang
+       $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang, m.cancelled as cancelled
               from module m
               left join course_modules cm on m.module_ID = cm.id_module
               where cm.id_course='.$course.' and m.cancelled='.Module::ACTIVE.'

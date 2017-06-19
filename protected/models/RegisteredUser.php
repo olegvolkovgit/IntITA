@@ -446,7 +446,7 @@ class RegisteredUser
                 $this->lectureAccessErrorMessage=Yii::t('exception', '0870');
                 return false;
             }
-            if(!$lecture->isFree && !$lecture->module->checkPaidModuleCourseAccess($this->id)){
+            if(!$lecture->isFree && !$lecture->module->checkPaidAccess($this->id)){
                 $this->lectureAccessErrorMessage=Yii::t('exception', '0869');
                 return false;
             }else{

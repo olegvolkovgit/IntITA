@@ -44,7 +44,7 @@ class RoleController extends TeacherCabinetController
         $result=array();
 
         $model = RegisteredUser::userById($userId);
-        $organization= $organizationId?Organization::model()->findByPk($organizationId):null;
+        $organization= $organizationId?$organizationId:null;
         $response=$model->cancelRoleMessage(new UserRoles($role), $organization);
         if($response===true){
             $result['data']="success";

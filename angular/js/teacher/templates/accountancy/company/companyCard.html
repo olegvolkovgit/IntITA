@@ -19,14 +19,14 @@
                    id="EDPNOU"
                    name="EDPNOU"
                    class="form-control"
-                   placeholder="8-ми значне число"
-                   ng-maxlength="8"
+                   placeholder="8-ми або 10-ти значне число"
+                   ng-maxlength="10"
                    ng-minlength="8"
                    ng-pattern="/[0-9]{8}/"
                    ng-model="company.EDPNOU"
                    ng-required="true">
         </div>
-        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.edpnou_issue_date.$valid}">
+        <div class="form-group col-xs-6" >
             <label for="edpnou_issue_date">Дата видачі ЄДРПОУ</label>
             <p class="input-group">
                 <input id="edpnou_issue_date"
@@ -40,7 +40,7 @@
                        clear-text="Очистити"
                        current-text="Сьогодні"
                        ng-model="company.edpnou_issue_date"
-                       ng-required="true">
+                >
                 <span class="input-group-addon" ng-click="toggleDPPopup('edpnou_issue_date')">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.certificate_of_vat.$valid}">
+        <div class="form-group col-xs-6" >
             <label for="certificate_of_vat">Свідоцтво платника ПДВ</label>
             <input name="certificate_of_vat"
                    id="certificate_of_vat"
@@ -58,10 +58,10 @@
                    ng-maxlength="12"
                    ng-pattern="/^[0-9]+$/"
                    ng-model="company.certificate_of_vat"
-                   ng-required="true">
+            >
         </div>
 
-        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.certificate_of_vat_issue_date.$valid}">
+        <div class="form-group col-xs-6" >
             <label for="certificate_of_vat_issue_date">Дата видачі свідоцтва платника ПДВ</label>
             <p class="input-group">
                 <input id="certificate_of_vat_issue_date"
@@ -75,7 +75,7 @@
                        clear-text="Очистити"
                        current-text="Сьогодні"
                        ng-model="company.certificate_of_vat_issue_date"
-                       ng-required="true">
+                >
                 <span class="input-group-addon" ng-click="toggleDPPopup('certificate_of_vat_issue_date')">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
@@ -84,7 +84,7 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.tax_certificate.$valid}">
+        <div class="form-group col-xs-6" >
             <label for="tax_certificate">Свідоцтво платника податку</label>
             <input name="tax_certificate"
                    id="tax_certificate"
@@ -93,10 +93,10 @@
                    ng-maxlength="12"
                    ng-pattern="/^[0-9]+$/"
                    ng-model="company.tax_certificate"
-                   ng-required="true">
+            >
         </div>
 
-        <div class="form-group col-xs-6" ng-class="{'has-error':!companyForm.tax_certificate_issue_date.$valid}">
+        <div class="form-group col-xs-6">
             <label for="tax_certificate_issue_date">Дата видачі свідоцтва платника податку</label>
             <p class="input-group">
                 <input id="tax_certificate_issue_date"
@@ -110,7 +110,7 @@
                        clear-text="Очистити"
                        current-text="Сьогодні"
                        ng-model="company.tax_certificate_issue_date"
-                       ng-required="true">
+                >
                 <span class="input-group-addon" ng-click="toggleDPPopup('tax_certificate_issue_date')">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
@@ -160,7 +160,7 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-xs-12" ng-class="{'has-error':!companyForm.actual_address_city.$valid}">
+        <div class="form-group col-xs-12" >
             <label for="cityActual">Місто (фактична адреса)</label>
             <div class="input-group">
                     <span ng-show="!city.actual.noResults && !city.actual.loading" class="input-group-addon"
@@ -181,7 +181,6 @@
                        autocomplete="off"
                        aria-describedby="gl_icon"
                        ng-model="company.actual_address_city"
-                       ng-required="true"
                        uib-typeahead="typeahead.title for typeahead in city.actual.getData($viewValue)"
                        typeahead-loading="city.actual.loading"
                        typeahead-no-results="city.actual.noResults"
@@ -191,14 +190,14 @@
 
     </div>
     <div class="row">
-        <div class="form-group col-xs-12" ng-class="{'has-error':!companyForm.actual_address.$valid}">
+        <div class="form-group col-xs-12" >
             <label for="actual_address">Повна фактична адреса адреса</label>
             <input id="actual_address"
                    type="text"
                    name="actual_address"
                    class="form-control"
                    ng-model="company.actual_address"
-                   ng-required="true">
+            >
         </div>
     </div>
     <div class="row">
