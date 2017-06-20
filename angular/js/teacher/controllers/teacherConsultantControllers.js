@@ -260,3 +260,41 @@ angular
             })
         }
     })
+
+    .controller('teacherConsultantStudentsCtrl', function ($scope, $http, NgTableParams, teacherConsultantService) {
+        $scope.showStudents = function (group) {
+             if(!group.students){
+                if(group.id==0){
+                    teacherConsultantService
+                        .studentsModulesWithoutGroup()
+                        .$promise
+                        .then(function (data) {
+                            group.students=data;
+                            $jq('#collapse'+group.id).toggle("medium");
+                        });
+                }else{
+                    teacherConsultantService
+                        .studentsModulesByGroup({groupId:group.id})
+                        .$promise
+                        .then(function (data) {
+                            group.students=data;
+                            $jq('#collapse'+group.id).toggle("medium");
+                        });
+                }
+             }else{
+                 $jq('#collapse'+group.id).toggle("medium");
+             }
+
+        };
+
+        teacherConsultantService
+            .teacherConsultantsGroupList()
+            .$promise
+            .then(function (data) {
+                var groupList=data.map(function (item) {
+                    return {id: item.id, title: item.name}
+                });
+                $scope.studentsCategory =[{id:'0', title:'Студенти не в групі'}].concat(groupList);
+            });
+
+    })

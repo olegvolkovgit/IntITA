@@ -4,34 +4,32 @@
  * @var $student StudentReg
  */
 ?>
-<div class="row">
-    <?php if (!empty($students)) { ?>
-        <table class="table table-hover">
-            <tbody>
-            <tr>
-                <td width="20%">Студенти:</td>
-                <td>
+<div class="row" ng-controller="teacherConsultantStudentsCtrl">
+    <h4>Групи студентів:</h4>
+    <ul class="list-group">
+        <li ng-repeat="group in studentsCategory track by $index" class="list-group-item">
+            <div class="panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="" data-toggle="collapse" ng-click="showStudents(group)">
+                            {{group.title}}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse{{group.id}}" class="panel-collapse collapse">
                     <ul>
-                        <?php foreach ($students as $student) {
-                            ?>
-                            <li>
-                                <a ng-href="#/users/profile/<?php echo $student['id_student'] ?>">
-                                    <?= trim($student['firstName'].' '.$student['secondName'].' '.$student['email']); ?>
-                                </a>
-                                Модуль:
-                                <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $student['id_module'])); ?>"
-                                   target="_blank">
-                                    <?= $student['title_ua'].' ('.$student['language'].')'; ?>
-                                </a>
-                            </li>
-                            <?php
-                        } ?>
+                        <li ng-repeat="student in group.students track by $index">
+                            <a ng-href="#/users/profile/{{student.id_student}}">
+                                {{student.firstName}} {{student.secondName}} {{student.email}}
+                            </a>
+                            Модуль:
+                            <a href="" ng-click="moduleLink(student.id_module)">
+                                {{student.title_ua}} ({{student.language}})
+                            </a>
+                        </li>
                     </ul>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    <?php } else {
-        echo "Студентів для викладача не призначено.";
-    } ?>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

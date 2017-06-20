@@ -461,4 +461,68 @@ class TeacherConsultant extends Role
         }
         return false;
     }
+
+    public function activeStudentsModulesByGroup($groupId){
+        $records = Yii::app()->db->createCommand()
+            ->select('tcs.id_student, tcs.id_module, 
+            u.firstName, u.secondName, u.email, m.title_ua, m.language')
+            ->from('teacher_consultant_student tcs')
+            ->leftJoin('user u', 'u.id=tcs.id_student')
+            ->leftJoin('module m', 'm.module_ID=tcs.id_module')
+            ->leftJoin('offline_students os', 'tcs.id_student = os.id_user')
+            ->leftJoin('offline_subgroups osg', 'osg.id = os.id_subgroup')
+            ->leftJoin('offline_groups og', 'og.id = osg.group')
+            ->where('tcs.id_teacher=:id_teacher and tcs.end_date IS NULL 
+            and m.id_organization=:id_org and u.cancelled=:u_status and og.id=:id_group 
+            and og.id_organization=:id_org and os.end_date IS NULL',
+                array(
+                    ':id_teacher'=>Yii::app()->user->getId(),
+                    ':id_org' =>Yii::app()->user->model->getCurrentOrganization()->id,
+                    ':u_status' => StudentReg::ACTIVE,
+                    ':id_group' => $groupId,
+                ),'')
+            ->queryAll();
+
+        return $records;
+    }
+
+    public function activeStudentsModulesWithoutGroup(){
+        $studentsId = array();
+        foreach (OfflineStudents::model()->with('group')->findAll(
+            array('order'=>'id_user',
+                'condition'=>'end_date is NULL and group.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id,
+                'select'=>'id_user',
+                'distinct'=>true)) as $row) {
+            array_push($studentsId, $row->id_user);
+        }
+
+        $records = Yii::app()->db->createCommand()
+            ->select('tcs.id_student, tcs.id_module, 
+            u.firstName, u.secondName, u.email, m.title_ua, m.language')
+            ->from('teacher_consultant_student tcs')
+            ->leftJoin('user u', 'u.id=tcs.id_student')
+            ->leftJoin('module m', 'm.module_ID=tcs.id_module')
+
+            ->leftJoin('user_service_access sa', 'sa.userId=tcs.id_student')
+            ->leftJoin('acc_module_service ms', 'ms.service_id=sa.serviceId')
+            ->leftJoin('acc_course_service cs', 'cs.service_id=sa.serviceId')
+            ->leftJoin('course_modules cm', 'cm.id_course=cs.course_id')
+            ->leftJoin('teacher_consultant_module tcm', '(tcm.id_module=cm.id_module or tcm.id_module=ms.module_id) 
+            and tcm.id_teacher=tcs.id_teacher')
+
+            ->where(array(
+                'and',
+                'tcs.id_teacher=:id_teacher and tcs.end_date IS NULL 
+            and m.id_organization=:id_org and u.cancelled=:u_status 
+            and sa.endDate>=NOW() and tcm.end_date is null and tcm.id_teacher=:id_teacher',
+                array('not in', 'u.id',$studentsId)),
+                array(
+                    ':id_teacher'=>Yii::app()->user->getId(),
+                    ':id_org' =>Yii::app()->user->model->getCurrentOrganization()->id,
+                    ':u_status' => StudentReg::ACTIVE,
+                ))
+            ->queryAll();
+
+        return $records;
+    }
 }

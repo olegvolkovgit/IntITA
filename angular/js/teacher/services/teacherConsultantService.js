@@ -26,5 +26,23 @@ angular
                         method: 'GET',
                         isArray:true,
                     },
+                    teacherConsultantsGroupList: {
+                        url: url + '/getTeacherConsultantsGroupList',
+                        method: 'GET',
+                        isArray:true,
+                    },
+                    studentsModulesByGroup: {
+                        url: url + '/getStudentsModulesByGroup',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        method: 'POST',
+                        transformRequest : transformRequest.bind(null),
+                        isArray:true,
+                    },
+                    studentsModulesWithoutGroup: {
+                        url: url + '/getStudentsModulesWithoutGroup',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        method: 'POST',
+                        isArray:true,
+                    },
                 });
         }]);

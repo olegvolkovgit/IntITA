@@ -202,4 +202,39 @@ class TeacherConsultantController extends TeacherCabinetController
     {
         echo  CJSON::encode(OfflineGroups::model()->findAll('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id));
     }
+
+    public function actionGetTeacherConsultantsGroupList()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'og';
+        $criteria->join = 'left join group_access_to_content ga on ga.group_id=og.id';
+        $criteria->join .= ' left join acc_service s on s.service_id=ga.service_id';
+        $criteria->join .= ' left join acc_module_service ms on ms.service_id=s.service_id';
+
+        $criteria->join .= ' left join acc_course_service cs on cs.service_id=s.service_id';
+        $criteria->join .= ' left join course_modules cm on cm.id_course=cs.course_id';
+
+        $criteria->join .= ' left join teacher_consultant_module tcm on tcm.id_module=cm.id_module or tcm.id_module=ms.module_id';
+
+        $criteria->addCondition('NOW() BETWEEN ga.start_date and ga.end_date');
+        $criteria->addCondition('og.id_organization=:id_org');
+        $criteria->addCondition('tcm.end_date is null and tcm.id_teacher=:id_t');
+
+        $criteria->params = array(':id_org' => Yii::app()->user->model->getCurrentOrganization()->id,':id_t' => Yii::app()->user->getId());
+        $criteria->distinct=true;
+
+        echo  CJSON::encode(OfflineGroups::model()->findAll($criteria));
+    }
+
+    public function actionGetStudentsModulesByGroup(){
+        $role = new TeacherConsultant();
+        $students = $role->activeStudentsModulesByGroup(Yii::app()->request->getPost('groupId'));
+        echo json_encode($students);
+    }
+
+    public function actionGetStudentsModulesWithoutGroup(){
+        $role = new TeacherConsultant();
+        $students = $role->activeStudentsModulesWithoutGroup();
+        echo json_encode($students);
+    }
 }
