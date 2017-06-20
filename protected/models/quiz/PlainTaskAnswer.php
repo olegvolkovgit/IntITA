@@ -238,16 +238,24 @@ class PlainTaskAnswer extends CActiveRecord
                 and og.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
                 and os.end_date IS NULL');
             }else{
+                $studentsId = array();
+                foreach (OfflineStudents::model()->with('group')->findAll(
+                    array('order'=>'id_user',
+                        'condition'=>'end_date is NULL and group.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id,
+                        'select'=>'id_user',
+                        'distinct'=>true)) as $row) {
+                    array_push($studentsId, $row->id_user);
+                }
+
                 $criteria->join .= ' LEFT JOIN user_student us ON tcs.id_student = us.id_user';
-                $criteria->join .= ' LEFT JOIN offline_students os ON us.id_user = os.id_user';
-                $criteria->addCondition('(os.id_user is NULL or os.end_date is not NULL)
-                and us.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+                $criteria->addNotInCondition('us.id_user',$studentsId);
+                $criteria->addCondition('us.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
                 and us.end_date IS NULL');
             }
         }
-        $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL 
-        and tcm.end_date IS NULL and tcm.id_teacher=:id and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
-        $criteria->params = array(':id' => Yii::app()->user->getId());
+        $criteria->addCondition('tcs.id_teacher ='.Yii::app()->user->getId().' and tcs.end_date IS NULL 
+        and tcm.end_date IS NULL and tcm.id_teacher='.Yii::app()->user->getId().' 
+        and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->group = 't.id DESC';
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
