@@ -29,6 +29,8 @@ angular
         };
         $scope.readNewPlainTasksAnswers();
 
+        $scope.tableReload=false;
+
         $scope.marks = [{id:'0', title:'не зарах.'}, {id:'1', title:'зарах.'}, {id:'null', title:'не перевірено'}];
         $scope.tasksTableParams = new NgTableParams({filter:{'plainTaskMark.mark':'null'}}, {
             getData: function (params) {
@@ -38,27 +40,38 @@ angular
                     .then(function (data) {
                         params.total(data.count);
 
-                        // $jq(".question a span").remove();
-                        // $jq(".question a script").remove();
-
-                        setTimeout(function() {
-                            MathJax.Hub.Config({
-                                tex2jax: {
-                                    inlineMath: [['$','$'], ['\\(','\\)']]
-                                },
-                                "HTML-CSS": {
-                                    linebreaks: { automatic: true }
-                                },
-                                SVG: {
-                                    linebreaks: { automatic: true }
-                                }
+                        if($scope.isLatex) {
+                            setTimeout(function () {
+                                MathJax.Hub.Config({
+                                    tex2jax: {
+                                        inlineMath: [['$', '$'], ['\\(', '\\)']]
+                                    },
+                                    "HTML-CSS": {
+                                        linebreaks: {automatic: true}
+                                    },
+                                    SVG: {
+                                        linebreaks: {automatic: true}
+                                    }
+                                });
+                                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                             });
-                            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-                        });
-                        return data.rows;
+                        }
+
+                        if($scope.tableReload && $scope.isLatex){
+                            $scope.tableReload=false;
+                            data=[];
+                            $scope.tasksTableParams.reload();
+                        }else{
+                            $scope.tableReload=true;
+                            return data.rows;
+                        }
                     });
             }
         });
+        $scope.renderTableListWithLatex = function () {
+            if($scope.isLatex)
+                $scope.tasksTableParams.reload();
+        };
 
         $scope.markTask = function () {
             var id = $jq('#plainTaskId').val();
@@ -101,6 +114,17 @@ angular
                 }
             );
         }
+
+        $scope.studentsCategoriesList = teacherConsultantService
+            .studentsCategoryList()
+            .$promise
+            .then(function (data) {
+                var groupList=data.map(function (item) {
+                    return {id: item.id, title: item.name}
+                });
+                $scope.studentsCategory = [{id:'0', title:'Студенти не в групі'}];
+                return $scope.studentsCategory.concat(groupList);
+            });
 
     })
     .controller('teacherConsultantCtrl', function ($scope, typeAhead, $http, $state,$templateCache,$stateParams) {

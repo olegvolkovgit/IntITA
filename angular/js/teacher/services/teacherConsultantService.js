@@ -21,5 +21,10 @@ angular
                         url: url + '/markPlainTask',
                         transformRequest : transformRequest.bind(null)
                     },
+                    studentsCategoryList: {
+                        url: url + '/getStudentsCategoryList',
+                        method: 'GET',
+                        isArray:true,
+                    },
                 });
         }]);

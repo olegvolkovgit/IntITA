@@ -18,6 +18,7 @@
  */
 class PlainTaskAnswer extends CActiveRecord
 {
+    const STUDENTS_WITHOUT_GROUPS = 0;
     /**
      * @return string the associated database table name
      */
@@ -208,6 +209,10 @@ class PlainTaskAnswer extends CActiveRecord
             unset($requestParams['filter']['plainTaskMark.mark']);
             $untested=true;
         }
+        if(isset($requestParams['filter']['studentsCategory.id'])){
+            $studentsCategory=$requestParams['filter']['studentsCategory.id'];
+            unset($requestParams['filter']['studentsCategory.id']);
+        }
 
         $ngTable = new NgTableAdapter('PlainTaskAnswer', $requestParams);
 
@@ -223,6 +228,22 @@ class PlainTaskAnswer extends CActiveRecord
         if($untested){
             $criteria->join .= ' LEFT JOIN plain_task_marks ptm ON t.id = ptm.id_answer';
             $criteria->addCondition('ptm.id_answer IS NULL');
+        }
+        if(isset($studentsCategory)){
+            if($studentsCategory!=self::STUDENTS_WITHOUT_GROUPS){
+                $criteria->join .= ' LEFT JOIN offline_students os ON tcs.id_student = os.id_user';
+                $criteria->join .= ' LEFT JOIN offline_subgroups osg ON osg.id = os.id_subgroup';
+                $criteria->join .= ' LEFT JOIN offline_groups og ON og.id = osg.group';
+                $criteria->addCondition('og.id='.$studentsCategory.' 
+                and og.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+                and os.end_date IS NULL');
+            }else{
+                $criteria->join .= ' LEFT JOIN user_student us ON tcs.id_student = us.id_user';
+                $criteria->join .= ' LEFT JOIN offline_students os ON us.id_user = os.id_user';
+                $criteria->addCondition('(os.id_user is NULL or os.end_date is not NULL)
+                and us.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+                and us.end_date IS NULL');
+            }
         }
         $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL 
         and tcm.end_date IS NULL and tcm.id_teacher=:id and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
