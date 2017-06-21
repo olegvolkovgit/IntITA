@@ -19,11 +19,11 @@
                 <div id="collapse{{group.id}}" class="panel-collapse collapse">
                     <ul>
                         <li ng-repeat="student in group.students track by $index">
-                            <a ng-href="#/users/profile/{{student.id_student}}">
+                            <a ng-href="#/users/profile/{{student.id}}">
                                 {{student.firstName}} {{student.secondName}} {{student.email}}
                             </a>
                             Модуль:
-                            <a href="" ng-click="moduleLink(student.id_module)">
+                            <a href="" ng-click="moduleLink(student.module_ID)">
                                 {{student.title_ua}} ({{student.language}})
                             </a>
                         </li>

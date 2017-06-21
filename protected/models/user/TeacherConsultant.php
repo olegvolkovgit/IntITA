@@ -464,8 +464,7 @@ class TeacherConsultant extends Role
 
     public function activeStudentsModulesByGroup($groupId){
         $records = Yii::app()->db->createCommand()
-            ->select('tcs.id_student, tcs.id_module, 
-            u.firstName, u.secondName, u.email, m.title_ua, m.language')
+            ->select('m.module_ID, u.firstName, u.secondName, u.email, u.id, m.title_ua, m.language')
             ->from('teacher_consultant_student tcs')
             ->leftJoin('user u', 'u.id=tcs.id_student')
             ->leftJoin('module m', 'm.module_ID=tcs.id_module')
@@ -497,8 +496,7 @@ class TeacherConsultant extends Role
         }
 
         $records = Yii::app()->db->createCommand()
-            ->select('tcs.id_student, tcs.id_module, 
-            u.firstName, u.secondName, u.email, m.title_ua, m.language')
+            ->selectDistinct('m.module_ID, u.firstName, u.secondName, u.email, u.id, m.title_ua, m.language')
             ->from('teacher_consultant_student tcs')
             ->leftJoin('user u', 'u.id=tcs.id_student')
             ->leftJoin('module m', 'm.module_ID=tcs.id_module')
