@@ -3,12 +3,16 @@
         <label>
             <input type="checkbox" ng-model="isDetail">Режим перевірки
         </label>
+        <label>
+            <input type="checkbox" ng-model="isLatex" ng-click="renderTableListWithLatex()">Режим рендеру LaTeX формул
+        </label>
         <form autocomplete="off">
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed">
                 <colgroup>
                     <col ng-if="!isDetail"/>
+                    <col ng-if="!isDetail"/>
                     <col/>
-                    <col/>
+                    <col ng-if="!isDetail"/>
                     <col ng-class="{largeWidth: isDetail}"/>
                     <col ng-class="{largeWidth: isDetail}"/>
                     <col ng-if="!isDetail"/>
@@ -24,7 +28,7 @@
                         </a>
                         <span ng-if="!row.plainTaskModule.title_ua">скасовано</span>
                     </td>
-                    <td data-title="'Заняття'" filter="{'plainTaskLecture.title_ua': 'text'}" sortable="'plainTaskLecture.title_ua'">
+                    <td ng-if="!isDetail" data-title="'Заняття'" filter="{'plainTaskLecture.title_ua': 'text'}" sortable="'plainTaskLecture.title_ua'">
                         <a ng-if="row.plainTaskLecture.title_ua" href="javascript:void(0);" ng-click="lectureLink(row.plainTaskLecture.id)">
                             {{row.plainTaskLecture.title_ua}}
                         </a>
@@ -35,14 +39,17 @@
                             {{row.user.fullName}}
                         </a>
                     </td>
-                    <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}" class="question">
+                    <td ng-if="!isDetail" data-title="'Група'" filter="{'studentsCategory.id': 'select'}" filter-data="studentsCategoriesList">
+                        {{row.studentsCategory.title}}
+                    </td>
+                    <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}">
                         <a ng-href="#/teacherConsultant/task/{{row.id}}">
-                            {{row.plainTaskQuestion.html_block | htmlToShotPlaintext}}
+                            {{row.plainTaskQuestion.html_block | htmlToShotPlaintext : isDetail}}
                         </a>
                     </td>
                     <td data-title="'Відповідь'" filter="{'answer': 'text'}">
                         <a ng-href="#/teacherConsultant/task/{{row.id}}">
-                            {{row.answer | textToShotPlaintext}}
+                            {{row.answer | textToShotPlaintext : isDetail}}
                         </a>
                     </td>
                     <td ng-if="!isDetail" data-title="'Дата'" filter="{'date': 'text'}" sortable="'date'">
@@ -59,7 +66,7 @@
                         </div>
                     </td>
                     <td ng-if="!isDetail" data-title="'Коментар'" filter="{'plainTaskMark.comment': 'text'}">
-                        {{row.plainTaskMark.comment  | textToShotPlaintext}}
+                        {{row.plainTaskMark.comment  | textToShotPlaintext: isDetail}}
                     </td>
                     <td ng-if="!isDetail" data-title="'Викладач'" filter="{'markedBy.fullName': 'text'}">
                         {{row.markedBy.fullName}} {{row.markedBy.email}}
