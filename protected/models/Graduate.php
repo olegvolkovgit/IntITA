@@ -138,25 +138,53 @@ class Graduate extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function getGraduateBySelector($selector)
+    public static function getGraduateBySelector($selector, $string)
     {
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'graduate';
-        $criteria->with = ['rate','user'];
+//        $criteria = new CDbCriteria;
+//        $criteria->alias = 'graduate';
+//        $criteria->with = ['rate','user'];
+//        if ($selector == 'az'){
+//			if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en') {
+//				$criteria->order = 'last_name_en COLLATE utf8_unicode_ci ASC';
+//			}else{
+//				$criteria->order = 'user.firstName COLLATE utf8_unicode_ci ASC';
+//			}
+//		}
+//        if ($selector == 'date') $criteria->order = 'rate.date_done DESC';
+//        if ($selector == 'rating') $criteria->order = 'rate.rating DESC';
+//
+//        $dataProvider=new CActiveDataProvider('Graduate', array(
+//            'criteria' => $criteria,
+//            'pagination'=>array(
+//                'pageSize'=>50,
+//            ),
+//        ));
+
+        $criteria = new CDbCriteria();
+        $criteria->with = ['rate','user','course'];
+
+        if( strlen( $string ) > 0 ){
+            $criteria->addSearchCondition('firstName', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('secondName', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('date_done', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('work_place', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('position', $string, true, "OR", "LIKE");
+        }
+
         if ($selector == 'az'){
-			if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en') {
-				$criteria->order = 'last_name_en COLLATE utf8_unicode_ci ASC';
-			}else{
-				$criteria->order = 'user.firstName COLLATE utf8_unicode_ci ASC';
-			}
-		}
+            if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en') {
+                $criteria->order = 'last_name_en COLLATE utf8_unicode_ci ASC';
+            }else{
+                $criteria->order = 'user.firstName COLLATE utf8_unicode_ci ASC';
+            }
+        }
         if ($selector == 'date') $criteria->order = 'rate.date_done DESC';
         if ($selector == 'rating') $criteria->order = 'rate.rating DESC';
 
-        $dataProvider=new CActiveDataProvider('Graduate', array(
+        $dataProvider = new CActiveDataProvider( 'Graduate', array(
             'criteria' => $criteria,
             'pagination'=>array(
-                'pageSize'=>50,
+                'pageSize'=>20,
             ),
         ));
 

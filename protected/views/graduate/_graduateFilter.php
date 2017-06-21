@@ -6,49 +6,43 @@
  * Time: 22:40
  */
 ?>
-<div style="text-align: right">
+
+<div style="text-align: right" ng-controller="filterGraduateCtrl">
     <table class="graduatesFilter">
         <tr>
             <td>
-                <div>
-                    <?php
-                    echo CHtml::ajaxLink(Yii::t('graduates', '0609'), CController::createUrl('graduate/UpdateAjaxFilter',
-                        array('selector' => 'az')),
-                        array('update' => '#graduateBlock'),
-                        array('class' => 'unselectedFilter', "onclick" => "selectFilter(this)"));
-                    ?>
+                <div >
+                    <a href="#" class="unselectedFilter" onclick="selectFilter(this)">
+                        <label>
+                            <input ng-cloak="" type="radio" ng-model="selector" value="az" ng-hide="1" ng-click="selectFilter()">
+                            <?php echo Yii::t('graduates', '0609'); ?>
+                        </label>
+                    </a>
                 </div>
             </td>
             <td>
                 <div>
-                    <?php
-                    echo CHtml::ajaxLink(Yii::t('graduates', '0610'), CController::createUrl('graduate/UpdateAjaxFilter',
-                        array('selector' => 'date')),
-                        array('update' => '#graduateBlock'),
-                        array('class' => 'unselectedFilter', "onclick" => "selectFilter(this)"));
-                    ?>
+                    <a href="#" class="unselectedFilter" onclick="selectFilter(this)">
+                        <label>
+                            <input ng-cloak="" type="radio" ng-model="selector" value="date" ng-hide="1" ng-click="selectFilter()">
+                            <?php echo Yii::t('graduates', '0610'); ?>
+                        </label>
+                    </a>
                 </div>
             </td>
             <td>
                 <div>
-                    <?php
-                    echo CHtml::ajaxLink(Yii::t('graduates', '0611'), CController::createUrl('graduate/UpdateAjaxFilter',
-                        array('selector' => 'rating')),
-                        array('update' => '#graduateBlock'),
-                        array('class' => 'unselectedFilter selectedFilter', "onclick" => "selectFilter(this)"));
-                    ?>
+                    <a href="#" class="unselectedFilter selectedFilter" onclick="selectFilter(this)">
+                        <label>
+                            <input ng-cloak="" type="radio" ng-model="selector" value="rating" ng-hide="1" ng-click="selectFilter()">
+                                <?php echo Yii::t('graduates', '0611'); ?>
+                        </label>
+                    </a>
                 </div>
             </td>
             <td>
                 <div>
-                    <?php echo CHtml::textField('Text', 'search',
-                        array('id'=>'searchStudent',
-                            'width'=>300,
-                            'maxlength'=>100)
-                        ); ?>
-                    <?php
-                        echo CHtml::button('Пошук');
-                    ?>
+                    <input type="search" id="search_input" ng-model="input" ng-keyup="searchInput()" placeholder="пошук випусників"/>
                 </div>
             </td>
         </tr>

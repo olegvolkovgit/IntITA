@@ -663,4 +663,34 @@ class Teacher extends CActiveRecord
 
         return $result;
     }
+
+    public static function getTeacherBySelector($selector, $string)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','responses','modulesActive','teacherOrganizations'];
+
+        if( strlen( $string ) > 0 ){
+            $criteria->addSearchCondition('user.firstName', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('user.secondName', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('user.middleName', $string, true, "OR", "LIKE");
+        }
+
+        if ($selector == 'az'){
+            if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en') {
+                $criteria->order = 'last_name_en COLLATE utf8_unicode_ci ASC';
+            }else{
+                $criteria->order = 'firstname COLLATE utf8_unicode_ci ASC';
+            }
+        }
+        if ($selector == 'rating') $criteria->order = 'rating DESC';
+
+        $dataProvider = new CActiveDataProvider( 'Teacher', array(
+            'criteria' => $criteria,
+            'pagination'=>array(
+                'pageSize'=>40,
+            ),
+        ));
+
+        return $dataProvider;
+    }
 }
