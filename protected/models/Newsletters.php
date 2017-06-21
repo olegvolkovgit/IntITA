@@ -196,10 +196,13 @@ class Newsletters extends CActiveRecord implements ITask
             case "emailsFromDatabase":
                 $criteria = new CDbCriteria();
                 if(intval($this->recipients)===0){
+                    $criteria->alias = 'ue';
                     $criteria->distinct = true;
-                    $criteria->select = "email";
+                    $criteria->select = "ue.email";
+                    $criteria->join = 'LEFT JOIN emails_category as ec ON ec.id = ue.category';
+                    $criteria->addCondition('ec.id_organization='.$this->id_organization);
                 }else{
-                    $criteria->addCondition('category='.$this->recipients);
+                    $criteria->addCondition('ue.category='.$this->recipients);
                 }
                 $models = UsersEmailDatabase::model()->findAll($criteria);
                 if (isset($models)) {

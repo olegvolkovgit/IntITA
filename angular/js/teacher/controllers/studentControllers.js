@@ -9,25 +9,25 @@ angular
     .controller('studentPlainTasksCtrl', studentPlainTasksCtrl)
     .controller('studentPlainTaskViewCtrl', studentPlainTaskViewCtrl)
     .filter('htmlToShotPlaintext', function() {
-        return function(text) {
+        return function(text, mode) {
             if(text){
                 var str=String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').trim();
-                if(str.length>50){
-                    return str;
+                if(str.length>50 && !mode){
+                    return $jq('<textarea />').html(str).text().substr(0, 50)+"..."
                 }else{
-                    return str;
+                    return $jq('<textarea />').html(str).text();
                 }
             }else return '';
         };
     })
     .filter('textToShotPlaintext', function() {
-        return function(text) {
+        return function(text, mode) {
             if(text){
                 var str=String(text).trim();
-                if(str.length>50){
-                    return str;
+                if(str.length>50 && !mode){
+                    return $jq('<textarea />').html(str).text().substr(0, 50)+"..."
                 }else{
-                    return str;
+                    return $jq('<textarea />').html(str).text();
                 }
             }else return '';
         };
