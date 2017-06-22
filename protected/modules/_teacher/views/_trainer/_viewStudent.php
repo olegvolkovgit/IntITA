@@ -49,8 +49,8 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["v
                                                         if (isset($teachersByModule[$record["id"]])) {
                                                             ?>
                                                             <em>
-                                                                (викладач - <?= $teachersByModule[$record["id"]]; ?>)
-                                                                <a class="btnChat"  ng-href="#/newmessages/receiver/<?php echo $teachersByModule[$record["id"]]['id'] ?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                                                                (викладач - <?= $teachersByModule[$record["id"]]['name']; ?>)
+                                                                <a class="btnChat"  ng-href="#/newmessages/receiver/<?php echo   $teachersByModule[$record["id"]]['id'] ?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
                                                                     <i class="fa fa-envelope fa-fw"></i>
                                                                 </a>
                                                                 <a class="btnChat" href="<?php echo Config::getChatPath(); ?><?php echo $teachersByModule[$record["id"]]['id'] ?>" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
