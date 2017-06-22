@@ -1325,7 +1325,7 @@ class StudentReg extends CActiveRecord
         $criteria->join = 'left join user_student us on us.id_user=u.id';
         $criteria->join .= ' left join teacher t on t.user_id=u.id';
         $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
-        $criteria->addCondition('us.id_user IS NULL and t.user_id IS NULL');
+        $criteria->addCondition('us.id_user IS NULL and (t.user_id IS NULL or t.cancelled=1)');
 
         $users = StudentReg::model()->findAll($criteria);
 
