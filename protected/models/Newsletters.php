@@ -195,8 +195,8 @@ class Newsletters extends CActiveRecord implements ITask
                 break;
             case "emailsFromDatabase":
                 $criteria = new CDbCriteria();
+                $criteria->alias = 'ue';
                 if(intval($this->recipients)===0){
-                    $criteria->alias = 'ue';
                     $criteria->distinct = true;
                     $criteria->select = "ue.email";
                     $criteria->join = 'LEFT JOIN emails_category as ec ON ec.id = ue.category';
