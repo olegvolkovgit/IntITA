@@ -147,7 +147,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="https://intita.com/crmChat/admin" target="_blank">Адмінка чата</a></li>
+                    <li><a href="<?php echo Config::getFullChatPath() ?>/crmChat/admin" target="_blank">Адмінка чата</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
