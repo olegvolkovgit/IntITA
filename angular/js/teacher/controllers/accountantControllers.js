@@ -873,6 +873,7 @@ angular
           item.discount = Number(item.discount);
           item.loan = Number(item.loan);
           item.pay_count = Number(item.pay_count);
+          item.contract =  Boolean(item.contract);
         });
         $scope.template = {
           id: response.data.id,
@@ -894,14 +895,14 @@ angular
     }
 
     $scope.schemes = [
-      {pay_count: 1, discount: 30, loan: 0, name: 'Проплата наперед'},
-      {pay_count: 2, discount: 10, loan: 0, name: '2 проплати'},
-      {pay_count: 4, discount: 8, loan: 0, name: '4 проплати'},
-      {pay_count: 12, discount: 0, loan: 0, name: 'помісячно'},
-      {pay_count: 24, discount: 0, loan: 24, name: '24 проплати'},
-      {pay_count: 36, discount: 0, loan: 24, name: '36 проплат'},
-      {pay_count: 48, discount: 0, loan: 24, name: '48 проплат'},
-      {pay_count: 60, discount: 0, loan: 24, name: '60 проплат'},
+      {pay_count: 1, discount: 30, loan: 0, name: 'Проплата наперед', contract: false},
+      {pay_count: 2, discount: 10, loan: 0, name: '2 проплати', contract: false},
+      {pay_count: 4, discount: 8, loan: 0, name: '4 проплати', contract: false},
+      {pay_count: 12, discount: 0, loan: 0, name: 'помісячно', contract: false},
+      {pay_count: 24, discount: 0, loan: 24, name: '24 проплати', contract: true},
+      {pay_count: 36, discount: 0, loan: 24, name: '36 проплат', contract: true},
+      {pay_count: 48, discount: 0, loan: 24, name: '48 проплат', contract: true},
+      {pay_count: 60, discount: 0, loan: 24, name: '60 проплат', contract: true},
     ];
 
     $scope.template = {

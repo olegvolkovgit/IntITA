@@ -9,6 +9,7 @@
  * @property integer $discount
  * @property integer $pay_count
  * @property integer $loan
+ * @property integer $contract
  */
 class TemplateSchemes extends CActiveRecord {
 
@@ -31,7 +32,7 @@ class TemplateSchemes extends CActiveRecord {
             array('discount, loan', 'length', 'max' => 10),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, discount, id_template, pay_count, loan', 'safe', 'on' => 'search'),
+            array('id, discount, id_template, pay_count, loan, contract', 'safe', 'on' => 'search'),
         );
     }
 
@@ -57,6 +58,7 @@ class TemplateSchemes extends CActiveRecord {
             'discount' => 'відсоток знижки',
             'pay_count' => 'кількість проплат',
             'loan' => 'відсоток кредиту',
+            'contract' => 'контракт',
         );
     }
 
@@ -82,6 +84,7 @@ class TemplateSchemes extends CActiveRecord {
         $criteria->compare('discount', $this->discount, true);
         $criteria->compare('pay_count', $this->pay_count);
         $criteria->compare('loan', $this->loan, true);
+        $criteria->compare('contract', $this->contract, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
