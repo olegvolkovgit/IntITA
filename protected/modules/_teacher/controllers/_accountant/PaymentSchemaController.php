@@ -163,7 +163,8 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
         $templateModel= PaymentSchemeTemplate::model()->findByPk($template->id);
-        Yii::app()->user->model->hasAccessToOrganizationModel($templateModel);
+        if(!($templateModel->id_organization===null && Yii::app()->user->model->isAuditor()))
+            Yii::app()->user->model->hasAccessToOrganizationModel($templateModel);
         $templateModel->template_name_ua=$template->name_ua;
         $templateModel->template_name_ru=isset($template->name_ru)?$template->name_ru:null;
         $templateModel->template_name_en=isset($template->name_en)?$template->name_en:null;
