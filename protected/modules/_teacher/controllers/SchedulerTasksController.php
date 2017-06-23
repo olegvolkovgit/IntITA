@@ -199,7 +199,7 @@ class SchedulerTasksController extends TeacherCabinetController
 		if (!Yii::app()->user->model->isAdmin() || !Yii::app()->user->model->isSupervisor())
 		{
 
-				$adapter->mergeCriteriaWith((new CDbCriteria())->addCondition('t.created_by='.Yii::app()->user->id));
+				$adapter->mergeCriteriaWith((new CDbCriteria())->addCondition('t.type=1 AND t.created_by='.Yii::app()->user->id));
 		}
 		echo json_encode($adapter->getData($_POST));
 		Yii::app()->end();
