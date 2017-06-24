@@ -196,11 +196,14 @@ class SchedulerTasksController extends TeacherCabinetController
 	public function actionGetTasksList(){
 
 		$adapter = new NgTableAdapter('SchedulerTasks',$_GET);
+		$criteria = new CDbCriteria();
+		$criteria->addCondition('t.type='.TaskFactory::NEWSLETTER);
 		if (!Yii::app()->user->model->isAdmin() || !Yii::app()->user->model->isSupervisor())
 		{
 
-				$adapter->mergeCriteriaWith((new CDbCriteria())->addCondition('t.type=1 AND t.created_by='.Yii::app()->user->id));
+				$criteria->addCondition('t.created_by='.Yii::app()->user->id);
 		}
+        $adapter->mergeCriteriaWith($criteria);
 		echo json_encode($adapter->getData($_POST));
 		Yii::app()->end();
 
