@@ -9,7 +9,7 @@
  * @property integer $discount
  * @property integer $pay_count
  * @property integer $loan
- * @property integer $contract
+ * @property boolean $contract
  */
 class TemplateSchemes extends CActiveRecord {
 

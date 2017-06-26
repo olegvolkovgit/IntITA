@@ -231,6 +231,15 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                 });
         }
     });
+
+    $scope.generateContract = function () {
+        studentService
+            .studentDataForWrittenAgreement()
+            .$promise
+            .then(function (data) {
+                console.log(data);
+            });
+    }
 }
 
 function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService) {

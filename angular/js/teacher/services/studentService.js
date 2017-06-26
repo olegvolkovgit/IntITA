@@ -27,5 +27,9 @@ angular
                         url: url + '/readNewPlainTasksMarks',
                         method: 'GET',
                     },
+                    studentDataForWrittenAgreement: {
+                        url: url + '/getDataForWrittenAgreement',
+                        method: 'POST',
+                    },
                 });
         }]);

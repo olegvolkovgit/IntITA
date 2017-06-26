@@ -400,4 +400,9 @@ class StudentController extends TeacherCabinetController
         $trainers=$student->registrationData->trainer?$student->registrationData->trainer:null;
         $this->renderPartial('/_student/contacts', array('trainers' => $trainers), false, true);
     }
+
+    public function actionGetDataForWrittenAgreement()
+    {
+        echo CJSON::encode(StudentReg::model()->findByPk(Yii::app()->user->getId()));
+    }
 }
