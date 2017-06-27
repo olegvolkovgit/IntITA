@@ -123,7 +123,8 @@
         minView: 2,
         forceParse: 0,
         startDate: firstday,
-        endDate: lastday
+        endDate: lastday,
+//        daysOfWeekDisabled: '' // --
     });
     $(calendarId).datetimepicker('setDaysOfWeekDisabled', [0, 6]);
 </script>
