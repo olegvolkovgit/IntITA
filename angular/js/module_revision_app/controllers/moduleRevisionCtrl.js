@@ -3,7 +3,7 @@ angular
     .controller('moduleRevisionCtrl',moduleRevisionCtrl)
     .controller('moduleEditTagsCtrl',moduleEditTagsCtrl);
 
-function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions, moduleRevisionMessage) {
+function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions, moduleRevisionMessage, $timeout) {
     redirectFromEdit=true;
     //revisions status
     $scope.revisionProposedToRelease='proposed_to_release';
@@ -33,6 +33,7 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
                     });
                 });
             }
+            $scope.initializing = true;
         });
     });
 
@@ -103,6 +104,7 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
 
     $scope.editModuleRevision = function (lectureList) {
         if($scope.enabled!=false){
+            $scope.revisionSaving=true;
             $scope.enabled=false;
             var object = {};
             lectureList.forEach(function (item, index) {
@@ -129,7 +131,11 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
         }
     };
     $scope.previewModuleRevision = function(url) {
-        location.href=url;
+        if(!$scope.revisionSaving){
+            bootbox.alert("Спочатку збережи зміни, які ти вніс в наповнені модуля");
+        }else{
+            location.href=url;
+        }
     };
     //edit revision
     $scope.editModuleRevisionPage = function(url) {
@@ -145,27 +151,35 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
     };
     //send revision for approve
     $scope.sendModuleRevision = function(id, redirect) {
-        moduleRevisionsActions.sendModuleRevision(id).then(function(senResponse){
-            bootbox.alert(senResponse, function () {
-                getModuleData.getData(idRevision).then(function (response) {
-                    $rootScope.moduleData = response;
-                    if (redirect) {
-                        location.href = basePath + '/moduleRevision/previewModuleRevision?idRevision=' + idRevision;
-                    }
+        if(!$scope.revisionSaving){
+            bootbox.alert("Спочатку збережи зміни, які ти вніс в наповнені модуля");
+        }else{
+            moduleRevisionsActions.sendModuleRevision(id).then(function(senResponse){
+                bootbox.alert(senResponse, function () {
+                    getModuleData.getData(idRevision).then(function (response) {
+                        $rootScope.moduleData = response;
+                        if (redirect) {
+                            location.href = basePath + '/moduleRevision/previewModuleRevision?idRevision=' + idRevision;
+                        }
+                    });
                 });
             });
-        });
+        }
     };
     //canceled edit revision by the editor
     $scope.cancelModuleEditByEditor = function(id, redirect) {
-        moduleRevisionsActions.cancelModuleEditByEditor(id).then(function(){
-            getModuleData.getData(idRevision).then(function(response) {
-                $rootScope.moduleData = response;
-                if(redirect){
-                    location.href=basePath+'/moduleRevision/previewModuleRevision?idRevision='+idRevision;
-                }
+        if(!$scope.revisionSaving){
+            bootbox.alert("Спочатку збережи зміни, які ти вніс в наповнені модуля");
+        }else{
+            moduleRevisionsActions.cancelModuleEditByEditor(id).then(function(){
+                getModuleData.getData(idRevision).then(function(response) {
+                    $rootScope.moduleData = response;
+                    if(redirect){
+                        location.href=basePath+'/moduleRevision/previewModuleRevision?idRevision='+idRevision;
+                    }
+                });
             });
-        });
+        }
     };
 
     $scope.cancelSendModuleRevision = function(id) {
@@ -247,6 +261,22 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
     $scope.sendModuleRevisionMessage = function(idRevision) {
         moduleRevisionMessage.sendMessage(idRevision);
     };
+
+    //watch if model lectureInModule changes and not saved
+    $scope.$watchCollection('lectureInModule', function(newValue, oldValue) {
+        if ($scope.initializing) {
+            if (newValue !== oldValue) {
+                $scope.revisionSaving=false;
+            }
+        }
+    });
+
+    //check unsaved text blocks
+    $scope.revisionSaving=true;
+    $(window).bind("beforeunload",function(event) {
+        if(!$scope.revisionSaving)
+            return "Ви дійсно хочете покинути сторінку? На сторінці знаходяться не збережені дані";
+    });
 }
 
 function moduleEditTagsCtrl($scope, $http) {
