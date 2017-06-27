@@ -1232,4 +1232,20 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $moduleProgress=RatingUserModule::userModuleProgress($this->module_ID);
         return $moduleProgress?$moduleProgress->module_done:false;
     }
+
+    public function createRatingUserModuleRecord()
+    {
+        $moduleRating = RatingUserModule::model()->find('id_user=:user AND id_module=:idModule',[':user'=>Yii::app()->user->id,':idModule'=>$this->module_ID]);
+        if (!$moduleRating){
+            $moduleRating = new RatingUserModule();
+            $moduleRating->id_user = Yii::app()->user->id;
+            $moduleRating->id_module = $this->module_ID;
+            $moduleRating->module_revision = RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
+                [':module'=>$this->module_ID,':activeState'=>RevisionState::ReleasedState])->id_module_revision;
+            $moduleRating->module_done = (int)false;
+            $moduleRating->rating = 0;
+            $moduleRating->save(false);
+        }
+    }
+
 }

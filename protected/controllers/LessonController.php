@@ -48,6 +48,9 @@ class LessonController extends Controller
 
         $this->initialize($id, $idCourse);
 
+//        create module progress if there are no record
+        $lecture->module->createRatingUserModuleRecord();
+
         $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->hasAccessToContent($lecture->module));
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
