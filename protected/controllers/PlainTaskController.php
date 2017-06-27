@@ -67,8 +67,13 @@ class PlainTaskController extends Controller
         if (!$plainTaskAnswer->save()){
             echo 'not save';
         } else {
-            if(LecturePage::checkLastQuiz($plainTask->block_element))
+            if(LecturePage::checkLastQuiz($plainTask->block_element)){
+                $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>Lecture::model()->find('id=:id',[':id'=>$lectureElementId])->idModule, ':idUser'=>$user]);
+                if ($rating){
+                    $rating->rateUser($user);
+                }
                 echo 'lastPage';
+            }
             else echo 'done';
         }
     }
