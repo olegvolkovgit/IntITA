@@ -224,4 +224,15 @@ class RatingUserModule extends CActiveRecord implements IUserRating
         }
 	    return (double)$lectureRate/count($tasks);
     }
+
+    /**
+     * @param int $moduleId module id.
+     * @return RatingUserModule if user start module
+     */
+    public static function userModuleProgress($moduleId)
+    {
+        return RatingUserModule::model()->find(
+            'id_user=:user AND id_module=:idModule',
+            [':user'=>Yii::app()->user->id,':idModule'=>$moduleId]);
+    }
 }

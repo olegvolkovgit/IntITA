@@ -337,9 +337,10 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
         if($organization == 'ourcourses' || $organization == 'partnerscourses' || $organization == 'allcourses'){
 
             if($organization == 'ourcourses'){
-                $criteria->addColumnCondition(array('id_organization'=>1));
+                $criteria->addColumnCondition(array('id_organization'=>Course::OUR_ORGANISATION));
             }elseif($organization == 'partnerscourses'){
-                $criteria->addColumnCondition(array('id_organization'=>2));
+                $notSearchId[] = Course::OUR_ORGANISATION;
+                $criteria->addNotInCondition('id_organization', $notSearchId);
             }
 
             if ($selector !== 'all') {

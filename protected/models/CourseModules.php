@@ -354,7 +354,7 @@ class CourseModules extends CActiveRecord
         if($courseAccess) {
             foreach ($modules as $module){
                 if(!$module->check)
-                CourseModules::setModuleProgressInCourse($module);
+                    CourseModules::setModuleProgressInCourse($module);
             }
         }else{
             foreach ($modules as $module){
@@ -366,8 +366,10 @@ class CourseModules extends CActiveRecord
     public static function setModuleProgressInCourse($module)
     {
         if(!$module->mandatory_modules){
-            $module->startTime=$module->moduleInCourse->getModuleStartTime();
-            $module->finishTime=$module->moduleInCourse->getModuleFinishedTime();
+            $moduleProgress = RatingUserModule::userModuleProgress($module->moduleInCourse->module_ID);
+
+            $module->startTime=$moduleProgress?$module->moduleInCourse->getModuleStartTime():$module->moduleInCourse->getModuleStartTime();
+            $module->finishTime=($moduleProgress && $moduleProgress->module_done)?$module->moduleInCourse->getModuleFinishedTime():$module->moduleInCourse->getModuleFinishedTime();
             $module->access=true;
             $module->check=true;
 
@@ -376,9 +378,15 @@ class CourseModules extends CActiveRecord
             } else {
                 return false;
             }
-        }else{
-            $module->mandatoryCourseModule->startTime=$module->mandatoryCourseModule->moduleInCourse->getModuleStartTime();
-            $module->mandatoryCourseModule->finishTime=$module->mandatoryCourseModule->moduleInCourse->getModuleFinishedTime();
+        } else {
+            $moduleProgress=RatingUserModule::userModuleProgress($module->mandatoryCourseModule->moduleInCourse->module_ID);
+
+            $module->mandatoryCourseModule->startTime=
+                $moduleProgress?$module->mandatoryCourseModule->moduleInCourse->getModuleStartTime():
+                    $module->mandatoryCourseModule->moduleInCourse->getModuleStartTime();
+            $module->mandatoryCourseModule->finishTime=
+                ($moduleProgress && $moduleProgress->module_done)?$module->mandatoryCourseModule->moduleInCourse->getModuleFinishedTime():
+                $module->mandatoryCourseModule->moduleInCourse->getModuleFinishedTime();
             $module->mandatoryCourseModule->access=true;
             $module->mandatoryCourseModule->check=true;
             if($module->mandatoryCourseModule->finishTime &&
@@ -399,8 +407,10 @@ class CourseModules extends CActiveRecord
     {
         if($moduleAccess){
             $this->access=true;
-            $this->startTime=$this->moduleInCourse->getModuleStartTime();
-            $this->finishTime=$this->moduleInCourse->getModuleFinishedTime();
+            $moduleProgress = RatingUserModule::userModuleProgress($this->moduleInCourse->module_ID);
+
+            $this->startTime=$moduleProgress?$this->moduleInCourse->getModuleStartTime():$this->moduleInCourse->getModuleStartTime();
+            $this->finishTime=($moduleProgress && $moduleProgress->module_done)?$this->moduleInCourse->getModuleFinishedTime():$this->moduleInCourse->getModuleFinishedTime();
         }else{
             $this->access=false;
             $this->statusMessage=Yii::t('modul', '0954');

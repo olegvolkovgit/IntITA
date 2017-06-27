@@ -1062,7 +1062,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public function getLastAccessLectureOrder()
     {
-        if (Yii::app()->user->model->hasAccessToContent($this)) {
+        if (Yii::app()->user->model->hasAccessToContent($this) || $this->isModuleDone()) {
             return count($this->lectures);
         }
         $user = Yii::app()->user->getId();
@@ -1225,5 +1225,11 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
     {
         return UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOnline->service_id))
             || UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOffline->service_id));
+    }
+
+    public function isModuleDone()
+    {
+        $moduleProgress=RatingUserModule::userModuleProgress($this->module_ID);
+        return $moduleProgress?$moduleProgress->module_done:false;
     }
 }
