@@ -10,7 +10,6 @@ angular
                     data: $.param({moduleId:idModule}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(){
-                    console.log('!');
                 }, function errorCallback() {
                     console.log('Error createRatingUserModule');
                 });

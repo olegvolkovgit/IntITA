@@ -7,7 +7,6 @@ angular
         '$rootScope', '$state', '$stateParams','$http','paramService','accessLectureService','pagesUpdateService', 'ipCookie',
         function ($rootScope, $state, $stateParams, $http, paramService,accessLectureService,pagesUpdateService, ipCookie) {
             paramService.getStartParam($rootScope, $state, $stateParams);
-            pagesUpdateService.getFinishedModule();
             accessLectureService.getAccessLectures();
 
             $rootScope.$on('$stateChangeStart',
