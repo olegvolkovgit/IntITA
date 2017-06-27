@@ -45,6 +45,7 @@ class TestsMarks extends CActiveRecord
 		return array(
 		    'test' => [self::BELONGS_TO,'Tests',['id_test'=>'id']],
             'lectureElement'=>[self::BELONGS_TO,'LectureElement', ['block_element' => 'id_block'],'through' => 'test',],
+            'lecture'=>[self::BELONGS_TO,'Lecture', 'id_lecture','through' => 'lectureElement',],
 		);
 	}
 
