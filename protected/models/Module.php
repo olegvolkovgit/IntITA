@@ -1243,6 +1243,8 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             $moduleRating->module_revision = RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
                 [':module'=>$this->module_ID,':activeState'=>RevisionState::ReleasedState])->id_module_revision;
             $moduleRating->module_done = (int)false;
+            $moduleStartDate=$this->getModuleStartTime();
+            $moduleRating->start_module = $moduleStartDate?date("Y-m-d H:i:s",$moduleStartDate):new CDbExpression('NOW()');
             $moduleRating->rating = 0;
             $moduleRating->save(false);
         }

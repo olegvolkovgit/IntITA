@@ -41,6 +41,13 @@ class TaskController extends Controller
         $warning = Yii::app()->request->getPost('warning', '');
 
         if(TaskMarks::addMark($task, $status, $result, $date, $warning)){
+            if ($status == 'true'){
+                $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',
+                    [':idModule'=>TaskMarks::model()->find('quiz_uid=:quiz',[':quiz'=>$task])->lecture->idModule, ':idUser'=>(int)Yii::app()->user->id]);
+                if ($rating){
+                    $rating->rateUser((int)Yii::app()->user->id);
+                }
+            }
             return true;
         };
         $this->redirect(Yii::app()->request->urlReferrer);
