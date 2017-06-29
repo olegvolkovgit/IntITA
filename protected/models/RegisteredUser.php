@@ -591,9 +591,15 @@ class RegisteredUser
      */
     public function isGraduate()
     {
-            if (RatingUserCourse::model()->find('id_user=:user AND course_done = 1',[':user'=>$this->registrationData->id])){
+        if (RatingUserCourse::model()->find('id_user=:user AND course_done = 1',[':user'=>$this->registrationData->id])){
+            return true;
+        }
+        $modulesDone=RatingUserModule::model()->findAll('id_user=:user AND module_done = 1',[':user'=>$this->registrationData->id]);
+        foreach ($modulesDone as $module){
+            if($module->idModule->checkPaidModuleAccess($this->registrationData->id))
                 return true;
-            }
+        }
+
         return false;
     }
 }

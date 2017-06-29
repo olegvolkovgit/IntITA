@@ -369,7 +369,7 @@ class CourseModules extends CActiveRecord
             $moduleProgress = RatingUserModule::userModuleProgress($module->moduleInCourse->module_ID);
 
             $module->startTime=($moduleProgress && $moduleProgress->start_module)?strtotime($moduleProgress->start_module):$module->moduleInCourse->getModuleStartTime();
-            $module->finishTime=($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):$module->moduleInCourse->getModuleFinishedTime();
+            $module->finishTime=($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):false;
             $module->access=true;
             $module->check=true;
 
@@ -385,8 +385,7 @@ class CourseModules extends CActiveRecord
                 ($moduleProgress && $moduleProgress->start_module)?strtotime($moduleProgress->start_module):
                     $module->mandatoryCourseModule->moduleInCourse->getModuleStartTime();
             $module->mandatoryCourseModule->finishTime=
-                ($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):
-                $module->mandatoryCourseModule->moduleInCourse->getModuleFinishedTime();
+                ($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):false;
             $module->mandatoryCourseModule->access=true;
             $module->mandatoryCourseModule->check=true;
             if($module->mandatoryCourseModule->finishTime &&
@@ -410,7 +409,7 @@ class CourseModules extends CActiveRecord
             $moduleProgress = RatingUserModule::userModuleProgress($this->moduleInCourse->module_ID);
 
             $this->startTime=($moduleProgress && $moduleProgress->start_module)?strtotime($moduleProgress->start_module):$this->moduleInCourse->getModuleStartTime();
-            $this->finishTime=($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):$this->moduleInCourse->getModuleFinishedTime();
+            $this->finishTime=($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):false;
         }else{
             $this->access=false;
             $this->statusMessage=Yii::t('modul', '0954');

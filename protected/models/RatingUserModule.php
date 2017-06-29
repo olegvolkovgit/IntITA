@@ -143,11 +143,15 @@ class RatingUserModule extends CActiveRecord implements IUserRating
             };
             $this->rating = round($rate/count($lectures),2);
             $this->module_done = (int)true;
-            $moduleEndDate=$this->idModule->getModuleFinishedTime();
+            $moduleEndDate=$this->idModule->getModuleFinishedTime($user);
             $this->end_module = $moduleEndDate?date("Y-m-d H:i:s",$moduleEndDate):new CDbExpression('NOW()');
-            $this->start_module = date("Y-m-d H:i:s",$this->idModule->getModuleStartTime());
-            $this->save();
-            return true;
+            $this->start_module = date("Y-m-d H:i:s",$this->idModule->getModuleStartTime($user));
+            if($this->save()){
+                foreach ($this->idModule->Course as $course) {
+                    RatingUserCourse::updateCourseProgress($user, $course->course_ID);
+                }
+                return true;
+            };
         }
     }
     /**
@@ -158,7 +162,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
      */
     private function checkLectureRate($lecture, $user){
         $lectureRate = 0;
-        $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6 AND block_order > 0',[':lecture'=>$lecture->id_lecture]);
+        $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6',[':lecture'=>$lecture->id_lecture]);
         $skipTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 9  AND block_order > 0',[':lecture'=>$lecture->id_lecture]);
         $ohterTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,12,13)',[':lecture'=>$lecture->id_lecture]);
 
@@ -203,7 +207,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                 break;
                 case LectureElement::PLAIN_TASK;
                     $plainTaskRate = 0;
-                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user AND read_mark = 1',['block'=>$task->id_block, ':user'=>$user]);
+                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$task->id_block, ':user'=>$user]);
                     $answersCount = 0;
                     foreach ($answers as $key=>$answer){
                         $plainTaskRate += $answer->mark;

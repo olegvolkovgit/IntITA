@@ -40,14 +40,20 @@ class TaskController extends Controller
         $date = Yii::app()->request->getPost('date', 0);
         $warning = Yii::app()->request->getPost('warning', '');
 
-        if(TaskMarks::addMark($task, $status, $result, $date, $warning)){
+        $lastPage = Task::checkLastQuiz($task);
+        $addedMark=TaskMarks::addMark($task, $status, $result, $date, $warning);
+
+        if($addedMark && $lastPage){
             if ($status == 'true'){
+                $lecture=TaskMarks::model()->find('quiz_uid=:quiz',[':quiz'=>$task])->lecture;
                 $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',
-                    [':idModule'=>TaskMarks::model()->find('quiz_uid=:quiz',[':quiz'=>$task])->lecture->idModule, ':idUser'=>(int)Yii::app()->user->id]);
+                    [':idModule'=>$lecture->idModule, ':idUser'=>(int)Yii::app()->user->id]);
                 if ($rating){
                     $rating->rateUser((int)Yii::app()->user->id);
                 }
             }
+        };
+        if($addedMark){
             return true;
         };
         $this->redirect(Yii::app()->request->urlReferrer);

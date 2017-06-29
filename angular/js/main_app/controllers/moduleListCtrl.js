@@ -65,23 +65,15 @@ function moduleListCtrl($http,$scope) {
             }
         }
 
-        if($scope.courseProgress.modules.length>0)
-            $scope.finishedCourse=true;
-        for(var j = 0; j < $scope.courseProgress.modules.length; j++){
-            if($scope.courseProgress.modules[j].progress!='finished'){
-                $scope.finishedCourse=false;
-                break;
-            }
-        }
-        if($scope.finishedCourse){
-            var fullTime=0;
-            var recommendedTime=0;
-            for(var j = 0; j < $scope.courseProgress.modules.length; j++){
-                fullTime=fullTime+$scope.courseProgress.modules[j].spentTime;
-                recommendedTime=recommendedTime+$scope.courseProgress.modules[j].duration;
-            }
-            $scope.courseProgress.fullTime=fullTime;
-            $scope.courseProgress.recommendedTime=recommendedTime;
+        if($scope.courseProgress.course.course_done){
+            // var fullTime=0;
+            // var recommendedTime=0;
+            // for(var j = 0; j < $scope.courseProgress.modules.length; j++){
+            //     fullTime=fullTime+$scope.courseProgress.modules[j].spentTime;
+            //     recommendedTime=recommendedTime+$scope.courseProgress.modules[j].duration;
+            // }
+            $scope.courseProgress.fullTime=Math.round(($scope.courseProgress.course.date_done-$scope.courseProgress.course.start_course)/86400)+1;
+            // $scope.courseProgress.recommendedTime=recommendedTime;
         }
 
         $('.modulesLoading').hide();

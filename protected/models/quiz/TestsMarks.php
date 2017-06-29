@@ -9,6 +9,9 @@
  * @property integer $id_test
  * @property integer $mark
  * @property integer $quiz_uid
+ *
+ * The followings are the available model relations:
+ * @property Lecture $lecture
  */
 class TestsMarks extends CActiveRecord
 {

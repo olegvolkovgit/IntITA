@@ -118,7 +118,8 @@ class TestsController extends Controller
         header("Content-Type: application/json; charset=UTF-8");
 
         if ($result && $lastTest){
-            $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>TestsMarks::model()->find('id_test=:test',[':test'=>$test])->lecture->idModule, ':idUser'=>$user]);
+            $lecture=TestsMarks::model()->find('id_test=:test',[':test'=>$test])->lecture;
+            $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>$lecture->idModule, ':idUser'=>$user]);
             if ($rating){
                 $rating->rateUser($user);
             }

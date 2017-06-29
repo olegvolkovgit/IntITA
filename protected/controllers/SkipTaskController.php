@@ -84,7 +84,8 @@ class SkipTaskController extends Controller{
         } else {
             $lastPage = LecturePage::checkLastQuiz($quizId);
             if ($lastPage && $isDone){
-                $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>SkipTaskMarks::model()->find('quiz_uid=:quiz',[':quiz'=>$quizId])->lecture->idModule, ':idUser'=>(int)Yii::app()->user->id]);
+                $lecture=SkipTask::model()->find('`condition`=:quiz',[':quiz'=>$quizId])->condition0->lecture;
+                $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>$lecture->idModule, ':idUser'=>(int)Yii::app()->user->id]);
                 if ($rating){
                     $rating->rateUser((int)Yii::app()->user->id);
                 }

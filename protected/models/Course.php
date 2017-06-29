@@ -1150,4 +1150,28 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
         return UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->courseServiceOnline->service_id))
             || UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->courseServiceOffline->service_id));
     }
+
+    public function createRatingUserCourseRecord($user)
+    {
+        $courseRating = RatingUserCourse::model()->find('id_user=:user AND id_course=:idCourse',[':user'=>$user,':idCourse'=>$this->course_ID]);
+        if (!$courseRating){
+            $courseRating = new RatingUserCourse();
+            $courseRating->id_user = $user;
+            $courseRating->id_course = $this->course_ID;
+            $courseRating->course_revision = RevisionCourse::model()->with(['properties'])->find('id_course=:course AND id_state=:activeState',
+                [':course'=>$this->course_ID,':activeState'=>RevisionState::ReleasedState])->id_course_revision;
+            $courseRating->course_done = (int)false;
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'rum';
+            $criteria->join = ' left join course_modules cm on cm.id_module=rum.id_module';
+            $criteria->order = 'start_module asc';
+            $criteria->addCondition('cm.id_course='.$this->course_ID.' and rum.start_module is NOT NULL
+             and rum.id_user='.$user);
+            $courseStartDate=RatingUserModule::model()->find($criteria)->start_module;
+            $courseRating->start_course = $courseStartDate?$courseStartDate:new CDbExpression('NOW()');
+            $courseRating->rating = 0;
+            $courseRating->save(false);
+        }
+    }
 }

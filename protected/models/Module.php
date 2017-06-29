@@ -561,7 +561,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 break;
             case '6':
                 $plain = PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
-                $isAnswer = PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' => $plain, 'id_student' => $user));
+                $isAnswer = PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' => $plain, 'id_student' => $user),array('order'=>'date DESC'));
                 if ($isAnswer) return $isAnswer->date;
                 else return false;
                 break;
@@ -1154,20 +1154,22 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return  $average;
     }
 
-    public function getModuleStartTime(){
+    public function getModuleStartTime($user=null){
+        $user=$user?$user:Yii::app()->user->getId();
         $firstQuiz = $this->getFirstQuizId();
         if ($firstQuiz)
-            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, Yii::app()->user->getId()))?(strtotime($start)): (false);
+            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, $user))?(strtotime($start)): (false);
         else $result = false;
         return $result;
     }
 
-    public function getModuleFinishedTime(){
+    public function getModuleFinishedTime($user=null){
+        $user=$user?$user:Yii::app()->user->getId();
         if($this->getLastAccessLectureOrder()<$this->getLecturesCount())
             $lastQuiz = false;
         else $lastQuiz = $this->getLastQuizId();
         if ($lastQuiz)
-            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, Yii::app()->user->getId()))?(strtotime($finish)): (false);
+            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, $user))?(strtotime($finish)): (false);
         else $result = false;
         return $result;
     }
