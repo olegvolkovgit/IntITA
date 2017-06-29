@@ -11,6 +11,7 @@
  * @property double $rating
  * @property integer $course_done
  * @property datetime $date_done
+ * @property datetime $start_course
  *
  * The followings are the available model relations:
  * @property Course $idCourse
@@ -40,7 +41,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
 			array('rating', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_course, course_revision, rating, course_done, date_done', 'safe', 'on'=>'search'),
+			array('id, id_user, id_course, course_revision, rating, course_done, date_done, start_course', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +71,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
 			'course_revision' => 'Course Revision',
 			'rating' => 'Rating',
 			'course_done' => 'Course Done',
+            'start_course' => 'Course Start',
 		);
 	}
 
@@ -97,6 +99,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
 		$criteria->compare('course_revision',$this->course_revision);
 		$criteria->compare('rating',$this->rating);
 		$criteria->compare('course_done',$this->course_done);
+        $criteria->compare('start_course',$this->start_course);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -129,8 +132,24 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
       }
 
       $this->rating = $rate/count($modules);
-      $this->course_done = true;
+      $this->course_done = (int)true;
+      $this->date_done = new CDbExpression('NOW()');
       $this->save();
       return true;
     }
+
+    public static function updateCourseProgress($user, $idCourse)
+    {
+        $course=Course::model()->findByPk($idCourse);
+        if($course->checkPaidAccess($user)){
+            //create course progress if there are no record
+            $course->createRatingUserCourseRecord($user);
+            $courseProgress=RatingUserCourse::model()->find('id_course=:idCourse AND id_user=:user AND course_done = 0',
+                [':idCourse'=>$idCourse,':user'=>$user]);
+            if ($courseProgress) {
+                $courseProgress->rateUser($user);
+            }
+        }
+    }
+
 }

@@ -117,6 +117,14 @@ class TestsController extends Controller
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
 
+        if ($result && $lastTest){
+            $lecture=TestsMarks::model()->find('id_test=:test',[':test'=>$test])->lecture;
+            $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>$lecture->idModule, ':idUser'=>$user]);
+            if ($rating){
+                $rating->rateUser($user);
+            }
+        }
+
         $resultJSON = array(
             "user" => $user,
             "test" => $test,

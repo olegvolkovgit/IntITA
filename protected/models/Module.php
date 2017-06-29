@@ -561,7 +561,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 break;
             case '6':
                 $plain = PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
-                $isAnswer = PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' => $plain, 'id_student' => $user));
+                $isAnswer = PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' => $plain, 'id_student' => $user),array('order'=>'date DESC'));
                 if ($isAnswer) return $isAnswer->date;
                 else return false;
                 break;
@@ -1062,7 +1062,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public function getLastAccessLectureOrder()
     {
-        if (Yii::app()->user->model->hasAccessToContent($this)) {
+        if (Yii::app()->user->model->hasAccessToContent($this) || $this->isModuleDone()) {
             return count($this->lectures);
         }
         $user = Yii::app()->user->getId();
@@ -1154,20 +1154,22 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return  $average;
     }
 
-    public function getModuleStartTime(){
+    public function getModuleStartTime($user=null){
+        $user=$user?$user:Yii::app()->user->getId();
         $firstQuiz = $this->getFirstQuizId();
         if ($firstQuiz)
-            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, Yii::app()->user->getId()))?(strtotime($start)): (false);
+            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, $user))?(strtotime($start)): (false);
         else $result = false;
         return $result;
     }
 
-    public function getModuleFinishedTime(){
+    public function getModuleFinishedTime($user=null){
+        $user=$user?$user:Yii::app()->user->getId();
         if($this->getLastAccessLectureOrder()<$this->getLecturesCount())
             $lastQuiz = false;
         else $lastQuiz = $this->getLastQuizId();
         if ($lastQuiz)
-            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, Yii::app()->user->getId()))?(strtotime($finish)): (false);
+            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, $user))?(strtotime($finish)): (false);
         else $result = false;
         return $result;
     }
@@ -1226,4 +1228,28 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOnline->service_id))
             || UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOffline->service_id));
     }
+
+    public function isModuleDone()
+    {
+        $moduleProgress=RatingUserModule::userModuleProgress($this->module_ID);
+        return $moduleProgress?$moduleProgress->module_done:false;
+    }
+
+    public function createRatingUserModuleRecord()
+    {
+        $moduleRating = RatingUserModule::model()->find('id_user=:user AND id_module=:idModule',[':user'=>Yii::app()->user->id,':idModule'=>$this->module_ID]);
+        if (!$moduleRating){
+            $moduleRating = new RatingUserModule();
+            $moduleRating->id_user = Yii::app()->user->id;
+            $moduleRating->id_module = $this->module_ID;
+            $moduleRating->module_revision = RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
+                [':module'=>$this->module_ID,':activeState'=>RevisionState::ReleasedState])->id_module_revision;
+            $moduleRating->module_done = (int)false;
+            $moduleStartDate=$this->getModuleStartTime();
+            $moduleRating->start_module = $moduleStartDate?date("Y-m-d H:i:s",$moduleStartDate):new CDbExpression('NOW()');
+            $moduleRating->rating = 0;
+            $moduleRating->save(false);
+        }
+    }
+
 }
