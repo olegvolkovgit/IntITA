@@ -301,10 +301,11 @@ class CourseModules extends CActiveRecord
         return Module::model()->findAll($criteria);
     }
 
-   public static function modulesInfoByCourse($course){
-       $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang, m.cancelled as cancelled
+   public static function modulesInfoByCourse($course, $userId){
+       $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang, m.cancelled as cancelled, rum.rating as rating
               from module m
               left join course_modules cm on m.module_ID = cm.id_module
+              left join rating_user_module rum on cm.id_module = rum.id_module and rum.id_user='.$userId.'
               where cm.id_course='.$course.' and m.cancelled='.Module::ACTIVE.'
               group by m.module_ID';
 
