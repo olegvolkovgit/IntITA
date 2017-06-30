@@ -123,7 +123,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
       $modules = RevisionCourseModule::model()->findAll('id_course_revision=:idRevision',[':idRevision'=>$this->course_revision]);
       foreach ($modules as $module){
           $rateModule = RatingUserModule::model()->find('id_module=:module AND id_user=:user',[':module'=>$module->id_module,':user'=>$user]);
-          if($rateModule->module_done){
+          if($rateModule && $rateModule->module_done){
              $rate += $rateModule->rating;
           }
           else{

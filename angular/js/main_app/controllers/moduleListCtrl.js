@@ -55,9 +55,11 @@ function moduleListCtrl($http,$scope) {
                 if($scope.courseProgress.modules[i].startTime && $scope.courseProgress.modules[i].finishTime){
                     $scope.courseProgress.modules[i].progress='finished';
                     $scope.courseProgress.modules[i].spentTime=Math.round(($scope.courseProgress.modules[i].finishTime-$scope.courseProgress.modules[i].startTime)/86400)+1;
+                    $scope.courseProgress.modules[i].spentTime=$scope.courseProgress.modules[i].spentTime==0?1:$scope.courseProgress.modules[i].spentTime;
                 }else if($scope.courseProgress.modules[i].startTime && !$scope.courseProgress.modules[i].finishTime){
                     $scope.courseProgress.modules[i].progress='inProgress';
                     $scope.courseProgress.modules[i].spentTime=Math.round((currentTime-$scope.courseProgress.modules[i].startTime)/86400)+1;
+                    $scope.courseProgress.modules[i].spentTime=$scope.courseProgress.modules[i].spentTime==0?1:$scope.courseProgress.modules[i].spentTime;
                 }else if(!($scope.courseProgress.modules[i].startTime || $scope.courseProgress.modules[i].finishTime) ||
                     !$scope.courseProgress.modules[i].startTime && $scope.courseProgress.modules[i].finishTime){
                     $scope.courseProgress.modules[i].progress='queue';

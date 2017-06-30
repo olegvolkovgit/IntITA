@@ -163,7 +163,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
     private function checkLectureRate($lecture, $user){
         $lectureRate = 0;
         $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6',[':lecture'=>$lecture->id_lecture]);
-        $skipTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 9  AND block_order > 0',[':lecture'=>$lecture->id_lecture]);
+        $skipTasks = LectureElement::model()->with('skipTask')->findAll('id_lecture=:lecture AND id_type = 9 AND skipTask.condition IS NOT NULL',[':lecture'=>$lecture->id_lecture]);
         $ohterTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,12,13)',[':lecture'=>$lecture->id_lecture]);
 
         $tasks = array_merge($ohterTasks,$skipTasks, $plainTasks);
@@ -223,7 +223,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                 break;
                 case LectureElement::TASK;
                     $taskRate = 0;
-                    $answers = TaskMarks::model()->with(['idLecture'])->findAll('id_lecture=:lecture',[':lecture'=>$lecture->id_lecture]);
+                    $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture',[':lecture'=>$lecture->id_lecture]);
                     $answersCount = 0;
                     foreach ($answers as $key=>$answer){
                         $taskRate += $answer->mark;

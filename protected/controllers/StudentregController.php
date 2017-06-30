@@ -325,7 +325,8 @@ class StudentRegController extends Controller
             $role = array('teacher' => false,'trainer'=>$trainers);
         }
         if ($model->isGraduate()){
-            $graduate = Graduate::model()->with(['rate'])->find('rate.id_user=:user',[':user'=>$model->id])->getAttributes();
+            $graduateModel=Graduate::model()->with(['rate'])->find('rate.id_user=:user',[':user'=>$model->id]);
+            $graduate = $graduateModel?$graduateModel->getAttributes():$graduateModel;
 
         }
         $data = array_merge($model->attributes, $role, $teacher_attributes, ['review'=>$graduate]);
