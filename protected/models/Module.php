@@ -1121,9 +1121,9 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $criteria = new CDbCriteria;
         $criteria->alias = 't';
         $criteria->join = 'left join user_teacher_consultant utc ON utc.id_user = t.user_id';
-        $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
+        $criteria->join .= ' left join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
         $criteria->join .= ' left join user_author ua on ua.id_user=t.user_id';
-        $criteria->join .= ' inner join teacher_module tm on t.user_id=tm.idTeacher';
+        $criteria->join .= ' left join teacher_module tm on t.user_id=tm.idTeacher';
         $criteria->join .= ' left join teacher_organization tot ON tot.id_user = t.user_id';
         $criteria->addCondition('tot.isPrint ='.TeacherOrganization::SHOW.' and tot.id_organization='.$this->id_organization.' 
         and ((tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
