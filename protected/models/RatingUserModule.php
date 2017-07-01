@@ -223,7 +223,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                 break;
                 case LectureElement::TASK;
                     $taskRate = 0;
-                    $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture',[':lecture'=>$lecture->id_lecture]);
+                    $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture AND id_user=:user',[':lecture'=>$lecture->id_lecture, ':user'=>$user]);
                     $answersCount = 0;
                     foreach ($answers as $key=>$answer){
                         $taskRate += $answer->mark;
