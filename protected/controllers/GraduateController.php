@@ -106,10 +106,10 @@ class GraduateController extends Controller
         $dataProvider = new CActiveDataProvider('Graduate', array(
             'criteria'=>array(
                 'condition'=>'published=1',
-                'with'=>['rate','user','course']
+                'with'=>['user','courses','modules']
             ),
             'sort' => array(
-                'defaultOrder' => 'rate.rating DESC',
+                'defaultOrder' => 'graduate_date DESC',
             ),
             'pagination' => array(
                 'pageSize' => 20,

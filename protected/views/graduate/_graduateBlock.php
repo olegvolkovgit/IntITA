@@ -10,7 +10,7 @@
             <div class="graduateHeaderMini">
                 <div class="text">
                     <?php echo Yii::t('graduates', '0320')?>
-                    <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->rate['date_done'],'medium',null); ?></span>
+                    <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
                 </div>
                 <div class="text1"><?php echo $data->user['firstName'].' '.$data->user['secondName']; ?></div>
             </div>
@@ -18,7 +18,7 @@
         <div class="graduatesTd graduateInfo">
             <div class="text graduateDate">
                 <?php echo Yii::t('graduates', '0320')?>
-                <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->rate['date_done'],'medium',null); ?></span>
+                <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
             </div>
             <div class="text1 graduateName"><?php echo $data->user['firstName'].' '.$data->user['secondName']; ?></div>
             <?php if(!empty($data->recall)){?>
@@ -57,18 +57,46 @@
                 </div>
 
                 <div class="diploma_link_style">
-                    <div>
-                        <?php echo Yii::t('graduates', '0318'); ?>
-                    </div>
-                    <div>
-                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->rate['id_course'])); ?>"
-                       target="_blank"> <?php echo $data->course->getTitle(); ?></a>
-                        <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
-                                                                        '<?php echo $data->course->title_en?>')">Диплом</a>
-                    </div>
+                    <?php if(!empty($data->courses)) { ?>
+                        <div>
+                            <?php echo Yii::t('graduates', '0318'); ?>
+                        </div>
+                        <ul>
+                            <?php foreach ($data->courses as $course) {?>
+                                <li>
+                                    <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $course->id_course)); ?>"
+                                       target="_blank"> <?php echo $course->idCourse->getTitle(); ?></a>
+                                    <div class="rat" style="padding-top: 5px;">
+                                        <?php echo Yii::t('graduates', '0319')?>
+                                        <?php echo CommonHelper::getRating(((double)$course->rating*Config::getRatingScale())); ?>
+                                    </div>
+                                    <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
+                                            '<?php echo $course->idCourse->title_en?>')">Диплом</a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
+                    <?php if(!empty($data->modules)) { ?>
+                        <div>
+                            <?php echo 'Модуль закінчив:' ?>
+                        </div>
+                        <ul>
+                        <?php foreach ($data->modules as $module) {?>
+                            <li>
+                                <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $module->id_module)); ?>"
+                                   target="_blank"> <?php echo $module->idModule->getTitle(); ?></a>
+                                <div class="rat" style="padding-top: 5px;">
+                                    <?php echo Yii::t('graduates', '0319')?>
+                                    <?php echo CommonHelper::getRating(((double)$module->rating*Config::getRatingScale())); ?>
+                                </div>
+                                <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
+                                        '<?php echo $module->idModule->title_en?>')">Диплом</a>
+                            </li>
+                        <?php } ?>
+                        </ul>
+                    <?php } ?>
                 </div>
             </div>
-            <?php echo $this->renderPartial('_educateHistory', array('data' => $data)); ?>
         </div>
     </div>
 </div>

@@ -325,9 +325,8 @@ class StudentRegController extends Controller
             $role = array('teacher' => false,'trainer'=>$trainers);
         }
         if ($model->isGraduate()){
-            $graduateModel=Graduate::model()->with(['rate'])->find('rate.id_user=:user',[':user'=>$model->id]);
+            $graduateModel=Graduate::model()->findByAttributes(array('id_user'=>$model->id));
             $graduate = $graduateModel?$graduateModel->getAttributes():$graduateModel;
-
         }
         $data = array_merge($model->attributes, $role, $teacher_attributes, ['review'=>$graduate]);
         echo json_encode($data);
@@ -467,7 +466,7 @@ class StudentRegController extends Controller
     public function actionAddReview(){
         $request = Yii::app()->request->getPost('review');
         if ($request){
-           $model = Graduate::model()->findByPk($request['id']);
+           $model = Graduate::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId()));
            $model->loadModel($request);
            $model->published = 0;
            if ($model->validate()){

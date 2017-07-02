@@ -22,7 +22,7 @@
             </td>
             <td>
                 <div>
-                    <a href="#" class="unselectedFilter" onclick="selectFilter(this)">
+                    <a href="#" class="unselectedFilter selectedFilter" onclick="selectFilter(this)">
                         <label>
                             <input ng-cloak="" type="radio" ng-model="selector" value="date" ng-hide="1" ng-click="selectFilter()">
                             <?php echo Yii::t('graduates', '0610'); ?>
@@ -30,16 +30,16 @@
                     </a>
                 </div>
             </td>
-            <td>
-                <div>
-                    <a href="#" class="unselectedFilter selectedFilter" onclick="selectFilter(this)">
-                        <label>
-                            <input ng-cloak="" type="radio" ng-model="selector" value="rating" ng-hide="1" ng-click="selectFilter()">
-                                <?php echo Yii::t('graduates', '0611'); ?>
-                        </label>
-                    </a>
-                </div>
-            </td>
+<!--            <td>-->
+<!--                <div>-->
+<!--                    <a href="#" class="unselectedFilter selectedFilter" onclick="selectFilter(this)">-->
+<!--                        <label>-->
+<!--                            <input ng-cloak="" type="radio" ng-model="selector" value="rating" ng-hide="1" ng-click="selectFilter()">-->
+<!--                                --><?php //echo Yii::t('graduates', '0611'); ?>
+<!--                        </label>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </td>-->
             <td>
                 <div>
                     <input type="search" id="search_input" ng-model="input" ng-keyup="searchInput()" placeholder="пошук випусників"/>
