@@ -23,7 +23,9 @@ return array(
         'application.helpers.ngtable.*',
         'application.models.accountancy.*',
         'application.models.message.*',
-        'application.models.accountancy.services.serviceAccess.*'
+        'application.models.accountancy.services.serviceAccess.*',
+        'application.models.quiz.*',
+        'application.models.accountancy.services.*',
 
 	),
 	// application components

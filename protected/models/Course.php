@@ -1158,8 +1158,9 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             $courseRating = new RatingUserCourse();
             $courseRating->id_user = $user;
             $courseRating->id_course = $this->course_ID;
-            $courseRating->course_revision = RevisionCourse::model()->with(['properties'])->find('id_course=:course AND id_state=:activeState',
-                [':course'=>$this->course_ID,':activeState'=>RevisionState::ReleasedState])->id_course_revision;
+            $courseRevision=RevisionCourse::model()->with(['properties'])->find('id_course=:course AND id_state=:activeState',
+                [':course'=>$this->course_ID,':activeState'=>RevisionState::ReleasedState]);
+            $courseRating->course_revision = $courseRevision?$courseRevision->id_course_revision:1;
             $courseRating->course_done = (int)false;
 
             $criteria = new CDbCriteria();
