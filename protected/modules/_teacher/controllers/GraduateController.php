@@ -118,7 +118,7 @@ class GraduateController extends TeacherCabinetController {
      */
     public function loadModel($id)
     {
-        $model = Graduate::model()->with('rate','user','course')->findByPk($id);
+        $model = Graduate::model()->with('user','courses','modules')->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -150,7 +150,7 @@ class GraduateController extends TeacherCabinetController {
     public function actionGetGraduatesJson(){
 
         $criteria = new CDbCriteria();
-        $criteria->with = ['rate','user'];
+        $criteria->with = ['user'];
         if (isset($_GET['sorting']['first_name'])){
             $criteria->order = 'user.first_name  COLLATE utf8_unicode_ci ' .$_GET['sorting']['first_name']  ;
         }
@@ -176,8 +176,8 @@ class GraduateController extends TeacherCabinetController {
         $criteria->select = ['course_ID','title_ua'];
         $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query') , 'UTF-8'), true, 'OR');
         $criteria->addCondition('cancelled=0');
-        if (!Yii::app()->user->model->isSuperadmin()||Yii::app()->user->model->isDirector()){
-            $criteria->addInCondition('id_organization',[1]);
+        if (!(Yii::app()->user->model->isSuperadmin() || Yii::app()->user->model->isDirector())){
+            $criteria->addInCondition('id_organization',[Yii::app()->user->model->getCurrentOrganizationId()]);
         }
         $courses = Course::model()->findAll($criteria);
         $result = [];
@@ -187,32 +187,90 @@ class GraduateController extends TeacherCabinetController {
         echo json_encode(['results'=>$result]);
     }
 
+    public function actionGetAllModules(){
+        $criteria = new CDbCriteria();
+        $criteria->select = ['module_ID','title_ua'];
+        $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query') , 'UTF-8'), true, 'OR');
+        $criteria->addCondition('cancelled=0');
+        if (!(Yii::app()->user->model->isSuperadmin() || Yii::app()->user->model->isDirector())){
+            $criteria->addInCondition('id_organization',[Yii::app()->user->model->getCurrentOrganizationId()]);
+        }
+        $courses = Module::model()->findAll($criteria);
+        $result = [];
+        foreach ($courses as $course){
+            array_push($result, $course->getAttributes(['module_ID','title_ua']));
+        }
+        echo json_encode(['results'=>$result]);
+    }
+
     public function actionAddGraduate(){
         $request = Yii::app()->request->getPost('Graduate');
+        $errors=[];
+        if(Graduate::model()->findByAttributes(array('id_user'=>$request['user']['id'])))
+            $errors=['Випускник уже існує'];
+        if(!isset($request['graduate_date']))
+            $errors=['Оберіть дату випуску'];
+        if (!empty($errors)){
+            echo  json_encode(['errors'=>$errors]);
+            Yii::app()->end();
+        }
         $graduate = new Graduate();
+
         if($request){
         $graduate->loadModel($request);
         $graduate->published = 1 ;
         }
+        $graduate->id_user = $request['user']['id'];
+        $date = strtotime($request['graduate_date']);
+        $graduate->graduate_date=date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
 
-        $courseRating = new RatingUserCourse();
-        $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
-        $courseRating->rating = isset($request['rate'])?((double)$request['rate']/Config::getRatingScale()):null;
-        $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
-        if(isset($request['date_done'])){
-            $date = strtotime($request['date_done']);
+        if(isset($request['course']['course_ID'])){
+            $courseRating = new RatingUserCourse();
+            $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
+            $courseRating->rating = isset($request['course_rating'])?((double)$request['course_rating']/Config::getRatingScale()):null;
+            $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
+            $courseRating->start_course = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
             $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+            $courseRating->course_revision = 1;
+            $courseRating->course_done = (int)true;
         }
-        else{
-            $courseRating->date_done = null;
+
+        if(isset($request['module']['module_ID'])){
+            $moduleRating = new RatingUserModule();
+            $moduleRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
+            $moduleRating->rating = isset($request['module_rating'])?((double)$request['module_rating']/Config::getRatingScale()):null;
+            $moduleRating->id_module = isset($request['module']['module_ID'])?$request['module']['module_ID']:null;
+            $moduleRating->start_module = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+            $moduleRating->end_module = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
+            $moduleRating->module_revision = 1;
+            $moduleRating->module_done = (int)true;
+            $moduleRating->paid_module = (int)true;
         }
-        $courseRating->course_revision = 1;
-        if (!($graduate->validate() && $courseRating->validate())){
-            echo  json_encode(['errors'=>array_merge($graduate->getErrors(),$courseRating->getErrors())]);
+
+        $errorsGraduate=[];
+        $errorsCourse=[];
+        $errorsModule=[];
+        if (!$graduate->validate()){
+            $errorsGraduate=$graduate->getErrors();
+        }
+        if (isset($courseRating) && !$courseRating->validate()){
+            $errorsCourse=$courseRating->getErrors();
+        }
+        if (isset($moduleRating) && !$moduleRating->validate()){
+            $errorsModule=$moduleRating->getErrors();
+        }
+
+        $errors=array_merge($errorsGraduate,$errorsCourse,$errorsModule);
+        if (!empty($errors)){
+            echo  json_encode(['errors'=>$errors]);
             Yii::app()->end();
         }
-        $courseRating->save(false);
-        $graduate->rate_id = $courseRating->id;
+        if (isset($courseRating)) {
+            $courseRating->save(false);
+        }
+        if (isset($moduleRating)) {
+            $moduleRating->save(false);
+        }
         $graduate->save(false);
         echo 'done';
         Yii::app()->end();

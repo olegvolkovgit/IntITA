@@ -12,6 +12,7 @@
  * @property integer $module_done
  * @property string $start_module
  * @property string $end_module
+ * @property string $paid_module
  *
  * The followings are the available model relations:
  * @property Module $idModule
@@ -41,7 +42,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 			array('rating', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_module, module_revision, rating, module_done, start_module, end_module', 'safe', 'on'=>'search'),
+			array('id, id_user, id_module, module_revision, rating, module_done, start_module, end_module, paid_module', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +74,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 			'module_done' => 'Module Done',
             'start_module' => 'Start Module',
             'end_module' => 'End Module',
+            'paid_module' => 'Paid Module',
 		);
 	}
 
@@ -102,6 +104,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 		$criteria->compare('module_done',$this->module_done);
         $criteria->compare('start_module',$this->start_module);
         $criteria->compare('end_module',$this->end_module);
+        $criteria->compare('paid_module',$this->paid_module);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -146,6 +149,10 @@ class RatingUserModule extends CActiveRecord implements IUserRating
             $moduleEndDate=$this->idModule->getModuleFinishedTime($user);
             $this->end_module = $moduleEndDate?date("Y-m-d H:i:s",$moduleEndDate):new CDbExpression('NOW()');
             $this->start_module = date("Y-m-d H:i:s",$this->idModule->getModuleStartTime($user));
+            if($this->idModule->checkPaidModuleAccess($user)){
+                $this->paid_module=true;
+                Graduate::create($user,$this->end_module);
+            }
             if($this->save()){
                 foreach ($this->idModule->Course as $course) {
                     RatingUserCourse::updateCourseProgress($user, $course->course_ID);
