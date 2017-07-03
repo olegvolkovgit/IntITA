@@ -134,6 +134,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
       $this->rating = $rate/count($modules);
       $this->course_done = (int)true;
       $this->date_done = new CDbExpression('NOW()');
+      Graduate::create($user,$this->date_done);
       $this->save();
       return true;
     }

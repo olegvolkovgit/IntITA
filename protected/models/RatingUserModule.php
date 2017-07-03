@@ -151,6 +151,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
             $this->start_module = date("Y-m-d H:i:s",$this->idModule->getModuleStartTime($user));
             if($this->idModule->checkPaidModuleAccess($user)){
                 $this->paid_module=true;
+                Graduate::create($user,$this->end_module);
             }
             if($this->save()){
                 foreach ($this->idModule->Course as $course) {

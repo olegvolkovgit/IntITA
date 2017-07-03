@@ -26,6 +26,7 @@
  * The followings are the available model relations:
  * @property RatingUserCourse $courses[]
  * @property RatingUserModule $modules[]
+ * @property StudentReg $user
  */
 class Graduate extends CActiveRecord
 {
@@ -222,5 +223,20 @@ class Graduate extends CActiveRecord
         }
 
         return round($sum/$count,2);
+    }
+
+    public static function create($user,$graduateDate){
+        if(!Graduate::model()->findByAttributes(array('id_user'=>$user))){
+            $model=new Graduate();
+            $model->published=1;
+            $model->id_user=$user;
+            $model->graduate_date=$graduateDate;
+            $model->save();
+            $model->notifyAssignGraduate($model->user);
+        }
+    }
+
+    public function notifyAssignGraduate(StudentReg $user){
+        $user->notify('_assignGraduate', array($user->id), 'Ти став випускником');
     }
 }
