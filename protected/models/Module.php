@@ -1060,12 +1060,13 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return $access;
     }
 
-    public function getLastAccessLectureOrder()
+    public function getLastAccessLectureOrder($user=null)
     {
-        if (Yii::app()->user->model->hasAccessToContent($this) || $this->isModuleDone()) {
+        $user=$user?$user:Yii::app()->user->getId();
+        $registeredUser=RegisteredUser::userById($user);
+        if ($registeredUser->hasAccessToContent($this) || $this->isModuleDone($user)) {
             return count($this->lectures);
         }
-        $user = Yii::app()->user->getId();
         $moduleAccess=$this->checkPaidAccess($user);
         
         $criteria = new CDbCriteria();
@@ -1165,7 +1166,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
 
     public function getModuleFinishedTime($user=null){
         $user=$user?$user:Yii::app()->user->getId();
-        if($this->getLastAccessLectureOrder()<$this->getLecturesCount())
+        if($this->getLastAccessLectureOrder($user)<$this->getLecturesCount())
             $lastQuiz = false;
         else $lastQuiz = $this->getLastQuizId();
         if ($lastQuiz)
@@ -1229,9 +1230,9 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             || UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOffline->service_id));
     }
 
-    public function isModuleDone()
+    public function isModuleDone($user=null)
     {
-        $moduleProgress=RatingUserModule::userModuleProgress($this->module_ID);
+        $moduleProgress=RatingUserModule::userModuleProgress($this->module_ID,$user);
         return $moduleProgress?$moduleProgress->module_done:false;
     }
 
@@ -1242,8 +1243,9 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
             $moduleRating = new RatingUserModule();
             $moduleRating->id_user = Yii::app()->user->id;
             $moduleRating->id_module = $this->module_ID;
-            $moduleRating->module_revision = RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
-                [':module'=>$this->module_ID,':activeState'=>RevisionState::ReleasedState])->id_module_revision;
+            $revisionModule=RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
+                [':module'=>$this->module_ID,':activeState'=>RevisionState::ReleasedState]);
+            $moduleRating->module_revision = $revisionModule?$revisionModule->id_module_revision:1;
             $moduleRating->module_done = (int)false;
             $moduleStartDate=$this->getModuleStartTime();
             $moduleRating->start_module = $moduleStartDate?date("Y-m-d H:i:s",$moduleStartDate):new CDbExpression('NOW()');
