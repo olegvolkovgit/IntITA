@@ -571,7 +571,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord implements ITask
 
     public function run()
     {
-        $oldRatings = RatingUserCourse::model()->findAll('course_revision=:oldRevision AND course_done=0',[':oldRevision'=>$this->id_parent]);
+        $oldRatings = RatingUserCourse::model()->findAll('id_course=:idCourse AND course_done=0',[':idCourse'=>$this->id_course]);
         foreach ($oldRatings as $rating){
             $rating->course_revision = $this->id_course_revision;
             $rating->save();
