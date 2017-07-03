@@ -69,7 +69,7 @@ class Student extends Role
     {
         $groupCourses=[];
         foreach ($user->offlineGroups as $group) {
-            $groupCourses=array_merge($groupCourses,$group->availableCoursesList($organization));
+            $groupCourses=array_merge($groupCourses,$group->availableCoursesList($organization, $user->id));
         }
 
         $now = new CDbExpression("NOW()");
@@ -100,7 +100,7 @@ class Student extends Role
     {
         $groupModules=[];
         foreach ($user->offlineGroups as $group) {
-            $groupModules=array_merge($groupModules,$group->availableModulesList($organization));
+            $groupModules=array_merge($groupModules,$group->availableModulesList($organization, $user->id));
         }
 
         $now = new CDbExpression("NOW()");
