@@ -11,6 +11,7 @@ return array(
 	'import' => array(
 		'application.models.*',
         'application.models.task.*',
+        'application.models.quiz.*',
 		'application.models.user.*',
 		'application.models.revision.*',
 		'application.models.revision.state.*',
