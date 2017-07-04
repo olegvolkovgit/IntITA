@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $plainTaskMarks PlainTaskMarks
+ * @var $plainTaskMark PlainTaskMarks
  */
 ?>
 <div class="panel panel-default">
@@ -10,7 +10,7 @@
                 <tr>
                     <td>
                         <label>Завдання</label>
-                        <div class="form-control" name="condition" style="height: auto" readonly>
+                        <div class="form-control" name="condition" style="height: auto; min-height: 50px" readonly>
                             <?php echo $plainTaskMark->taskAnswer->getCondition() ?>
                         </div>
                     </td>
@@ -18,15 +18,13 @@
                 <tr>
                     <td>
                         <label>Відповідь</label>
-                        <textarea class="form-control" name="condition" readonly id="textareaSettingsbyId">
-                            <?php echo $plainTaskMark->taskAnswer->answer; ?>
-                        </textarea>
+                        <textarea class="form-control" name="condition" readonly id="textareaSettingsbyId"><?php echo $plainTaskMark->taskAnswer->answer; ?></textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label>Коментар</label>
-                        <div class="form-control" name="comment" style="height: auto">
+                        <div class="form-control" name="comment" style="height: auto; min-height: 50px">
                             <?=$plainTaskMark->comment ;?>
                         </div>
                     </td>
