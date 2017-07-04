@@ -72,18 +72,10 @@ class m170703_133205_update_module_progress_for_users extends CDbMigration
                 $moduleRating->rateUser($item['id_user']);
             }
         }
-
-        $this->addForeignKey('FK_module_rating_user_relation', 'rating_user_module', 'id_user', 'user', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('FK_module_rating_module_relation', 'rating_user_module', 'id_module', 'module', 'module_ID', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('FK_module_rating_module_revision_relation', 'rating_user_module', 'module_revision', 'vc_module', 'id_module_revision', 'RESTRICT', 'RESTRICT');
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('FK_module_rating_user_relation','rating_user_module');
-        $this->dropForeignKey('FK_module_rating_module_relation','rating_user_module');
-        $this->dropForeignKey('FK_module_rating_module_revision_relation','rating_user_module');
         $this->dropTable('rating_user_module');
-
     }
 }
