@@ -137,31 +137,6 @@ class NewsletterController extends TeacherCabinetController
         }
     }
 
-    public function actionGetCategoryById(){
-        if (isset($_POST['Category'])){
-            $models = EmailsCategory::model()->findAllByPk($_POST['Category']);
-            $result = [];
-            if (isset($models)){
-                foreach ($models as $model){
-                    array_push($result,['id'=>$model->id,'name'=>$model->title]);
-                }
-            }
-            echo json_encode($result);
-        }
-    }
-
-    public function actionGetRolesById(){
-        if (isset($_POST['roles'])){
-            $roles = $_POST['roles'];
-            $result = [];
-            foreach ($roles as $role)
-            {
-                array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
-            }
-            echo json_encode($result);
-        }
-    }
-
     public function actionGetEmails(){
 
         $userEmails = [];
@@ -182,9 +157,10 @@ class NewsletterController extends TeacherCabinetController
     public function actionGetnewsletter($id){
          if ((int)$id){
              $model = Newsletters::model()->findByPk($id);
-             $model->recipients = unserialize($model->recipients);
+             $model->getRecipients();
              echo CJSON::encode($model);
 
          }
     }
+
 }
