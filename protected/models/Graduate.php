@@ -232,7 +232,9 @@ class Graduate extends CActiveRecord
             $model->id_user=$user;
             $model->graduate_date=$graduateDate;
             $model->save();
-            $model->notifyAssignGraduate($model->user);
+            if (!Yii::app() instanceof CConsoleApplication){
+                $model->notifyAssignGraduate($model->user);
+            }
         }
     }
 

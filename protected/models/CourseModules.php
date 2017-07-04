@@ -366,11 +366,11 @@ class CourseModules extends CActiveRecord
     }
     public static function setModuleProgressInCourse($module)
     {
-        if(!$module->mandatory_modules){
-            $moduleProgress = RatingUserModule::userModuleProgress($module->moduleInCourse->module_ID);
+        $moduleProgress = RatingUserModule::userModuleProgress($module->moduleInCourse->module_ID);
+        $module->startTime=($moduleProgress && $moduleProgress->start_module)?strtotime($moduleProgress->start_module):$module->moduleInCourse->getModuleStartTime();
+        $module->finishTime=($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):false;
 
-            $module->startTime=($moduleProgress && $moduleProgress->start_module)?strtotime($moduleProgress->start_module):$module->moduleInCourse->getModuleStartTime();
-            $module->finishTime=($moduleProgress && $moduleProgress->end_module)?strtotime($moduleProgress->end_module):false;
+        if(!$module->mandatory_modules){
             $module->access=true;
             $module->check=true;
 
