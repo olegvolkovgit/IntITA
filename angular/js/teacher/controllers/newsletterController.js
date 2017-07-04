@@ -267,17 +267,15 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                     });
                     break;
                 case 'groups':
-                    $scope.selectedRecipients = $scope.model.newsletter.recipients;
-                    console.log($scope.selectedRecipients);
-                    // $http({
-                    //     method: 'POST',
-                    //     url: basePath + '/_teacher/newsletter/getGroupsById',
-                    //     data: $jq.param({groups:$scope.model.newsletter.recipients}),
-                    //     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                    // }).success(function (response) {
-                    //     console.log($scope.model.newsletter.recipients);
-                    //     $scope.selectedRecipients = response.data;
-                    // })
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getGroupsByName',
+                        data: $jq.param({groups:$scope.model.newsletter.recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        console.log(response);
+                        $scope.selectedRecipients = response;
+                    })
                     break;
                 case 'subGroups':
                     $http({
