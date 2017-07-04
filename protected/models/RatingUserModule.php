@@ -246,7 +246,11 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                     break;
              }
         }
-	    return (double)$lectureRate/count($tasks);
+        if(count($tasks)==0){
+          return 0;
+        } else {
+            return (double)$lectureRate/count($tasks);
+        }
     }
 
     /**
