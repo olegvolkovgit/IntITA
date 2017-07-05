@@ -262,7 +262,10 @@ class StudentController extends TeacherCabinetController
 
     public function actionPlainTask($id)
     {
-        $this->renderPartial('/_student/plainTaskView', array($id));
+        $plainTaskMarks = PlainTaskMarks::model()->findByAttributes(array('id_answer'=>$id));
+        if($plainTaskMarks->id_user!=Yii::app()->user->getId())
+            throw new \application\components\Exceptions\IntItaException('403', 'У тебе немає доступу до перегляду');
+        $this->renderPartial('/_student/plainTaskView', array('plainTaskMark'=>$plainTaskMarks));
     }
     
     public function actionGetInvoicesByAgreement()
