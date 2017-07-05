@@ -15,6 +15,7 @@
  *
  * The followings are the available model relations:
  * @property PlainTaskAnswer $taskAnswer
+ * @property StudentReg $markedBy
  */
 class PlainTaskMarks extends CActiveRecord
 {
