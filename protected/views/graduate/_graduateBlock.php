@@ -70,7 +70,7 @@
                                         <?php echo Yii::t('graduates', '0319')?>
                                         <?php echo CommonHelper::getRating(((double)$course->rating*Config::getRatingScale())); ?>
                                     </div>
-                                    <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
+                                    <a href="#openModal" onclick="diploma_course_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
                                             '<?php echo $course->idCourse->title_en?>')">Диплом</a>
                                 </li>
                             <?php } ?>
@@ -89,7 +89,7 @@
                                     <?php echo Yii::t('graduates', '0319')?>
                                     <?php echo CommonHelper::getRating(((double)$module->rating*Config::getRatingScale())); ?>
                                 </div>
-                                <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
+                                <a href="#openModal" onclick="diploma_module_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
                                         '<?php echo $module->idModule->title_en?>')">Диплом</a>
                             </li>
                         <?php } ?>
