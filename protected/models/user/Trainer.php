@@ -59,7 +59,7 @@ class Trainer extends Role
     private function studentsList(StudentReg $user)
     {
         $students = Yii::app()->db->createCommand()
-            ->select('id, firstName, secondName, middleName, email, tr.start_time, tr.end_time')
+            ->select('u.id, u.firstName, u.secondName, u.middleName, u.email, tr.start_time, tr.end_time')
             ->from('user u')
             ->join('trainer_student tr', 'tr.student=u.id')
             ->where('trainer=:id and id_organization=:id_org and end_time is NULL',
@@ -163,7 +163,7 @@ class Trainer extends Role
     public static function trainersByQuery($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "distinct id, secondName, firstName, middleName, email, avatar";
+        $criteria->select = "distinct s.id, s.secondName, s.firstName, s.middleName, s.email, s.avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -203,7 +203,7 @@ class Trainer extends Role
     public function addRoleFormList($query, $organization)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
+        $criteria->select = "s.id, s.secondName, s.firstName, s.middleName, s.email, s.avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");

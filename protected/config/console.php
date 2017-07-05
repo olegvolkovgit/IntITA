@@ -11,13 +11,21 @@ return array(
 	'import' => array(
 		'application.models.*',
         'application.models.task.*',
+        'application.models.quiz.*',
 		'application.models.user.*',
+		'application.models.revision.*',
+		'application.models.revision.state.*',
+		'application.models.revision.state.course.*',
+		'application.models.revision.state.lecture.*',
+		'application.models.revision.state.module.*',
         'application.components.*',
         'application.helpers.*',
         'application.helpers.ngtable.*',
         'application.models.accountancy.*',
         'application.models.message.*',
-        'application.models.accountancy.services.serviceAccess.*'
+        'application.models.accountancy.services.serviceAccess.*',
+        'application.models.quiz.*',
+        'application.models.accountancy.services.*',
 
 	),
 	// application components

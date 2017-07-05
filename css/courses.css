@@ -359,7 +359,10 @@ span.moduleNum{
 .coursesType{
     float: right;
 }
-.coursesType > div{
+.coursesCategory{
+    float: right;
+}
+.coursesType .coursesCategory > div{
     display: inline-block;
     vertical-align: top;
 }
@@ -420,10 +423,13 @@ span.moduleNum{
         font-size: 8px;
     }
     #typeList .sourse{text-align:left}
-    .coursesType .selectType,.coursesType .selectLine{display:none}
-    .coursesType{float: none}
+    .coursesCategory .selectType,.coursesCategory .selectLine{display:none}
+    .coursesType {float: none}
     #coursesFilter{display:inline-block}
     .sourse {
+        display: inline;
+    }
+    .sourse_min {
         display: block;
     }
     .courseBox{
