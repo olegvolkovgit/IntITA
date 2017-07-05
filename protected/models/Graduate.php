@@ -66,8 +66,8 @@ class Graduate extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'user' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id']),
-            'courses' => array(self::HAS_MANY, 'RatingUserCourse', ['id_user'=>'id_user'], 'order' => 'date_done asc'),
-            'modules' => array(self::HAS_MANY, 'RatingUserModule', ['id_user'=>'id_user'], 'on' => 'paid_module=true', 'order' => 'end_module asc'),
+            'courses' => array(self::HAS_MANY, 'RatingUserCourse', ['id_user'=>'id_user'], 'on' => 'course_done=1', 'order' => 'date_done asc'),
+            'modules' => array(self::HAS_MANY, 'RatingUserModule', ['id_user'=>'id_user'], 'on' => 'module_done=1 and paid_module=true', 'order' => 'end_module asc'),
 		);
 	}
 
@@ -232,7 +232,7 @@ class Graduate extends CActiveRecord
             $model->id_user=$user;
             $model->graduate_date=$graduateDate;
             $model->save();
-            if (!Yii::app() instanceof CConsoleApplication){
+            if (!(Yii::app() instanceof CConsoleApplication)){
                 $model->notifyAssignGraduate($model->user);
             }
         }
@@ -240,5 +240,10 @@ class Graduate extends CActiveRecord
 
     public function notifyAssignGraduate(StudentReg $user){
         $user->notify('_assignGraduate', array($user->id), 'Ти став випускником');
+    }
+
+    public function graduateName(){
+        $name=trim($this->user['firstName'].' '.$this->user['secondName']);
+        echo $name?$name:$this->user['email'];
     }
 }

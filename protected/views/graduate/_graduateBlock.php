@@ -12,7 +12,7 @@
                     <?php echo Yii::t('graduates', '0320')?>
                     <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
                 </div>
-                <div class="text1"><?php echo $data->user['firstName'].' '.$data->user['secondName']; ?></div>
+                <div class="text1"><?php echo $data->graduateName() ?></div>
             </div>
         </div>
         <div class="graduatesTd graduateInfo">
@@ -20,7 +20,7 @@
                 <?php echo Yii::t('graduates', '0320')?>
                 <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
             </div>
-            <div class="text1 graduateName"><?php echo $data->user['firstName'].' '.$data->user['secondName']; ?></div>
+            <div class="text1 graduateName"><?php echo $data->graduateName() ?></div>
             <?php if(!empty($data->recall)){?>
             <div class="spoiler-title" onclick="openComment(this)">
                 <span><?php echo $b = Yii::t('graduates', '0424'), '&#9660'; ?></span>

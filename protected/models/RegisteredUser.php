@@ -591,7 +591,7 @@ class RegisteredUser
      */
     public function isGraduate()
     {
-        if (Graduate::model()->findByPk($this->registrationData->id)){
+        if (Graduate::model()->findByAttributes(array('id_user'=>$this->registrationData->id))){
             return true;
         }
 

@@ -9,7 +9,7 @@
 class GraduateController extends TeacherCabinetController {
 
     public function hasRole(){
-        $allowedViewActions=['index','getGraduatesJson', 'view'];
+        $allowedViewActions=['index','getGraduatesJson', 'view', 'changeStatus'];
         return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor() ||
         (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() && in_array(Yii::app()->controller->action->id,$allowedViewActions));
     }
