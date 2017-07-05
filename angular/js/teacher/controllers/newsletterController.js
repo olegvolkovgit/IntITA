@@ -49,15 +49,18 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     };
     $scope.loadEmailCategory();
     
-    $scope.taskTypes = [{
-        name: 'Негайно',
-        value: '0'
-    }, {
-        name: 'Відкласти',
-        value: '1'
-    }];
+    $scope.taskTypes = [
 
-    $scope.taskRepeatTypes = [{
+            {
+                name: 'Негайно',
+                value: '0'
+            }, {
+                name: 'Відкласти',
+                value: '1'
+            }];
+
+    $scope.taskRepeatTypes =
+        [{
         name: 'Один раз',
         value: '1'
     }, {
@@ -264,7 +267,11 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
             $scope.emailSelected.email = $scope.model.newsletter.newsletter_email;
             $scope.subject = $scope.model.newsletter.subject;
             $scope.message = $scope.model.newsletter.text;
+            $scope.taskType = $scope.taskTypes[1].value;
+            $scope.taskRepeat = $scope.model.repeat_type;
+            $scope.weekdaysList = $scope.model.parameters;
         });
+
     }
 
     if ($state.is('scheduler/task/:id') || $state.is('scheduler/task/edit/:id')){

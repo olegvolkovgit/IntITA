@@ -167,6 +167,7 @@
                         <label ng-repeat="weekday in weekdays" style="display: block">
                             <input type="checkbox" checklist-model="weekdaysList" checklist-value="weekday.id"> {{weekday.name}}
                         </label>
+
                     </div>
                 <div class="form-group col-md-8">
                     <label for="selectSchedulerType">Дата</label>
@@ -179,8 +180,7 @@
                     class="glyphicon glyphicon-calendar"></i></button>
           </span>   </p>
                     <label for="selectSchedulerType">Час</label>
-                    <span uib-timepicker ng-model="time" ng-change="changed()" hour-step="hours" minute-step="minutes" show-meridian="false"></span>
-
+                    <span uib-timepicker ng-model="time" ng-change="changed()" hour-step=1 minute-step=1 show-meridian="false"></span>
                 </div>
                 </div>
                 <div class="col-md-8">
