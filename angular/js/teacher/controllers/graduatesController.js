@@ -63,7 +63,11 @@ function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, tran
         return typeAhead.getData(basePath+"/_teacher/graduate/getAllModules",{query : value});
     };
 
-    $scope.tableParams = new NgTableParams({}, {
+    $scope.tableParams = new NgTableParams({
+        sorting: {
+            id: 'desc'
+        },
+    }, {
         getData: function(params) {
             return graduates.list(params.url())
                 .$promise
