@@ -163,4 +163,26 @@ class NewsletterController extends TeacherCabinetController
          }
     }
 
+    public function actionGetAllModules(){
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],'Module',['module_ID','title_ua'],10,false,['id_organization'=>Yii::app()->user->model->getCurrentOrganizationId(),'cancelled'=>0]);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->module_ID,'name'=>$model->title_ua ]);
+            }
+        }
+        echo json_encode($result);
+    }
+
+    public function actionGetAllCourses(){
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],'Course',['course_ID','title_ua'],10,false,['id_organization'=>Yii::app()->user->model->getCurrentOrganizationId(),'cancelled'=>0]);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->course_ID,'name'=>$model->title_ua ]);
+            }
+        }
+        echo json_encode($result);
+    }
+
 }

@@ -1,12 +1,18 @@
 <?php
 
 class TypeAheadHelper {
-    public static function getTypeahead($value, $className, $fields, $limit=10, $organization=false) {
+    public static function getTypeahead($value, $className, $fields, $limit=10, $organization=false, $ttt =false) {
         if (class_exists($className) && is_subclass_of($className, 'CActiveRecord')) {
             $criteria = new CDbCriteria(['limit' => $limit]);
             foreach ($fields as $field) {
                 $criteria->addSearchCondition('LOWER('.$field.')', mb_strtolower($value , 'UTF-8'), true, 'OR');
+            };
+            if ($ttt){
+                foreach ($ttt as $key=>$value){
+                    $criteria->addSearchCondition($key,$value);
+                }
             }
+
             if($organization){
                 $organization = Yii::app()->user->model->getCurrentOrganization();
                 $models = $className::model()->belongsToOrganization($organization)->findAll($criteria);

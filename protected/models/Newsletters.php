@@ -211,6 +211,34 @@ class Newsletters extends CActiveRecord implements ITask
                     }
                 }
                 break;
+            case "courses":
+                $courses = unserialize($this->recipients);
+                foreach ($courses as $courseId){
+                    $course = Course::model()->findByPk($courseId);
+                    $students = StudentReg::model()->findAll();
+                    foreach ($students as $student){
+                        if($course->checkPaidAccess($student)){
+                            array_push($mailList, $student->email);
+                        }
+                    }
+                }
+                break;
+            case "modules":
+                $modules = unserialize($this->recipients);
+                foreach ($modules as $moduleId){
+                    $module = Module::model()->findByPk($moduleId);
+                    $students = StudentReg::model()->findAll();
+                    foreach ($students as $student){
+                        if($module->checkPaidAccess($student)){
+                            array_push($mailList, $student->email);
+                        }
+                        if ($module->checkPaidModuleAccess()){
+                            array_push($mailList, $student->email);
+                        }
+                    }
+                }
+                break;
+
         }
         return array_unique($mailList);
     }
