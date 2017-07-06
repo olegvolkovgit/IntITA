@@ -48,8 +48,7 @@ angular
     })
 
 
-    .controller('starsModuleCtrl', function($scope, $http, ratingService, progressServices){
-        progressServices.createRatingUserModule(idModule);
+    .controller('starsModuleCtrl', function($scope, $http, ratingService){
              // get average rating on modules and set show on stars
         ratingService.averageRating({'idModule': idModule})
             .$promise

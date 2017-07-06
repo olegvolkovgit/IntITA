@@ -55,16 +55,18 @@
             </div>
         </div>
     </div>
-    <div ng-cloak class="finishedCourse" ng-if="finishedCourse">
+    <div ng-cloak class="finishedCourse" ng-if="courseProgress.course.course_done">
         <span class="greenFinished">
             <?php echo Yii::t('payments', '0605') ?>. <?php echo $model->getTitle(); ?>
             <br>
             <?php echo Yii::t('module', '0649') ?>
         </span>
         <br>
+<!--        (--><?php //echo Yii::t('module', '0650') ?><!--:-->
+<!--        <span ng-class="{greenFinished: courseProgress.course.fullTime<=courseProgress.recommendedTime, redFinished: courseProgress.fullTime>courseProgress.recommendedTime}"> {{courseProgress.fullTime}} {{daysTermination(courseProgress.fullTime)}}</span>-->
+<!--        --><?php //echo Yii::t('module', '0652') ?><!-- {{courseProgress.recommendedTime}})-->
         (<?php echo Yii::t('module', '0650') ?>:
-        <span ng-class="{greenFinished: courseProgress.fullTime<=courseProgress.recommendedTime, redFinished: courseProgress.fullTime>courseProgress.recommendedTime}"> {{courseProgress.fullTime}} {{daysTermination(courseProgress.fullTime)}}</span>
-        <?php echo Yii::t('module', '0652') ?> {{courseProgress.recommendedTime}})
+        <span ng-class="{greenFinished: true }"> {{courseProgress.fullTime}} {{daysTermination(courseProgress.fullTime)}}</span>)
         <br>
         <?php echo Yii::t('course', '0809') ?>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'course', 'finished.png'); ?>"/>

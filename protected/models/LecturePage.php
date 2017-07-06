@@ -142,7 +142,7 @@ class LecturePage extends CActiveRecord
         $pages = LecturePage::model()->findAll($criteria);
 
         $result = [];
-        if($pagesAccess){
+        if($pagesAccess || Lecture::model()->findByPk($idLecture)->module->isModuleDone()){
             for ($i = 0, $count = count($pages); $i < $count; $i++ ){
                 $result[$i]['order'] = $pages[$i]->page_order;
                 $result[$i]['isDone'] = true;
@@ -393,7 +393,7 @@ class LecturePage extends CActiveRecord
         $criteria=new CDbCriteria;
         $criteria->alias='lecture_page';
         $criteria->select='page_order';
-        $criteria->condition = 'id_lecture = '.$lectureId;
+        $criteria->condition = 'id_lecture = '.$lectureId.' and quiz is NOT NULL';
         $criteria->order = 'page_order DESC';
         $lastPage=LecturePage::model()->find($criteria)->page_order;
         if($pageOrder!=$lastPage)

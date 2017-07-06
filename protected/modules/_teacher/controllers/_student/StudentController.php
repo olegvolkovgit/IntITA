@@ -262,7 +262,10 @@ class StudentController extends TeacherCabinetController
 
     public function actionPlainTask($id)
     {
-        $this->renderPartial('/_student/plainTaskView', array($id));
+        $plainTaskMarks = PlainTaskMarks::model()->findByAttributes(array('id_answer'=>$id));
+        if($plainTaskMarks->id_user!=Yii::app()->user->getId())
+            throw new \application\components\Exceptions\IntItaException('403', 'У тебе немає доступу до перегляду');
+        $this->renderPartial('/_student/plainTaskView', array('plainTaskMark'=>$plainTaskMarks));
     }
     
     public function actionGetInvoicesByAgreement()
@@ -313,10 +316,10 @@ class StudentController extends TeacherCabinetController
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $educationForm = Yii::app()->request->getPost('educationForm');
-
-        if(!Yii::app()->user->model->isStudent()){
+        $courseModel=Course::model()->findByPk($course);
+        if(!Yii::app()->user->model->isStudent($courseModel->organization->id)){
             $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, Course::model()->findByPk($course)->organization->id);
+            $roleObj->setRole(Yii::app()->user->model->registrationData, $courseModel->organization->id);
         }
 
         if($educationForm=='online') $educationForm=EducationForm::ONLINE;
@@ -336,9 +339,10 @@ class StudentController extends TeacherCabinetController
         $module = Yii::app()->request->getPost('module', 0);
         $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
 
-        if(!Yii::app()->user->model->isStudent()){
+        $moduleModel=Module::model()->findByPk($module);
+        if(!Yii::app()->user->model->isStudent($moduleModel->organization->id)){
             $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, Module::model()->findByPk($module)->organization->id);
+            $roleObj->setRole(Yii::app()->user->model->registrationData, $moduleModel->organization->id);
         }
 
         if($educationForm=='online') $educationForm=EducationForm::ONLINE;

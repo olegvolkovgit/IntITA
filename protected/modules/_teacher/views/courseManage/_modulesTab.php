@@ -35,9 +35,12 @@
                             foreach ($modules as $item) { ?>
                             <tr>
                                 <td>
+                                    <a ng-href="#/module/id/<?= $item["id_module"] ?>" target="_blank">
+                                        <?= $item->moduleInCourse->getTitle(); ?>
+                                    </a>
                                     <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id_module"])); ?>"
                                        target="_blank">
-                                        <?= $item->moduleInCourse->getTitle(); ?>
+                                        (переглянути контент)
                                     </a>
                                 </td>
                                 <td>

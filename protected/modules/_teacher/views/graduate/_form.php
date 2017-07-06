@@ -32,10 +32,10 @@
 
         <div class="form-group">
             <label>
-                <strong>Дата випуску:</strong>
+                <strong>Дата випуску*:</strong>
             </label>
             <p class="input-group col-md-3">
-                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="graduate.date_done"
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="graduate.graduate_date"
                        is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Закрити"
                        alt-input-formats="altInputFormats"/>
                 <span class="input-group-btn">
@@ -76,20 +76,37 @@
                 <strong>Курс:</strong>
             </label>
             <input type="text" size="135" ng-model="graduate.course"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Оберіть курс" uib-typeahead="item as item.title_ua for item in getAllCoursesByOrganization($viewValue) | limitTo : 10"
+                   placeholder="Оберіть курс" uib-typeahead="item as item.title_ua for item in  getAllCoursesByOrganization($viewValue) | limitTo : 10"
                    typeahead-no-results="noResults" class="form-control" />
             <div ng-if="noResults"><span>Курс не знайдено</span></div>
             <div class="error" ng-show="errors.id_course">{{errors.id_course[0]}}</div>
         </div>
         <div class="form-group">
             <label>
-                <strong>Рейтинг:</strong>
+                <strong>Рейтинг курсу:</strong>
             </label>
             <input id="rate" type="number" min="1" max="10" class="form-control" name="rate"
-                   size="90" required ng-model="graduate.rating">
-            <div class="error" ng-show="errors.rating">{{errors.rating[0]}}</div>
+                   size="90" required ng-model="graduate.course_rating">
+            <div class="error" ng-show="errors.course_rating">{{errors.course_rating[0]}}</div>
         </div>
-
+        <div class="form-group">
+            <label>
+                <strong>Модуль:</strong>
+            </label>
+            <input type="text" size="135" ng-model="graduate.module"  ng-model-options="{ debounce: 1000 }"
+                   placeholder="Оберіть модуль" uib-typeahead="item as item.title_ua for item in getAllModulesByOrganization($viewValue) | limitTo : 10"
+                   typeahead-no-results="noResults" class="form-control" />
+            <div ng-if="noResults"><span>Модуль не знайдено</span></div>
+            <div class="error" ng-show="errors.id_module">{{errors.id_module[0]}}</div>
+        </div>
+        <div class="form-group">
+            <label>
+                <strong>Рейтинг модуля:</strong>
+            </label>
+            <input id="rate" type="number" min="1" max="10" class="form-control" name="module_rate"
+                   size="90" required ng-model="graduate.module_rating">
+            <div class="error" ng-show="errors.module_rating">{{errors.module_rating[0]}}</div>
+        </div>
         <div class="form-group">
             <label>
                 <strong>Відгук:</strong>
@@ -102,7 +119,7 @@
 
         <div class="form-group">
             <label>
-                <strong>Ім'я англійською *</strong>
+                <strong>Ім'я англійською</strong>
             </label>
             <input id="nameEn" type="text" class="form-control" name="nameEn"
                    size="90" required ng-model="graduate.first_name_en">
@@ -112,7 +129,7 @@
         <div class="form-group">
             <div class="form-group">
                 <label>
-                    <strong>Прізвище англійською *</strong>
+                    <strong>Прізвище англійською</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
                        size="90" required ng-model="graduate.last_name_en">

@@ -120,13 +120,15 @@ class CommonHelper
     public static function getRating($rat)
     {
         $rating = '';
+        $half=0;
         for ($i = 0; $i < floor($rat / 2); $i++) {
             $rating = $rating . "<img src=" . StaticFilesHelper::createPath('image', 'common', 'starFull.png') . ">";
         }
-        if ($rat / 2 - floor($rat / 2) == 0.5) {
+        if ( ($rat / 2 - floor($rat / 2))>=0.25 && ($rat / 2 - floor($rat / 2))<0.75) {
+            $half=1;
             $rating = $rating . "<img src=" . StaticFilesHelper::createPath('image', 'common', 'star-half.png') . ">";
         }
-        for ($i = ceil($rat / 2); $i < 5; $i++) {
+        for ($i = floor($rat / 2)+$half; $i < 5; $i++) {
             $rating = $rating . "<img src=" . StaticFilesHelper::createPath('image', 'common', 'starEmpty.png') . ">";
         }
         return $rating;

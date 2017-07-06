@@ -58,7 +58,11 @@
                 </a>
             </span>
             <div ng-if=lecturesData.currentOrder id="iconImage">
-                <img ng-src="{{moduleFinished}}">
+                <?php if($lecture->module->isModuleDone()){ ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png'); ?>"/>
+                <?php } else { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png'); ?>"/>
+                <?php } ?>
             </div>
         </div>
     </ul>

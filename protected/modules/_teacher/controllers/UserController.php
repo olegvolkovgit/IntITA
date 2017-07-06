@@ -133,7 +133,7 @@ class UserController extends TeacherCabinetController {
             $result['modules'] = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
 
             foreach ($result['courses'] as $key => $course) {
-                $result['courses'][$key]['modules'] = CourseModules::modulesInfoByCourse($course["id"]);
+                $result['courses'][$key]['modules'] = CourseModules::modulesInfoByCourse($course["id"], $userId);
                 foreach ($result['courses'][$key]['modules'] as $index => $module) {
                     $result['courses'][$key]['modules'][$index] += ['link' => Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
                 }

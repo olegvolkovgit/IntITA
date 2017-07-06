@@ -561,7 +561,7 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
                 break;
             case '6':
                 $plain = PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
-                $isAnswer = PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' => $plain, 'id_student' => $user));
+                $isAnswer = PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' => $plain, 'id_student' => $user),array('order'=>'date DESC'));
                 if ($isAnswer) return $isAnswer->date;
                 else return false;
                 break;
@@ -1060,12 +1060,13 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return $access;
     }
 
-    public function getLastAccessLectureOrder()
+    public function getLastAccessLectureOrder($user=null)
     {
-        if (Yii::app()->user->model->hasAccessToContent($this)) {
+        $user=$user?$user:Yii::app()->user->getId();
+        $registeredUser=RegisteredUser::userById($user);
+        if ($registeredUser->hasAccessToContent($this) || $this->isModuleDone($user)) {
             return count($this->lectures);
         }
-        $user = Yii::app()->user->getId();
         $moduleAccess=$this->checkPaidAccess($user);
         
         $criteria = new CDbCriteria();
@@ -1121,9 +1122,9 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         $criteria = new CDbCriteria;
         $criteria->alias = 't';
         $criteria->join = 'left join user_teacher_consultant utc ON utc.id_user = t.user_id';
-        $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
+        $criteria->join .= ' left join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
         $criteria->join .= ' left join user_author ua on ua.id_user=t.user_id';
-        $criteria->join .= ' inner join teacher_module tm on t.user_id=tm.idTeacher';
+        $criteria->join .= ' left join teacher_module tm on t.user_id=tm.idTeacher';
         $criteria->join .= ' left join teacher_organization tot ON tot.id_user = t.user_id';
         $criteria->addCondition('tot.isPrint ='.TeacherOrganization::SHOW.' and tot.id_organization='.$this->id_organization.' 
         and ((tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
@@ -1154,20 +1155,22 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return  $average;
     }
 
-    public function getModuleStartTime(){
+    public function getModuleStartTime($user=null){
+        $user=$user?$user:Yii::app()->user->getId();
         $firstQuiz = $this->getFirstQuizId();
         if ($firstQuiz)
-            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, Yii::app()->user->getId()))?(strtotime($start)): (false);
+            $result=($start=Module::getTimeAnsweredQuiz($firstQuiz, $user))?(strtotime($start)): (false);
         else $result = false;
         return $result;
     }
 
-    public function getModuleFinishedTime(){
-        if($this->getLastAccessLectureOrder()<$this->getLecturesCount())
+    public function getModuleFinishedTime($user=null){
+        $user=$user?$user:Yii::app()->user->getId();
+        if($this->getLastAccessLectureOrder($user)<$this->getLecturesCount())
             $lastQuiz = false;
         else $lastQuiz = $this->getLastQuizId();
         if ($lastQuiz)
-            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, Yii::app()->user->getId()))?(strtotime($finish)): (false);
+            $result=($finish=Module::getTimeAnsweredQuiz($lastQuiz, $user))?(strtotime($finish)): (false);
         else $result = false;
         return $result;
     }
@@ -1226,4 +1229,29 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         return UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOnline->service_id))
             || UserAgreements::model()->findByAttributes(array('user_id'=>$idUser,'service_id'=>$this->moduleServiceOffline->service_id));
     }
+
+    public function isModuleDone($user=null)
+    {
+        $moduleProgress=RatingUserModule::userModuleProgress($this->module_ID,$user);
+        return $moduleProgress?$moduleProgress->module_done:false;
+    }
+
+    public function createRatingUserModuleRecord()
+    {
+        $moduleRating = RatingUserModule::model()->find('id_user=:user AND id_module=:idModule',[':user'=>Yii::app()->user->id,':idModule'=>$this->module_ID]);
+        if (!$moduleRating){
+            $moduleRating = new RatingUserModule();
+            $moduleRating->id_user = Yii::app()->user->id;
+            $moduleRating->id_module = $this->module_ID;
+            $revisionModule=RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
+                [':module'=>$this->module_ID,':activeState'=>RevisionState::ReleasedState]);
+            $moduleRating->module_revision = $revisionModule?$revisionModule->id_module_revision:1;
+            $moduleRating->module_done = (int)false;
+            $moduleStartDate=$this->getModuleStartTime();
+            $moduleRating->start_module = $moduleStartDate?date("Y-m-d H:i:s",$moduleStartDate):new CDbExpression('NOW()');
+            $moduleRating->rating = 0;
+            $moduleRating->save(false);
+        }
+    }
+
 }

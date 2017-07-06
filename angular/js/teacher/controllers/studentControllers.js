@@ -11,7 +11,7 @@ angular
     .filter('htmlToShotPlaintext', function() {
         return function(text, mode) {
             if(text){
-                var str=String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').trim();
+                var str=String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').replace(/&lt;/gi,'<').replace(/&amp;/gi,'&').replace(/&gt;/gi,'>').replace(/&quot;/gi,'"').trim();
                 if(str.length>50 && !mode){
                     return $jq('<textarea />').html(str).text().substr(0, 50)+"..."
                 }else{
@@ -35,7 +35,7 @@ angular
     .filter('htmlToPlaintext', function() {
         return function(text) {
             if(text){
-                return String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').trim();
+                return String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').replace(/&lt;/gi,'<').replace(/&amp;/gi,'&').replace(/&gt;/gi,'>').replace(/&quot;/gi,'"').trim();
             }else return '';
         };
     })

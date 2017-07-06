@@ -104,9 +104,13 @@ class NewsletterController extends TeacherCabinetController
         echo json_encode($result);
     }
 
-    public function actionGetGroupsById(){
-        if (isset($_POST['groups'])){
-        $models = OfflineGroups::model()->findAllByPk($_POST['groups']);
+    public function actionGetGroupsByName(){
+
+        $groups = Yii::app()->request->getPost('groups');
+        if ($groups){
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('name',explode(", ",$groups));
+        $models = OfflineGroups::model()->findAll($criteria);
         $result = [];
         if (isset($models)){
             foreach ($models as $model){
@@ -117,39 +121,17 @@ class NewsletterController extends TeacherCabinetController
         }
     }
 
-    public function actionGetSubGroupsById(){
-        if (isset($_POST['subGroups'])){
-            $models = OfflineSubgroups::model()->with(['groupName'])->findAllByPk($_POST['subGroups']);
+    public function actionGetSubGroupsByName(){
+        $subGroups = Yii::app()->request->getPost('subGroups');
+        if ($subGroups){
+            $criteria = new CDbCriteria();
+            $criteria->addInCondition('name',explode(", ",$subGroups));
+            $models = OfflineSubgroups::model()->with(['groupName'])->findAll($criteria);
             $result = [];
             if (isset($models)){
                 foreach ($models as $model){
                     array_push($result,['id'=>$model->id,'name'=>$model->name, 'groupName' =>$model->groupName->name ]);
                 }
-            }
-            echo json_encode($result);
-        }
-    }
-
-    public function actionGetCategoryById(){
-        if (isset($_POST['Category'])){
-            $models = EmailsCategory::model()->findAllByPk($_POST['Category']);
-            $result = [];
-            if (isset($models)){
-                foreach ($models as $model){
-                    array_push($result,['id'=>$model->id,'name'=>$model->title]);
-                }
-            }
-            echo json_encode($result);
-        }
-    }
-
-    public function actionGetRolesById(){
-        if (isset($_POST['roles'])){
-            $roles = $_POST['roles'];
-            $result = [];
-            foreach ($roles as $role)
-            {
-                array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
             }
             echo json_encode($result);
         }
@@ -175,9 +157,10 @@ class NewsletterController extends TeacherCabinetController
     public function actionGetnewsletter($id){
          if ((int)$id){
              $model = Newsletters::model()->findByPk($id);
-             $model->recipients = unserialize($model->recipients);
+             $model->getRecipients();
              echo CJSON::encode($model);
 
          }
     }
+
 }
