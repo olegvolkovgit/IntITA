@@ -21,7 +21,6 @@
 	font-size: 0.9em;
 	border: 1px white solid;
 	padding: 0.3em;
-    background-color: #FFFFFF;
 }
 
 .grid-view table.items th
@@ -51,33 +50,33 @@
 
 .grid-view table.items th a.desc
 {
-	background:url(down.gif)right center no-repeat;
+	background:url(down.gif) right center no-repeat;
 	padding-right: 10px;
 }
 
 .grid-view table.items tr.even
 {
-	background: #FFFFFF;
+	background: #F8F8F8;
 }
 
 .grid-view table.items tr.odd
 {
-	background: #FFFFFF;
+	background: #E5F1F4;
 }
 
 .grid-view table.items tr.selected
 {
-	background: #FFFFFF;
+	background: #BCE774;
 }
 
 .grid-view table.items tr:hover.selected
 {
-	background: #FFFFFF;
+	background: #CCFF66;
 }
 
 .grid-view table.items tbody tr:hover
 {
-	background: #FFFFFF;
+	background: #ECFBD4;
 }
 
 .grid-view .link-column img
