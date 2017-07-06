@@ -80,7 +80,12 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionGetGroups(){
-        $models = TypeAheadHelper::getTypeahead($_GET['query'],'OfflineGroups',['id','name']);
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],
+                                            'OfflineGroups',
+                                            ['id','name'],
+                                            10000,
+                                            false,
+                                            ['id_organization'=>Yii::app()->user->model->getCurrentOrganizationId()]);
         $result = [];
         if (isset($models)){
             foreach ($models as $model){
@@ -90,10 +95,11 @@ class NewsletterController extends TeacherCabinetController
         echo json_encode($result);
     }
     public function actionGetSubGroups(){
-        $criteria = new CDbCriteria(['limit' => '10']);
+        $criteria = new CDbCriteria(['limit' => '10000']);
         $criteria->with = array('groupName');
         $criteria->compare('LOWER(t.name)',mb_strtolower($_GET['query'], 'UTF-8'), true, 'OR');
         $criteria->compare('LOWER(groupName.name)', mb_strtolower($_GET['query'], 'UTF-8'), true, 'OR');
+        $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganizationId());
         $models = OfflineSubgroups::model()->findAll($criteria);
         $result = [];
         if (isset($models)){
