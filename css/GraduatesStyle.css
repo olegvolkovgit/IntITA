@@ -176,6 +176,28 @@ span.spoilerTriangle {
 .graduateInfo{padding-left: 10px;width: 80%}
 .graduateAvatar{vertical-align: top;width: 10%}
 .graduateHeaderMini{display: none}
+
+#search_input{
+    border: 1px solid #4b70a3;
+    border-radius: 4px;
+    padding-left: 8px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    color: #777;
+}
+input[type="search"]::-webkit-input-placeholder {
+    color: #ccc;
+}
+input[type="search"]::-moz-placeholder {
+    color: #ccc;
+}
+#search_input:hover{
+    border: 1px solid #999999;
+}
+#search_input:focus{
+    border: 1px solid #999999;
+}
+
 @media only screen and (max-width: 800px) {
     .one,.two{  width:99%;
         float:none;
@@ -205,9 +227,6 @@ span.spoilerTriangle {
 
 /*celebre*/
 div .diploma_link_style {
-}
-div .diploma_link_style>div {
-    display: inline-block;
 }
 div .diploma_link_style>div:first-child {
     vertical-align: top;

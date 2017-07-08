@@ -9,6 +9,9 @@
  * @property integer $id_test
  * @property integer $mark
  * @property integer $quiz_uid
+ *
+ * The followings are the available model relations:
+ * @property Lecture $lecture
  */
 class TestsMarks extends CActiveRecord
 {
@@ -45,6 +48,7 @@ class TestsMarks extends CActiveRecord
 		return array(
 		    'test' => [self::BELONGS_TO,'Tests',['id_test'=>'id']],
             'lectureElement'=>[self::BELONGS_TO,'LectureElement', ['block_element' => 'id_block'],'through' => 'test',],
+            'lecture'=>[self::BELONGS_TO,'Lecture', 'id_lecture','through' => 'lectureElement',],
 		);
 	}
 

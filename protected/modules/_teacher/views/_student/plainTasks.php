@@ -38,7 +38,7 @@
                     </td>
                     <td data-title="'Викладач'" filter="{'markedBy.fullName': 'text'}">
                         <a href="/profile/{{row.markedBy.id}}" target="_blank">
-                            {{row.markedBy.fullName}} {{row.markedBy.email}}
+                            {{row.markedBy.fullName}}
                         </a>
                         <a class="btnChat" ng-if="row.markedBy.id" ng-href="#/newmessages/receiver/{{row.markedBy.id}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
                             <i class="fa fa-envelope fa-fw"></i>

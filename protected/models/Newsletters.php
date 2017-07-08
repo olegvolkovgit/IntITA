@@ -228,6 +228,64 @@ class Newsletters extends CActiveRecord implements ITask
 
     }
 
+    public function getRecipients(){
+        $_recipients = unserialize($this->recipients);
+        $criteria = new CDbCriteria();
+        $result = [];
+        switch ($this->type){
+            case "roles":{
+                foreach ($_recipients as $role){
+                    if ($role == 'coworkers'){
+                        array_push($result,['id' =>0, 'name'=>'Всі співробітники']);
+                    }
+                    else{
+                        array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
+                    }
+                }
+                break;
+            }
+            case "users":{
+                $criteria->addInCondition('email',$_recipients);
+                $users = StudentReg::model()->findAll($criteria);
+                foreach ($users as $user){
+                    array_push($result,['name'=>$user->firstName.' '.$user->middleName.' '.$user->secondName,'email'=>$user->email ]);
+                }
+                break;
+            }
+            case "groups":{
+
+                $criteria->addInCondition('id',$_recipients);
+                $groups = OfflineGroups::model()->findAll($criteria);
+                foreach ($groups as $groupe){
+                    array_push($result,['id'=>$groupe->id,'name'=>$groupe->name]);
+                }
+                break;
+            }
+            case "subGroups":{
+                $criteria->with = ['groupName'];
+                $criteria->addInCondition('t.id',$_recipients);
+                $subgroups = OfflineSubgroups::model()->findAll($criteria);
+                foreach ($subgroups as $subgroupe){
+                    array_push($result,['id'=>$subgroupe->id,
+                                        'name'=>$subgroupe->name,
+                                        'groupName'=>$subgroupe->groupName->name]);
+                }
+                break;
+            }
+            case "emailsFromDatabase":{
+                $category = EmailsCategory::model()->findAllByPk($_recipients[0]);
+                if ($category){
+                    array_push($result,['id'=>$category->id, 'name'=>$category->title]);
+                }
+                break;
+            }
+            default:{
+                $result = ['id'=>0,'name'=>'Всі користувачі сайту'];
+            }
+        }
+        $this->recipients = $result;
+    }
+
 //    public function loadModel($params){
 //        foreach ($params as $key=>$value){
 //            if ($this->hasAttribute($key)){
@@ -237,6 +295,12 @@ class Newsletters extends CActiveRecord implements ITask
 //        }
 //        return $this;
 //    }
+
+    public function afterFind(){
+        if ($this->newsletter_email == ""){
+            $this->newsletter_email = Config::getNewsletterMailAddress();
+        }
+    }
 
     public function run()
     {
