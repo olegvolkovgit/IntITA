@@ -674,7 +674,7 @@ class SiteController extends Controller
                     $sender->renderBodyTemplate('_rapidReg', array($model, $lang));
                     $model->updateByPk($model->id, array('avatar' => 'noname.png'));
                     if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
-                        throw new MailException('The letter was not sent');
+                        throw new MailException(500, 'The letter was not sent');
                     $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
                 } else {
                     $this->redirect($_SERVER["HTTP_REFERER"]);
