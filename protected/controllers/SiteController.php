@@ -1,17 +1,15 @@
 <?php
 
-use application\components\Exceptions\ForumException;
+use application\components\Exceptions\KeyValidationException;
 use application\components\Exceptions\MailException;
 
-class SiteController extends Controller
-{
+class SiteController extends Controller {
     /*
 	 * Declares class-based actions.
 	 */
     public $source;
 
-    public function actions()
-    {
+    public function actions() {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -30,8 +28,7 @@ class SiteController extends Controller
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $slider = Carousel::model()->findAll();
         $aboutUsDataProvider = new CActiveDataProvider('AboutUs');
         $stepsDataProvider = new CActiveDataProvider('Step');
@@ -50,16 +47,15 @@ class SiteController extends Controller
     /**
      * This is the action to handle external exceptions.
      */
-    public function actionError()
-    {
+    public function actionError() {
         $error = Yii::app()->errorHandler->error;
 
         $isGotMessage = true;
-        if(isset($error["errorCode"]) && $error["errorCode"] != 0){
+        if (isset($error["errorCode"]) && $error["errorCode"] != 0) {
             $code = $error["errorCode"];
         } else {
             $code = $error["code"];
-            if(!isset($error["errorCode"])){
+            if (!isset($error["errorCode"])) {
                 $isGotMessage = false;
             }
         }
@@ -67,32 +63,32 @@ class SiteController extends Controller
         switch ($code) {
             case '400':
                 $breadcrumbs = Yii::t('breadcrumbs', '0781');
-                if(!$isGotMessage)
+                if (!$isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0781');
                 break;
             case '403':
                 $breadcrumbs = Yii::t('error', '0590');
-                if(!$isGotMessage)
+                if (!$isGotMessage)
                     $error["message"] = Yii::t('error', '0590');
                 break;
             case '404':
                 $breadcrumbs = Yii::t('breadcrumbs', '0782');
-                if($isGotMessage)
+                if ($isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0782');
                 break;
             case '410':
                 $breadcrumbs = Yii::t('breadcrumbs', '0785');
-                if(!$isGotMessage)
+                if (!$isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0785');
                 break;
             case '500':
                 $breadcrumbs = Yii::t('breadcrumbs', '0783');
-                if(!$isGotMessage)
-                   $error["message"] = Yii::t('breadcrumbs', '0783');
+                if (!$isGotMessage)
+                    $error["message"] = Yii::t('breadcrumbs', '0783');
                 break;
             default:
                 $breadcrumbs = Yii::t('breadcrumbs', '0784');
-                if(!$isGotMessage)
+                if (!$isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0784');
         }
 
@@ -107,16 +103,14 @@ class SiteController extends Controller
         }
     }
 
-    protected function performAjaxValidation($model, $formId)
-    {
+    protected function performAjaxValidation($model, $formId) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === $formId) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
 
-    public function actionChangeLang()
-    {
+    public function actionChangeLang() {
         $new_lang = $_GET['lg'];
         if ($new_lang == "ua") {
             $new_lang = "uk";
@@ -144,8 +138,7 @@ class SiteController extends Controller
     }
 
     /* Activation account*/
-    public function actionAccActivation($token, $email, $lang)
-    {
+    public function actionAccActivation($token, $email, $lang) {
         $model = $this->getTokenAcc($token);
         $modelemail = StudentReg::model()->findByAttributes(array('email' => $email));
         if (!$modelemail)
@@ -162,8 +155,7 @@ class SiteController extends Controller
     }
 
     /* Token validation*/
-    public function getTokenAcc($token)
-    {
+    public function getTokenAcc($token) {
         $model = StudentReg::model()->findByAttributes(array('token' => $token));
         if ($model === null)
             throw new CHttpException(404, 'Сторінка не існує або вийшов термін дії посилання');
@@ -171,9 +163,8 @@ class SiteController extends Controller
             return $model;
     }
 
-    public function actionLogin()
-    {
-        
+    public function actionLogin() {
+
         $model = new StudentReg('loginuser');
         // if it is ajax validation request
         $this->performAjaxValidation($model, 'authForm');
@@ -184,7 +175,7 @@ class SiteController extends Controller
             // validate user input and redirect to the previous page if valid
             if ($statusmodel->status == 1) {
                 if ($model->login()) {
-                  // TrackController::actionLogin();
+                    // TrackController::actionLogin();
                     if (isset($_SERVER["HTTP_REFERER"])) {
                         if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                         if (isset($_GET['dialog'])) $this->redirect(Yii::app()->homeUrl);
@@ -198,16 +189,15 @@ class SiteController extends Controller
     /**
      * Logs out the current user and redirect to homepage.
      */
-    public function actionLogout()
-    {
+    public function actionLogout() {
 
         $event = 'LogOut';
-        $lesson = Yii::app()->request->getPost('lesson',0);
-        $part = Yii::app()->request->getPost('page',0);
+        $lesson = Yii::app()->request->getPost('lesson', 0);
+        $part = Yii::app()->request->getPost('page', 0);
         $user_id = Yii::app()->user->id;
 
         $Model = EventsFactory::trackEvent($event);
-        $Model->trackEvent($user_id,$lesson,$part);
+        $Model->trackEvent($user_id, $lesson, $part);
 //        $r = new LogTracks;
 //        $r->LogOut(Yii::app()->user->getId());
         $id = 0;
@@ -233,8 +223,7 @@ class SiteController extends Controller
         else $this->redirect(Yii::app()->homeUrl);
     }
 
-    public function actionSocialLogin()
-    {
+    public function actionSocialLogin() {
         $model = new StudentReg('socialLogin');
 
         $s = file_get_contents('http://ulogin.ru/token.php?token=' . $_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
@@ -291,8 +280,7 @@ class SiteController extends Controller
     }
 
     /* Checking the existence of a token  and lifetime*/
-    public function getToken($token)
-    {
+    public function getToken($token) {
         $time = date("Y-m-d H:i:s");
         $model = StudentReg::model()->findByAttributes(array('token' => $token));
         if ($model === null)
@@ -306,8 +294,7 @@ class SiteController extends Controller
     }
 
     /* Change password if token true*/
-    public function actionVerToken($token)
-    {
+    public function actionVerToken($token) {
         $model = $this->getToken($token);
         $model->setScenario('recoverypass');
         $this->performAjaxValidation($model, 'changep-form');
@@ -336,8 +323,7 @@ class SiteController extends Controller
         }
     }
 
-    public function actionVerEmail($token, $email)
-    {
+    public function actionVerEmail($token, $email) {
         $model = $this->getToken($token);
         if ($model) {
             //XOR email hash
@@ -362,8 +348,7 @@ class SiteController extends Controller
         }
     }
 
-    public function actionRecoveryPass()
-    {
+    public function actionRecoveryPass() {
         $model = new StudentReg('recovery');
         // if it is ajax validation request
         $this->performAjaxValidation($model, 'recovery-form');
@@ -384,8 +369,7 @@ class SiteController extends Controller
 
     }
 
-    public function actionResetEmail()
-    {
+    public function actionResetEmail() {
         if (!Yii::app()->user->isGuest) {
             $model = StudentReg::model()->findByPk(Yii::app()->user->id);
 
@@ -411,84 +395,71 @@ class SiteController extends Controller
         }
     }
 
-    public function actionNetworkIdentity($identity)
-    {
+    public function actionNetworkIdentity($identity) {
         $this->render('networkIdentity', array(
             'identity' => $identity,
         ));
     }
 
-    public function actionActivationinfo($email)
-    {
+    public function actionActivationinfo($email) {
         $this->render('activationinfo', array(
             'email' => $email,
         ));
     }
 
-    public function actionLinkingEmailInfo($email, $network)
-    {
+    public function actionLinkingEmailInfo($email, $network) {
         $this->render('linkinginfo', array(
             'email' => $email, 'network' => $network,
         ));
     }
 
-    public function actionReactivationInfo($email)
-    {
+    public function actionReactivationInfo($email) {
         $this->render('reactivationInfo', array(
             'email' => $email,
         ));
     }
 
-    public function actionChangeemailinfo($email)
-    {
+    public function actionChangeemailinfo($email) {
         $this->render('changeemailinfo', array(
             'email' => $email,
         ));
     }
 
-    public function actionResetpassinfo($email)
-    {
+    public function actionResetpassinfo($email) {
         $this->render('resetpassinfo', array(
             'email' => $email,
         ));
     }
 
-    public function actionResetemailinfo()
-    {
+    public function actionResetemailinfo() {
         $this->render('resetemail');
     }
 
-    public function actionNotactivated($email)
-    {
+    public function actionNotactivated($email) {
         $this->render('notactivated', array(
             'email' => $email,
         ));
     }
 
-    public function actionActivationaccount()
-    {
+    public function actionActivationaccount() {
         $this->render('activationaccount');
     }
 
-    public function actionNotice()
-    {
+    public function actionNotice() {
         $this->renderPartial('notice');
     }
 
-    public function actionNetworkActivation()
-    {
+    public function actionNetworkActivation() {
         $this->render('networkActivation');
     }
 
-    public function actionNetworkLinking($email, $network)
-    {
+    public function actionNetworkLinking($email, $network) {
         $this->render('networkLinking', array(
             'email' => $email, 'network' => $network,
         ));
     }
 
-    private static function setToken($model)
-    {
+    private static function setToken($model) {
         $getToken = rand(0, 99999);
         $getTime = date("Y-m-d H:i:s");
         $model->token = sha1($getToken . $getTime);
@@ -497,8 +468,7 @@ class SiteController extends Controller
     }
 
     /*verification email when network do not have email */
-    public function actionEmailVerification()
-    {
+    public function actionEmailVerification() {
         $model = new StudentReg('network_identity');
         $this->performAjaxValidation($model, 'emailVerification-form');
 
@@ -540,8 +510,7 @@ class SiteController extends Controller
         }
     }
 
-    public function actionLinkingEmailToNetwork($network, $token, $email, $lang)
-    {
+    public function actionLinkingEmailToNetwork($network, $token, $email, $lang) {
         $model = $this->getTokenAcc($token);
         $key = 'codename41';
         $mailDeHash = Mail::strcode(base64_decode($email), $key);
@@ -568,8 +537,7 @@ class SiteController extends Controller
         }
     }
 
-    public function actionSuccessVerification($token, $email, $lang)
-    {
+    public function actionSuccessVerification($token, $email, $lang) {
         $model = $this->getTokenAcc($token);
 
         $modelEmail = StudentReg::model()->findByAttributes(array('email' => $email));
@@ -589,8 +557,7 @@ class SiteController extends Controller
     }
 
     /* set data from network*/
-    public function setNetworkData($user, $model)
-    {
+    public function setNetworkData($user, $model) {
         if (isset($user['first_name'])) $model->firstName = $user['first_name'];
         if (isset($user['last_name'])) $model->secondName = $user['last_name'];
         if (isset($user['nickname'])) $model->nickname = $user['nickname'];
@@ -631,14 +598,13 @@ class SiteController extends Controller
         return $model;
     }
 
-    public function actionSignInSignUp()
-    {
+    public function actionSignInSignUp() {
         $post = Yii::app()->request->getPost('StudentReg');
         $signMode = Yii::app()->request->getPost('signMode');
         $extended = Yii::app()->request->getPost('isExtended');
         $formId = Yii::app()->request->getPost('formId');
-        $offlineForm=Yii::app()->request->getPost('educationForm');
-        $callBack=Yii::app()->request->getPost('callBack');
+        $offlineForm = Yii::app()->request->getPost('educationForm');
+        $callBack = Yii::app()->request->getPost('callBack');
 
         $model = new StudentReg();
         if ($signMode == 'signUp') //            SignUp
@@ -652,12 +618,13 @@ class SiteController extends Controller
                 $this->redirect(Yii::app()->createUrl('studentreg/index', array('email' => $post['email'])));
             }
             if (isset($post)) {
+                /* todo switch to StudentReg::registerNew*/
                 $model->attributes = $post;
-                if($offlineForm){
-                    $model->educform=3;
-                    $model->education_shift=3;
-                }else{
-                    $model->educform=1;
+                if ($offlineForm) {
+                    $model->educform = 3;
+                    $model->education_shift = 3;
+                } else {
+                    $model->educform = 1;
                 }
                 $getToken = rand(0, 99999);
                 $getTime = date("Y-m-d H:i:s");
@@ -690,12 +657,12 @@ class SiteController extends Controller
                 if ($statusmodel->status == 1) {
                     if ($model->login()) {
                         $event = 'LogIn';
-                        $lesson = Yii::app()->request->getPost('lesson',0);
-                        $part = Yii::app()->request->getPost('page',0);
+                        $lesson = Yii::app()->request->getPost('lesson', 0);
+                        $part = Yii::app()->request->getPost('page', 0);
                         $user_id = Yii::app()->user->id;
 
                         $Model = EventsFactory::trackEvent($event);
-                        $Model->trackEvent($user_id,$lesson,$part);
+                        $Model->trackEvent($user_id, $lesson, $part);
                         if (!empty($callBack)) {
                             $this->redirect($callBack);
                         }
@@ -708,30 +675,89 @@ class SiteController extends Controller
         }
     }
 
-    public function actionReactivation()
-    {
+    public function actionReactivation() {
         $email = Yii::app()->request->getPost('email');
         $getToken = rand(0, 99999);
         $getTime = date("Y-m-d H:i:s");
         $model = StudentReg::model()->findByAttributes(array('email' => $email));
-        $token=sha1($getToken . $getTime);
+        $token = sha1($getToken . $getTime);
         StudentReg::model()->updateByPk($model->id, array('token' => $token));
         if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
         else $lang = 'ua';
 
         $sender = new MailTransport();
-        $model->token=$token;
+        $model->token = $token;
         $sender->renderBodyTemplate('_rapidReg', array($model, $lang));
         if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
             throw new MailException('The letter was not sent');
         $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $email)));
     }
 
-    public function actionAuthorize($callBack=null)
-    {
+    public function actionAuthorize($callBack = null) {
         $this->layout = "//layouts/lessonlayout";
         $this->render('authorize', array(
             'callBack' => $callBack,
         ));
+    }
+
+
+    /**
+     * @example
+     * curl -v -XPOST "http://intita.project/site/register" \
+     * --data 'email=student27@local.com&password=1111&key=97a03274111787fbccaf7bb9cf4ed62f2668fa98'
+     */
+    public function actionRegister() {
+        $request = Yii::app()->request;
+        if (!$request->isPostRequest) {
+            $this->renderPartial('//ajax/json', ['statusCode' => 405]);
+            return;
+        }
+
+        $email = filter_var($request->getPost('email'), FILTER_SANITIZE_STRING);
+        $password = $request->getPost('password');
+        $key = $request->getPost('key');
+
+        try {
+
+            $this->validateKey($key, $email, $password);
+
+            $model = StudentReg::registerNew('repidreg', [
+                'email' => $email,
+                'password' => $password,
+                'lang' => Yii::app()->session['lg']
+            ]);
+            $this->renderPartial('//ajax/json', [
+                'statusCode' => 200,
+                'body' => json_encode($model->getAttributes())
+            ]);
+
+        } catch (Exception $exception) {
+            $statusCode = 500;
+            $body = ['message' => $exception->getMessage()];
+            switch (true) {
+                case $exception instanceof KeyValidationException:
+                    $statusCode = 401;
+                    $body = json_encode(['message' => $exception->getMessage()]);
+                    break;
+                case $exception instanceof \application\components\Exceptions\ValidationException:
+                    $statusCode = 400;
+                    $body = json_encode($exception->getAsJson());
+                    break;
+                default:
+                    break;
+            }
+
+            $this->renderPartial('//ajax/json', [
+                'statusCode' => $statusCode,
+                'body' => $body
+            ]);
+
+        }
+    }
+
+    private function validateKey($key, $email, $password) {
+        if ($key !== sha1('salt' . $email . $password)) {
+            throw new KeyValidationException();
+        }
     }
 }
