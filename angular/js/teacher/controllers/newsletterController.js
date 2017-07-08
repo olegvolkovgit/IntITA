@@ -36,6 +36,22 @@ angular
             return $sce.trustAsHtml(html);
         };
     })
+    .filter('coursesModulesFilter', function($sce) {
+        return function(label, query, item, options, element) {
+
+            var html= item.name;
+
+            return $sce.trustAsHtml(html);
+        };
+    })
+    .filter('coursesModulesSearchFilter', function($sce) {
+        return function(label, query, item, options, element) {
+
+            var html= item.name;
+
+            return $sce.trustAsHtml(html) + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
+        };
+    })
 ;
 
 function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $stateParams) {
@@ -159,6 +175,8 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     var groupsArray =$resource(basePath+'/_teacher/newsletter/getGroups');
     var subGroupsArray =$resource(basePath+'/_teacher/newsletter/getSubGroups');
     var usersArray = $resource(basePath+'/_teacher/newsletter/getUserEmail');
+    var modulesArray = $resource(basePath+'/_teacher/newsletter/getAllModules');
+    var coursesArray = $resource(basePath+'/_teacher/newsletter/getAllCourses');
     $scope.getRoles = function(query, querySelectAs) {
       return rolesArray.query().$promise.then(function(response) {
             return response;
@@ -187,6 +205,22 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         });
     };
 
+    $scope.getModules = function(query, querySelectAs) {
+
+        return modulesArray.query({query:query}).$promise.then(function(response) {
+
+            return response;
+        });
+    };
+
+    $scope.getCourses = function(query, querySelectAs) {
+
+        return coursesArray.query({query:query}).$promise.then(function(response) {
+
+            return response;
+        });
+    };
+
     $scope.send = function () {
         if ($scope.newsletterForm.$valid && $scope.newsletterType) {
             var recipients = [];
@@ -206,6 +240,12 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         break;
                     case 'emailsFromDatabase':
                         recipients = value;
+                        break;
+                    case 'modules':
+                        recipients.push(value.id);
+                        break;
+                    case 'courses':
+                        recipients.push(value.id);
                         break;
                 }
             });
