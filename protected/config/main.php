@@ -54,6 +54,7 @@ return array(
         'ext.giix-components.*', // giix components
         'ext.PHPExcel.*', //PHPExcel
         'application.components.Exceptions.*',
+        'application.models.quiz.TaskMarks.php',
     ),
 
     'modules' => array(

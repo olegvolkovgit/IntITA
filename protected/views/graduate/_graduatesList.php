@@ -3,6 +3,7 @@
 $this->widget('application.components.ColumnListView', array(
     'dataProvider' => $dataProvider,
     'itemView' => '_graduateBlock',
+    'emptyText' => Yii::t('coursemanage', '0517'),
     'viewData'=>array( 'lang' => $lang ),
     'summaryText' => '',
     'columns' => array("one", "two"),
@@ -14,6 +15,7 @@ $this->widget('application.components.ColumnListView', array(
         'header' => '',
         'cssFile' => Config::getBaseUrl() . '/css/pager.css'
     ),
+    'id'=>'ajaxListView',
 ));
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>

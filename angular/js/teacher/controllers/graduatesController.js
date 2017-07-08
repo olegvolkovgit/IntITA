@@ -25,6 +25,7 @@ function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, tran
         }).success(function (response) {
             if (typeof response === 'object'){
                 $scope.errors = response.errors;
+                bootbox.alert(JSON.stringify($scope.errors));
                 return false;
             }
             else{
@@ -57,7 +58,16 @@ function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, tran
         return typeAhead.getData(basePath+"/_teacher/graduate/getAllCourses",{query : value});
     };
 
-    $scope.tableParams = new NgTableParams({}, {
+    $scope.getAllModulesByOrganization = function (value) {
+
+        return typeAhead.getData(basePath+"/_teacher/graduate/getAllModules",{query : value});
+    };
+
+    $scope.tableParams = new NgTableParams({
+        sorting: {
+            id: 'desc'
+        },
+    }, {
         getData: function(params) {
             return graduates.list(params.url())
                 .$promise

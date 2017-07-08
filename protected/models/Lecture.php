@@ -458,7 +458,7 @@ class Lecture extends CActiveRecord
 
     public static function getTypeTitleParam()
     {
-        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $lang = (isset(Yii::app()->session) && Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
         return $title;
     }

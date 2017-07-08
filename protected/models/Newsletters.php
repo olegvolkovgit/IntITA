@@ -211,6 +211,34 @@ class Newsletters extends CActiveRecord implements ITask
                     }
                 }
                 break;
+            case "courses":
+                $courses = unserialize($this->recipients);
+                foreach ($courses as $courseId){
+                    $course = Course::model()->findByPk($courseId);
+                    $students = StudentReg::model()->findAll();
+                    foreach ($students as $student){
+                        if($course->checkPaidAccess($student->id)){
+                            array_push($mailList, $student->email);
+                        }
+                    }
+                }
+                break;
+            case "modules":
+                $modules = unserialize($this->recipients);
+                foreach ($modules as $moduleId){
+                    $module = Module::model()->findByPk($moduleId);
+                    $students = StudentReg::model()->findAll();
+                    foreach ($students as $student){
+                        if($module->checkPaidAccess($student->id)){
+                            array_push($mailList, $student->email);
+                        }
+                        if ($module->checkPaidModuleAccess($student->id)){
+                            array_push($mailList, $student->email);
+                        }
+                    }
+                }
+                break;
+
         }
         return array_unique($mailList);
     }
@@ -228,6 +256,82 @@ class Newsletters extends CActiveRecord implements ITask
 
     }
 
+    public function getRecipients(){
+        $_recipients = unserialize($this->recipients);
+        $criteria = new CDbCriteria();
+        $result = [];
+        switch ($this->type){
+            case "roles":{
+                foreach ($_recipients as $role){
+                    if ($role == 'coworkers'){
+                        array_push($result,['id' =>0, 'name'=>'Всі співробітники']);
+                    }
+                    else{
+                        array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
+                    }
+                }
+                break;
+            }
+            case "users":{
+                $criteria->addInCondition('email',$_recipients);
+                $users = StudentReg::model()->findAll($criteria);
+                foreach ($users as $user){
+                    array_push($result,['name'=>$user->firstName.' '.$user->middleName.' '.$user->secondName,'email'=>$user->email ]);
+                }
+                break;
+            }
+            case "groups":{
+
+                $criteria->addInCondition('id',$_recipients);
+                $groups = OfflineGroups::model()->findAll($criteria);
+                foreach ($groups as $groupe){
+                    array_push($result,['id'=>$groupe->id,'name'=>$groupe->name]);
+                }
+                break;
+            }
+            case "subGroups":{
+                $criteria->with = ['groupName'];
+                $criteria->addInCondition('t.id',$_recipients);
+                $subgroups = OfflineSubgroups::model()->findAll($criteria);
+                foreach ($subgroups as $subgroupe){
+                    array_push($result,['id'=>$subgroupe->id,
+                                        'name'=>$subgroupe->name,
+                                        'groupName'=>$subgroupe->groupName->name]);
+                }
+                break;
+            }
+            case "emailsFromDatabase":{
+                $category = EmailsCategory::model()->findAllByPk($_recipients[0]);
+                if ($category){
+                    array_push($result,['id'=>$category->id, 'name'=>$category->title]);
+                }
+                break;
+            }
+            case "courses":{
+                $criteria->addInCondition('course_ID',$_recipients);
+                $courses = Course::model()->findAll($criteria);
+                foreach ($courses as $course){
+                    array_push($result,['id'=>$course->course_ID,
+                        'name'=>$course->title_ua]);
+                }
+                break;
+            }
+            case "modules":{
+                $criteria->addInCondition('module_ID',$_recipients);
+                $modules = Module::model()->findAll($criteria);
+                foreach ($modules as $module){
+                    array_push($result,['id'=>$module->module_ID,
+                        'name'=>$module->title_ua]);
+                }
+                break;
+            }
+            default:{
+                $result = ['id'=>0,'name'=>'Всі користувачі сайту'];
+            }
+        }
+        $this->recipients = $result;
+    }
+
 //    public function loadModel($params){
 //        foreach ($params as $key=>$value){
 //            if ($this->hasAttribute($key)){
@@ -237,6 +341,12 @@ class Newsletters extends CActiveRecord implements ITask
 //        }
 //        return $this;
 //    }
+
+    public function afterFind(){
+        if ($this->newsletter_email == ""){
+            $this->newsletter_email = Config::getNewsletterMailAddress();
+        }
+    }
 
     public function run()
     {

@@ -591,9 +591,10 @@ class RegisteredUser
      */
     public function isGraduate()
     {
-            if (RatingUserCourse::model()->find('id_user=:user AND course_done = 1',[':user'=>$this->registrationData->id])){
-                return true;
-            }
+        if (Graduate::model()->findByAttributes(array('id_user'=>$this->registrationData->id))){
+            return true;
+        }
+
         return false;
     }
 }

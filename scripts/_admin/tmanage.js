@@ -136,6 +136,7 @@ function moduleUpdate(url,moduleId) {
         success: function () {
             bootbox.alert("Модуль успішно відредаговано", function () {
                 location.hash = "/module/id/"+moduleId;
+                location.reload();
             });
         },
         error: function () {
@@ -198,6 +199,7 @@ function courseActions(url) {
         success: function (message) {
             bootbox.alert(message, function () {
                 location.hash = "/organization/courses";
+                location.reload();
             });
         },
         error: function (message) {
