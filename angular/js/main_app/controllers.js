@@ -10,7 +10,7 @@ angular
 
 
 /* Controllers */
-function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout, FileUploader) {
+function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout, FileUploader, documentsServices) {
     $scope.focusField = function(model,select){
         $timeout(function () {
             $scope.$digest();
@@ -399,6 +399,11 @@ function editProfileController($scope, $http, countryCity, careerService, specia
         reader.readAsDataURL(file);
     };
     angular.element(document.querySelector('#chooseAvatar')).on('change',handleFileSelect);
+
+    //documents
+    documentsServices.getDocumentsTypes().then(function (data) {
+        $scope.documentsTypes=data;
+    });
 }
 
 function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {

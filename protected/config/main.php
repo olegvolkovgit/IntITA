@@ -34,6 +34,7 @@ return array(
         'application.models.accountancy.corporateEntity.*',
         'application.models.accountancy.agreements.*',
         'application.models.accountancy.contractingParty.*',
+        'application.models.accountancy.userDocuments.*',
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
@@ -84,9 +85,9 @@ return array(
 
         'clientScript' => array(
             'class' => 'system.web.CClientScript',
-            'scriptMap'=>array(
-                'jquery.min.js'=>'https://code.jquery.com/jquery-2.2.4.min.js',
-            )
+//            'scriptMap'=>array(
+//                'jquery.min.js'=>'https://code.jquery.com/jquery-2.2.4.min.js',
+//            )
         ),
 
         'cache' => array(

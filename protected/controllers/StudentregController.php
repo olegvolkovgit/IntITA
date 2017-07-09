@@ -481,4 +481,9 @@ class StudentRegController extends Controller
         return true;
 
     }
+
+    public function actionGetDocumentsTypes()
+    {
+        echo CJSON::encode(DocumentsTypes::model()->findAll());
+    }
 }

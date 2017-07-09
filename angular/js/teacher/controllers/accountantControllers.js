@@ -1193,7 +1193,10 @@ angular
           } else {
             bootbox.alert(data.reason);
           }
-        });
+        })
+          .catch(function (error) {
+              bootbox.alert(error.data.reason);
+          });
     };
 
     $scope.updateAppliedTemplate = function () {

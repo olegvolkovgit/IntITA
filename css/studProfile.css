@@ -83,7 +83,7 @@ table.profileInfo {
      margin-right: 30px;
      color: #828282;
  }
-.studProf input, .studProf .rowPass > input
+.studProf input, .studProf select, .studProf .rowPass > input
 {
     padding-left: 8px;
     width: 62%;
