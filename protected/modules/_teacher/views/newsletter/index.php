@@ -49,6 +49,18 @@
                         Розсилка по окремих користувачах
                     </label>
                     <br>
+                    <label>
+                        <input type="radio" ng-model="newsletterType" value="modules"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по користувачах, які мають доступ до певних модулів
+                    </label>
+                    <br>
+                    <label>
+                        <input type="radio" ng-model="newsletterType" value="courses"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по користувачах, які мають доступ до певних курсів
+                    </label>
+                    <br>
                     <?php if (Yii::app()->user->model->isAdmin()
                     || Yii::app()->user->model->isAccountant()
                     || Yii::app()->user->model->isTrainer()
@@ -104,6 +116,38 @@
                       debounce: 200,
                       dropdownFilter: 'subgroupsFilter',
                       searchFilter: 'subgroupsSearchFilter',
+                     }"
+                    ></oi-select>
+                </div>
+
+                <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='modules'">
+                    <label>Модулі</label>
+                    <br>
+                    <oi-select
+                            oi-options="courses.name for courses in getModules($query) track by courses.id"
+                            ng-model="selectedRecipients"
+                            multiple
+                            placeholder="Оберіть модулі"
+                            oi-select-options="{
+                      debounce: 200,
+                      dropdownFilter: 'coursesModulesFilter',
+                      searchFilter: 'coursesModulesSearchFilter',
+                     }"
+                    ></oi-select>
+                </div>
+
+                <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='courses'">
+                    <label>Курси</label>
+                    <br>
+                    <oi-select
+                            oi-options="modules.name for modules in getCourses($query) track by modules.id"
+                            ng-model="selectedRecipients"
+                            multiple
+                            placeholder="Оберіть курси"
+                            oi-select-options="{
+                      debounce: 200,
+                      dropdownFilter: 'coursesModulesFilter',
+                      searchFilter: 'coursesModulesSearchFilter',
                      }"
                     ></oi-select>
                 </div>

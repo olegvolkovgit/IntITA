@@ -48,7 +48,7 @@ return array(
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
         'application.models.task.*',
-       // 'ext.yii2-debug.*',
+        // 'ext.yii2-debug.*',
         'application.helpers.*',
         'application.helpers.ngtable.*',
         'editable.*', //easy include of editable classes
@@ -65,7 +65,7 @@ return array(
                 'ext.giix-core', // giix generators
             ),
             'password' => 'admin',
-            'ipFilters' => ['127.0.0.1','10.0.0.1','localhost']
+            'ipFilters' => ['127.0.0.1', '10.0.0.1', 'localhost']
         ),
         '_admin',
         '_teacher',
@@ -75,6 +75,14 @@ return array(
 
     // application components
     'components' => array(
+        'session' => [
+            'class' => 'CHttpSession',
+            'cookieParams' => [
+                'domain' => '.intita.project',
+                'httponly' => true
+            ],
+        ],
+
         'image' => array(
             'class' => 'application.extensions.image.CImageComponent',
             // GD or ImageMagick
@@ -171,20 +179,20 @@ return array(
                 array(
                     'class' => 'CWebLogRoute',
                     'categories' => 'application',
-                    'levels'=>'error, warning, trace, profile, info',
+                    'levels' => 'error, warning, trace, profile, info',
                     'showInFireBug' => true
                 ),
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, trace, info, profile',
-                    'categories'=>'system.db.*',
-                    'logFile'=>'sql.log',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, trace, info, profile',
+                    'categories' => 'system.db.*',
+                    'logFile' => 'sql.log',
                 ),
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, trace, info, profile',
-                    'categories'=>'application.revision.*',
-                    'logFile'=>'revision.log',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, trace, info, profile',
+                    'categories' => 'application.revision.*',
+                    'logFile' => 'revision.log',
                 ),
             ),
         ),
@@ -209,5 +217,5 @@ return array(
     'params' => $params_config['params'],
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
-    
+
 );

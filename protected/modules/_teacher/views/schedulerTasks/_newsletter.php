@@ -25,6 +25,8 @@
                 <span ng-show="model.newsletter.type == 'roles'">Розсилка по ролях</span>
                 <span ng-show="model.newsletter.type == 'subGroups'">Розсилка по підгрупах</span>
                 <span ng-show="model.newsletter.type == 'emailsFromDatabase'">Розсилка по базі email</span>
+                <span ng-show="model.newsletter.type == 'courses'">Розсилка по користувачах, які мають доступ до певних курсів</span>
+                <span ng-show="model.newsletter.type == 'modules'">Розсилка по користувачах, які мають доступ до певних модулів</span>
             </td>
         </tr>
         <tr ng-hide="model.newsletter.type == 'allUsers'">
@@ -36,6 +38,8 @@
                 <span ng-show="model.newsletter.type == 'roles'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
                 <span ng-show="model.newsletter.type == 'subGroups'" ng-repeat="item in selectedRecipients">&lt;{{item.groupName}}&gt;{{item.name}}; </span>
                 <span ng-show="model.newsletter.type == 'allUsers'">Всі користувачі</span>
+                <span ng-show="model.newsletter.type == 'courses'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
+                <span ng-show="model.newsletter.type == 'modules'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
             </td>
         </tr>
         <tr>
