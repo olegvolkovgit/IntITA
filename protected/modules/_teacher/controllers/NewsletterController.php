@@ -170,7 +170,12 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionGetAllModules(){
-        $models = TypeAheadHelper::getTypeahead($_GET['query'],'Module',['module_ID','title_ua'],10,false,['id_organization'=>Yii::app()->user->model->getCurrentOrganizationId(),'cancelled'=>0]);
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],
+                                            'Module',
+                                                        ['module_ID','title_ua'],
+                                                        '10',
+                                                        false,
+                                                        ['id_organization'=>((Yii::app()->user->model->getCurrentOrganizationId())?Yii::app()->user->model->getCurrentOrganizationId():1),'cancelled'=>0]);
         $result = [];
         if (isset($models)){
             foreach ($models as $model){
@@ -181,7 +186,10 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionGetAllCourses(){
-        $models = TypeAheadHelper::getTypeahead($_GET['query'],'Course',['course_ID','title_ua'],10,false,['id_organization'=>Yii::app()->user->model->getCurrentOrganizationId(),'cancelled'=>0]);
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],
+            'Course',['course_ID','title_ua'],
+            '10',false,
+            ['id_organization'=>((Yii::app()->user->model->getCurrentOrganizationId())?Yii::app()->user->model->getCurrentOrganizationId():1),'cancelled'=>0]);
         $result = [];
         if (isset($models)){
             foreach ($models as $model){
