@@ -26,6 +26,10 @@
  */
 class UserDocuments extends CActiveRecord
 {
+    const CHECKED=1;
+    const NOT_CHECKED=0;
+
+    public $issuedDate=null;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -42,7 +46,7 @@ class UserDocuments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, type, updatedAt', 'required'),
+			array('id_user, type', 'required'),
 			array('id_user, type, checked_by_student, checked, checked_by', 'numerical', 'integerOnly'=>true),
 			array('number, issued, registration_address, description', 'length', 'max'=>255),
 			array('issued_date, checked_date', 'safe'),
@@ -137,6 +141,23 @@ class UserDocuments extends CActiveRecord
 		return parent::model($className);
 	}
 
+    public function afterFind() {
+        if($this->issued_date){
+            $date = str_replace('-', '/', $this->issued_date);
+            $this->issuedDate=date("d/m/Y", strtotime($date));
+        }
+
+        parent::afterFind();
+    }
+
+    protected function beforeDelete()
+    {
+        if($this->checked==UserDocuments::CHECKED)
+            return false;
+
+        return parent::beforeDelete();
+    }
+
     public function uploadUserDocuments($type){
         if (!file_exists(Yii::app()->basePath . "/../files/documents/".Yii::app()->user->getId())) {
             mkdir(Yii::app()->basePath . "/../files/documents/".Yii::app()->user->getId());
@@ -162,11 +183,14 @@ class UserDocuments extends CActiveRecord
             );
             if (is_file($original_file))
                 unlink($original_file);
-            $model = new UserDocuments();
-            $model->id_user=Yii::app()->user->getId();
-            $model->type=$type;
-            $model->file_name=$newImageName;
-            if(!$model->save()){
+
+            $documents=UserDocuments::model()->findByAttributes(
+                array('id_user'=>Yii::app()->user->getId(),'checked'=>UserDocuments::NOT_CHECKED,'type'=>$type)
+            );
+            $files = new DocumentsFiles();
+            $files->file_name=$newImageName;
+            $files->id_document=$documents->id;
+            if(!$files->save()){
                 if (is_file($new_file))
                     unlink($new_file);
             }

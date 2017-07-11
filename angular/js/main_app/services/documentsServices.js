@@ -4,20 +4,38 @@
 
 angular
     .module('mainApp')
-    .service('documentsServices', [
-        '$http',
-        function($http) {
-            this.getDocumentsTypes = function () {
-                var promise = $http({
-                    url: basePath + "/studentreg/getDocumentsTypes",
-                    method: "POST",
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback(response) {
-                    return response.data;
-                }, function errorCallback() {
-                    console.log("Виникла помилка при завантажені типів документів");
-                });
-                return promise;
-            };
+    .service('documentsServices', ['$resource', 'transformRequest',
+        function($resource, transformRequest) {
+            return $resource(
+                '',
+                {
+                },
+                {
+                    getDocumentsTypes: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath + "/studentreg/getDocumentsTypes",
+                        isArray: true,
+                    },
+                    saveData: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath + "/studentreg/saveDocumentData",
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getUserDocuments: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath + "/studentreg/getUserDocuments",
+                        isArray: true,
+                    },
+                    getEditableDocument: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath + "/studentreg/getEditableDocument",
+                        transformRequest : transformRequest.bind(null)
+                    },
+                }
+            );
         }
     ]);

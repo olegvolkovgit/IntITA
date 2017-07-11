@@ -30,7 +30,7 @@ class DocumentsFiles extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('file_name, upload_time, id_document', 'required'),
+			array('file_name, id_document', 'required'),
 			array('id_document', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -101,4 +101,12 @@ class DocumentsFiles extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    protected function beforeDelete()
+    {
+        if($this->idDocument->checked==UserDocuments::CHECKED)
+            return false;
+
+        return parent::beforeDelete();
+    }
 }
