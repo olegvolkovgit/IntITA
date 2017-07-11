@@ -31,15 +31,21 @@
         </button>
     </div>
 </div>
-<div ng-if="userDocuments">
+<br>
+<div ng-if="userDocuments.length" class="actualDocuments">
+    <div style="margin: 0 auto; text-align: center">
+        <h3>
+            <em style="border-bottom: 1px solid #ccc; font-weight: normal">Актуальні документи</em>
+        </h3>
+    </div>
     <span ng-repeat="document in userDocuments track by $index">
         <div class="row">
             <label></label>
-             {{document.documentType.title}}:
+            <em>{{document.documentType.title}} <span ng-if="document.checked==1" style="color: green">(затверджено)</span></em>
         </div>
         <div class="row">
             <label><?php echo Yii::t('regexp', '0927') ?></label>
-            <input type="text" placeholder="><?php echo Yii::t('regexp', '0927') ?>" ng-model="document.number" disabled>
+            <input type="text" placeholder="<?php echo Yii::t('regexp', '0927') ?>" ng-model="document.number" disabled>
         </div>
         <div class="row" ng-show="document.type==1">
             <label><?php echo Yii::t('regexp', '0928') ?></label>
@@ -116,5 +122,6 @@
                 Видалити
             </button>
         </div>
+        <hr style="width:80%">
     </span>
 </div>

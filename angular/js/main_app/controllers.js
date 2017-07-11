@@ -399,7 +399,6 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             .$promise
             .then(function (data) {
                 $scope.userDocuments = data;
-                console.log($scope.userDocuments);
             });
     };
     $scope.loadDocuments();
@@ -447,6 +446,8 @@ function editProfileController($scope, $http, countryCity, careerService, specia
     $scope.saveDocumentsData=function () {
         if($("#issued_date").val()!=''){
             $scope.document.issued_date=$("#issued_date").val();
+        }else{
+            $scope.document.issued_date=null;
         }
         documentsServices
             .saveData($scope.document)

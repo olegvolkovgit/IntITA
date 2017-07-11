@@ -455,8 +455,11 @@ class StudentRegController extends Controller
     public function actionRemoveUserDocument()
     {
         $document=UserDocuments::model()->findByPk(Yii::app()->request->getPost('id'));
-        foreach ($document->documentsFiles as $file) {
-            $file->delete();
+        foreach ($document->documentsFiles as $model) {
+            $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->idDocument->type.'/'.$model->file_name;
+            if (is_file($file))
+                unlink($file);
+            $model->delete();
         }
         $document->delete();
     }

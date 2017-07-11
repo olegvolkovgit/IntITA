@@ -870,3 +870,19 @@ table#emptyFieldList td{
     width:90%;
     height:400px;
 }
+
+.actualDocuments .row{
+    margin-bottom: inherit;
+}
+.actualDocuments label{
+    font-size: 16px;
+}
+.actualDocuments input[type="text"]{
+    padding-left: 4px;
+    width: 62%;
+    height: 25px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    font-size: 16px;
+    overflow:scroll;
+}
