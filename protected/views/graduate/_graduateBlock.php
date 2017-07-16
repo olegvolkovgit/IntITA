@@ -6,7 +6,7 @@
 <div class="GraduatesBlock">
     <div class="graduatesTable">
         <div class="graduatesTd graduateAvatar">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'graduates', $data->user['avatar']); ?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $data->user['avatar']); ?>">
             <div class="graduateHeaderMini">
                 <div class="text">
                     <?php echo Yii::t('graduates', '0320')?>
