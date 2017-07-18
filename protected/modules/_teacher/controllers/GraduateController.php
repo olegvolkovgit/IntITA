@@ -321,4 +321,10 @@ class GraduateController extends TeacherCabinetController {
         echo 'error';
         Yii::app()->end();
     }
+
+    public function actionGetGraduateData($id){
+        $model = $this->loadModel((int)$id);
+        echo CJSON::encode($model->toArray());
+        Yii::app()->end();
+    }
 }

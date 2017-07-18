@@ -31,6 +31,7 @@
 class Graduate extends CActiveRecord
 {
     use loadFromRequest;
+    use withToArray;
 	/**
 	 * @return string the associated database table name
 	 */
