@@ -28,6 +28,14 @@ angular
                 return auditorUrl+"/template/editOffer/?lang="+$stateParams.lang;
             }
         })
+        .state('auditor/writtenAgreement', {
+            url: "/auditor/writtenAgreement",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Паперовий договір');
+            },
+            templateUrl: auditorUrl+"/template/writtenAgreement",
+        })
 
         .state('auditor/agreements', {
             url: "/auditor/agreements",

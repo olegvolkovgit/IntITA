@@ -56,6 +56,7 @@ class ContractingParty extends CActiveRecord {
 			'contractingPartyCorporateEntityRepresentatives' => array(self::HAS_MANY, 'ContractingPartyCorporateEntityRepresentatives', 'contracting_party_id'),
 			'contractingPartyPrivatePerson' => array(self::HAS_ONE, 'ContractingPartyPrivatePerson', 'id'),
 			'accUserAgreements' => array(self::MANY_MANY, 'UserAgreements', 'acc_user_agreement_contracting_party(contracting_party_id, user_agreement_id)'),
+            'corporateEntityRepresentatives' => [self::HAS_MANY, 'CorporateEntityRepresentatives',['corporate_representative_id'=>'corporate_representative'], 'through' => 'contractingPartyCorporateEntityRepresentatives'],
 		);
 	}
 

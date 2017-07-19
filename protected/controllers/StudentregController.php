@@ -464,6 +464,13 @@ class StudentRegController extends Controller
         $document->delete();
     }
 
+    public function actionDeactivateUserDocument()
+    {
+        $document=UserDocuments::model()->findByPk(Yii::app()->request->getPost('id'));
+        $document->actual=UserDocuments::NOT_ACTUAL;
+        $document->save();
+    }
+
     public function actionAddReview(){
         $request = Yii::app()->request->getPost('review');
         if ($request){
@@ -502,6 +509,9 @@ class StudentRegController extends Controller
             );
             if(!$documents) {
                 $documents = new UserDocuments();
+                if(UserDocuments::model()->findByAttributes(array('id_user'=>$documents->id_user,'type'=>$params['type'],'actual'=>UserDocuments::ACTUAL))) {
+                    throw new Exception('Перед тим як додати новий документ даного типу, деактивуй старий');
+                }
             }else {
                 $documents->updatedAt=new CDbExpression('NOW()');
             }
@@ -528,21 +538,15 @@ class StudentRegController extends Controller
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
-    public function actionGetUserDocuments()
+    public function actionGetAllUserDocuments()
     {
-        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations(
-            UserDocuments::model()->with('documentType','documentsFiles')->findAllByAttributes(
-                array('id_user'=>Yii::app()->user->getId())
-            )
-        ));
+        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations(Yii::app()->user->model->getAllUserDocuments()));
     }
 
     public function actionGetEditableDocument()
     {
         $type = Yii::app()->request->getPost('type');
-        $document=UserDocuments::model()->findByAttributes(
-            array('id_user'=>Yii::app()->user->getId(),'checked'=>UserDocuments::NOT_CHECKED,'type'=>$type)
-        );
+        $document=Yii::app()->user->model->getEditableUserDocumentByType($type);
         if($document) {
             if($document['issued_date']){
                 $date = str_replace('-', '/', $document['issued_date']);

@@ -4,8 +4,8 @@
 
 angular
     .module('teacherApp')
-    .factory('studentService', ['$resource',
-        function ($resource) { 
+    .factory('studentService', ['$resource','transformRequest',
+        function ($resource, transformRequest) {
             var url = basePath+'/_teacher/_student/student';
             return $resource(
                 '',
@@ -27,9 +27,21 @@ angular
                         url: url + '/readNewPlainTasksMarks',
                         method: 'GET',
                     },
-                    studentDataForWrittenAgreement: {
-                        url: url + '/getDataForWrittenAgreement',
+                    writtenAgreementRequest: {
+                        url: url + '/writtenAgreementRequest',
                         method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null),
+                    },
+                    getWrittenAgreementData: {
+                        url: url + '/getWrittenAgreementData'
+                    },
+                    writtenAgreementRequestStatus: {
+                        url: url + '/writtenAgreementRequestStatus',
+                        method: 'GET',
+                    },
+                    getAgreementContract: {
+                        url: url + '/getAgreementContract'
                     },
                 });
         }]);

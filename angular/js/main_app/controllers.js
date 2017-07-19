@@ -395,7 +395,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
 
     $scope.loadDocuments=function () {
         documentsServices
-            .getUserDocuments()
+            .getAllUserDocuments()
             .$promise
             .then(function (data) {
                 $scope.userDocuments = data;
@@ -430,7 +430,8 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             .$promise
             .then(function (data) {
                 if(data.id){
-                    $scope.updateProperties(['type', 'number', 'issued','issued_date','registration_address'],data);
+                    $scope.updateProperties(['type', 'number', 'issued','issued_date','registration_address',
+                        'last_name','middle_name','first_name'],data);
                 }else{
                     $scope.initDocument();
                     $scope.document.type=type;
@@ -461,7 +462,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
                 }
             })
             .catch(function (error) {
-                bootbox.alert('Виникла помилка:'+'<br>'+error.data.reason);
+                bootbox.alert(error.data.reason);
             });
     }
 
@@ -476,7 +477,22 @@ function editProfileController($scope, $http, countryCity, careerService, specia
                 }).then(function successCallback() {
                     $scope.loadDocuments();
                 }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при видалені документу.");
+                    bootbox.alert("Виникла помилка при видалені документа.");
+                });
+        });
+    }
+    $scope.deactivateDocument=function (id) {
+        bootbox.confirm('Деактивувати дані документа? Після цього документ буде не актуальний', function(result) {
+            if(result)
+                $http({
+                    url: basePath + "/studentreg/deactivateuserdocument",
+                    method: "POST",
+                    data: $.param({id: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.loadDocuments();
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при деактивації документа.");
                 });
         });
     }

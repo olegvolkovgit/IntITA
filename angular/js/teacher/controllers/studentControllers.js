@@ -232,14 +232,53 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
         }
     });
 
-    $scope.generateContract = function () {
+    //contract views
+    $scope.writtenAgreementPreviewForAccountant=function(agreementId){
         studentService
-            .studentDataForWrittenAgreement()
+            .getWrittenAgreementData({'id': agreementId})
             .$promise
             .then(function (data) {
-                console.log(data);
+                $scope.writtenAgreement=data;
+                console.log($scope.writtenAgreement);
             });
-    }
+    };
+
+    $scope.getAgreementContract=function(agreementId){
+        studentService
+            .getAgreementContract({'id': agreementId})
+            .$promise
+            .then(function (response) {
+                $scope.contract=response;
+                if(!$scope.contract.personParty){
+                    $scope.writtenAgreementPreviewForAccountant(agreementId);
+                } else {
+                    $scope.writtenAgreement=null;
+                }
+            });
+    };
+
+    $scope.sendCheckedWrittenAgreementRequest = function (agreementId) {
+        bootbox.confirm('Після відправлення запиту, скасувати його зможе лише бухгалтер. Затвердити?',function(result){
+            if (result) {
+                studentService
+                    .writtenAgreementRequest({'id': agreementId})
+                    .$promise
+                    .then(function (data) {
+                        $scope.getWrittenAgreementRequestStatus(agreementId);
+                    });
+            }
+        });
+    };
+
+    $scope.getWrittenAgreementRequestStatus = function (agreementId) {
+        studentService
+            .writtenAgreementRequestStatus({'id':agreementId})
+            .$promise
+            .then(function (response) {
+                $scope.writtenAgreementRequestStatus=response.data;
+            });
+    };
+    $scope.getWrittenAgreementRequestStatus($stateParams.agreementId);
 }
 
 function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService) {
@@ -324,3 +363,17 @@ function studentPlainTaskViewCtrl($scope, NgTableParams, $stateParams, studentSe
         }
     });
 }
+
+angular
+    .module('teacherApp')
+    .controller('writtenAgreementCtrl', ['$scope', 'studentService',
+    function ($scope, studentService) {
+        $scope.writtenAgreementPreview=function(agreementId){
+            studentService
+                .getWrittenAgreementData({'id': agreementId})
+                .$promise
+                .then(function (data) {
+                    $scope.writtenAgreement=data;
+                });
+        };
+    }])

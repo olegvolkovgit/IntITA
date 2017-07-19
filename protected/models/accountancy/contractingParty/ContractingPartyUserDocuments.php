@@ -7,6 +7,8 @@
  * @property integer $id
  * @property integer $id_contracting_party
  * @property integer $id_documents
+ * @property string $create_date
+ * @property integer $checked_by
  *
  * The followings are the available model relations:
  * @property ContractingPartyPrivatePerson $idContractingParty
@@ -33,7 +35,7 @@ class ContractingPartyUserDocuments extends CActiveRecord
 			array('id_contracting_party, id_documents', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_contracting_party, id_documents', 'safe', 'on'=>'search'),
+			array('id, id_contracting_party, id_documents, create_date, checked_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,6 +48,8 @@ class ContractingPartyUserDocuments extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'idContractingParty' => array(self::BELONGS_TO, 'ContractingPartyPrivatePerson', 'id_contracting_party'),
+            'idUser' => array(self::BELONGS_TO, 'StudentReg', 'checked_by'),
+            'documents' => array(self::BELONGS_TO, 'UserDocuments', 'id_documents'),
 		);
 	}
 
@@ -58,6 +62,8 @@ class ContractingPartyUserDocuments extends CActiveRecord
 			'id' => 'ID',
 			'id_contracting_party' => 'Id Contracting Party',
 			'id_documents' => 'Id Documents',
+            'create_date' => 'Create Date',
+            'checked_by' => 'Checked By',
 		);
 	}
 
@@ -82,6 +88,8 @@ class ContractingPartyUserDocuments extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_contracting_party',$this->id_contracting_party);
 		$criteria->compare('id_documents',$this->id_documents);
+        $criteria->compare('create_date',$this->create_date);
+        $criteria->compare('checked_by',$this->checked_by);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

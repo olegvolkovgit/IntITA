@@ -1,36 +1,27 @@
 <?php
-/* @var $agreement UserAgreements */
+/* @var $agreement UserAgreements
+ * @var $documents UserDocuments
+ */
 ?>
-<div ng-controller="invoicesByAgreement">
+<div ng-controller="invoicesByAgreement" ng-init="getAgreementContract('<?php echo $agreement->id ?>')">
+
     <div class="titleAgreement">
-        <?php if($agreement->cancel_date){ ?>
-            <em style="font-weight: bold;color:red">
-                Договір скасований, проплати здійснені по договру не є актуальними
-            </em>
-        <?php } else if($agreement->contract) {?>
-            <div style="border: 1px solid #000;border-radius: 5px; background: #e8e8e8; padding: 5px">
-                Даний договір передбачає укладення паперового договору та затвердження його сторонами.
-                Лише після затвердження паперового договору проплати на рахунок будуть актуальні.
-                Перед генеруванням паперового договору введіть актуальні дані документів та завантажте їхні копії у себе в
-                <a target="_blank" href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>">профілі</a> у вкладці "Укладення договору".
-                <br>
-                <form name="contract" ng-submit="generateContract();">
-                    <fieldset ng-disabled="true">
-                        <label>Прізвище:</label>
-                        <input type="text" class="form-control" ng-required value="<?php echo Yii::app()->user->model->secondName ?>"/>
-                        <label>Ім'я:</label>
-                        <input type="text" class="form-control" ng-required value="<?php echo Yii::app()->user->model->firstName ?>"/>
-                        <label>Серія/номер паспорта:</label>
-                        <input type="text" class="form-control" ng-required value="<?php echo Yii::app()->user->model->passport ?>"/>
-                        <label>Ідентифікаційний код:</label>
-                        <input type="text" class="form-control" ng-required value="<?php echo Yii::app()->user->model->inn ?>"/>
-                    </fieldset>
-                    <br>
-                    <button type="submit" class="btn btn-primary">Згенерувати договір
-                    </button>
-                </form>
-            </div>
-        <?php } ?>
+        <em ng-if="writtenAgreement.agreement.cancel_date" tyle="font-weight: bold;color:red">
+            Договір скасований, проплати здійснені по договру не є актуальними
+        </em>
+        <div ng-if="!contract.personParty" >
+            <?php $this->renderPartial('/_student/agreement/_writtenAgreementPreview', array(), false, true); ?>
+        </div>
+        <div ng-if="contract.personParty" >
+            <?php $this->renderPartial('/_student/agreement/_writtenAgreementContract', array(), false, true); ?>
+        </div>
+        <br>
+        <div ng-if="writtenAgreementRequestStatus==1">
+            Запит на затвердження паперового договору затверджений
+        </div>
+        <br>
+    </div>
+    <div>
         <h4>Рахунки до сплати за договором №<?php echo $agreement->number; ?> від
             <?= date("d.m.Y", strtotime($agreement->create_date));?></h4>
         <h4>
@@ -80,3 +71,12 @@
         <span style="background-color: rgba(217,82,82,.6)">Термін проплати збіг</span><br>
     </div>
 </div>
+
+<style>
+    em{
+        font-weight: bold;
+    }
+    td{
+        border: 1px solid #000;
+    }
+</style>

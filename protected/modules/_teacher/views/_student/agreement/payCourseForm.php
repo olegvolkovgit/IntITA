@@ -10,7 +10,14 @@ $price = $course->getBasePrice();
 <div class="panel panel-default" ng-controller="paymentsCtrl">
     <div class="panel-body">
         <div class="tab-content" ng-cloak>
-            <div class="schemesBlock">
+            <div style="overflow: hidden">
+            <div style="width: 50%; float: right">
+                <em>*Зверніть увагу! Заключайте договір по офлайн формі навчання лише у тому випадку,
+                    коли це було обговорено з адміністрацією по данному контенту
+                </em>
+            </div>
+            </div>
+                <div class="schemesBlock">
                 <h3>Навчання онлайн</h3>
                 <payments-scheme
                     data-content-id="contentId"

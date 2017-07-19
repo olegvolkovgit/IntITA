@@ -1230,7 +1230,7 @@ angular
     $scope.changePageHeader('Копії документів');
 
     $scope.docStatus = [{id: 0, title: 'не перевірені'}, {id: 1, title: 'перевірені'}];
-    $scope.documentsTableParams = new NgTableParams({filter: {'check': 0},organization:$attrs.organization}, {
+    $scope.documentsTableParams = new NgTableParams({organization:$attrs.organization}, {
       getData: function (params) {
         return accountantService
           .documentsList(params.url())
@@ -1249,19 +1249,6 @@ angular
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function successCallback() {
         bootbox.alert("Папку створено");
-      }, function errorCallback() {
-        bootbox.alert("Операцію не вдалося виконати");
-      });
-    }
-
-    $scope.changeDocStatus = function (id) {
-      $http({
-        method: 'POST',
-        url: basePath + '/_teacher/_accountant/accountant/changeDocumentStatus',
-        data: $jq.param({id: id}),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(function successCallback() {
-        $scope.documentsTableParams.reload();
       }, function errorCallback() {
         bootbox.alert("Операцію не вдалося виконати");
       });
@@ -1575,6 +1562,105 @@ angular
                         return {id: item.pay_count, title: item.title_ua}
                     })
                 });
+        }])
+    .controller('agreementsRequestsTableCtrl', ['$scope', '$stateParams', 'NgTableParams', 'agreementsService', '$http', '$rootScope',
+        function ($scope, $stateParams, NgTableParams, agreementsService, $http, $rootScope) {
+            $scope.changePageHeader('Запити на затвердження паперових договорів');
+
+            $scope.status = [
+                {id: 'null', title: 'нові'},
+                {id: '1', title: 'затвердженні'},
+                {id: '0', title: 'відхилені'},
+            ];
+
+            $scope.agreementsRequestsTableParams = new NgTableParams({filter: {'status': 'null'}}, {
+                getData: function (params) {
+                    return agreementsService
+                        .agreementsRequestsList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+        }])
+
+    .controller('writtenAgreementViewCtrl', ['$scope', 'agreementsService','$stateParams',
+        function ($scope, agreementsService,$stateParams) {
+            $scope.date = new Date();
+
+            $scope.getAgreementRequestStatus=function(request){
+                agreementsService
+                    .getAgreementRequestStatus({'idMessage': request})
+                    .$promise
+                    .then(function (data) {
+                        $scope.agreementRequestStatus=data.status;
+                    });
+            };
+            $scope.getAgreementRequestStatus($stateParams.request);
+
+            $scope.writtenAgreementPreviewForAccountant=function(agreementId){
+                agreementsService
+                    .getWrittenAgreementData({'id': agreementId})
+                    .$promise
+                    .then(function (data) {
+                        $scope.writtenAgreement=data;
+                        $scope.getAgreementRequestStatus($stateParams.request);
+                    });
+            };
+
+            $scope.getAgreementContract=function(agreementId){
+                agreementsService
+                    .getAgreementContract({'id': agreementId})
+                    .$promise
+                    .then(function (response) {
+                        $scope.contract=response;
+                        if(!$scope.contract.personParty){
+                            $scope.writtenAgreementPreviewForAccountant(agreementId);
+                        } else {
+                            $scope.writtenAgreement=null;
+                        }
+                    });
+            };
+
+            $scope.checkWrittenAgreementRequest=function(data){
+                agreementsService
+                    .approveAgreementRequest(
+                        {'idMessage': $stateParams.request, 'sessionTime':data.sessionTime,
+                            'content':document.getElementById('printableArea').innerHTML})
+                    .$promise
+                    .then(function (response) {
+                        $scope.getAgreementContract(data.agreement.id);
+                    })
+                    .catch(function (error) {
+                      bootbox.alert(error.data.reason);
+                    })
+            };
+
+            $scope.rejectAgreementRequest=function(agreementId){
+                bootbox.dialog({
+                        title: "Ти впевнений, що хочеш відхилити запит?",
+                        message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+                        '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" ' +
+                        'placeholder="тут можна залишити коментар, причина відхилення запиту на затвердження договору, яка надійде користувачу на його email"></textarea>'+
+                        '</div></form></div></div>',
+                        buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                            callback: function () {
+                                var comment = $jq('#rejectMessageText').val();
+                                agreementsService.rejectAgreementRequest({id_message:$stateParams.request,reject_comment:comment}).$promise.then(function(){
+                                    $scope.writtenAgreementPreviewForAccountant(agreementId);
+                                });
+                            }
+                        },
+                            cancel: {label: "Скасувати", className: "btn btn-default",
+                                callback: function () {
+                                }
+                            }
+                        }
+                    }
+                );
+            };
         }])
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {

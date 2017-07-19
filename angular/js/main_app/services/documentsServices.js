@@ -23,10 +23,10 @@ angular
                         url: basePath + "/studentreg/saveDocumentData",
                         transformRequest : transformRequest.bind(null)
                     },
-                    getUserDocuments: {
+                    getAllUserDocuments: {
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                        url: basePath + "/studentreg/getUserDocuments",
+                        url: basePath + "/studentreg/getAllUserDocuments",
                         isArray: true,
                     },
                     getEditableDocument: {

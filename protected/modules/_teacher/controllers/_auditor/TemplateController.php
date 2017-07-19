@@ -33,4 +33,9 @@ class TemplateController extends TeacherCabinetController
             echo 'Зміни не вдалося зберегти.';
         }
     }
+
+    public function actionWrittenAgreement()
+    {
+        $this->renderPartial('writtenAgreement', array(), false, true);
+    }
 }

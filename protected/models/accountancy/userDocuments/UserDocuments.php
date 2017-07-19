@@ -12,11 +12,13 @@
  * @property string $issued_date
  * @property string $registration_address
  * @property string $updatedAt
- * @property integer $checked_by_student
+ * @property integer $actual
  * @property integer $checked
- * @property integer $checked_by
  * @property string $checked_date
  * @property string $description
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $middle_name
  *
  * The followings are the available model relations:
  * @property DocumentsFiles[] $documentsFiles
@@ -28,6 +30,8 @@ class UserDocuments extends CActiveRecord
 {
     const CHECKED=1;
     const NOT_CHECKED=0;
+    const ACTUAL = 1;
+    const NOT_ACTUAL = 0;
 
     public $issuedDate=null;
 	/**
@@ -47,12 +51,14 @@ class UserDocuments extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_user, type', 'required'),
-			array('id_user, type, checked_by_student, checked, checked_by', 'numerical', 'integerOnly'=>true),
+			array('id_user, type, actual, checked', 'numerical', 'integerOnly'=>true),
 			array('number, issued, registration_address, description', 'length', 'max'=>255),
-			array('issued_date, checked_date', 'safe'),
+			array('id, id_user, type, number, issued, issued_date, registration_address, updatedAt, 
+			actual, checked, checked_date, description, first_name, last_name, middle_name', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, type, number, issued, issued_date, registration_address, updatedAt, checked_by_student, checked, checked_by, checked_date, description', 'safe', 'on'=>'search'),
+			array('id, id_user, type, number, issued, issued_date, registration_address, updatedAt, 
+			actual, checked, checked_date, description, first_name, last_name, middle_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,7 +71,6 @@ class UserDocuments extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'documentsFiles' => array(self::HAS_MANY, 'DocumentsFiles', 'id_document'),
-			'checkedBy' => array(self::BELONGS_TO, 'StudentReg', 'checked_by'),
 			'documentType' => array(self::BELONGS_TO, 'DocumentsTypes', 'type'),
 			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 		);
@@ -85,11 +90,13 @@ class UserDocuments extends CActiveRecord
 			'issued_date' => 'Issued Date',
 			'registration_address' => 'Registration Address',
 			'updatedAt' => 'Updated At',
-			'checked_by_student' => 'Checked By Student',
+			'actual' => 'Actual',
 			'checked' => 'Checked',
-			'checked_by' => 'Checked By',
 			'checked_date' => 'Checked Date',
 			'description' => 'Description',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'middle_name' => 'Middle Name',
 		);
 	}
 
@@ -119,11 +126,13 @@ class UserDocuments extends CActiveRecord
 		$criteria->compare('issued_date',$this->issued_date,true);
 		$criteria->compare('registration_address',$this->registration_address,true);
 		$criteria->compare('updatedAt',$this->updatedAt,true);
-		$criteria->compare('checked_by_student',$this->checked_by_student);
+		$criteria->compare('actual',$this->actual);
 		$criteria->compare('checked',$this->checked);
-		$criteria->compare('checked_by',$this->checked_by);
 		$criteria->compare('checked_date',$this->checked_date,true);
 		$criteria->compare('description',$this->description,true);
+        $criteria->compare('first_name',$this->first_name,true);
+        $criteria->compare('last_name',$this->last_name,true);
+        $criteria->compare('middle_name',$this->middle_name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -197,12 +206,5 @@ class UserDocuments extends CActiveRecord
         }else{
             throw new \application\components\Exceptions\IntItaException('500', 'Завантажити файл не вдалося');
         }
-    }
-
-    public function changeCheckDocuments(){
-        if($this->check)
-            $this->check = false;
-        else $this->check = true;
-        $this->save();
     }
 }

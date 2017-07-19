@@ -135,7 +135,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
     {
         //create and init parent model
         $this->message = new Messages();
-        $this->message->build($user->id, self::TYPE, $chained, $original);
+        $this->message->buildMessage($user->id, self::TYPE, $chained, $original);
 
         $this->module = $module;
         $this->id_module = $module->module_ID;

@@ -44,7 +44,7 @@ class CorporateEntityRepresentatives extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
-//            'corporateEntity' => [self::BELONGS_TO]
+            'representative' => array(self::BELONGS_TO, 'CorporateRepresentative', 'corporate_representative'),
         ];
     }
 

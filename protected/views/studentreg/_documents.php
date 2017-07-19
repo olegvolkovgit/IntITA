@@ -9,6 +9,18 @@
 </div>
 
 <div ng-show="document.type">
+    <div class="row" ng-show="document.type==1">
+        <label><?php echo Yii::t('regexp', '0162') ?></label>
+        <input type="text" maxlength="32" placeholder="<?php echo Yii::t('regexp', '0162') ?>" ng-model="document.last_name">
+    </div>
+    <div class="row" ng-show="document.type==1">
+        <label><?php echo Yii::t('regexp', '0160') ?></label>
+        <input type="text" maxlength="32" placeholder="<?php echo Yii::t('regexp', '0160') ?>" ng-model="document.first_name">
+    </div>
+    <div class="row" ng-show="document.type==1">
+        <label><?php echo 'По-батькові' ?></label>
+        <input type="text" maxlength="32" placeholder="<?php echo 'По-батькові' ?>" ng-model="document.middle_name">
+    </div>
     <div class="row">
         <label><?php echo Yii::t('regexp', '0927') ?></label>
         <input type="text" placeholder="<?php echo Yii::t('regexp', '0927') ?>" ng-model="document.number">
@@ -35,13 +47,33 @@
 <div ng-if="userDocuments.length" class="actualDocuments">
     <div style="margin: 0 auto; text-align: center">
         <h3>
-            <em style="border-bottom: 1px solid #ccc; font-weight: normal">Актуальні документи</em>
+            <em style="border-bottom: 1px solid #ccc; font-weight: normal">Документи</em>
         </h3>
     </div>
     <span ng-repeat="document in userDocuments track by $index">
         <div class="row">
             <label></label>
-            <em>{{document.documentType.title}} <span ng-if="document.checked==1" style="color: green">(затверджено)</span></em>
+            <em>{{document.documentType.title}}</em>
+        </div>
+        <div class="row" ng-if="document.checked==1">
+            <label></label>
+            <em><span style="color: green">(затверджено - за документом закріплений договір)</span></em>
+        </div>
+        <div class="row" ng-if="document.actual==0">
+            <label></label>
+            <em style="color: red">[деактивований]</em>
+        </div>
+        <div class="row" ng-show="document.type==1">
+            <label><?php echo Yii::t('regexp', '0162') ?></label>
+            <input type="text" placeholder="<?php echo Yii::t('regexp', '0162') ?>" ng-model="document.last_name" disabled>
+        </div>
+        <div class="row" ng-show="document.type==1">
+            <label><?php echo Yii::t('regexp', '0160') ?></label>
+            <input type="text" placeholder="<?php echo Yii::t('regexp', '0160') ?>" ng-model="document.first_name" disabled>
+        </div>
+        <div class="row" ng-show="document.type==1">
+            <label><?php echo 'По-батькові' ?></label>
+            <input type="text" placeholder="<?php echo 'По-батькові' ?>" ng-model="document.middle_name" disabled>
         </div>
         <div class="row">
             <label><?php echo Yii::t('regexp', '0927') ?></label>
@@ -120,6 +152,11 @@
         <div class="rowbuttons" ng-if="document.checked==0">
             <button type="button" class="btn btn-danger" ng-click="removeDocument(document.id)">
                 Видалити
+            </button>
+        </div>
+        <div class="rowbuttons" ng-if="document.checked==1 && document.actual==1">
+            <button type="button" class="btn btn-danger" ng-click="deactivateDocument(document.id)">
+                Деактивувати
             </button>
         </div>
         <hr style="width:80%">

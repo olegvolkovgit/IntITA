@@ -56,6 +56,7 @@ return array(
         'ext.PHPExcel.*', //PHPExcel
         'application.components.Exceptions.*',
         'application.models.quiz.TaskMarks.php',
+        'ext.tcpdf.*', // html to pdf
     ),
 
     'modules' => array(

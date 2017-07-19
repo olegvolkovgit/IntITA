@@ -1450,4 +1450,41 @@ class StudentReg extends CActiveRecord
     {
         return $this->_token;
     }
+
+    public function getAllUserDocuments()
+    {
+        return UserDocuments::model()->with('documentType','documentsFiles','idUser')->findAllByAttributes(array('id_user'=>$this->id));
+    }
+
+    public function getActualUserDocuments()
+    {
+        return UserDocuments::model()->with('documentType','documentsFiles','idUser')->findAllByAttributes(array('id_user'=>$this->id,'actual'=>UserDocuments::ACTUAL));
+    }
+
+    public function getEditableUserDocumentByType($type)
+    {
+        return UserDocuments::model()->with('documentType','documentsFiles','idUser')->findByAttributes(
+            array('id_user'=>$this->id,'checked'=>UserDocuments::NOT_CHECKED,'actual'=>UserDocuments::ACTUAL,'type'=>$type)
+        );
+    }
+
+    public function checkedActualUserDocuments($sessionTime)
+    {
+        foreach ($this->getActualUserDocuments() as $document){
+            foreach ($document->documentsFiles as $file){
+                if(strtotime($file->upload_time)>$sessionTime){
+                    throw new \application\components\Exceptions\IntItaException(500, "Оновіть сторінку та перегляньте
+                     договір ще раз. Користувач змінив дані (скани)");
+                }
+                if(strtotime($document->updatedAt)>$sessionTime){
+                    throw new \application\components\Exceptions\IntItaException(500, "Оновіть сторінку та перегляньте
+                     договір ще раз. Користувач змінив дані");
+                }
+            }
+            $document->checked=UserDocuments::CHECKED;
+            if (!$document->save()) {
+                throw new Exception("Не вдалося затвердити документи. Зв'яжіться з адміністрацією");
+            }
+        }
+    }
 }

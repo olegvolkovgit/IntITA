@@ -18,9 +18,9 @@ class m170706_131554_create_documents_types_table extends CDbMigration
                 'title_en' => 'Passport',
             ),
             array(
-                'title_ua' => 'ІПН',
-                'title_ru' => 'ИНН',
-                'title_en' => 'INN',
+                'title_ua' => 'Індивідуальний податковий номер',
+                'title_ru' => 'Идентификационный номер налогоплательщика',
+                'title_en' => 'Taxpayer Identification Number',
             ),
             array(
                 'title_ua' => 'Посвідчення',

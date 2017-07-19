@@ -116,7 +116,7 @@ class Messages extends CActiveRecord
         return parent::model($className);
     }
 
-    public function build($sender, $type, $chained = null, $original = null)
+    public function buildMessage($sender, $type, $chained = null, $original = null)
     {
         $this->sender = $sender;
         $this->type = $type;
