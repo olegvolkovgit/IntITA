@@ -229,7 +229,7 @@ class Newsletters extends CActiveRecord implements ITask
     }
 
     public function getRecipients(){
-        if (($this->type != 'allUsers') || ($this->type != 'emailsFromDatabase') ){
+        if (($this->type === 'allUsers') || ($this->type === 'emailsFromDatabase') ){
             $_recipients = $this->recipients;
         }
         else{
