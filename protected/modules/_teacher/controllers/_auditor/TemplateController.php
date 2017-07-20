@@ -6,7 +6,7 @@ class TemplateController extends TeacherCabinetController
         $allowedActions=['getAgreementTemplate'];
 
         return Yii::app()->user->model->isAuditor() ||
-            (Yii::app()->user->model->isAcountant() || Yii::app()->user->model->isStudent()
+            (Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isStudent()
                 && in_array(Yii::app()->controller->action->id,$allowedActions));
     }
 

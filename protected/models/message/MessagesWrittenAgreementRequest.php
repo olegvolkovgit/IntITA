@@ -232,7 +232,7 @@ class MessagesWrittenAgreementRequest extends Messages implements IMessage
             $contractingParty = $builder->makePrivatePerson($this->agreement->user);
             $contractingParty->bindToAgreement($this->agreement, ContractingParty::ROLE_STUDENT);
             $this->agreement->user->checkedActualUserDocuments($sessionTime);
-            $this->notify($user->registrationData, 'Затвердження запитупо паперовому договору', $this->approveTemplate, array($this->agreement));
+            $this->notify($user->registrationData, 'Затвердження запиту по паперовому договору', $this->approveTemplate, array($this->agreement));
 
             $transaction->commit();
         } catch (Exception $e) {
