@@ -65,6 +65,9 @@ angular
                     getAgreementRequestStatus: {
                         url: url + '/getAgreementRequestStatus'
                     },
+                    getAgreementTemplate: {
+                        url: basePath+'/_teacher/_auditor/template/getAgreementTemplate'
+                    },
                 });
         }])
     .service('agreementsInformation', ['lodash',

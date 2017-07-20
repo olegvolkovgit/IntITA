@@ -204,7 +204,7 @@ function offlineEducationCtrl($scope, $http) {
     });
 }
 
-function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService) {
+function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService, agreementsService) {
     $scope.changePageHeader('Договір/рахунки');
 
     $scope.invoiceUrl=basePath+'/invoice/';
@@ -233,13 +233,24 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
     });
 
     //contract views
+    $scope.getAgreementTemplate=function() {
+        agreementsService
+            .getAgreementTemplate()
+            .$promise
+            .then(function successCallback(response) {
+                $scope.agreementTemplate = response.data;
+            }, function errorCallback() {
+                bootbox.alert("Шаблон договору отримати не вдалося");
+            });
+    }
+
     $scope.writtenAgreementPreviewForAccountant=function(agreementId){
         studentService
             .getWrittenAgreementData({'id': agreementId})
             .$promise
             .then(function (data) {
                 $scope.writtenAgreement=data;
-                console.log($scope.writtenAgreement);
+                $scope.getAgreementTemplate();
             });
     };
 

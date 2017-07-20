@@ -38,4 +38,23 @@ class TemplateController extends TeacherCabinetController
     {
         $this->renderPartial('writtenAgreement', array(), false, true);
     }
+
+    public function actionUpdateWrittenAgreement()
+    {
+        $this->renderPartial('updateWrittenAgreement', array(), false, true);
+    }
+
+    public function actionUpdateAgreementTemplate(){
+        $template = Yii::app()->request->getPost('template');
+
+        $model=WrittenAgreementTemplate::model()->findByPk(1);
+        $model->template=$template;
+        $model->create_by=Yii::app()->user->getId();
+        $model->save();
+    }
+
+    public function actionGetAgreementTemplate(){
+        $data['data']=WrittenAgreementTemplate::model()->findByPk(1)->template;
+        echo json_encode($data);
+    }
 }

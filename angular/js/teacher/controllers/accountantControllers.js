@@ -1590,6 +1590,15 @@ angular
         function ($scope, agreementsService,$stateParams) {
             $scope.date = new Date();
 
+            agreementsService
+                .getAgreementTemplate()
+                .$promise
+                .then(function successCallback(response) {
+                    $scope.agreementTemplate=response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Шаблон договору отримати не вдалося");
+                });
+
             $scope.getAgreementRequestStatus=function(request){
                 agreementsService
                     .getAgreementRequestStatus({'idMessage': request})
