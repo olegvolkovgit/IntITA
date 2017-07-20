@@ -3,7 +3,11 @@
 class TemplateController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAuditor();
+        $allowedActions=['getAgreementTemplate'];
+
+        return Yii::app()->user->model->isAuditor() ||
+            (Yii::app()->user->model->isAcountant() || Yii::app()->user->model->isStudent()
+                && in_array(Yii::app()->controller->action->id,$allowedActions));
     }
 
     public function actionIndex($id=0)
