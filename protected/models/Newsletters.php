@@ -257,7 +257,14 @@ class Newsletters extends CActiveRecord implements ITask
     }
 
     public function getRecipients(){
-        $_recipients = unserialize($this->recipients);
+        if (($this->type != 'allUsers') || ($this->type != 'emailsFromDatabase') ){
+            $_recipients = $this->recipients;
+        }
+        else{
+            $_recipients = unserialize($this->recipients);
+
+        }
+
         $criteria = new CDbCriteria();
         $result = [];
         switch ($this->type){
@@ -301,7 +308,7 @@ class Newsletters extends CActiveRecord implements ITask
                 break;
             }
             case "emailsFromDatabase":{
-                $category = EmailsCategory::model()->findAllByPk($_recipients[0]);
+                $category = EmailsCategory::model()->findByPk($_recipients);
                 if ($category){
                     array_push($result,['id'=>$category->id, 'name'=>$category->title]);
                 }
