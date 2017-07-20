@@ -14,8 +14,12 @@ function graduateCtrl ($rootScope, $scope, $resource, $http, graduates, NgTableP
     });
 
     if ($state.is('graduate/edit/:graduateId')){
+        $scope.courseCollapsed = true;
+        $scope.modulesCollapsed = true;
         $resource('/_teacher/graduate/getGraduateData/55').get().$promise.then(function (response) {
+
             $scope.graduate = response;
+            $scope.graduate
         });
 
     }
