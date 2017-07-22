@@ -10,16 +10,14 @@
         <button type="button" class="btn btn-primary" ui-sref="graduate">
             Список випускників</button>
     </li>
-    <?php if(0){?>
     <li>
         <button type="button" class="btn btn-primary" ng-click="changeView('graduate/edit/<?= $model->id ?>')">
             Редагувати</button>
     </li>
-    <li>
-        <button type="button" class="btn btn-primary" ng-click="deleteGraduate('<?= $model->id ?>')">
-            Видалити</button>
-    </li>
-    <?php } ?>
+<!--    <li>-->
+<!--        <button type="button" class="btn btn-primary" ng-click="deleteGraduate('--><?//= $model->id ?><!--')">-->
+<!--            Видалити</button>-->
+<!--    </li>-->
 </ul>
 
 <div class="panel panel-default">
