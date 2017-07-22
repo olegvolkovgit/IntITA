@@ -5,15 +5,24 @@ angular
     .module('teacherApp')
     .controller('graduateCtrl',graduateCtrl);
 
-function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $ngBootbox, $timeout){
+function graduateCtrl ($rootScope, $scope, $resource, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
 
     $scope.publishStatus = [{id:'0', title:'Не опубліковано'},{id:'1', title:'Опубліковано'}];
     $rootScope.$on('userCreated', function (event, data) {
         $scope.graduate.user = data;
         $scope.noResults = false;
     });
-    
 
+    if ($state.is('graduate/edit/:graduateId')){
+        $scope.courseCollapsed = true;
+        $scope.modulesCollapsed = true;
+        $resource('/_teacher/graduate/getGraduateData/55').get().$promise.then(function (response) {
+
+            $scope.graduate = response;
+            $scope.graduate
+        });
+
+    }
 
     $scope.addGraduate = function () {
 

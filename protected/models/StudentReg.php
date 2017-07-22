@@ -36,11 +36,6 @@
  * @property integer $country
  * @property integer $city
  * @property integer $cancelled
- * @property string $passport
- * @property string $document_type
- * @property string $document_issued_date
- * @property string $inn
- * @property string $passport_issued
  * @property string $prev_job
  * @property string $current_job
  * @property string $education_shift
@@ -86,8 +81,6 @@ class StudentReg extends CActiveRecord {
     private $_identity;
     private $_password;
     private $_token;
-    private $_passport;
-    private $_inn;
 
     public $fullName = '';
 
@@ -111,7 +104,6 @@ class StudentReg extends CActiveRecord {
         return array(
             array('facebook, googleplus, linkedin, twitter', 'networkValidation'),
             array('educform, city, country', 'numerical', 'integerOnly' => true),
-//            array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
             array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail,linkingemail'),
             array('email', 'email', 'message' => Yii::t('error', '0271'), 'on' => 'recovery,resetemail,fromraptoext,linkingemail'),
@@ -131,7 +123,6 @@ class StudentReg extends CActiveRecord {
             array('firstName, secondName, nickname, email, password, education, passport_issued', 'length', 'max' => 255),
             array('phone', 'match', 'pattern' => '^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^', 'message' => 'Введіть коректний номер'),
             array('phone', 'length', 'max' => 15),
-            array('passport, document_type, inn, document_issued_date', 'length', 'max' => 30),
             array('phone', 'length', 'min' => 15),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country,
@@ -139,7 +130,7 @@ class StudentReg extends CActiveRecord {
             // The following rule is used by search().
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education,
             educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled,
-            passport, document_type, inn, document_issued_date, passport_issued, prev_job, current_job, education_shift', 'safe', 'on' => 'search'),
+            prev_job, current_job, education_shift', 'safe', 'on' => 'search'),
         );
     }
 
@@ -248,18 +239,17 @@ class StudentReg extends CActiveRecord {
             'facebook' => 'Facebook',
             'googleplus' => 'Google+',
             'linkedin' => 'LinkedIn',
-//            'vkontakte' => 'VK',
             'twitter' => 'Twitter',
             'reg_time' => 'Registration Time',
             'skype' => 'Skype',
             'country' => Yii::t('regexp', '0817'),
             'city' => Yii::t('regexp', '0818'),
             'cancelled' => 'Cancelled',
-            'passport' => Yii::t('regexp', '0927'),
-            'inn' => Yii::t('regexp', '0930'),
-            'document_type' => 'Тип документа, серія/номер якого зазначений в полі паспорт',
-            'document_issued_date' => Yii::t('regexp', '0929'),
-            'passport_issued' => Yii::t('regexp', '0928'),
+//            'passport' => Yii::t('regexp', '0927'),
+//            'inn' => Yii::t('regexp', '0930'),
+//            'document_type' => 'Тип документа, серія/номер якого зазначений в полі паспорт',
+//            'document_issued_date' => Yii::t('regexp', '0929'),
+//            'passport_issued' => Yii::t('regexp', '0928'),
             'prev_job' => Yii::t('regexp', '0931'),
             'current_job' => Yii::t('regexp', '0932'),
             'education_shift' => Yii::t('regexp', '0926'),
@@ -341,7 +331,6 @@ class StudentReg extends CActiveRecord {
         $criteria->compare('facebook', $this->facebook, true);
         $criteria->compare('googleplus', $this->googleplus, true);
         $criteria->compare('linkedin', $this->linkedin, true);
-//        $criteria->compare('vkontakte', $this->vkontakte, true);
         $criteria->compare('twitter', $this->twitter, true);
         $criteria->compare('token', $this->token, true);
         $criteria->compare('activkey_lifetime', $this->activkey_lifetime, true);
@@ -351,11 +340,6 @@ class StudentReg extends CActiveRecord {
         $criteria->compare('t.country', $this->country, true);
         $criteria->compare('t.city', $this->city, true);
         $criteria->compare('cancelled', $this->cancelled, true);
-        $criteria->compare('passport', $this->passport, true);
-        $criteria->compare('inn', $this->inn, true);
-        $criteria->compare('document_type', $this->document_type, true);
-        $criteria->compare('document_issued_date', $this->document_issued_date, true);
-        $criteria->compare('passport_issued', $this->passport_issued, true);
         $criteria->compare('prev_job', $this->prev_job, true);
         $criteria->compare('current_job', $this->current_job, true);
         $criteria->compare('education_shift', $this->education_shift, true);
@@ -386,19 +370,11 @@ class StudentReg extends CActiveRecord {
             $format = "Y-m-d";
             $this->birthday = date_format(DateTime::createFromFormat($format, $this->birthday), 'd/m/Y');
         }
-        if ($this->document_issued_date != null) {
-            $format = "Y-m-d";
-            $this->document_issued_date = date_format(DateTime::createFromFormat($format, $this->document_issued_date), 'd/m/Y');
-        }
 
-        $this->_password = $this->password;
-        $this->password = null;
-        $this->_token = $this->token;
-        $this->token = null;
-        $this->_passport = $this->passport;
-        $this->passport = null;
-        $this->_inn = $this->inn;
-        $this->inn = null;
+        $this->_password=$this->password;
+        $this->password=null;
+        $this->_token=$this->token;
+        $this->token=null;
 
         parent::afterFind();
     }
@@ -406,12 +382,9 @@ class StudentReg extends CActiveRecord {
     public function beforeSave() {
         if ($this->birthday != null) {
             $format = "d/m/Y";
-            $this->birthday = date_format(DateTime::createFromFormat($format, $this->birthday), 'Y-m-d');
-        } else $this->birthday = null;
-        if ($this->document_issued_date != null) {
-            $format = "d/m/Y";
-            $this->document_issued_date = date_format(DateTime::createFromFormat($format, $this->document_issued_date), 'Y-m-d');
-        } else $this->document_issued_date = null;
+            $this->birthday = date_format(DateTime::createFromFormat($format, $this->birthday),'Y-m-d');
+        }else $this->birthday=null;
+
 
         return parent::beforeSave();
     }
@@ -497,12 +470,6 @@ class StudentReg extends CActiveRecord {
                 if ($domainPartPos === 0)
                     $result = true;
                 break;
-//            case 'vkontakte':
-//                $domainPartPos = strpos($value, 'http://vk.com/')===0 ||
-//                    strpos($value, 'https://vk.com/')===0 ||
-//                    strpos($value, 'https://new.vk.com/')===0;
-//                if ($domainPartPos) $result = true;
-//                break;
             case 'twitter':
                 $domainPartPos = strpos($value, 'https://twitter.com/');
                 if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'http://twitter.com/');
@@ -530,10 +497,6 @@ class StudentReg extends CActiveRecord {
                 if ($model->linkedin != $profile)
                     $result = true;
                 break;
-//            case 'vkontakte':
-//                if ($model->vkontakte != $profile)
-//                    $result = true;
-//                break;
             case 'twitter':
                 if ($model->twitter != $profile)
                     $result = true;
@@ -1156,7 +1119,6 @@ class StudentReg extends CActiveRecord {
 
         }
 
-        //$this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
         return $this->save(true, array('cancelled'));
     }
 
@@ -1408,8 +1370,8 @@ class StudentReg extends CActiveRecord {
         $organization = $organization ? $organization : Yii::app()->user->model->getCurrentOrganizationId();
         return TeacherOrganization::model()->findByAttributes(array(
             'id_user' => $this->id,
-            'id_organization' => $organization,
-            'end_date' => null
+            'id_organization'=>$organization,
+            'end_date'=>null
         ));
     }
 
@@ -1421,14 +1383,44 @@ class StudentReg extends CActiveRecord {
         return $this->_token;
     }
 
-    public function getPassport() {
-        return $this->_passport;
+    public function getAllUserDocuments()
+    {
+        return UserDocuments::model()->with('documentType','documentsFiles','idUser')->findAllByAttributes(array('id_user'=>$this->id));
     }
 
     public function getInn() {
         return $this->_inn;
     }
 
+    public function getActualUserDocuments() {
+        return UserDocuments::model()->with('documentType','documentsFiles','idUser')->findAllByAttributes(array('id_user'=>$this->id,'actual'=>UserDocuments::ACTUAL));
+    }
+
+    public function getEditableUserDocumentByType($type) {
+        return UserDocuments::model()->with('documentType','documentsFiles','idUser')->findByAttributes(
+            array('id_user'=>$this->id,'checked'=>UserDocuments::NOT_CHECKED,'actual'=>UserDocuments::ACTUAL,'type'=>$type)
+        );
+    }
+
+    public function checkedActualUserDocuments($sessionTime)
+    {
+        foreach ($this->getActualUserDocuments() as $document){
+            foreach ($document->documentsFiles as $file){
+                if(strtotime($file->upload_time)>$sessionTime){
+                    throw new \application\components\Exceptions\IntItaException(500, "Оновіть сторінку та перегляньте
+                     договір ще раз. Користувач змінив дані (скани)");
+                }
+                if(strtotime($document->updatedAt)>$sessionTime){
+                    throw new \application\components\Exceptions\IntItaException(500, "Оновіть сторінку та перегляньте
+                     договір ще раз. Користувач змінив дані");
+                }
+            }
+            $document->checked=UserDocuments::CHECKED;
+            if (!$document->save()) {
+                throw new Exception("Не вдалося затвердити документи. Зв'яжіться з адміністрацією");
+            }
+        }
+    }
     public static function generateToken() {
         $getToken = rand(0, 99999);
         $getTime = date("Y-m-d H:i:s");

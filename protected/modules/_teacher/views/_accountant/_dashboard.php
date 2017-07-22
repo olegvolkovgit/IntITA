@@ -131,6 +131,12 @@
                             <span ng-cloak class="label label-success" ng-if="countOfActualSchemesRequests > 0">{{countOfActualSchemesRequests}}</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#/accountant/agreementsrequests">
+                            Запити на затвердження паперових договорів
+                            <span ng-cloak class="label label-primary" ng-if="countOfActualWrittenAgreementRequests > 0">{{countOfActualWrittenAgreementRequests}}</span>
+                        </a>
+                    </li>
                 </ul>
                 <br>
                 <br>
@@ -141,5 +147,3 @@
         </div>
     </div>
 </div>
-
-<!--<ui-view></ui-view>-->

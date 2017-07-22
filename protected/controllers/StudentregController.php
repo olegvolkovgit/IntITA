@@ -442,25 +442,33 @@ class StudentRegController extends Controller
         UserDocuments::model()->uploadUserDocuments($type);
     }
 
-    public function actionGetUploadedDocuments()
+    public function actionRemoveUserDocumentsFile()
     {
-        $data=array();
-        $documents=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'passport'));
-        $inn=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'inn'));
-        $data['documents']=$documents;
-        $data['inn']=$inn;
-        $data['docPath']=StaticFilesHelper::fullPathToFiles('documents');
-        echo CJSON::encode($data);
+        $idFile=Yii::app()->request->getPost('id');
+        $model=DocumentsFiles::model()->findByPk($idFile);
+        $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->idDocument->type.'/'.$model->file_name;
+        if (is_file($file))
+            unlink($file);
+        $model->delete();
     }
 
     public function actionRemoveUserDocument()
     {
-        $idFile=Yii::app()->request->getPost('id');
-        $model=UserDocuments::model()->findByPk($idFile);
-        $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->type.'/'.$model->file_name;
-        if (is_file($file))
-            unlink($file);
-        $model->delete();
+        $document=UserDocuments::model()->findByPk(Yii::app()->request->getPost('id'));
+        foreach ($document->documentsFiles as $model) {
+            $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->idDocument->type.'/'.$model->file_name;
+            if (is_file($file))
+                unlink($file);
+            $model->delete();
+        }
+        $document->delete();
+    }
+
+    public function actionDeactivateUserDocument()
+    {
+        $document=UserDocuments::model()->findByPk(Yii::app()->request->getPost('id'));
+        $document->actual=UserDocuments::NOT_ACTUAL;
+        $document->save();
     }
 
     public function actionAddReview(){
@@ -480,5 +488,73 @@ class StudentRegController extends Controller
         }
         return true;
 
+    }
+
+    public function actionGetDocumentsTypes()
+    {
+        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations(DocumentsTypes::model()->findAll()));
+    }
+
+    public function actionSaveDocumentData() {
+        function valueNull($value) {
+            return !$value?null:$value;
+        }
+
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        try {
+            $params = array_map("valueNull", $_POST);
+            $documents=UserDocuments::model()->findByAttributes(
+                array('id_user'=>Yii::app()->user->getId(),'checked'=>UserDocuments::NOT_CHECKED,'type'=>$params['type'])
+            );
+            if(!$documents) {
+                $documents = new UserDocuments();
+                if(UserDocuments::model()->findByAttributes(array('id_user'=>$documents->id_user,'type'=>$params['type'],'actual'=>UserDocuments::ACTUAL))) {
+                    throw new Exception('Перед тим як додати новий документ даного типу, деактивуй старий');
+                }
+            }else {
+                $documents->updatedAt=new CDbExpression('NOW()');
+            }
+
+            $documents->setAttributes($params);
+            if($params['issued_date']){
+                $date = str_replace('/', '-', $params['issued_date']);
+                $documents['issued_date']=date("Y-m-d", strtotime($date));
+            }
+            $documents->id_user = Yii::app()->user->getId();
+            $documents->save();
+
+            if (count($documents->getErrors())) {
+                throw new Exception(json_encode($documents->getErrors()));
+            }
+
+            if (!$documents->save()) {
+                echo json_encode(['status' => 'error', 'message' => array_values($documents->getErrors())]);
+            }
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionGetAllUserDocuments()
+    {
+        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations(Yii::app()->user->model->getAllUserDocuments()));
+    }
+
+    public function actionGetEditableDocument()
+    {
+        $type = Yii::app()->request->getPost('type');
+        $document=Yii::app()->user->model->getEditableUserDocumentByType($type);
+        if($document) {
+            if($document['issued_date']){
+                $date = str_replace('-', '/', $document['issued_date']);
+                $document['issued_date']=date("d/m/Y", strtotime($date));
+            }
+            echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations($document));
+        }else {
+            echo null;
+        }
     }
 }

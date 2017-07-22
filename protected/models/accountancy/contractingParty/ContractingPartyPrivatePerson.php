@@ -47,6 +47,8 @@ class ContractingPartyPrivatePerson extends CActiveRecord
 		return array(
 			'id0' => array(self::BELONGS_TO, 'ContractingParty', 'id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'privatePersonDocuments' => array(self::HAS_MANY, 'ContractingPartyUserDocuments', ['id_contracting_party'=>'id']),
+            'documents' => array(self::HAS_MANY, 'UserDocuments', ['id_documents'=>'id'], 'through' => 'privatePersonDocuments'),
 		);
 	}
 

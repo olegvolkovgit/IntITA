@@ -27,7 +27,7 @@ class UserMessages extends Messages implements IMessage
     {
         //create and init parent model
         $this->message = new Messages();
-        $this->message->build($sender->id, 1, $chained, $original);
+        $this->message->buildMessage($sender->id, 1, $chained, $original);
 
         $this->subject = $subject;
         $this->text = $text;

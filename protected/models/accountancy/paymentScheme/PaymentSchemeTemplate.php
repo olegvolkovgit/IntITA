@@ -111,7 +111,7 @@ class PaymentSchemeTemplate extends CActiveRecord {
 
         $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
         foreach ($this->schemes as $scheme){
-            $schema = new AdvancePaymentSchema($scheme->discount, $scheme->loan, $scheme->pay_count, $educationForm, $scheme->id, $scheme->schemeName->$param);
+            $schema = new AdvancePaymentSchema($scheme->discount, $scheme->loan, $scheme->pay_count, $educationForm, $scheme->id, $scheme->schemeName->$param, $scheme->contract);
             array_push($schemes,$schema);
         }
 

@@ -11,7 +11,7 @@
                 <strong>Користувач:</strong>
             </label>
             <input type="text" size="135" ng-model="graduate.user"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Оберіть користувача" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
+                       placeholder="Оберіть користувача" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
                    typeahead-no-results="noResults" class="form-control"
                    typeahead-on-select="selectedUser($item, $model, $label, $event)"/>
             <div ng-if="noResults"><button class="btn btn-primary"

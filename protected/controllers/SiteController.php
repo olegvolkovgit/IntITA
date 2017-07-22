@@ -132,6 +132,7 @@ class SiteController extends Controller {
         if (isset($_GET['lg'])) {
             $app->session['lg'] = $_GET['lg'];
         }
+
         if (isset($_SERVER["HTTP_REFERER"]))
             $this->redirect($_SERVER["HTTP_REFERER"]);
         else $this->redirect(Yii::app()->homeUrl);
@@ -585,9 +586,6 @@ class SiteController extends Controller {
                 case 'linkedin':
                     $model->linkedin = $user['profile'];
                     break;
-//                case 'vkontakte':
-//                    $model->vkontakte = $user['profile'];
-//                    break;
                 case 'twitter':
                     $model->twitter = $user['profile'];
                     break;

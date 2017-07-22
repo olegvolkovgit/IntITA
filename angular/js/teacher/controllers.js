@@ -702,9 +702,12 @@ function mainTeacherConsultantCtrl($scope, $rootScope, $http) {
     $scope.getNewPlainTasksAnswers();
 }
 
-function mainAccountantCtrl($rootScope, paymentSchemaService) {
+function mainAccountantCtrl($rootScope, paymentSchemaService, agreementsService) {
     paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
         $rootScope.countOfActualSchemesRequests=response[0];
+    });
+    agreementsService.getActualWrittenAgreementRequests().$promise.then(function(response){
+        $rootScope.countOfActualWrittenAgreementRequests=response[0];
     });
 }
 

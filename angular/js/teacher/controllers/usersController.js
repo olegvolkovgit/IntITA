@@ -382,18 +382,6 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
             bootbox.alert("Операцію не вдалося виконати");
         });
     };
-    $scope.changeDocStatus=function (id) {
-        $http({
-            method: 'POST',
-            url: basePath+'/_teacher/_accountant/accountant/changeDocumentStatus',
-            data: $jq.param({id: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback() {
-            $scope.reloadUserProfileData($scope.userId);
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    }
     $scope.assignLocalRole = function (user, role) {
         if(user && role){
             roleService

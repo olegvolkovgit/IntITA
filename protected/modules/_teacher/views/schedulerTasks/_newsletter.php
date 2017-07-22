@@ -37,6 +37,7 @@
                 <span ng-show="model.newsletter.type == 'groups'"  ng-repeat="item in selectedRecipients">{{item.name}}; </span>
                 <span ng-show="model.newsletter.type == 'roles'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
                 <span ng-show="model.newsletter.type == 'subGroups'" ng-repeat="item in selectedRecipients">&lt;{{item.groupName}}&gt;{{item.name}}; </span>
+                <span ng-show="model.newsletter.type == 'emailsFromDatabase'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
                 <span ng-show="model.newsletter.type == 'allUsers'">Всі користувачі</span>
                 <span ng-show="model.newsletter.type == 'courses'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
                 <span ng-show="model.newsletter.type == 'modules'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
