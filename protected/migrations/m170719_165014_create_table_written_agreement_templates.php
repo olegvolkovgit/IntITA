@@ -96,7 +96,7 @@ class m170719_165014_create_table_written_agreement_templates extends CDbMigrati
 
                 ',
                 'id_organization' => '1',
-                'create_by' => '822',
+                'create_by' => '38',
             ),
         ));
 
