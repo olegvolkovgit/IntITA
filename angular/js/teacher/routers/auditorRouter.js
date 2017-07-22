@@ -28,6 +28,17 @@ angular
                 return auditorUrl+"/template/editOffer/?lang="+$stateParams.lang;
             }
         })
+        .state('auditor/writtenAgreement', {
+            url: "/auditor/writtenAgreement",
+            cache         : false,
+            templateUrl: auditorUrl+"/template/writtenAgreement",
+        })
+
+        .state('auditor/updateWrittenAgreement', {
+            url: "/auditor/updateWrittenAgreement",
+            cache         : false,
+            templateUrl: auditorUrl+"/template/updateWrittenAgreement",
+        })
 
         .state('auditor/agreements', {
             url: "/auditor/agreements",

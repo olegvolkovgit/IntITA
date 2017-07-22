@@ -147,7 +147,7 @@ class MessagesServiceSchemesRequest extends Messages implements IMessage
     {
         //create and init parent model
         $this->message = new Messages();
-        $this->message->build($user->id, self::TYPE, $chained, $original);
+        $this->message->buildMessage($user->id, self::TYPE, $chained, $original);
         $this->id_service = $service->service_id;
         $this->id_schema_template = $schemesTemplate->id;
         $this->schema_template = $schemesTemplate;

@@ -21,17 +21,12 @@ class AccountantController extends TeacherCabinetController {
         if ($_GET['organization']){
             $criteria = new CDbCriteria();
             $criteria->join = 'left join user_student us on us.id_user=t.id_user';
-            $criteria->addCondition('us.id_organization=' . Yii::app()->user->model->getCurrentOrganization()->id.' and us.end_date IS NULL');
+            $criteria->addCondition('us.id_organization=' . Yii::app()->user->model->getCurrentOrganization()->id.' 
+            and us.end_date IS NULL and t.actual='.UserDocuments::ACTUAL);
             $ngTable->mergeCriteriaWith($criteria);
         }
         $result = $ngTable->getData();
         echo json_encode($result);
-    }
-
-    public function actionChangeDocumentStatus() {
-        $id = Yii::app()->request->getPost('id');
-        $model = UserDocuments::model()->findByPk($id);
-        $model->changeCheckDocuments();
     }
 
     public function actionCreateDocumentsFolder() {
