@@ -118,7 +118,7 @@ class GraduateController extends TeacherCabinetController {
      */
     public function loadModel($id)
     {
-        $model = Graduate::model()->with('user','courses','modules')->findByPk($id);
+        $model = Graduate::model()->with('user','courses','modules','courses.idCourse')->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -319,6 +319,13 @@ class GraduateController extends TeacherCabinetController {
             Yii::app()->end();
         }
         echo 'error';
+        Yii::app()->end();
+    }
+
+    public function actionGetGraduateData($id){
+        $model = $this->loadModel((int)$id);
+
+        echo CJSON::encode($model->toArray());
         Yii::app()->end();
     }
 }
