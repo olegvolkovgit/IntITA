@@ -79,8 +79,7 @@ return array(
         'session' => [
             'class' => 'CHttpSession',
             'cookieParams' => [
-            'domain' => '.qa.intita.com'
-            'httponly' => true
+                'httponly' => true
             ],
         ],
 
