@@ -129,7 +129,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
     {
         //create and init parent model
         $this->message = new Messages();
-        $this->message->build($user->id, self::TYPE, $chained, $original);
+        $this->message->buildMessage($user->id, self::TYPE, $chained, $original);
         $this->author = $user;
         $this->id_teacher = $teacher->id;
         $this->coworker = $teacher;

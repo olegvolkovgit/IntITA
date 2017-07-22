@@ -54,7 +54,7 @@ if (!$model->isDeveloping()) { ?>
 
         <?php if($model->hasPromotionSchemes()) {?>
             <a href="<?php echo Yii::app()->createUrl('course/schemes', array('id' => $model->course_ID)); ?>"
-               style="color:green;text-decoration:underline" target="_blank"><em><?php Yii::t('course', '0959'); ?></em></a>
+               style="color:green;text-decoration:underline" target="_blank"><em><?php echo Yii::t('course', '0959'); ?></em></a>
         <?php } ?>
 
         <div class="markAndButton">

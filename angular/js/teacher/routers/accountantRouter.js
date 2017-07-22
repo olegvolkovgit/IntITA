@@ -297,5 +297,17 @@ angular
           return basePath + "/_teacher/_accountant/agreements/renderUserAgreements/idUser/" + $stateParams.studentId;
         }
       })
+        .state('accountant/agreementsrequests', {
+            url: "/accountant/agreementsrequests",
+            cache: false,
+            templateUrl: accountantUrl + "agreements/agreementsrequests"
+        })
+        .state('accountant/writtenAgreementView/request/:request', {
+            url: "/accountant/writtenAgreementView/request/:request",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return accountantUrl + "agreements/writtenAgreementView/request/" + $stateParams.request;
+            }
+        })
   }
 );

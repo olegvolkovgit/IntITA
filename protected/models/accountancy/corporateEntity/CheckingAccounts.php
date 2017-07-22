@@ -7,7 +7,7 @@
  *
  * @property integer $id
  * @property string $bank_name
- * @property integer $bank_code
+ * @property string $bank_code
  * @property integer $checking_account
  * @property integer $checking_account_order
  * @property integer $corporate_entity

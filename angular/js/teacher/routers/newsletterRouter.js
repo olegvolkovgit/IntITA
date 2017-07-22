@@ -19,7 +19,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function ($scope) {
                 $scope.changePageHeader('Керування шаблонами електронних листів');
             },
-            templateUrl: "/_teacher/mailTemplates/index",
+            templateUrl: basePath+"/_teacher/mailTemplates/index",
         })
         .state('newsletter/template/create', {
             url: "/newsletter/template/create",
@@ -27,7 +27,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function ($scope) {
                 $scope.changePageHeader('Створення шаблону електронного листа');
             },
-            templateUrl: "/_teacher/mailTemplates/create",
+            templateUrl: basePath+"/_teacher/mailTemplates/create",
         })
         .state('newsletter/template/edit/:id', {
             url: "/newsletter/template/edit/:id",
@@ -36,7 +36,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 $scope.changePageHeader('Редагування шаблону електронного листа');
             },
             templateUrl: function($stateParams){
-                return "/_teacher/mailTemplates/update/id/"+$stateParams.id
+                return basePath+"/_teacher/mailTemplates/update/id/"+$stateParams.id
             }
         })
         .state('newsletter/template/view/:id', {
@@ -46,7 +46,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 $scope.changePageHeader('Перегляд шаблону електронного листа');
             },
             templateUrl: function($stateParams){
-                return "/_teacher/mailTemplates/view/id/"+$stateParams.id
+                return basePath+"/_teacher/mailTemplates/view/id/"+$stateParams.id
             }
         })
 });

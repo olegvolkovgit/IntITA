@@ -17,15 +17,15 @@ class   TeacherCabinetController extends CController
 
     public $breadcrumbs = array();
 
-    /**
-     * @var array the breadcrumbs of the current page. The value of this property will
-     * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
-     * for more details on how to specify this property.
-     */
-    public function actionIndex($id=0)
-    {
-        $this->render('index');
-    }
+//    /**
+//     * @var array the breadcrumbs of the current page. The value of this property will
+//     * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
+//     * for more details on how to specify this property.
+//     */
+//    public function actionIndex($id=0)
+//    {
+//        $this->render('index');
+//    }
 
     public function filters()
     {
