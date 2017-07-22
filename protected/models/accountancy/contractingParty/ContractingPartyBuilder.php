@@ -55,7 +55,7 @@ class ContractingPartyBuilder {
         $contractingPartyCE->checking_account_id = $account->id;
         $contractingPartyCE->save();
 
-        if (!$contractingParty->save()) {
+        if (!$contractingPartyCE->save()) {
             throw new Exception("Unable to save Contracting Party Corporate Entity");
         };
         return $contractingParty;
@@ -115,7 +115,7 @@ class ContractingPartyBuilder {
         $contractingPartyPP->user_id = $user->id;
         $contractingPartyPP->save();
 
-        if (!$contractingParty->save()) {
+        if (!$contractingPartyPP->save()) {
             throw new Exception("Unable to save Contracting Party Private Person");
         };
         return $contractingParty;
