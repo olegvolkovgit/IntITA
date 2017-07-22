@@ -468,18 +468,8 @@ class MessagesWrittenAgreementRequest extends Messages implements IMessage
     }
 
     public function saveAgreementPdf($content, $user, $agreement){
-        $phpTCPDFPath = Yii::getPathOfAlias('ext.tcpdf');
-
-        require_once($phpTCPDFPath . DIRECTORY_SEPARATOR . 'tcpdf.php');
-
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        $pdf->SetFont('freesans', '', 12);
-        $pdf->AddPage();
-        $pdf->writeHTML($content, true, false, true, false, '');
-
+        $pdf = Yii::app()->ePdf->mpdf();
+        $pdf->WriteHTML($content);
 
         if (!file_exists(Yii::app()->basePath . "/../files/documents/agreements/".$user)) {
             mkdir(Yii::app()->basePath . "/../files/documents/agreements/".$user);

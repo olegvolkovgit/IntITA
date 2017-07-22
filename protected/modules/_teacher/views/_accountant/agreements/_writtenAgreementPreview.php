@@ -70,7 +70,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body" >
                             <div class="row" style="padding:5px" id="printableArea">
-                                <div class="offer" style="background:#f9f9f9; padding: 10px">
+                                <div class="offer" style="padding: 10px">
                                     <div compile="agreementTemplate"></div>
                                 </div>
                             </div>
