@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-if (!empty($statusCode)) {
+if (isset($statusCode) && !empty($statusCode) && is_int($statusCode)) {
     http_response_code($statusCode);
 }
 
