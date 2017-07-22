@@ -327,6 +327,7 @@ class Teacher extends CActiveRecord
     {
         $criteria = new CDbCriteria;
         $criteria->alias='tc';
+        $criteria->distinct=true;
         $criteria->join = 'LEFT JOIN teacher_organization t on t.id_user = tc.user_id';
         $criteria->addCondition('tc.cancelled='.Teacher::ACTIVE.' and t.end_date IS NULL and t.isPrint='.TeacherOrganization::SHOW);
         $dataProvider = new CActiveDataProvider('Teacher', array(
