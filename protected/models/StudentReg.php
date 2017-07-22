@@ -120,7 +120,7 @@ class StudentReg extends CActiveRecord {
             array('password_repeat', 'passdiff', 'on' => 'edit'),
             array('birthday', 'date', 'format' => 'dd/MM/yyyy', 'message' => Yii::t('error', '0427'), 'on' => 'reguser,edit'),
             array('password', 'compare', 'compareAttribute' => 'password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'reguser'),
-            array('firstName, secondName, nickname, email, password, education, passport_issued', 'length', 'max' => 255),
+            array('firstName, secondName, nickname, email, password, education', 'length', 'max' => 255),
             array('phone', 'match', 'pattern' => '^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^', 'message' => 'Введіть коректний номер'),
             array('phone', 'length', 'max' => 15),
             array('phone', 'length', 'min' => 15),
@@ -1162,18 +1162,6 @@ class StudentReg extends CActiveRecord {
             }
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
-    }
-
-    public function updatePassportData($passport, $inn, $documentType, $issuedDate, $passportIssued) {
-
-
-        $this->passport = $passport;
-        $this->inn = $inn;
-        $this->document_type = $documentType;
-        $this->document_issued_date = $issuedDate;
-        $this->passport_issued = $passportIssued;
-
-        return $this->save();
     }
 
     public static function withoutRolesUsersList() {
