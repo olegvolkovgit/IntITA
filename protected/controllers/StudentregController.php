@@ -225,7 +225,7 @@ class StudentRegController extends Controller
             }
 
             $model->update(array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
-                'linkedin','twitter','skype','passport','document_type','inn','passport_issued','prev_job','current_job','education_shift'));
+                'linkedin','twitter','skype','prev_job','current_job','education_shift'));
             $model->updateUserCareer($careers);
             $model->updateUserSpecialization($specializations);
 
@@ -407,8 +407,7 @@ class StudentRegController extends Controller
                                'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
                                 'twitter', 'phone', 'address', 'education',
                                 'interests', 'aboutUs', 'aboutMy', 'avatar',
-                                'skype', 'country', 'city', 'prev_job', 'passport',
-                                'document_issued_date', 'inn', 'passport_issued', 'current_job'];
+                                'skype', 'country', 'city', 'prev_job', 'current_job'];
 
         foreach ($model->attributes as $key => $attribute){
             if(in_array($key, $student_attributes)) {
@@ -509,11 +508,13 @@ class StudentRegController extends Controller
             );
             if(!$documents) {
                 $documents = new UserDocuments();
-                if(UserDocuments::model()->findByAttributes(array('id_user'=>$documents->id_user,'type'=>$params['type'],'actual'=>UserDocuments::ACTUAL))) {
-                    throw new Exception('Перед тим як додати новий документ даного типу, деактивуй старий');
-                }
             }else {
                 $documents->updatedAt=new CDbExpression('NOW()');
+            }
+
+            if(UserDocuments::model()->findByAttributes(array(
+                'id_user'=>Yii::app()->user->getId(),'type'=>$params['type'],'actual'=>UserDocuments::ACTUAL,'checked'=>UserDocuments::CHECKED))) {
+                throw new Exception('Перед тим як додати новий документ даного типу, деактивуй старий');
             }
 
             $documents->setAttributes($params);
