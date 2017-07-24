@@ -508,11 +508,13 @@ class StudentRegController extends Controller
             );
             if(!$documents) {
                 $documents = new UserDocuments();
-                if(UserDocuments::model()->findByAttributes(array('id_user'=>$documents->id_user,'type'=>$params['type'],'actual'=>UserDocuments::ACTUAL))) {
-                    throw new Exception('Перед тим як додати новий документ даного типу, деактивуй старий');
-                }
             }else {
                 $documents->updatedAt=new CDbExpression('NOW()');
+            }
+
+            if(UserDocuments::model()->findByAttributes(array(
+                'id_user'=>Yii::app()->user->getId(),'type'=>$params['type'],'actual'=>UserDocuments::ACTUAL,'checked'=>UserDocuments::CHECKED))) {
+                throw new Exception('Перед тим як додати новий документ даного типу, деактивуй старий');
             }
 
             $documents->setAttributes($params);
