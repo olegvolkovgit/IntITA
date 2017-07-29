@@ -118,7 +118,7 @@ class GraduateController extends TeacherCabinetController {
      */
     public function loadModel($id)
     {
-        $model = Graduate::model()->with('user','courses','modules','courses.idCourse')->findByPk($id);
+        $model = Graduate::model()->with('user','courses','modules.idModule','courses.idCourse')->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -324,8 +324,24 @@ class GraduateController extends TeacherCabinetController {
 
     public function actionGetGraduateData($id){
         $model = $this->loadModel((int)$id);
-
-        echo CJSON::encode($model->toArray());
+        $data = array_merge($model->toArray(),['ratingScale'=>Config::getRatingScale()]);
+        echo CJSON::encode($data);
         Yii::app()->end();
+    }
+
+    public function actionUpdateGraduate(){
+        $request = Yii::app()->request->getPost('Graduate');
+        $request['graduate_date'] = date('Y-m-d',strtotime($request['graduate_date']));
+        $graduate = $this->loadModel($request['id']);
+        $user = StudentReg::model()->findByPk($request['id_user']);
+        $user->setScenario('edit');
+        $user->firstName = $request['user']['firstName'];
+        $user->secondName = $request['user']['secondName'];
+        $graduate->loadModel($request);
+        $graduate->save();
+        if ($user->validate(['firstName','secondName'])){
+            $user->update(['firstName','secondName']);
+        }
+
     }
 }

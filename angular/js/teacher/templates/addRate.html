@@ -1,0 +1,5 @@
+<div class="panel panel-default" ng-controller="graduateCtrl">
+    <select name="new rating" ng-model="rating" class="form-control">
+        <option ng-repeat="i in getRatingScale() track by $index" value="{{$index+1}}">{{$index+1}}</option>
+    </select>
+</div>

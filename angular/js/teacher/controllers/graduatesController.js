@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .controller('graduateCtrl',graduateCtrl);
 
-function graduateCtrl ($rootScope, $scope, $resource, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
+function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
 
     $scope.publishStatus = [{id:'0', title:'Не опубліковано'},{id:'1', title:'Опубліковано'}];
     $rootScope.$on('userCreated', function (event, data) {
@@ -16,10 +16,9 @@ function graduateCtrl ($rootScope, $scope, $resource, $http, graduates, NgTableP
     if ($state.is('graduate/edit/:graduateId')){
         $scope.courseCollapsed = true;
         $scope.modulesCollapsed = true;
-        $resource('/_teacher/graduate/getGraduateData/55').get().$promise.then(function (response) {
-
-            $scope.graduate = response;
-            $scope.graduate
+        $http.get('/_teacher/graduate/getGraduateData/'+$stateParams.graduateId).then(function (response) {
+            $scope.graduate = response.data;
+            $scope.graduate.graduate_date = new Date($scope.graduate.graduate_date);
         });
 
     }
@@ -144,4 +143,47 @@ function graduateCtrl ($rootScope, $scope, $resource, $http, graduates, NgTableP
             }
         })
     };
+
+    $scope.updateGraduate = function () {
+        
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/updateGraduate',
+            data: $httpParamSerializerJQLike({'Graduate':$scope.graduate}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+                bootbox.alert(JSON.stringify($scope.errors));
+                return false;
+            }
+            else{
+                $state.go('graduate');
+            }
+        })
+    }
+
+    $scope.addRating = function (type, data) {
+        $scope.customDialogButtons = {
+            success: {
+                label: "Застосувати!",
+                className: "btn-success",
+                callback: function() {
+                    alert();
+                }
+            }
+        };
+        $scope.customDialogOptions = {
+            templateUrl: '/angular/js/teacher/templates/addRate.html',
+            scope: data,
+            title: 'The title!',
+            buttons: $scope.customDialogButtons
+        };
+        $ngBootbox.customDialog($scope.customDialogOptions);
+    };
+
+    $scope.getRatingScale = function () {
+        return new Array(10);
+    }
+
 }
