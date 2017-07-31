@@ -3,8 +3,8 @@
  */
 angular
     .module('teacherApp')
-    .controller('graduateCtrl',graduateCtrl);
-
+    .controller('graduateCtrl',graduateCtrl)
+    .controller('editGraduateCtrl',editGraduateCtrl);
 function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
 
     $scope.publishStatus = [{id:'0', title:'Не опубліковано'},{id:'1', title:'Опубліковано'}];
@@ -163,27 +163,43 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTablePar
         })
     }
 
-    $scope.addRating = function (type, data) {
-        $scope.customDialogButtons = {
-            success: {
-                label: "Застосувати!",
-                className: "btn-success",
-                callback: function() {
-                    alert();
-                }
-            }
-        };
+    $scope.changeRating = function (type, data) {
+        $scope.changeData = data;
+        $scope.changeData.type = type;
         $scope.customDialogOptions = {
             templateUrl: '/angular/js/teacher/templates/addRate.html',
-            scope: data,
-            title: 'The title!',
-            buttons: $scope.customDialogButtons
+            scope: $scope,
+            title: 'Змінити рейтинг',
         };
         $ngBootbox.customDialog($scope.customDialogOptions);
     };
 
     $scope.getRatingScale = function () {
         return new Array(10);
+    }
+
+}
+
+function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike) {
+    $scope.getRatingScale = function () {
+        return new Array(Number($scope.graduate.ratingScale));
+    }
+    $scope.changeRate = function () {
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/updateRating',
+            data: $httpParamSerializerJQLike({'Rating':$scope.changeData}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+                bootbox.alert(JSON.stringify($scope.errors));
+                return false;
+            }
+            else{
+                $state.go('graduate');
+            }
+        })
     }
 
 }

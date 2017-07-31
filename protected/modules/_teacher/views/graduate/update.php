@@ -102,10 +102,6 @@
                 <div uib-collapse="modulesCollapsed">
                     <div class="form-group" ng-repeat="studentModules in graduate.modules">
                         <span><strong>{{studentModules.idModule.title_ua}}, рейтинг: {{studentModules.rating * graduate.ratingScale}} </strong> </span>
-                        <button class="btn btn-primary"
-                                ng-click="addRating('module')">
-                            Змінити рейтинг
-                        </button>
                         <button class="btn btn-primary" ng-click="changeRating('module',studentModules )">Змінити рейтинг</button>
                         <button class="btn btn-danger" ng-click="deleteRating('module')">Видалити модуль</button>
                     </div>

@@ -344,4 +344,15 @@ class GraduateController extends TeacherCabinetController {
         }
 
     }
+
+    public function actionUpdateRating(){
+        $request = Yii::app()->request->getPost('Rating');
+        $className = 'RatingUser'.ucfirst($request['type']);
+        if (class_exists($className)){
+            $model = $className::model()->findByPk($request['id']);
+            $model->rating = $request['rating'] / Config::getRatingScale();
+            $model->save();
+        }
+
+    }
 }
