@@ -151,7 +151,7 @@ class OfflineGroups extends CActiveRecord
 	public static function groupsByQuery($query)
 	{
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, name";
+		$criteria->select = "g.id, name";
 		$criteria->alias = "g";
 		$criteria->addSearchCondition('LOWER(name)', mb_strtolower($query,'UTF-8'), true, "OR", "LIKE");
 		$criteria->addCondition('g.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);

@@ -530,7 +530,7 @@ class Teacher extends CActiveRecord
     public static function teachersByQuery($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -554,7 +554,7 @@ class Teacher extends CActiveRecord
     public static function teachersByQueryAndModule($query, $module)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -606,7 +606,7 @@ class Teacher extends CActiveRecord
 
     public static function usersWithoutCoworkersByQuery($query){
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");

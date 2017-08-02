@@ -118,7 +118,7 @@ class GraduateController extends TeacherCabinetController {
      */
     public function loadModel($id)
     {
-        $model = Graduate::model()->with('user','courses','modules','courses.idCourse')->findByPk($id);
+        $model = Graduate::model()->with('user','courses','modules.idModule','courses.idCourse')->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -324,8 +324,90 @@ class GraduateController extends TeacherCabinetController {
 
     public function actionGetGraduateData($id){
         $model = $this->loadModel((int)$id);
-
-        echo CJSON::encode($model->toArray());
+        $data = array_merge($model->toArray(),['ratingScale'=>Config::getRatingScale()]);
+        echo CJSON::encode($data);
         Yii::app()->end();
+    }
+
+    public function actionUpdateGraduate(){
+        $request = Yii::app()->request->getPost('Graduate');
+        $request['graduate_date'] = date('Y-m-d',strtotime($request['graduate_date']));
+        $graduate = $this->loadModel($request['id']);
+        $user = StudentReg::model()->findByPk($request['id_user']);
+        $user->setScenario('edit');
+        $user->firstName = $request['user']['firstName'];
+        $user->secondName = $request['user']['secondName'];
+        $graduate->loadModel($request);
+        $graduate->save();
+        if ($user->validate(['firstName','secondName'])){
+            $user->update(['firstName','secondName']);
+        }
+
+    }
+
+    public function actionUpdateRating(){
+        $request = Yii::app()->request->getPost('Rating');
+        $className = 'RatingUser'.ucfirst($request['type']);
+        if (class_exists($className)){
+            $model = $className::model()->findByPk($request['id']);
+            $model->rating = $request['rating'];
+            $model->save();
+            Yii::app()->end();
+        }
+        else{
+            throw new \Mibew\Http\Exception\BadRequestException('Некоректний запит');
+        }
+
+    }
+
+    public function actionDeleteRating(){
+        $request = Yii::app()->request->getPost('Rating');
+        $className = 'RatingUser'.ucfirst($request['type']);
+        if (class_exists($className)){
+            $model = $className::model()->findByPk($request['id']);
+            $model->delete();
+            Yii::app()->end();
+        }
+        else{
+            throw new \Mibew\Http\Exception\BadRequestException('Некоректний запит');
+        }
+
+    }
+
+    public function actionGetServicesList($query, $type){
+        echo CJSON::encode(['results'=>TypeAheadHelper::getTypeahead($query,ucfirst($type),['title_ua'])]);
+    }
+
+    public function actionAddRAting(){
+        $request = Yii::app()->request->getPost('Rating');
+        $type = $request['type'];
+        $revision = 0;
+        switch ($type){
+            case 'module':
+                $revision = RevisionModule::model()->with(['module', 'properties'])->find('module.module_id=:moduleID AND properties.id_state = 7',['moduleID'=>$request['service'][$type.'_ID']]);
+                break;
+            case 'course':
+                $revision = RevisionCourse::model()->with(['course', 'properties'])->find('course.course_id=:courseID AND properties.id_state = 7',['courseID'=>$request['service'][$type.'_ID']]);
+                break;
+        }
+        $className = 'RatingUser'.ucfirst($type);
+        if (class_exists($className)){
+            $model = new $className;
+            $model->id_user = $request['user'];
+            $model->{'id_'.$type} = $request['service'][$type.'_ID'];
+            $model->rating = $request['rating'];
+            if ($revision){
+                $model->{$type.'_revision'} = $revision->{'id_'.$type.'_revision'};
+            }
+            else{
+                $model->{$type.'_revision'} = 1;
+            }
+            $model->{$type.'_done'} = 1;
+            $model->{'start_'.$type} = date('Y-m-d',time());
+            $model->save();
+        }
+        else{
+            throw new \Mibew\Http\Exception\BadRequestException('Некоректний запит');
+        }
     }
 }
