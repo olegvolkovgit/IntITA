@@ -174,13 +174,42 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTablePar
         $ngBootbox.customDialog($scope.customDialogOptions);
     };
 
-    $scope.getRatingScale = function () {
-        return new Array(10);
+    $scope.deleteRating = function (type,id) {
+        $ngBootbox.confirm("Ви дійсно бажаєте видалити рейтинг по даному сервісу у студента?")
+            .then(function() {
+                $http({
+                    method:'POST',
+                    url: basePath+'/_teacher/graduate/deleteRating',
+                    data: $httpParamSerializerJQLike({Rating:{'id':id,type:type}}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).success(function (response) {
+                    if (typeof response === 'object'){
+                        $scope.errors = response.errors;
+                        bootbox.alert(JSON.stringify($scope.errors));
+                        return false;
+                    }
+                    else{
+                        $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId});
+                    }
+                })
+            }, function() {
+
+            });
+    }
+
+    $scope.addRating = function (type) {
+        $scope.addRatingType = type;
+        $scope.customDialogOptions = {
+            templateUrl: '/angular/js/teacher/templates/addServiceRate.html',
+            scope: $scope,
+            title: 'Дотати рейтинг',
+        };
+        $ngBootbox.customDialog($scope.customDialogOptions);
     }
 
 }
 
-function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike) {
+function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $stateParams, $ngBootbox, typeAhead) {
     $scope.getRatingScale = function () {
         return new Array(Number($scope.graduate.ratingScale));
     }
@@ -197,9 +226,37 @@ function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike) {
                 return false;
             }
             else{
-                $state.go('graduate');
+                $ngBootbox.hideAll();
+                $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId});
+            }
+        })
+    };
+    $scope.getServicesName = function (value) {
+        return typeAhead.getData(basePath+'/_teacher/graduate/getServicesList',{query:value, type:$scope.addRatingType});
+    };
+    $scope.onSelectService = function(item)
+    {
+        $scope.service = item;
+    };
+
+    $scope.addRate = function () {
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/addRating',
+            data: $httpParamSerializerJQLike({'Rating':{service:$scope.service, rating:$scope.rating, user:$scope.graduate.id_user, type: $scope.addRatingType}}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+                bootbox.alert(JSON.stringify($scope.errors));
+                return false;
+            }
+            else{
+                $ngBootbox.hideAll();
+                $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId});
             }
         })
     }
+
 
 }

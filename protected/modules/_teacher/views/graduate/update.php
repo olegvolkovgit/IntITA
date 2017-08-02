@@ -91,7 +91,7 @@
                         <span>
                             <strong>{{studentCourses.idCourse.title_ua}}, рейтинг: {{studentCourses.rating * graduate.ratingScale}} </strong>
                             <button class="btn btn-primary" ng-click="changeRating('course')">Змінити рейтинг</button>
-                            <button class="btn btn-danger" ng-click="deleteRating('course')">Видалити курс</button>
+                            <button class="btn btn-danger" ng-click="deleteRating('course', studentCourses.id)">Видалити курс</button>
                         </span>
                     </div>
                     <button class="btn btn-success" ng-click="addRating('course')">Додати курс</button>
@@ -103,7 +103,7 @@
                     <div class="form-group" ng-repeat="studentModules in graduate.modules">
                         <span><strong>{{studentModules.idModule.title_ua}}, рейтинг: {{studentModules.rating * graduate.ratingScale}} </strong> </span>
                         <button class="btn btn-primary" ng-click="changeRating('module',studentModules )">Змінити рейтинг</button>
-                        <button class="btn btn-danger" ng-click="deleteRating('module')">Видалити модуль</button>
+                        <button class="btn btn-danger" ng-click="deleteRating('module',studentModules.id)">Видалити модуль</button>
                     </div>
                     <button class="btn btn-success" ng-click="addRating('module')">Додати модуль</button>
 
