@@ -90,7 +90,7 @@
                     <div class="form-group" ng-repeat="studentCourses in graduate.courses">
                         <span>
                             <strong>{{studentCourses.idCourse.title_ua}}, рейтинг: {{studentCourses.rating * graduate.ratingScale}} </strong>
-                            <button class="btn btn-primary" ng-click="changeRating('course')">Змінити рейтинг</button>
+                            <button class="btn btn-primary" ng-click="changeRating('course',studentCourses)">Змінити рейтинг</button>
                             <button class="btn btn-danger" ng-click="deleteRating('course', studentCourses.id)">Видалити курс</button>
                         </span>
                     </div>
