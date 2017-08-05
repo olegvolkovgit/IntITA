@@ -7,24 +7,55 @@ angular
     .controller('editGraduateCtrl',editGraduateCtrl);
 function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
 
+    $scope.courseCollapsed = true;
+    $scope.modulesCollapsed = true;
     $scope.publishStatus = [{id:'0', title:'Не опубліковано'},{id:'1', title:'Опубліковано'}];
+
     $rootScope.$on('userCreated', function (event, data) {
         $scope.graduate.user = data;
         $scope.noResults = false;
     });
 
+    $rootScope.$on('courseAdded', function (event, data) {
+        if (angular.isDefined($scope.courses)){
+            $scope.courses.push(data);
+        }
+        else{
+            $scope.courses = [];
+            $scope.courses.push(data);
+        }
+
+
+    });
+
+    $rootScope.$on('moduleAdded', function (event, data) {
+
+        if (angular.isDefined($scope.modules)){
+            $scope.modules.push(data);
+        }
+        else{
+            $scope.modules = [];
+            $scope.modules.push(data);
+        }
+
+    });
+
     if ($state.is('graduate/edit/:graduateId')){
-        $scope.courseCollapsed = true;
-        $scope.modulesCollapsed = true;
+        $scope.modelStatus = 'update';
         $http.get('/_teacher/graduate/getGraduateData/'+$stateParams.graduateId).then(function (response) {
             $scope.graduate = response.data;
             $scope.graduate.graduate_date = new Date($scope.graduate.graduate_date);
         });
 
     }
+    if ($state.is('graduate/create')){
+        $scope.graduate  = {ratingScale : 10};
+        $scope.modelStatus = 'create';
+    }
 
     $scope.addGraduate = function () {
-
+        $scope.graduate.courses = $scope.courses;
+        $scope.graduate.modules = $scope.modules;
         $http({
             method:'POST',
             url: basePath+'/_teacher/graduate/addGraduate',
@@ -111,7 +142,7 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTablePar
             if(result){
                 $http({
                     method: 'POST',
-                    url: basePath+'/_teacher/_admin/graduate/delete/',
+                    url: basePath+'/_teacher/graduate/delete/',
                     data: $jq.param({'id': graduateId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).success(function(response){
@@ -175,8 +206,24 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTablePar
     };
 
     $scope.deleteRating = function (type,id) {
+        if ($state.is('graduate/create')){
+            var service = null;
+            switch (type){
+                case 'course':
+                    service = $scope.courses;
+                    break;
+                case 'module':
+                    service = $scope.modules;
+                    break;
+            }
+            var index = service.indexOf(id);
+            service.splice(index, 1);
+            return false;
+        }
+
         $ngBootbox.confirm("Ви дійсно бажаєте видалити рейтинг по даному сервісу у студента?")
             .then(function() {
+
                 $http({
                     method:'POST',
                     url: basePath+'/_teacher/graduate/deleteRating',
@@ -211,8 +258,14 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTablePar
 
 function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $stateParams, $ngBootbox, typeAhead) {
     $scope.getRatingScale = function () {
-        return new Array(Number($scope.graduate.ratingScale));
-    }
+        if (angular.isDefined($scope.graduate.ratingScale)){
+            return new Array(Number($scope.graduate.ratingScale));
+        }
+        else {
+            return new Array(10);
+        }
+    };
+
     $scope.changeRate = function () {
         $http({
             method:'POST',
@@ -240,6 +293,19 @@ function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $st
     };
 
     $scope.addRate = function () {
+        if ($state.is('graduate/create')){
+            $scope.service.rating = $scope.rating;
+            switch ($scope.addRatingType){
+                case 'course':
+                    $scope.$emit('courseAdded', $scope.service);
+                    break;
+                case 'module':
+                    $scope.$emit('moduleAdded', $scope.service);
+                    break;
+            }
+            $ngBootbox.hideAll();
+            return false;
+        }
         $http({
             method:'POST',
             url: basePath+'/_teacher/graduate/addRating',
