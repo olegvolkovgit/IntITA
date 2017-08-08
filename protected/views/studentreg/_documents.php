@@ -97,6 +97,7 @@
         </label>
         <div class="uploadDocuments">
             <span ng-repeat="item in document.documentsFiles track by $index">
+                <a href="/profile/getdocument?documentType={{document.type}}">doc{{$index}}</a>
                 <a ng-href="<?php echo StaticFilesHelper::fullPathToFiles('documents') ?>/{{document.id_user}}/{{document.type}}/{{item.file_name}}" target="_blank">doc{{$index}}</a>
                 <a ng-if="document.checked==0" href="" ng-click="removeDocumentsFile(item.id)">[x]</a>
             </span>

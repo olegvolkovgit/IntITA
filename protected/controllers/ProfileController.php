@@ -154,4 +154,14 @@ class ProfileController extends Controller
             throw new CHttpException(400,'Електронну скриньку вже активовано!');
 
     }
+
+    public function actionGetdocument($documentId){
+
+          return   Yii::app()->request->xSendFile('/files/1.jpg',[
+            'forceDownload'=>true,
+            'xHeader'=>'X-Accel-Redirect',
+            'terminate'=>false
+        ]);
+    }
+
 }

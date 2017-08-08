@@ -97,16 +97,6 @@ class GraduateController extends TeacherCabinetController
     public function actionDelete()
     {
         $id = Yii::app()->request->getPost('id', 0);
-        $graduate = $this->loadModel($id);
-
-        $modulesRating = RatingUserModule::model()->findAll('id_user=:user',['user'=>$graduate->id_user]);
-        $coursesRating = RatingUserCourse::model()->findAll('id_user=:user',['user'=>$graduate->id_user]);
-        foreach ($modulesRating as $userModules){
-            $userModules->delete();
-        }
-        foreach ($coursesRating as $userCourses){
-            $userCourses->delete();
-        }
         if ($this->loadModel($id)->delete())
             echo "Операцію успішно виконано.";
         else

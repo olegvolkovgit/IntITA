@@ -257,6 +257,10 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTablePar
 }
 
 function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $stateParams, $ngBootbox, typeAhead) {
+
+    $scope.checkData = true;
+
+
     $scope.getRatingScale = function () {
         if (angular.isDefined($scope.graduate.ratingScale)){
             return new Array(Number($scope.graduate.ratingScale));
