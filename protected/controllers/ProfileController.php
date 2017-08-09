@@ -156,12 +156,27 @@ class ProfileController extends Controller
     }
 
     public function actionGetdocument($documentId){
+            $userID = Yii::app()->user->id;
+            $document = UserDocuments::model()->with(['idUser','documentsFiles'])->find('idUser.id=:userId AND documentsFiles.id=:documentId',
+                                                    ['userId'=>$userID,'documentId'=>$documentId]);
+           if ($document){
+               $file = "/files/documents/{$userID}/{$document->type}/{$document->documentsFiles[0]->file_name}";
+               if (file_exists($_SERVER['DOCUMENT_ROOT'].$file)){
+                   return   Yii::app()->request->xSendFile($file,[
+                       'forceDownload'=>true,
+                       'xHeader'=>'X-Accel-Redirect',
+                       'terminate'=>false
+                   ]);
+               }
+               else{
+                   throw new CHttpException(404,'Документ не знайдено');
+               }
 
-          return   Yii::app()->request->xSendFile('/files/1.jpg',[
-            'forceDownload'=>true,
-            'xHeader'=>'X-Accel-Redirect',
-            'terminate'=>false
-        ]);
+           }
+           else {
+               throw new CHttpException(404,'Документ не знайдено');
+           }
+
     }
 
 }
