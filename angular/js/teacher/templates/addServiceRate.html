@@ -1,5 +1,5 @@
 <div ng-controller="editGraduateCtrl">
-
+<form name="addRate" novalidate>
 <div class="panel panel-default" >
     <div class="form-group">
         <label>
@@ -9,6 +9,9 @@
                placeholder="Оберіть сервіс"
                uib-typeahead="item as item.title_ua for item in getServicesName($viewValue) | limitTo:10"
                typeahead-no-results="noResults" typeahead-on-select="selectService($item)"
+               id="service"
+               name="service"
+               required
                class="form-control"/>
         <div ng-show="noResults">
             <i class="glyphicon glyphicon-remove"></i>курс не знайдено
@@ -18,9 +21,10 @@
     <label>
         <strong>Рейтинг*:</strong>
     </label>
-    <select name="new rating" ng-model="rating" class="form-control">
+    <select name="new rating" ng-model="rating" class="form-control" required>
         <option ng-repeat="i in getRatingScale() track by $index" value="{{($index+1)/graduate.ratingScale}}">{{$index+1}}</option>
     </select>
 </div>
-<button class="btn btn-success" ng-click="addRate()">Застосувати</button>
+    <button class="btn btn-success" ng-click="addRate()" ng-disabled=" addRate.$invalid || noResults ">Застосувати</button>
+</form>
 </div>
