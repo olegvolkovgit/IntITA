@@ -25,6 +25,7 @@
  * @property integer $status
  * @property integer $id_corporate_entity
  * @property integer $id_checking_account
+ * @property boolean $contract
  *
  * @property Service $service
  * @property StudentReg $user
@@ -62,7 +63,7 @@ class UserAgreements extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, service_id, payment_schema, id_checking_account', 'required'),
+            array('user_id, service_id, payment_schema, id_checking_account, contract', 'required'),
             array('user_id, approval_user, cancel_user, status', 'numerical', 'integerOnly' => true),
             array('service_id, payment_schema', 'length', 'max' => 10),
             array('number', 'length', 'max' => 50),
@@ -71,7 +72,7 @@ class UserAgreements extends CActiveRecord {
             // The following rule is used by search().
             array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
 			cancel_date, close_date, payment_schema, cancel_reason_type, passport, document_type, inn,
-			document_issued_date, passport_issued, status, id_checking_account', 'safe', 'on' => 'search'),
+			document_issued_date, passport_issued, status, id_checking_account, contract', 'safe', 'on' => 'search'),
         );
     }
 
@@ -122,6 +123,7 @@ class UserAgreements extends CActiveRecord {
             'document_issued_date' => 'Дата видачі паспорта',
             'passport_issued' => 'Ким виданий (паспорт)',
             'id_checking_account' => 'Р/р',
+            'contract' => 'контракт',
         );
     }
 
@@ -160,6 +162,7 @@ class UserAgreements extends CActiveRecord {
         $criteria->compare('document_issued_date', $this->document_issued_date, true);
         $criteria->compare('passport_issued', $this->passport_issued, true);
         $criteria->compare('id_checking_account', $this->id_checking_account, true);
+        $criteria->compare('contract', $this->contract, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -318,6 +321,7 @@ class UserAgreements extends CActiveRecord {
         $model->service_id = $serviceModel->service_id;
         $model->id_corporate_entity = $corporateEntity->id;
         $model->id_checking_account = $checkingAccount->id;
+        $model->contract = $calculator->contract;
 
         //create phantom billableObject model for converting object's price to UAH
         //used only in computing agreement and invoices price

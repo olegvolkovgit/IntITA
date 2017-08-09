@@ -56,6 +56,7 @@ class ContractingParty extends CActiveRecord {
 			'contractingPartyCorporateEntityRepresentatives' => array(self::HAS_MANY, 'ContractingPartyCorporateEntityRepresentatives', 'contracting_party_id'),
 			'contractingPartyPrivatePerson' => array(self::HAS_ONE, 'ContractingPartyPrivatePerson', 'id'),
 			'accUserAgreements' => array(self::MANY_MANY, 'UserAgreements', 'acc_user_agreement_contracting_party(contracting_party_id, user_agreement_id)'),
+            'corporateEntityRepresentatives' => [self::HAS_MANY, 'CorporateEntityRepresentatives',['corporate_representative_id'=>'corporate_representative'], 'through' => 'contractingPartyCorporateEntityRepresentatives'],
 		);
 	}
 
@@ -117,6 +118,9 @@ class ContractingParty extends CActiveRecord {
 	    $binding->user_agreement_id = $agreement->id;
 	    $binding->contracting_party_id = $this->id;
 	    $binding->role_id = $roleId;
+        if (UserAgreementContractingParty::model()->findByAttributes(array('user_agreement_id'=>$agreement->id,'role_id'=>$roleId))) {
+            throw new Exception("Запис договір-учасник уже створено");
+        };
 	    if (!$binding->save()) {
 	        throw new Exception("Unable to create binding with contracting party");
         };

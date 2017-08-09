@@ -5,13 +5,14 @@
 ?>
 <div class="formMargin" ng-controller="graduateCtrl">
 
-    <form id="graduateForm" ng-submit="addGraduate()" novalidate>
-        <div class="form-group">
+    <form id="graduateForm"  novalidate>
+        <!--   User data when form is create status    START -->
+        <div class="form-group" ng-show="modelStatus == 'create'">
             <label>
                 <strong>Користувач:</strong>
             </label>
             <input type="text" size="135" ng-model="graduate.user"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Оберіть користувача" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
+                       placeholder="Оберіть користувача" uib-typeahead="item as item.fullName for item in getAllUsersByOrganization($viewValue) | limitTo : 10"
                    typeahead-no-results="noResults" class="form-control"
                    typeahead-on-select="selectedUser($item, $model, $label, $event)"/>
             <div ng-if="noResults"><button class="btn btn-primary"
@@ -23,6 +24,36 @@
                 </button></div>
             <div class="error" ng-show="errors.id_user">{{errors.id_user[0]}}</div>
         </div>
+        <!--   User data when form is create status   END  -->
+        <!--   User data when form is update status   START  -->
+        <div id="userData" ng-show="modelStatus == 'update'">
+        <div class="form-group">
+            <label>
+                <strong>Прізвище:</strong>
+            </label>
+            <input id="position" type="text" class="form-control" name="position"
+                   size="90" required ng-model="graduate.user.secondName">
+            <div class="error" ng-show="errors.position">{{errors.position[0]}}</div>
+        </div>
+        <div class="form-group">
+            <label>
+                <strong>Ім'я:</strong>
+            </label>
+            <input id="position" type="text" class="form-control" name="position"
+                   size="90" required ng-model="graduate.user.firstName">
+            <div class="error" ng-show="errors.position">{{errors.position[0]}}</div>
+        </div>
+        <div class="form-group">
+            <label>
+                <strong>По-батькові:</strong>
+            </label>
+            <input id="position" type="text" class="form-control" name="position"
+                   size="90" required ng-model="graduate.user.lastName">
+            <div class="error" ng-show="errors.position">{{errors.position[0]}}</div>
+        </div>
+
+        </div>
+        <!--   User data when form is update status  END    -->
         <div class="form-group">
             <label>
                 <strong>Фото:</strong>
@@ -32,10 +63,10 @@
 
         <div class="form-group">
             <label>
-                <strong>Дата випуску:</strong>
+                <strong>Дата випуску*:</strong>
             </label>
             <p class="input-group col-md-3">
-                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="graduate.date_done"
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="graduate.graduate_date"
                        is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Закрити"
                        alt-input-formats="altInputFormats"/>
                 <span class="input-group-btn">
@@ -71,25 +102,32 @@
             <div class="error" ng-show="errors.work_site">{{errors.work_site[0]}}</div>
         </div>
 
-        <div class="form-group">
-            <label>
-                <strong>Курс:</strong>
-            </label>
-            <input type="text" size="135" ng-model="graduate.course"  ng-model-options="{ debounce: 1000 }"
-                   placeholder="Оберіть курс" uib-typeahead="item as item.title_ua for item in getAllCoursesByOrganization($viewValue) | limitTo : 10"
-                   typeahead-no-results="noResults" class="form-control" />
-            <div ng-if="noResults"><span>Курс не знайдено</span></div>
-            <div class="error" ng-show="errors.id_course">{{errors.id_course[0]}}</div>
-        </div>
-        <div class="form-group">
-            <label>
-                <strong>Рейтинг:</strong>
-            </label>
-            <input id="rate" type="number" min="1" max="10" class="form-control" name="rate"
-                   size="90" required ng-model="graduate.rating">
-            <div class="error" ng-show="errors.rating">{{errors.rating[0]}}</div>
-        </div>
 
+        <div class="form-group">
+            <a href="javascript:void(0)" ng-click="courseCollapsed = !courseCollapsed">Курси</a>
+        </div>
+        <div uib-collapse="courseCollapsed">
+            <div class="form-group" ng-repeat="studentCourses in courses">
+                        <span>
+                            <strong>{{studentCourses.title_ua}}, рейтинг: {{studentCourses.rating * graduate.ratingScale}} </strong>
+                            <button class="btn btn-primary" ng-click="changeRating(studentCourses)">Змінити рейтинг</button>
+                            <button class="btn btn-danger" ng-click="deleteRating('course',studentCourses)">Видалити курс</button>
+                        </span>
+            </div>
+            <button class="btn btn-success" ng-click="addRating('course')">Додати курс</button>
+        </div>
+        <div class="form-group">
+            <a href="javascript:void(0)" ng-click="modulesCollapsed = !modulesCollapsed">Модулі</a>
+        </div>
+        <div uib-collapse="modulesCollapsed">
+            <div class="form-group" ng-repeat="studentModules in modules">
+                <span><strong>{{studentModules.title_ua}}, рейтинг: {{studentModules.rating * graduate.ratingScale}} </strong> </span>
+                <button class="btn btn-primary" ng-click="changeRating('module',studentModules )">Змінити рейтинг</button>
+                <button class="btn btn-danger" ng-click="deleteRating('module',studentModules.id)">Видалити модуль</button>
+            </div>
+            <button class="btn btn-success" ng-click="addRating('module')">Додати модуль</button>
+
+        </div>
         <div class="form-group">
             <label>
                 <strong>Відгук:</strong>
@@ -102,7 +140,7 @@
 
         <div class="form-group">
             <label>
-                <strong>Ім'я англійською *</strong>
+                <strong>Ім'я англійською</strong>
             </label>
             <input id="nameEn" type="text" class="form-control" name="nameEn"
                    size="90" required ng-model="graduate.first_name_en">
@@ -112,7 +150,7 @@
         <div class="form-group">
             <div class="form-group">
                 <label>
-                    <strong>Прізвище англійською *</strong>
+                    <strong>Прізвище англійською</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
                        size="90" required ng-model="graduate.last_name_en">
@@ -141,7 +179,7 @@
         </div>
 
         <div class="form-group">
-            <button type="submit">Створити</button>
+            <button class="btn btn-primary" ng-click="addGraduate()">Створити</button>
         </div>
     </form><!-- form -->
 </div>

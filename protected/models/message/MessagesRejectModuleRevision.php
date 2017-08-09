@@ -114,7 +114,7 @@ class MessagesRejectModuleRevision extends Messages implements IMessage
     {
         //create and init parent model
         $this->message = new Messages();
-        $this->message->build($userRejected->id, self::TYPE, $chained, $original);
+        $this->message->buildMessage($userRejected->id, self::TYPE, $chained, $original);
 
         $this->revision = $revision;
         $this->id_revision = $revision->id_module_revision;

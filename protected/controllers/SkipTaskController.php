@@ -81,9 +81,15 @@ class SkipTaskController extends Controller{
         $isDone = SkipTaskMarks::marksAnswer($quizId,$answers);
         if(!$isDone){
             echo 'not done';
-        }
-        else {
+        } else {
             $lastPage = LecturePage::checkLastQuiz($quizId);
+            if ($lastPage && $isDone){
+                $lecture=SkipTask::model()->find('`condition`=:quiz',[':quiz'=>$quizId])->condition0->lecture;
+                $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>$lecture->idModule, ':idUser'=>(int)Yii::app()->user->id]);
+                if ($rating){
+                    $rating->rateUser((int)Yii::app()->user->id);
+                }
+            }
             if($lastPage)
                 echo 'lastPage';
             else echo 'done';

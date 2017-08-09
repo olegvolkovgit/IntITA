@@ -100,19 +100,19 @@ class GraduateController extends Controller
     /**
      * Lists all models.
      */
-    public function actionIndex()
+    public function actionIndex($selector='')
     {
 
         $dataProvider = new CActiveDataProvider('Graduate', array(
             'criteria'=>array(
                 'condition'=>'published=1',
-                'with'=>['rate','user','course']
+                'with'=>['user','courses','modules']
             ),
             'sort' => array(
-                'defaultOrder' => 'rate.rating DESC',
+                'defaultOrder' => 'graduate_date DESC',
             ),
             'pagination' => array(
-                'pageSize' => 5,
+                'pageSize' => 20,
             ),
         ));
         if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')
@@ -168,14 +168,17 @@ class GraduateController extends Controller
 
     public function actionUpdateAjaxFilter()
     {
-        $selector = Yii::app()->request->getParam('selector', 1);
+        $selector = $_GET["selector"];
+        $string = $_GET['input'];
 
-        $dataProvider = Graduate::getGraduateBySelector($selector);
+        $dataProvider = Graduate::getGraduateBySelector($selector, $string);
 
-        if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')
+        if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua') {
             $lang = 'uk';
-        else $lang = Yii::app()->session['lg'];
+        }else{
+            $lang = Yii::app()->session['lg'];
+        }
 
-        $this->renderPartial('_graduatesList', array('dataProvider' => $dataProvider,'lang'=>$lang));
+        $this->renderPartial('_graduatesList', array('dataProvider' => $dataProvider, 'lang' => $lang));
     }
 }

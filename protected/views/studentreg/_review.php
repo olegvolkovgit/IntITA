@@ -49,7 +49,7 @@
 
         <div class="form-group">
             <label>
-                <strong>Ім'я англійською *</strong>
+                <strong>Ім'я англійською</strong>
             </label>
             <input id="nameEn" type="text" class="form-control" name="nameEn"
                    size="90" required ng-model="profileData.review.first_name_en">
@@ -59,7 +59,7 @@
         <div class="form-group">
             <div class="form-group">
                 <label>
-                    <strong>Прізвище англійською *</strong>
+                    <strong>Прізвище англійською</strong>
                 </label>
                 <input id="position" type="text" class="form-control" name="userPosition"
                        size="90" required ng-model="profileData.review.last_name_en">

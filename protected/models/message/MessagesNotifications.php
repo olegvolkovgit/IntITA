@@ -116,7 +116,7 @@ class MessagesNotifications extends Messages implements IMessage
     {
         //create and init parent model
         $this->message = new Messages();
-        $this->message->build($sender->id, self::TYPE, $chained, $original);
+        $this->message->buildMessage($sender->id, self::TYPE, $chained, $original);
 
         $this->subject = $subject;
         $this->text = $text;

@@ -36,6 +36,22 @@ angular
             return $sce.trustAsHtml(html);
         };
     })
+    .filter('coursesModulesFilter', function($sce) {
+        return function(label, query, item, options, element) {
+
+            var html= item.name;
+
+            return $sce.trustAsHtml(html);
+        };
+    })
+    .filter('coursesModulesSearchFilter', function($sce) {
+        return function(label, query, item, options, element) {
+
+            var html= item.name;
+
+            return $sce.trustAsHtml(html) + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
+        };
+    })
 ;
 
 function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $stateParams) {
@@ -49,15 +65,18 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     };
     $scope.loadEmailCategory();
     
-    $scope.taskTypes = [{
-        name: 'Негайно',
-        value: '0'
-    }, {
-        name: 'Відкласти',
-        value: '1'
-    }];
+    $scope.taskTypes = [
 
-    $scope.taskRepeatTypes = [{
+            {
+                name: 'Негайно',
+                value: '0'
+            }, {
+                name: 'Відкласти',
+                value: '1'
+            }];
+
+    $scope.taskRepeatTypes =
+        [{
         name: 'Один раз',
         value: '1'
     }, {
@@ -156,6 +175,8 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     var groupsArray =$resource(basePath+'/_teacher/newsletter/getGroups');
     var subGroupsArray =$resource(basePath+'/_teacher/newsletter/getSubGroups');
     var usersArray = $resource(basePath+'/_teacher/newsletter/getUserEmail');
+    var modulesArray = $resource(basePath+'/_teacher/newsletter/getAllModules');
+    var coursesArray = $resource(basePath+'/_teacher/newsletter/getAllCourses');
     $scope.getRoles = function(query, querySelectAs) {
       return rolesArray.query().$promise.then(function(response) {
             return response;
@@ -184,6 +205,22 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         });
     };
 
+    $scope.getModules = function(query, querySelectAs) {
+
+        return modulesArray.query({query:query}).$promise.then(function(response) {
+
+            return response;
+        });
+    };
+
+    $scope.getCourses = function(query, querySelectAs) {
+
+        return coursesArray.query({query:query}).$promise.then(function(response) {
+
+            return response;
+        });
+    };
+
     $scope.send = function () {
         if ($scope.newsletterForm.$valid && $scope.newsletterType) {
             var recipients = [];
@@ -203,6 +240,12 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         break;
                     case 'emailsFromDatabase':
                         recipients = value;
+                        break;
+                    case 'modules':
+                        recipients.push(value.id);
+                        break;
+                    case 'courses':
+                        recipients.push(value.id);
                         break;
                 }
             });
@@ -259,62 +302,16 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         then(function (response) {
             $scope.model = response.data;
             console.log($scope.model);
-            switch ($scope.model.newsletter.type){
-                case 'users':
-                    $scope.selectedRecipients = [];
-                    $scope.model.newsletter.recipients.forEach(function (element) {
-                        $scope.selectedRecipients.push({email:element});
-                    });
-                    break;
-                case 'groups':
-                    $scope.selectedRecipients = $scope.model.newsletter.recipients;
-                    console.log($scope.selectedRecipients);
-                    // $http({
-                    //     method: 'POST',
-                    //     url: basePath + '/_teacher/newsletter/getGroupsById',
-                    //     data: $jq.param({groups:$scope.model.newsletter.recipients}),
-                    //     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                    // }).success(function (response) {
-                    //     console.log($scope.model.newsletter.recipients);
-                    //     $scope.selectedRecipients = response.data;
-                    // })
-                    break;
-                case 'subGroups':
-                    $http({
-                        method: 'POST',
-                        url: basePath + '/_teacher/newsletter/getSubGroupsById',
-                        data: $jq.param({subGroups:$scope.model.newsletter.recipients}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                    }).success(function (response) {
-                        $scope.selectedRecipients = response.data;
-                    })
-                    break;
-                case 'roles':
-                    $http({
-                        method: 'POST',
-                        url: basePath + '/_teacher/newsletter/getRolesById',
-                        data: $jq.param({roles:$scope.model.newsletter.recipients}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                    }).success(function (response) {
-                        $scope.selectedRecipients = response;
-                    });
-                    break;
-                case 'emailsFromDatabase':
-                    $http({
-                        method: 'POST',
-                        url: basePath + '/_teacher/newsletter/getCategoryById',
-                        data: $jq.param({Category:$scope.model.newsletter.recipients}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                    }).success(function (response) {
-                        $scope.selectedRecipients = response;
-                    });
-                    break;
-            }
+            $scope.selectedRecipients = $scope.model.newsletter.recipients;
             $scope.newsletterType =  $scope.model.newsletter.type;
             $scope.emailSelected.email = $scope.model.newsletter.newsletter_email;
             $scope.subject = $scope.model.newsletter.subject;
             $scope.message = $scope.model.newsletter.text;
+            $scope.taskType = $scope.taskTypes[1].value;
+            $scope.taskRepeat = $scope.model.repeat_type;
+            $scope.weekdaysList = $scope.model.parameters;
         });
+
     }
 
     if ($state.is('scheduler/task/:id') || $state.is('scheduler/task/edit/:id')){
@@ -332,6 +329,4 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     $scope.editNewsletter = function(modelId){
         $state.go('scheduler/task/edit/:id',{id:modelId});
     }
-
-
 }

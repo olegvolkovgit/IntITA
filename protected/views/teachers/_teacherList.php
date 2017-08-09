@@ -3,6 +3,7 @@
 $this->widget('application.components.ColumnListView', array(
     'dataProvider' => $dataProvider,
     'itemView' => '_teacherBlock',
+    'emptyText' => Yii::t('coursemanage', '0517'),
     'viewData'=>array('teacherletter'=>$teacherletter, 'page'=>$dataProvider->pagination->currentPage),
     'summaryText' => '',
     'columns' => array("one", "two"),
@@ -15,5 +16,6 @@ $this->widget('application.components.ColumnListView', array(
         'maxButtonCount' => 6,
         'cssFile' => Config::getBaseUrl() . '/css/pager.css'
     ),
+    'id' => 'ajaxListTeacher'
 ));
 ?>

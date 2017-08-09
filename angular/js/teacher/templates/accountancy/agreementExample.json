@@ -1,0 +1,454 @@
+{
+  "agreement": {
+    "id": "218",
+    "user_id": "56",
+    "service_id": "84",
+    "summa": "5982.00",
+    "create_date": "2017-07-20 22:21:34",
+    "number": "14 - 000218 - K",
+    "close_date": "2017-08-13 19:21:34",
+    "payment_schema": "24",
+    "document_type": "passport",
+    "educForm": "1",
+    "status": "1",
+    "id_corporate_entity": "1",
+    "id_checking_account": "1",
+    "contract": "1",
+    "service": {
+      "service_id": "84",
+      "description": "Курс Побудова успішної ІТ кар’єри (офлайн)",
+      "create_date": "2017-03-23 17:55:41",
+      "billable": "1"
+    },
+    "invoice": {
+      "0": {
+        "id": "629",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:34",
+        "summa": "249.25",
+        "payment_date": "2017-07-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2017-07-30 19:21:34",
+        "number": "218/1"
+      },
+      "1": {
+        "id": "630",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2017-08-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2017-08-30 19:21:34",
+        "number": "218/2"
+      },
+      "2": {
+        "id": "631",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2017-09-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2017-09-30 19:21:34",
+        "number": "218/3"
+      },
+      "3": {
+        "id": "632",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2017-10-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2017-10-30 19:21:34",
+        "number": "218/4"
+      },
+      "4": {
+        "id": "633",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2017-11-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2017-11-30 19:21:34",
+        "number": "218/5"
+      },
+      "5": {
+        "id": "634",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2017-12-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2017-12-30 19:21:34",
+        "number": "218/6"
+      },
+      "6": {
+        "id": "635",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-01-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-01-30 19:21:34",
+        "number": "218/7"
+      },
+      "7": {
+        "id": "636",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-02-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-03-02 19:21:34",
+        "number": "218/8"
+      },
+      "8": {
+        "id": "637",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-03-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-03-30 19:21:34",
+        "number": "218/9"
+      },
+      "9": {
+        "id": "638",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-04-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-04-30 19:21:34",
+        "number": "218/10"
+      },
+      "10": {
+        "id": "639",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-05-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-05-30 19:21:34",
+        "number": "218/11"
+      },
+      "11": {
+        "id": "640",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-06-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-06-30 19:21:34",
+        "number": "218/12"
+      },
+      "12": {
+        "id": "641",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-07-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-07-30 19:21:34",
+        "number": "218/13"
+      },
+      "13": {
+        "id": "642",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-08-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-08-30 19:21:34",
+        "number": "218/14"
+      },
+      "14": {
+        "id": "643",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-09-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-09-30 19:21:34",
+        "number": "218/15"
+      },
+      "15": {
+        "id": "644",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-10-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-10-30 19:21:34",
+        "number": "218/16"
+      },
+      "16": {
+        "id": "645",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-11-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-11-30 19:21:34",
+        "number": "218/17"
+      },
+      "17": {
+        "id": "646",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2018-12-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2018-12-30 19:21:34",
+        "number": "218/18"
+      },
+      "18": {
+        "id": "647",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2019-01-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2019-01-30 19:21:34",
+        "number": "218/19"
+      },
+      "19": {
+        "id": "648",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2019-02-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2019-03-02 19:21:34",
+        "number": "218/20"
+      },
+      "20": {
+        "id": "649",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2019-03-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2019-03-30 19:21:34",
+        "number": "218/21"
+      },
+      "21": {
+        "id": "650",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2019-04-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2019-04-30 19:21:34",
+        "number": "218/22"
+      },
+      "22": {
+        "id": "651",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2019-05-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2019-05-30 19:21:34",
+        "number": "218/23"
+      },
+      "23": {
+        "id": "652",
+        "agreement_id": "218",
+        "date_created": "2017-07-20 22:21:35",
+        "summa": "249.25",
+        "payment_date": "2019-06-20 19:21:34",
+        "user_created": "56",
+        "expiration_date": "2019-06-30 19:21:34",
+        "number": "218/24"
+      }
+    },
+    "user": {
+      "id": "56",
+      "firstName": "Dev",
+      "middleName": "Джа",
+      "nickname": "Wiz",
+      "birthday": "21/03/1997",
+      "email": "Wizlightdragon@gmail.com",
+      "googleplus": "https://plus.google.com/101767783598664816439",
+      "address": "Ямайка",
+      "education": "ВДПУ",
+      "educform": "1",
+      "interests": "Ковбаска, колобки, раста",
+      "avatar": "59416dabd5320.jpg",
+      "activkey_lifetime": "2017-05-12 09:06:31",
+      "status": "1",
+      "reg_time": "0000-00-00 00:00:00"
+    },
+    "corporateEntity": {
+      "id": "1",
+      "title": "ФОП Канєва І.А.",
+      "EDPNOU": "3113305806",
+      "edpnou_issue_date": "0000-00-00 00:00:00",
+      "certificate_of_vat_issue_date": "0000-00-00 00:00:00",
+      "tax_certificate_issue_date": "0000-00-00 00:00:00",
+      "legal_address": "вул. Київська, 164, кв. 45",
+      "legal_address_city_code": "1",
+      "actual_address_city_code": "1",
+      "id_organization": "1",
+      "latestCheckingAccount": {
+        "id": "1",
+        "bank_name": "ВФ ПАТ КБ «Приватбанк»",
+        "bank_code": "302689",
+        "checking_account": "26002055332230",
+        "checking_account_order": "1",
+        "corporate_entity": "1",
+        "createdAt": "2017-06-14 19:45:34",
+        "deletedAt": "9999-12-31 23:59:59"
+      },
+      "actualRepresentatives": {
+        "0": {
+          "id": "1",
+          "corporate_entity": "1",
+          "corporate_representative": "1",
+          "representative_order": "1",
+          "position": "директор",
+          "createdAt": "2017-06-14 19:45:30",
+          "deletedAt": "9999-12-31 23:59:59",
+          "position_accusative": "директора",
+          "representative": {
+            "id": "1",
+            "full_name": "Канєва Ірина Анатоліївна",
+            "full_name_accusative": "Канєвої Ірини Анатоліївної",
+            "full_name_short": "Канєва І. А."
+          }
+        },
+        "1": {
+          "id": "2",
+          "corporate_entity": "1",
+          "corporate_representative": "2",
+          "representative_order": "2",
+          "position": "замісник директора",
+          "createdAt": "2017-07-11 00:00:00",
+          "deletedAt": "9999-12-31 23:59:59",
+          "position_accusative": "замісника директора",
+          "representative": {
+            "id": "2",
+            "full_name": "Янус Полуектович Невструєв",
+            "full_name_accusative": "Януса Полуектовича Невструєва",
+            "full_name_short": "Невструєв Я. П."
+          }
+        }
+      }
+    },
+    "checkingAccount": {
+      "id": "1",
+      "bank_name": "ВФ ПАТ КБ «Приватбанк»",
+      "bank_code": "302689",
+      "checking_account": "26002055332230",
+      "checking_account_order": "1",
+      "corporate_entity": "1",
+      "createdAt": "2017-06-14 19:45:34",
+      "deletedAt": "9999-12-31 23:59:59"
+    }
+  },
+  "documents": {
+    "0": {
+      "id": "1",
+      "id_user": "56",
+      "type": "1",
+      "number": "МЕ2342345253",
+      "issued": "Київським РВ УМВС",
+      "issued_date": "1959-04-23",
+      "registration_address": "Калинівка, вул.Незалежності 27-г",
+      "updatedAt": "2017-07-20 22:20:17",
+      "checked": "1",
+      "actual": "1",
+      "last_name": "Петренко",
+      "first_name": "Петро",
+      "middle_name": "Іванович",
+      "documentType": {
+        "id": "1",
+        "title_ua": "Паспорт",
+        "title_ru": "Паспорт",
+        "title_en": "Passport"
+      },
+      "idUser": {
+        "id": "56",
+        "firstName": "Dev",
+        "middleName": "Джа",
+        "nickname": "Wiz",
+        "birthday": "21/03/1997",
+        "email": "Wizlightdragon@gmail.com",
+        "googleplus": "https://plus.google.com/101767783598664816439",
+        "address": "Ямайка",
+        "education": "ВДПУ",
+        "educform": "1",
+        "interests": "Ковбаска, колобки, раста",
+        "avatar": "59416dabd5320.jpg",
+        "activkey_lifetime": "2017-05-12 09:06:31",
+        "status": "1",
+        "reg_time": "0000-00-00 00:00:00"
+      }
+    },
+    "1": {
+      "id": "2",
+      "id_user": "56",
+      "type": "2",
+      "number": "54476565477744",
+      "updatedAt": "2017-07-20 22:20:27",
+      "checked": "1",
+      "actual": "1",
+      "documentType": {
+        "id": "2",
+        "title_ua": "Індивідуальний податковий номер",
+        "title_ru": "Идентификационный номер налогоплательщика",
+        "title_en": "Taxpayer Identification Number"
+      },
+      "idUser": {
+        "id": "56",
+        "firstName": "Dev",
+        "middleName": "Джа",
+        "nickname": "Wiz",
+        "birthday": "21/03/1997",
+        "email": "Wizlightdragon@gmail.com",
+        "googleplus": "https://plus.google.com/101767783598664816439",
+        "address": "Ямайка",
+        "education": "ВДПУ",
+        "educform": "1",
+        "interests": "Ковбаска, колобки, раста",
+        "avatar": "59416dabd5320.jpg",
+        "activkey_lifetime": "2017-05-12 09:06:31",
+        "status": "1",
+        "reg_time": "0000-00-00 00:00:00"
+      }
+    },
+    "2": {
+      "id": "3",
+      "id_user": "56",
+      "type": "3",
+      "number": "888777666555",
+      "updatedAt": "2017-07-20 22:20:37",
+      "checked": "1",
+      "actual": "1",
+      "documentType": {
+        "id": "3",
+        "title_ua": "Посвідчення",
+        "title_ru": "Удостоверение",
+        "title_en": "Certificate"
+      },
+      "idUser": {
+        "id": "56",
+        "firstName": "Dev",
+        "middleName": "Джа",
+        "nickname": "Wiz",
+        "birthday": "21/03/1997",
+        "email": "Wizlightdragon@gmail.com",
+        "googleplus": "https://plus.google.com/101767783598664816439",
+        "address": "Ямайка",
+        "education": "ВДПУ",
+        "educform": "1",
+        "interests": "Ковбаска, колобки, раста",
+        "avatar": "59416dabd5320.jpg",
+        "activkey_lifetime": "2017-05-12 09:06:31",
+        "status": "1",
+        "reg_time": "0000-00-00 00:00:00"
+      }
+    }
+  },
+  "sessionTime": 1500587935
+}

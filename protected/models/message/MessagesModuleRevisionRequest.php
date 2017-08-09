@@ -135,7 +135,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
     {
         //create and init parent model
         $this->message = new Messages();
-        $this->message->build($user->id, self::TYPE, $chained, $original);
+        $this->message->buildMessage($user->id, self::TYPE, $chained, $original);
 
         $this->revision = $revision;
         $this->id_module_revision = $revision->id_module_revision;

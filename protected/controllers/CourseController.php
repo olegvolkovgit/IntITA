@@ -173,6 +173,13 @@ class CourseController extends Controller
         }
 
         $data['modules']=ActiveRecordToJSON::toAssocArrayWithRelations($course->module);
+        $courseProgress=RatingUserCourse::model()->find('id_course=:idCourse AND id_user=:user',
+            [':idCourse'=>$course->course_ID,':user'=>Yii::app()->user->id]);
+        if($courseProgress){
+            $data['course']['course_done']=(boolean)$courseProgress->course_done;
+            $data['course']['start_course']=strtotime($courseProgress->start_course);
+            $data['course']['date_done']=strtotime($courseProgress->date_done);
+        }
 
         echo json_encode($data);
     }

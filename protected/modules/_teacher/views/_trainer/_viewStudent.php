@@ -34,12 +34,15 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["v
                                         <a  href="" ng-click="isCollapsed<?php echo $key ?> = !isCollapsed<?php echo $key ?>">
                                             <?= CHtml::encode($course["title_ua"] . " (" . $course["lang"] . ")"); ?>
                                         </a>
+                                        <?php if($course['rating']>0){ ?>
+                                            <span style="color: green">Завершено! <?php echo (round($course['rating']*10,2)).'/10' ?></span>
+                                        <?php } ?>
                                     </h4>
                                 </div>
                                 <div uib-collapse="!isCollapsed<?php echo $key ?>" class="panel-collapse collapse">
                                     <ul>
                                         <?php
-                                        $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
+                                        $courseModules = CourseModules::modulesInfoByCourse($course["id"], $student->registrationData->id);
                                         if(count($courseModules) > 0) {
                                             foreach ($courseModules as $record) { ?>
                                                 <li>
@@ -49,8 +52,8 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["v
                                                         if (isset($teachersByModule[$record["id"]])) {
                                                             ?>
                                                             <em>
-                                                                (викладач - <?= $teachersByModule[$record["id"]]; ?>)
-                                                                <a class="btnChat"  ng-href="#/newmessages/receiver/<?php echo $teachersByModule[$record["id"]]['id'] ?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                                                                (викладач - <?= $teachersByModule[$record["id"]]['name']; ?>)
+                                                                <a class="btnChat"  ng-href="#/newmessages/receiver/<?php echo   $teachersByModule[$record["id"]]['id'] ?>"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
                                                                     <i class="fa fa-envelope fa-fw"></i>
                                                                 </a>
                                                                 <a class="btnChat" href="<?php echo Config::getChatPath(); ?><?php echo $teachersByModule[$record["id"]]['id'] ?>" target="_blank" data-toggle="tooltip" data-placement="left" title="Чат">
@@ -59,6 +62,9 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["v
                                                             </em>
                                                         <?php } else { ?>
                                                             <span class="warningMessage"><em>викладача не призначено</em></span>
+                                                        <?php } ?>
+                                                        <?php if($record['rating']>0){ ?>
+                                                            <span style="color: green">Завершено! <?php echo (round($record['rating']*10,2)).'/10' ?></span>
                                                         <?php } ?>
                                                     </a>
                                                 </li>
@@ -100,6 +106,9 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT,$organization)[1]["v
                                         </em>
                                     <?php } else { ?>
                                         <span class="warningMessage"><em>викладача не призначено</em></span>
+                                    <?php } ?>
+                                    <?php if($module['rating']>0){ ?>
+                                        <span style="color: green">Завершено! <?php echo (round($module['rating']*10,2)).'/10' ?></span>
                                     <?php } ?>
                                 </a>
                             </li>

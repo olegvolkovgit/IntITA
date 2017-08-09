@@ -10,6 +10,9 @@
  * @property integer $module_revision
  * @property double $rating
  * @property integer $module_done
+ * @property string $start_module
+ * @property string $end_module
+ * @property string $paid_module
  *
  * The followings are the available model relations:
  * @property Module $idModule
@@ -39,7 +42,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 			array('rating', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_module, module_revision, rating, module_done', 'safe', 'on'=>'search'),
+			array('id, id_user, id_module, module_revision, rating, module_done, start_module, end_module, paid_module', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +72,9 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 			'module_revision' => 'Module Revision',
 			'rating' => 'Rating',
 			'module_done' => 'Module Done',
+            'start_module' => 'Start Module',
+            'end_module' => 'End Module',
+            'paid_module' => 'Paid Module',
 		);
 	}
 
@@ -96,6 +102,9 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 		$criteria->compare('module_revision',$this->module_revision);
 		$criteria->compare('rating',$this->rating);
 		$criteria->compare('module_done',$this->module_done);
+        $criteria->compare('start_module',$this->start_module);
+        $criteria->compare('end_module',$this->end_module);
+        $criteria->compare('paid_module',$this->paid_module);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -121,23 +130,36 @@ class RatingUserModule extends CActiveRecord implements IUserRating
      */
     public function rateUser($user)
     {
-        $rate = 0;
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('id_module_revision=:moduleRevision');
-        $criteria->params = [':moduleRevision'=>$this->module_revision];
-        $criteria->order = 'lecture_order';
-        $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
-        foreach ($lectures as $lecture){
-            $lectureRate = (float)$this->checkLectureRate($lecture->lecture, $user);
-            if ($lectureRate != 0){
-                $rate += $lectureRate;
+        if(!$this->module_done){
+            $rate = 0;
+            $criteria = new CDbCriteria();
+            $criteria->addCondition('id_module_revision=:moduleRevision');
+            $criteria->params = [':moduleRevision'=>$this->module_revision];
+            $criteria->order = 'lecture_order';
+            $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
+            foreach ($lectures as $lecture){
+                $lectureRate = (float)$this->checkLectureRate($lecture->lecture, $user);
+                if ($lectureRate != 0){
+                    $rate += $lectureRate;
+                }
+                else return false;
+            };
+            $this->rating = round($rate/count($lectures),2);
+            $this->module_done = (int)true;
+            $moduleEndDate=$this->idModule->getModuleFinishedTime($user);
+            $this->end_module = $moduleEndDate?date("Y-m-d H:i:s",$moduleEndDate):new CDbExpression('NOW()');
+            $this->start_module = date("Y-m-d H:i:s",$this->idModule->getModuleStartTime($user));
+            if($this->idModule->checkPaidModuleAccess($user)){
+                $this->paid_module=true;
+                Graduate::create($user,$this->end_module);
             }
-            else return false;
-        };
-        $this->rating = round($rate/count($lectures),2);
-        $this->module_done = true;
-        $this->save();
-        return true;
+            if($this->save()){
+                foreach ($this->idModule->Course as $course) {
+                    RatingUserCourse::updateCourseProgress($user, $course->course_ID);
+                }
+                return true;
+            };
+        }
     }
     /**
      * Checking user rate for lecture
@@ -147,9 +169,11 @@ class RatingUserModule extends CActiveRecord implements IUserRating
      */
     private function checkLectureRate($lecture, $user){
         $lectureRate = 0;
-        $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6 AND block_order > 0',[':lecture'=>$lecture->id_lecture]);
-        $ohterTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,9,12,13)',[':lecture'=>$lecture->id_lecture]);
-        $tasks = array_merge($ohterTasks,$plainTasks);
+        $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6',[':lecture'=>$lecture->id_lecture]);
+        $skipTasks = LectureElement::model()->with('skipTask')->findAll('id_lecture=:lecture AND id_type = 9 AND skipTask.condition IS NOT NULL',[':lecture'=>$lecture->id_lecture]);
+        $ohterTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,12,13)',[':lecture'=>$lecture->id_lecture]);
+
+        $tasks = array_merge($ohterTasks,$skipTasks, $plainTasks);
         foreach ($tasks as $task){
             switch ($task->id_type){
                 case LectureElement::TEST;
@@ -190,7 +214,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                 break;
                 case LectureElement::PLAIN_TASK;
                     $plainTaskRate = 0;
-                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user AND read_mark = 1',['block'=>$task->id_block, ':user'=>$user]);
+                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$task->id_block, ':user'=>$user]);
                     $answersCount = 0;
                     foreach ($answers as $key=>$answer){
                         $plainTaskRate += $answer->mark;
@@ -206,7 +230,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                 break;
                 case LectureElement::TASK;
                     $taskRate = 0;
-                    $answers = TaskMarks::model()->with(['idLecture'])->findAll('id_lecture=:lecture',[':lecture'=>$lecture->id_lecture]);
+                    $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture AND id_user=:user',[':lecture'=>$lecture->id_lecture, ':user'=>$user]);
                     $answersCount = 0;
                     foreach ($answers as $key=>$answer){
                         $taskRate += $answer->mark;
@@ -222,6 +246,23 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                     break;
              }
         }
-	    return (double)$lectureRate/count($tasks);
+        if(count($tasks)==0){
+          return 0;
+        } else {
+            return (double)$lectureRate/count($tasks);
+        }
+    }
+
+    /**
+     * @param int $moduleId module id.
+     * @param int $user
+     * @return RatingUserModule if user start module
+     */
+    public static function userModuleProgress($moduleId,$user=null)
+    {
+        $user=$user?$user:Yii::app()->user->getId();
+        return RatingUserModule::model()->find(
+            'id_user=:user AND id_module=:idModule',
+            [':user'=>$user,':idModule'=>$moduleId]);
     }
 }

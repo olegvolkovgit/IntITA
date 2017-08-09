@@ -163,8 +163,9 @@ class StudentController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400, 'Договір не знайдено.');
         }
         if ($this->hasAccountAccess($agreement->user_id)) {
+            $documents=$agreement->user->getActualUserDocuments();
             $this->renderPartial('/_student/_agreement', array(
-                'agreement' => $agreement,
+                'agreement' => $agreement,'documents'=>$documents
             ));
         } else {
             throw new \application\components\Exceptions\IntItaException(403, 'У вас немає доступу до цього рахунка.');
@@ -243,18 +244,6 @@ class StudentController extends TeacherCabinetController
         ));
     }
 
-    public function actionCreditSchemaForm($course, $module, $type, $form, $schema)
-    {
-
-        $this->renderPartial('/_student/agreement/_userDataForm', array(
-            'course' => $course,
-            'module' => $module,
-            'educationForm' => $form,
-            'schemaNum' => $schema,
-            'type' => $type
-        ));
-    }
-
     public function actionPlainTasks()
     {
         $this->renderPartial('/_student/plainTasks', array());
@@ -262,7 +251,10 @@ class StudentController extends TeacherCabinetController
 
     public function actionPlainTask($id)
     {
-        $this->renderPartial('/_student/plainTaskView', array($id));
+        $plainTaskMarks = PlainTaskMarks::model()->findByAttributes(array('id_answer'=>$id));
+        if($plainTaskMarks->id_user!=Yii::app()->user->getId())
+            throw new \application\components\Exceptions\IntItaException('403', 'У тебе немає доступу до перегляду');
+        $this->renderPartial('/_student/plainTaskView', array('plainTaskMark'=>$plainTaskMarks));
     }
     
     public function actionGetInvoicesByAgreement()
@@ -272,6 +264,7 @@ class StudentController extends TeacherCabinetController
 
         $criteria =  new CDbCriteria();
         $criteria->condition = "agreement_id= ".$_GET['id'];
+        $criteria->with = ['agreement'];
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
@@ -313,10 +306,10 @@ class StudentController extends TeacherCabinetController
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $educationForm = Yii::app()->request->getPost('educationForm');
-
-        if(!Yii::app()->user->model->isStudent()){
+        $courseModel=Course::model()->findByPk($course);
+        if(!Yii::app()->user->model->isStudent($courseModel->organization->id)){
             $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, Course::model()->findByPk($course)->organization->id);
+            $roleObj->setRole(Yii::app()->user->model->registrationData, $courseModel->organization->id);
         }
 
         if($educationForm=='online') $educationForm=EducationForm::ONLINE;
@@ -336,9 +329,10 @@ class StudentController extends TeacherCabinetController
         $module = Yii::app()->request->getPost('module', 0);
         $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
 
-        if(!Yii::app()->user->model->isStudent()){
+        $moduleModel=Module::model()->findByPk($module);
+        if(!Yii::app()->user->model->isStudent($moduleModel->organization->id)){
             $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, Module::model()->findByPk($module)->organization->id);
+            $roleObj->setRole(Yii::app()->user->model->registrationData, $moduleModel->organization->id);
         }
 
         if($educationForm=='online') $educationForm=EducationForm::ONLINE;
@@ -399,5 +393,74 @@ class StudentController extends TeacherCabinetController
         $student = RegisteredUser::userById(Yii::app()->user->getId());
         $trainers=$student->registrationData->trainer?$student->registrationData->trainer:null;
         $this->renderPartial('/_student/contacts', array('trainers' => $trainers), false, true);
+    }
+
+    public function actionWrittenAgreementRequest()
+    {
+        $agreement = UserAgreements::model()->findByPk(Yii::app()->request->getPost('id'));
+        $documents = $agreement->user->getActualUserDocuments();
+        if($documents){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                if(!MessagesWrittenAgreementRequest::isRequestOpen(array('agreement'=>$agreement->id,'user'=>$agreement->user_id))){
+                    $message = new MessagesWrittenAgreementRequest();
+                    $message->build($agreement, $agreement->user);
+                    $message->create();
+                    $sender = new MailTransport();
+                    $message->send($sender);
+                    $transaction->commit();
+                    echo "Запит на затвердження паперового договору відіслано. Зачекайте, поки ваш запит буде оброблено";
+                }
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження паперового договору не вдалося надіслати.");
+            }
+        }else{
+            echo "У тебе немає жодного актуального документа";
+        }
+    }
+
+    public function actionWrittenAgreementRequestStatus($id)
+    {
+        $agreement=UserAgreements::model()->findByPk($id);
+        $result=array('data'=>MessagesWrittenAgreementRequest::getStatus(array('agreement'=>$agreement->id,'user'=>$agreement->user_id)));
+        echo json_encode($result);
+    }
+
+    public function actionGetWrittenAgreementData($id)
+    {
+        $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount','service',
+            'corporateEntity.latestCheckingAccount',
+            'corporateEntity.actualRepresentatives',
+            'corporateEntity.actualRepresentatives.representative')->findByPk($id);
+
+        $documents=$agreement->user->getActualUserDocuments();
+
+        $data['agreement']=ActiveRecordToJSON::toAssocArray($agreement);
+        $data['documents']=ActiveRecordToJSON::toAssocArray($documents);
+        echo json_encode($data, JSON_FORCE_OBJECT);
+    }
+
+    public function actionGetAgreementContract($id)
+    {
+        $data['personParty']=ActiveRecordToJSON::toAssocArrayWithRelations(
+            UserAgreementContractingParty::model()->with(
+                'agreement.service','agreement.invoice','contractingParty','contractingParty.contractingPartyPrivatePerson',
+                'contractingParty.type', 'contractingParty.contractingPartyPrivatePerson.documents.documentsFiles',
+                'contractingParty.contractingPartyPrivatePerson.documents.documentType',
+                'contractingParty.contractingPartyPrivatePerson.privatePersonDocuments'
+            )->findByAttributes(array('user_agreement_id'=>$id,'role_id'=>ContractingParty::ROLE_STUDENT))
+        );
+
+        $data['corporateParty']=ActiveRecordToJSON::toAssocArrayWithRelations(
+            UserAgreementContractingParty::model()->with(
+                'agreement','contractingParty','contractingParty.contractingPartyCorporateEntity.corporateEntity',
+                'contractingParty.contractingPartyCorporateEntity.checkingAccount',
+                'contractingParty.contractingPartyCorporateEntityRepresentatives','contractingParty.type',
+                'contractingParty.corporateEntityRepresentatives.representative'
+            )->findByAttributes(array('user_agreement_id'=>$id,'role_id'=>ContractingParty::ROLE_COMPANY))
+        );
+
+        echo json_encode(array_filter($data), JSON_FORCE_OBJECT);
     }
 }

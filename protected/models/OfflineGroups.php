@@ -151,7 +151,7 @@ class OfflineGroups extends CActiveRecord
 	public static function groupsByQuery($query)
 	{
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, name";
+		$criteria->select = "g.id, name";
 		$criteria->alias = "g";
 		$criteria->addSearchCondition('LOWER(name)', mb_strtolower($query,'UTF-8'), true, "OR", "LIKE");
 		$criteria->addCondition('g.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
@@ -175,35 +175,37 @@ class OfflineGroups extends CActiveRecord
 		return implode(", ", $errors);
 	}
 
-	public function availableCoursesList($organization=null)
+	public function availableCoursesList($organization=null, $userId)
 	{
 		$condition='NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id;
 		if($organization) $condition=$condition.' and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$courses = Yii::app()->db->createCommand()
 			->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en,
-			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
+			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name, ruc.rating')
 			->from('acc_course_service acs')
 			->join('group_access_to_content ga', 'ga.service_id=acs.service_id')
 			->join('course c', 'c.course_ID=acs.course_id')
 			->join('level l', 'l.id=c.level')
             ->join('organization org', 'org.id=c.id_organization')
+            ->leftJoin('rating_user_course ruc', 'ruc.id_course=c.course_ID and ruc.id_user='.$userId)
 			->where($condition)
 			->queryAll();
 		return $courses;
 	}
 
-	public function availableModulesList($organization=null)
+	public function availableModulesList($organization=null, $userId)
 	{
 		$condition='NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id;
 		if($organization) $condition=$condition.' and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 		$modules = Yii::app()->db->createCommand()
 			->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en,
-			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
+			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name, rum.rating')
 			->from('acc_module_service ams')
 			->join('group_access_to_content ga', 'ga.service_id=ams.service_id')
 			->join('module m', 'm.module_ID=ams.module_id')
 			->join('level l', 'l.id=m.level')
             ->join('organization org', 'org.id=m.id_organization')
+            ->leftJoin('rating_user_module rum', 'rum.id_module=m.module_ID and rum.id_user='.$userId)
 			->where($condition)
 			->queryAll();
 		return $modules;

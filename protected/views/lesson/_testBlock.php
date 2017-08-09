@@ -31,7 +31,7 @@ $testType = Tests::getTestType($data['id_block']);
                                 <input id="<?php echo TestsAnswers::getAnswerKey($data['id_block'])[$i - 1]; ?>"
                                        type="radio"
                                        name="radioanswer" class="answer"
-                                       value='<?php echo $options[$i - 1]["answer"]; ?>'>
+                                >
                             </td>
                             <td>
                                 <?php echo $options[$i - 1]["answer"]; ?>
@@ -46,7 +46,7 @@ $testType = Tests::getTestType($data['id_block']);
                                 <input id="<?php echo TestsAnswers::getAnswerKey($data['id_block'])[$j - 1]; ?>"
                                        type="checkbox"
                                        name="checkboxanswer" class="answer"
-                                       value='<?php echo $options[$j - 1]["answer"]; ?>'>
+                                >
                             </td>
                             <td>
                                 <?php echo $options[$j - 1]["answer"]; ?>

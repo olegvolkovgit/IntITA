@@ -326,7 +326,7 @@ ul.pagination {
 {
     padding: 10px;
     height: 200px;
-    resize: none;
+    resize: vertical;
     overflow-y: scroll;
 }
 /* plain task */

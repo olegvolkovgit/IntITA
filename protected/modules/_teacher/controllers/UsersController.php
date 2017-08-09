@@ -283,7 +283,7 @@ class UsersController extends TeacherCabinetController
         $criteria->join = 'left join user_student us on us.id_user=t.id';
         $criteria->join .= ' left join teacher tt on tt.user_id=t.id';
         $criteria->addCondition('t.cancelled='.StudentReg::ACTIVE);
-        $criteria->addCondition('us.id_user IS NULL and tt.user_id IS NULL');
+        $criteria->addCondition('(us.id_user IS NULL or us.end_date IS NOT NULL) and (tt.user_id IS NULL or tt.cancelled=1)');
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);

@@ -74,6 +74,21 @@ class TeachersController extends Controller
             'teachers' => $teachers,
             'teacherletter' => $teacherLetter
         ));
+    }
 
+    public function actionUpdateAjaxFilter()
+    {
+        $selector = $_GET["selector"];
+        $string = $_GET['input'];
+
+        $dataProvider = Teacher::getTeacherBySelector($selector, $string);
+
+        $teacherLetter = new TeacherLetter;
+        $teachers = Teacher::getAllTeachersId();
+        $this->render('index', array(
+            'post' => $dataProvider,
+            'teachers' => $teachers,
+            'teacherletter' => $teacherLetter
+        ));
     }
 }

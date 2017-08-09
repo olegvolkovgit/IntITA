@@ -225,7 +225,7 @@ class StudentRegController extends Controller
             }
 
             $model->update(array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
-                'linkedin','twitter','skype','passport','document_type','inn','passport_issued','prev_job','current_job','education_shift'));
+                'linkedin','twitter','skype','prev_job','current_job','education_shift'));
             $model->updateUserCareer($careers);
             $model->updateUserSpecialization($specializations);
 
@@ -325,8 +325,8 @@ class StudentRegController extends Controller
             $role = array('teacher' => false,'trainer'=>$trainers);
         }
         if ($model->isGraduate()){
-            $graduate = Graduate::model()->with(['rate'])->find('rate.id_user=:user',[':user'=>$model->id])->getAttributes();
-
+            $graduateModel=Graduate::model()->findByAttributes(array('id_user'=>$model->id));
+            $graduate = $graduateModel?$graduateModel->getAttributes():$graduateModel;
         }
         $data = array_merge($model->attributes, $role, $teacher_attributes, ['review'=>$graduate]);
         echo json_encode($data);
@@ -407,8 +407,7 @@ class StudentRegController extends Controller
                                'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
                                 'twitter', 'phone', 'address', 'education',
                                 'interests', 'aboutUs', 'aboutMy', 'avatar',
-                                'skype', 'country', 'city', 'prev_job', 'passport',
-                                'document_issued_date', 'inn', 'passport_issued', 'current_job'];
+                                'skype', 'country', 'city', 'prev_job', 'current_job'];
 
         foreach ($model->attributes as $key => $attribute){
             if(in_array($key, $student_attributes)) {
@@ -442,31 +441,39 @@ class StudentRegController extends Controller
         UserDocuments::model()->uploadUserDocuments($type);
     }
 
-    public function actionGetUploadedDocuments()
-    {
-        $data=array();
-        $documents=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'passport'));
-        $inn=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'inn'));
-        $data['documents']=$documents;
-        $data['inn']=$inn;
-        $data['docPath']=StaticFilesHelper::fullPathToFiles('documents');
-        echo CJSON::encode($data);
-    }
-
-    public function actionRemoveUserDocument()
+    public function actionRemoveUserDocumentsFile()
     {
         $idFile=Yii::app()->request->getPost('id');
-        $model=UserDocuments::model()->findByPk($idFile);
-        $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->type.'/'.$model->file_name;
+        $model=DocumentsFiles::model()->findByPk($idFile);
+        $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->idDocument->type.'/'.$model->file_name;
         if (is_file($file))
             unlink($file);
         $model->delete();
     }
 
+    public function actionRemoveUserDocument()
+    {
+        $document=UserDocuments::model()->findByPk(Yii::app()->request->getPost('id'));
+        foreach ($document->documentsFiles as $model) {
+            $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->idDocument->type.'/'.$model->file_name;
+            if (is_file($file))
+                unlink($file);
+            $model->delete();
+        }
+        $document->delete();
+    }
+
+    public function actionDeactivateUserDocument()
+    {
+        $document=UserDocuments::model()->findByPk(Yii::app()->request->getPost('id'));
+        $document->actual=UserDocuments::NOT_ACTUAL;
+        $document->save();
+    }
+
     public function actionAddReview(){
         $request = Yii::app()->request->getPost('review');
         if ($request){
-           $model = Graduate::model()->findByPk($request['id']);
+           $model = Graduate::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId()));
            $model->loadModel($request);
            $model->published = 0;
            if ($model->validate()){
@@ -480,5 +487,75 @@ class StudentRegController extends Controller
         }
         return true;
 
+    }
+
+    public function actionGetDocumentsTypes()
+    {
+        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations(DocumentsTypes::model()->findAll()));
+    }
+
+    public function actionSaveDocumentData() {
+        function valueNull($value) {
+            return !$value?null:$value;
+        }
+
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        try {
+            $params = array_map("valueNull", $_POST);
+            $documents=UserDocuments::model()->findByAttributes(
+                array('id_user'=>Yii::app()->user->getId(),'checked'=>UserDocuments::NOT_CHECKED,'type'=>$params['type'])
+            );
+            if(!$documents) {
+                $documents = new UserDocuments();
+            }else {
+                $documents->updatedAt=new CDbExpression('NOW()');
+            }
+
+            if(UserDocuments::model()->findByAttributes(array(
+                'id_user'=>Yii::app()->user->getId(),'type'=>$params['type'],'actual'=>UserDocuments::ACTUAL,'checked'=>UserDocuments::CHECKED))) {
+                throw new Exception('Перед тим як додати новий документ даного типу, деактивуй старий');
+            }
+
+            $documents->setAttributes($params);
+            if($params['issued_date']){
+                $date = str_replace('/', '-', $params['issued_date']);
+                $documents['issued_date']=date("Y-m-d", strtotime($date));
+            }
+            $documents->id_user = Yii::app()->user->getId();
+            $documents->save();
+
+            if (count($documents->getErrors())) {
+                throw new Exception(json_encode($documents->getErrors()));
+            }
+
+            if (!$documents->save()) {
+                echo json_encode(['status' => 'error', 'message' => array_values($documents->getErrors())]);
+            }
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionGetAllUserDocuments()
+    {
+        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations(Yii::app()->user->model->getAllUserDocuments()));
+    }
+
+    public function actionGetEditableDocument()
+    {
+        $type = Yii::app()->request->getPost('type');
+        $document=Yii::app()->user->model->getEditableUserDocumentByType($type);
+        if($document) {
+            if($document['issued_date']){
+                $date = str_replace('-', '/', $document['issued_date']);
+                $document['issued_date']=date("d/m/Y", strtotime($date));
+            }
+            echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations($document));
+        }else {
+            echo null;
+        }
     }
 }
