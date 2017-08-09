@@ -80,25 +80,41 @@ class ConsultationscalendarController extends Controller
 
     public function actionSaveconsultation($idCourse){
         $date = Yii::app()->request->getPost('datecons');
-        $idteacher = Yii::app()->request->getPost('teacherid');
-        $idlecture = Yii::app()->request->getPost('lectureid');
+        $id_teacher = Yii::app()->request->getPost('teacherid');
+        $teacher = StudentReg::model()->findByPk($id_teacher);
+        $id_student = Yii::app()->user->getId();
+        $student = StudentReg::model()->findByPk($id_student);
+        $id_lecture = Yii::app()->request->getPost('lectureid');
+        $result = array();
 
-		$teacher = RegisteredUser::userById($idteacher);
-        $lecture = Lecture::model()->findByPk($idlecture);
-        $consultant = new TeacherConsultant();
+        $numcons = explode(",", Yii::app()->request->getPost('timecons'));
 
-        if($teacher->isTeacherConsultant() && $consultant->checkModule($idteacher, $lecture->idModule)) {
-			if (Yii::app()->request->getPost('saveConsultation')) {
-				$numcons = explode(",", Yii::app()->request->getPost('timecons'));
-				for ($i = 0; $i < count($numcons); $i++) {
-					if (Consultationscalendar::consultationFree($idteacher, $numcons[$i], $date)) {
-						$teacher->getTeacher()->addConsult($numcons[$i], $date, $idlecture);
-					} else {
-						$this->redirect(array('consultationerror', 'lecture' => $idlecture, 'idCourse' => $idCourse));
-					}
-				}
-			}
-		}
+        for($i=0; $i< count($numcons); $i++){
+            $start_time = $date." ". explode("-",$numcons[$i])[0].":00";
+            $temp = "Дата - ".$date.", години - ".$numcons[$i];
+            array_push($result, $temp);
+
+            $free_time = TeacherCalendarConsultation::model()->find("(date=:date and teacher_id=:teacher_id and start_time=:start_time)", array(':date' => $date, ':teacher_id' => $id_teacher, ':start_time' => $start_time));
+
+            if( $free_time->status == 1 ){
+                $free_time->status = 2;
+                $free_time->lecture_id = $id_lecture;
+                $free_time->user_id = Yii::app()->user->getId();
+                //var_dump($free_time->status,$free_time->start_time,$free_time->lecture_id,$free_time->user_id);
+                $free_time->save();
+            }else{
+                $result = array();
+                $this->render('consultationerror',array(
+                    'lecture'=>$id_lecture,'idCourse'=>$idCourse
+                ));
+            }
+        }
+
+        if( !empty($result) ){
+            $params[0] = $result;
+            $params[1] = $student->fullName;
+            $teacher->notify('_reserveConsultation', array($params), 'Замовлено консультацію');
+        }
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 

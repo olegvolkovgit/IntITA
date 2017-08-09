@@ -72,6 +72,9 @@
                     <li>
                         <a ng-href="#/teacherConsultant/consultations">Консультації</a>
                     </li>
+                    <li>
+                        <a ng-href="#/teacherCalendarConsultation/calendarConsultations">Календар консультацій</a>
+                    </li>
                 </ul>
                 <br>
             </div>
