@@ -180,6 +180,31 @@ class Consultationscalendar extends CActiveRecord
         return $t;
     }
 
+    /*значення таблиці з интервалом 30хв в ширину 4*/
+    public static function timeInterval2($a, $b, $c)
+    {
+        $delta = 60 / $c;   // 2
+
+        $t1 = $a + intval($b / $delta);
+        $t2 = $b * $c;
+        $t3 = $a + intval(($b + 1) / $delta);
+        $t4 = ($b + 1) * $c;
+        if ($t2 == 60) $t2 = 0;
+        if ($t2 == 90) $t2 = 30;
+        if ($t4 == 60) $t4 = 0;
+        if ($t4 == 90) $t4 = 30;
+        if ($t4 == 120 || $t4 == 24) $t4 = 0;
+        if ($t3 == 24) $t3 = 0;
+
+        if (strlen(strval($t1)) == 1) $t1 = '0' . $t1;
+        if (strlen(strval($t2)) == 1) $t2 = '0' . $t2;
+        if (strlen(strval($t3)) == 1) $t3 = '0' . $t3;
+        if (strlen(strval($t4)) == 1) $t4 = '0' . $t4;
+
+        $t = $t1 . ':' . $t2 . '-' . $t3 . ':' . $t4;
+        return $t;
+    }
+
     public function deleteConsultation(RegisteredUser $user)
     {
         if ($this->user_id == $user->registrationData->id) {
