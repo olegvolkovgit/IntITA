@@ -323,34 +323,6 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                             </label>
                         </div>
                     </div>
-                    <div class="row">
-                        <?php echo $form->label($model, 'passport'); ?>
-                        <?php echo $form->textField($model, 'passport', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0927'))); ?>
-                        <span><?php echo $form->error($model, 'passport'); ?></span>
-                    </div>
-                    <div class="row">
-                        <?php echo $form->label($model, 'passport_issued'); ?>
-                        <?php echo $form->textField($model, 'passport_issued', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0928'))); ?>
-                        <span><?php echo $form->error($model, 'passport_issued'); ?></span>
-                    </div>
-                    <div class="row">
-                        <?php echo $form->label($model, 'document_issued_date'); ?>
-                        <?php echo $form->textField($model, 'document_issued_date', array('maxlength' => 11, 'class' => 'date', 'placeholder' => Yii::t('regexp', '0929'))); ?>
-                        <span><?php echo $form->error($model, 'document_issued_date'); ?></span>
-                    </div>
-<!--                    <div class="row">-->
-<!--                        --><?php //echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-<!--                        <label for="chooseAvatar">--><?php //echo Yii::t('regexp', '0157'); ?><!--</label>-->
-<!--                    </div>-->
-                    <div class="row">
-                        <?php echo $form->label($model, 'inn'); ?>
-                        <?php echo $form->textField($model, 'inn', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0930'))); ?>
-                        <span><?php echo $form->error($model, 'inn'); ?></span>
-                    </div>
-<!--                    <div class="row">-->
-<!--                        --><?php //echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-<!--                        <label for="chooseAvatar">--><?php //echo Yii::t('regexp', '0157'); ?><!--</label>-->
-<!--                    </div>-->
                 </div>
             </div>
             <div class="rowbuttons">

@@ -12,6 +12,7 @@
  *
  * The followings are the available model relations:
  * @property ElementType $idType
+ * @property Lecture $lecture
  */
 class LectureElement extends CActiveRecord
 {

@@ -12,6 +12,10 @@
  * @property string $time
  * @property integer $read_mark
  * @property integer $marked_by
+ *
+ * The followings are the available model relations:
+ * @property PlainTaskAnswer $taskAnswer
+ * @property StudentReg $markedBy
  */
 class PlainTaskMarks extends CActiveRecord
 {
@@ -60,6 +64,7 @@ class PlainTaskMarks extends CActiveRecord
                 ['block_element' => 'id_block'],
                 'through' => 'plainTask',
             ],
+            'markedBy' => array(self::BELONGS_TO, 'StudentReg', array('marked_by'=>'id')),
 		);
 	}
 

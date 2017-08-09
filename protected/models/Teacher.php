@@ -236,7 +236,14 @@ class Teacher extends CActiveRecord
 
     public static function getAllTeachersId()
     {
-        $teachers = Teacher::model()->findAllBySql('select user_id from teacher order by user_id');
+        $criteria = new CDbCriteria();
+        $criteria->alias = 't';
+        $criteria->select = 'user_id';
+        $criteria->distinct = true;
+        $criteria->join = 'LEFT JOIN teacher_organization tor ON tor.id_user = t.user_id';
+        $criteria->condition='t.cancelled='.Teacher::ACTIVE.' and tor.end_date IS NULL and tor.isPrint='.TeacherOrganization::SHOW;
+        $teachers = Teacher::model()->findAll( $criteria);
+
         $result = [];
         for ($i = 0; $i < count($teachers); $i++) {
             array_push($result, $teachers[$i]['user_id']);
@@ -320,6 +327,7 @@ class Teacher extends CActiveRecord
     {
         $criteria = new CDbCriteria;
         $criteria->alias='tc';
+        $criteria->distinct=true;
         $criteria->join = 'LEFT JOIN teacher_organization t on t.id_user = tc.user_id';
         $criteria->addCondition('tc.cancelled='.Teacher::ACTIVE.' and t.end_date IS NULL and t.isPrint='.TeacherOrganization::SHOW);
         $dataProvider = new CActiveDataProvider('Teacher', array(
@@ -522,7 +530,7 @@ class Teacher extends CActiveRecord
     public static function teachersByQuery($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -546,7 +554,7 @@ class Teacher extends CActiveRecord
     public static function teachersByQueryAndModule($query, $module)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -598,7 +606,7 @@ class Teacher extends CActiveRecord
 
     public static function usersWithoutCoworkersByQuery($query){
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -662,5 +670,37 @@ class Teacher extends CActiveRecord
         }
 
         return $result;
+    }
+
+    public static function getTeacherBySelector($selector, $string)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','responses','modulesActive'];
+        $criteria->join = 'LEFT JOIN teacher_organization tor ON tor.id_user = t.user_id';
+
+        if( strlen( $string ) > 0 ){
+            $criteria->addSearchCondition('user.firstName', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('user.secondName', $string, true, "OR", "LIKE");
+            $criteria->addSearchCondition('user.middleName', $string, true, "OR", "LIKE");
+        }
+
+        if ($selector == 'az'){
+            if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en') {
+                $criteria->order = 'last_name_en COLLATE utf8_unicode_ci ASC';
+            }else{
+                $criteria->order = 'firstname COLLATE utf8_unicode_ci ASC';
+            }
+        }
+        if ($selector == 'rating') $criteria->order = 'rating DESC';
+        $criteria->addCondition('t.cancelled='.Teacher::ACTIVE.' and tor.end_date IS NULL and tor.isPrint='.TeacherOrganization::SHOW);
+
+        $dataProvider = new CActiveDataProvider( 'Teacher', array(
+            'criteria' => $criteria,
+            'pagination'=>array(
+                'pageSize'=>40,
+            ),
+        ));
+
+        return $dataProvider;
     }
 }

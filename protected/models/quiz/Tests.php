@@ -113,7 +113,7 @@ class Tests extends Quiz
 		$criteria=new CDbCriteria;
 		$criteria->alias='lecture_page';
 		$criteria->select='page_order';
-		$criteria->condition = 'id_lecture = '.$lectureId;
+		$criteria->condition = 'id_lecture = '.$lectureId.' and quiz is NOT NULL';
 		$criteria->order = 'page_order DESC';
 		$lastPage=LecturePage::model()->find($criteria)->page_order;
 

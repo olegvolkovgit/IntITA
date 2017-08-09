@@ -1,0 +1,8 @@
+<div ng-controller="editGraduateCtrl">
+<div class="panel panel-default" >
+    <select name="new rating" ng-model="changeData.rating" class="form-control">
+        <option ng-repeat="i in getRatingScale() track by $index" value="{{($index+1)/graduate.ratingScale}}">{{$index+1}}</option>
+    </select>
+</div>
+<button class="btn btn-success" ng-click="changeRate()">Застосувати</button>
+</div>

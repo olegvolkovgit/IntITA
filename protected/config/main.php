@@ -34,6 +34,7 @@ return array(
         'application.models.accountancy.corporateEntity.*',
         'application.models.accountancy.agreements.*',
         'application.models.accountancy.contractingParty.*',
+        'application.models.accountancy.userDocuments.*',
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
@@ -47,13 +48,15 @@ return array(
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
         'application.models.task.*',
-       // 'ext.yii2-debug.*',
+        // 'ext.yii2-debug.*',
         'application.helpers.*',
         'application.helpers.ngtable.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
         'ext.PHPExcel.*', //PHPExcel
         'application.components.Exceptions.*',
+        'application.models.quiz.TaskMarks.php',
+        'ext.yii-pdf.*', // html to pdf
     ),
 
     'modules' => array(
@@ -63,7 +66,7 @@ return array(
                 'ext.giix-core', // giix generators
             ),
             'password' => 'admin',
-            'ipFilters' => ['127.0.0.1','10.0.0.1','localhost']
+            'ipFilters' => ['127.0.0.1', '10.0.0.1', 'localhost']
         ),
         '_admin',
         '_teacher',
@@ -73,6 +76,13 @@ return array(
 
     // application components
     'components' => array(
+        'session' => [
+            'class' => 'CHttpSession',
+            'cookieParams' => [
+                'httponly' => true
+            ],
+        ],
+
         'image' => array(
             'class' => 'application.extensions.image.CImageComponent',
             // GD or ImageMagick
@@ -83,9 +93,9 @@ return array(
 
         'clientScript' => array(
             'class' => 'system.web.CClientScript',
-            'scriptMap'=>array(
-                'jquery.min.js'=>'https://code.jquery.com/jquery-2.2.4.min.js',
-            )
+//            'scriptMap'=>array(
+//                'jquery.min.js'=>'https://code.jquery.com/jquery-2.2.4.min.js',
+//            )
         ),
 
         'cache' => array(
@@ -169,20 +179,20 @@ return array(
                 array(
                     'class' => 'CWebLogRoute',
                     'categories' => 'application',
-                    'levels'=>'error, warning, trace, profile, info',
+                    'levels' => 'error, warning, trace, profile, info',
                     'showInFireBug' => true
                 ),
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, trace, info, profile',
-                    'categories'=>'system.db.*',
-                    'logFile'=>'sql.log',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, trace, info, profile',
+                    'categories' => 'system.db.*',
+                    'logFile' => 'sql.log',
                 ),
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, trace, info, profile',
-                    'categories'=>'application.revision.*',
-                    'logFile'=>'revision.log',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, trace, info, profile',
+                    'categories' => 'application.revision.*',
+                    'logFile' => 'revision.log',
                 ),
             ),
         ),
@@ -203,9 +213,35 @@ return array(
         ),
 
         //'debug' => $local_config['debug'],
+
+        'ePdf' => array(
+            'class' => 'ext.yii-pdf.EYiiPdf',
+            'params' => array(
+                'mpdf' => array(
+                    'librarySourcePath' => 'application.vendors.mpdf.*',
+                    'constants' => array(
+                        '_MPDF_TEMP_PATH' => Yii::getPathOfAlias('application.runtime'),
+                    ),
+                    'class' => 'mpdf', // the literal class filename to be loaded from the vendors folder
+                    'defaultParams' => array(// More info: http://mpdf1.com/manual/index.php?tid=184
+                        'mode' => '', //  This parameter specifies the mode of the new document.
+                        'format' => 'A4', // format A4, A5, ...
+                        'default_font_size' => 0, // Sets the default document font size in points (pt)
+                        'default_font' => '', // Sets the default font-family for the new document.
+                        'mgl' => 0, // margin_left. Sets the page margins for the new document.
+                        'mgr' => 0, // margin_right
+                        'mgt' => 0, // margin_top
+                        'mgb' => 0, // margin_bottom
+                        'mgh' => 5, // margin_header
+                        'mgf' => 5, // margin_footer
+                        'orientation' => 'P', // landscape or portrait orientation
+                    )
+                ),
+            ),
+        ),
     ),
     'params' => $params_config['params'],
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
-    
+
 );

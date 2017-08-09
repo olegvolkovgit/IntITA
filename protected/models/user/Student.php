@@ -69,7 +69,7 @@ class Student extends Role
     {
         $groupCourses=[];
         foreach ($user->offlineGroups as $group) {
-            $groupCourses=array_merge($groupCourses,$group->availableCoursesList($organization));
+            $groupCourses=array_merge($groupCourses,$group->availableCoursesList($organization, $user->id));
         }
 
         $now = new CDbExpression("NOW()");
@@ -77,12 +77,13 @@ class Student extends Role
         if($organization) $condition=$condition.' and c.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $accessCourses= Yii::app()->db->createCommand()
             ->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en, 
-            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name, ruc.rating')
             ->from('user_service_access sa')
             ->join('acc_course_service cs', 'cs.service_id=sa.serviceId')
             ->join('course c', 'c.course_ID=cs.course_id')
             ->join('level l', 'l.id=c.level')
             ->join('organization org', 'org.id=c.id_organization')
+            ->leftJoin('rating_user_course ruc', 'ruc.id_course=c.course_ID and ruc.id_user=sa.userId')
             ->where($condition)
             ->queryAll();
 
@@ -99,7 +100,7 @@ class Student extends Role
     {
         $groupModules=[];
         foreach ($user->offlineGroups as $group) {
-            $groupModules=array_merge($groupModules,$group->availableModulesList($organization));
+            $groupModules=array_merge($groupModules,$group->availableModulesList($organization, $user->id));
         }
 
         $now = new CDbExpression("NOW()");
@@ -107,12 +108,13 @@ class Student extends Role
         if($organization) $condition=$condition.' and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
         $accessModules= Yii::app()->db->createCommand()
             ->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en, 
-            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name')
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, org.name, rum.rating')
             ->from('user_service_access sa')
             ->join('acc_module_service ms', 'ms.service_id=sa.serviceId')
             ->join('module m', 'm.module_ID=ms.module_id')
             ->join('level l', 'l.id=m.level')
             ->join('organization org', 'org.id=m.id_organization')
+            ->leftJoin('rating_user_module rum', 'rum.id_module=m.module_ID and rum.id_user=sa.userId')
             ->where($condition)
             ->queryAll();
 
@@ -207,7 +209,7 @@ class Student extends Role
             'id_organization'=>$organization,
         ))){
             $this->notifyAssignRole($user, $organization);
-            $this->updateRolesRoom();
+//            $this->updateRolesRoom();
             return true;
         }
         return false;

@@ -94,6 +94,19 @@
                             { name: 'colors', items : [ 'RemoveFormat' ] },
 
                         ],
+                        toolbar_agreement: [
+                            { name: 'document', items : [ 'Source','-' ] },
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                            { name: 'styles', items : [ 'Font','FontSize' ] },
+                            '/',
+                            { name: 'agreement', items : [ 'a_number','a_date','a_description','a_summa','a_invoices'] },
+                            '/',
+                            { name: 'user', items : [ 'u_user_doc','u_user_data_address','u_name'] },
+                            // '/',
+                            { name: 'corporate', items : [ 'c_title','c_representatives_data','c_edpnou','c_checking_account','c_bank_name',
+                                'c_bank_code','c_legal_address','c_contacts','c_representatives_position_name'] },
+                        ],
                     };
                     options = angular.extend(options, scope[attrs.ckeditor]);
 

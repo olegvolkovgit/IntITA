@@ -10,7 +10,7 @@ angular
 
 
 /* Controllers */
-function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout, FileUploader) {
+function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout, FileUploader, documentsServices) {
     $scope.focusField = function(model,select){
         $timeout(function () {
             $scope.$digest();
@@ -25,50 +25,6 @@ function editProfileController($scope, $http, countryCity, careerService, specia
     $scope.files = [];
     $scope.form = [];
 
-    var documentUploader = $scope.documentUploader = new FileUploader({
-        url: basePath+'/studentreg/uploadDocuments?type=passport',
-        removeAfterUpload: true
-    });
-    documentUploader.onCompleteAll = function() {
-        $scope.getUploadedDocuments();
-    };
-    documentUploader.onErrorItem = function(item, response, status, headers) {
-        if(status==500)
-            bootbox.alert("Виникла помилка при завантажені документа.");
-    };
-
-    var innUploader = $scope.innUploader = new FileUploader({
-        url: basePath+'/studentreg/uploadDocuments?type=inn',
-        removeAfterUpload: true
-    });
-    innUploader.onCompleteAll = function() {
-        $scope.getUploadedDocuments();
-    };
-    innUploader.onErrorItem = function(item, response, status, headers) {
-        if(status==500)
-            bootbox.alert("Виникла помилка при завантажені документа.");
-    };
-    
-    documentUploader.filters.push({
-        name: 'imageFilter',
-        fn: function(item /*{File|FileLikeObject}*/, options) {
-            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-        }
-    });
-    innUploader.filters.push({
-        name: 'imageFilter',
-        fn: function(item /*{File|FileLikeObject}*/, options) {
-            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-        }
-    });
-    documentUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
-    };
-    innUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
-    };
     //init progress bar
     $scope.dataForm=[];
     $scope.form=[];
@@ -350,37 +306,6 @@ function editProfileController($scope, $http, countryCity, careerService, specia
         }
     }, true);
 
-    //load uploaded files
-    $scope.getUploadedDocuments=function () {
-        $http({
-            url: basePath + "/studentreg/getuploadeddocuments",
-            method: "POST",
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            $scope.files=response.data;
-        }, function errorCallback() {
-            bootbox.alert("Виникла помилка при завантажені документів користувача.");
-        });
-    };
-    //load uploaded files
-    $scope.getUploadedDocuments();
-
-    $scope.removeDocument=function (id) {
-        bootbox.confirm('Видалити файл?', function(result) {
-            if(result)
-                $http({
-                    url: basePath + "/studentreg/removeuserdocument",
-                    method: "POST",
-                    data: $.param({id: id}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback() {
-                    $scope.getUploadedDocuments();
-                }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при видалені документу.");
-                });
-        });
-    }
-
     //crop image
     $scope.myImage='';
     $timeout(function(){
@@ -399,6 +324,194 @@ function editProfileController($scope, $http, countryCity, careerService, specia
         reader.readAsDataURL(file);
     };
     angular.element(document.querySelector('#chooseAvatar')).on('change',handleFileSelect);
+
+    //documents
+    var documentUploader = $scope.documentUploader = new FileUploader({
+        url: basePath+'/studentreg/uploadDocuments?type=1',
+        removeAfterUpload: true
+    });
+    documentUploader.onCompleteAll = function() {
+        $scope.loadDocuments();
+    };
+    documentUploader.onErrorItem = function(item, response, status, headers) {
+        if(status==500)
+            bootbox.alert("Виникла помилка при завантажені документа.");
+    };
+
+    var innUploader = $scope.innUploader = new FileUploader({
+        url: basePath+'/studentreg/uploadDocuments?type=2',
+        removeAfterUpload: true
+    });
+    innUploader.onCompleteAll = function() {
+        $scope.loadDocuments();
+    };
+    innUploader.onErrorItem = function(item, response, status, headers) {
+        if(status==500)
+            bootbox.alert("Виникла помилка при завантажені документа.");
+    };
+
+    var certificateUploader = $scope.certificateUploader = new FileUploader({
+        url: basePath+'/studentreg/uploadDocuments?type=3',
+        removeAfterUpload: true
+    });
+    certificateUploader.onCompleteAll = function() {
+        $scope.loadDocuments();
+    };
+    certificateUploader.onErrorItem = function(item, response, status, headers) {
+        if(status==500)
+            bootbox.alert("Виникла помилка при завантажені документа.");
+    };
+
+    documentUploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    innUploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    certificateUploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    documentUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    innUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    certificateUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+
+    $scope.loadDocuments=function () {
+        documentsServices
+            .getAllUserDocuments()
+            .$promise
+            .then(function (data) {
+                $scope.userDocuments = data;
+            });
+    };
+    $scope.loadDocuments();
+
+    $scope.initDocument=function () {
+        $scope.document = {
+            type: null,
+            number: null,
+            issued: null,
+            issued_date: null,
+            registration_address: null
+        };
+    };
+    $scope.initDocument();
+
+    $scope.getDocumentsList=function () {
+        documentsServices
+            .getDocumentsTypes()
+            .$promise
+            .then(function (data) {
+                $scope.documentsTypes = data;
+            });
+    };
+    $scope.getDocumentsList();
+
+    $scope.clearDocumentsFields=function (type) {
+        documentsServices
+            .getEditableDocument({type:type})
+            .$promise
+            .then(function (data) {
+                if(data.id){
+                    $scope.updateProperties(['type', 'number', 'issued','issued_date','registration_address',
+                        'last_name','middle_name','first_name'],data);
+                }else{
+                    $scope.initDocument();
+                    $scope.document.type=type;
+                }
+            });
+    };
+    $scope.updateProperties = function(properties, data) {
+        for(var i = 0; i < properties.length; i++){
+            $scope.document[properties[i]] = data[properties[i]];
+        }
+    }
+
+    $scope.saveDocumentsData=function () {
+        if($("#issued_date").val()!=''){
+            $scope.document.issued_date=$("#issued_date").val();
+        }else{
+            $scope.document.issued_date=null;
+        }
+        documentsServices
+            .saveData($scope.document)
+            .$promise
+            .then(function (data) {
+                if (data.message === 'OK') {
+                    $scope.loadDocuments();
+                    $scope.document.type=null;
+                } else {
+                    bootbox.alert('Виникла помилка:'+'<br>'+data.reason);
+                }
+            })
+            .catch(function (error) {
+                bootbox.alert(error.data.reason);
+            });
+    }
+
+    $scope.removeDocument=function (id) {
+        bootbox.confirm('Видалити дані документа?', function(result) {
+            if(result)
+                $http({
+                    url: basePath + "/studentreg/removeuserdocument",
+                    method: "POST",
+                    data: $.param({id: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.loadDocuments();
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при видалені документа.");
+                });
+        });
+    }
+    $scope.deactivateDocument=function (id) {
+        bootbox.confirm('Деактивувати дані документа? Після цього документ буде не актуальний', function(result) {
+            if(result)
+                $http({
+                    url: basePath + "/studentreg/deactivateuserdocument",
+                    method: "POST",
+                    data: $.param({id: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.loadDocuments();
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при деактивації документа.");
+                });
+        });
+    }
+    $scope.removeDocumentsFile=function (id) {
+        bootbox.confirm('Видалити файл?', function(result) {
+            if(result)
+                $http({
+                    url: basePath + "/studentreg/removeuserdocumentsfile",
+                    method: "POST",
+                    data: $.param({id: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.loadDocuments();
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при видалені документу.");
+                });
+        });
+    }
+
 }
 
 function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {

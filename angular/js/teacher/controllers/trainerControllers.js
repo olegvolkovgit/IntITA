@@ -8,7 +8,11 @@ angular
 
 function trainerStudentsCtrl($scope, trainerService, NgTableParams){
     $scope.changePageHeader('Закріплені студенти');
-    $scope.trainersStudentsTableParams = new NgTableParams({}, {
+    $scope.trainersStudentsTableParams = new NgTableParams({
+        sorting: {
+            "start_time": 'desc'
+        },
+    }, {
         getData: function (params) {
             return trainerService
                 .trainersStudentsList(params.url())
@@ -22,7 +26,11 @@ function trainerStudentsCtrl($scope, trainerService, NgTableParams){
 }
 
 function trainersStudentViewCtrl($scope, trainerService, NgTableParams){
-    $scope.trainersStudentsTableParams = new NgTableParams({}, {
+    $scope.trainersStudentsTableParams = new NgTableParams({
+        sorting: {
+            "start_time": 'desc'
+        },
+    }, {
         getData: function (params) {
             return trainerService
                 .trainersStudentsList(params.url())

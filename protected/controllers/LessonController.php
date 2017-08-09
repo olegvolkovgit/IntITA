@@ -48,6 +48,9 @@ class LessonController extends Controller
 
         $this->initialize($id, $idCourse);
 
+//        create module progress if there are no record
+        $lecture->module->createRatingUserModuleRecord();
+
         $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->hasAccessToContent($lecture->module));
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
@@ -828,23 +831,5 @@ class LessonController extends Controller
     public function actionGetLectureLink($idLecture, $idCourse=0)
     {
         echo Yii::app()->createUrl("lesson/index", array("id" => $idLecture, "idCourse" => $idCourse));
-    }
-
-    public function actionCreateRatingUserModuleRecord()
-    {
-        $idModule = Yii::app()->request->getPost('moduleId');
-        if (Yii::app()->user->model->isStudent()){
-            $moduleRating = RatingUserModule::model()->find('id_user=:user AND id_module=:idModule',[':user'=>Yii::app()->user->id,':idModule'=>$idModule]);
-            if (!$moduleRating){
-                $moduleRating = new RatingUserModule();
-                $moduleRating->id_user = Yii::app()->user->id;
-                $moduleRating->id_module = $idModule;
-                $moduleRating->module_revision = RevisionModule::model()->with(['properties'])->find('id_module=:module AND id_state=:activeState',
-                    [':module'=>$idModule,':activeState'=>RevisionState::ReleasedState])->id_module_revision;
-                $moduleRating->module_done = (int)false;
-                $moduleRating->rating = 0;
-                $moduleRating->save(false);
-            }
-        }
     }
 }

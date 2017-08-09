@@ -137,7 +137,7 @@ class UserStudent extends CActiveRecord
 
 	public static function studentByQuery($query){
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
 		$criteria->alias = "s";
 		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -160,7 +160,7 @@ class UserStudent extends CActiveRecord
 
 	public static function studentWithoutTrainerByQuery($query){
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
 		$criteria->alias = "s";
 		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");

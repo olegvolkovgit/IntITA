@@ -3,7 +3,11 @@
 class TemplateController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAuditor();
+        $allowedActions=['getAgreementTemplate'];
+
+        return Yii::app()->user->model->isAuditor() ||
+            (Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isStudent()
+                && in_array(Yii::app()->controller->action->id,$allowedActions));
     }
 
     public function actionIndex($id=0)
@@ -32,5 +36,29 @@ class TemplateController extends TeacherCabinetController
         } else {
             echo 'Зміни не вдалося зберегти.';
         }
+    }
+
+    public function actionWrittenAgreement()
+    {
+        $this->renderPartial('writtenAgreement', array(), false, true);
+    }
+
+    public function actionUpdateWrittenAgreement()
+    {
+        $this->renderPartial('updateWrittenAgreement', array(), false, true);
+    }
+
+    public function actionUpdateAgreementTemplate(){
+        $template = Yii::app()->request->getPost('template');
+
+        $model=WrittenAgreementTemplate::model()->findByPk(1);
+        $model->template=$template;
+        $model->create_by=Yii::app()->user->getId();
+        $model->save();
+    }
+
+    public function actionGetAgreementTemplate(){
+        $data['data']=WrittenAgreementTemplate::model()->findByPk(1)->template;
+        echo json_encode($data);
     }
 }

@@ -116,7 +116,7 @@ class MessagesPayment extends Messages implements IMessage
         //create and init parent model
 		$educFormModel = EducationForm::model()->findByPk($educForm);
         $this->message = new Messages();
-        $this->message->build(Config::getAdminId(), self::TYPE, $chained, $original);
+        $this->message->buildMessage(Config::getAdminId(), self::TYPE, $chained, $original);
 
         $this->operation_id = ($operation)?$operation->id:null;
         $this->subject = $billableObject->paymentMailTheme();

@@ -20,12 +20,18 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                         <a  href="" ng-click="isCollapsed<?php echo $key ?> = !isCollapsed<?php echo $key ?>">
                                             <?= CHtml::encode($course["title_ua"] . " (" . $course["lang"] . ")"); ?>
                                         </a>
+                                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $course['id'])); ?>" target="_blank">
+                                            (посилання)
+                                        </a>
+                                        <?php if($course['rating']>0){ ?>
+                                            <span style="color: green">Завершено! <?php echo (round($course['rating']*10,2)).'/10' ?></span>
+                                        <?php } ?>
                                     </h4>
                                 </div>
                                 <div uib-collapse="!isCollapsed<?php echo $key ?>" class="panel-collapse collapse">
                                     <ul>
                                         <?php
-                                        $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
+                                        $courseModules = CourseModules::modulesInfoByCourse($course["id"], Yii::app()->user->getId());
                                         if(count($courseModules) > 0) {
                                             foreach ($courseModules as $record) {
                                                 if (!$record["cancelled"]) { ?>
@@ -48,6 +54,9 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                                             </em>
                                                         <?php } else { ?>
                                                             <span class="warningMessage"><em>викладача не призначено</em></span>
+                                                        <?php } ?>
+                                                        <?php if($record['rating']>0){ ?>
+                                                            <span style="color: green">Завершено! <?php echo (round($record['rating']*10,2)).'/10' ?></span>
                                                         <?php } ?>
                                                     </li>
                                                 <?php } else { ?>
@@ -93,6 +102,9 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                         </em>
                                     <?php } else { ?>
                                         <span class="warningMessage"><em>викладача не призначено</em></span>
+                                    <?php } ?>
+                                    <?php if($module['rating']>0){ ?>
+                                        <span style="color: green">Завершено! <?php echo (round($module['rating']*10,2)).'/10' ?></span>
                                     <?php } ?>
                                 </li>
                             <?php } else {?>

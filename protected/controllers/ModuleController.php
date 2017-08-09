@@ -20,7 +20,7 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        if($model->cancelled && !Yii::app()->user->model->isAdmin()) {
+        if($model->cancelled && (Yii::app()->user->isGuest || !Yii::app()->user->model->isAdmin())) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
         }
        
