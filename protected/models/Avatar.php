@@ -48,6 +48,7 @@ class Avatar {
         file_put_contents(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName, $output);
         if(isset(Yii::app()->user->id)){
             $model->updateByPk(Yii::app()->user->id, array('avatar' => $fileName));
+            $model->changeGraduateStatus();
         }else{
             $model->avatar=$fileName;
         }
@@ -60,6 +61,7 @@ class Avatar {
         if ($model->avatar !== 'noname.png') {
             unlink(Yii::getpathOfAlias('webroot') . '/images/avatars/' . $model->avatar);
             $model->updateByPk($id, array('avatar' => 'noname.png'));
+            $model->changeGraduateStatus();
         }
     }
 
