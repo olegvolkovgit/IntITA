@@ -22,11 +22,12 @@ angular
         $scope.approve_tm = 0;
         $scope.show_popup = '';
 
-        $scope.showTime = function(){
+        $scope.showTime = function(date_out){
             $scope.show_btn = 0;
             var date, name_day, year = [], mon = [], month, day, today;
             var dt, currentWeekDay, lessDays, wkStart, wkEnd, str_st, day_start, str_end, day_end;
             var ch_d, chose_day;
+
             if( !$scope.days.length ){  // page first download
                 var now = new Date();
                 day = now.getDate();
@@ -95,15 +96,16 @@ angular
                     name_day = (date.split(' ')[0])+' '+(date.split(' ')[2]);  // Mon 03
                     $scope.days.push(name_day);
                 }
+                $scope.first_scroll_tbody();
                 return $scope.days;
 
-            }else{
+            }else{  // page download after chose day
+                $scope.date = date_out;
                 $scope.days = [];
                 $scope.fullNameDays = [];
                 $scope.num_week = new Date($scope.date).getWeek();  // номер текущей недели
-                var arr_date = $scope.date.toString();
-                year = arr_date.split('-')[0];
-                month = parseInt(arr_date.split('-')[1]);
+                year = $scope.date.getFullYear();
+                month = $scope.date.getMonth()+1;
                 $scope.title = $scope.month_name_UA[month]+' '+year;
 
                 if($scope.num_week != $scope.current_week){
@@ -169,6 +171,7 @@ angular
                     name_day = (date.split(' ')[0])+' '+(date.split(' ')[2]);   // Mon 03
                     $scope.days.push(name_day);
                 }
+                $scope.second_scroll_tbody();
                 return $scope.days;
             }
         };
@@ -405,6 +408,20 @@ angular
             return this.selecting_cell;
         };
 
+            //  scroll table body after fist download page
+        $scope.first_scroll_tbody = function () {
+            setTimeout(function(){
+                $jq('#table_consult tbody').scrollTop(596);
+            }, 20);
+        };
+
+            //  scroll table body after choose day in calendar
+        $scope.second_scroll_tbody = function () {
+            setTimeout(function(){
+                $jq('#table_consult tbody').scrollTop(0);
+            }, 20);
+        };
+
 
         $scope.fillContainer = function (data) {
             var container = angular.element(document.querySelector("#pageContainer"));
@@ -454,6 +471,7 @@ angular
             $scope.days = [];
             $scope.fullNameDays = [];
             $scope.showTime();
+            $scope.second_scroll_tbody();
         };
 
 
