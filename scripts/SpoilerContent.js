@@ -3,8 +3,8 @@ function  diploma_course_dialog(name, course) {
 
     bootbox.alert({
         message: '<div id="editor">'+'</div>'+
-        '<button id="print-diploma">'+'Save'+'</button>'+
-                '<div class="diploma-container">'+
+        '<button id="print-diploma" onclick="printPDF()">'+'Save'+'</button>'+
+                '<div class="diploma-container" id="diploma">'+
                     '<div class="diploma-logo" >'+
                         '<img class="img-diploma" src="images/diploma/logo_diplom.png" alt="logo_diploma_intita">'+
                     '</div>'+
@@ -36,7 +36,7 @@ function  diploma_module_dialog(name, module) {
 
     bootbox.alert({
         message: '<div id="editor">'+'</div>'+
-        '<button id="print-diploma">'+'Save'+'</button>'+
+        '<button id="print-diploma" onclick="printPDF()">'+'Save'+'</button>'+
         '<div class="diploma-container">'+
         '<div class="diploma-logo" >'+
         '<img class="img-diploma" src="images/diploma/logo_diplom.png" alt="logo_diploma_intita">'+
@@ -83,3 +83,12 @@ function openComment(elem) {
 }
 // open comment with click
 // celebre
+function printPDF() {
+    var pdf = new jsPDF();
+    var data = $(".diploma-container")[0];
+    var options = {format:"PNG", background:"#ffffff"};
+    pdf.addHTML(data,0,0,options, function() {
+        pdf.save('diploma.pdf');
+    });
+
+}
