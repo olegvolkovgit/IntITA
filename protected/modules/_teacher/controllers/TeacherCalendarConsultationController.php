@@ -38,7 +38,7 @@ class TeacherCalendarConsultationController extends Controller
                 $timeConsultation->teacher_id = Yii::app()->user->getId();
 
 //                $timeConsultation->user_id = 40;  // for test
-//                $timeConsultation->lecture_id = 704;  // for test
+//                $timeConsultation->lecture_id = 700;  // for test
 
                 $timeConsultation->save();
             }

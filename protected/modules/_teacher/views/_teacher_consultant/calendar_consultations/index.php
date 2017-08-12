@@ -24,11 +24,16 @@
     </div>
 
     <div class="form-group">
-        <input type="text" id="date_time_picker" ng-model="date" ng-change="showTime()"  required autofocus >
+        <div id="date_time_picker" ng-model="date"  ></div>
     </div>
 
     <calendar></calendar>
 
+    <div id="info_block">
+        <div class="info_rectangle consultationTime"></div> - призначена консультація
+        <div class="info_rectangle confirmationTime"></div> - замовлена консультація
+        <div class="info_rectangle freeTime"></div> - вільний час вчителя
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -37,21 +42,15 @@
             format: "yyyy-mm-dd",
             weekStart: 1,
             todayBtn: 0,
-            autoclose: false,
-            todayHighlight: 1,
+            todayHighlight: true,
             startView: 2,
             minView: 2,
-            forceParse: 0,
             inline: true,
-            sideBySide: true,
-            keepOpen: true,
-            IsDropDownOpen: true,
-            debug:true
+            sideBySide: true
+        }).on('changeDate', function (e) {
+            var dateObject  = $jq("#date_time_picker").data("datetimepicker").getDate();
+            angular.element(document.getElementById('date_time_picker')).scope().showTime(dateObject);
         });
     });
-
-    $jq("#date_time_picker").focus().bind('blur', function() {
-        $jq(this).focus();
-    });
-
 </script>
+
