@@ -56,7 +56,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 		return array(
 			'idModule' => array(self::BELONGS_TO, 'Module', 'id_module'),
 			'moduleRevision' => array(self::BELONGS_TO, 'VcModule', 'module_revision'),
-			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
+			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 		);
 	}
 
@@ -193,7 +193,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                         return 0;
                     }
 
-                    $lectureRate +=$testRate/$answersCount;
+                    $lectureRate +=$this->taskRate(1,$answersCount);
                     unset($answersCount);
                 break;
                 case LectureElement::SKIP_TASK;
@@ -210,7 +210,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                     if (!$answers || !$skipTaskRate){
                        return 0;
                     }
-                    $lectureRate +=$skipTaskRate/$answersCount;
+                    $lectureRate +=$this->taskRate(1,$answersCount);
                 break;
                 case LectureElement::PLAIN_TASK;
                     $plainTaskRate = 0;
@@ -242,7 +242,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
                     if (!$answers || !$taskRate){
                         return 0;
                     }
-                    $lectureRate +=$taskRate/$answersCount;
+                    $lectureRate +=$this->taskRate(1,$answersCount);
                     break;
              }
         }
@@ -264,5 +264,16 @@ class RatingUserModule extends CActiveRecord implements IUserRating
         return RatingUserModule::model()->find(
             'id_user=:user AND id_module=:idModule',
             [':user'=>$user,':idModule'=>$moduleId]);
+    }
+
+    private function taskRate($oldRate,$answersCount)
+    {
+        if ($answersCount === 1) {
+            return $oldRate;
+        }
+        else{
+            return $this->taskRate($oldRate -$oldRate*0.1,$answersCount-1);
+        }
+
     }
 }

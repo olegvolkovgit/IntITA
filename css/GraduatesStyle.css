@@ -259,7 +259,7 @@ div.modal-footer {
 }
 
 .diploma-container {
-    background: url('../images/diploma/intita_diploma1.png') no-repeat center center;
+    background: url('/images/diploma/intita_diploma1.png') no-repeat center center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -284,6 +284,7 @@ div.modal-footer {
     height:auto;
 }
 .diploma-header {
+    font-family: "Arial";
     margin: 10% 0;
     color: #4b74a0;
     text-align: center;
