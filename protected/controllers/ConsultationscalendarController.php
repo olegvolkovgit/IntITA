@@ -100,7 +100,6 @@ class ConsultationscalendarController extends Controller
                 $free_time->status = 2;
                 $free_time->lecture_id = $id_lecture;
                 $free_time->user_id = Yii::app()->user->getId();
-                //var_dump($free_time->status,$free_time->start_time,$free_time->lecture_id,$free_time->user_id);
                 $free_time->save();
             }else{
                 $result = array();
@@ -113,7 +112,7 @@ class ConsultationscalendarController extends Controller
         if( !empty($result) ){
             $params[0] = $result;
             $params[1] = $student->fullName;
-            $teacher->notify('_reserveConsultation', array($params), 'Замовлено консультацію');
+            $teacher->notify('_reserveConsultation', array($params), 'Замовлено консультацію', $id_student);
         }
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
