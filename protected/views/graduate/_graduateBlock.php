@@ -70,8 +70,10 @@
                                         <?php echo Yii::t('graduates', '0319')?>
                                         <?php echo CommonHelper::getRating(((double)$course->rating*Config::getRatingScale())); ?>
                                     </div>
+
                                     <a href="#openModal" onclick="diploma_course_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
                                             '<?php echo $course->idCourse->title_en?>')">Диплом</a>
+                                    <a href="/graduate" onclick="renderDiploma('<?= $course->id?>','1'); return false">Диплом V2</a>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -91,6 +93,7 @@
                                 </div>
                                 <a href="#openModal" onclick="diploma_module_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
                                         '<?php echo $module->idModule->title_en?>')">Диплом</a>
+                                <a href="/graduate" onclick="renderDiploma('<?= $module->id?>','2'); return false">Диплом V2</a>
                             </li>
                         <?php } ?>
                         </ul>
