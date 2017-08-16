@@ -32,6 +32,7 @@ class TeacherCalendarConsultationController extends Controller
                 $timeConsultation->date = $item[$i]['date'];
                 $timeConsultation->status = $item[$i]['status'];
                 $timeConsultation->teacher_id = Yii::app()->user->getId();
+
                 $timeConsultation->save();
             }
         };
