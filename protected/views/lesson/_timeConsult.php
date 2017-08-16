@@ -31,5 +31,5 @@
 
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'timeSelect.js'); ?>"></script>
 <script>
-    if($('.disabledTime').length==42) $('#consultationNext').attr('disabled','true');
+    if($('.disabledTime').length==48) $('#consultationNext').attr('disabled','true');
 </script>
