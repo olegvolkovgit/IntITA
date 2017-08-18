@@ -3,7 +3,8 @@
 <div class="panel panel-default" >
     <div class="form-group">
         <label>
-            <strong>Сервіс*:</strong>
+            <strong ng-show="addRatingType === 'course'">Курс:</strong>
+            <strong ng-show="addRatingType === 'module'">Модуль*:</strong>
         </label>
         <input type="text" size="135" ng-model="service" ng-model-options="{ debounce: 1000 }"
                placeholder="Оберіть сервіс"
@@ -14,8 +15,8 @@
                required
                class="form-control"/>
         <div ng-show="noResults">
-            <i class="glyphicon glyphicon-remove"></i>курс не знайдено
-            <i class="glyphicon glyphicon-remove"></i>модуль не знайдено
+            <span ng-show="addRatingType === 'course'"><i class="glyphicon glyphicon-remove"></i>курс не знайдено</span>>
+            <span ng-show="addRatingType === 'module'"><i class="glyphicon glyphicon-remove"></i>модуль не знайдено</span>
         </div>
     </div>
     <label>
@@ -25,6 +26,6 @@
         <option ng-repeat="i in getRatingScale() track by $index" value="{{($index+1)/graduate.ratingScale}}">{{$index+1}}</option>
     </select>
 </div>
-    <button class="btn btn-success" ng-click="addRate()" ng-disabled=" addRate.$invalid || noResults ">Застосувати</button>
+    <button class="btn btn-success" ng-click="addUserRate()" ng-disabled=" addRate.$invalid || noResults ">Застосувати</button>
 </form>
 </div>

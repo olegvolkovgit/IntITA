@@ -55,7 +55,7 @@ class AccountantController extends TeacherCabinetController {
             $file = "/files/documents/{$document->idUser->id}/{$document->type}/{$document->documentsFiles[0]->file_name}";
             if (file_exists($_SERVER['DOCUMENT_ROOT'].$file)){
                 return   Yii::app()->request->xSendFile($file,[
-                    'forceDownload'=>false,
+                    'forceDownload'=>true,
                     'xHeader'=>'X-Accel-Redirect',
                     'terminate'=>false
                 ]);
