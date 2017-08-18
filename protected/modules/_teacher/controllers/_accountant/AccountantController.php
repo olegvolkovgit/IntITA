@@ -47,7 +47,6 @@ class AccountantController extends TeacherCabinetController {
         $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
     }
 
-
     public function actionGetDocument($id){
 
         $document = UserDocuments::model()->with(['idUser','documentsFiles'])->find('documentsFiles.id=:documentId',
