@@ -312,6 +312,9 @@ class Newsletters extends CActiveRecord implements ITask
                 if ($category){
                     array_push($result,['id'=>$category->id, 'name'=>$category->title]);
                 }
+                else{
+                    array_push($result,['id'=>0, 'name'=>'Вся база email']);
+                }
                 break;
             }
             case "courses":{
