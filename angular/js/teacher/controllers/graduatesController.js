@@ -260,7 +260,6 @@ function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $st
 
     $scope.checkData = true;
 
-
     $scope.getRatingScale = function () {
         if (angular.isDefined($scope.graduate.ratingScale)){
             return new Array(Number($scope.graduate.ratingScale));
@@ -296,7 +295,7 @@ function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $st
         $scope.service = item;
     };
 
-    $scope.addRate = function () {
+    $scope.addUserRate = function () {
         if ($state.is('graduate/create')){
             $scope.service.rating = $scope.rating;
             switch ($scope.addRatingType){

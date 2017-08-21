@@ -30,15 +30,8 @@ class TeacherCalendarConsultationController extends Controller
                 $timeConsultation->start_time = $item[$i]['start_time'];
                 $timeConsultation->end_time = $item[$i]['end_time'];
                 $timeConsultation->date = $item[$i]['date'];
-
-//                $timeConsultation->status = 2;    // for test
                 $timeConsultation->status = $item[$i]['status'];
-
-//                $timeConsultation->teacher_id = 319;  // for test
                 $timeConsultation->teacher_id = Yii::app()->user->getId();
-
-//                $timeConsultation->user_id = 40;  // for test
-//                $timeConsultation->lecture_id = 700;  // for test
 
                 $timeConsultation->save();
             }
@@ -62,7 +55,7 @@ class TeacherCalendarConsultationController extends Controller
                         $student = StudentReg::model()->findByPk($keys[$j]);
                         $params[0] = $array[$keys[$j]];
                         $params[1] = $teacher->fullName;
-                        $student->notify('_confirmConsultation', array($params), 'Підтверджено консультацію');
+                        $student->notify('_confirmConsultation', array($params), 'Підтверджено консультацію', $id_teacher);
                     }
                 } else {
                     $id = $item[$i];
@@ -91,7 +84,7 @@ class TeacherCalendarConsultationController extends Controller
                             $student = StudentReg::model()->findByPk($keys[$j]);
                             $params[0] = $array[$keys[$j]];
                             $params[1] = $teacher->fullName;
-                            $student->notify('_denyConsultation', array($params), 'Скасовано консультацію');
+                            $student->notify('_denyConsultation', array($params), 'Скасовано консультацію', $id_teacher);
                         }
                     } else {
                         $id = $item[0][$i];

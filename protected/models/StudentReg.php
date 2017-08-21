@@ -1144,9 +1144,11 @@ class StudentReg extends CActiveRecord {
     }
 
     public function notify($template, $params, $subject, $senderId = null) {
-        if ($senderId)
+        if ($senderId){
             $senderModel = StudentReg::model()->findByPk($senderId);
-        else $senderModel = StudentReg::model()->findByPk(Config::getAdminId());
+        } else {
+            $senderModel = StudentReg::model()->findByPk(Config::getAdminId());
+        }
         $connection = Yii::app()->db;
         $transaction = null;
         if ($connection->getCurrentTransaction() == null) {
