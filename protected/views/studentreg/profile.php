@@ -159,6 +159,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <li>
                     <?= ($owner) ? Yii::t('profile', '0116') : Yii::t('profile', '0824'); ?>
                 </li>
+                <li>
+                    Моя кар'єра
+                </li>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>
                     <li>
@@ -194,6 +197,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         ),
                     ));
                     ?>
+                </div>
+                <div id="myCareer">
+                    <a href="http://robotamolodi.org/auth/intita">Резюме</a>
                 </div>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>
