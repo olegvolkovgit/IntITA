@@ -61,7 +61,7 @@
 
     <!-- application less -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/modal.less'); ?>" rel="stylesheet/less" type="text/css" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/less.min.js'); ?>"></script>
 
     <script>
         basePath = '<?=Config::getBaseUrl()?>';
@@ -120,6 +120,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/agreementTemplate.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/directives/modalDirective.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/directives/crmTaskDirective.js'); ?>"></script>
 
     <!--Angular routers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/cabinetRouter.js'); ?>"></script>
@@ -234,6 +235,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/translitService.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/services/modalService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/services/taskServices.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/transformRequest.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/lodash.js'); ?>"></script>

@@ -90,7 +90,7 @@ class Director extends Role
 	public function addRoleFormList($query, $organization)
 	{
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
 		$criteria->alias = "s";
 		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");

@@ -102,7 +102,7 @@
 
             <li class="header"><span><h3>CRM</h3></span></li>
             <li>
-                <a href="#/tasks">
+                <a href="#/tasks/executant">
                     Завдання
                 </a>
             </li>

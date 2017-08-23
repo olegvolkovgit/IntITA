@@ -200,4 +200,28 @@ class TeacherOrganization extends CActiveRecord
             return $model->id_organization == $this->id_organization;
         });
     }
+
+    /**
+     * @param $query string - query from typeahead
+     * @param $organization - query from typeahead
+     * @return string - json for typeahead field in user manage page
+     */
+    public function coworkersList($query, $organization)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "u.id, secondName, firstName, email, avatar, nickname";
+        $criteria->alias = "u";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('nickname', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN teacher_organization tor ON tor.id_user = u.id';
+        $criteria->addCondition('tor.end_date IS NULL');
+        if($organization){
+            $criteria->addInCondition('tor.id_organization', array($organization));
+        }
+        $criteria->group = 'u.id';
+
+        return StudentReg::model()->findAll($criteria);
+    }
 }

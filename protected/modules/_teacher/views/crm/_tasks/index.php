@@ -1,12 +1,7 @@
-<!--<link href="_content/modal.less" rel="stylesheet/less" type="text/css">-->
-<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
 <div ng-controller="crmTasksCtrl">
     <div class="panel-body">
-        <uib-tabset active="0">
-            <uib-tab index="0" heading="Мої" ui-sref="tasks.my"></uib-tab>
-            <uib-tab index="1" heading="Допомагаю" ui-sref="tasks.helps"></uib-tab>
-            <uib-tab index="2" heading="Доручив" ui-sref="tasks.entrust"></uib-tab>
-            <uib-tab index="3" heading="Спостерігаю" ui-sref="tasks.watch"></uib-tab>
+        <uib-tabset active="active">
+            <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}} {{tab.count | bracket}}" ui-sref ="tasks.{{tab.route}}" ></uib-tab>
         </uib-tabset>
         <br>
         <div class="row text-right">
@@ -16,20 +11,20 @@
         <hr>
         <div ui-view="usersTasks"></div>
     </div>
-</div>
 
-<modal id="newTask">
-    <div class="modal">
-        <div class="modal-body">
-            <h1>Нове завдання</h1>
-            <p>
-                <input type="text" placeholder="Введіть назву завдання" ng-model="task.name" />
-            </p>
-            <p>
-                <button type="button" class="btn btn-success">Поставити завдання</button>
-                <button type="button" class="btn btn-default" ng-click="closeModal('newTask');">Відміна</button>
-            </p>
+    <modal id="newTask">
+        <div class="modal">
+            <div class="modal-body">
+                <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" producer="producer" callback-fn="loadTasks(tasksType)"></crm-task>
+                <br>
+                <p style="clear: both">
+                    <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4)" class="btn btn-success" ng-click="sendTask(crmTask,'newTask')" ng-disabled="isDisabled" >
+                        {{crmTask.id?'Редагувати':'Поставити завдання'}}
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="closeModal('newTask');">Відміна</button>
+                </p>
+            </div>
         </div>
-    </div>
-    <div class="modal-background"></div>
-</modal>
+        <div class="modal-background"></div>
+    </modal>
+</div>

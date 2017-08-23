@@ -10,32 +10,32 @@ angular
                 cache: false,
                 templateUrl: basePath+"/_teacher/crm/_tasks/tasks/index",
             })
-            .state('tasks.my', {
-                url: '/my',
+            .state('tasks.executant', {
+                url: '/executant',
                 views: {
                     'usersTasks': {
                         templateUrl: basePath+"/_teacher/crm/_tasks/tasks/myTasks",
                     }
                 }
             })
-            .state('tasks.helps', {
-                url: '/helps',
+            .state('tasks.collaborator', {
+                url: '/collaborator',
                 views: {
                     'usersTasks': {
                         templateUrl: basePath+"/_teacher/crm/_tasks/tasks/helpsTasks",
                     }
                 }
             })
-            .state('tasks.entrust', {
-                url: '/entrust',
+            .state('tasks.producer', {
+                url: '/producer',
                 views: {
                     'usersTasks': {
                         templateUrl: basePath+"/_teacher/crm/_tasks/tasks/entrustTasks",
                     }
                 }
             })
-            .state('tasks.watch', {
-                url: '/watch',
+            .state('tasks.observer', {
+                url: '/observer',
                 views: {
                     'usersTasks': {
                         templateUrl: basePath+"/_teacher/crm/_tasks/tasks/watchTasks",

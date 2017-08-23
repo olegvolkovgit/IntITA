@@ -20,7 +20,7 @@
                 // close modal on background click
                 element.on('click', function (e) {
                     var target = jQuery(e.target);
-                    if (!target.closest('.modal-body').length) {
+                    if (target.closest('.modal-close').length) {
                         scope.$evalAsync(Close);
                     }
                 });
