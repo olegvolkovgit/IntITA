@@ -1,3 +1,4 @@
+
 <?php
 /* @var $this Controller */
 $header = new Header();
@@ -334,4 +335,13 @@ $header = new Header();
 <?php } ?>
 <!--IntITAMessenger-->
 </body>
+<script>
+    var socket = new WebSocket("wss://dev.intita.com/wss/");
+    socket.onopen = function() {
+        socket.send('9');
+    };
+    socket.onmessage = function(event) {
+        alert("Получены данные " + event.data);
+    };
+</script>
 </html>
