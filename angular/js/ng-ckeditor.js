@@ -107,6 +107,18 @@
                             { name: 'corporate', items : [ 'c_title','c_representatives_data','c_edpnou','c_checking_account','c_bank_name',
                                 'c_bank_code','c_legal_address','c_contacts','c_representatives_position_name'] },
                         ],
+                        toolbar_main: [ //jshint ignore:line
+                            { name: 'document', items : [ 'Source','-' ] },
+                            { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                            { name: 'editing', items : [ ] },
+                            { name: 'forms', items : [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'HiddenField' ] },
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                            { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                            { name: 'insert', items : [ 'Image','Table','HorizontalRule','SpecialChar','PageBreak' ] },
+                            { name: 'styles', items : [ 'Font','FontSize' ] },
+                            { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                        ],
                     };
                     options = angular.extend(options, scope[attrs.ckeditor]);
 

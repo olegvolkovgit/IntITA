@@ -99,6 +99,13 @@
                 ));
             }
             ?>
+
+            <li class="header"><span><h3>CRM</h3></span></li>
+            <li>
+                <a href="#/tasks/executant">
+                    Завдання
+                </a>
+            </li>
         </ul>
     </div>
 </div>
