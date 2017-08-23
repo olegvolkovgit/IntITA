@@ -7,17 +7,17 @@
 
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary" ui-sref="graduate">
+        <button type="button" class="btn btn-success" ui-sref="graduate">
             Список випускників</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary" ng-click="changeView('graduate/edit/<?= $model->id ?>')">
             Редагувати</button>
     </li>
-<!--    <li>-->
-<!--        <button type="button" class="btn btn-primary" ng-click="deleteGraduate('--><?//= $model->id ?><!--')">-->
-<!--            Видалити</button>-->
-<!--    </li>-->
+    <li>
+        <button type="button" class="btn btn-danger" ng-click="deleteGraduate('<?= $model->id ?>')">
+            Видалити</button>
+    </li>
 </ul>
 
 <div class="panel panel-default">

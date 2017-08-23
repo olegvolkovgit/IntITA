@@ -78,6 +78,11 @@ angular
                     modulesRatingList: {
                         url: url + '/getModulesRatingList',
                         method: 'GET'
+                    },
+                    getAllReasons: {
+                        url: url + '/getAllReasons',
+                        method: 'GET',
+                        isArray : true
                     }
 
                 });

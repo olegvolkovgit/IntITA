@@ -181,4 +181,30 @@ class GraduateController extends Controller
 
         $this->renderPartial('_graduatesList', array('dataProvider' => $dataProvider, 'lang' => $lang));
     }
+    /**
+     * Render graduate diploma.
+     * @param int $graduateId ID graduate
+     * @param int $type type of diploma 1 - course 2 - module
+     */
+    public function actionRenderDiploma($graduateId, $type){
+        $graduate = null;
+        switch ($type){
+            case 1:
+                $diplomeType = 'course';
+                $graduate = RatingUserCourse::model()->with(['idUser','idCourse'])->findByPk($graduateId);
+                break;
+            case 2:
+                $diplomeType = 'module';
+                $graduate = RatingUserModule::model()->with(['idUser','idModule'])->findByPk($graduateId);
+                break;
+            default:
+                throw new CHttpException(400, 'Некоректний запит');
+                break;
+        }
+        if ($graduate){
+            $graduateUser = Graduate::model()->find('id_user=:user',['user'=>$graduate->id_user]);
+            return $this->renderPartial('_diplomaIntita', ['model'=>$graduate, 'type'=>$diplomeType,'name'=>"{$graduateUser->first_name_en} {$graduateUser->last_name_en}"]);
+        }
+        else throw new CHttpException(404,'Випускника не знайдено');
+    }
 }

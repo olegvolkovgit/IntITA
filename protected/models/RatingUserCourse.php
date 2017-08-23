@@ -55,7 +55,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
 		return array(
 			'idCourse' => array(self::BELONGS_TO, 'Course', 'id_course'),
 			'courseRevision' => array(self::BELONGS_TO, 'VcCourse', 'course_revision'),
-			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
+			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 		);
 	}
 

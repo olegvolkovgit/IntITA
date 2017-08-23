@@ -213,7 +213,7 @@ class UserController extends TeacherCabinetController {
                 $mailBox->save();
                 $model->corporate_mail = $mailBox->username;
                 $model->save();
-                $message = new UserMessages();
+                $message = new MessagesNotifications();
                 $text = $this->renderPartial('//mail/templates/_createMail',array('mail'=>$mailBox->username),true);
                 $message->build('Надано корпоративну електронну адресу',$text,StudentReg::model()->findByPk(Yii::app()->user->id),StudentReg::model()->findByPk($_POST['userId']));
                 $msg = $message->create();

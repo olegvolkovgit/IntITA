@@ -1,0 +1,33 @@
+
+<div ng-init="showTime()" id="wrapper_table_consultation" >
+    <table id="table_consult" class="table table-bordered table-fixed">
+        <thead style="display: inline-block;">
+            <tr>
+                <h4 style=" margin-top: 0px; margin-bottom: 10px; "> {{ title }} </h4>
+            </tr>
+            <tr>
+                <td ng-hide="1" > години </td>
+                <td ng-repeat="day in days" style="width: 92px;">
+                    {{ day }}
+                </td>
+                <td style="width:12px;"></td>
+            </tr>
+        </thead>
+        <tbody>
+                <!--  time == 48 items  -->
+            <tr ng-repeat="tm in time" >
+                <td class="calendar-hour-column text-center" style="width:1px; height:6px;" ng-hide=" 1 " >
+                </td>
+                    <!--  fullNameDays == 7 items  -->
+                <td ng-repeat="nameDay in fullNameDays track by $index" ng-click=" selectTime( tm, nameDay, $event ) "
+                    ng-class=" [checkTimeForEvent(tm, nameDay), {'selectingCell': selecting_cell == 1 && cansel_btn() == 0,
+                                'past_days': past_day == 1} ]" >
+                    <div tooltip-placement="top" uib-tooltip="{{ ( checkTimeForEvent(tm, nameDay)== 'confirmationTime' ||
+                                                                    checkTimeForEvent(tm, nameDay)== 'consultationTime' ) ? show_popup : '' }}">
+                        {{ tm }}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

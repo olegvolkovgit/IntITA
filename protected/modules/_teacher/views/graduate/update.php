@@ -11,9 +11,7 @@
                     Список випускників</button>
             </li>
         </ul>
-        <div class="formMargin" ng-controller="graduateCtrl">
-
-            <form id="graduateForm" ng-submit="updateGraduate()" novalidate>
+        <div class="formMargin">
                 <div class="form-group">
                     <label>
                         <strong>Прізвище:</strong>
@@ -50,9 +48,9 @@
                         <strong>Дата випуску*:</strong>
                     </label>
                     <p class="input-group col-md-3">
-                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="graduate.graduate_date"
+                        <input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="graduate.graduate_date"
                                is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Закрити"
-                               alt-input-formats="altInputFormats"/>
+                               />
                         <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openDatepicker()"><i
                         class="glyphicon glyphicon-calendar"></i></button>
@@ -91,25 +89,25 @@
                 <div uib-collapse="courseCollapsed">
                     <div class="form-group" ng-repeat="studentCourses in graduate.courses">
                         <span>
-                            <strong>{{studentCourses.idCourse.title_ua}}, рейтинг: {{studentCourses.rating}} </strong>
-                            <button class="btn btn-primary" ng-click="addCourseRating()">Змінити рейтинг</button>
-                            <button class="btn btn-danger" ng-click="addCourseRating()">Видалити курс</button>
+                            <strong>{{studentCourses.idCourse.title_ua}}, рейтинг: {{studentCourses.rating * graduate.ratingScale}} </strong>
+                            <button class="btn btn-primary" ng-click="changeRating('course',studentCourses)">Змінити рейтинг</button>
+                            <button class="btn btn-danger" ng-click="deleteRating('course', studentCourses.id)">Видалити курс</button>
                         </span>
                     </div>
-                    <button class="btn btn-success" ng-click="addCourseRating()">Додати курс</button>
+                    <button class="btn btn-success" ng-click="addRating('course')">Додати курс</button>
                 </div>
                 <div class="form-group">
                 <a href="javascript:void(0)" ng-click="modulesCollapsed = !modulesCollapsed">Модулі</a>
                 </div>
                 <div uib-collapse="modulesCollapsed">
                     <div class="form-group" ng-repeat="studentModules in graduate.modules">
-                        <span><strong>{{studentModules.idModule.title_ua}}, рейтинг: {{studentCourses.rating}} </strong> </span>
+                        <span><strong>{{studentModules.idModule.title_ua}}, рейтинг: {{studentModules.rating * graduate.ratingScale}} </strong> </span>
+                        <button class="btn btn-primary" ng-click="changeRating('module',studentModules )">Змінити рейтинг</button>
+                        <button class="btn btn-danger" ng-click="deleteRating('module',studentModules.id)">Видалити модуль</button>
                     </div>
-                    <button class="btn btn-success" ng-click="addModuleRating()">Додати модуль</button>
+                    <button class="btn btn-success" ng-click="addRating('module')">Додати модуль</button>
 
                 </div>
-
-
                 <div class="form-group">
                     <label>
                         <strong>Відгук:</strong>
@@ -160,10 +158,10 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Оновити</button>
-                </div>
-            </form><!-- form -->
+
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="updateGraduate()">Оновити</button>
+            </div>
         </div>
     </div>
 </div>

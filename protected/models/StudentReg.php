@@ -83,6 +83,7 @@ class StudentReg extends CActiveRecord {
     private $_token;
 
     public $fullName = '';
+    public $_oldAttributes;
 
     public function getDbConnection() {
         return Yii::app()->db;
@@ -363,6 +364,7 @@ class StudentReg extends CActiveRecord {
     }
 
     public function afterFind() {
+        $this->_oldAttributes = $this->attributes;
         /* setup full name field after find */
         $this->fullName = trim($this->firstName . " " . $this->secondName . " " . $this->email);
         //format birthday
@@ -380,6 +382,11 @@ class StudentReg extends CActiveRecord {
     }
 
     public function beforeSave() {
+
+        if ($this->_oldAttributes['firstName'] !=$this->firstName || $this->_oldAttributes['secondName'] != $this->secondName){
+            $this->changeGraduateStatus();
+        }
+
         if ($this->birthday != null) {
             $format = "d/m/Y";
             $this->birthday = date_format(DateTime::createFromFormat($format, $this->birthday),'Y-m-d');
@@ -1137,9 +1144,11 @@ class StudentReg extends CActiveRecord {
     }
 
     public function notify($template, $params, $subject, $senderId = null) {
-        if ($senderId)
+        if ($senderId){
             $senderModel = StudentReg::model()->findByPk($senderId);
-        else $senderModel = StudentReg::model()->findByPk(Config::getAdminId());
+        } else {
+            $senderModel = StudentReg::model()->findByPk(Config::getAdminId());
+        }
         $connection = Yii::app()->db;
         $transaction = null;
         if ($connection->getCurrentTransaction() == null) {
@@ -1445,6 +1454,29 @@ class StudentReg extends CActiveRecord {
 
         return $model;
     }
+
+    public function changeGraduateStatus(){
+        $graduate = Graduate::model()->find('id_user=:userId',['userId'=>$this->id]);
+        if ($graduate){
+            $graduate->published = 0;
+            $graduate->save(false);
+            $superadmins = (new SuperAdmin())->getMembers();
+            if ($superadmins){
+                $receivers = [];
+                foreach ($superadmins as  $superadmin){
+                    array_push($receivers,$superadmin->user);
+                }
+                $message = new MessagesNotifications();
+                $message->build('Змінено дані випускника','Змінено дані випускника: '.$this->fullName(),$receivers,$this);
+                $message->create();
+                Yii::app()->db->createCommand()->insert('message_receiver', array(
+                    'id_message' => $message->id_message,
+                    'id_receiver' => $this->id,
+                ));
+            }
+        }
+    }
+
 
     /**
      * @param $query string - query from typeahead

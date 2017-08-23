@@ -1,12 +1,13 @@
 //celebre
+//deprecated
 function  diploma_course_dialog(name, course) {
 
     bootbox.alert({
         message: '<div id="editor">'+'</div>'+
-        '<button id="print-diploma">'+'Save'+'</button>'+
-                '<div class="diploma-container">'+
+        '<button id="print-diploma" onclick="printPDF()">'+'Save'+'</button>'+
+                '<div class="diploma-container" id="diploma">'+
                     '<div class="diploma-logo" >'+
-                        '<img class="img-diploma" src="images/diploma/logo_diplom.png" alt="logo_diploma_intita">'+
+                        '<img class="img-diploma" src="/images/diploma/logo_diplom.png" alt="logo_diploma_intita">'+
                     '</div>'+
                     '<h1 class="diploma-header">'+'diploma'+'</h1>'+
                     '<p class="certificate">'+'This Sertifies That:'+'</p>'+
@@ -31,12 +32,12 @@ function  diploma_course_dialog(name, course) {
 // // do something in the background
    $('.modal-footer > .btn').hide();
 }
-
+//deprecated
 function  diploma_module_dialog(name, module) {
 
     bootbox.alert({
         message: '<div id="editor">'+'</div>'+
-        '<button id="print-diploma">'+'Save'+'</button>'+
+        '<button id="print-diploma" onclick="printPDF()">'+'Save'+'</button>'+
         '<div class="diploma-container">'+
         '<div class="diploma-logo" >'+
         '<img class="img-diploma" src="images/diploma/logo_diplom.png" alt="logo_diploma_intita">'+
@@ -83,3 +84,23 @@ function openComment(elem) {
 }
 // open comment with click
 // celebre
+//export diploma to pdf
+function printPDF() {
+    var pdf = new jsPDF();
+    var data = $(".diploma-container")[0];
+    var options = {format:"PNG", background:"#ffffff"};
+    pdf.addHTML(data,0,0,options, function() {
+        pdf.save('diploma.pdf');
+    });
+
+}
+//render diploma
+function renderDiploma(graduateId,type) {
+    $.get( "graduate/renderDiploma?graduateId="+graduateId+"&type="+type, function( data ) {
+        bootbox.dialog({
+            message: data,
+            size:'large',
+            onEscape:true
+            })
+    });
+}

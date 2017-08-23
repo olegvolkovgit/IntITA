@@ -19,9 +19,10 @@
                     </td>
                     <td data-title="'Документ'">
                         <span ng-repeat="file in row.documentsFiles track by $index">
-                            <a ng-href="/files/documents/{{row.id_user}}/{{row.documentType.id}}/{{file.file_name}}" target="_blank">
-                                {{file.file_name}}
-                            </a>
+                            <button class="btn btn-success" ng-click="getDocument(file.id)">Переглянути документ</button>
+<!--                            <a ng-href="/files/documents/{{row.id_user}}/{{row.documentType.id}}/{{file.file_name}}" target="_blank">-->
+<!--                                {{file.file_name}}{{file.id}}-->
+<!--                            </a>-->
                         </span>
                     </td>
                 </tr>

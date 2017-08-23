@@ -44,7 +44,7 @@
                         <?php $form = $this->beginWidget('CActiveForm', array(
                             'id' => 'ajaxchange-form',
                         )); ?>
-                        <input type="hidden" id="<?php echo 'dateconsajax' . $data['user_id'] ?>"
+                        <input  id="<?php echo 'dateconsajax' . $data['user_id'] ?>"
                                name="dateconsajax"/>
                         <input type="hidden" name="teacherIdajax" value="<?php echo $data['user_id']; ?>" />
                         <?php
@@ -125,5 +125,5 @@
         startDate: firstday,
         endDate: lastday
     });
-    $(calendarId).datetimepicker('setDaysOfWeekDisabled', [0, 6]);
+    $(calendarId).datetimepicker('setDaysOfWeekDisabled', []);
 </script>

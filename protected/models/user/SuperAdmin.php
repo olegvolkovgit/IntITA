@@ -113,7 +113,7 @@ class SuperAdmin extends Role
 		return json_encode($result);
 	}
 	
-    function getMembers($criteria = null)
+    public function getMembers($criteria = null)
     {
         return UserSuperAdmin::model()->findAll($criteria);
     }
