@@ -703,4 +703,13 @@ class Teacher extends CActiveRecord
 
         return $dataProvider;
     }
+
+    public static function requestDirectorsArray(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'u';
+        $criteria->join = 'join user_director ud on ud.id_user=u.id';
+        $criteria->distinct = true;
+
+        return StudentReg::model()->findAll($criteria);
+    }
 }

@@ -18,7 +18,7 @@ angular
     .controller('groupModulesAttributesCtrl', groupModulesAttributesCtrl)
     .controller('groupModulesTeachersFormCtrl', groupModulesTeachersFormCtrl)
     .controller('lecturesRatingTableCtrl', lecturesRatingTableCtrl)
-    .controller('modulesRatingTableCtrl', modulesRatingTableCtrl)
+    .controller('modulesRatingTableCtrl', modulesRatingTableCtrl);
 
 function superVisorCtrl (){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
@@ -710,19 +710,59 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
     };
     
     $scope.cancelStudentFromSubgroup=function (idUser, idSubgroup) {
-        $http({
-            method: 'POST',
-            url: basePath+'/_teacher/_supervisor/superVisor/cancelStudentFromSubgroup',
-            data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            chatIntITAMessenger.updateSubgroup(idSubgroup);
+        $scope.option_str = '<option selected="true" disabled="disabled">Вибири причину...</option>';
 
-            $scope.loadOfflineStudentModel($scope.studentModelId);
-            $scope.addUIHandlers(response.data);
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
+        superVisorService
+            .getAllReasons()
+            .$promise
+            .then(function(response){
+                    var res_length = response.length;
+                    for(var i=0; i<res_length; i++){
+                        $scope.option_str = $scope.option_str+'<option value="'+response[i].id+'">'+response[i].description+'</option>';
+                    }
+                },
+                function (error) {
+                    console.error(error);
+                });
+
+        setTimeout(function () {
+            bootbox.dialog({
+                    title: "Вибери, будь ласка, причину виключення:",
+                    message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+                             '<select class="form-control" id="selected_reason">'+$scope.option_str+'</select>'+'</div></form></div></div>',
+                    buttons: {
+                        success: {label: "Підтвердити", className: "btn btn-primary apply-btn",
+                            callback: function () {
+                                var reasonId = $jq('#selected_reason').val();
+
+                                $http({
+                                    method: 'POST',
+                                    url: basePath+'/_teacher/_supervisor/superVisor/cancelStudentFromSubgroup',
+                                    data: $jq.param({userId: idUser, subgroupId: idSubgroup, reasonId: reasonId}),
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                }).then(function successCallback(response) {
+                                        chatIntITAMessenger.updateSubgroup(idSubgroup);
+                                        $scope.loadOfflineStudentModel($scope.studentModelId);
+                                        $scope.addUIHandlers(response.data);
+                                    }, function errorCallback() {
+                                        bootbox.alert("Операцію не вдалося виконати");
+                                    });
+                            }
+                        },
+                        cancel: {label: "Скасувати", className: "btn btn-default",
+                            callback: function () {
+                            }
+                        }
+                    }
+                }
+            );
+            $jq('.apply-btn').prop('disabled', true);
+
+            $jq('#selected_reason').on('change', function () {
+                $jq('.apply-btn').prop('disabled', false);
+            });
+
+        }, 400);
     };
 
     $scope.onSelectGroup = function ($item) {
