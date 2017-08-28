@@ -4,9 +4,12 @@
 
 angular
     .module('crmApp')
-    .controller('crmTasksCtrl', ['$scope', 'ModalService', 'crmTaskServices','ngToast','$rootScope','NgTableParams','$state','lodash',
-        function ($scope, ModalService, crmTaskServices, ngToast, $rootScope, NgTableParams,$state, lodash) {
+    .controller('crmTasksCtrl', ['$scope', 'ModalService', 'crmTaskServices','ngToast','$rootScope','NgTableParams','$state','lodash','$filter',
+        function ($scope, ModalService, crmTaskServices, ngToast, $rootScope, NgTableParams,$state, lodash, $filter) {
             $scope.changePageHeader('Завдання');
+
+            $scope.board=1;
+            $scope.currentUser=user;
 
             $scope.openNewModal = function (id) {
                 ModalService.Open(id);
@@ -92,21 +95,27 @@ angular
             }
 
             $scope.loadTasks=function (idRole) {
-                $scope.tasksTableParams = new NgTableParams({
-                    sorting: {
-                        assigned_date: 'desc'
-                    },
-                    id:idRole}, {
-                    getData: function (params) {
-                        return crmTaskServices
-                            .getTasks(params.url())
-                            .$promise
-                            .then(function (data) {
-                                params.total(data.count);
-                                return data.rows;
-                            });
-                    }
-                });
+
+                if($scope.board==1){
+                    return $scope.loadKanbanTasks(idRole);
+                }else{
+                    var promise = $scope.tasksTableParams = new NgTableParams({
+                        sorting: {
+                            assigned_date: 'desc'
+                        },
+                        id:idRole}, {
+                        getData: function (params) {
+                            return crmTaskServices
+                                .getTasks(params.url())
+                                .$promise
+                                .then(function (data) {
+                                    params.total(data.count);
+                                    return data.rows;
+                                });
+                        }
+                    });
+                    return promise;
+                }
             };
 
             $scope.crmStateList = crmTaskServices
@@ -117,28 +126,100 @@ angular
                         return {id: item.id, title: item.description}
                     });
                 });
+
+            $scope.initCrmKanban=function (crmCards) {
+                $scope.config = {
+                    columns: [
+                        {name: "Очікує на виконання", id: "1", barColor: "#f9ba25"},
+                        {name: "Виконується", id: "2"},
+                        {name: "Призупинено", id: "3"},
+                        {name: "Завершено", id: "4"}
+                    ],
+                    cards: crmCards,
+                };
+            };
+
+            $scope.loadKanbanTasks=function (idRole) {
+                var promise = $scope.crmCanbanTasksList =
+                    crmTaskServices
+                        .getTasks({id:idRole})
+                        .$promise
+                        .then(function (data) {
+                            $scope.crmCards=data.rows.map(function (item) {
+                                return {id: item.idTask.id, name: item.idTask.name,
+                                    text:$filter('limitTo')(item.idTask.body, 200)+'<em><br><b>Дата: '+item.idTask.change_date+'<br>Призначив: '+item.assignedBy.fullName+'</b></em>',
+                                    column:item.idTask.id_state}
+                            });
+                            $scope.initCrmKanban($scope.crmCards);
+
+                            return true;
+                        });
+                return promise;
+            };
+
+            $scope.$watch('board', function () {
+                $scope.loadTasks($rootScope.roleId);
+            });
+
         }])
     .controller('crmMyTasksCtrl', ['$scope', 'crmTaskServices','ngToast','$rootScope',
         function ($scope, crmTaskServices, ngToast,$rootScope) {
             $scope.changePageHeader('Мої завдання');
             $rootScope.roleId=1;
-            $scope.loadTasks($rootScope.roleId);
+            $scope.loadTasks($rootScope.roleId).then(function (data) {
+                $scope.dp.onCardClick= function(args) {
+                    $scope.getTask(args.card.data.id,'newTask');
+                };
+                $scope.dp.onCardMoved = function(args) {
+                    crmTaskServices.changeTaskState({id:args.card.data.id, state:args.column.data.id}).$promise.then(function(){
+                        $scope.loadKanbanTasks($rootScope.roleId);
+                    });
+                };
+            });
     }])
     .controller('crmEntrustTasksCtrl', ['$scope', 'crmTaskServices','ngToast','$rootScope',
         function ($scope, crmTaskServices, ngToast,$rootScope) {
             $scope.changePageHeader('Завдання які доручив');
             $rootScope.roleId=2;
-            $scope.loadTasks($rootScope.roleId);
+            $scope.loadTasks($rootScope.roleId).then(function (data) {
+                $scope.dp.onCardClick= function(args) {
+                    $scope.getTask(args.card.data.id,'newTask');
+                };
+                $scope.dp.onCardMoved = function(args) {
+                    crmTaskServices.changeTaskState({id:args.card.data.id, state:args.column.data.id}).$promise.then(function(){
+                        $scope.loadKanbanTasks($rootScope.roleId);
+                    });
+                };
+            });
         }])
     .controller('crmWatchTasksCtrl', ['$scope', 'crmTaskServices','ngToast','$rootScope',
         function ($scope, crmTaskServices, ngToast,$rootScope) {
             $scope.changePageHeader('Завдання в яких спостерігаю');
             $rootScope.roleId=4;
-            $scope.loadTasks($rootScope.roleId);
+            $scope.loadTasks($rootScope.roleId).then(function (data) {
+                $scope.dp.cardMoveHandling = "Disabled";
+                $scope.dp.onCardClick= function(args) {
+                    $scope.getTask(args.card.data.id,'newTask');
+                };
+                $scope.dp.onCardMoved = function(args) {
+                    crmTaskServices.changeTaskState({id:args.card.data.id, state:args.column.data.id}).$promise.then(function(){
+                        $scope.loadKanbanTasks($rootScope.roleId);
+                    });
+                };
+            });
         }])
     .controller('crmHelpsTasksCtrl', ['$scope', 'crmTaskServices','ngToast','$rootScope',
         function ($scope, crmTaskServices, ngToast,$rootScope) {
             $scope.changePageHeader('Завдання в яких допомагаю');
             $rootScope.roleId=3;
-            $scope.loadTasks($rootScope.roleId);
+            $scope.loadTasks($rootScope.roleId).then(function (data) {
+                $scope.dp.onCardClick= function(args) {
+                    $scope.getTask(args.card.data.id,'newTask');
+                };
+                $scope.dp.onCardMoved = function(args) {
+                    crmTaskServices.changeTaskState({id:args.card.data.id, state:args.column.data.id}).$promise.then(function(){
+                        $scope.loadKanbanTasks($rootScope.roleId);
+                    });
+                };
+            });
         }])
