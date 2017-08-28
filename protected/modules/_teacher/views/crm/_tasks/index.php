@@ -1,7 +1,6 @@
 <div ng-controller="crmTasksCtrl">
     <input type="radio" ng-model="board" value="1"><label>Kanban</label>
     <input type="radio" ng-model="board" value="2"><label>Table</label>
-
     <div class="panel-body">
         <uib-tabset active="active">
             <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}} {{tab.count | bracket}}" ui-sref ="tasks.{{tab.route}}" ></uib-tab>
