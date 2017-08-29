@@ -2,7 +2,10 @@
 
 class TasksController extends TeacherCabinetController {
     public function hasRole() {
-        return true;
+        return Yii::app()->user->model->isTeacher() || Yii::app()->user->model->isDirector()
+            || Yii::app()->user->model->isSuperAdmin()
+            || Yii::app()->user->model->isAuditor()
+            || Yii::app()->user->model->isAdmin();
     }
 
     public function actionIndex($id = 0) {

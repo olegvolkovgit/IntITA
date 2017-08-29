@@ -84,7 +84,6 @@ angular
                         scope.historyTableParams.reload({id:task.id});
                         scope.someCtrlFn({tasksType: $rootScope.roleId});
                     });
-                    console.log($rootScope.roleId);
                 }
 
                 scope.loadTasksHistory=function (id) {

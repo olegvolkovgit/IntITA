@@ -1,5 +1,5 @@
 <div class="panel panel-default" ng-controller="crmMyTasksCtrl">
-    <div class="panel-body">
+    <div class="panel-body" ng-show="board==2">
         <div class="dataTable_wrapper">
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed">
                 <colgroup>
@@ -25,4 +25,9 @@
             </table>
         </div>
     </div>
+
+    <div ng-show="board==1">
+        <daypilot-kanban id="dp" config="config" ></daypilot-kanban>
+    </div>
+
 </div>

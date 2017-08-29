@@ -3,4 +3,5 @@
 angular
     .module('crmApp', [
         'crmRouter',
+        'daypilot',
     ])
