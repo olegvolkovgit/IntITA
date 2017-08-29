@@ -34,6 +34,9 @@ $header = new Header();
     <!-- trimEmail-->
     <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'trimField.js'); ?>"></script>
     <!-- trimEmail -->
+    <!-- pdf generator -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/jspdf/dist/jspdf.min.js'); ?>"></script>
+
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
@@ -48,8 +51,10 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-animate/angular-animate.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/transformRequest.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
+
     <?php if (!Yii::app()->user->isGuest) { ?>
     <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
     <?php } ?>

@@ -1,18 +1,21 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Quicks
  * Date: 25.12.2015
  * Time: 14:09
  */
+class GraduateController extends TeacherCabinetController
+{
 
-class GraduateController extends TeacherCabinetController {
-
-    public function hasRole(){
-        $allowedViewActions=['index','getGraduatesJson', 'view', 'changeStatus', 'create'];
+    public function hasRole()
+    {
+        $allowedViewActions = ['index', 'getGraduatesJson', 'view', 'changeStatus', 'create'];
         return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor() ||
-        Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin();
+            Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin();
     }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -21,7 +24,7 @@ class GraduateController extends TeacherCabinetController {
     {
         $this->renderPartial('view', array(
             'model' => $this->loadModel($id)
-        ),false,true);
+        ), false, true);
     }
 
     /**
@@ -46,12 +49,12 @@ class GraduateController extends TeacherCabinetController {
                 } else {
                     $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/').'#/graduate');
+                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/') . '#/graduate');
             }
         }
         $this->renderPartial('create', array(
-            'model' => $model, 'user' => $intitaUser, 'rating'=>$rating
-        ),false,true);
+            'model' => $model, 'user' => $intitaUser, 'rating' => $rating
+        ), false, true);
     }
 
     /**
@@ -79,12 +82,12 @@ class GraduateController extends TeacherCabinetController {
                         $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                     }
                 }
-                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/').'#/graduate');
+                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/') . '#/graduate');
             }
         }
         $this->renderPartial('update', array(
             'model' => $model
-        ),false,true);
+        ), false, true);
     }
 
     /**
@@ -94,8 +97,7 @@ class GraduateController extends TeacherCabinetController {
     public function actionDelete()
     {
         $id = Yii::app()->request->getPost('id', 0);
-
-        if($this->loadModel($id)->delete())
+        if ($this->loadModel($id)->delete())
             echo "Операцію успішно виконано.";
         else
             echo "Операцію не вдалося виконати.";
@@ -109,7 +111,7 @@ class GraduateController extends TeacherCabinetController {
         $this->renderPartial('index', array(), false, true);
     }
 
-     /**
+    /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
@@ -118,19 +120,21 @@ class GraduateController extends TeacherCabinetController {
      */
     public function loadModel($id)
     {
-        $model = Graduate::model()->with('user','courses','modules')->findByPk($id);
+        $model = Graduate::model()->with('user', 'courses', 'modules.idModule', 'courses.idCourse')->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
 
-    public function actionDeletePhoto(){
+    public function actionDeletePhoto()
+    {
         $id = Yii::app()->request->getPost('id', '0');
-        if($id != 0){
+        if ($id != 0) {
             echo Graduate::model()->updateByPk($id, array('avatar' => 'noname2.png'));
         }
         //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/_admin/graduate/'.$id);
     }
+
     /**
      * Performs the AJAX validation.
      * @param Graduate $model the model to be validated
@@ -143,175 +147,178 @@ class GraduateController extends TeacherCabinetController {
         }
     }
 
-    public function actionGetGraduatesList(){
+    public function actionGetGraduatesList()
+    {
         echo Graduate::graduatesList();
     }
 
-    public function actionGetGraduatesJson(){
+    public function actionGetGraduatesJson()
+    {
 
         $criteria = new CDbCriteria();
         $criteria->with = ['user'];
-        if (isset($_GET['sorting']['first_name'])){
-            $criteria->order = 'user.first_name  COLLATE utf8_unicode_ci ' .$_GET['sorting']['first_name']  ;
+        if (isset($_GET['sorting']['first_name'])) {
+            $criteria->order = 'user.first_name  COLLATE utf8_unicode_ci ' . $_GET['sorting']['first_name'];
         }
-        $adapter = new NgTableAdapter('Graduate',$_GET);
+        $adapter = new NgTableAdapter('Graduate', $_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
     }
 
-    public function actionGetusers(){
+    public function actionGetusers()
+    {
         $result = [];
-        $models =    TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['firstName','secondName','email','avatar']);
-        foreach ($models as $model){
-            $arr = $model->getAttributes(['id','avatar','email','firstName','secondName']);
+        $models = TypeAheadHelper::getTypeahead($_GET['query'], 'StudentReg', ['firstName', 'secondName', 'email', 'avatar']);
+        foreach ($models as $model) {
+            $arr = $model->getAttributes(['id', 'avatar', 'email', 'firstName', 'secondName']);
             $arr['fullName'] = $model->fullName();
-            array_push($result,$arr);
-           unset($arr);
+            array_push($result, $arr);
+            unset($arr);
         }
-        echo json_encode(['results'=>$result]);
+        echo json_encode(['results' => $result]);
     }
 
-    public function actionGetAllCourses(){
+    public function actionGetAllCourses()
+    {
         $criteria = new CDbCriteria();
-        $criteria->select = ['course_ID','title_ua'];
-        $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query') , 'UTF-8'), true, 'OR');
+        $criteria->select = ['course_ID', 'title_ua'];
+        $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query'), 'UTF-8'), true, 'OR');
         $criteria->addCondition('cancelled=0');
-        if (!(Yii::app()->user->model->isSuperadmin() || Yii::app()->user->model->isDirector())){
-            $criteria->addInCondition('id_organization',[Yii::app()->user->model->getCurrentOrganizationId()]);
+        if (!(Yii::app()->user->model->isSuperadmin() || Yii::app()->user->model->isDirector())) {
+            $criteria->addInCondition('id_organization', [Yii::app()->user->model->getCurrentOrganizationId()]);
         }
         $courses = Course::model()->findAll($criteria);
         $result = [];
-        foreach ($courses as $course){
-            array_push($result, $course->getAttributes(['course_ID','title_ua']));
+        foreach ($courses as $course) {
+            array_push($result, $course->getAttributes(['course_ID', 'title_ua']));
         }
-        echo json_encode(['results'=>$result]);
+        echo json_encode(['results' => $result]);
     }
 
-    public function actionGetAllModules(){
+    public function actionGetAllModules()
+    {
         $criteria = new CDbCriteria();
-        $criteria->select = ['module_ID','title_ua'];
-        $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query') , 'UTF-8'), true, 'OR');
+        $criteria->select = ['module_ID', 'title_ua'];
+        $criteria->addSearchCondition('LOWER(title_ua)', mb_strtolower(Yii::app()->request->getQuery('query'), 'UTF-8'), true, 'OR');
         $criteria->addCondition('cancelled=0');
-        if (!(Yii::app()->user->model->isSuperadmin() || Yii::app()->user->model->isDirector())){
-            $criteria->addInCondition('id_organization',[Yii::app()->user->model->getCurrentOrganizationId()]);
+        if (!(Yii::app()->user->model->isSuperadmin() || Yii::app()->user->model->isDirector())) {
+            $criteria->addInCondition('id_organization', [Yii::app()->user->model->getCurrentOrganizationId()]);
         }
         $courses = Module::model()->findAll($criteria);
         $result = [];
-        foreach ($courses as $course){
-            array_push($result, $course->getAttributes(['module_ID','title_ua']));
+        foreach ($courses as $course) {
+            array_push($result, $course->getAttributes(['module_ID', 'title_ua']));
         }
-        echo json_encode(['results'=>$result]);
+        echo json_encode(['results' => $result]);
     }
 
-    public function actionAddGraduate(){
+    public function actionAddGraduate()
+    {
         $request = Yii::app()->request->getPost('Graduate');
-        $errors=[];
-        if(Graduate::model()->findByAttributes(array('id_user'=>$request['user']['id'])))
-            $errors=['Випускник уже існує'];
-        if(!isset($request['graduate_date']))
-            $errors=['Оберіть дату випуску'];
-        if (!empty($errors)){
-            echo  json_encode(['errors'=>$errors]);
+        $errors = [];
+        if (Graduate::model()->findByAttributes(array('id_user' => $request['user']['id'])))
+            $errors = ['Випускник уже існує'];
+        if (!isset($request['graduate_date']))
+            $errors = ['Оберіть дату випуску'];
+        if (!empty($errors)) {
+            echo json_encode(['errors' => $errors]);
             Yii::app()->end();
         }
         $graduate = new Graduate();
 
-        if($request){
-        $graduate->loadModel($request);
-        $graduate->published = 1 ;
+        if ($request) {
+            $graduate->loadModel($request);
+            $graduate->published = 1;
         }
         $graduate->id_user = $request['user']['id'];
         $date = strtotime($request['graduate_date']);
-        $graduate->graduate_date=date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
-
-        if(isset($request['course']['course_ID'])){
-            $courseRating = new RatingUserCourse();
-            $courseRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
-            $courseRating->rating = isset($request['course_rating'])?((double)$request['course_rating']/Config::getRatingScale()):null;
-            $courseRating->id_course = isset($request['course']['course_ID'])?$request['course']['course_ID']:null;
-            $courseRating->start_course = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
-            $courseRating->date_done = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
-            $courseRating->course_revision = 1;
-            $courseRating->course_done = (int)true;
-        }
-
-        if(isset($request['module']['module_ID'])){
-            $moduleRating = new RatingUserModule();
-            $moduleRating->id_user = isset($request['user']['id'])?$request['user']['id']:null;
-            $moduleRating->rating = isset($request['module_rating'])?((double)$request['module_rating']/Config::getRatingScale()):null;
-            $moduleRating->id_module = isset($request['module']['module_ID'])?$request['module']['module_ID']:null;
-            $moduleRating->start_module = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
-            $moduleRating->end_module = date_format(date_timestamp_set(new DateTime(),$date),'Y-m-d');
-            $moduleRating->module_revision = 1;
-            $moduleRating->module_done = (int)true;
-            $moduleRating->paid_module = (int)true;
-        }
-
-        $errorsGraduate=[];
-        $errorsCourse=[];
-        $errorsModule=[];
-        if (!$graduate->validate()){
-            $errorsGraduate=$graduate->getErrors();
-        }
-        if (isset($courseRating) && !$courseRating->validate()){
-            $errorsCourse=$courseRating->getErrors();
-        }
-        if (isset($moduleRating) && !$moduleRating->validate()){
-            $errorsModule=$moduleRating->getErrors();
-        }
-
-        $errors=array_merge($errorsGraduate,$errorsCourse,$errorsModule);
-        if (!empty($errors)){
-            echo  json_encode(['errors'=>$errors]);
+        $graduate->graduate_date = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+        if (!$graduate->validate()) {
+            $errorsGraduate = $graduate->getErrors();
+            echo json_encode(['errors' => $errorsGraduate]);
             Yii::app()->end();
         }
-        if (isset($courseRating)) {
-            $courseRating->save(false);
-        }
-        if (isset($moduleRating)) {
-            $moduleRating->save(false);
-        }
         $graduate->save(false);
+        if (isset($request['courses'])) {
+            foreach ($request['courses'] as $course) {
+                $courseRating = new RatingUserCourse();
+                $courseRating->id_user = isset($request['user']['id']) ? $request['user']['id'] : null;
+                $courseRating->rating = $course['rating'];
+                $courseRating->id_course = $course['course_ID'];
+                $courseRating->start_course = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                $courseRating->date_done = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                $courseRating->course_revision = 1;
+                $courseRating->course_done = (int)true;
+                $courseRating->save();
+            }
+        }
+        if (isset($request['modules'])) {
+            foreach ($request['modules'] as $module) {
+                $moduleRating = new RatingUserModule();
+                $moduleRating->id_user = isset($request['user']['id']) ? $request['user']['id'] : null;
+                $moduleRating->rating =  $module['rating'];
+                $moduleRating->id_module = $module['module_ID'];
+                $moduleRating->start_module = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                $moduleRating->end_module = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                $moduleRating->module_revision = 1;
+                $moduleRating->module_done = (int)true;
+                $moduleRating->paid_module = (int)true;
+                $moduleRating->save();
+            }
+        }
+
+        $errorsGraduate = [];
+        $errorsCourse = [];
+        $errorsModule = [];
+
+
+        $errors = array_merge($errorsGraduate, $errorsCourse, $errorsModule);
+        if (!empty($errors)) {
+            echo json_encode(['errors' => $errors]);
+            Yii::app()->end();
+        }
+
         echo 'done';
         Yii::app()->end();
     }
 
-    public function actionAddNewUser(){
+    public function actionAddNewUser()
+    {
         $request = Yii::app()->request->getPost('User');
         $user = new StudentReg();
-        if ($request){
-            $pass = sha1(microtime().'hdssdgcs');
+        if ($request) {
+            $pass = sha1(microtime() . 'hdssdgcs');
             $user->loadModel($request);
-            $user->password =  $pass;
+            $user->password = $pass;
             $user->password_repeat = $pass;
             $user->status = 0;
         }
         $user->setScenario('reguser');
-        if ($user->validate()){
+        if ($user->validate()) {
             $avatarFile = 'noname.png';
-            if (isset($request['avatar']) && !empty($request['avatar'])){
-                $avatarFile = uniqid().'.jpg';
+            if (isset($request['avatar']) && !empty($request['avatar'])) {
+                $avatarFile = uniqid() . '.jpg';
                 $code_base64 = $request['avatar'];
-                $code_base64 = str_replace('data:image/jpeg;base64,','',$code_base64);
+                $code_base64 = str_replace('data:image/jpeg;base64,', '', $code_base64);
                 $code_binary = base64_decode($code_base64);
-                $image= imagecreatefromstring($code_binary);
-                imagejpeg($image,'images/avatars/'.$avatarFile,80);
+                $image = imagecreatefromstring($code_binary);
+                imagejpeg($image, 'images/avatars/' . $avatarFile, 80);
             }
             $user->avatar = $avatarFile;
             $user->save();
-            echo json_encode(['user'=>['id'=>$user->id,'avatar'=>$avatarFile,'fullName'=>$user->fullName()]]);
+            echo json_encode(['user' => ['id' => $user->id, 'avatar' => $avatarFile, 'fullName' => $user->fullName()]]);
             Yii::app()->end();
-        }
-        else{
-            echo json_encode(['errors'=>$user->getErrors()]);
+        } else {
+            echo json_encode(['errors' => $user->getErrors()]);
             Yii::app()->end();
         }
 
     }
 
-    public function actionChangeStatus(){
+    public function actionChangeStatus()
+    {
         $id = Yii::app()->request->getPost('id');
-        if($id){
+        if ($id) {
             $model = $this->loadModel($id);
             $model->published = !$model->published;
             $model->save();
@@ -320,5 +327,96 @@ class GraduateController extends TeacherCabinetController {
         }
         echo 'error';
         Yii::app()->end();
+    }
+
+    public function actionGetGraduateData($id)
+    {
+        $model = $this->loadModel((int)$id);
+        $data = array_merge($model->toArray(), ['ratingScale' => Config::getRatingScale()]);
+        echo CJSON::encode($data);
+        Yii::app()->end();
+    }
+
+    public function actionUpdateGraduate()
+    {
+        $request = Yii::app()->request->getPost('Graduate');
+        $request['graduate_date'] = date('Y-m-d', strtotime($request['graduate_date']));
+        $graduate = $this->loadModel($request['id']);
+        $user = StudentReg::model()->findByPk($request['id_user']);
+        $user->setScenario('edit');
+        $user->firstName = $request['user']['firstName'];
+        $user->secondName = $request['user']['secondName'];
+        $graduate->loadModel($request);
+        $graduate->save();
+        if ($user->validate(['firstName', 'secondName'])) {
+            $user->update(['firstName', 'secondName']);
+        }
+
+    }
+
+    public function actionUpdateRating()
+    {
+        $request = Yii::app()->request->getPost('Rating');
+        $className = 'RatingUser' . ucfirst($request['type']);
+        if (class_exists($className)) {
+            $model = $className::model()->findByPk($request['id']);
+            $model->rating = $request['rating'];
+            $model->save();
+            Yii::app()->end();
+        } else {
+            throw new \Mibew\Http\Exception\BadRequestException('Некоректний запит');
+        }
+
+    }
+
+    public function actionDeleteRating()
+    {
+        $request = Yii::app()->request->getPost('Rating');
+        $className = 'RatingUser' . ucfirst($request['type']);
+        if (class_exists($className)) {
+            $model = $className::model()->findByPk($request['id']);
+            $model->delete();
+            Yii::app()->end();
+        } else {
+            throw new \Mibew\Http\Exception\BadRequestException('Некоректний запит');
+        }
+
+    }
+
+    public function actionGetServicesList($query, $type)
+    {
+        echo CJSON::encode(['results' => TypeAheadHelper::getTypeahead($query, ucfirst($type), ['title_ua'])]);
+    }
+
+    public function actionAddRAting()
+    {
+        $request = Yii::app()->request->getPost('Rating');
+        $type = $request['type'];
+        $revision = 0;
+        switch ($type) {
+            case 'module':
+                $revision = RevisionModule::model()->with(['module', 'properties'])->find('module.module_id=:moduleID AND properties.id_state = 7', ['moduleID' => $request['service'][$type . '_ID']]);
+                break;
+            case 'course':
+                $revision = RevisionCourse::model()->with(['course', 'properties'])->find('course.course_id=:courseID AND properties.id_state = 7', ['courseID' => $request['service'][$type . '_ID']]);
+                break;
+        }
+        $className = 'RatingUser' . ucfirst($type);
+        if (class_exists($className)) {
+            $model = new $className;
+            $model->id_user = $request['user'];
+            $model->{'id_' . $type} = $request['service'][$type . '_ID'];
+            $model->rating = $request['rating'];
+            if ($revision) {
+                $model->{$type . '_revision'} = $revision->{'id_' . $type . '_revision'};
+            } else {
+                $model->{$type . '_revision'} = 1;
+            }
+            $model->{$type . '_done'} = 1;
+            $model->{'start_' . $type} = date('Y-m-d', time());
+            $model->save();
+        } else {
+            throw new \Mibew\Http\Exception\BadRequestException('Некоректний запит');
+        }
     }
 }

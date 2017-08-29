@@ -18,6 +18,97 @@ body {
     background-color: #fff;
 }
 
+    /* teacher calendar consultation */
+tbody tr td {
+    cursor: pointer;
+}
+#date_time_picker  {
+    margin-top: 23px;
+    display: inline-block;
+    float: left;
+}
+#wrapper_table_consultation{
+    margin-top: -5px;
+    margin-right: 29px;
+    height: 600px;
+    width: 660px;
+    float: right;
+    text-align: center;
+    font-size: 13px;
+}
+#btn_now {
+    display: inline-block;
+    margin-left: 318px;
+    margin-top: -25px;
+    position: absolute;
+}
+#btn_save_del {
+    margin-top: -25px;
+    margin-left: 795px;
+    position: absolute;
+}
+#confirm_time {
+    margin-top: -25px;
+    margin-left: 778px;
+    position: absolute;
+}
+
+#table_consult tbody{
+    display: inline-block;
+    height: 385px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+#table_consult tbody td{
+    width: 92px;
+}
+.selectingCell {
+    background: rgba(255,125,250,0.3);
+    border: 2px solid darkgrey !important;
+    font-size: 12px;
+}
+.past_days {
+    background: #f7f7f7;
+    border: 1px solid #bbb !important;
+    opacity: 0.9;
+    cursor: default;
+}
+.freeTime{
+/*.choseDay {*/
+    background: #a2d99d;
+}
+.confirmationTime {
+    background: lightblue;
+}
+.consultationTime {
+    background: lightsalmon;
+    /*cursor: default;*/
+}
+#info_block{
+    display: inline-block;
+    width: 235px;
+    margin: 20px 0 0 -9px;
+}
+.info_rectangle{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin: 7px 5px -7px 0;
+    border: 1px solid lightgrey;
+}
+
+/*_____________________________________*/
+
+.navbar-top-links li.dropdown {
+    display: inline-block!important;
+}
+.navbar-top-links li a.dropdown-toggle {
+    padding-bottom: 13px;
+}
+.navbar-top-links li a {
+    padding: 15px;
+    min-height: 50px;
+}
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
@@ -28,21 +119,25 @@ body {
     }
 }
 
+@media(max-width:768px) {
+    .navbar-top-links li a.dropdown-toggle {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+@media(max-width:444px) {
+    h1#pageTitle {
+        margin-top: 75px;
+    }
+}
+
 .navbar-top-links {
     margin-right: 0;
 }
 
-.navbar-top-links li {
-    display: inline-block;
-}
-
 .navbar-top-links li:last-child {
     margin-right: 15px;
-}
-
-.navbar-top-links li a {
-    padding: 15px;
-    min-height: 50px;
 }
 
 .navbar-top-links .dropdown-menu li {

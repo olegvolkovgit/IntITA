@@ -547,10 +547,13 @@ class SuperVisorController extends TeacherCabinetController
     {
         $userId = Yii::app()->request->getPost('userId');
         $subgroupId = Yii::app()->request->getPost('subgroupId');
+        $reasonId = Yii::app()->request->getPost('reasonId');
 
         $student=OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'id_subgroup'=>$subgroupId,'end_date'=>null));
+
         if($student){
-            $student->end_date=date("Y-m-d H:i:s");
+            $student->end_date = date("Y-m-d H:i:s");
+            $student->cancel_type = $reasonId;
             if($student->update()){
                 echo 'Студента скасовано';
             }else{
@@ -559,6 +562,12 @@ class SuperVisorController extends TeacherCabinetController
         }else{
             echo 'Студента в даній підгрупі не знайдено';
         }
+    }
+
+    public function actionGetAllReasons()
+    {
+       $reasons = OfflineStudentCancelType::getAllCause();
+       echo json_encode($reasons);
     }
 
     public function actionSetGroupAccessToService()

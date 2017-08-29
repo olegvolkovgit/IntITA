@@ -211,6 +211,34 @@ class Newsletters extends CActiveRecord implements ITask
                     }
                 }
                 break;
+            case "courses":
+                $courses = unserialize($this->recipients);
+                foreach ($courses as $courseId){
+                    $course = Course::model()->findByPk($courseId);
+                    $students = StudentReg::model()->findAll();
+                    foreach ($students as $student){
+                        if($course->checkPaidAccess($student->id)){
+                            array_push($mailList, $student->email);
+                        }
+                    }
+                }
+                break;
+            case "modules":
+                $modules = unserialize($this->recipients);
+                foreach ($modules as $moduleId){
+                    $module = Module::model()->findByPk($moduleId);
+                    $students = StudentReg::model()->findAll();
+                    foreach ($students as $student){
+                        if($module->checkPaidAccess($student->id)){
+                            array_push($mailList, $student->email);
+                        }
+                        if ($module->checkPaidModuleAccess($student->id)){
+                            array_push($mailList, $student->email);
+                        }
+                    }
+                }
+                break;
+
         }
         return array_unique($mailList);
     }
@@ -286,6 +314,24 @@ class Newsletters extends CActiveRecord implements ITask
                 }
                 else{
                     array_push($result,['id'=>0, 'name'=>'Вся база email']);
+                }
+                break;
+            }
+            case "courses":{
+                $criteria->addInCondition('course_ID',$_recipients);
+                $courses = Course::model()->findAll($criteria);
+                foreach ($courses as $course){
+                    array_push($result,['id'=>$course->course_ID,
+                        'name'=>$course->title_ua]);
+                }
+                break;
+            }
+            case "modules":{
+                $criteria->addInCondition('module_ID',$_recipients);
+                $modules = Module::model()->findAll($criteria);
+                foreach ($modules as $module){
+                    array_push($result,['id'=>$module->module_ID,
+                        'name'=>$module->title_ua]);
                 }
                 break;
             }

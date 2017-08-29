@@ -194,6 +194,7 @@ class CActiveFinder extends CComponent
 	 * @param CJoinElement $parent the parent tree node
 	 * @param mixed $with the names of the related objects relative to the parent tree node
 	 * @param array $options additional query options to be merged with the relation
+	 * @return CJoinElement|mixed
 	 * @throws CDbException if given parent tree node is an instance of {@link CStatElement}
 	 * or relation is not defined in the given parent's tree node model class
 	 */
@@ -747,7 +748,7 @@ class CJoinElement
 		else
 		{
 			$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
-			if($select!=='*' && preg_match('/^count\s*\(/',trim($select)))
+			if($select!=='*' && preg_match('/^count\s*\(/i',trim($select)))
 				$query->selects=array($select);
 			elseif(is_string($this->_table->primaryKey))
 			{

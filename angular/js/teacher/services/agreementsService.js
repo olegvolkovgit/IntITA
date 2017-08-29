@@ -4,8 +4,8 @@
 
 angular
     .module('teacherApp')
-    .factory('agreementsService', ['$resource',
-        function ($resource) {
+    .factory('agreementsService', ['$resource','transformRequest',
+        function ($resource, transformRequest) {
             var url = basePath+'/_teacher/_accountant/agreements';
             return $resource(
                 '',
@@ -38,6 +38,36 @@ angular
                         url: basePath+'/_teacher/_trainer/trainer/getTrainerUsersAgreementsList',
                         method: 'GET'
                     },
+                    getActualWrittenAgreementRequests: {
+                        url: url + '/getActualWrittenAgreementRequestsCount',
+                    },
+                    agreementsRequestsList : {
+                        url: url + '/getAgreementRequestsNgTable'
+                    },
+                    getWrittenAgreementData: {
+                        url: url + '/getWrittenAgreementData'
+                    },
+                    getAgreementContract: {
+                        url: url + '/getAgreementContract'
+                    },
+                    approveAgreementRequest: {
+                        url: url + '/approveAgreementRequest',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    rejectAgreementRequest : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/rejectAgreementRequest',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getAgreementRequestStatus: {
+                        url: url + '/getAgreementRequestStatus'
+                    },
+                    getAgreementTemplate: {
+                        url: basePath+'/_teacher/_auditor/template/getAgreementTemplate'
+                    },
                 });
         }])
     .service('agreementsInformation', ['lodash',
@@ -64,4 +94,19 @@ angular
                 }
             });
         };
-    }]);
+    }])
+    .directive('embedSrc', function () {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                scope.$watch(
+                    function() {
+                        return attrs.embedSrc;
+                    },
+                    function() {
+                        element.attr('src', attrs.embedSrc);
+                    }
+                );
+            }
+        };
+    });

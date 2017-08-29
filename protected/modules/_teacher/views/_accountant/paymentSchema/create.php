@@ -34,6 +34,7 @@
                         <th>Назва схеми</th>
                         <th>Відсоток знижки</th>
                         <th>Відсоток кредиту</th>
+                        <th>З паперовим договором</th>
                         <th>
                             Додати схему
                             <button type="button" class="btn btn-default btn-sm" ng-click="operation.addScheme()">
@@ -62,6 +63,9 @@
                         <td>
                             <input type="number" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
                                    step="0.01" ng-model="schemes[$index].loan" min="0" max="100"/>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="form-control" ng-model="schemes[$index].contract"/>
                         </td>
                         <td ng-if="$index!=0">
                             <button type="button" class="btn btn-default btn-sm" ng-click="operation.removeScheme($index)">

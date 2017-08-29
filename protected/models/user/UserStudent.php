@@ -137,7 +137,7 @@ class UserStudent extends CActiveRecord
 
 	public static function studentByQuery($query){
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
 		$criteria->alias = "s";
 		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -160,7 +160,7 @@ class UserStudent extends CActiveRecord
 
 	public static function studentWithoutTrainerByQuery($query){
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
 		$criteria->alias = "s";
 		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -184,4 +184,28 @@ class UserStudent extends CActiveRecord
 		}
 		return json_encode($result);
 	}
+
+    /**
+     * @param $query string - query from typeahead
+     * @param $organization - query from typeahead
+     * @return string - json for typeahead field in user manage page
+     */
+    public function studentsList($query, $organization)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "u.id, secondName, firstName, email, avatar, nickname";
+        $criteria->alias = "u";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('nickname', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_student us ON us.id_user = u.id';
+        $criteria->addCondition('us.end_date IS NULL');
+        if($organization){
+            $criteria->addInCondition('us.id_organization', array($organization));
+        }
+        $criteria->group = 'u.id';
+
+        return StudentReg::model()->findAll($criteria);
+    }
 }

@@ -21,17 +21,12 @@ class AccountantController extends TeacherCabinetController {
         if ($_GET['organization']){
             $criteria = new CDbCriteria();
             $criteria->join = 'left join user_student us on us.id_user=t.id_user';
-            $criteria->addCondition('us.id_organization=' . Yii::app()->user->model->getCurrentOrganization()->id.' and us.end_date IS NULL');
+            $criteria->addCondition('us.id_organization=' . Yii::app()->user->model->getCurrentOrganization()->id.' 
+            and us.end_date IS NULL and t.actual='.UserDocuments::ACTUAL);
             $ngTable->mergeCriteriaWith($criteria);
         }
         $result = $ngTable->getData();
         echo json_encode($result);
-    }
-
-    public function actionChangeDocumentStatus() {
-        $id = Yii::app()->request->getPost('id');
-        $model = UserDocuments::model()->findByPk($id);
-        $model->changeCheckDocuments();
     }
 
     public function actionCreateDocumentsFolder() {
@@ -50,5 +45,28 @@ class AccountantController extends TeacherCabinetController {
         }, $organization->getCoursesAndModulesWithCorporateEntity());
 
         $this->renderPartial('//ajax/json', ['body' => json_encode($body), 'statusCode' => $statusCode]);
+    }
+
+    public function actionGetDocument($id){
+
+        $document = UserDocuments::model()->with(['idUser','documentsFiles'])->find('documentsFiles.id=:documentId',
+            ['documentId'=>$id]);
+        if ($document){
+            $file = "/files/documents/{$document->idUser->id}/{$document->type}/{$document->documentsFiles[0]->file_name}";
+            if (file_exists($_SERVER['DOCUMENT_ROOT'].$file)){
+                return   Yii::app()->request->xSendFile($file,[
+                    'forceDownload'=>true,
+                    'xHeader'=>'X-Accel-Redirect',
+                    'terminate'=>false
+                ]);
+            }
+            else{
+                throw new CHttpException(404,'Документ не знайдено');
+            }
+
+        }
+        else {
+            throw new CHttpException(404,'Документ не знайдено');
+        }
     }
 }

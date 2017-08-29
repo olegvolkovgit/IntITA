@@ -3,20 +3,59 @@
  */
 angular
     .module('teacherApp')
-    .controller('graduateCtrl',graduateCtrl);
+    .controller('graduateCtrl',graduateCtrl)
+    .controller('editGraduateCtrl',editGraduateCtrl);
+function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
 
-function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $ngBootbox, $timeout){
-
+    $scope.courseCollapsed = true;
+    $scope.modulesCollapsed = true;
     $scope.publishStatus = [{id:'0', title:'Не опубліковано'},{id:'1', title:'Опубліковано'}];
+
     $rootScope.$on('userCreated', function (event, data) {
         $scope.graduate.user = data;
         $scope.noResults = false;
     });
-    
 
+    $rootScope.$on('courseAdded', function (event, data) {
+        if (angular.isDefined($scope.courses)){
+            $scope.courses.push(data);
+        }
+        else{
+            $scope.courses = [];
+            $scope.courses.push(data);
+        }
+
+
+    });
+
+    $rootScope.$on('moduleAdded', function (event, data) {
+
+        if (angular.isDefined($scope.modules)){
+            $scope.modules.push(data);
+        }
+        else{
+            $scope.modules = [];
+            $scope.modules.push(data);
+        }
+
+    });
+
+    if ($state.is('graduate/edit/:graduateId')){
+        $scope.modelStatus = 'update';
+        $http.get('/_teacher/graduate/getGraduateData/'+$stateParams.graduateId).then(function (response) {
+            $scope.graduate = response.data;
+            $scope.graduate.graduate_date = new Date($scope.graduate.graduate_date);
+        });
+
+    }
+    if ($state.is('graduate/create')){
+        $scope.graduate  = {ratingScale : 10};
+        $scope.modelStatus = 'create';
+    }
 
     $scope.addGraduate = function () {
-
+        $scope.graduate.courses = $scope.courses;
+        $scope.graduate.modules = $scope.modules;
         $http({
             method:'POST',
             url: basePath+'/_teacher/graduate/addGraduate',
@@ -103,7 +142,7 @@ function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, tran
             if(result){
                 $http({
                     method: 'POST',
-                    url: basePath+'/_teacher/_admin/graduate/delete/',
+                    url: basePath+'/_teacher/graduate/delete/',
                     data: $jq.param({'id': graduateId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).success(function(response){
@@ -135,4 +174,158 @@ function graduateCtrl ($rootScope, $scope, $http, graduates, NgTableParams, tran
             }
         })
     };
+
+    $scope.updateGraduate = function () {
+        
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/updateGraduate',
+            data: $httpParamSerializerJQLike({'Graduate':$scope.graduate}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+                bootbox.alert(JSON.stringify($scope.errors));
+                return false;
+            }
+            else{
+                $state.go('graduate');
+            }
+        })
+    }
+
+    $scope.changeRating = function (type, data) {
+        $scope.changeData = data;
+        $scope.changeData.type = type;
+        $scope.customDialogOptions = {
+            templateUrl: '/angular/js/teacher/templates/addRate.html',
+            scope: $scope,
+            title: 'Змінити рейтинг',
+        };
+        $ngBootbox.customDialog($scope.customDialogOptions);
+    };
+
+    $scope.deleteRating = function (type,id) {
+        if ($state.is('graduate/create')){
+            var service = null;
+            switch (type){
+                case 'course':
+                    service = $scope.courses;
+                    break;
+                case 'module':
+                    service = $scope.modules;
+                    break;
+            }
+            var index = service.indexOf(id);
+            service.splice(index, 1);
+            return false;
+        }
+
+        $ngBootbox.confirm("Ви дійсно бажаєте видалити рейтинг по даному сервісу у студента?")
+            .then(function() {
+
+                $http({
+                    method:'POST',
+                    url: basePath+'/_teacher/graduate/deleteRating',
+                    data: $httpParamSerializerJQLike({Rating:{'id':id,type:type}}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).success(function (response) {
+                    if (typeof response === 'object'){
+                        $scope.errors = response.errors;
+                        bootbox.alert(JSON.stringify($scope.errors));
+                        return false;
+                    }
+                    else{
+                        $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId});
+                    }
+                })
+            }, function() {
+
+            });
+    }
+
+    $scope.addRating = function (type) {
+        $scope.addRatingType = type;
+        $scope.customDialogOptions = {
+            templateUrl: '/angular/js/teacher/templates/addServiceRate.html',
+            scope: $scope,
+            title: 'Дотати рейтинг',
+        };
+        $ngBootbox.customDialog($scope.customDialogOptions);
+    }
+
+}
+
+function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $stateParams, $ngBootbox, typeAhead) {
+
+    $scope.checkData = true;
+
+    $scope.getRatingScale = function () {
+        if (angular.isDefined($scope.graduate.ratingScale)){
+            return new Array(Number($scope.graduate.ratingScale));
+        }
+        else {
+            return new Array(10);
+        }
+    };
+
+    $scope.changeRate = function () {
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/updateRating',
+            data: $httpParamSerializerJQLike({'Rating':$scope.changeData}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+                bootbox.alert(JSON.stringify($scope.errors));
+                return false;
+            }
+            else{
+                $ngBootbox.hideAll();
+                $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId});
+            }
+        })
+    };
+    $scope.getServicesName = function (value) {
+        return typeAhead.getData(basePath+'/_teacher/graduate/getServicesList',{query:value, type:$scope.addRatingType});
+    };
+    $scope.onSelectService = function(item)
+    {
+        $scope.service = item;
+    };
+
+    $scope.addUserRate = function () {
+        if ($state.is('graduate/create')){
+            $scope.service.rating = $scope.rating;
+            switch ($scope.addRatingType){
+                case 'course':
+                    $scope.$emit('courseAdded', $scope.service);
+                    break;
+                case 'module':
+                    $scope.$emit('moduleAdded', $scope.service);
+                    break;
+            }
+            $ngBootbox.hideAll();
+            return false;
+        }
+        $http({
+            method:'POST',
+            url: basePath+'/_teacher/graduate/addRating',
+            data: $httpParamSerializerJQLike({'Rating':{service:$scope.service, rating:$scope.rating, user:$scope.graduate.id_user, type: $scope.addRatingType}}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+                bootbox.alert(JSON.stringify($scope.errors));
+                return false;
+            }
+            else{
+                $ngBootbox.hideAll();
+                $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId});
+            }
+        })
+    }
+
+
 }

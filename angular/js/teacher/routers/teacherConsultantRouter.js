@@ -67,6 +67,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         
         })
+        .state('teacherCalendarConsultation/calendarConsultations', {
+            url: "/teacherCalendarConsultation/calendarConsultations",
+            cache: false,
+            controller: function ($scope) {
+                $scope.changePageHeader('Календар консультацій');
+            },
+            templateUrl: basePath+"/_teacher/teacherCalendarConsultation/calendarConsultations"
+        })
 
 });
 

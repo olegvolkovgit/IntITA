@@ -80,7 +80,12 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionGetGroups(){
-        $models = TypeAheadHelper::getTypeahead($_GET['query'],'OfflineGroups',['id','name']);
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],
+                                            'OfflineGroups',
+                                            ['id','name'],
+                                            10000,
+                                            false,
+                                            ['id_organization'=>Yii::app()->user->model->getCurrentOrganizationId()]);
         $result = [];
         if (isset($models)){
             foreach ($models as $model){
@@ -90,10 +95,11 @@ class NewsletterController extends TeacherCabinetController
         echo json_encode($result);
     }
     public function actionGetSubGroups(){
-        $criteria = new CDbCriteria(['limit' => '10']);
+        $criteria = new CDbCriteria(['limit' => '10000']);
         $criteria->with = array('groupName');
         $criteria->compare('LOWER(t.name)',mb_strtolower($_GET['query'], 'UTF-8'), true, 'OR');
         $criteria->compare('LOWER(groupName.name)', mb_strtolower($_GET['query'], 'UTF-8'), true, 'OR');
+        $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganizationId());
         $models = OfflineSubgroups::model()->findAll($criteria);
         $result = [];
         if (isset($models)){
@@ -161,6 +167,36 @@ class NewsletterController extends TeacherCabinetController
              echo CJSON::encode($model);
 
          }
+    }
+
+    public function actionGetAllModules(){
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],
+                                            'Module',
+                                                        ['module_ID','title_ua'],
+                                                        '10',
+                                                        false,
+                                                        ['id_organization'=>((Yii::app()->user->model->getCurrentOrganizationId())?Yii::app()->user->model->getCurrentOrganizationId():1),'cancelled'=>0]);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->module_ID,'name'=>$model->title_ua ]);
+            }
+        }
+        echo json_encode($result);
+    }
+
+    public function actionGetAllCourses(){
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],
+            'Course',['course_ID','title_ua'],
+            '10',false,
+            ['id_organization'=>((Yii::app()->user->model->getCurrentOrganizationId())?Yii::app()->user->model->getCurrentOrganizationId():1),'cancelled'=>0]);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->course_ID,'name'=>$model->title_ua ]);
+            }
+        }
+        echo json_encode($result);
     }
 
 }

@@ -99,6 +99,17 @@
                 ));
             }
             ?>
+            <?php if ($model->isTeacher() || Yii::app()->user->model->isDirector()
+            || Yii::app()->user->model->isSuperAdmin()
+            || Yii::app()->user->model->isAuditor()
+            || Yii::app()->user->model->isAdmin()) { ?>
+            <li class="header"><span><h3>CRM</h3></span></li>
+            <li>
+                <a href="#/tasks/executant">
+                    Завдання
+                </a>
+            </li>
+            <?php } ?>
         </ul>
     </div>
 </div>

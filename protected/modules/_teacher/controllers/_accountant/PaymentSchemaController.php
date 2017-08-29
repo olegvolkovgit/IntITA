@@ -144,6 +144,7 @@ class PaymentSchemaController extends TeacherCabinetController
                     $model->pay_count=$scheme->pay_count;
                     $model->discount=$scheme->discount;
                     $model->loan=$scheme->loan;
+                    $model->contract=$scheme->contract;
                     $model->save();
                 }
                 if(!TemplateSchemes::model()->findByAttributes(array('id_template'=>$templateModel->id,'pay_count'=>1))){
@@ -194,13 +195,14 @@ class PaymentSchemaController extends TeacherCabinetController
             foreach ($template->schemes as $scheme){
                 if(isset($scheme->id)){
                     TemplateSchemes::model()->updateByPk($scheme->id,
-                        array('pay_count'=>$scheme->pay_count,'discount'=>$scheme->discount,'loan'=>$scheme->loan));
+                        array('pay_count'=>$scheme->pay_count,'discount'=>$scheme->discount,'loan'=>$scheme->loan, 'contract'=>$scheme->contract));
                 }else{
                     $newScheme=new TemplateSchemes();
                     $newScheme->id_template=$templateModel->id;
                     $newScheme->pay_count=$scheme->pay_count;
                     $newScheme->discount=$scheme->discount;
                     $newScheme->loan=$scheme->loan;
+                    $newScheme->contract=$scheme->contract;
                     $newScheme->save();
                 }
             }

@@ -1,0 +1,31 @@
+<div ng-controller="editGraduateCtrl">
+<form name="addRate" novalidate>
+<div class="panel panel-default" >
+    <div class="form-group">
+        <label>
+            <strong ng-show="addRatingType === 'course'">Курс:</strong>
+            <strong ng-show="addRatingType === 'module'">Модуль*:</strong>
+        </label>
+        <input type="text" size="135" ng-model="service" ng-model-options="{ debounce: 1000 }"
+               placeholder="Оберіть сервіс"
+               uib-typeahead="item as item.title_ua for item in getServicesName($viewValue) | limitTo:10"
+               typeahead-no-results="noResults" typeahead-on-select="selectService($item)"
+               id="service"
+               name="service"
+               required
+               class="form-control"/>
+        <div ng-show="noResults">
+            <span ng-show="addRatingType === 'course'"><i class="glyphicon glyphicon-remove"></i>курс не знайдено</span>>
+            <span ng-show="addRatingType === 'module'"><i class="glyphicon glyphicon-remove"></i>модуль не знайдено</span>
+        </div>
+    </div>
+    <label>
+        <strong>Рейтинг*:</strong>
+    </label>
+    <select name="new rating" ng-model="rating" class="form-control" required>
+        <option ng-repeat="i in getRatingScale() track by $index" value="{{($index+1)/graduate.ratingScale}}">{{$index+1}}</option>
+    </select>
+</div>
+    <button class="btn btn-success" ng-click="addUserRate()" ng-disabled=" addRate.$invalid || noResults ">Застосувати</button>
+</form>
+</div>

@@ -12,12 +12,14 @@
  * @property integer $id_subgroup
  * @property integer assigned_by
  * @property integer cancelled_by
+ * @property integer cancel_type
  *
  * The followings are the available model relations:
  * @property OfflineSubgroups $subgroupName
  * @property StudentReg $user
  * @property TrainerStudent $trainer
  * @property OfflineGroups $group
+ * @property OfflineStudentCancelType $cancelType
  */
 class OfflineStudents extends CActiveRecord
 {
@@ -40,7 +42,7 @@ class OfflineStudents extends CActiveRecord
 		return array(
 			array('id_user, start_date, id_subgroup, assigned_by', 'required'),
 			// The following rule is used by search().
-			array('id, id_user, start_date, end_date, graduate_date, id_subgroup, assigned_by, cancelled_by', 'safe', 'on'=>'search'),
+			array('id, id_user, start_date, end_date, graduate_date, id_subgroup, assigned_by, cancelled_by, cancel_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,6 +61,7 @@ class OfflineStudents extends CActiveRecord
 			'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
 			'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
 			'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+            'cancelType' => array(self::BELONGS_TO, 'OfflineStudentCancelType', ['cancel_type'=>'id']),
 		);
 	}
 
@@ -75,7 +78,8 @@ class OfflineStudents extends CActiveRecord
 			'graduate_date' => 'Дата випуску',
 			'id_subgroup' => 'ID підгрупи',
 			'assigned_by' => 'ID користувача, який приєднав',
-			'cancelled_by' => 'ID користувача, який скасував'
+			'cancelled_by' => 'ID користувача, який скасував',
+            'cancel_type' => 'Причина виключення з підгруппи'
 		);
 	}
 
@@ -103,6 +107,7 @@ class OfflineStudents extends CActiveRecord
 		$criteria->compare('id_subgroup',$this->id_subgroup,true);
 		$criteria->compare('assigned_by',$this->assigned_by,true);
 		$criteria->compare('cancelled_by',$this->cancelled_by,true);
+		$criteria->compare('cancel_type',$this->cancel_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -134,6 +139,7 @@ class OfflineStudents extends CActiveRecord
 			$data["idGroup"] = $model->group->id;
 			$data["groupName"] = $model->group->name;
 			$data["specialization"] = $model->group->specializationName->title_ua;
+//			$data["cancelType"] = $model->cancelType->description;
 		}
 		return $data;
 	}
