@@ -37,7 +37,6 @@ $header = new Header();
     <!-- trimEmail -->
     <!-- pdf generator -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/jspdf/dist/jspdf.min.js'); ?>"></script>
-
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
@@ -335,13 +334,4 @@ $header = new Header();
 <?php } ?>
 <!--IntITAMessenger-->
 </body>
-<script>
-    var socket = new WebSocket("wss://dev.intita.com/wss/");
-    socket.onopen = function() {
-        socket.send('9');
-    };
-    socket.onmessage = function(event) {
-        alert("Получены данные " + event.data);
-    };
-</script>
 </html>

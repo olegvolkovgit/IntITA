@@ -18,4 +18,4 @@ angular/bower_components/*
 images/
 images/*
 files/
-wss/vendor/*
+/`protected/vendor/*

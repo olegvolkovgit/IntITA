@@ -16,6 +16,9 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
+    <!-- WebSocket -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/autobahn.js'); ?>"></script>
+
     <!-- lodash -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
 
@@ -242,7 +245,23 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
+    <!--Subscribe to new notifications-->
 
+    <?php if (!Yii::app()->user->isGuest) { ?>
+        <script>
+            var conn = new ab.Session('wss://dev.intita.com/wss/',
+                function() {
+                    conn.subscribe('newMessages-<?=Yii::app()->user->id?>', function(topic, data) {
+                        console.log('New message received "' + topic + '" : ' + data.data);
+                    });
+                },
+                function() {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+        </script>
+    <?php } ?>
 </head>
     <body ng-app="teacherApp">
     <toast style="left:0px"></toast>
@@ -250,6 +269,7 @@
     <div id="contentBoxMain">
         <?php echo $content; ?>
     </div>
+
     <!--IntITAMessenger-->
         <?php if (!Yii::app()->user->isGuest) { ?>
             <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>

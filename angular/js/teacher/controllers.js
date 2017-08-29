@@ -97,14 +97,16 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
     };
 
     $scope.countOfMessages = 0;
-    var updateCounter = function() {
-        $http.get(basePath+'/_teacher/cabinet/getNewMessages',{ignoreLoadingBar: true}).then(function(response){
-            $scope.requests = response.data.requests;
-            $scope.messages = response.data.messages;
-        })
-        $timeout(updateCounter, 10000);
-    };
-    updateCounter();
+    if (!useWebsocketNotification){
+        var updateCounter = function() {
+            $http.get(basePath+'/_teacher/cabinet/getNewMessages',{ignoreLoadingBar: true}).then(function(response){
+                $scope.requests = response.data.requests;
+                $scope.messages = response.data.messages;
+            })
+            $timeout(updateCounter, 10000);
+        };
+        updateCounter();
+    }
 
     $scope.changePageHeader = function (headerText) {
         angular.element(document.querySelector("#pageTitle")).text(headerText);
