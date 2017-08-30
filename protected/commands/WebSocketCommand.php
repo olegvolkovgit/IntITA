@@ -10,34 +10,36 @@
 
 class WebSocketCommand extends CConsoleCommand
 {
+
+    const LOG_FILE = '/var/log/intitaWebsocket.log';
+    const PID_FILE = '/var/run/intitaWebsocket.pid';
+
     use NotifySubscribedUsers;
 
 
     public function actionStartServer(){
-        if (file_exists('/var/run/intitaWebsocket.pid')){
-            $pid = file('/var/run/intitaWebsocket.pid');
-            if (count($pid)>0){
-                $result = shell_exec(sprintf("ps %d", $pid[0]));
-                if( count(preg_split("/\n/", $result)) > 2){
-                    echo 'Server is running PID: '.$pid[0];
-                }
-                else{
-                    $this->startServer();
-                }
-            }
-            else{
-                $this->startServer();
-            }
-
-        }
-        else{
+        if (!$this->checkServer(true)){
             $this->startServer();
+            echo 'Starting server!';
         }
     }
 
-    public function actionTestServer(){
+    public function actionTestServer($topic){
 
-        $this->notifyUser('newMessages-319',['messages'=>19]);
+        $this->notifyUser($topic,['test'=>'testData']);
+    }
+
+    public function actionStatus(){
+        $this->checkServer(true);
+    }
+
+    public function actionStopServer(){
+        $this->stopServer();
+    }
+
+    public function actionRestartServer(){
+        $this->stopServer();
+        $this->startServer();
     }
 
 
@@ -45,8 +47,32 @@ class WebSocketCommand extends CConsoleCommand
         file_put_contents('/var/run/intitaWebsocket.pid', '');
         exec(sprintf("%s > %s 2>&1 & echo $! >> %s",
             'php '.__DIR__.'/../components/WebSocket/WebSocketServer.php',
-            '/var/log/intitaWebsocket.log', '/var/run/intitaWebsocket.pid'));
+            $this::LOG_FILE, $this::PID_FILE));
     }
 
+    private function stopServer(){
+        if($this->checkServer(false)){
+            $pid = file($this::PID_FILE)[0];
+            exec('kill -9 '.$pid);
+        }
+    }
 
+    private function checkServer($echo){
+        if (file_exists('/var/run/intitaWebsocket.pid')){
+            $pid = file($this::PID_FILE);
+            if (count($pid)>0){
+                $result = shell_exec(sprintf("ps %d", $pid[0]));
+                if( count(preg_split("/\n/", $result)) > 2){
+                    if ($echo){
+                        echo 'Server is running PID: '.$pid[0];
+                    }
+                    return true;
+                }
+            }
+        }
+        if ($echo){
+            echo "Server is not running \n";
+        }
+        return false;
+    }
 }

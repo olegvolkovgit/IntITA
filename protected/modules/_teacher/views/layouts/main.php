@@ -16,8 +16,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
-    <!-- WebSocket -->
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/autobahn.js'); ?>"></script>
+
+
 
     <!-- lodash -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
@@ -33,6 +33,10 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.js'); ?>"></script>
     <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.css'); ?>" rel="stylesheet"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-sanitize/angular-sanitize.min.js'); ?>"></script>
+
+    <!-- AngularWAMP -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/autobahn.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-wamp/release/angular-wamp.js'); ?>"></script>
 
     <!-- Select multiple -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select-tpls.min.js'); ?>"></script>
@@ -263,22 +267,9 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
     <!--Subscribe to new notifications-->
-
-    <?php if (!Yii::app()->user->isGuest) { ?>
-        <script>
-            var conn = new ab.Session('wss://dev.intita.com/wss/',
-                function() {
-                    conn.subscribe('newMessages-<?=Yii::app()->user->id?>', function(topic, data) {
-                        console.log('New message received "' + topic + '" : ' + data.data);
-                    });
-                },
-                function() {
-                    console.warn('WebSocket connection closed');
-                },
-                {'skipSubprotocolCheck': true}
-            );
-        </script>
-    <?php } ?>
+<script>
+    var useWebsocketNotification = true;
+</script>
 </head>
     <body ng-app="teacherApp">
     <toast style="left:0px"></toast>
@@ -293,4 +284,5 @@
         <?php } ?>
     <!--IntITAMessenger-->
     </body>
+
 </html>
