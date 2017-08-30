@@ -77,7 +77,7 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
     };
 }
 
-function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger,appConfig) {
+function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger) {
     //function back() redirect to prev link
     $rootScope.back = function () {
         window.history.back();
