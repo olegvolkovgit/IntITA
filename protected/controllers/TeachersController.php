@@ -59,6 +59,13 @@ class TeachersController extends Controller
             $mess = "Ім'я: " . $obj->firstname . " " . $obj->lastname . "\r\n" . "Вік: " . $obj->age . "\r\n" . "Освіта: " . $obj->education . "\r\n" . "Телефон: " . $obj->phone . "\r\n" . "Курси які готовий викладати: " . $obj->courses;
             $to = Config::getAdminEmail();
             mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $obj->email . "\r\n");
+            $directors = Teacher::requestDirectorsArray();
+            foreach($directors as $director){
+                $email = $director->email;
+                if(isset($email)){
+                    mail($email, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $obj->email . "\r\n");
+                }
+            }
             echo Yii::t('letter', '0914');
         } else {
             echo Yii::t('letter', '0915');

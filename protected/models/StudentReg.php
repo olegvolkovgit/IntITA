@@ -1476,4 +1476,24 @@ class StudentReg extends CActiveRecord {
             }
         }
     }
+
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page
+     */
+    public function usersList($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "u.id, secondName, firstName, email, avatar, nickname";
+        $criteria->alias = "u";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('nickname', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->addCondition('u.cancelled='.self::ACTIVE);
+        $criteria->group = 'u.id';
+
+        return StudentReg::model()->findAll($criteria);
+    }
 }
