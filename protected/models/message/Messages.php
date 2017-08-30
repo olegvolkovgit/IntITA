@@ -21,6 +21,7 @@
 /* @TODO 28.11.16 Переписать к чертям все эти сообщения с наследованием, т.к. не совместимо с PHP7 */
 class Messages extends CActiveRecord
 {
+    use NotifySubscribedUsers;
     /**
      * @return string the associated database table name
      */

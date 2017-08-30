@@ -5,7 +5,6 @@
 Yii::setPathOfAlias('editable', dirname(__FILE__) . '/../extensions/x-editable');
 $local_config = require(dirname(__FILE__) . '/local.php');
 $params_config = require(dirname(__FILE__) . '/params.php');
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -48,6 +47,7 @@ return array(
         'application.models.user.*',
         'application.components.*',
         'application.components.widgets.*',
+        'application.components.WebSocket.*',
         'ext.imperavi-redactor-widget.*',
         'application.models.task.*',
         // 'ext.yii2-debug.*',
