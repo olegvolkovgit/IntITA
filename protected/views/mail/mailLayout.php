@@ -38,7 +38,7 @@
             <td style=" border-top:1px solid #7F7F7F;padding-top: 10px;"><?=Yii::t('mail', '0832')?><br>
                 <a href="<?=Config::getBaseUrl();?>" style="color: #4b75a4; font: 18px Arial, sans-serif; line-height: 12px; -webkit-text-size-adjust:none; display: block;" target="_blank"><?=Config::getBaseUrl();?></a><br>
                 <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"><?=Yii::t('mail', '0833')?> +38 0432 52 82 67</span>
-                <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"><?=Yii::t('mail', '0834')?> +38 067 431 19 21</span>
+                <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"><?=Yii::t('mail', '0834')?> +38 067 431 74 24</span>
                 <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"><?=Yii::t('mail', '0833')?> +38 073 209 97 43</span>
                 <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"><?=Yii::t('mail', '0835')?><a href="mailto:info@intita.com" target="_blank" style=""> info@intita.com</a></span>
             <td width="60px;"></td>

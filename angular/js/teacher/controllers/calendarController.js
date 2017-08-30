@@ -411,6 +411,7 @@ angular
             //  scroll table body after fist download page
         $scope.first_scroll_tbody = function () {
             setTimeout(function(){
+                $scope.calendarLoaded = true;
                 $jq('#table_consult tbody').scrollTop(596);
             }, 20);
         };

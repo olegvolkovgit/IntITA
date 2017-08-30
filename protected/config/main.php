@@ -39,6 +39,8 @@ return array(
         'application.models.quiz.*',
         'application.models.slider.*',
         'application.models.revision.*',
+        'application.models.crm.*',
+        'application.models.crm.tasksState.*',
         'application.models.revision.state.*',
         'application.models.revision.state.lecture.*',
         'application.models.revision.state.module.*',
@@ -66,7 +68,7 @@ return array(
                 'ext.giix-core', // giix generators
             ),
             'password' => 'admin',
-            'ipFilters' => ['127.0.0.1', '10.0.0.1', 'localhost']
+            'ipFilters' => ['127.0.0.1', '10.0.0.1', 'localhost', '::1'] // '::1' - needs for work gii generator
         ),
         '_admin',
         '_teacher',
@@ -193,6 +195,12 @@ return array(
                     'levels' => 'error, warning, trace, info, profile',
                     'categories' => 'application.revision.*',
                     'logFile' => 'revision.log',
+                ),
+                array(
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, trace, info, profile',
+                    'categories' => 'application.crm.*',
+                    'logFile' => 'crm.log',
                 ),
             ),
         ),

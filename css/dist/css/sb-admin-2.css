@@ -26,11 +26,10 @@ tbody tr td {
     margin-top: 23px;
     display: inline-block;
     float: left;
-    margin-left: -9px;
 }
 #wrapper_table_consultation{
     margin-top: -5px;
-    margin-right: -30px;
+    margin-right: 29px;
     height: 600px;
     width: 660px;
     float: right;
@@ -100,6 +99,16 @@ tbody tr td {
 
 /*_____________________________________*/
 
+.navbar-top-links li.dropdown {
+    display: inline-block!important;
+}
+.navbar-top-links li a.dropdown-toggle {
+    padding-bottom: 13px;
+}
+.navbar-top-links li a {
+    padding: 15px;
+    min-height: 50px;
+}
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
@@ -110,21 +119,25 @@ tbody tr td {
     }
 }
 
+@media(max-width:768px) {
+    .navbar-top-links li a.dropdown-toggle {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+@media(max-width:444px) {
+    h1#pageTitle {
+        margin-top: 75px;
+    }
+}
+
 .navbar-top-links {
     margin-right: 0;
 }
 
-.navbar-top-links li {
-    display: inline-block;
-}
-
 .navbar-top-links li:last-child {
     margin-right: 15px;
-}
-
-.navbar-top-links li a {
-    padding: 15px;
-    min-height: 50px;
 }
 
 .navbar-top-links .dropdown-menu li {

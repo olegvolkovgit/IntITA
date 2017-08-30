@@ -52,6 +52,12 @@
         <td><?=$lectureRevision->id_revision?></td>
     </tr>
     <tr>
+        <td>Номер лекції:</td>
+            <?php if(isset($lectureRevision->moduleOrder->lecture_order)){ ?>
+                <td><?=$lectureRevision->moduleOrder->lecture_order?></td>
+            <?php } ?>
+    </tr>
+    <tr>
         <td>Назва (укр):</td>
         <td><?=CHtml::encode($lectureRevision->properties->title_ua)?></td>
     </tr>

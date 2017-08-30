@@ -29,7 +29,7 @@
 
     <calendar></calendar>
 
-    <div id="info_block">
+    <div id="info_block" ng-if="calendarLoaded">
         <div class="info_rectangle consultationTime"></div> - призначена консультація
         <div class="info_rectangle confirmationTime"></div> - замовлена консультація
         <div class="info_rectangle freeTime"></div> - вільний час вчителя
