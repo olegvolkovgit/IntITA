@@ -1,4 +1,4 @@
-<div class="panel panel-default" ng-controller="crmMyTasksCtrl">
+<div class="panel panel-default" ng-controller="crmAllTasksCtrl">
     <div class="panel-body" ng-show="board==2">
         <div class="dataTable_wrapper">
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed">

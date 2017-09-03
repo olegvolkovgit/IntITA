@@ -1,0 +1,24 @@
+<section id="kanban-container">
+    <div class="kanban-column concept" ng-repeat="stage in stages" ng-drop="true" ng-drop-success="onDrop($data,$event,stage)" ng-class="{'concept': stage.name == 'Очікує на виконання', pending: stage.name == 'Виконується', develop: stage.name == 'Призупинено', approved: stage.name == 'Завершено'}">
+        <h3 style="margin: 0">{{stage.name}}</h3>
+        <div class="cards-container">
+            <div class="card" ng-click="getTask(task.id,'newTask',task.dragging)" ng-drag="true" ng-drag-data="task"
+                 ng-repeat="task in tasks" ng-if="task.stage_id == stage.id"
+                 ng-class="{'expect_to_execute': task.stage_id == 1, 'executed': task.stage_id == 2, 'completed': task.stage_id == 4, 'paused': task.stage_id == 3}"
+                 ng-drag-start="dragStart($event, task)" ng-init="task.dragging = false" draggable="task.dragging">
+                <h4 class="card-title">{{task.title}}</h4>
+                <div class="description">
+                    <p ng-bind-html="task.description"></p>
+                </div>
+                <div class="cardInfo">
+                    <div>
+                        Постановник: <em><br><img ng-src="{{task.producerAvatar}}">{{task.producerName}}</em>
+                    </div>
+                    <div>
+                        Дата: <em>{{task.changeDate}}</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

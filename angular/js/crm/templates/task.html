@@ -3,7 +3,13 @@
 <div class="form-group">
     <input class="form-control" maxlength="128" placeholder="Введіть назву завдання" ng-model="task.name" ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
 </div>
-<textarea ng-cloak ckeditor="ckeditorOptions" ng-model="task.body" required></textarea>
+<a href="" ng-click="task.editMode=true" ng-show="task.id && !task.editMode && task.created_by==currentUser">Режим редагування</a>
+<a href="" ng-click="task.editMode=false" ng-show="task.id && task.editMode">Режим перегляду</a>
+<br>
+<p class="crmBodyBlock" ng-show="!task.editMode && task.id" ng-bind-html="task.body"></p>
+<div ng-show="task.editMode || !task.id">
+    <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="task.body" required></textarea>
+</div>
 
 <br>
     <div ng-if="task.id">
