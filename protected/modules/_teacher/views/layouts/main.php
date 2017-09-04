@@ -16,6 +16,9 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
+
+
+
     <!-- lodash -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
 
@@ -23,13 +26,16 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-datatables.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/daypilot-all.min.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-resource/angular-resource.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/checklist-model/checklist-model.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.js'); ?>"></script>
     <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.css'); ?>" rel="stylesheet"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-sanitize/angular-sanitize.min.js'); ?>"></script>
+
+    <!-- AngularWAMP -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/autobahn.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-wamp/release/angular-wamp.js'); ?>"></script>
 
     <!-- Select multiple -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select-tpls.min.js'); ?>"></script>
@@ -126,7 +132,8 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/directives/modalDirective.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/directives/crmTaskDirective.js'); ?>"></script>
-
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js'); ?>"></script>
+    <script type="text/javascript" src="http://odeskvaibhav.github.io/Kanban-Board-Application-based-on-AngularJS-Material-Design/js/lib/ngDraggable.js"></script>
     <!--Angular routers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/cabinetRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/adminRouter.js'); ?>"></script>
@@ -259,7 +266,10 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
-
+    <!--Subscribe to new notifications-->
+<script>
+    var useWebsocketNotification = true;
+</script>
 </head>
     <body ng-app="teacherApp">
     <toast style="left:0px"></toast>
@@ -267,10 +277,12 @@
     <div id="contentBoxMain">
         <?php echo $content; ?>
     </div>
+
     <!--IntITAMessenger-->
         <?php if (!Yii::app()->user->isGuest) { ?>
             <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
         <?php } ?>
     <!--IntITAMessenger-->
     </body>
+
 </html>

@@ -5,6 +5,8 @@
  * Date: 05.01.2017
  * Time: 10:06
  */
+$webSocketServerParams = require_once(dirname(__FILE__) . '/webSocketServerParams.php');
+
 return array(
     'params' => array(
         // this is used in teacher profile page
@@ -15,6 +17,7 @@ return array(
         'titleRUPattern'=>'^[=а-яА-Яa-zA-Z0-9.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]',
         'titleENPattern'=>'^[=a-zA-Z0-9.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]',
         'secretKey' => md5('test'),
-        'dovecotPasswordScheme'=>'sha'
+        'dovecotPasswordScheme'=>'sha',
+        'webSocketServer'=>$webSocketServerParams,
     ),
 );

@@ -160,6 +160,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
                 $sender->send($receiver->email, '', 'Запит на затвердження ревізії модуля', '');
+                $this->notifyUser('newMessages-'.$receiver->id,['messages'=>1]);
             }
         }
 

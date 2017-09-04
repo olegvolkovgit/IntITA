@@ -140,6 +140,7 @@ class MessagesNotifications extends Messages implements IMessage
             if ($this->addReceiver($receiver)) {
                 $subject = ($this->subject)?$this->subject:"Сповіщення";
                 $sender->send($receiver->email, "", $subject, "");
+                $this->notifyUser('newMessages-'.$receiver->id,['messages'=>1]);
             }
         }
 

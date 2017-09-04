@@ -153,6 +153,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
                 $sender->send($receiver->email, '', 'Запит на редагування модуля', '');
+                $this->notifyUser('newMessages-'.$receiver->id,['messages'=>1]);
             }
         }
         $this->message->draft = 0;
