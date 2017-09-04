@@ -27,7 +27,7 @@
     </div>
 
     <div ng-show="board==1">
-        <daypilot-kanban id="dp" config="config" ></daypilot-kanban>
+        <div ng-include="getKanban()" ></div>
     </div>
 
 </div>

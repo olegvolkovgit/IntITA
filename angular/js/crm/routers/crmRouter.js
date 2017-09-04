@@ -42,4 +42,12 @@ angular
                     }
                 }
             })
+            .state('tasks.all', {
+                url: '/all',
+                views: {
+                    'usersTasks': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/allTasks",
+                    }
+                }
+            })
     });

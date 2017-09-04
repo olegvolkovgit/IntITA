@@ -28,6 +28,10 @@ class TasksController extends TeacherCabinetController {
         $this->renderPartial('/crm/_tasks/watchTasks', array(), false, true);
     }
 
+    public function actionAllTasks() {
+        $this->renderPartial('/crm/_tasks/allTasks', array(), false, true);
+    }
+
     public function actionGetUsers($query, $category, $multiple){
         if ($query) {
             switch ($category) {
@@ -92,13 +96,18 @@ class TasksController extends TeacherCabinetController {
         $criteria = new CDbCriteria();
         $criteria->alias='t';
         $criteria->with=['idTask.taskState'];
-        $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.role='.$params['id'].' and t.cancelled_date is null';
+        if($params['id']){
+            $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.role='.$params['id'].' and t.cancelled_date is null';
+        }else{
+            $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.cancelled_date is null';
+        }
         if(isset($params['filter']['crmStates.id'])){
             $criteria->join = 'LEFT JOIN crm_tasks ct ON ct.id = t.id_task';
             $criteria->join .= ' LEFT JOIN crm_task_status cts ON ct.id_state=cts.id';
             $criteria->addCondition("cts.id=".$params['filter']['crmStates.id']);
             unset($params['filter']['crmStates.id']);
         }
+        $criteria->group = 't.id_task';
         $adapter = new NgTableAdapter('CrmRolesTasks',$params);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
@@ -211,6 +220,12 @@ class TasksController extends TeacherCabinetController {
         $counters["producer"] = CrmRolesTasks::model()->with('idTask')->count("idTask.id_state!=".CrmTaskStatus::COMPLETED." AND role=".CrmTasks::PRODUCER." AND id_user=".Yii::app()->user->getId()." and t.cancelled_date IS NULL");
         $counters["collaborator"] = CrmRolesTasks::model()->with('idTask')->count("idTask.id_state!=".CrmTaskStatus::COMPLETED." AND role=".CrmTasks::COLLABORATOR." AND id_user=".Yii::app()->user->getId()." and t.cancelled_date IS NULL");
         $counters["observer"] = CrmRolesTasks::model()->with('idTask')->count("idTask.id_state!=".CrmTaskStatus::COMPLETED." AND role=".CrmTasks::OBSERVER." AND id_user=".Yii::app()->user->getId()." and t.cancelled_date IS NULL");
+        $counters["all"] = CrmRolesTasks::model()->with('idTask')->count(
+            array(
+                'condition' => "idTask.id_state!=".CrmTaskStatus::COMPLETED." AND id_user=".Yii::app()->user->getId()." and t.cancelled_date IS NULL",
+                'group' => 't.id_task'
+            )
+        );
 
         $i=0;
         foreach ($counters as $key=>$counter){
