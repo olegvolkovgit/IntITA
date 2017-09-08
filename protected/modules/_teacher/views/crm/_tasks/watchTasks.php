@@ -15,11 +15,21 @@
                     <td data-title="'Постановник'" filter="{'producerName.fullName': 'text'}" sortable="'producerName.fullName'">
                         {{row.producerName.fullName}}
                     </td>
+                    <td data-title="'Виконавець'" filter="{'executantName.fullName': 'text'}" sortable="'executantName.fullName'">
+                        {{row.executantName.fullName}}
+                    </td>
                     <td data-title="'Дата'" filter="{'idTask.created_date': 'text'}" sortable="'idTask.created_date'">
                         {{row.idTask.created_date}}
                     </td>
                     <td data-title="'Статус'" filter="{'crmStates.id': 'select'}" filter-data="crmStateList">
                         {{row.idTask.taskState.description}}
+                        <div ng-if="row.idTask.id_state != 1 && roleId">
+                            <em>{{row.lastChangeName?row.lastChangeName.fullName:''}}</em>
+                            <div>Дата: <em>{{row.lastChangeName?row.lastStateHistory[0].change_date:''}}</em></div>
+                        </div>
+                    </td>
+                    <td data-title="'Затрачений час'">
+                        <p>{{row.spent_time | spentTime}}</p>
                     </td>
                 </tr>
             </table>
