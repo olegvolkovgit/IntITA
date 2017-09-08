@@ -1,5 +1,6 @@
 <?php
 
+
 class RequestController extends TeacherCabinetController
 {
     public function hasRole()
@@ -28,22 +29,29 @@ class RequestController extends TeacherCabinetController
 
     public function actionGetActiveRequestsList()
     {
-        echo RequestsList::listAllActiveRequests();
+        $adapter = new NgTableRequestsAdapter(NgTableRequestsAdapter::NEWREQUESTS);
+        echo $adapter->getData();
+       // echo RequestsList::listAllActiveRequests();
     }
 
     public function actionGetApprovedRequestsList()
     {
-        echo RequestsList::listAllApprovedRequests();
+        $adapter = new NgTableRequestsAdapter(NgTableRequestsAdapter::APPROWEDREQUESTS);
+        echo $adapter->getData();
     }
 
     public function actionGetDeletedRequestsList()
     {
-        echo RequestsList::listAllDeletedRequests();
+        $adapter = new NgTableRequestsAdapter(NgTableRequestsAdapter::DELETEDREQUESTS);
+        echo $adapter->getData();
+        //echo RequestsList::listAllDeletedRequests();
     }
 
     public function actionGetRejectedRevisionRequestsList()
     {
-        echo RequestsList::listAllRejectedRevisionRequests();
+        $adapter = new NgTableRequestsAdapter(NgTableRequestsAdapter::REJECTEDEQUESTS);
+        echo $adapter->getData();
+        //echo RequestsList::listAllRejectedRevisionRequests();
     }
     
     public function actionApprove($message, $user)

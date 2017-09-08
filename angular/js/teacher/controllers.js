@@ -127,6 +127,11 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
 
     }
 
+    $scope.$on('openMessage',function () {
+        updateCounter();
+    })
+
+
 
     $scope.changePageHeader = function (headerText) {
         angular.element(document.querySelector("#pageTitle")).text(headerText);
