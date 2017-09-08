@@ -2,7 +2,7 @@
  * Created by Adm on 08.09.2017.
  * Service for Ngtable
  * @param url Url
- * @method setUrl Url Setter
+ * @method setUrl Sets url to request
  * @method getData Gets data from url
  * Usage ngTableService.setUrl(url_to_set)
  * After that you can call method getData

@@ -11,11 +11,6 @@ class NgTableRequestsAdapter
 {
 
     /**
-     * Status of Messages
-     */
-    const DELETED = 1;
-    const ACTIVE = 0;
-    /**
      * Types of requests
      */
     const NEWREQUESTS = 0;
@@ -30,19 +25,20 @@ class NgTableRequestsAdapter
     private $organization;
 
     /**
-     * @param $type Int type of message
+     * @param $type Int type of messageRequest
      */
     public function __construct($typeOfRequest)
     {
         $this->_typeOfRequest = $typeOfRequest;
-        $this->count = Yii::app()->request->getParam('count');
-        $this->page = Yii::app()->request->getParam('page');
+        $this->count = (int)Yii::app()->request->getParam('count');
+        $this->page = (int)Yii::app()->request->getParam('page');
         $this->organization = Yii::app()->user->model->getCurrentOrganization()->id;
     }
-
+    /**
+     * @return string json encoded data
+     */
     public function getData(){
         $requests = [];
-
         if ($this->_typeOfRequest !== $this::REJECTEDEQUESTS){
             $requests = array_merge($this->getUsersRequests(),$this->getRevisionRequests());
         }
@@ -56,7 +52,10 @@ class NgTableRequestsAdapter
         }
         return json_encode($this->data);
     }
-
+    /**
+     * Get data from founded rows
+     * @return array
+     */
     private function getRowsData($arrayOfModels){
         $data = [];
         foreach ($arrayOfModels as $record) {
@@ -74,7 +73,10 @@ class NgTableRequestsAdapter
         }
         return $data;
     }
-
+    /**
+     * Get user requests data
+     * @return array
+     */
     private function getUsersRequests(){
         $criteria = new CDbCriteria();
         $criteria->with ='idModule';
@@ -95,7 +97,10 @@ class NgTableRequestsAdapter
         $requests = array_merge($authorRequests, $consultantRequests);
         return $requests;
     }
-
+    /**
+     * Get revision requests data
+     * @return array
+     */
     private function getRevisionRequests(){
         $requests = [];
         if(Yii::app()->user->model->isContentManager()){
