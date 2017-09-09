@@ -92,5 +92,6 @@ angular
                         url: url + '/getSpentTimeTask',
                         method: 'GET',
                     },
+
                 });
         }]);
