@@ -126,10 +126,12 @@
     .card .type{
         color: #BDBDBD;
     }
-    .kanban-column .cards-container .bg-warning-kanban, .bg-warning-kanban{
-        background-color: rgba(217, 102, 2, 0.6);;
+    .kanban-column .cards-container .bg-warning-kanban, .bg-warning-kanban,
+    .table-striped>tbody>tr.bg-warning-kanban{
+        background-color: rgba(217, 102, 2, 0.6);
     }
-    .kanban-column .cards-container .bg-danger-kanban, .bg-danger-kanban{
+    .kanban-column .cards-container .bg-danger-kanban, .bg-danger-kanban,
+    .table-striped>tbody>tr.bg-danger-kanban{
         background-color: rgba(217,82,82,.6);
     }
     .card.expect_to_execute{
@@ -146,6 +148,19 @@
 
     .card.paused{
         border-left: 5px solid #F50057;
+    }
+
+    td.expect_to_execute{
+        background: rgba(255,87,34,.6);
+    }
+    td.executed{
+        background: rgba(27,94,32,.6);
+    }
+    td.completed{
+        background: rgba(0,151,167,.6);
+    }
+    td.paused{
+        background: rgba(245,0,87,.6);
     }
 
     .kanban-column .cards-container .card .cover-img{

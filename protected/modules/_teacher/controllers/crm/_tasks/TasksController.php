@@ -171,7 +171,12 @@ class TasksController extends TeacherCabinetController {
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $task=CrmTasks::model()->findByPk($_POST['id']);
-            $task->state->changeTo($task->getStringState($_POST['state']), Yii::app()->user);
+            if(CrmRolesTasks::model()->findByAttributes(array('id_task'=>$_POST['id'],
+            'id_user'=>Yii::app()->user->getId(), 'cancelled_date'=>NULL, 'role'=>4))){
+                throw new Exception('Спостерігач не має прав змінювати статус завдання');
+            }else{
+                $task->state->changeTo($task->getStringState($_POST['state']), Yii::app()->user);
+            }
 
             $transaction->commit();
         } catch (Exception $error) {

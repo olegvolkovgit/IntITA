@@ -208,7 +208,7 @@ angular
 
             // function for on dropping
             $scope.onDrop = function onDrop(data,event,stage){
-                if(data && data.stage_id != stage.id && $rootScope.roleId!=4 && $rootScope.roleId!=0){
+                if(data && data.stage_id != stage.id && $rootScope.roleId!=4){
                     crmTaskServices.changeTaskState({id:data.id, state:stage.id}).$promise.then(function(){
                         $scope.loadKanbanTasks($rootScope.roleId);
                         $scope.setKanbanHeight();

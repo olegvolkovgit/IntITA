@@ -23,7 +23,7 @@
                         Дата: <em>{{task.changeDate}}</em>
                     </div>
                     <br>
-                    <div ng-if="task.stage_id != 1 && roleId">
+                    <div ng-if="task.stage_id != 1">
                         {{task.stage_id == 2?'Виконує':(task.stage_id == 3?'Призупинив':'Завершив')}}:
                         <em><br><img ng-src="{{task.lastChangeByAvatar}}">{{task.lastChangeBy}}</em>
                         <div>
