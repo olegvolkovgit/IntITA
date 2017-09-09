@@ -1,5 +1,7 @@
 <?php
 $local_config = require(dirname(__FILE__).'/local.php');
+$params_config = require(dirname(__FILE__) . '/params.php');
+
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
 return array(
@@ -19,12 +21,14 @@ return array(
 		'application.models.revision.state.lecture.*',
 		'application.models.revision.state.module.*',
         'application.components.*',
+        'application.components.WebSocket.*',
         'application.helpers.*',
         'application.helpers.ngtable.*',
         'application.models.accountancy.*',
         'application.models.message.*',
         'application.models.accountancy.services.serviceAccess.*',
         'application.models.quiz.*',
+        'application.vendor.*',
         'application.models.accountancy.services.*',
 
 	),
@@ -48,4 +52,6 @@ return array(
 		),
 
 	),
+    'params' => $params_config['params'],
+
 );

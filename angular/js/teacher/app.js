@@ -42,7 +42,8 @@ angular
         'superAdminRouter',
         'auditorRouter',
         'ngImgCrop',
-        'crmApp'
+        'crmApp',
+        'vxWamp'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

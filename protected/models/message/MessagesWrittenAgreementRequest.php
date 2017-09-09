@@ -170,6 +170,7 @@ class MessagesWrittenAgreementRequest extends Messages implements IMessage
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
                 $sender->send($receiver->email, '', 'Запит на затвердження паперовго договору', '');
+                $this->notifyUser('newMessages-'.$receiver->id,['messages'=>1]);
             }
         }
         $this->message->draft = 0;
