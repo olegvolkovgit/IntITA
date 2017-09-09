@@ -103,10 +103,9 @@
             || Yii::app()->user->model->isSuperAdmin()
             || Yii::app()->user->model->isAuditor()
             || Yii::app()->user->model->isAdmin()) { ?>
-            <li class="header"><span><h3>CRM</h3></span></li>
             <li>
                 <a href="#/tasks/executant">
-                    Завдання
+                    <i class="fa fa-calendar-o fa-fw"></i>Мої завдання
                 </a>
             </li>
             <?php } ?>
