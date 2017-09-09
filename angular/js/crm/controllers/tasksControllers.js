@@ -8,6 +8,7 @@ angular
         function ($scope, ModalService, crmTaskServices, ngToast, $rootScope, NgTableParams,$state, lodash, $filter) {
             $scope.changePageHeader('Завдання');
 
+            $scope.currentDate = currentDate;
             $scope.board=1;
             $scope.currentUser=user;
 
@@ -90,7 +91,8 @@ angular
                             $scope.crmTask.deadline=$scope.crmTask.deadline?new Date($scope.crmTask.deadline) : null;
                             $scope.crmTask.roles=data.roles;
                             $scope.crmTask.editMode=false;
-                            $scope.producer=data.roles.producer.name;
+                            $scope.crmTask.producer=data.roles.producer.name;
+                            $scope.crmTask.executant=data.roles.executant.name;
                         })
                         .catch(function (error) {
                             bootbox.alert(JSON.parse(error.data.reason));
@@ -143,19 +145,38 @@ angular
                                     title: item.idTask.name,
                                     producerName: item.producerName.fullName,
                                     producerAvatar: basePath+'/images/avatars/'+item.producerName.avatar,
-                                    description:$filter('limitTo')(item.idTask.body, 100),
+                                    executantName: item.executantName.fullName,
+                                    executantAvatar: basePath+'/images/avatars/'+item.executantName.avatar,
+                                    description:$filter('limitTo')(item.idTask.body, 70),
                                     changeDate:item.idTask.change_date,
                                     status: "concept",
                                     type: "task",
-                                    stage_id:item.idTask.id_state
+                                    stage_id:item.idTask.id_state,
+                                    lastChangeBy:item.lastChangeName?item.lastChangeName.fullName:'',
+                                    lastChangeByAvatar: item.lastChangeName?basePath+'/images/avatars/'+item.lastChangeName.avatar:'',
+                                    lastChangeDate:item.lastChangeName?item.lastStateHistory[0].change_date:'',
+                                    spent_time:item.spent_time,
+                                    endTask:item.idTask.endTask,
+                                    deadline:item.idTask.deadline
                                 }
                             });
+
                             $scope.initCrmKanban($scope.crmCards);
+                            $scope.setKanbanHeight();
 
                             return true;
                         });
                 return promise;
             };
+
+            $scope.setKanbanHeight = function (){
+                var heights = angular.element(".kanban-column").map(function ()
+                    {
+                        return angular.element(this).height();
+                    }).get(),
+                    maxHeight = Math.max.apply(null, heights);
+                $scope.kanbanHeight={'min-height':maxHeight};
+            }
 
             $scope.$watch('board', function () {
                 $scope.loadTasks($rootScope.roleId);
@@ -187,9 +208,10 @@ angular
 
             // function for on dropping
             $scope.onDrop = function onDrop(data,event,stage){
-                if(data && data.stage_id != stage.id && $rootScope.roleId!=4 && $rootScope.roleId!=0){
+                if(data && data.stage_id != stage.id && $rootScope.roleId!=4){
                     crmTaskServices.changeTaskState({id:data.id, state:stage.id}).$promise.then(function(){
                         $scope.loadKanbanTasks($rootScope.roleId);
+                        $scope.setKanbanHeight();
                     });
                 }
                 if(data) data.dragging = false;

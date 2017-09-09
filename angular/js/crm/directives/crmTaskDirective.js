@@ -4,8 +4,8 @@
 // dependence on ngCkeditor
 angular
     .module('crmApp')
-    .directive('crmTask', ['$resource', 'typeAhead','crmTaskServices','NgTableParams','$rootScope','$compile',
-        function ($resource, typeAhead, crmTaskServices,NgTableParams,$rootScope,$compile) {
+    .directive('crmTask', ['$resource', 'typeAhead','crmTaskServices','NgTableParams','$rootScope','$compile','ModalService',
+        function ($resource, typeAhead, crmTaskServices,NgTableParams,$rootScope,$compile,ModalService) {
             function link(scope, element, attrs) {
 
                 //***init block***
@@ -51,6 +51,15 @@ angular
                     scope.task.roles.producer = null;
                 };
 
+                // functions for typeahead executant
+                scope.onSelectExecutant = function ($item) {
+                    scope.task.roles.executant = $item;
+                };
+
+                scope.reloadExecutant = function () {
+                    scope.task.roles.executant = null;
+                };
+
                 scope.rolesVisibility = function (role) {
                     if(scope.task.roles[role]) scope.inputs[role]=true;
                     scope.inputs[role] = !scope.inputs[role];
@@ -58,6 +67,9 @@ angular
                         scope.task.roles[role] = null;
                         if(role=='producer'){
                             scope.producer=null;
+                        }
+                        if(role=='executant'){
+                            scope.executant=null;
                         }
                     }
                 }
@@ -70,7 +82,8 @@ angular
                             scope.task.endTask=scope.task.endTask?new Date(scope.task.endTask) : null;
                             scope.task.deadline=scope.task.deadline?new Date(scope.task.deadline) : null;
                             scope.task.roles=data.roles;
-                            scope.producer=data.roles.producer.name;
+                            scope.task.producer=data.roles.producer.name;
+                            scope.task.executant=data.roles.executant.name;
                             scope.loadTasksHistory(scope.task.id);
                         })
                         .catch(function (error) {
@@ -124,10 +137,24 @@ angular
                     });
                 }
 
+                scope.loadSpentTimeTask=function (id) {
+                    scope.spentTimeTableParams = new NgTableParams({id:id}, {
+                        getData: function (params) {
+                            return crmTaskServices
+                                .getSpentTimeTask(params.url())
+                                .$promise
+                                .then(function (response) {
+                                    return response.data;
+                                });
+                        }
+                    });
+                }
+
                 scope.$watch('task.id', function (newValue, oldValue) {
                     if (newValue != oldValue) {
                         scope.loadTasksHistory(newValue);
                         scope.loadTasksComments(newValue);
+                        scope.loadSpentTimeTask(newValue);
                     }
                 });
 
@@ -220,13 +247,25 @@ angular
                         });
                 };
 
+                scope.cancelCrmTask = function (task) {
+                    crmTaskServices.cancelCrmTask({id:task.id}).$promise
+                        .then(function (data) {
+                            scope.getTaskInDirective(task.id);
+                            scope.historyTableParams.reload({id:task.id});
+                            scope.someCtrlFn({tasksType: $rootScope.roleId});
+                            ModalService.Close('newTask');
+                        })
+                        .catch(function (error) {
+                            bootbox.alert(JSON.parse(error.data.reason));
+                        });
+                };
+
             }
 
             return {
                 scope: {
                     'ckeditorOptions': '=ckeditorOptions',
                     "task": "=task",
-                    "producer": "=producer",
                     someCtrlFn: '&callbackFn',
                 },
                 link: link,

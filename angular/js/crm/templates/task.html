@@ -1,5 +1,5 @@
 <span style="float: right" class="glyphicon glyphicon-remove modal-close" ng-click="cleanTask();"></span>
-<h1>Нове завдання</h1>
+<h1>Завдання</h1>
 <div class="form-group">
     <input class="form-control" maxlength="128" placeholder="Введіть назву завдання" ng-model="task.name" ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
 </div>
@@ -12,13 +12,14 @@
 </div>
 
 <br>
-    <div ng-if="task.id">
+    <div ng-if="task.id && !task.editMode">
         <fieldset ng-disabled="$root.roleId==4" >
             <button ng-if="task.id_state==1" type="button" class="btn btn-success" ng-click="changeState(task,2)" ng-disabled="isDisabled" >РОЗПОЧАТИ ВИКОНАННЯ</button>
             <button ng-if="task.id_state==3" type="button" class="btn btn-success" ng-click="changeState(task,2)" ng-disabled="isDisabled" >ПРОДОВЖИТИ</button>
             <button ng-if="task.id_state==2" type="button" class="btn btn-success" ng-click="changeState(task,3)" ng-disabled="isDisabled" >ПРИЗУПИНИТИ</button>
             <button ng-if="task.id_state==2 || task.id_state==3" type="button" class="btn btn-success" ng-click="changeState(task,4)" ng-disabled="isDisabled" >ЗАВЕРШИТИ</button>
             <button ng-if="task.id_state==4 && currentUser==task.created_by" type="button" class="btn btn-success" ng-click="changeState(task,1)" ng-disabled="isDisabled" >ВІДНОВИТИ</button>
+            <button ng-if="currentUser==task.created_by" type="button" class="btn btn-danger" ng-click="cancelCrmTask(task)" ng-disabled="isDisabled" >ВИДАЛИТИ</button>
         </fieldset>
     </div>
 <br>
@@ -40,15 +41,22 @@
     <ul class="list-unstyled">
         <li ng-repeat="role in roles track by $index" ng-if="inputs[role.name] || role.id==1 || task.roles[role.name]">
             <label>{{role.description}}</label>
-            <oi-select ng-if="role.name!='producer'" placeholder="обери користувача"
+            <oi-select ng-if="role.name!='producer' && role.name!='executant'" placeholder="обери користувача"
                        oi-options="user.name for user in getUsersForCategory($query, category.name, true) track by user.id"
                        ng-model="task.roles[role.name]" multiple ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
             </oi-select>
-            <input ng-if="role.name=='producer'" type="text" size="50" ng-model="producer"
+            <input ng-if="role.name=='producer'" type="text" size="50" ng-model="task.producer"
                    ng-model-options="{ debounce: 1000 }" placeholder="обери користувача"
                    uib-typeahead="item.name for item in getUsersForCategory($viewValue, category.name, false) | limitTo : 10"
                    typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
                    typeahead-on-select="onSelectUser($item)" ng-change="reloadUser()" class="form-control" autofocus
+                   required ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)"/>
+
+            <input ng-if="role.name=='executant'" type="text" size="50" ng-model="task.executant"
+                   ng-model-options="{ debounce: 1000 }" placeholder="обери користувача"
+                   uib-typeahead="item.name for item in getUsersForCategory($viewValue, category.name, false) | limitTo : 10"
+                   typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
+                   typeahead-on-select="onSelectExecutant($item)" ng-change="reloadExecutant()" class="form-control" autofocus
                    required ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)"/>
             <div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> користувача не знайдено</div>
 
@@ -189,11 +197,27 @@
                             <td data-title="'Дата'">
                                 {{row.change_date}}
                             </td>
-                            <td data-title="'Автор'">
+                            <td data-title="'Користувач'">
                                 <a ng-href="#/users/profile/{{row.id_user}}" target="_blank">{{row.idUser.fullName}}</a>
                             </td>
                             <td data-title="'Зміна'">
                                 {{row.idState.description}}
+                            </td>
+                        </tr>
+                    </table>
+                </uib-tab>
+                <uib-tab  index="2" heading="Затрачено часу">
+                    <table ng-table="spentTimeTableParams" class="table table-bordered table-striped table-condensed">
+                        <colgroup>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <tr ng-repeat="row in $data track by $index">
+                            <td data-title="'Користувач'">
+                                <a ng-href="#/users/profile/{{row.id}}" target="_blank">{{row.name}}</a>
+                            </td>
+                            <td data-title="'Затрачено'">
+                                {{row.spent_time | spentTime}}
                             </td>
                         </tr>
                     </table>

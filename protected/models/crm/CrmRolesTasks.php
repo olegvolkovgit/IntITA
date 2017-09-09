@@ -58,10 +58,15 @@ class CrmRolesTasks extends CActiveRecord
 			'cancelledBy' => array(self::BELONGS_TO, 'StudentReg', 'cancelled_by'),
 			'role0' => array(self::BELONGS_TO, 'CrmRoles', 'role'),
 			'idTask' => array(self::BELONGS_TO, 'CrmTasks', 'id_task'),
+            'idTaskDuplicate' => array(self::BELONGS_TO, 'CrmTasks', 'id_task'),
 			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
             'producer' => array(self::HAS_ONE, 'CrmRolesTasks', ['id'=>'id_task'], 'on' => 'producer.cancelled_date IS NULL and producer.role = ' . CrmTasks::PRODUCER, 'through' => 'idTask'),
             'producerName' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id'], 'through' => 'producer'),
-		);
+            'executant' => array(self::HAS_ONE, 'CrmRolesTasks', ['id'=>'id_task'], 'on' => 'executant.cancelled_date IS NULL and executant.role = ' . CrmTasks::EXECUTANT, 'through' => 'idTaskDuplicate'),
+            'executantName' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id'], 'through' => 'executant'),
+            'lastStateHistory' => array(self::HAS_MANY, 'CrmTaskStateHistory', ['id_task'=>'id_task'], 'order' => 'lastStateHistory.change_date desc', 'limit'=>1),
+            'lastChangeName' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id'], 'through' => 'lastStateHistory'),
+        );
 	}
 
 	/**

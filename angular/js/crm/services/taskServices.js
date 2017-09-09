@@ -78,5 +78,20 @@ angular
                         method: 'GET',
                         isArray:true,
                     },
+                    cancelCrmTask: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/cancelCrmTask',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getTaskSpentTime: {
+                        url: url + '/getTaskSpentTime',
+                        method: 'GET',
+                    },
+                    getSpentTimeTask: {
+                        url: url + '/getSpentTimeTask',
+                        method: 'GET',
+                    },
+
                 });
         }]);

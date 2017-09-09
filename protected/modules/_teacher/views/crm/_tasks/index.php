@@ -1,11 +1,13 @@
 <div ng-controller="crmTasksCtrl">
-
+    <div style="float: right; margin: 2px">
+        <button ng-click="openModal('newTask')" type="button" class="btn btn-primary">Додати завдання</button>
+    </div>
     <ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" >
         <li ng-class="[{active: board==1, disabled: disabled}, classes]" class="uib-tab nav-item ng-scope ng-isolate-scope" index="0" heading="Kanban" >
-            <a href="" ng-click="board=1" class="nav-link ng-binding" >Kanban</a>
+            <a style="padding:4px" href="" ng-click="board=1" class="nav-link ng-binding" >Kanban</a>
         </li>
         <li ng-class="[{active: board==2, disabled: disabled}, classes]" class="uib-tab nav-item ng-scope ng-isolate-scope" index="1" heading="Table" >
-            <a href="" ng-click="board=2" class="nav-link ng-binding" >Table</a>
+            <a style="padding:4px" href="" ng-click="board=2" class="nav-link ng-binding" >Table</a>
         </li>
     </ul>
 
@@ -13,19 +15,13 @@
         <uib-tabset active="active">
             <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}} {{tab.count | bracket}}" ui-sref ="tasks.{{tab.route}}" ></uib-tab>
         </uib-tabset>
-        <br>
-        <div class="row text-right">
-            <button ng-click="openModal('newTask')" type="button" class="btn btn-primary">Додати завдання</button>
-        </div>
-        <br>
-        <hr>
         <div ui-view="usersTasks"></div>
     </div>
 
     <modal id="newTask">
         <div class="modal">
             <div class="modal-body">
-                <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" producer="producer" callback-fn="loadTasks(tasksType)"></crm-task>
+                <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" callback-fn="loadTasks(tasksType)"></crm-task>
                 <br>
                 <p style="clear: both">
                     <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4) && crmTask.created_by==currentUser" class="btn btn-success" ng-click="sendTask(crmTask,'newTask')" ng-disabled="isDisabled" >
@@ -130,7 +126,14 @@
     .card .type{
         color: #BDBDBD;
     }
-
+    .kanban-column .cards-container .bg-warning-kanban, .bg-warning-kanban,
+    .table-striped>tbody>tr.bg-warning-kanban{
+        background-color: rgba(217, 102, 2, 0.6);
+    }
+    .kanban-column .cards-container .bg-danger-kanban, .bg-danger-kanban,
+    .table-striped>tbody>tr.bg-danger-kanban{
+        background-color: rgba(217,82,82,.6);
+    }
     .card.expect_to_execute{
         border-left: 5px solid #FF5722;
     }
@@ -145,6 +148,19 @@
 
     .card.paused{
         border-left: 5px solid #F50057;
+    }
+
+    td.expect_to_execute{
+        background: rgba(255,87,34,.6);
+    }
+    td.executed{
+        background: rgba(27,94,32,.6);
+    }
+    td.completed{
+        background: rgba(0,151,167,.6);
+    }
+    td.paused{
+        background: rgba(245,0,87,.6);
     }
 
     .kanban-column .cards-container .card .cover-img{
@@ -196,5 +212,12 @@
 
     .cardInfo{
         font-size: smaller;
+    }
+    @media (max-width: 800px)
+    {
+        .kanban-column{
+            width: 90%;
+            min-height: 100px;
+        }
     }
 </style>
