@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .controller('graduateCtrl',graduateCtrl)
     .controller('editGraduateCtrl',editGraduateCtrl);
-function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
+function graduateCtrl ($rootScope, $scope, $filter, $http, NgTableDataService,  NgTableParams, translitService, typeAhead, $httpParamSerializerJQLike, $state, $stateParams, $ngBootbox, $timeout){
 
     $scope.courseCollapsed = true;
     $scope.modulesCollapsed = true;
@@ -102,14 +102,14 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, graduates, NgTablePar
         return typeAhead.getData(basePath+"/_teacher/graduate/getAllModules",{query : value});
     };
 
+    NgTableDataService.setUrl(basePath+'/_teacher/graduate/getGraduatesJson');
     $scope.tableParams = new NgTableParams({
         sorting: {
             id: 'desc'
         },
     }, {
         getData: function(params) {
-            return graduates.list(params.url())
-                .$promise
+            return NgTableDataService.getData(params.url())
                 .then(function (data) {
                     params.total(data.count); // recal. page nav controls
                     return data.rows;
