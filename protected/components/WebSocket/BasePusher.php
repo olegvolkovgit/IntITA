@@ -11,8 +11,16 @@ require_once dirname(__DIR__) . '/../vendor/autoload.php';
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 
+
 class BasePusher implements WampServerInterface
 {
+
+    private $webSocketParams;
+
+    public function __construct()
+    {
+         $this->webSocketParams= include_once(dirname(__DIR__) . '/../config/webSocketServerParams.php');
+    }
 
     protected $_topics = [];
 
@@ -31,10 +39,12 @@ class BasePusher implements WampServerInterface
 
     }
     public function onOpen(ConnectionInterface $conn) {
-        echo 'New connection '. $conn->resourceId;
+        if ($this->webSocketParams['debugMode'])
+            echo "New connection {$conn->resourceId} \n";
     }
     public function onClose(ConnectionInterface $conn) {
-        echo 'Close connection '. $conn->resourceId;
+        if ($this->webSocketParams['debugMode'])
+            echo "New connection {$conn->resourceId} \n";
     }
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params) {
         // In this application if clients send data it's because the user hacked around in console
@@ -45,7 +55,9 @@ class BasePusher implements WampServerInterface
         $conn->close();
     }
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        echo 'error';
+        echo "Error {$e->getCode()} {$e->getMessage()}";
+        if ($this->webSocketParams['debugMode'])
+            echo $e->getTraceAsString();
         $conn->close();
     }
 }
