@@ -25,6 +25,8 @@
  */
 class CrmTasks extends CTaskUnitActiveRecord
 {
+    use NotifySubscribedUsers;
+
     const EXECUTANT = 1;
     const PRODUCER = 2;
     const COLLABORATOR = 3;
@@ -68,7 +70,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             'cancelledBy' => array(self::BELONGS_TO, 'StudentReg', 'cancelled_by'),
             'createdBy' => array(self::BELONGS_TO, 'StudentReg', 'created_by'),
             'taskState' => array(self::BELONGS_TO, 'CrmTaskStatus', 'id_state'),
-            'executants' => array(self::HAS_MANY, 'CrmRolesTasks', 'id_task', 'on' => 'executants.cancelled_date IS NULL and executants.role = ' . CrmTasks::EXECUTANT),
+            'executant' => array(self::HAS_ONE, 'CrmRolesTasks', 'id_task', 'on' => 'executant.cancelled_date IS NULL and executant.role = ' . CrmTasks::EXECUTANT),
             'producer' => array(self::HAS_ONE, 'CrmRolesTasks', 'id_task', 'on' => 'producer.cancelled_date IS NULL and producer.role = ' . CrmTasks::PRODUCER),
             'collaborators' => array(self::HAS_MANY, 'CrmRolesTasks', 'id_task', 'on' => 'collaborators.cancelled_date IS NULL and collaborators.role = ' . CrmTasks::COLLABORATOR),
             'observers' => array(self::HAS_MANY, 'CrmRolesTasks', 'id_task', 'on' => 'observers.cancelled_date IS NULL and observers.role = ' . CrmTasks::OBSERVER),
@@ -194,7 +196,7 @@ class CrmTasks extends CTaskUnitActiveRecord
                 array_push($oldUsers, $item->id_user);
             }
 
-            if ($roleId == self::PRODUCER) {
+            if ($roleId == self::PRODUCER || $roleId == self::EXECUTANT) {
                 $user = isset($role['id']) ? $role['id'] : Yii::app()->user->getId();
                 array_push($newUsers, $user);
             } else {
@@ -225,6 +227,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             $model->role = $role;
             $model->assigned_by = Yii::app()->user->getId();
             $model->save();
+            $this->notifyUser('changeTaskRole-'.$user,[]);
         }
     }
 
@@ -235,6 +238,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             $model->cancelled_by = Yii::app()->user->getId();
             $model->cancelled_date = new CDbExpression('NOW()');
             $model->save();
+            $this->notifyUser('changeTaskRole-'.$user,[]);
         }
     }
 

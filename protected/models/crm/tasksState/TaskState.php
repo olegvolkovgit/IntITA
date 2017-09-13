@@ -50,8 +50,8 @@ abstract class TaskState {
 
     protected function _changeState($idTask, $stateId, $userId) {
         $query = "SELECT id_state, change_date INTO @idState, @changeDate FROM $this->propertyTable WHERE id=$this->idTask;
-                  INSERT INTO $this->historyTable (`id_task`,`id_state`,`id_user`, `change_date`) VALUES ($this->idTask, $stateId, $userId, @changeDate);
-                  UPDATE $this->propertyTable SET `id_state`=$stateId, `change_date`=NOW() WHERE id=$this->idTask;";
+                  INSERT INTO $this->historyTable (`id_task`,`id_state`,`id_user`, `change_date`) VALUES ($this->idTask, $stateId, $userId, NOW());
+                  UPDATE $this->propertyTable SET `id_state`=$stateId WHERE id=$this->idTask;";
         Yii::app()->db->createCommand($query)->execute();
     }
 

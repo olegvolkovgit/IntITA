@@ -11,17 +11,23 @@
 class WebSocketCommand extends CConsoleCommand
 {
 
-    const LOG_FILE = '/var/log/intitaWebsocket.log';
-    const PID_FILE = '/var/run/intitaWebsocket.pid';
 
     use NotifySubscribedUsers;
 
 
     public function actionStartServer(){
-        if (!$this->checkServer(true)){
+        if ($this->checkWinEnv()) {
             $this->startServer();
-            echo 'Starting server!';
+            echo "Server does not support background mode in Windows hosts. \n";
+            echo "Starting server! \n";
         }
+        else{
+            if (!$this->checkServer(true)){
+                $this->startServer();
+                echo "Starting server! \n";
+            }
+        }
+
     }
 
     public function actionTestServer($topic){
@@ -30,36 +36,66 @@ class WebSocketCommand extends CConsoleCommand
     }
 
     public function actionStatus(){
-        $this->checkServer(true);
+        if ($this->checkWinEnv()) {
+            echo "Server does not support background mode in Windows hosts. Please check your console. \n";
+        }
+        else {
+            $this->checkServer(true);
+        }
+
     }
 
     public function actionStopServer(){
-        $this->stopServer();
+        if ($this->checkWinEnv()) {
+            echo "Server does not support background mode in Windows hosts. Please close your console. \n";
+        }
+        else{
+            $this->stopServer();
+        }
+
     }
 
     public function actionRestartServer(){
-        $this->stopServer();
-        $this->startServer();
+        if ($this->checkWinEnv()) {
+            echo "Server does not support background mode in Windows hosts. Please close your console and start server manually. \n";
+        }
+        else{
+            $this->stopServer();
+            $this->startServer();
+        }
+
     }
 
 
     private function startServer(){
-        file_put_contents('/var/run/intitaWebsocket.pid', '');
-        exec(sprintf("%s > %s 2>&1 & echo $! >> %s",
-            'php '.__DIR__.'/../components/WebSocket/WebSocketServer.php',
-            $this::LOG_FILE, $this::PID_FILE));
+        file_put_contents(Yii::app()->params['webSocketServer']['pidFile'], '');
+        if ($this->checkWinEnv()) {
+            exec('php '.__DIR__.'/../components/WebSocket/WebSocketServer.php');
+        } else {
+            exec(sprintf("%s > %s 2>&1 & echo $! >> %s",
+                'php '.__DIR__.'/../components/WebSocket/WebSocketServer.php',
+                Yii::app()->params['webSocketServer']['logFile'], Yii::app()->params['webSocketServer']['pidFile']));
+        }
+
+
     }
 
     private function stopServer(){
-        if($this->checkServer(false)){
-            $pid = file($this::PID_FILE)[0];
-            exec('kill -9 '.$pid);
+        if ($this->checkWinEnv()) {
+            echo "Server does not support background mode in Windows hosts. Please close your console \n";
         }
+        else{
+            if($this->checkServer(false)){
+                $pid = file(Yii::app()->params['webSocketServer']['pidFile'])[0];
+                exec('kill -9 '.$pid);
+            }
+        }
+
     }
 
     private function checkServer($echo){
-        if (file_exists('/var/run/intitaWebsocket.pid')){
-            $pid = file($this::PID_FILE);
+        if (file_exists(Yii::app()->params['webSocketServer']['pidFile'])){
+            $pid = file(Yii::app()->params['webSocketServer']['pidFile']);
             if (count($pid)>0){
                 $result = shell_exec(sprintf("ps %d", $pid[0]));
                 if( count(preg_split("/\n/", $result)) > 2){
@@ -74,5 +110,15 @@ class WebSocketCommand extends CConsoleCommand
             echo "Server is not running \n";
         }
         return false;
+    }
+
+    private function checkWinEnv(){
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 }

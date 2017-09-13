@@ -10,5 +10,8 @@ return [
     'address'=>'127.0.0.1',
     'port'=>'9500',
     'zmqServerAddress'=>'127.0.0.1',
-    'zmqServerPort'=>'8990'
+    'zmqServerPort'=>'8990',
+    'pidFile' => '/var/run/intitaWebsocket.pid',
+    'logFile' => '/var/log/intitaWebsocket.log',
+    'debugMode' => true
 ];

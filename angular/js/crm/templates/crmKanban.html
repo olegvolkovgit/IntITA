@@ -1,10 +1,12 @@
 <section id="kanban-container">
-    <div class="kanban-column concept" ng-repeat="stage in stages" ng-drop="true" ng-drop-success="onDrop($data,$event,stage)" ng-class="{'concept': stage.name == 'Очікує на виконання', pending: stage.name == 'Виконується', develop: stage.name == 'Призупинено', approved: stage.name == 'Завершено'}">
+    <div class="kanban-column concept" ng-style="kanbanHeight" ng-repeat="stage in stages" ng-drop="true" ng-drop-success="onDrop($data,$event,stage)" ng-class="{'concept': stage.name == 'Очікує на виконання', pending: stage.name == 'Виконується', develop: stage.name == 'Призупинено', approved: stage.name == 'Завершено'}">
         <h3 style="margin: 0">{{stage.name}}</h3>
         <div class="cards-container">
             <div class="card" ng-click="getTask(task.id,'newTask',task.dragging)" ng-drag="true" ng-drag-data="task"
                  ng-repeat="task in tasks" ng-if="task.stage_id == stage.id"
-                 ng-class="{'expect_to_execute': task.stage_id == 1, 'executed': task.stage_id == 2, 'completed': task.stage_id == 4, 'paused': task.stage_id == 3}"
+                 ng-class="{'expect_to_execute': task.stage_id == 1, 'executed': task.stage_id == 2, 'completed': task.stage_id == 4,
+                 'paused': task.stage_id == 3, 'bg-warning-kanban': (task.stage_id !=4 && task.endTask && currentDate>=(task.endTask  | shortDate:'yyyy-MM-dd')),
+                 'bg-danger-kanban': (task.stage_id !=4 && task.deadline && currentDate>(task.deadline  | shortDate:'yyyy-MM-dd'))}"
                  ng-drag-start="dragStart($event, task)" ng-init="task.dragging = false" draggable="task.dragging">
                 <h4 class="card-title">{{task.title}}</h4>
                 <div class="description">
@@ -15,7 +17,21 @@
                         Постановник: <em><br><img ng-src="{{task.producerAvatar}}">{{task.producerName}}</em>
                     </div>
                     <div>
+                        Відповідальний: <em><br><img ng-src="{{task.producerAvatar}}">{{task.producerName}}</em>
+                    </div>
+                    <div>
                         Дата: <em>{{task.changeDate}}</em>
+                    </div>
+                    <br>
+                    <div ng-if="task.stage_id != 1">
+                        {{task.stage_id == 2?'Виконує':(task.stage_id == 3?'Призупинив':'Завершив')}}:
+                        <em><br><img ng-src="{{task.lastChangeByAvatar}}">{{task.lastChangeBy}}</em>
+                        <div>
+                            Дата: <em>{{task.lastChangeDate}}</em>
+                        </div>
+                    </div>
+                    <div>
+                        Затрачений час: <em>{{task.spent_time | spentTime}}</em>
                     </div>
                 </div>
             </div>

@@ -27,6 +27,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/messages/message/:idMessage",
             cache         : false,
             controller:function($scope){
+                $scope.$emit('openMessage','');
                 $scope.changePageHeader('Повідомлення')
             },
             templateUrl: function($stateParams){
