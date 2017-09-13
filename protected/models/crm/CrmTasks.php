@@ -25,6 +25,8 @@
  */
 class CrmTasks extends CTaskUnitActiveRecord
 {
+    use NotifySubscribedUsers;
+
     const EXECUTANT = 1;
     const PRODUCER = 2;
     const COLLABORATOR = 3;
@@ -225,6 +227,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             $model->role = $role;
             $model->assigned_by = Yii::app()->user->getId();
             $model->save();
+            $this->notifyUser('changeTaskRole-'.$user,[]);
         }
     }
 
@@ -235,6 +238,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             $model->cancelled_by = Yii::app()->user->getId();
             $model->cancelled_date = new CDbExpression('NOW()');
             $model->save();
+            $this->notifyUser('changeTaskRole-'.$user,[]);
         }
     }
 

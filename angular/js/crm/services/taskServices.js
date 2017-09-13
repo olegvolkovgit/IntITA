@@ -92,6 +92,15 @@ angular
                         url: url + '/getSpentTimeTask',
                         method: 'GET',
                     },
-
+                    tasksManagerList: {
+                        url: url + '/tasksManagerList',
+                        method: 'GET',
+                        isArray:true,
+                    },
+                    visitedTasksManager: {
+                        url: url + '/visitedTasksManager',
+                        method: 'GET',
+                        isArray:true,
+                    },
                 });
         }]);

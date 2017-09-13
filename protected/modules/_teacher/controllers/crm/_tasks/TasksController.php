@@ -1,6 +1,8 @@
 <?php
 
 class TasksController extends TeacherCabinetController {
+    use NotifySubscribedUsers;
+
     public function hasRole() {
         return Yii::app()->user->model->isTeacher() || Yii::app()->user->model->isDirector()
             || Yii::app()->user->model->isSuperAdmin()
@@ -30,6 +32,10 @@ class TasksController extends TeacherCabinetController {
 
     public function actionAllTasks() {
         $this->renderPartial('/crm/_tasks/allTasks', array(), false, true);
+    }
+
+    public function actionManager() {
+        $this->renderPartial('/crm/_tasks/manager', array(), false, true);
     }
 
     public function actionGetUsers($query, $category, $multiple){
@@ -74,6 +80,7 @@ class TasksController extends TeacherCabinetController {
             if(isset($params['id'])){
                 $task=CrmTasks::model()->findByPk($params['id']);
                 $task->attributes=$params;
+                $task->change_date =  new CDbExpression('NOW()');
                 $task->saveCheck();
             }else{
                 $task=new CrmTasks();
@@ -83,6 +90,15 @@ class TasksController extends TeacherCabinetController {
             $task->setRoles($params['roles']);
 
             $transaction->commit();
+            $signatories=CrmRolesTasks::model()->findAllByAttributes(array('id_task'=>$task->id),array(
+                'condition'=>'id_user!=:id',
+                'params'=>array('id'=>Yii::app()->user->getId()),
+                'select'=>'id_user',
+                'distinct'=>true,
+            ));
+            foreach ($signatories as $signatory){
+                $this->notifyUser('changeTaskManager-'.$signatory->id_user,[]);
+            }
         } catch (Exception $error) {
             $transaction->rollback();
             $statusCode = 500;
@@ -176,6 +192,16 @@ class TasksController extends TeacherCabinetController {
                 throw new Exception('Спостерігач не має прав змінювати статус завдання');
             }else{
                 $task->state->changeTo($task->getStringState($_POST['state']), Yii::app()->user);
+            }
+
+            $signatories=CrmRolesTasks::model()->findAllByAttributes(array('id_task'=>$_POST['id']),array(
+//                'condition'=>'id_user!=:id',
+//                'params'=>array('id'=>Yii::app()->user->getId()),
+                'select'=>'id_user',
+                'distinct'=>true,
+            ));
+            foreach ($signatories as $signatory){
+                $this->notifyUser('changeTask-'.$signatory->id_user,[]);
             }
 
             $transaction->commit();
@@ -305,6 +331,43 @@ class TasksController extends TeacherCabinetController {
 
         $result['data']=$data;
         echo json_encode($result);
+    }
+
+    public function actionTasksManagerList()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->with=['idTask'];
+        $criteria->condition="t.id_user=".Yii::app()->user->getId()." and t.cancelled_date is null";
+        $criteria->group = 't.id_task';
+        $result=CrmRolesTasks::model()->findAll($criteria);
+
+        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations($result));
+    }
+
+    public function actionVisitedTasksManager()
+    {
+        $model=CrmTaskManagerVisited::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId()));
+        if($model){
+            $model->date_of_visit= new CDbExpression('NOW()');
+            $model->save();
+        }else{
+            $model= new CrmTaskManagerVisited();
+            $model->id_user=Yii::app()->user->getId();
+            $model->date_of_visit= new CDbExpression('NOW()');
+            $model->save();
+        }
+        $this->notifyUser('changeTaskManager-'.Yii::app()->user->getId(),[]);
+    }
+
+    public function actionGetTaskManagerCounter(){
+        $lastVisitModel=CrmTaskManagerVisited::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId()));
+        $last_visit=$lastVisitModel?$lastVisitModel->date_of_visit:new CDbExpression("NOW()");
+        $sql="SELECT COUNT(DISTINCT 't.id') FROM crm_roles_tasks as rt left join crm_tasks as t on t.id=rt.id_task WHERE rt.id_user=".Yii::app()->user->getId()." and rt.cancelled_date is null 
+         and t.change_date > '".$last_visit."'";
+        $result=Yii::app()->db->createCommand($sql)->queryScalar();
+
+        echo $result;
     }
 
 }
