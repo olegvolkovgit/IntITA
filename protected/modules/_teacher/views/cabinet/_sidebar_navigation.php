@@ -111,7 +111,7 @@
                 <li>
                     <a href="#/tasksManager">
                         <i class="fa fa-bell fa-fw"></i>Менеджер завдань
-<!--                        <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>-->
+                        <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>
                     </a>
                 </li>
             <?php } ?>

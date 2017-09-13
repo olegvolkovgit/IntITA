@@ -90,6 +90,15 @@ class TasksController extends TeacherCabinetController {
             $task->setRoles($params['roles']);
 
             $transaction->commit();
+            $signatories=CrmRolesTasks::model()->findAllByAttributes(array('id_task'=>$task->id),array(
+                'condition'=>'id_user!=:id',
+                'params'=>array('id'=>Yii::app()->user->getId()),
+                'select'=>'id_user',
+                'distinct'=>true,
+            ));
+            foreach ($signatories as $signatory){
+                $this->notifyUser('changeTaskManager-'.$signatory->id_user,[]);
+            }
         } catch (Exception $error) {
             $transaction->rollback();
             $statusCode = 500;
@@ -348,32 +357,17 @@ class TasksController extends TeacherCabinetController {
             $model->date_of_visit= new CDbExpression('NOW()');
             $model->save();
         }
+        $this->notifyUser('changeTaskManager-'.Yii::app()->user->getId(),[]);
     }
 
     public function actionGetTaskManagerCounter(){
-//        $model = Yii::app()->user->model;
-//
-//        if ($model->isTeacher())
-//            echo json_encode(['requests' => ['countOfRequests' => count($newRequests), 'newRequests' => $newRequests], 'messages' => ['countOfNewMessages' => count($newMessages), 'newMessages' => $newMessages, 'imapMessages'=>$imapMessages]]);
-//        else
-//            echo json_encode(['requests'=> ['countOfRequests'=>count($newRequests),'newRequests'=>$newRequests],'messages'=>['countOfNewMessages'=>count($newMessages),'newMessages'=>$newMessages]]);
-//        $newTasks=CrmTasks::Model()->count("field=:field", array("field" => 'dsds'));
         $lastVisitModel=CrmTaskManagerVisited::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId()));
-        $last_visit=$lastVisitModel?date("Y-m-d H:i:s",strtotime($lastVisitModel->date_of_visit)):new CDbExpression("NOW()");
-        $last_visit=new CDbExpression($lastVisitModel->date_of_visit);
-//        var_dump(new CDbExpression("NOW()"));die;
-        $criteria = new CDbCriteria();
-        $criteria->alias='t';
-        $criteria->with=['idTask'];
-        $criteria->condition="t.id_user=".Yii::app()->user->getId()." and t.cancelled_date is null";
-        $criteria->addCondition('NOW() BETWEEN idTask.change_date AND '. $last_visit);
-        //        $criteria->group = 't.id_task';
-        $result=CrmRolesTasks::model()->findAll($criteria);
-        var_dump($result);die;
-        var_dump(count($result));die;
-        $data=6;
-//        $result['data']=$data;
-        echo json_encode($data);
+        $last_visit=$lastVisitModel?$lastVisitModel->date_of_visit:new CDbExpression("NOW()");
+        $sql="SELECT COUNT(DISTINCT 't.id') FROM crm_roles_tasks as rt left join crm_tasks as t on t.id=rt.id_task WHERE rt.id_user=".Yii::app()->user->getId()." and rt.cancelled_date is null 
+         and t.change_date > '".$last_visit."'";
+        $result=Yii::app()->db->createCommand($sql)->queryScalar();
+
+        echo $result;
     }
 
 }
