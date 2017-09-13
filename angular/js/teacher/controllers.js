@@ -107,7 +107,15 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
 
     };
     updateCounter();
-    
+
+    var updateTaskManagerCounter = function() {
+        $http.get(basePath+'/_teacher/crm/_tasks/tasks/getTaskManagerCounter',{}).then(function(response){
+            $scope.taskManagerCount = response.data;
+        });
+
+    };
+    // updateTaskManagerCounter();
+
     if (!useWebsocketNotification){
         $timeout(updateCounter, 10000);
     }
@@ -126,6 +134,19 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
         );
 
     }
+
+    var conn2 = new ab.Session('wss://'+window.location.host+'/wss/',
+        function() {
+            conn3.subscribe('changeTaskManager-'+user, function(topic, data) {
+                console.log('Task Manager changed');
+                updateTaskManagerCounter();
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
 
     $scope.$on('openMessage',function () {
         updateCounter();

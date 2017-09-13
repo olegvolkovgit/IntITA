@@ -50,4 +50,8 @@ angular
                     }
                 }
             })
+            .state('tasksManager', {
+                url: '/tasksManager',
+                templateUrl: basePath+"/_teacher/crm/_tasks/tasks/manager",
+            })
     });

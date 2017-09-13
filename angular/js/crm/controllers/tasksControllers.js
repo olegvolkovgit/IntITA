@@ -8,6 +8,31 @@ angular
         function ($scope, ModalService, crmTaskServices, ngToast, $rootScope, NgTableParams,$state, lodash, $filter) {
             $scope.changePageHeader('Завдання');
 
+            var conn = new ab.Session('wss://'+window.location.host+'/wss/',
+                function() {
+                    conn.subscribe('changeTask-'+user, function(topic, data) {
+                        console.log('Task changed');
+                        $scope.loadTasks($rootScope.roleId);
+                    });
+                },
+                function() {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+            var conn2 = new ab.Session('wss://'+window.location.host+'/wss/',
+                function() {
+                    conn2.subscribe('changeTaskRole-'+user, function(topic, data) {
+                        console.log('Task role changed');
+                        $scope.getTasksCount();
+                    });
+                },
+                function() {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+
             $scope.currentDate = currentDate;
             $scope.board=1;
             $scope.currentUser=user;
@@ -31,20 +56,23 @@ angular
                 { title: "Усі", route: "all"},
             ];
 
-            crmTaskServices
-                .activeCrmTasksCount()
-                .$promise
-                .then(function (data) {
-                    $scope.rolesCount=data;
-                    $scope.tabs.forEach(function(item, i) {
-                        if(lodash.find($scope.rolesCount, ['role', item.route])){
-                            item.count=lodash.find($scope.rolesCount, ['role', item.route]).count;
-                        }
-                        if('tasks.'+item.route==$state.current.name) {
-                            $scope.active=i;
-                        }
+            $scope.getTasksCount=function () {
+                crmTaskServices
+                    .activeCrmTasksCount()
+                    .$promise
+                    .then(function (data) {
+                        $scope.rolesCount=data;
+                        $scope.tabs.forEach(function(item, i) {
+                            if(lodash.find($scope.rolesCount, ['role', item.route])){
+                                item.count=lodash.find($scope.rolesCount, ['role', item.route]).count;
+                            }
+                            if('tasks.'+item.route==$state.current.name) {
+                                $scope.active=i;
+                            }
+                        });
                     });
-                });
+            };
+            $scope.getTasksCount();
 
             $scope.editorOptionsCrm = {toolbar: 'main'};
             $scope.initCrmTask=function () {
@@ -248,3 +276,27 @@ angular
             $rootScope.roleId=0;
             $scope.loadTasks($rootScope.roleId);
         }])
+    .controller('crmManagerCtrl',  ['$scope', 'crmTaskServices',
+        function ($scope, crmTaskServices) {
+            $scope.changePageHeader('Менеджер завдань');
+
+            $scope.visitedTasksManager=function () {
+                crmTaskServices
+                    .visitedTasksManager()
+                    .$promise
+                    .then(function (data) {
+                    });
+            };
+
+            $scope.getTasksManager=function () {
+                crmTaskServices
+                    .tasksManagerList()
+                    .$promise
+                    .then(function (data) {
+                        $scope.tasks=data;
+                    });
+            };
+
+            $scope.getTasksManager();
+            $scope.visitedTasksManager();
+        }]);
