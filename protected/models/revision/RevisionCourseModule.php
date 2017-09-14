@@ -167,4 +167,6 @@ class RevisionCourseModule extends CActiveRecord
 		}
 		return implode(", ", $errors);
 	}
+
+
 }

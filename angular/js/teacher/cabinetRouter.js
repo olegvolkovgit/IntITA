@@ -179,6 +179,33 @@ angular
                     },
                     templateUrl: basePath+"/_teacher/users/students?organization=1",
                 })
+                .state('students/progress', {
+                    url: '/students/progress',
+                    controller: function($scope){
+                        $scope.changePageHeader('Прогрес навчання студентів');
+                    },
+                    templateUrl: basePath+"/_teacher/_supervisor/studentProgress",
+                })
+                .state('students/courseProgress/:studentId/:courseId', {
+                    url: '/students/courseProgress/:studentId/:courseId',
+                    controller: function($scope){
+                        $scope.changePageHeader('Прогрес навчання студента');
+                    },
+                    templateUrl: function ($stateParams) {
+                        return basePath+"/_teacher/_supervisor/studentProgress/courseProgress?student="+$stateParams.studentId+"&course="+$stateParams.courseId
+                    }
+
+                })
+                .state('students/moduleProgress/:studentId/:module', {
+                    url: 'students/moduleProgress/:studentId/:module',
+                    controller: function($scope){
+                        $scope.changePageHeader('Прогрес навчання студента');
+                    },
+                    templateUrl: function ($stateParams) {
+                        return basePath+"/_teacher/_supervisor/studentProgress/moduleProgress?student="+$stateParams.studentId+"&module="+$stateParams.module
+                    }
+
+                })
                 
                 .state('users.offlineStudents', {
                     url: '/offlineStudents',
