@@ -206,6 +206,16 @@ angular
                     }
 
                 })
+                .state('students/lectureProgress/:studentId/:lecture', {
+                    url: 'students/moduleProgress/:studentId/:lecture',
+                    controller: function($scope){
+                        $scope.changePageHeader('Прогрес навчання студента');
+                    },
+                    templateUrl: function ($stateParams) {
+                        return basePath+"/_teacher/_supervisor/studentProgress/moduleProgress?student="+$stateParams.studentId+"&lecture="+$stateParams.lecture
+                    }
+
+                })
                 
                 .state('users.offlineStudents', {
                     url: '/offlineStudents',
