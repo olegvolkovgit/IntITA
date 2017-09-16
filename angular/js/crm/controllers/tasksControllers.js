@@ -13,6 +13,7 @@ angular
                     conn.subscribe('changeTask-'+user, function(topic, data) {
                         console.log('Task changed');
                         $rootScope.loadTasks($rootScope.roleId);
+                        $rootScope.updateTaskManagerCounter();
                     });
                 },
                 function() {
