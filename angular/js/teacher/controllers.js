@@ -108,14 +108,14 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
     };
     updateCounter();
 
-    var updateTaskManagerCounter = function() {
+    $rootScope.updateTaskManagerCounter = function() {
         $http.get(basePath+'/_teacher/crm/_tasks/tasks/getTaskManagerCounter',{}).then(function(response){
             $scope.taskManagerCount = parseInt(response.data.tasks_count)+parseInt(response.data.comments_count)+
                 parseInt(response.data.roles_count)+parseInt(response.data.states_count);
         });
 
     };
-    updateTaskManagerCounter();
+    $rootScope.updateTaskManagerCounter();
 
     if (!useWebsocketNotification){
         $timeout(updateCounter, 10000);
@@ -140,7 +140,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
         function() {
             conn3.subscribe('changeTaskManager-'+user, function(topic, data) {
                 console.log('Task Manager changed');
-                updateTaskManagerCounter();
+                $rootScope.updateTaskManagerCounter();
             });
         },
         function() {
