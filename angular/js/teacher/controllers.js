@@ -77,7 +77,7 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
     };
 }
 
-function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger) {
+function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger, crmTaskServices) {
     //function back() redirect to prev link
     $rootScope.back = function () {
         window.history.back();
@@ -97,14 +97,77 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
     };
 
     $scope.countOfMessages = 0;
+    $scope.countOfNewMessages = 1;
+    $scope.countOfNewRequests = 0;
     var updateCounter = function() {
         $http.get(basePath+'/_teacher/cabinet/getNewMessages',{ignoreLoadingBar: true}).then(function(response){
             $scope.requests = response.data.requests;
             $scope.messages = response.data.messages;
-        })
-        $timeout(updateCounter, 10000);
+        });
+
     };
     updateCounter();
+
+    $rootScope.updateTaskManagerCounter = function() {
+        $http.get(basePath+'/_teacher/crm/_tasks/tasks/getTaskManagerCounter',{}).then(function(response){
+            $scope.taskManagerCount = parseInt(response.data.tasks_count)+parseInt(response.data.comments_count)+
+                parseInt(response.data.roles_count)+parseInt(response.data.states_count);
+        });
+
+    };
+    $rootScope.updateTaskManagerCounter();
+
+    if (!useWebsocketNotification){
+        $timeout(updateCounter, 10000);
+    }
+    else {
+        var conn = new ab.Session('wss://'+window.location.host+'/wss/',
+            function() {
+                conn.subscribe('newMessages-'+user, function(topic, data) {
+                    console.log('New message received');
+                    updateCounter();
+                });
+            },
+            function() {
+                console.warn('WebSocket connection closed');
+            },
+            {'skipSubprotocolCheck': true}
+        );
+
+    }
+
+    var conn3 = new ab.Session('wss://'+window.location.host+'/wss/',
+        function() {
+            conn3.subscribe('changeTaskManager-'+user, function(topic, data) {
+                console.log('Task Manager changed');
+                $rootScope.updateTaskManagerCounter();
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
+
+    var conn4 = new ab.Session('wss://'+window.location.host+'/wss/',
+        function() {
+            conn4.subscribe('changeTaskRole-'+user, function(topic, data) {
+                console.log('Task role changed');
+                $rootScope.getTasksCount();
+                $rootScope.loadTasks($rootScope.roleId);
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
+
+    $scope.$on('openMessage',function () {
+        updateCounter();
+    });
+
+
 
     $scope.changePageHeader = function (headerText) {
         angular.element(document.querySelector("#pageTitle")).text(headerText);

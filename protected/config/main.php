@@ -5,7 +5,6 @@
 Yii::setPathOfAlias('editable', dirname(__FILE__) . '/../extensions/x-editable');
 $local_config = require(dirname(__FILE__) . '/local.php');
 $params_config = require(dirname(__FILE__) . '/params.php');
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -39,6 +38,8 @@ return array(
         'application.models.quiz.*',
         'application.models.slider.*',
         'application.models.revision.*',
+        'application.models.crm.*',
+        'application.models.crm.tasksState.*',
         'application.models.revision.state.*',
         'application.models.revision.state.lecture.*',
         'application.models.revision.state.module.*',
@@ -46,6 +47,7 @@ return array(
         'application.models.user.*',
         'application.components.*',
         'application.components.widgets.*',
+        'application.components.WebSocket.*',
         'ext.imperavi-redactor-widget.*',
         'application.models.task.*',
         // 'ext.yii2-debug.*',
@@ -193,6 +195,12 @@ return array(
                     'levels' => 'error, warning, trace, info, profile',
                     'categories' => 'application.revision.*',
                     'logFile' => 'revision.log',
+                ),
+                array(
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, trace, info, profile',
+                    'categories' => 'application.crm.*',
+                    'logFile' => 'crm.log',
                 ),
             ),
         ),

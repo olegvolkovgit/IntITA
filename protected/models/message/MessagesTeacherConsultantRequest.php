@@ -162,6 +162,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
                 $sender->send($receiver->email, '', 'Запит на призначення викладача-консультанта', '');
+                $this->notifyUser('newMessages-'.$receiver->id,['messages'=>1]);
             }
         }
 

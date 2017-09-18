@@ -9,4 +9,4 @@
 <span>Вам створена корпоративна адреса електронної пошти <strong><?=$mail;?></strong>.</span>
 <br>
 <span>Активувати її за адресою</span>
-<a href="<?=Yii::app()->createAbsoluteUrl('/profile/mailActivation');?>">Кабінет</a>
+<a href="<?=Yii::app()->createAbsoluteUrl('/profile/activateMail');?>">Активувати</a>
