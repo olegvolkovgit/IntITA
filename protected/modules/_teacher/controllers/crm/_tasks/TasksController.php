@@ -80,6 +80,7 @@ class TasksController extends TeacherCabinetController {
             if(isset($params['id'])){
                 $task=CrmTasks::model()->findByPk($params['id']);
                 $task->attributes=$params;
+                $task->created_by =  Yii::app()->user->getId();
                 $task->change_date =  new CDbExpression('NOW()');
                 $task->saveCheck();
             }else{
@@ -90,15 +91,7 @@ class TasksController extends TeacherCabinetController {
             $task->setRoles($params['roles']);
 
             $transaction->commit();
-            $signatories=CrmRolesTasks::model()->findAllByAttributes(array('id_task'=>$task->id),array(
-                'condition'=>'id_user!=:id',
-                'params'=>array('id'=>Yii::app()->user->getId()),
-                'select'=>'id_user',
-                'distinct'=>true,
-            ));
-            foreach ($signatories as $signatory){
-                $this->notifyUser('changeTaskManager-'.$signatory->id_user,[]);
-            }
+            $task->notifyUsers('changeTaskManager',false);
         } catch (Exception $error) {
             $transaction->rollback();
             $statusCode = 500;
@@ -194,15 +187,7 @@ class TasksController extends TeacherCabinetController {
                 $task->state->changeTo($task->getStringState($_POST['state']), Yii::app()->user);
             }
 
-            $signatories=CrmRolesTasks::model()->findAllByAttributes(array('id_task'=>$_POST['id']),array(
-//                'condition'=>'id_user!=:id',
-//                'params'=>array('id'=>Yii::app()->user->getId()),
-                'select'=>'id_user',
-                'distinct'=>true,
-            ));
-            foreach ($signatories as $signatory){
-                $this->notifyUser('changeTask-'.$signatory->id_user,[]);
-            }
+            $task->notifyUsers('changeTask',false);
 
             $transaction->commit();
         } catch (Exception $error) {
@@ -238,6 +223,7 @@ class TasksController extends TeacherCabinetController {
             $taskComment->attributes = $params;
             $taskComment->id_user = Yii::app()->user->getId();
             $taskComment->save();
+            $taskComment->idTask->notifyUsers('changeTaskManager',true);
         }
     }
 
@@ -335,14 +321,95 @@ class TasksController extends TeacherCabinetController {
 
     public function actionTasksManagerList()
     {
+        $sql_tasks="SELECT DISTINCT `id_task` FROM crm_roles_tasks WHERE id_user=".Yii::app()->user->getId();
+        $tasks=CrmRolesTasks::model()->findAllBySql($sql_tasks);
+        $ids=array();
+        foreach($tasks as $task):
+            $ids[]=$task->id_task;
+        endforeach;
+
+        $result=[];
+        //        tasks changed
         $criteria = new CDbCriteria();
         $criteria->alias='t';
-        $criteria->with=['idTask'];
-        $criteria->condition="t.id_user=".Yii::app()->user->getId()." and t.cancelled_date is null";
+        $criteria->with=['idTask.createdBy','assignedBy','cancelledBy','role0','idUser','producer','producerName'];
+        $criteria->condition="t.id_user=".Yii::app()->user->getId().' and idTask.created_by!='.Yii::app()->user->getId();
         $criteria->group = 't.id_task';
-        $result=CrmRolesTasks::model()->findAll($criteria);
+        $tasksChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmRolesTasks::model()->findAll($criteria));
 
-        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations($result));
+        foreach($tasksChanged as $key=>$task):
+            $tasksChanged[$key]['event']='task';
+        endforeach;
+
+        //        comments changed
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->with=['idTask','idUser'];
+        $criteria->condition='t.id_user!='.Yii::app()->user->getId();
+        $criteria->addInCondition('id_task', $ids);
+        $commentsChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmTaskComments::model()->findAll($criteria));
+
+        foreach($commentsChanged as $key=>$comment):
+            $commentsChanged[$key]['event']='comment';
+        endforeach;
+
+        //        roles changed
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->with=['idTask.createdBy','assignedBy','cancelledBy','role0','idUser','producer','producerName'];
+        $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.assigned_by!='.Yii::app()->user->getId();
+        $rolesChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmRolesTasks::model()->findAll($criteria));
+
+        foreach($rolesChanged as $key=>$task):
+            $rolesChanged[$key]['event']='role';
+        endforeach;
+
+        //        state changed
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->with=['idTask.createdBy','idState','idUser'];
+        $criteria->condition="t.id_user!=".Yii::app()->user->getId();
+        $criteria->addInCondition('id_task', $ids);
+        $statesChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmTaskStateHistory::model()->findAll($criteria));
+
+        foreach($statesChanged as $key=>$state):
+            $statesChanged[$key]['event']='state';
+        endforeach;
+
+        $result=array_merge($tasksChanged, $commentsChanged, $rolesChanged, $statesChanged);
+
+        function sortByTime($a, $b)
+        {
+            if($a['event']=='task'){
+                $a_time=$a['idTask']['change_date']?$a['idTask']['change_date']:$a['idTask']['created_date'];
+            }else  if($a['event']=='comment'){
+                $a_time=$a['create_date'];
+            }else if($a['event']=='role'){
+                $a_time=$a['assigned_date'];
+            }else if($a['event']=='state'){
+                $a_time=$a['change_date'];
+            }
+
+            if($b['event']=='task'){
+                $b_time=$b['idTask']['change_date']?$b['idTask']['change_date']:$b['idTask']['created_date'];
+            }else  if($b['event']=='comment'){
+                $b_time=$b['create_date'];
+
+            }else if($b['event']=='role'){
+                $b_time=$b['assigned_date'];
+            }else if($b['event']=='state'){
+                $b_time=$b['change_date'];
+            }
+
+            if ($a_time == $b_time) {
+                return 0;
+            }
+            return ($a_time < $b_time) ? 1 : -1;
+        }
+
+        usort($result, "sortByTime");
+
+        echo json_encode($result);
     }
 
     public function actionVisitedTasksManager()
@@ -363,11 +430,35 @@ class TasksController extends TeacherCabinetController {
     public function actionGetTaskManagerCounter(){
         $lastVisitModel=CrmTaskManagerVisited::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId()));
         $last_visit=$lastVisitModel?$lastVisitModel->date_of_visit:new CDbExpression("NOW()");
-        $sql="SELECT COUNT(DISTINCT 't.id') FROM crm_roles_tasks as rt left join crm_tasks as t on t.id=rt.id_task WHERE rt.id_user=".Yii::app()->user->getId()." and rt.cancelled_date is null 
-         and t.change_date > '".$last_visit."'";
-        $result=Yii::app()->db->createCommand($sql)->queryScalar();
 
-        echo $result;
+        $sql_tasks="SELECT DISTINCT `id_task` FROM crm_roles_tasks WHERE id_user=".Yii::app()->user->getId();
+        $tasks=CrmRolesTasks::model()->findAllBySql($sql_tasks);
+        $ids=array();
+        foreach($tasks as $task):
+            $ids[]=$task->id_task;
+        endforeach;
+        $in='('.implode(',',$ids).')';
+
+        //        tasks
+        $sql_changed_task="SELECT COUNT('rt.id_task') FROM crm_roles_tasks as rt left join crm_tasks as t on t.id=rt.id_task WHERE rt.id_user=".Yii::app()->user->getId()." 
+        and rt.cancelled_date is null and t.created_by!=".Yii::app()->user->getId()." and (t.change_date > '".$last_visit."' or t.created_date > '".$last_visit."')";
+        $tasksChanged=Yii::app()->db->createCommand($sql_changed_task)->queryScalar();
+        //        comments
+        $sql_added_comments="SELECT COUNT('tc.id_task') FROM crm_task_comments as tc WHERE tc.id_task in ".$in." and tc.id_user!=".Yii::app()->user->getId()." and tc.create_date > '".$last_visit."'";
+        $commentsAdded=Yii::app()->db->createCommand($sql_added_comments)->queryScalar();
+        //        roles
+        $sql_changed_role="SELECT COUNT('rt.id_task') FROM crm_roles_tasks as rt left join crm_tasks as t on t.id=rt.id_task 
+        WHERE rt.id_user=".Yii::app()->user->getId()." and rt.cancelled_date is null 
+        and (rt.assigned_date > '".$last_visit."' or rt.cancelled_date > '".$last_visit."') and rt.assigned_by!=".Yii::app()->user->getId();
+        $rolesAdded=Yii::app()->db->createCommand($sql_changed_role)->queryScalar();
+        //        states
+        $sql_added_states="SELECT COUNT('t.id') FROM crm_task_state_history as t WHERE t.id_task in ".$in." and t.id_user!=".Yii::app()->user->getId()." and t.change_date > '".$last_visit."'";
+        $statesAdded=Yii::app()->db->createCommand($sql_added_states)->queryScalar();
+
+        $result['tasks_count']=$tasksChanged;
+        $result['comments_count']=$commentsAdded;
+        $result['roles_count']=$rolesAdded;
+        $result['states_count']=$statesAdded;
+        echo json_encode($result);
     }
-
 }

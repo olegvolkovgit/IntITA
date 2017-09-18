@@ -275,4 +275,24 @@ class CrmTasks extends CTaskUnitActiveRecord
 
         return $state;
     }
+
+    /**
+     * @param $chanelName
+     * @param $thisUser
+     */
+    public function notifyUsers($chanelName, $thisUser=true)
+    {
+        $condition='id_user!='.Yii::app()->user->getId();
+        if($thisUser) {
+            $condition='';
+        }
+        $signatories=CrmRolesTasks::model()->findAllByAttributes(array('id_task'=>$this->id),array(
+            'condition'=>$condition,
+            'select'=>'id_user',
+            'distinct'=>true,
+        ));
+        foreach ($signatories as $signatory){
+            $this->notifyUser($chanelName.'-'.$signatory->id_user,[]);
+        }
+    }
 }

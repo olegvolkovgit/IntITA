@@ -12,19 +12,8 @@ angular
                 function() {
                     conn.subscribe('changeTask-'+user, function(topic, data) {
                         console.log('Task changed');
-                        $scope.loadTasks($rootScope.roleId);
-                    });
-                },
-                function() {
-                    console.warn('WebSocket connection closed');
-                },
-                {'skipSubprotocolCheck': true}
-            );
-            var conn2 = new ab.Session('wss://'+window.location.host+'/wss/',
-                function() {
-                    conn2.subscribe('changeTaskRole-'+user, function(topic, data) {
-                        console.log('Task role changed');
-                        $scope.getTasksCount();
+                        $rootScope.loadTasks($rootScope.roleId);
+                        $rootScope.updateTaskManagerCounter();
                     });
                 },
                 function() {
@@ -56,7 +45,7 @@ angular
                 { title: "Усі", route: "all"},
             ];
 
-            $scope.getTasksCount=function () {
+            $rootScope.getTasksCount=function () {
                 crmTaskServices
                     .activeCrmTasksCount()
                     .$promise
@@ -72,7 +61,7 @@ angular
                         });
                     });
             };
-            $scope.getTasksCount();
+            $rootScope.getTasksCount();
 
             $scope.editorOptionsCrm = {toolbar: 'main'};
             $scope.initCrmTask=function () {
@@ -96,7 +85,7 @@ angular
                                 className: 'success',
                                 content: 'Завдання успішно додано'
                             });
-                            $scope.loadTasks($rootScope.roleId);
+                            $rootScope.loadTasks($rootScope.roleId);
                         } else {
                             bootbox.alert(data.reason);
                         }
@@ -128,7 +117,7 @@ angular
                 }
             }
 
-            $scope.loadTasks=function (idRole) {
+            $rootScope.loadTasks=function (idRole) {
 
                 if($scope.board==1){
                     return $scope.loadKanbanTasks(idRole);
@@ -164,7 +153,7 @@ angular
             $scope.loadKanbanTasks=function (idRole) {
                 var promise = $scope.crmCanbanTasksList =
                     crmTaskServices
-                        .getTasks({id:idRole})
+                        .getTasks({'sorting[assigned_date]':'desc',id:idRole,})
                         .$promise
                         .then(function (data) {
                             $scope.crmCards=data.rows.map(function (item) {
@@ -207,7 +196,7 @@ angular
             }
 
             $scope.$watch('board', function () {
-                $scope.loadTasks($rootScope.roleId);
+                $rootScope.loadTasks($rootScope.roleId);
             });
 
             $scope.getKanban = function () {
@@ -250,31 +239,31 @@ angular
         function ($scope, $rootScope) {
             $scope.changePageHeader('Мої завдання');
             $rootScope.roleId=1;
-            $scope.loadTasks($rootScope.roleId);
+            $rootScope.loadTasks($rootScope.roleId);
     }])
     .controller('crmEntrustTasksCtrl',  ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Завдання які доручив');
             $rootScope.roleId=2;
-            $scope.loadTasks($rootScope.roleId);
+            $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmWatchTasksCtrl',  ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Завдання в яких спостерігаю');
             $rootScope.roleId=4;
-            $scope.loadTasks($rootScope.roleId);
+            $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmHelpsTasksCtrl',  ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Завдання в яких допомагаю');
             $rootScope.roleId=3;
-            $scope.loadTasks($rootScope.roleId);
+            $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmAllTasksCtrl',  ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Усі завдання зі мною');
             $rootScope.roleId=0;
-            $scope.loadTasks($rootScope.roleId);
+            $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmManagerCtrl',  ['$scope', 'crmTaskServices',
         function ($scope, crmTaskServices) {
@@ -294,9 +283,10 @@ angular
                     .$promise
                     .then(function (data) {
                         $scope.tasks=data;
+                        $scope.newTaskEvents=$scope.taskManagerCount;
+                        $scope.visitedTasksManager();
                     });
             };
 
             $scope.getTasksManager();
-            $scope.visitedTasksManager();
         }]);

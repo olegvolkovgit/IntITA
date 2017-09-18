@@ -81,7 +81,7 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
     };
 }
 
-function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger) {
+function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger, crmTaskServices) {
     //function back() redirect to prev link
     $rootScope.back = function () {
         window.history.back();
@@ -112,13 +112,14 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
     };
     updateCounter();
 
-    var updateTaskManagerCounter = function() {
+    $rootScope.updateTaskManagerCounter = function() {
         $http.get(basePath+'/_teacher/crm/_tasks/tasks/getTaskManagerCounter',{}).then(function(response){
-            $scope.taskManagerCount = parseInt(response.data);
+            $scope.taskManagerCount = parseInt(response.data.tasks_count)+parseInt(response.data.comments_count)+
+                parseInt(response.data.roles_count)+parseInt(response.data.states_count);
         });
 
     };
-    updateTaskManagerCounter();
+    $rootScope.updateTaskManagerCounter();
 
     if (!useWebsocketNotification){
         $timeout(updateCounter, 10000);
@@ -143,7 +144,21 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
         function() {
             conn3.subscribe('changeTaskManager-'+user, function(topic, data) {
                 console.log('Task Manager changed');
-                updateTaskManagerCounter();
+                $rootScope.updateTaskManagerCounter();
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
+
+    var conn4 = new ab.Session('wss://'+window.location.host+'/wss/',
+        function() {
+            conn4.subscribe('changeTaskRole-'+user, function(topic, data) {
+                console.log('Task role changed');
+                $rootScope.getTasksCount();
+                $rootScope.loadTasks($rootScope.roleId);
             });
         },
         function() {
@@ -154,7 +169,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
 
     $scope.$on('openMessage',function () {
         updateCounter();
-    })
+    });
 
 
 
