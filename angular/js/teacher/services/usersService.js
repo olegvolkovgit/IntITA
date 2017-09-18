@@ -115,5 +115,14 @@ angular
                         url: basePath+'/_teacher/_admin/teachers/cancelTeacher',
                         method: 'GET',
                     },
+                    actualTrainers: {
+                        url: url + '/getActualTrainers',
+                        method: 'GET',
+                        isArray: true
+                    },
+                    exchangeTrainers: {
+                        url: url + '/exchangeTrainers',
+                        method: 'GET'
+                    }
                 });
         }]);
