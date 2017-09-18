@@ -5,7 +5,7 @@
  */
 ?>
 
-<div class="navbar-default sidebar" role="navigation">
+<div id="m_menu" class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li class="sidebar-search" style="display: none">
@@ -20,35 +20,56 @@
             </li>
             <?php if ($org=$model->getCurrentOrganization()) { ?>
                 <li>
-                    <a style="color:green">
-                        Організація: <?php echo $org->name?>
+                    <a style="color:green" class="show_elem">
+                        <i class="fa fa-trophy fa-fw"></i> Організація: <?php echo $org->name?>
                     </a>
                     <?php if (count($model->getOrganizations())>1) { ?>
-                        <a style="font-size:smaller;padding-top:0;padding-bottom:0" 
+                        <a class="show_elem" style="font-size:smaller;padding-top:0;padding-bottom:0"
                            href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/changeOrganization'); ?>" >
-                            <i class="fa fa-exchange fa-fw"></i>Змінити організацію
+                             Змінити організацію
                         </a>
                     <?php } ?>
+                    <a href="" uib-tooltip="<?php echo $org->name?>" tooltip-placement="right" class="hid" style="display: none">
+                        <i class="fa fa-trophy fa-fw"></i>
+                    </a>
                 </li>
             <?php } ?>
+            <li id="close_open">
+                <a href="#" class="show_elem">
+                    <i class="fa fa-angle-double-left fa-fw"></i> Згорнути
+                </a>
+                <a href="" uib-tooltip="Розгорнути" tooltip-placement="right" class="hid" style="display: none">
+                    <i class="fa fa-angle-double-right fa-fw"></i>
+                </a>
+            </li>
             <li id="nav">
-                <a href="#/index">
-                    <i class="fa fa-dashboard fa-fw"></i>Дошка
+                <a href="#/index" class="show_elem">
+                    <i class="fa fa-home fa-fw"></i> Дошка
+                </a>
+                <a href="#/index" uib-tooltip="Дошка" tooltip-placement="right" class="hid" style="display: none">
+                    <i class="fa fa-home fa-fw"></i>
                 </a>
             </li>
             <li>
-                <a href="#/messages">
-                    <i class="fa fa-envelope fa-fw"></i> Повідомлення
+                <a href="#/messages" class="show_elem">
+                    <i class="fa fa-envelope-o fa-fw"></i> Повідомлення
+                    <span ng-cloak class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
+                </a>
+                <a href="#/messages" uib-tooltip="Повідомлення" tooltip-placement="right" class="hid" style="display: none">
+                    <i class="fa fa-envelope-o fa-fw"></i>
                     <span ng-cloak class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
                 </a>
             </li>
             <?php if ($model->isTeacher()) { ?>
             <li>
-                <a href="javascript:void(0)" onclick="window.open('/cabinet/mail'); return false">
+                <a href="javascript:void(0)" onclick="window.open('/cabinet/mail'); return false" class="show_elem">
                     <i class="fa fa-at fa-fw"></i> Електронна скринька
                     <span ng-cloak class="label label-success" ng-if="messages.imapMessages > 0">{{messages.imapMessages}}</span>
                 </a>
-
+                <a href="javascript:void(0)" uib-tooltip="Електронна скринька" tooltip-placement="right" onclick="window.open('/cabinet/mail'); return false" class="hid" style="display: none">
+                    <i class="fa fa-at fa-fw"></i>
+                    <span ng-cloak class="label label-success" ng-if="messages.imapMessages > 0">{{messages.imapMessages}}</span>
+                </a>
             </li>
             <?php } ?>
 
@@ -63,30 +84,40 @@
                 || Yii::app()->user->model->isTeacherConsultant()
                 || Yii::app()->user->model->isSuperVisor()) {?>
             <li>
-                    <a href="javascript:void(0)">
-                    <i class="fa fa-rss fa-fw"></i>Керування розсилками<span class="fa arrow"></span></a>
+                    <a href="javascript:void(0)" class="show_elem">
+                        <i class="fa fa-mail-reply-all fa-fw"></i> Керування розсилками <span class="fa  fa-ellipsis-v" style="margin-left: 15px;"></span>
+                    </a>
+                    <a href="javascript:void(0)" uib-tooltip="Керування розсилками" tooltip-placement="right" class="hid" style="display: none">
+                        <i class="fa fa-mail-reply-all fa-fw"></i><span class="fa  fa-ellipsis-v" style="margin-left: 15px;"></span>
+                    </a>
                 <ul class="nav nav-second-level">
                     <li><a href="#/newsletter/create">
-                            Розіслати повідомлення</a>
+                            <em>Розіслати повідомлення</em></a>
                     </li>
                     <li><a href="#/newsletter/templates">
-                            Шаблони повідомлень</a>
+                            <em>Шаблони повідомлень</em></a>
                     </li>
                     <li><a href="#/scheduler/tasks">
-                            Переглянути заплановані завдання</a>
+                            <em>Переглянути заплановані завдання</em></a>
                     </li>
                 </ul>
             </li>
             <?php }?>
             <?php if ($model->isTeacher()) { ?>
                 <li>
-                    <a href="#/teacherprofile">
-                        <i class="fa fa-user fa-fw"></i>Профіль співробітника
+                    <a href="#/teacherprofile" class="show_elem">
+                        <i class="fa fa-user fa-fw"></i> Профіль співробітника
+                    </a>
+                    <a href="#/teacherprofile" uib-tooltip="Профіль співробітника" tooltip-placement="right" class="hid" style="display: none">
+                        <i class="fa fa-user fa-fw"></i>
                     </a>
                 </li>
                 <li>
-                    <a href="#/teacherslinks">
-                        <i class="fa fa-link fa-fw"></i>Корисні посилання
+                    <a href="#/teacherslinks" class="show_elem">
+                        <i class="fa fa-link fa-fw"></i> Корисні посилання
+                    </a>
+                    <a href="#/teacherslinks" uib-tooltip="Корисні посилання" tooltip-placement="right" class="hid" style="display: none">
+                        <i class="fa fa-link fa-fw"></i>
                     </a>
                 </li>
             <?php }?>
