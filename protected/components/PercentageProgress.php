@@ -41,145 +41,59 @@ class PercentageProgress
     }
 
     public function getModuleProgress($module){
-        $progress = 0;
+        $result = ['lectures'=>0,'passedLectures'=>0,'isDone'=>false];
         $rateModule = RatingUserModule::model()->find('id_user=:idUser AND id_module=:idModule',
             ['idUser'=>$this->userId,'idModule'=>$module->id_module]);
         if ($rateModule) {
             if ($rateModule->module_done) {
-                $progress = 100;
+                $result = ['lectures'=>1,'passedLectures'=>1,'isDone'=>true];
             } else {
                 $criteria = new CDbCriteria();
                 $criteria->addCondition('id_module_revision=:moduleRevision');
                 $criteria->params = [':moduleRevision' => $rateModule->module_revision];
                 $criteria->order = 'lecture_order';
                 $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
+                $progress = [];
                 foreach ($lectures as $lecture) {
-                    $progress += $this->getLectureProgress($lecture->lecture);
+                    array_push($progress,$this->getLectureProgress($lecture->lecture));
                 }
-                $progress = round(($progress / count($lectures)*100),2);
+                $result['lectures'] = count($progress);
+                $result['passedLectures'] = count(array_filter($progress,function($value){
+                    if($value['isDone']) return $value;
+                }));
+                $result['isDone'] = false;
+
             }
         }
-        return $progress;
+        return $result;
 
     }
 
     public function getLectureProgress($lecture){
-        $lectureRate = 0;
-        $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6',[':lecture'=>$lecture->id_lecture]);
-        $skipTasks = LectureElement::model()->with('skipTask')->findAll('id_lecture=:lecture AND id_type = 9 AND skipTask.condition IS NOT NULL',[':lecture'=>$lecture->id_lecture]);
-        $ohterTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,12,13)',[':lecture'=>$lecture->id_lecture]);
-
-        $tasks = array_merge($ohterTasks,$skipTasks, $plainTasks);
-
-        foreach ($tasks as $task){
-            switch ($task->id_type){
-                case LectureElement::TEST;
-                    $answers =TestsMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$task->id_block, ':user'=>$this->userId]);
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $lectureRate ++;
-                            break;
-                        }
-                    }
-                    unset($key);
-                    unset($answer);
-                    unset($answersCount);
-                    break;
-                case LectureElement::SKIP_TASK;
-                    $answers =SkipTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND user=:user',['block'=>$task->id_block, ':user'=>$this->userId]);
-                    $answersCount = 0;
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $lectureRate ++;
-                            break;
-                        }
-                    }
-                    break;
-                case LectureElement::PLAIN_TASK;
-                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$task->id_block, ':user'=>$this->userId]);
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $lectureRate ++;
-                            break;
-                        }
-                    }
-                    break;
-                case LectureElement::TASK;
-                    $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture AND id_user=:user',[':lecture'=>$lecture->id_lecture, ':user'=>$this->userId]);
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $lectureRate ++;
-                            break;
-                        }
-                    }
-                    break;
-            }
-        }
-        if($tasks){
-            return(double)$lectureRate/count($tasks);
-        }
-        else{
-            return 0;
-        }
-
-    }
-
-    public function getLectureElementProgress($lecturePage){
-        $result = [];
-        $elements = $lecturePage->getLectureElements();
-        $countOfAnswers = 0;
-        $passedLectureElement = false;
-
-        foreach ($elements as $lectureElement){
-            //$lectureElement=LectureElement::model()->find('id_block=:element',['element'=>$element['element']]);
-            switch ($lectureElement->id_type){
-                case LectureElement::TEST;
-                    $answers =TestsMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$lectureElement->id_block, ':user'=>$this->userId]);
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $passedLectureElement = true;
-                        }
-                        $countOfAnswers ++;
-                    }
-                    unset($key);
-                    unset($answer);
-                    break;
-                case LectureElement::SKIP_TASK;
-                    $answers =SkipTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND user=:user',['block'=>$lectureElement->id_block, ':user'=>$this->userId]);
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $passedLectureElement = true;
-                        }
-                        $countOfAnswers ++;
-                    }
-                    unset($key);
-                    unset($answer);
-                    break;
-                case LectureElement::PLAIN_TASK;
-                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$lectureElement->id_block, ':user'=>$this->userId]);
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $passedLectureElement = true;
-                        }
-                        $countOfAnswers ++;
-                    }
-                    unset($key);
-                    unset($answer);
-                    break;
-                case LectureElement::TASK;
-                    $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture AND id_user=:user',[':lecture'=>$lectureElement->id_lecture, ':user'=>$this->userId]);
-                    foreach ($answers as $key=>$answer){
-                        if ($answer->mark){
-                            $passedLectureElement = true;
-                        }
-                        $countOfAnswers ++;
-                    }
-                    unset($key);
-                    unset($answer);
-                    break;
-            }
-        }
-        $result = ['countOfAnswers'=>$countOfAnswers,'lecturePassed'=>$passedLectureElement];
+        $result =$this->getLectureElementProgress($lecture->id_lecture);
+         ($result['lecturePages'] === $result['passedPages'])?$result['isDone'] = true:$result['isDone'] = false;
         return $result;
+
     }
+
+    public function getLectureElementProgress($lecture_id){
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture_page';
+        $criteria->order = 'page_order ASC';
+        $criteria->condition = 'id_lecture=' . $lecture_id;
+        $pages = LecturePage::model()->findAll($criteria);
+        $result = [];
+        foreach ($pages as $page){
+            array_push($result,[
+               'title'=>$page->page_title,
+               'order' => $page->page_order,
+               'isDone' => LecturePage::isQuizDone($page->quiz, $this->userId),
+            ]);
+        }
+        $passdPages = count (array_filter($result,function($value){
+            if($value['isDone']) return $value;
+        }));
+        return ['lecturePages'=>count($pages),'passedPages'=>$passdPages,'data'=>$result];
+    }
+
 }

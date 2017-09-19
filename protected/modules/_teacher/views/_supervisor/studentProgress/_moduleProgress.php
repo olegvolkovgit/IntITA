@@ -10,13 +10,13 @@
     <div class="panel panel-default">
         <div class="panel-body" class="ng-cloak">
             <div class="row" ng-repeat="row in data">
-                <label class="progress-labe col-sm-4"style="float: left;"><a ui-sref="students/lectureProgress/:studentId/:lecture({studentId:row.user_id,courseId:row.id_lecture})">Лекція: {{row.lecture}} </a> </label>
-                <div class="col-sm-6"><uib-progressbar  max="100" v
-                                                        value="row.progress"
+                <label class="progress-labe col-sm-4"style="float: left;"><a ui-sref="students/lectureProgress/:studentId/:lecture({studentId:row.student,lecture:row.id_lecture})">Лекція: {{row.lecture}} </a> </label>
+                <div class="col-sm-6"><uib-progressbar  max="row.progress.lecturePages"
+                                                        value="row.progress.passedPages"
                                                         ng-attr-type="{{(row.progress < 33) && 'danger' || (row.progress < 66) && 'warning' || 'success' }}"
 
                     >
-                        {{row.progress}}%</uib-progressbar></div>
+                        {{row.progress.passedPages}} з {{row.progress.lecturePages}}</uib-progressbar></div>
             </div>
         </div>
     </div>

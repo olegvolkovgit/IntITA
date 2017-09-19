@@ -81,7 +81,9 @@ class StudentProgressController extends TeacherCabinetController
             $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
             foreach ($lectures as $lecture){
                 $lectureTitle = Lecture::model()->find('id = :lectureId',['lectureId'=>$lecture->lecture->id_lecture])->attributes['title_ua'];
-                array_push($result, ['student'=>$student,'lecture'=>$lectureTitle,'id_lecture'=>$lecture->id,'progress'=>round(($rate->getLectureProgress($lecture->lecture)*100),2)]);
+
+                array_push($result, ['student'=>$student,'lecture'=>$lectureTitle,'id_lecture'=>$lecture->id,
+                    'progress'=>array_intersect_key($rate->getLectureProgress($lecture->lecture),array_flip(['lecturePages','passedPages','isDone']))]);
             }
         }
         echo CJSON::encode(['data'=>$result]);
@@ -89,15 +91,8 @@ class StudentProgressController extends TeacherCabinetController
 
     public function actionGetLectureProgress($student, $lecture){
         $lectureForPregress = RevisionModuleLecture::model()->with(['lecture'])->find('id=:lecture',['lecture'=>$lecture]);
-        $passed = Lecture::model()->findByPk($lectureForPregress->lecture->id_lecture)->accessPages($student);
-        $isDoneElements = count(array_filter($passed,function($value){
-            if ($value['isDone']){
-                return $value;
-            }
-        }));
-
-
-        echo CJSON::encode(['data'=>$passed]);
+        $rate = new PercentageProgress((int)$student);
+        echo CJSON::encode($rate->getLectureElementProgress($lectureForPregress->lecture->id_lecture));
     }
 
 

@@ -844,6 +844,20 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
         $scope.getData();
     }
 
+    if($state.is('students/lectureProgress/:studentId/:lecture')){
+        NgTableDataService.setUrl(basePath+'/_teacher/_supervisor/studentProgress/getLectureProgress');
+        $scope.data = "";
+        $scope.totalItems = 0;
+        $scope.getData = function () {
+            NgTableDataService.getData({'student':$stateParams.studentId,lecture:$stateParams.lecture}).then(function (data) {
+                $scope.data = data.data;
+                $scope.totalItems = data.count;
+                console.log(data)
+            })
+        };
+        $scope.getData();
+    }
+
 
 
 }
