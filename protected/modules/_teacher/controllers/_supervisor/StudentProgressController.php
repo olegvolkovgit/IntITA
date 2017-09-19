@@ -39,7 +39,7 @@ class StudentProgressController extends TeacherCabinetController
         $users = RatingUserCourse::model();
         $models = $users->count();
         $criteria->limit = $count;
-        $criteria->offset = $page*$count;
+        $criteria->offset = ($page-1)*$count;
         $ratingModels = $users->findAll($criteria);
         $result = [];
         foreach ($ratingModels as $ratingModel){
