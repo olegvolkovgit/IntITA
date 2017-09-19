@@ -90,11 +90,6 @@ class StudentProgressController extends TeacherCabinetController
     public function actionGetLectureProgress($student, $lecture){
         $lectureForPregress = RevisionModuleLecture::model()->with(['lecture'])->find('id=:lecture',['lecture'=>$lecture]);
         $passed = Lecture::model()->findByPk($lectureForPregress->lecture->id_lecture)->accessPages($student);
-        $filter = [];
-        foreach ($passed as $key=>$val){
-                $filter[$key] = $val['order'];
-        }
-        array_multisort($passed, SORT_NUMERIC, $filter);
         $isDoneElements = count(array_filter($passed,function($value){
             if ($value['isDone']){
                 return $value;
