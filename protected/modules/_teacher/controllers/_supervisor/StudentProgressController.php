@@ -80,21 +80,29 @@ class StudentProgressController extends TeacherCabinetController
             $criteria->order = 'lecture_order';
             $lectures = RevisionModuleLecture::model()->with(['lecture'])->findAll($criteria);
             foreach ($lectures as $lecture){
-                array_push($result, ['student'=>$student,'lecture'=>$lecture->lecture->properties->title_ua,'id_lecture'=>$lecture->lecture->id_revision,'progress'=>round(($rate->getLectureProgress($lecture->lecture)*100),2)]);
+                $lectureTitle = Lecture::model()->find('id = :lectureId',['lectureId'=>$lecture->lecture->id_lecture])->attributes['title_ua'];
+                array_push($result, ['student'=>$student,'lecture'=>$lectureTitle,'id_lecture'=>$lecture->id,'progress'=>round(($rate->getLectureProgress($lecture->lecture)*100),2)]);
             }
         }
         echo CJSON::encode(['data'=>$result]);
     }
 
     public function actionGetLectureProgress($student, $lecture){
-        $result = [];
-        $lecture = RevisionModuleLecture::model()->with(['lecture'])->find('lecture.id_revision=:lecture',['lecture'=>$lecture]);
-        $rate = new PercentageProgress((int)$student);
-        $pages = $lecture->lecture->lecturePages;
-        foreach ($pages as $lecturePage){
-            array_push($result, ['page'=>$lecturePage->page_title,'progress'=>$rate->getLectureElementProgress($lecturePage)]);
+        $lectureForPregress = RevisionModuleLecture::model()->with(['lecture'])->find('id=:lecture',['lecture'=>$lecture]);
+        $passed = Lecture::model()->findByPk($lectureForPregress->lecture->id_lecture)->accessPages($student);
+        $filter = [];
+        foreach ($passed as $key=>$val){
+                $filter[$key] = $val['order'];
         }
-        echo CJSON::encode(['data'=>$result]);
+        array_multisort($passed, SORT_NUMERIC, $filter);
+        $isDoneElements = count(array_filter($passed,function($value){
+            if ($value['isDone']){
+                return $value;
+            }
+        }));
+
+
+        echo CJSON::encode(['data'=>$passed]);
     }
 
 

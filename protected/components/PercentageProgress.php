@@ -21,6 +21,7 @@ class PercentageProgress
         $courceForRating = $users = RatingUserCourse::model()->find('id_course=:idCourse AND id_user = :idUser',['idUser'=>$this->userId, 'idCourse'=>$course]);
         if ($courceForRating->course_done == 1 ){
             $result = 100;
+
         }
         else{
             $modules = RevisionCourseModule::model()->findAll('id_course_revision=:idRevision',[':idRevision'=>$courceForRating->course_revision]);
@@ -125,7 +126,7 @@ class PercentageProgress
 
     public function getLectureElementProgress($lecturePage){
         $result = [];
-        $elements = $lecturePage->lectureElements;
+        $elements = $lecturePage->getLectureElements();
         $countOfAnswers = 0;
         $passedLectureElement = false;
 
