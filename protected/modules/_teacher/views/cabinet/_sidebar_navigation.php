@@ -35,7 +35,7 @@
                 </li>
             <?php } ?>
             <li id="close_open">
-                <a href="#" class="show_elem">
+                <a href="" class="show_elem">
                     <i class="fa fa-angle-double-left fa-fw"></i> Згорнути
                 </a>
                 <a href="" uib-tooltip="Розгорнути" tooltip-placement="right" class="hid" style="display: none">
@@ -135,13 +135,20 @@
             || Yii::app()->user->model->isAuditor()
             || Yii::app()->user->model->isAdmin()) { ?>
                 <li>
-                    <a href="#/tasks/executant">
-                        <i class="fa fa-calendar-o fa-fw"></i>Мої завдання
+                    <a href="#/tasks/executant" class="show_elem">
+                        <i class="fa fa-calendar-o fa-fw"></i> Мої завдання
+                    </a>
+                    <a href="#/tasks/executant" uib-tooltip="Мої завдання" tooltip-placement="right" class="hid" style="display: none">
+                        <i class="fa fa-calendar-o fa-fw"></i>
                     </a>
                 </li>
                 <li>
-                    <a href="#/tasksManager">
-                        <i class="fa fa-bell fa-fw"></i>Менеджер завдань
+                    <a href="#/tasksManager" class="show_elem">
+                        <i class="fa fa-bell fa-fw"></i> Менеджер завдань
+                        <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>
+                    </a>
+                    <a href="#/tasksManager" uib-tooltip="Менеджер завдань" tooltip-placement="right" class="hid" style="display: none">
+                        <i class="fa fa-bell fa-fw"></i>
                         <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>
                     </a>
                 </li>
