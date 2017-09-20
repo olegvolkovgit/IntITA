@@ -1,6 +1,6 @@
-<div ng-controller="crmTasksCtrl">
+<div teachermode1="<?php echo Yii::app()->user->model->isСoworker() ?>" ng-controller="crmTasksCtrl" >
     <div style="float: right; margin: 2px">
-        <button ng-click="openModal('newTask')" type="button" class="btn btn-primary">Додати завдання</button>
+        <button ng-click="openModal('lg')" type="button" class="btn btn-primary">Додати завдання</button>
     </div>
     <ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" >
         <li ng-class="[{active: board==1, disabled: disabled}, classes]" class="uib-tab nav-item ng-scope ng-isolate-scope" index="0" heading="Kanban" >
@@ -20,16 +20,18 @@
 
     <modal id="newTask">
         <div class="modal">
-            <div class="modal-body">
-                <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" callback-fn="loadTasks(tasksType)"></crm-task>
-                <br>
-                <p style="clear: both">
-                    <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4) && crmTask.created_by==currentUser" class="btn btn-success" ng-click="sendTask(crmTask,'newTask')" ng-disabled="isDisabled" >
-                        {{crmTask.id?'Зберегти':'Поставити завдання'}}
-                    </button>
-                    <button type="button" class="btn btn-default" ng-click="closeModal('newTask');">Відміна</button>
-                </p>
-            </div>
+            <script type="text/ng-template" id="crmModalContent.html">
+                <div class="modal-body">
+                    <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" callback-fn="loadTasks(tasksType)"></crm-task>
+                    <br>
+                    <p style="clear: both">
+                        <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4) && crmTask.created_by==currentUser" class="btn btn-success" ng-click="sendTask(crmTask)" ng-disabled="isDisabled" >
+                            {{crmTask.id?'Зберегти':'Поставити завдання'}}
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="closeModal();">Відміна</button>
+                    </p>
+                </div>
+            </script>
         </div>
         <div class="modal-background"></div>
     </modal>
@@ -38,6 +40,15 @@
 </div>
 
 <style>
+    .modal-lg{
+        width: 90%;
+    }
+    .kanban-navigation{
+        display: none;
+    }
+    .kanbanButtons>.fa{
+        margin: 4px 4px;
+    }
     .crmBodyBlock{
         padding: 5px;
         border: 1px solid #ccc;
@@ -134,33 +145,75 @@
     .table-striped>tbody>tr.bg-danger-kanban{
         background-color: rgba(217,82,82,.6);
     }
-    .card.expect_to_execute{
-        border-left: 5px solid #FF5722;
+    .crmTaskTable tr.expect_to_execute, .card.expect_to_execute{
+        border-left: 5px solid #ffbd0f;
     }
 
-    .card.executed{
-        border-left: 5px solid #1B5E20;
+    .crmTaskTable tr.completed,.crmTaskTable tr.executed,.card.executed{
+        border-left: 5px solid #4b75a4;
     }
 
     .card.completed{
-        border-left: 5px solid #0097A7;
+        border-left: 5px solid #1B5E20;
     }
 
-    .card.paused{
-        border-left: 5px solid #F50057;
+    .crmTaskTable tr.paused,.card.paused{
+        border-left: 5px solid #e00820;
+    }
+    .fa.expect_to_execute{
+        color: #ffbd0f;
     }
 
-    td.expect_to_execute{
-        background: rgba(255,87,34,.6);
+    .fa.executed{
+        color: #4b75a4;
     }
-    td.executed{
-        background: rgba(27,94,32,.6);
+
+    .fa.completed{
+        color: #1B5E20;
     }
-    td.completed{
-        background: rgba(0,151,167,.6);
+
+    .fa.paused{
+        color: #e00820;
     }
-    td.paused{
-        background: rgba(245,0,87,.6);
+
+    .fa.remove{
+        color: rgba(131, 0, 13, 1);
+    }
+    .low{
+        border:2px solid green;
+    }
+    .medium{
+        border:2px solid #ffcf1e;
+    }
+    .high{
+        border:2px solid orangered;
+    }
+    .urgent{
+        border:2px solid red;
+    }
+    button.expect_to_execute{
+        background: rgba(255,189,15,0.8);
+        color:white;
+    }
+
+    button.executed{
+        background: rgba(27,94,32,0.8);
+        color:white;
+    }
+
+    button.completed{
+        background: rgba(27,94,32,0.8);
+        color:white;
+    }
+
+    button.paused{
+        background: rgba(224,8,32,0.8);
+        color:white;
+    }
+
+    button.remove{
+        background: rgba(131, 0, 13, 0.8);
+        color:white;
     }
 
     .kanban-column .cards-container .card .cover-img{
@@ -215,9 +268,23 @@
     }
     @media (max-width: 800px)
     {
+        .kanbanStageHeader{
+            margin: 0;
+        }
         .kanban-column{
             width: 90%;
             min-height: 100px;
+            float: left;
+        }
+        .kanban-navigation{
+            display: block;
+            position: fixed;
+            top: 50%;
+            right: 0;
+        }
+        .kanban-navigation .fa{
+            margin: 10px;
+            cursor: pointer;
         }
     }
 </style>
