@@ -1,4 +1,4 @@
-<div teachermode1="<?php echo Yii::app()->user->model->isСoworker() ?>" ng-controller="crmTasksCtrl" >
+<div ng-init="canEditCrmTasks='<?php echo (Yii::app()->user->model->isSuperAdmin() || Yii::app()->user->model->isDirector()) ?>'" teachermode1="<?php echo Yii::app()->user->model->isСoworker() ?>" ng-controller="crmTasksCtrl" >
     <div style="float: right; margin: 2px">
         <button ng-click="openModal('lg')" type="button" class="btn btn-primary">Додати завдання</button>
     </div>
@@ -25,7 +25,7 @@
                     <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" callback-fn="loadTasks(tasksType)"></crm-task>
                     <br>
                     <p style="clear: both">
-                        <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4) && crmTask.created_by==currentUser" class="btn btn-success" ng-click="sendTask(crmTask)" ng-disabled="isDisabled" >
+                        <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4) && (crmTask.created_by==currentUser || canEditCrmTasks)" class="btn btn-success" ng-click="sendTask(crmTask)" ng-disabled="isDisabled" >
                             {{crmTask.id?'Зберегти':'Поставити завдання'}}
                         </button>
                         <button type="button" class="btn btn-default" ng-click="closeModal();">Відміна</button>
