@@ -188,9 +188,6 @@ angular
                 })
                 .state('students/courseProgress/:studentId/:courseId', {
                     url: '/students/courseProgress/:studentId/:courseId',
-                    controller: function($scope){
-                        $scope.changePageHeader('Прогрес навчання студента');
-                    },
                     templateUrl: function ($stateParams) {
                         return basePath+"/_teacher/_supervisor/studentProgress/courseProgress?student="+$stateParams.studentId+"&course="+$stateParams.courseId
                     }
@@ -198,9 +195,6 @@ angular
                 })
                 .state('students/moduleProgress/:studentId/:module', {
                     url: '/students/moduleProgress/:studentId/:module',
-                    controller: function($scope){
-                        $scope.changePageHeader('Прогрес навчання студента');
-                    },
                     templateUrl: function ($stateParams) {
                         return basePath+"/_teacher/_supervisor/studentProgress/moduleProgress?student="+$stateParams.studentId+"&module="+$stateParams.module
                     }
@@ -208,9 +202,6 @@ angular
                 })
                 .state('students/lectureProgress/:studentId/:lecture', {
                     url: '/students/lectureProgress/:studentId/:lecture',
-                    controller: function($scope){
-                        $scope.changePageHeader('Прогрес навчання студента');
-                    },
                     templateUrl: function ($stateParams) {
                         return basePath+"/_teacher/_supervisor/studentProgress/lectureProgress?student="+$stateParams.studentId+"&lecture="+$stateParams.lecture
                     }

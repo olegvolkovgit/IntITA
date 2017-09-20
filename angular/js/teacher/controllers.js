@@ -812,7 +812,6 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
             NgTableDataService.getData({'page':$scope.currentPage}).then(function (data) {
                 $scope.data = data.data;
                 $scope.totalItems = data.count;
-                console.log(data)
             })
         };
         $scope.pageChanged();
@@ -823,9 +822,10 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
         $scope.totalItems = 0;
         $scope.getData = function () {
             NgTableDataService.getData({'student':$stateParams.studentId,course:$stateParams.courseId}).then(function (data) {
+                $scope.student = data.student;
                 $scope.data = data.data;
                 $scope.totalItems = data.count;
-                console.log(data)
+                $scope.changePageHeader('Прогрес навчання студента: '+$scope.student.fullName);
             })
         };
         $scope.getData();
@@ -836,9 +836,10 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
         $scope.totalItems = 0;
         $scope.getData = function () {
                 NgTableDataService.getData({'student':$stateParams.studentId,module:$stateParams.module}).then(function (data) {
-                $scope.data = data.data;
-                $scope.totalItems = data.count;
-                console.log(data)
+                    $scope.student = data.student;
+                    $scope.data = data.data;
+                    $scope.totalItems = data.count;
+                    $scope.changePageHeader('Прогрес навчання студента: '+$scope.student.fullName);
             })
         };
         $scope.getData();
@@ -850,9 +851,10 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
         $scope.totalItems = 0;
         $scope.getData = function () {
             NgTableDataService.getData({'student':$stateParams.studentId,lecture:$stateParams.lecture}).then(function (data) {
+                $scope.student = data.student;
                 $scope.data = data.data;
                 $scope.totalItems = data.count;
-                console.log(data)
+                $scope.changePageHeader('Прогрес навчання студента: '+$scope.student.fullName);
             })
         };
         $scope.getData();

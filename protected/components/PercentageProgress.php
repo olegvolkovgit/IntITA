@@ -17,31 +17,32 @@ class PercentageProgress
     }
 
     public function getCourseProgress($course){
-        $result = 0;
+        $result = ['modules'=>1,'passedModules'=>0,'isDone'=>false];
         $courceForRating = $users = RatingUserCourse::model()->find('id_course=:idCourse AND id_user = :idUser',['idUser'=>$this->userId, 'idCourse'=>$course]);
         if ($courceForRating->course_done == 1 ){
-            $result = 100;
-
+            $result['passedModules'] = 1;
+            $result['isDone'] = true;
         }
         else{
             $modules = RevisionCourseModule::model()->findAll('id_course_revision=:idRevision',[':idRevision'=>$courceForRating->course_revision]);
             $passedModules = 0;
+            $result['modules'] = count($modules);
             foreach ($modules as $module){
                 $rateModule = RatingUserModule::model()->find('id_module=:module AND id_user=:user AND module_done = 1',[':module'=>$module->id_module,':user'=>$this->userId]);
                 if ($rateModule){
                     $passedModules++;
                 }
             }
-            if ($passedModules){
-                $result = round(($passedModules/count($modules))*100,2);
-            }
+            $result['passedModules'] = $passedModules;
+            $result['isDone'] = false;
+
 
         }
         return $result;
     }
 
     public function getModuleProgress($module){
-        $result = ['lectures'=>0,'passedLectures'=>0,'isDone'=>false];
+        $result = ['lectures'=>1,'passedLectures'=>0,'isDone'=>false];
         $rateModule = RatingUserModule::model()->find('id_user=:idUser AND id_module=:idModule',
             ['idUser'=>$this->userId,'idModule'=>$module->id_module]);
         if ($rateModule) {

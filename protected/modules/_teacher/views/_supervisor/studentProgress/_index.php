@@ -11,14 +11,24 @@
         <div class="panel-body" class="ng-cloak">
             <div class="row" ng-repeat="row in data">
                 <label class="progress-labe col-sm-4"style="float: left;"><a ui-sref="students/courseProgress/:studentId/:courseId({studentId:row.user_id,courseId:row.course_id})">Користувач: {{row.user}} <br /> Курс: {{row.course}} </a> </label>
-                <div class="col-sm-6"><uib-progressbar  max="100" v
-                                                        value="row.progress"
-                                                        ng-attr-type="{{(row.progress < 33) && 'danger' || (row.progress < 66) && 'warning' || 'success' }}"
-
-                    >
-                        {{row.progress}}%</uib-progressbar></div>
+                <div class="col-sm-6"><uib-progressbar
+                                                        max="row.progress.modules"
+                                                        value="row.progress.passedModules"
+                                                        ng-attr-type="{{((row.progress.passedModules/row.progress.modules *100) < 33) && 'danger' || ((row.progress.passedModules/row.progress.modules *100) < 66) && 'warning' || 'success' }}">
+                        {{(row.progress.isDone) && 'Завершено' || 'Пройдено модулів  ' + row.progress.passedModules + ' з ' + row.progress.modules }}
+                        </uib-progressbar></div>
             </div>
-            <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+            <ul uib-pagination total-items="totalItems"
+                ng-model="currentPage"
+                ng-change="pageChanged()"
+                first-text="Перша"
+                max-size="5"
+                boundary-links="true"
+                last-text="Остання"
+                force-ellipses="true"
+                previous-text="Попередня"
+                next-text="Наступна">
+            </ul>
         </div>
     </div>
 </div>

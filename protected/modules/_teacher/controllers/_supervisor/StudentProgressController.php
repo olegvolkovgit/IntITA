@@ -56,21 +56,22 @@ class StudentProgressController extends TeacherCabinetController
     }
 
     public function actionGetCourseProgress($student,$course){
+        $user = StudentReg::model()->findByPk((int)$student);
         $course = RatingUserCourse::model()->find('id_course=:idCourse AND id_user=:idUser',['idCourse'=>$course,'idUser'=>$student]);
         $result = [];
         if ($course){
             $modules = RevisionCourseModule::model()->findAll('id_course_revision=:idRevision',[':idRevision'=>$course->course_revision]);
             $rate = new PercentageProgress((int)$student);
             foreach ($modules as $module){
-                array_push($result, ['student'=>$student,'module'=>$module->module->title_ua,'idModule'=>$module->id_module, 'progress'=>$rate->getModuleProgress($module)]);
+                array_push($result, ['module'=>$module->module->title_ua,'idModule'=>$module->id_module, 'progress'=>$rate->getModuleProgress($module)]);
             }
         }
-        echo CJSON::encode(['data'=>$result]);
+        echo CJSON::encode( ['student'=>['id'=>$user->id,'fullName'=>$user->fullName()],'data'=>$result]);
     }
 
     public function actionGetModuleProgress($student,$module){
         $result = [];
-        $criteria = new CDbCriteria();
+        $user = StudentReg::model()->findByPk((int)$student);
         $module = RatingUserModule::model()->find('id_module=:idModule AND id_user=:idUser',['idModule'=>$module,'idUser'=>$student]);
         if ($module){
             $rate = new PercentageProgress((int)$student);
@@ -82,17 +83,19 @@ class StudentProgressController extends TeacherCabinetController
             foreach ($lectures as $lecture){
                 $lectureTitle = Lecture::model()->find('id = :lectureId',['lectureId'=>$lecture->lecture->id_lecture])->attributes['title_ua'];
 
-                array_push($result, ['student'=>$student,'lecture'=>$lectureTitle,'id_lecture'=>$lecture->id,
+                array_push($result, ['lecture'=>$lectureTitle,'id_lecture'=>$lecture->id,
                     'progress'=>array_intersect_key($rate->getLectureProgress($lecture->lecture),array_flip(['lecturePages','passedPages','isDone']))]);
             }
         }
-        echo CJSON::encode(['data'=>$result]);
+        echo CJSON::encode(['student'=>['id'=>$user->id,'fullName'=>$user->fullName()],'data'=>$result]);
     }
 
     public function actionGetLectureProgress($student, $lecture){
         $lectureForPregress = RevisionModuleLecture::model()->with(['lecture'])->find('id=:lecture',['lecture'=>$lecture]);
+        $user = StudentReg::model()->findByPk((int)$student);
         $rate = new PercentageProgress((int)$student);
-        echo CJSON::encode($rate->getLectureElementProgress($lectureForPregress->lecture->id_lecture));
+        $data = $rate->getLectureElementProgress($lectureForPregress->lecture->id_lecture);
+        echo CJSON::encode((array_merge(['student'=>['id'=>$user->id,'fullName'=>$user->fullName()]],$data)));
     }
 
 
