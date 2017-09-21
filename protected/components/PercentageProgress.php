@@ -89,6 +89,7 @@ class PercentageProgress
                'title'=>$page->page_title,
                'order' => $page->page_order,
                'isDone' => LecturePage::isQuizDone($page->quiz, $this->userId),
+               'link'=>Yii::app()->createUrl("lesson/index", array("id" => $lecture_id, "idCourse" => 0)).'#/page'.$page->page_order
             ]);
         }
         $passdPages = count (array_filter($result,function($value){
