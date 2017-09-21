@@ -13,29 +13,39 @@
 
 <br>
     <div ng-if="task.id && !task.editMode">
-        <fieldset ng-disabled="$root.roleId==4" >
-            <button ng-if="task.id_state==1" type="button" class="btn btn-success" ng-click="changeState(task,2)" ng-disabled="isDisabled" >РОЗПОЧАТИ ВИКОНАННЯ</button>
-            <button ng-if="task.id_state==3" type="button" class="btn btn-success" ng-click="changeState(task,2)" ng-disabled="isDisabled" >ПРОДОВЖИТИ</button>
-            <button ng-if="task.id_state==2" type="button" class="btn btn-success" ng-click="changeState(task,3)" ng-disabled="isDisabled" >ПРИЗУПИНИТИ</button>
-            <button ng-if="task.id_state==2 || task.id_state==3" type="button" class="btn btn-success" ng-click="changeState(task,4)" ng-disabled="isDisabled" >ЗАВЕРШИТИ</button>
-            <button ng-if="task.id_state==4 && currentUser==task.created_by" type="button" class="btn btn-success" ng-click="changeState(task,1)" ng-disabled="isDisabled" >ВІДНОВИТИ</button>
-            <button ng-if="currentUser==task.created_by" type="button" class="btn btn-danger" ng-click="cancelCrmTask(task)" ng-disabled="isDisabled" >ВИДАЛИТИ</button>
+        <fieldset>
+            <button ng-if="task.id_state==1" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >РОЗПОЧАТИ ВИКОНАННЯ <i class="fa fa-wrench fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==3" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >ПРОДОВЖИТИ <i class="fa fa-wrench fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==2" type="button" class="btn paused" ng-click="changeState(task,3)" ng-disabled="isDisabled" >ПРИЗУПИНИТИ <i class="fa fa-pause fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==2 || task.id_state==3" type="button" class="btn completed" ng-click="changeState(task,4)" ng-disabled="isDisabled" >ЗАВЕРШИТИ <i class="fa fa-check-square-o fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==4" type="button" class="btn expect_to_execute" ng-click="changeState(task,1)" ng-disabled="isDisabled" >ВІДНОВИТИ <i class="fa fa-clock-o fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="currentUser==task.created_by" type="button" class="btn remove" ng-click="cancelCrmTask(task)" ng-disabled="isDisabled" >ВИДАЛИТИ <i class="fa fa-remove fa-1x" aria-hidden="true"></i></button>
         </fieldset>
     </div>
 <br>
 
 <div class="form-group">
     <label>Категорії користувачів</label>
-    <label class="radio-inline">
-        <input type="radio" name="category" ng-model="category.name" value="coworkers" checked="">Співробітники
-    </label>
+    <span ng-if="teacherMode">
+        <label class="radio-inline">
+            <input type="radio" name="category" ng-model="category.name" value="coworkers" checked="">Співробітники
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="category" ng-model="category.name" value="all">Усі користувачі
+        </label>
+    </span>
     <label class="radio-inline">
         <input type="radio" name="category" ng-model="category.name" value="students">Студенти
     </label>
-    <label class="radio-inline">
-        <input type="radio" name="category" ng-model="category.name" value="all">Усі користувачі
-    </label>
 </div>
+<div class="row form-group col-md-4">
+    <label>Приорітет</label>
+    <select class="form-control"
+            ng-options="priority.id as priority.description for priority in task.priorities"
+            ng-model="task.priority" required>
+    </select>
+</div>
+
 <div style="clear: both" class="row form-group col-md-4">
     <input type="hidden" ng-model="task.id">
     <ul class="list-unstyled">

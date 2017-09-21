@@ -16,6 +16,8 @@
  * @property integer $cancelled_by
  * @property string $cancelled_date
  * @property string $change_date
+ * @property integer $priority
+ * @property integer $id_parent
  *
  * The followings are the available model relations:
  * @property CrmRolesTasks[] $crmRolesTasks
@@ -48,13 +50,13 @@ class CrmTasks extends CTaskUnitActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, body, created_by', 'required', 'message' => '{attribute} обов\'язкове для заповнення'),
+            array('name, body, created_by, priority', 'required', 'message' => '{attribute} обов\'язкове для заповнення'),
             array('id_state, created_by, cancelled_by', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 128),
             array('endTask, deadline, cancelled_date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date', 'safe', 'on' => 'search'),
+            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent', 'safe', 'on' => 'search'),
         );
     }
 
@@ -74,6 +76,8 @@ class CrmTasks extends CTaskUnitActiveRecord
             'producer' => array(self::HAS_ONE, 'CrmRolesTasks', 'id_task', 'on' => 'producer.cancelled_date IS NULL and producer.role = ' . CrmTasks::PRODUCER),
             'collaborators' => array(self::HAS_MANY, 'CrmRolesTasks', 'id_task', 'on' => 'collaborators.cancelled_date IS NULL and collaborators.role = ' . CrmTasks::COLLABORATOR),
             'observers' => array(self::HAS_MANY, 'CrmRolesTasks', 'id_task', 'on' => 'observers.cancelled_date IS NULL and observers.role = ' . CrmTasks::OBSERVER),
+            'parentTask' => array(self::BELONGS_TO, 'CrmTasks', 'id_parent'),
+            'priorityModel' => array(self::BELONGS_TO, 'CrmTaskPriority', 'priority'),
         );
     }
 
@@ -95,6 +99,8 @@ class CrmTasks extends CTaskUnitActiveRecord
             'cancelled_by' => 'Скасовано користувачем',
             'cancelled_date' => 'Дата скасування',
             'change_date' => 'Дата оновлення',
+            'priority' => 'Приорітет',
+            'id_parent' => 'Батьківське завдання',
         );
     }
 
@@ -128,6 +134,8 @@ class CrmTasks extends CTaskUnitActiveRecord
         $criteria->compare('cancelled_by', $this->cancelled_by);
         $criteria->compare('cancelled_date', $this->cancelled_date, true);
         $criteria->compare('change_date', $this->change_date, true);
+        $criteria->compare('priority', $this->priority, true);
+        $criteria->compare('id_parent', $this->id_parent, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
