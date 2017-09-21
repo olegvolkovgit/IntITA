@@ -14,7 +14,7 @@
                 <div class="col-sm-6"><uib-progressbar  max="row.progress.lecturePages"
                                                         value="row.progress.passedPages"
                                                         ng-attr-type="{{((row.progress.passedPages/row.progress.lecturePages *100) < 33) && 'danger' || ((row.progress.passedPages/row.progress.lecturePages *100) < 66) && 'warning' || 'success' }}">
-                        {{(row.progress.isDone) && 'Завершено' || 'Пройдено занять  ' + row.progress.lecturePages + ' з ' + row.progress.lecturePages }}
+                        {{(row.progress.isDone) && 'Завершено' || 'Пройдено занять  ' + row.progress.passedPages + ' з ' + row.progress.lecturePages }}
                         </uib-progressbar></div>
             </div>
         </div>
