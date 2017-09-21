@@ -99,22 +99,19 @@
                 ));
             }
             ?>
-            <?php if ($model->isTeacher() || Yii::app()->user->model->isDirector()
-            || Yii::app()->user->model->isSuperAdmin()
-            || Yii::app()->user->model->isAuditor()
-            || Yii::app()->user->model->isAdmin()) { ?>
-                <li>
-                    <a href="#/tasks/executant">
-                        <i class="fa fa-calendar-o fa-fw"></i>Мої завдання
-                    </a>
-                </li>
-                <li>
-                    <a href="#/tasksManager">
-                        <i class="fa fa-bell fa-fw"></i>Менеджер завдань
-                        <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>
-                    </a>
-                </li>
-            <?php } ?>
+            <?php if ($model->isСoworker() || $model->isStudent()) { ?>
+            <li>
+                <a href="#/tasks/executant">
+                    <i class="fa fa-calendar-o fa-fw"></i>Мої завдання
+                </a>
+            </li>
+            <li>
+                <a href="#/tasksManager">
+                    <i class="fa fa-bell fa-fw"></i>Менеджер завдань
+                    <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>
+                </a>
+            </li>
+            <?php }?>
         </ul>
     </div>
 </div>

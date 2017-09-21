@@ -340,3 +340,7 @@ div.modal-dialog {
     color: #666;
 }
 /*style in active page*/
+a.disabled {
+    color: gray;
+    pointer-events: none;
+}

@@ -68,10 +68,11 @@ class WebSocketCommand extends CConsoleCommand
 
 
     private function startServer(){
-        file_put_contents(Yii::app()->params['webSocketServer']['pidFile'], '');
+
         if ($this->checkWinEnv()) {
             exec('php '.__DIR__.'/../components/WebSocket/WebSocketServer.php');
         } else {
+            file_put_contents(Yii::app()->params['webSocketServer']['pidFile'], '');
             exec(sprintf("%s > %s 2>&1 & echo $! >> %s",
                 'php '.__DIR__.'/../components/WebSocket/WebSocketServer.php',
                 Yii::app()->params['webSocketServer']['logFile'], Yii::app()->params['webSocketServer']['pidFile']));

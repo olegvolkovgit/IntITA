@@ -4,19 +4,33 @@
 // dependence on ngCkeditor
 angular
     .module('crmApp')
-    .directive('crmTask', ['$resource', 'typeAhead','crmTaskServices','NgTableParams','$rootScope','$compile','ModalService',
-        function ($resource, typeAhead, crmTaskServices,NgTableParams,$rootScope,$compile,ModalService) {
+    .directive('crmTask', ['$resource', 'typeAhead','crmTaskServices','NgTableParams','$rootScope','$compile',
+        function ($resource, typeAhead, crmTaskServices,NgTableParams,$rootScope,$compile) {
             function link(scope, element, attrs) {
+                scope.teacherMode = $rootScope.teacherMode;
+
+                scope.task.priorities=[
+                    {id:"1",title:'low',description:'Низький'},
+                    {id:"2",title:'medium',description:'Середній'},
+                    {id:"3",title:'high',description:'Високий'},
+                    {id:"4",title:'urgent',description:'Терміновий'},
+                ];
+                if(!scope.task.id){
+                    scope.task.priority="2";
+                }
 
                 //***init block***
                 scope.currentUser=user;
-                scope.category = {name: 'coworkers'}; //default users category
+                if(scope.teacherMode)
+                    scope.category = {name: 'coworkers'}; //default users category
+                else scope.category = {name: 'students'};
                 scope.inputs = {};// roles inputs obj
                 scope.newComment=false;
                 scope.comment={
                     id_task:null,
                     message:null,
                 };
+
                 // datepickers options
                 scope.dateOptionsDeadline = new DateOptions();
                 scope.dateOptionsStart = new DateOptions();
@@ -94,7 +108,7 @@ angular
                 scope.changeState = function (task, state) {
                     crmTaskServices.changeTaskState({id:task.id, state:state}).$promise.then(function(){
                         scope.getTaskInDirective(task.id);
-                        scope.historyTableParams.reload({id:task.id});
+                        scope.loadTasksHistory(task.id);
                         scope.someCtrlFn({tasksType: $rootScope.roleId});
                     });
                 }
@@ -158,15 +172,10 @@ angular
                     }
                 });
 
-                scope.initTask=function () {
-                    scope.task = {
-                        id:null, name:null,body:null,startTask:null,endTask:null, deadline:null,
-                        roles:{ collaborator:null, executant:null, observer:null, producer:null }
-                    };
-                };
-
                 scope.cleanTask = function () {
-                    scope.initTask();
+                    scope.task=null;
+                    $rootScope.initCrmTask()
+                    $rootScope.modalInstance.close();
                 };
 
                 scope.toggleComment=function () {
@@ -253,7 +262,7 @@ angular
                             scope.getTaskInDirective(task.id);
                             scope.historyTableParams.reload({id:task.id});
                             scope.someCtrlFn({tasksType: $rootScope.roleId});
-                            ModalService.Close('newTask');
+                            $rootScope.modalInstance.close();
                         })
                         .catch(function (error) {
                             bootbox.alert(JSON.parse(error.data.reason));

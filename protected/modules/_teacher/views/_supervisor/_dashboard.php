@@ -55,6 +55,9 @@
                         <a href="#/students">Студенти</a>
                     </li>
                     <li>
+                        <a href="#/students/progress">Прогрес навчання студентів</a>
+                    </li>
+                    <li>
                         <a href="#/supervisor/studentsWithoutGroup">Офлайн студенти(без групи)</a>
                     </li>
                     <li>
