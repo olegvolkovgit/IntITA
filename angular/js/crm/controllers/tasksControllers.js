@@ -135,7 +135,9 @@ angular
 
             $rootScope.loadTasks=function (idRole) {
                 if($scope.board==1){
-                    return $scope.loadKanbanTasks(idRole);
+                    return $scope.loadKanbanTasks(idRole).then(function (data) {
+                        $scope.setKanbanHeight();
+                    });
                 }else{
                     return $scope.loadTableTasks(idRole);
                 }
@@ -210,8 +212,9 @@ angular
 
                             $scope.initCrmKanban($scope.crmCards);
 
-                            $timeout($scope.setKanbanHeight(), 2000);
-
+                            $timeout(function() {
+                                $scope.setKanbanHeight()
+                            }, 3000);
 
                             return true;
                         });
@@ -219,10 +222,10 @@ angular
             };
 
             $scope.setKanbanHeight = function (){
-                    var heights = angular.element(".kanban-column").map(function () {
-                            return angular.element(this).height();
-                        }).get(),
-                        maxHeight = Math.max.apply(null, heights);
+                console.log('ddf');
+                var heights = angular.element(".kanban-column").map(function () {
+                    return angular.element(this).height();
+                }).get(), maxHeight = Math.max.apply(null, heights);
                 if($window.innerWidth>800) {
                     $scope.kanbanHeight = {'min-height': maxHeight};
                 }
