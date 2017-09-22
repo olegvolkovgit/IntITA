@@ -26,6 +26,7 @@ angular
             $scope.currentDate = currentDate;
             $scope.board=1;
             $scope.currentUser=user;
+            $scope.canEditCrmTasks=canEditCrmTasks;
 
             $scope.openModal = function (size, parentSelector) {
                 var parentElem = parentSelector ?
@@ -228,7 +229,7 @@ angular
             };
 
             $scope.$watch('board', function () {
-                $rootScope.loadTasks($rootScope.roleId);
+                if($rootScope.roleId) $rootScope.loadTasks($rootScope.roleId);
             });
 
             $scope.getKanban = function () {
@@ -276,17 +277,22 @@ angular
                     }
                 });
             }
+
             $scope.cancelKanbanCrmTask = function (task) {
-                crmTaskServices.cancelCrmTask({id:task.id}).$promise
-                    .then(function (data) {
-                        if($scope.board==1) {
-                            $scope.loadKanbanTasks($rootScope.roleId);
-                            $scope.setKanbanHeight();
-                        }else{
-                            $scope.loadTableTasks($rootScope.roleId)
-                            $scope.tasksTableParams.reload();
-                        }
-                    });
+                bootbox.confirm('Ти впевнений, що хочеш видалити завдання?', function (result) {
+                    if (result) {
+                        crmTaskServices.cancelCrmTask({id: task.id}).$promise
+                            .then(function (data) {
+                                if ($scope.board == 1) {
+                                    $scope.loadKanbanTasks($rootScope.roleId);
+                                    $scope.setKanbanHeight();
+                                } else {
+                                    $scope.loadTableTasks($rootScope.roleId)
+                                    $scope.tasksTableParams.reload();
+                                }
+                            });
+                    }
+                });
             };
             $scope.scrollTo = function (cl) {
                 $jq('html, body').animate({

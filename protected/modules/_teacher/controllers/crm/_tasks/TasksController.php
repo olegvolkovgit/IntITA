@@ -106,8 +106,8 @@ class TasksController extends TeacherCabinetController {
             $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.role='.$params['id'].' and t.cancelled_date is null';
         }else{
             $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.cancelled_date is null';
-            $criteria->group = 't.id_task';
         }
+        $criteria->group = 't.id_task';
         if(isset($params['filter']['crmStates.id'])){
             $criteria->join = 'LEFT JOIN crm_tasks ct ON ct.id = t.id_task';
             $criteria->join .= ' LEFT JOIN crm_task_status cts ON ct.id_state=cts.id';
