@@ -160,7 +160,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
         function() {
             conn4.subscribe('changeTaskRole-'+user, function(topic, data) {
                 console.log('Task role changed');
-                $rootScope.getTasksCount();
+                $rootScope.updateTaskManagerCounter();
                 $rootScope.loadTasks($rootScope.roleId);
             });
         },
