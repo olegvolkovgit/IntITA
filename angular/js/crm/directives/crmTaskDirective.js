@@ -9,18 +9,23 @@ angular
             function link(scope, element, attrs) {
                 scope.teacherMode = $rootScope.teacherMode;
 
-                scope.task.priorities=[
-                    {id:"1",title:'low',description:'Низький'},
-                    {id:"2",title:'medium',description:'Середній'},
-                    {id:"3",title:'high',description:'Високий'},
-                    {id:"4",title:'urgent',description:'Терміновий'},
-                ];
+                scope.prioritiesList = function () {
+                    scope.task.priorities=[
+                        {id:"1",title:'low',description:'Низький'},
+                        {id:"2",title:'medium',description:'Середній'},
+                        {id:"3",title:'high',description:'Високий'},
+                        {id:"4",title:'urgent',description:'Терміновий'},
+                    ];
+                };
+                scope.prioritiesList();
+
                 if(!scope.task.id){
                     scope.task.priority="2";
                 }
 
                 //***init block***
                 scope.currentUser=user;
+                scope.canEditCrmTasks=canEditCrmTasks;
                 if(scope.teacherMode)
                     scope.category = {name: 'coworkers'}; //default users category
                 else scope.category = {name: 'students'};
@@ -62,7 +67,7 @@ angular
                 };
 
                 scope.reloadUser = function () {
-                    scope.task.roles.producer = null;
+                    scope.task.roles.producer = {};
                 };
 
                 // functions for typeahead executant
@@ -99,6 +104,7 @@ angular
                             scope.task.producer=data.roles.producer.name;
                             scope.task.executant=data.roles.executant.name;
                             scope.loadTasksHistory(scope.task.id);
+                            scope.prioritiesList();
                         })
                         .catch(function (error) {
                             bootbox.alert(JSON.parse(error.data.reason));
@@ -165,11 +171,9 @@ angular
                 }
 
                 scope.$watch('task.id', function (newValue, oldValue) {
-                    if (newValue != oldValue) {
-                        scope.loadTasksHistory(newValue);
-                        scope.loadTasksComments(newValue);
-                        scope.loadSpentTimeTask(newValue);
-                    }
+                    scope.loadTasksHistory(newValue);
+                    scope.loadTasksComments(newValue);
+                    scope.loadSpentTimeTask(newValue);
                 });
 
                 scope.cleanTask = function () {
@@ -257,16 +261,20 @@ angular
                 };
 
                 scope.cancelCrmTask = function (task) {
-                    crmTaskServices.cancelCrmTask({id:task.id}).$promise
-                        .then(function (data) {
-                            scope.getTaskInDirective(task.id);
-                            scope.historyTableParams.reload({id:task.id});
-                            scope.someCtrlFn({tasksType: $rootScope.roleId});
-                            $rootScope.modalInstance.close();
-                        })
-                        .catch(function (error) {
-                            bootbox.alert(JSON.parse(error.data.reason));
-                        });
+                    bootbox.confirm('Ти впевнений, що хочеш видалити завдання?', function (result) {
+                        if (result) {
+                            crmTaskServices.cancelCrmTask({id:task.id}).$promise
+                                .then(function (data) {
+                                    scope.getTaskInDirective(task.id);
+                                    scope.historyTableParams.reload({id:task.id});
+                                    scope.someCtrlFn({tasksType: $rootScope.roleId});
+                                    $rootScope.modalInstance.close();
+                                })
+                                .catch(function (error) {
+                                    bootbox.alert(JSON.parse(error.data.reason));
+                                });
+                        }
+                    });
                 };
 
             }

@@ -26,6 +26,7 @@ angular
             $scope.currentDate = currentDate;
             $scope.board=1;
             $scope.currentUser=user;
+            $scope.canEditCrmTasks=canEditCrmTasks;
 
             $scope.openModal = function (size, parentSelector) {
                 var parentElem = parentSelector ?
@@ -134,7 +135,9 @@ angular
 
             $rootScope.loadTasks=function (idRole) {
                 if($scope.board==1){
-                    return $scope.loadKanbanTasks(idRole);
+                    return $scope.loadKanbanTasks(idRole).then(function (data) {
+                        $scope.setKanbanHeight();
+                    });
                 }else{
                     return $scope.loadTableTasks(idRole);
                 }
@@ -209,8 +212,9 @@ angular
 
                             $scope.initCrmKanban($scope.crmCards);
 
-                            $timeout($scope.setKanbanHeight(), 2000);
-
+                            $timeout(function() {
+                                $scope.setKanbanHeight()
+                            }, 3000);
 
                             return true;
                         });
@@ -218,17 +222,17 @@ angular
             };
 
             $scope.setKanbanHeight = function (){
-                    var heights = angular.element(".kanban-column").map(function () {
-                            return angular.element(this).height();
-                        }).get(),
-                        maxHeight = Math.max.apply(null, heights);
+                console.log('ddf');
+                var heights = angular.element(".kanban-column").map(function () {
+                    return angular.element(this).height();
+                }).get(), maxHeight = Math.max.apply(null, heights);
                 if($window.innerWidth>800) {
                     $scope.kanbanHeight = {'min-height': maxHeight};
                 }
             };
 
             $scope.$watch('board', function () {
-                $rootScope.loadTasks($rootScope.roleId);
+                if($rootScope.roleId) $rootScope.loadTasks($rootScope.roleId);
             });
 
             $scope.getKanban = function () {
@@ -276,17 +280,22 @@ angular
                     }
                 });
             }
+
             $scope.cancelKanbanCrmTask = function (task) {
-                crmTaskServices.cancelCrmTask({id:task.id}).$promise
-                    .then(function (data) {
-                        if($scope.board==1) {
-                            $scope.loadKanbanTasks($rootScope.roleId);
-                            $scope.setKanbanHeight();
-                        }else{
-                            $scope.loadTableTasks($rootScope.roleId)
-                            $scope.tasksTableParams.reload();
-                        }
-                    });
+                bootbox.confirm('Ти впевнений, що хочеш видалити завдання?', function (result) {
+                    if (result) {
+                        crmTaskServices.cancelCrmTask({id: task.id}).$promise
+                            .then(function (data) {
+                                if ($scope.board == 1) {
+                                    $scope.loadKanbanTasks($rootScope.roleId);
+                                    $scope.setKanbanHeight();
+                                } else {
+                                    $scope.loadTableTasks($rootScope.roleId)
+                                    $scope.tasksTableParams.reload();
+                                }
+                            });
+                    }
+                });
             };
             $scope.scrollTo = function (cl) {
                 $jq('html, body').animate({

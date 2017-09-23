@@ -3,7 +3,7 @@
 <div class="form-group">
     <input class="form-control" maxlength="128" placeholder="Введіть назву завдання" ng-model="task.name" ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
 </div>
-<a href="" ng-click="task.editMode=true" ng-show="task.id && !task.editMode && task.created_by==currentUser">Режим редагування</a>
+<a href="" ng-click="task.editMode=true" ng-show="task.id && !task.editMode && (task.created_by==currentUser || canEditCrmTasks)">Режим редагування</a>
 <a href="" ng-click="task.editMode=false" ng-show="task.id && task.editMode">Режим перегляду</a>
 <br>
 <p class="crmBodyBlock" ng-show="!task.editMode && task.id" ng-bind-html="task.body"></p>
@@ -14,12 +14,12 @@
 <br>
     <div ng-if="task.id && !task.editMode">
         <fieldset>
-            <button ng-if="task.id_state==1" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >РОЗПОЧАТИ ВИКОНАННЯ <i class="fa fa-wrench fa-1x" aria-hidden="true"></i></button>
-            <button ng-if="task.id_state==3" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >ПРОДОВЖИТИ <i class="fa fa-wrench fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==1" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >РОЗПОЧАТИ ВИКОНАННЯ <i class="fa fa-play fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==3" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >ПРОДОВЖИТИ <i class="fa fa-play fa-1x" aria-hidden="true"></i></button>
             <button ng-if="task.id_state==2" type="button" class="btn paused" ng-click="changeState(task,3)" ng-disabled="isDisabled" >ПРИЗУПИНИТИ <i class="fa fa-pause fa-1x" aria-hidden="true"></i></button>
             <button ng-if="task.id_state==2 || task.id_state==3" type="button" class="btn completed" ng-click="changeState(task,4)" ng-disabled="isDisabled" >ЗАВЕРШИТИ <i class="fa fa-check-square-o fa-1x" aria-hidden="true"></i></button>
             <button ng-if="task.id_state==4" type="button" class="btn expect_to_execute" ng-click="changeState(task,1)" ng-disabled="isDisabled" >ВІДНОВИТИ <i class="fa fa-clock-o fa-1x" aria-hidden="true"></i></button>
-            <button ng-if="currentUser==task.created_by" type="button" class="btn remove" ng-click="cancelCrmTask(task)" ng-disabled="isDisabled" >ВИДАЛИТИ <i class="fa fa-remove fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="currentUser==task.created_by || canEditCrmTasks" type="button" class="btn remove" ng-click="cancelCrmTask(task)" ng-disabled="isDisabled" >ВИДАЛИТИ <i class="fa fa-remove fa-1x" aria-hidden="true"></i></button>
         </fieldset>
     </div>
 <br>
@@ -53,21 +53,21 @@
             <label>{{role.description}}</label>
             <oi-select ng-if="role.name!='producer' && role.name!='executant'" placeholder="обери користувача"
                        oi-options="user.name for user in getUsersForCategory($query, category.name, true) track by user.id"
-                       ng-model="task.roles[role.name]" multiple ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
+                       ng-model="task.roles[role.name]" multiple ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))">
             </oi-select>
             <input ng-if="role.name=='producer'" type="text" size="50" ng-model="task.producer"
                    ng-model-options="{ debounce: 1000 }" placeholder="обери користувача"
                    uib-typeahead="item.name for item in getUsersForCategory($viewValue, category.name, false) | limitTo : 10"
                    typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
                    typeahead-on-select="onSelectUser($item)" ng-change="reloadUser()" class="form-control" autofocus
-                   required ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)"/>
+                   required ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))"/>
 
             <input ng-if="role.name=='executant'" type="text" size="50" ng-model="task.executant"
                    ng-model-options="{ debounce: 1000 }" placeholder="обери користувача"
                    uib-typeahead="item.name for item in getUsersForCategory($viewValue, category.name, false) | limitTo : 10"
                    typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
                    typeahead-on-select="onSelectExecutant($item)" ng-change="reloadExecutant()" class="form-control" autofocus
-                   required ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)"/>
+                   required ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))"/>
             <div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> користувача не знайдено</div>
 
             <ul class="crmRolesList list-inline" ng-if="role.id==1">
@@ -97,7 +97,7 @@
                        clear-text='Очистити'
                        close-text='Закрити'
                        current-text='Сьогодні'
-                       ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
+                       ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))">
             </div>
         </div>
         <div class="form-group">
@@ -117,7 +117,7 @@
                        clear-text='Очистити'
                        close-text='Закрити'
                        current-text='Сьогодні'
-                       ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
+                       ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))">
             </div>
         </div>
         <div class="form-group">
@@ -137,7 +137,7 @@
                        clear-text='Очистити'
                        close-text='Закрити'
                        current-text='Сьогодні'
-                       ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
+                       ng-disabled="task.id_state==4 || (task.id &&(currentUser!=task.created_by && !canEditCrmTasks))">
             </div>
         </div>
     </form>
