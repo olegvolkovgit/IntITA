@@ -222,7 +222,6 @@ angular
             };
 
             $scope.setKanbanHeight = function (){
-                console.log('ddf');
                 var heights = angular.element(".kanban-column").map(function () {
                     return angular.element(this).height();
                 }).get(), maxHeight = Math.max.apply(null, heights);
