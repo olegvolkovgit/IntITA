@@ -98,5 +98,4 @@ class StudentProgressController extends TeacherCabinetController
         echo CJSON::encode((array_merge(['student'=>['id'=>$user->id,'fullName'=>$user->fullName()]],$data)));
     }
 
-
 }
