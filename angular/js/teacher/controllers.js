@@ -102,7 +102,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
     $scope.countOfNewRequests = 0;
     var updateCounter = function(sound) {
         $http.get(basePath+'/_teacher/cabinet/getNewMessages',{ignoreLoadingBar: true}).then(function(response){
-            if(sound) audio.play();
+            if(typeof sound=='undefined') audio.play();
             $scope.requests = response.data.requests;
             $scope.messages = response.data.messages;
         });
@@ -112,7 +112,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
 
     $rootScope.updateTaskManagerCounter = function(sound) {
         $http.get(basePath+'/_teacher/crm/_tasks/tasks/getTaskManagerCounter',{}).then(function(response){
-            if(sound) audio.play();
+            if(typeof sound=='undefined') audio.play();
             $scope.taskManagerCount = parseInt(response.data.tasks_count)+parseInt(response.data.comments_count)+
                 parseInt(response.data.roles_count)+parseInt(response.data.states_count);
         });
