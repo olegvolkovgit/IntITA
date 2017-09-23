@@ -20,6 +20,7 @@
     <!-- kludge -->
     currentLanguage = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
     currentDate='<?php echo date("Y-m-d");?>';
+    canEditCrmTasks='<?php echo (Yii::app()->user->model->isSuperAdmin() || Yii::app()->user->model->isDirector()) ?>';
 </script>
 
 

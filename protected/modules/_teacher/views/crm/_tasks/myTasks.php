@@ -18,12 +18,12 @@
                         <a ng-href="" ng-click="getTask(row.idTask.id)">{{row.idTask.name}}</a>
                         <div>
                             <fieldset class="kanbanButtons">
-                                <i ng-if="row.idTask.id_state==1" class="fa fa-wrench fa-2x executed" aria-hidden="true" title="ПОЧАТИ" ng-click="changeKanbanState(row.idTask,2)" ng-disabled="isDisabled"></i>
-                                <i ng-if="row.idTask.id_state==3" class="fa fa-wrench fa-2x executed" aria-hidden="true" title="ПРОДОВЖИТИ" ng-click="changeKanbanState(row.idTask,2)" ng-disabled="isDisabled"></i>
-                                <i ng-if="row.idTask.id_state==2" class="fa fa-pause fa-2x paused" aria-hidden="true" title="ПРИЗУПИНИТИ" ng-click="changeKanbanState(row.idTask,3)" ng-disabled="isDisabled"></i>
-                                <i ng-if="row.idTask.id_state==2 || row.idTask.id_state==3" class="fa fa-check-square-o fa-2x completed" aria-hidden="true" title="ЗАВЕРШИТИ" ng-click="changeKanbanState(row.idTask,4)" ng-disabled="isDisabled"></i>
-                                <i ng-if="row.idTask.id_state==4" class="fa fa-clock-o fa-2x expect_to_execute" aria-hidden="true" title="ВІДНОВИТИ" ng-click="changeKanbanState(row.idTask,1)" ng-disabled="isDisabled"></i>
-                                <i ng-if="currentUser==row.idTask.created_by" class="fa fa-remove fa-2x remove" aria-hidden="true" title="ВИДАЛИТИ" ng-click="cancelKanbanCrmTask(row.idTask)" ng-disabled="isDisabled"></i>
+                                <i ng-if="row.idTask.id_state==1" class="fa fa-play executed" aria-hidden="true" title="ПОЧАТИ" ng-click="changeKanbanState(row.idTask,2)" ng-disabled="isDisabled"></i>
+                                <i ng-if="row.idTask.id_state==3" class="fa fa-play executed" aria-hidden="true" title="ПРОДОВЖИТИ" ng-click="changeKanbanState(row.idTask,2)" ng-disabled="isDisabled"></i>
+                                <i ng-if="row.idTask.id_state==2" class="fa fa-pause paused" aria-hidden="true" title="ПРИЗУПИНИТИ" ng-click="changeKanbanState(row.idTask,3)" ng-disabled="isDisabled"></i>
+                                <i ng-if="row.idTask.id_state==2 || row.idTask.id_state==3" class="fa fa-check-square-o completed" aria-hidden="true" title="ЗАВЕРШИТИ" ng-click="changeKanbanState(row.idTask,4)" ng-disabled="isDisabled"></i>
+                                <i ng-if="row.idTask.id_state==4" class="fa fa-clock-o expect_to_execute" aria-hidden="true" title="ВІДНОВИТИ" ng-click="changeKanbanState(row.idTask,1)" ng-disabled="isDisabled"></i>
+                                <i ng-if="currentUser==row.idTask.created_by" class="fa fa-remove remove" aria-hidden="true" title="ВИДАЛИТИ" ng-click="cancelKanbanCrmTask(row.idTask)" ng-disabled="isDisabled"></i>
                             </fieldset>
                         </div>
                     </td>
