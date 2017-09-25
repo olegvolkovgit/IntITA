@@ -140,9 +140,51 @@
                        ng-disabled="task.id_state==4 || (task.id &&(currentUser!=task.created_by && !canEditCrmTasks))">
             </div>
         </div>
+
     </form>
 </div>
 <br>
+<div class="form-group" id="mailNotifivation" ng-show="task.editMode">
+    <div class="form-group">
+        <label>Оповіщення електронною поштою </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+    </div>
+
+    <div class="controls form-inline">
+        <label>Відповідального </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Постановника </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Співвиконавців </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Спостерігачів </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+    </div>
+    <div class="col-md-12">Дні оповіщення</div>
+    <div class="controls form-inline">
+        <label>Понеділок </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Вівторок </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Середа  </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Четвер </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>П'ятниця </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Субота </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+        <label>Неділя </label>
+        <input type="checkbox" ng-model="task.mailNotification">
+    </div>
+    <div class="controls form-inline">
+        <label>Час оповіщення</label>
+        <button class="btn btn-primary" onclick="bootbox.alert('dsfghjk')">nkjhjhu</button>
+    </div>
+
+
+</div>
+
 <div ng-if="task.id">
     <div class="panel panel-default">
         <div class="panel-body">
