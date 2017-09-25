@@ -144,44 +144,47 @@
     </form>
 </div>
 <br>
-<div class="form-group" id="mailNotifivation" ng-show="task.editMode">
+<div class="form" id="mailNotifivation" ng-show="task.editMode">
     <div class="form-group">
         <label>Оповіщення електронною поштою </label>
         <input type="checkbox" ng-model="task.mailNotification">
     </div>
+    <div class="row form-group col-md-12">
+        <div class="controls form-inline">
+            <span style="margin-right: 5px;" ng-repeat="notificationUser in notificationUsersList">
+                <input type="checkbox" checklist-model="notificationUsers" checklist-value="notificationUser.id" > {{notificationUser.title}}
+            </span>
+        </div>
+    </div>
 
-    <div class="controls form-inline">
-        <label>Відповідального </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Постановника </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Співвиконавців </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Спостерігачів </label>
-        <input type="checkbox" ng-model="task.mailNotification">
+    <div class="row form-group col-md-4">
+        <label for="templates">Шаблон електронного листа</label>
+        <select class="form-control" id="templates">
+                <option>Лист щастя особливий ...... </option>
+                <option>Лист щастя про завдання ......</option>
+                <option>Лист щастя про ненависну вестку ....</option>
+        </select>
+
     </div>
-    <div class="col-md-12">Дні оповіщення</div>
-    <div class="controls form-inline">
-        <label>Понеділок </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Вівторок </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Середа  </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Четвер </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>П'ятниця </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Субота </label>
-        <input type="checkbox" ng-model="task.mailNotification">
-        <label>Неділя </label>
-        <input type="checkbox" ng-model="task.mailNotification">
+    <br>
+    <div class="row form-group col-md-12">
+        <label>Дні оповіщення</label>
+        <div class="controls form-inline" >
+            <span style="margin-right: 5px; " ng-repeat="weekday in weekdaysList">
+                <input type="checkbox" checklist-model="weekdays" checklist-value="weekday.id"> {{weekday.title}}
+            </span>
+        </div>
     </div>
-    <div class="controls form-inline">
+    <br>
+
+    <div class="row form-group form-inline">
+        <div class="col-md-4">
         <label>Час оповіщення</label>
-        <button class="btn btn-primary" onclick="bootbox.alert('dsfghjk')">nkjhjhu</button>
+        <span uib-timepicker ng-model="time" ng-change="changed()" hour-step=1 minute-step=1 show-meridian="false"></span>
+        </div>
     </div>
 
+    <br>
 
 </div>
 
