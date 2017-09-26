@@ -27,12 +27,9 @@ angular
                         {id:"7",title:'Неділя'},
                     ];
 
-                scope.notificationUsersList=[
-                    {id:"1",title:'Відповідального'},
-                    {id:"2",title:'Постановника'},
-                    {id:"3",title:'Співвиконавців'},
-                    {id:"4",title:'Спостерігачів'}
-                ];
+                scope.notificationUsersList= crmTaskServices.getCrmRoles();
+
+                scope.notificationTemplates = crmTaskServices.getNotificationTemplates();
 
                 scope.prioritiesList();
 

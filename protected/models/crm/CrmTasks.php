@@ -303,4 +303,27 @@ class CrmTasks extends CTaskUnitActiveRecord
             $this->notifyUser($chanelName.'-'.$signatory->id_user,[]);
         }
     }
+
+    public function notifyByEmail($notificationParams, $task){
+
+        $notifyMessage = new Newsletters();
+        $notifyMessageTemplate = MailTemplates::model()->findByPk((int)$notificationParams['template']['id']);
+        $notifyMessage->newsletter_email = Config::getNewsletterMailAddress();
+        $notifyMessage->subject =$notifyMessageTemplate->subject;
+        $notifyMessage->text = $notifyMessageTemplate->text;
+        $notifyMessage->recipients = serialize(['crmTaskId'=>$task,'users'=>$notificationParams['users']]);
+        $notifyMessage->type = 'taskNotification';
+        $notifyMessage->created_by = Yii::app()->user->id;
+        $notifyMessage->id_organization = Yii::app()->user->model->getCurrentOrganizationId();
+        $notifyMessage->save();
+        $task = new SchedulerTasks();
+        $task->type = TaskFactory::NEWSLETTER;
+        $task->related_model_id = $notifyMessage->id;
+        $task->repeat_type = SchedulerTasks::WEEKDAYS;
+        $task->parameters = serialize($notificationParams['weekdays']);
+        $task->start_time = $notificationParams['time'];
+        $task->save();
+
+    }
+
 }

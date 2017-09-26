@@ -147,22 +147,23 @@
 <div class="form" id="mailNotifivation" ng-show="task.editMode">
     <div class="form-group">
         <label>Оповіщення електронною поштою </label>
-        <input type="checkbox" ng-model="task.mailNotification">
+        <input type="checkbox" ng-model="task.notification.notify">
     </div>
+    <div ng-if="task.notification.notify">
     <div class="row form-group col-md-12">
         <div class="controls form-inline">
-            <span style="margin-right: 5px;" ng-repeat="notificationUser in notificationUsersList">
-                <input type="checkbox" checklist-model="notificationUsers" checklist-value="notificationUser.id" > {{notificationUser.title}}
+            <span style="margin-right: 5px;" ng-repeat="notificationUser in roles">
+                <input type="checkbox" checklist-model="task.notification.users" checklist-value="notificationUser.id"> {{notificationUser.description}}
             </span>
         </div>
     </div>
 
     <div class="row form-group col-md-4">
         <label for="templates">Шаблон електронного листа</label>
-        <select class="form-control" id="templates">
-                <option>Лист щастя особливий ...... </option>
-                <option>Лист щастя про завдання ......</option>
-                <option>Лист щастя про ненависну вестку ....</option>
+        <select class="form-control" id="templates" name="templates"
+            ng-options="item.title for item in notificationTemplates track by item.id"
+            ng-model="task.notification.template"
+            ng-required="task.notification.notify">
         </select>
 
     </div>
@@ -171,7 +172,7 @@
         <label>Дні оповіщення</label>
         <div class="controls form-inline" >
             <span style="margin-right: 5px; " ng-repeat="weekday in weekdaysList">
-                <input type="checkbox" checklist-model="weekdays" checklist-value="weekday.id"> {{weekday.title}}
+                <input type="checkbox" checklist-model="task.notification.weekdays" checklist-value="weekday.id"> {{weekday.title}}
             </span>
         </div>
     </div>
@@ -180,12 +181,12 @@
     <div class="row form-group form-inline">
         <div class="col-md-4">
         <label>Час оповіщення</label>
-        <span uib-timepicker ng-model="time" ng-change="changed()" hour-step=1 minute-step=1 show-meridian="false"></span>
+        <span uib-timepicker ng-model="task.notification.time" ng-change="changed()" hour-step=1 minute-step=1 show-meridian="false" ng-required="task.notification.notify">></span>
         </div>
     </div>
 
     <br>
-
+    </div>
 </div>
 
 <div ng-if="task.id">

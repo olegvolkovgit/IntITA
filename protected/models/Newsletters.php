@@ -46,7 +46,7 @@ class Newsletters extends CActiveRecord implements ITask
 			array('type, subject, text, newsletter_email', 'required'),
 			array('created_by, id_organization', 'numerical', 'integerOnly'=>true),
 			array('subject', 'length', 'max'=>128),
-			array('id, type, recipients, subject, text, created_by, id_organization newsletter_email', 'safe', 'on'=>'search'),
+			array('id, type, recipients, subject, text, created_by, id_organization, newsletter_email', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -238,6 +238,9 @@ class Newsletters extends CActiveRecord implements ITask
                     }
                 }
                 break;
+            case "taskNotification":
+
+                break;
 
         }
         return array_unique($mailList);
@@ -364,4 +367,6 @@ class Newsletters extends CActiveRecord implements ITask
         return true;
 
     }
+
+
 }
