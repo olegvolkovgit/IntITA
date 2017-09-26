@@ -14,10 +14,51 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: basePath + "/_teacher/cabinet/loadPage/?page=trainer",
         })
         .state('trainer/students', {
-            url: "/trainer/students",
+            url: "/trainer",
             cache: false,
-            templateUrl: basePath + "/_teacher/_trainer/trainer/students",
+            templateUrl: basePath + "/_teacher/_trainer/trainer/students"
         })
+        .state('trainer/students.trainerStudents', {
+            url: '/trainerStudents',
+            views: {
+                'trainerTabs': {
+                    templateUrl: basePath+"/_teacher/_trainer/trainer/attachStudents",
+                }
+            }
+        })
+        .state('trainer/students.personalInfo', {
+            url: '/personalInfo',
+            views: {
+                'trainerTabs': {
+                    templateUrl: basePath+"/_teacher/_trainer/trainer/personalInfo"
+                }
+            }
+        })
+        .state('trainer/students.career', {
+            url: '/career',
+            views: {
+                'trainerTabs': {
+                    templateUrl: basePath+"/_teacher/_trainer/trainer/careerInfo"
+                }
+            }
+        })
+        .state('trainer/students.contract', {
+            url: '/contract',
+            views: {
+                'trainerTabs': {
+                    templateUrl: basePath+"/_teacher/_trainer/trainer/contractInfo"
+                }
+            }
+        })
+        .state('trainer/students.visit', {
+            url: '/visit',
+            views: {
+                'trainerTabs': {
+                    templateUrl: basePath+"/_teacher/_trainer/trainer/visitInfo",
+                }
+            }
+        })
+
         .state('trainer/viewStudent/:studentId', {
             url: "/trainer/viewStudent/:studentId",
             cache: false,

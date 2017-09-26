@@ -23,6 +23,7 @@ angular
     .controller('usersTabsCtrl', usersTabsCtrl)
     .controller('organizationUsersTabsCtrl', organizationUsersTabsCtrl)
     .controller('addStudentTrainerCtrl', addStudentTrainerCtrl)
+    .controller('changeTrainersCtrl', changeTrainersCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({
@@ -282,6 +283,42 @@ function trainersTableCtrl ($scope, usersService, NgTableParams,roleService, $at
                 else bootbox.alert(response.data);
             }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
+    };
+}
+
+function changeTrainersCtrl($scope, usersService, roleService, $attrs) {
+
+     $scope.getTrainers = function() {
+        usersService
+            .actualTrainers()
+            .$promise
+            .then(function (data) {
+                $scope.trainers = data;
+            });
+         $jq('#apply-btn').prop('disabled', true);
+    };
+
+     $jq('#selectNewTrainer, #selectOldTrainer').on('change', function(){
+         setTimeout(function(){
+             if( $scope.id_oldTrainer != $scope.id_newTrainer && $scope.id_oldTrainer != undefined
+                                                                && $scope.id_newTrainer != undefined ){
+                 $jq('#apply-btn').prop('disabled', false);
+             }else{
+                 $jq('#apply-btn').prop('disabled', true);
+             }
+         }, 100);
+     });
+
+    $scope.exchangeTrainers = function(id_old, id_new){
+        usersService
+            .exchangeTrainers({'id_old':id_old, 'id_new':id_new})
+            .$promise
+            .then(function () {
+                console.info('success, exchanged trainers');
+            },
+            function (error) {
+                console.error(error);
+            });
     };
 }
 

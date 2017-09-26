@@ -101,8 +101,10 @@ angular
                     buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
                         callback: function () {
                             var comment = $jq('#commentText').val();
-                            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId}).$promise.then(function(){
-                                $scope.tasksTableParams.reload();
+                            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId})
+                                .$promise
+                                .then(function(){
+                                    $scope.tasksTableParams.reload();
                             });
                         }
                     },
@@ -113,7 +115,7 @@ angular
                     }
                 }
             );
-        }
+        };
 
         $scope.studentsCategoriesList = teacherConsultantService
             .studentsCategoryList()
@@ -297,4 +299,4 @@ angular
                 $scope.studentsCategory =[{id:'0', title:'Студенти не в групі'}].concat(groupList);
             });
 
-    })
+    });

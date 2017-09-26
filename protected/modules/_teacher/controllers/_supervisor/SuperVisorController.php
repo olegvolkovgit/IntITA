@@ -548,12 +548,18 @@ class SuperVisorController extends TeacherCabinetController
         $userId = Yii::app()->request->getPost('userId');
         $subgroupId = Yii::app()->request->getPost('subgroupId');
         $reasonId = Yii::app()->request->getPost('reasonId');
+        $end_study_leave = Yii::app()->request->getPost('fullDate');
+        $comment = Yii::app()->request->getPost('comment');
 
         $student=OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'id_subgroup'=>$subgroupId,'end_date'=>null));
 
         if($student){
             $student->end_date = date("Y-m-d H:i:s");
             $student->cancel_type = $reasonId;
+            $student->end_study_leave = $end_study_leave;
+            if(!is_null($comment)){
+                $student->comment = $comment;
+            }
             if($student->update()){
                 echo 'Студента скасовано';
             }else{
@@ -659,6 +665,9 @@ class SuperVisorController extends TeacherCabinetController
         }
         $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
 
+        TrainerStudent::checkStudentInStudentInfo($userId);
+//        die;
+
         if ($result===true){
             $data['data'] = "success";
         } else{
@@ -686,6 +695,12 @@ class SuperVisorController extends TeacherCabinetController
     {
         $this->renderPartial('/_supervisor/tables/trainers', array(), false, true);
     }
+
+    public function actionChangeTrainers()
+    {
+        $this->renderPartial('/_supervisor/changeTrainers', array(), false, true);
+    }
+
     public function actionTrainersStudents($idTrainer)
     {
         if (!RegisteredUser::userById($idTrainer)->hasRole(UserRoles::TRAINER))
