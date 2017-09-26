@@ -78,6 +78,7 @@
 
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/crm.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -130,7 +131,6 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/agreementTemplate.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/customValidators.js'); ?>"></script>
 
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/directives/modalDirective.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/directives/crmTaskDirective.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngDraggable.js'); ?>"></script>
@@ -251,7 +251,6 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/translitService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/ngTableService.js'); ?>"></script>
 
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/services/modalService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/services/taskServices.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/transformRequest.js'); ?>"></script>

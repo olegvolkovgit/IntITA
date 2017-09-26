@@ -35,6 +35,10 @@ angular
 angular
     .module('teacherApp')
     .controller('addGraduateCtrl', addGraduateCtrl);
+angular
+    .module('teacherApp')
+    .controller('studentProgressCtrl', studentProgressCtrl);
+
 
 function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $ngBootbox) {
     $scope.myImage='';
@@ -78,6 +82,7 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
 }
 
 function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger, crmTaskServices) {
+    audio = new Audio('http://www.mediacollege.com/downloads/sound-effects/money/coin-04.wav');
     //function back() redirect to prev link
     $rootScope.back = function () {
         window.history.back();
@@ -99,23 +104,25 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
     $scope.countOfMessages = 0;
     $scope.countOfNewMessages = 1;
     $scope.countOfNewRequests = 0;
-    var updateCounter = function() {
+    var updateCounter = function(sound) {
         $http.get(basePath+'/_teacher/cabinet/getNewMessages',{ignoreLoadingBar: true}).then(function(response){
+            if(typeof sound=='undefined') audio.play();
             $scope.requests = response.data.requests;
             $scope.messages = response.data.messages;
         });
 
     };
-    updateCounter();
+    updateCounter(false);
 
-    $rootScope.updateTaskManagerCounter = function() {
+    $rootScope.updateTaskManagerCounter = function(sound) {
         $http.get(basePath+'/_teacher/crm/_tasks/tasks/getTaskManagerCounter',{}).then(function(response){
+            if(typeof sound=='undefined') audio.play();
             $scope.taskManagerCount = parseInt(response.data.tasks_count)+parseInt(response.data.comments_count)+
                 parseInt(response.data.roles_count)+parseInt(response.data.states_count);
         });
 
     };
-    $rootScope.updateTaskManagerCounter();
+    $rootScope.updateTaskManagerCounter(false);
 
     if (!useWebsocketNotification){
         $timeout(updateCounter, 10000);
@@ -153,7 +160,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
         function() {
             conn4.subscribe('changeTaskRole-'+user, function(topic, data) {
                 console.log('Task role changed');
-                $rootScope.getTasksCount();
+                $rootScope.updateTaskManagerCounter();
                 $rootScope.loadTasks($rootScope.roleId);
             });
         },
@@ -796,4 +803,66 @@ function teacherProfileCtrl($scope, usersService, $state) {
             }
         });
     };
+}
+
+function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
+    if ($state.is('students/progress'))
+    {
+        NgTableDataService.setUrl(basePath+'/_teacher/_supervisor/studentProgress/getUsers');
+        $scope.data = "";
+        $scope.totalItems = 0;
+        $scope.pageChanged = function () {
+            NgTableDataService.getData({'page':$scope.currentPage}).then(function (data) {
+                $scope.data = data.data;
+                $scope.totalItems = data.count;
+            })
+        };
+        $scope.pageChanged();
+    }
+    if($state.is('students/courseProgress/:studentId/:courseId')){
+        NgTableDataService.setUrl(basePath+'/_teacher/_supervisor/studentProgress/getCourseProgress');
+        $scope.data = "";
+        $scope.totalItems = 0;
+        $scope.getData = function () {
+            NgTableDataService.getData({'student':$stateParams.studentId,course:$stateParams.courseId}).then(function (data) {
+                $scope.student = data.student;
+                $scope.data = data.data;
+                $scope.totalItems = data.count;
+                $scope.changePageHeader('Прогрес навчання студента: '+$scope.student.fullName);
+            })
+        };
+        $scope.getData();
+    }
+    if($state.is('students/moduleProgress/:studentId/:module')){
+        NgTableDataService.setUrl(basePath+'/_teacher/_supervisor/studentProgress/getModuleProgress');
+        $scope.data = "";
+        $scope.totalItems = 0;
+        $scope.getData = function () {
+                NgTableDataService.getData({'student':$stateParams.studentId,module:$stateParams.module}).then(function (data) {
+                    $scope.student = data.student;
+                    $scope.data = data.data;
+                    $scope.totalItems = data.count;
+                    $scope.changePageHeader('Прогрес навчання студента: '+$scope.student.fullName);
+            })
+        };
+        $scope.getData();
+    }
+
+    if($state.is('students/lectureProgress/:studentId/:lecture')){
+        NgTableDataService.setUrl(basePath+'/_teacher/_supervisor/studentProgress/getLectureProgress');
+        $scope.data = "";
+        $scope.totalItems = 0;
+        $scope.getData = function () {
+            NgTableDataService.getData({'student':$stateParams.studentId,lecture:$stateParams.lecture}).then(function (data) {
+                $scope.student = data.student;
+                $scope.data = data.data;
+                $scope.totalItems = data.count;
+                $scope.changePageHeader('Прогрес навчання студента: '+$scope.student.fullName);
+            })
+        };
+        $scope.getData();
+    }
+
+
+
 }

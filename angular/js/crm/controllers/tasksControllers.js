@@ -4,10 +4,11 @@
 
 angular
     .module('crmApp')
-    .controller('crmTasksCtrl', ['$scope', 'ModalService', 'crmTaskServices','ngToast','$rootScope','NgTableParams','$state','lodash','$filter',
-        function ($scope, ModalService, crmTaskServices, ngToast, $rootScope, NgTableParams,$state, lodash, $filter) {
+    .controller('crmTasksCtrl', ['$attrs','$scope', 'crmTaskServices','ngToast','$rootScope','NgTableParams','$state','lodash','$filter','$uibModal','$timeout','$window',
+        function ($attrs,$scope, crmTaskServices, ngToast, $rootScope, NgTableParams,$state, lodash, $filter, $uibModal,$timeout,$window) {
             $scope.changePageHeader('Завдання');
 
+            $rootScope.teacherMode=$attrs.teachermode1;
             var conn = new ab.Session('wss://'+window.location.host+'/wss/',
                 function() {
                     conn.subscribe('changeTask-'+user, function(topic, data) {
@@ -25,16 +26,31 @@ angular
             $scope.currentDate = currentDate;
             $scope.board=1;
             $scope.currentUser=user;
+            $scope.canEditCrmTasks=canEditCrmTasks;
 
-            $scope.openNewModal = function (id) {
-                ModalService.Open(id);
+            $scope.openModal = function (size, parentSelector) {
+                var parentElem = parentSelector ?
+                    angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+                $rootScope.modalInstance = $uibModal.open({
+                    animation: true,
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    templateUrl: 'crmModalContent.html',
+                    scope:$scope,
+                    size: size,
+                    appendTo: parentElem,
+                });
+
+                $rootScope.modalInstance.result.then(function (selectedItem) {
+                    $scope.selected = selectedItem;
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
             };
-            $scope.openModal = function (id) {
-                ModalService.Open(id);
-            };
-            $scope.closeModal = function (id) {
+
+            $scope.closeModal = function () {
                 $scope.initCrmTask();
-                ModalService.Close(id);
+                $rootScope.modalInstance.close();
             };
 
             $scope.tabs = [
@@ -64,7 +80,7 @@ angular
             $rootScope.getTasksCount();
 
             $scope.editorOptionsCrm = {toolbar: 'main'};
-            $scope.initCrmTask=function () {
+            $rootScope.initCrmTask=function () {
                 $scope.crmTask = { name:null,body:null,startTask:null,endTask:null, deadline:null,
                     roles:{collaborator:null, executant:null, observer:null, producer:null
                     }
@@ -72,12 +88,12 @@ angular
             };
             $scope.initCrmTask();
 
-            $scope.sendTask = function (task, id) {
+            $scope.sendTask = function (task) {
                 $scope.isDisabled=true;
                 crmTaskServices.sendCrmTask({crmTask: angular.toJson(task)}).$promise
                     .then(function (data) {
                         if (data.message === 'OK') {
-                            $scope.closeModal(id);
+                            $scope.closeModal();
                             $scope.initCrmTask();
                             ngToast.create({
                                 dismissOnTimeout: true,
@@ -97,11 +113,11 @@ angular
                     });
             };
 
-            $scope.getTask = function (id,modalId, isDragging) {
+            $scope.getTask = function (id, isDragging) {
                 if(!isDragging){
                     crmTaskServices.getCrmTask({id:id}).$promise
                         .then(function (data) {
-                            $scope.openModal(modalId);
+                            $scope.openModal('lg');
                             $scope.crmTask=data.task;
                             $scope.crmTask.startTask=$scope.crmTask.startTask?new Date($scope.crmTask.startTask) : null;
                             $scope.crmTask.endTask=$scope.crmTask.endTask?new Date($scope.crmTask.endTask) : null;
@@ -118,26 +134,12 @@ angular
             }
 
             $rootScope.loadTasks=function (idRole) {
-
                 if($scope.board==1){
-                    return $scope.loadKanbanTasks(idRole);
-                }else{
-                    var promise = $scope.tasksTableParams = new NgTableParams({
-                        sorting: {
-                            assigned_date: 'desc'
-                        },
-                        id:idRole}, {
-                        getData: function (params) {
-                            return crmTaskServices
-                                .getTasks(params.url())
-                                .$promise
-                                .then(function (data) {
-                                    params.total(data.count);
-                                    return data.rows;
-                                });
-                        }
+                    return $scope.loadKanbanTasks(idRole).then(function (data) {
+                        $scope.setKanbanHeight();
                     });
-                    return promise;
+                }else{
+                    return $scope.loadTableTasks(idRole);
                 }
             };
 
@@ -149,11 +151,38 @@ angular
                         return {id: item.id, title: item.description}
                     });
                 });
+            $scope.crmPrioritiesList=[
+                {id:"1",title:'Низький'},
+                {id:"2",title:'Середній'},
+                {id:"3",title:'Високий'},
+                {id:"4",title:'Терміновий'},
+            ];
+
+            $scope.loadTableTasks=function (idRole) {
+                var promise = $scope.tasksTableParams = new NgTableParams({
+                    sorting: {
+                        'idTask.priority': 'desc',
+                        // assigned_date: 'desc',
+                    },
+                    id: idRole
+                }, {
+                    getData: function (params) {
+                        return crmTaskServices
+                            .getTasks(params.url())
+                            .$promise
+                            .then(function (data) {
+                                params.total(data.count);
+                                return data.rows;
+                            });
+                    }
+                });
+                return promise;
+            };
 
             $scope.loadKanbanTasks=function (idRole) {
                 var promise = $scope.crmCanbanTasksList =
                     crmTaskServices
-                        .getTasks({'sorting[assigned_date]':'desc',id:idRole,})
+                        .getTasks({'sorting[idTask.priority]':'desc',id:idRole,})
                         .$promise
                         .then(function (data) {
                             $scope.crmCards=data.rows.map(function (item) {
@@ -174,12 +203,18 @@ angular
                                     lastChangeDate:item.lastChangeName?item.lastStateHistory[0].change_date:'',
                                     spent_time:item.spent_time,
                                     endTask:item.idTask.endTask,
-                                    deadline:item.idTask.deadline
+                                    deadline:item.idTask.deadline,
+                                    createdBy:item.idTask.created_by,
+                                    priorityTitle:item.idTask.priorityModel.title,
+                                    priority:item.idTask.priorityModel.description
                                 }
                             });
 
                             $scope.initCrmKanban($scope.crmCards);
-                            $scope.setKanbanHeight();
+
+                            $timeout(function() {
+                                $scope.setKanbanHeight()
+                            }, 3000);
 
                             return true;
                         });
@@ -187,16 +222,16 @@ angular
             };
 
             $scope.setKanbanHeight = function (){
-                var heights = angular.element(".kanban-column").map(function ()
-                    {
-                        return angular.element(this).height();
-                    }).get(),
-                    maxHeight = Math.max.apply(null, heights);
-                $scope.kanbanHeight={'min-height':maxHeight};
-            }
+                var heights = angular.element(".kanban-column").map(function () {
+                    return angular.element(this).height();
+                }).get(), maxHeight = Math.max.apply(null, heights);
+                if($window.innerWidth>800) {
+                    $scope.kanbanHeight = {'min-height': maxHeight};
+                }
+            };
 
             $scope.$watch('board', function () {
-                $rootScope.loadTasks($rootScope.roleId);
+                if($rootScope.roleId) $rootScope.loadTasks($rootScope.roleId);
             });
 
             $scope.getKanban = function () {
@@ -225,7 +260,7 @@ angular
 
             // function for on dropping
             $scope.onDrop = function onDrop(data,event,stage){
-                if(data && data.stage_id != stage.id && $rootScope.roleId!=4){
+                if(data && data.stage_id != stage.id){
                     crmTaskServices.changeTaskState({id:data.id, state:stage.id}).$promise.then(function(){
                         $scope.loadKanbanTasks($rootScope.roleId);
                         $scope.setKanbanHeight();
@@ -233,7 +268,39 @@ angular
                 }
                 if(data) data.dragging = false;
             }
+            $scope.changeKanbanState =  function (task, state) {
+                crmTaskServices.changeTaskState({id:task.id, state:state}).$promise.then(function(){
+                    if($scope.board==1) {
+                        $scope.loadKanbanTasks($rootScope.roleId);
+                        $scope.setKanbanHeight();
+                    }else{
+                        $scope.loadTableTasks($rootScope.roleId)
+                        $scope.tasksTableParams.reload();
+                    }
+                });
+            }
 
+            $scope.cancelKanbanCrmTask = function (task) {
+                bootbox.confirm('Ти впевнений, що хочеш видалити завдання?', function (result) {
+                    if (result) {
+                        crmTaskServices.cancelCrmTask({id: task.id}).$promise
+                            .then(function (data) {
+                                if ($scope.board == 1) {
+                                    $scope.loadKanbanTasks($rootScope.roleId);
+                                    $scope.setKanbanHeight();
+                                } else {
+                                    $scope.loadTableTasks($rootScope.roleId)
+                                    $scope.tasksTableParams.reload();
+                                }
+                            });
+                    }
+                });
+            };
+            $scope.scrollTo = function (cl) {
+                $jq('html, body').animate({
+                    scrollTop: $jq( '.' + cl).offset().top
+                }, 'slow');
+            };
         }])
     .controller('crmMyTasksCtrl', ['$scope', '$rootScope',
         function ($scope, $rootScope) {

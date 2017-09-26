@@ -3,5 +3,5 @@
 angular
     .module('crmApp', [
         'crmRouter',
-        'ngDraggable'
+        'ngDraggable',
     ])

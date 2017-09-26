@@ -130,6 +130,7 @@
                 ));
             }
             ?>
+
             <?php if ($model->isTeacher() || Yii::app()->user->model->isDirector()
             || Yii::app()->user->model->isSuperAdmin()
             || Yii::app()->user->model->isAuditor()
@@ -153,6 +154,7 @@
                     </a>
                 </li>
             <?php } ?>
+
         </ul>
     </div>
 </div>
