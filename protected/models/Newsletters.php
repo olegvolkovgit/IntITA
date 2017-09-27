@@ -12,7 +12,9 @@
  * @property string $newsletter_email
  * @property integer $created_by
  * @property integer $id_organization
- *
+ * @property integer $related_model_id
+ * @property integer $template_id
+ * @property integer $template_params
  * The followings are the available model relations:
  * @property Organization $idOrganization
  * @property User $createdBy
@@ -43,10 +45,11 @@ class Newsletters extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, subject, text, newsletter_email', 'required'),
-			array('created_by, id_organization', 'numerical', 'integerOnly'=>true),
+			array('type, newsletter_email', 'required'),
+			array('subject, text', 'required', 'on'=>'insert , update'),
+			array('created_by, id_organization, related_model_id, template_id', 'numerical', 'integerOnly'=>true),
 			array('subject', 'length', 'max'=>128),
-			array('id, type, recipients, subject, text, created_by, id_organization, newsletter_email', 'safe', 'on'=>'search'),
+			array('id, type, recipients, subject, text, created_by, id_organization, newsletter_email, template_params', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -110,7 +113,34 @@ class Newsletters extends CActiveRecord implements ITask
 		));
 	}
 
-	/**
+    public function afrerFind(){
+
+        if ($this->template_params){
+            $this->template_params = unserialize($this->template_params);
+        }
+        if ($this->recipients){
+            $this->recipients = unserialize($this->recipients);
+        }
+
+        return parent::afterFind();
+    }
+
+    public function beforeSave(){
+        if ($this->isNewRecord){
+            $this->id_organization = Yii::app()->user->model->getCurrentOrganizationId();
+            $this->created_by=Yii::app()->user->id;
+        }
+        if ($this->template_params){
+            $this->template_params = serialize($this->template_params);
+        }
+        if ($this->recipients){
+            $this->recipients = serialize($this->recipients);
+        }
+       return parent::beforeSave();
+    }
+
+
+    /**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
@@ -134,7 +164,7 @@ class Newsletters extends CActiveRecord implements ITask
         $mailList = [];
         switch ($this->type) {
             case "roles":
-                foreach (unserialize($this->recipients) as $role) {
+                foreach ($this->recipients as $role) {
                     if ($role == 'coworkers'){
                         $users = Teacher::model()->with(['user'])->find('t.end_date IS NULL AND user.cancelled=0');
                         if (isset($models)){
@@ -165,12 +195,12 @@ class Newsletters extends CActiveRecord implements ITask
                 }
                 break;
             case "users":
-                $mailList = unserialize($this->recipients);
+                $mailList = $this->recipients;
                 break;
             case "groups":
                 $criteria = new CDbCriteria();
                 $criteria->with = array('user','group');
-                $criteria->addInCondition('group.id',unserialize($this->recipients));
+                $criteria->addInCondition('group.id',$this->recipients);
                 $criteria->addCondition('end_date IS NULL');
                 $criteria->addCondition('graduate_date IS NULL');
                 $models = OfflineStudents::model()->findAll($criteria);
@@ -183,7 +213,7 @@ class Newsletters extends CActiveRecord implements ITask
             case "subGroups":
                 $criteria = new CDbCriteria();
                 $criteria->with = array('user','subgroupName');
-                $criteria->addInCondition('subgroupName.id',unserialize($this->recipients));
+                $criteria->addInCondition('subgroupName.id',$this->recipients);
                 $criteria->addCondition('end_date IS NULL');
                 $criteria->addCondition('graduate_date IS NULL');
                 $models = OfflineStudents::model()->findAll($criteria);
@@ -212,7 +242,7 @@ class Newsletters extends CActiveRecord implements ITask
                 }
                 break;
             case "courses":
-                $courses = unserialize($this->recipients);
+                $courses = $this->recipients;
                 foreach ($courses as $courseId){
                     $course = Course::model()->findByPk($courseId);
                     $students = StudentReg::model()->findAll();
@@ -224,7 +254,7 @@ class Newsletters extends CActiveRecord implements ITask
                 }
                 break;
             case "modules":
-                $modules = unserialize($this->recipients);
+                $modules = $this->recipients;
                 foreach ($modules as $moduleId){
                     $module = Module::model()->findByPk($moduleId);
                     $students = StudentReg::model()->findAll();
@@ -264,7 +294,7 @@ class Newsletters extends CActiveRecord implements ITask
             $_recipients = $this->recipients;
         }
         else{
-            $_recipients = unserialize($this->recipients);
+            $_recipients = $this->recipients;
 
         }
 

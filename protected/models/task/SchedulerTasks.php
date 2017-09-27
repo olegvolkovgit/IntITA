@@ -15,6 +15,7 @@
  * @property integer $related_model_id
  * @property integer $id_organization
  * @property string $error
+ * @property string $parameters
  */
 class SchedulerTasks extends CActiveRecord implements ITask
 {
@@ -54,8 +55,25 @@ class SchedulerTasks extends CActiveRecord implements ITask
                     $this->name = 'Розсилка';
                     $this->status = $this::STATUSNEW;
             }
+            $this->id_organization = Yii::app()->user->model->getCurrentOrganizationId();
+            $this->created_by=Yii::app()->user->id;
         }
         return parent::beforeValidate();
+    }
+
+    public function beforeSave(){
+
+        if ($this->parameters){
+            $this->parameters = serialize($this->parameters);
+        }
+        parent::beforeSave();
+    }
+
+    public function afrerFind(){
+        if ($this->parameters){
+            $this->parameters = unserialize($this->parameters);
+        }
+        parent::afterfind();
     }
 
 	/**
@@ -66,7 +84,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status, created_by, id_organization','required'),
+			array('status','required'),
 			array('type, repeat_type, status, created_by, related_model_id, id_organization', 'numerical', 'integerOnly'=>true),
 			array('name, error', 'length', 'max'=>255),
 			array('start_time, end_time', 'safe'),

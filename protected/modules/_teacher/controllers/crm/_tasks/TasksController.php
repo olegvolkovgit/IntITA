@@ -87,12 +87,15 @@ class TasksController extends TeacherCabinetController {
             }
 
             $task->setRoles($params['roles']);
-
             $transaction->commit();
-            if ($notificationParams['notify']){
-                $task->notifyByEmail($notificationParams,$task->id);
+            if ($notificationParams['notify']) {
+                $errors = $task->notifyByEmail($notificationParams, $task->id);
+                if (is_array($errors)) {
+                    $statusCode = 500;
+                    $result = ['message' => 'error', 'reason' => $errors];
+                }
             }
-            $task->notifyUsers('changeTaskManager',false);
+
         } catch (Exception $error) {
             $transaction->rollback();
             $statusCode = 500;
@@ -155,6 +158,14 @@ class TasksController extends TeacherCabinetController {
         $observer=[];
 
         $crmTask=CrmTasks::model()->findByPk($id);
+        if ($crmTask){
+            $notificationMessage = Newsletters::model()->find('related_model_id=:task',['task'=>$crmTask->id]);
+            if ($notificationMessage){
+                $schedulerTask = SchedulerTasks::model()->find('related_model_id=:newsletterId AND type=:type',
+                    ['newsletterId'=>$notificationMessage->id,'type'=>TaskFactory::NEWSLETTER]);
+            }
+        }
+
 
         $data['task']=ActiveRecordToJSON::toAssocArray($crmTask);
 
