@@ -14,13 +14,14 @@ class ScheduleCommand extends CConsoleCommand
         date_default_timezone_set('Europe/Kiev');
         $time = (new DateTime('now'))->format('Y-m-d H:i:s');
         $criteria = new CDbCriteria();
-        $criteria->addCondition('start_time <= :time');
-        $criteria->addCondition('status = :status');
-        $criteria->params = [':time'=>$time, ':status' => SchedulerTasks::STATUSNEW];
+        $criteria->addCondition('id = 155');
+//        $criteria->addCondition('start_time <= :time');
+//        $criteria->addCondition('status = :status');
+//        $criteria->params = [':time'=>$time, ':status' => SchedulerTasks::STATUSNEW];
         $tasks = SchedulerTasks::model()->findAll($criteria);
         foreach ($tasks as $task)
         {
-            $weekdays = unserialize($task->parameters);
+            $weekdays = $task->parameters;
             if ($weekdays)
             {
                 $dayOfWeek =  (new DateTime('now'))->format('N');
@@ -43,6 +44,7 @@ class ScheduleCommand extends CConsoleCommand
         try {
             $scheduleTask->run();
         } catch (Exception $e) {
+
          $task->status = SchedulerTasks::STATUSERROR;
          $task->end_time  = (new DateTime('now'))->format('Y-m-d H:i:s');
          $task->error = $e->getMessage();

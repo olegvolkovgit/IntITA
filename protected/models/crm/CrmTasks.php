@@ -330,16 +330,33 @@ class CrmTasks extends CTaskUnitActiveRecord
         $schedulerTask->type = TaskFactory::NEWSLETTER;
         $schedulerTask->related_model_id = $notifyMessage->id;
         $schedulerTask->repeat_type = SchedulerTasks::WEEKDAYS;
-        $schedulerTask->parameters = serialize($notificationParams['weekdays']);
+        $schedulerTask->parameters = $notificationParams['weekdays'];
+        date_default_timezone_set(Config::getServerTimezone());
         $schedulerTask->start_time =  date('Y-m-d H:i:s',strtotime($notificationParams['time']));
         if ($notifyMessage->validate() && $schedulerTask->validate()){
             $notifyMessage->save(false);
             $schedulerTask->save(false);
-            return true;
+            return false;
         }
         else{
             return array_merge($notifyMessage->getErrors(),$schedulerTask->getErrors());
         }
+    }
+
+    public function getTaskUsersByRole($role, $onlyActive = true){
+        $criteria = new CDbCriteria();
+        $criteria->with = ['idUser'];
+        $criteria->addCondition('id_task=:taskId');
+        $criteria->addCondition('t.role=:role');
+        $criteria->params = ['taskId'=>$this->id,'role'=>$role];
+
+        if($onlyActive){
+            $criteria->addCondition('cancelled_date IS NULL');
+        }
+        $users = CrmRolesTasks::model()->findAll($criteria);
+        return $users;
+
+
     }
 
 }

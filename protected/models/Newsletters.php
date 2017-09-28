@@ -113,18 +113,6 @@ class Newsletters extends CActiveRecord implements ITask
 		));
 	}
 
-    public function afrerFind(){
-
-        if ($this->template_params){
-            $this->template_params = unserialize($this->template_params);
-        }
-        if ($this->recipients){
-            $this->recipients = unserialize($this->recipients);
-        }
-
-        return parent::afterFind();
-    }
-
     public function beforeSave(){
         if ($this->isNewRecord){
             $this->id_organization = Yii::app()->user->model->getCurrentOrganizationId();
@@ -269,6 +257,14 @@ class Newsletters extends CActiveRecord implements ITask
                 }
                 break;
             case "taskNotification":
+                    $roles = $this->recipients;
+                    $task = CrmTasks::model()->findByPk($this->related_model_id);
+                    foreach ($roles as $role){
+                        $users = $task->getTaskUsersByRole($role);
+                        foreach ($users as $user){
+                            array_push($mailList, $user->idUser->email);
+                        }
+                    }
 
                 break;
 
@@ -278,6 +274,11 @@ class Newsletters extends CActiveRecord implements ITask
 
     private function sendMail($recipients){
         $fromName = 'IntITA';
+        if ($this->template_id){
+            $template = MailTemplates::model()->findByPk($this->template_id);
+            $this->subject = $template->subject;
+            $template->bindParams(['{username}'=>'test','{task}'=>'task0']);
+        }
         if ($this->newsletter_email != Config::getNewsletterMailAddress()){
             $model = Teacher::model()->with('user')->findByAttributes(array('corporate_mail'=>$this->newsletter_email));
             $fromName = "{$model->user->firstName} {$model->user->middleName} {$model->user->secondName}";
@@ -375,17 +376,15 @@ class Newsletters extends CActiveRecord implements ITask
         $this->recipients = $result;
     }
 
-//    public function loadModel($params){
-//        foreach ($params as $key=>$value){
-//            if ($this->hasAttribute($key)){
-//                $this->$key = $value;
-//            }
-//
-//        }
-//        return $this;
-//    }
-
     public function afterFind(){
+        if ($this->template_params){
+            $this->template_params = unserialize($this->template_params);
+        }
+        if ($this->recipients){
+            if (@unserialize($this->recipients))
+            $this->recipients = unserialize($this->recipients);
+        }
+
         if ($this->newsletter_email == ""){
             $this->newsletter_email = Config::getNewsletterMailAddress();
         }

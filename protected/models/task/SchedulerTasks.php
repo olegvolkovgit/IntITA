@@ -63,17 +63,17 @@ class SchedulerTasks extends CActiveRecord implements ITask
 
     public function beforeSave(){
 
-        if ($this->parameters){
+        if (!@unserialize($this->parameters)){
             $this->parameters = serialize($this->parameters);
         }
-        parent::beforeSave();
+       return parent::beforeSave();
     }
 
-    public function afrerFind(){
+    public function afterFind(){
         if ($this->parameters){
             $this->parameters = unserialize($this->parameters);
         }
-        parent::afterfind();
+      parent::afterFind();
     }
 
 	/**

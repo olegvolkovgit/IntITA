@@ -103,4 +103,10 @@ class MailTemplates extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function bindParams($params){
+
+	      $this->text = str_replace(array_keys($params),array_values($params),$this->text);
+
+    }
 }
