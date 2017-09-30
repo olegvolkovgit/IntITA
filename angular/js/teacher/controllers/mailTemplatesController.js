@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .controller('mailTemplatesCtrl', mailTemplatesCtrl);
 
-function mailTemplatesCtrl($scope, $http, $resource, $state, NgTableParams, $stateParams,$ngBootbox) {
+function mailTemplatesCtrl($scope, $http, $resource, $state, NgTableParams, $stateParams,$ngBootbox, $httpParamSerializerJQLike) {
 
     $scope.loadMailTemplate = function (item) {
         $scope.$emit('mailTemplateSelected', item);
@@ -46,7 +46,7 @@ function mailTemplatesCtrl($scope, $http, $resource, $state, NgTableParams, $sta
         $http({
             method: 'POST',
             url: url,
-            data: $jq.param({MailTemplates:{id:$scope.mailTemplateModel.id,title:$scope.mailTemplateModel.title,subject:$scope.mailTemplateModel.subject,text:$scope.mailTemplateModel.text,active:$scope.mailTemplateModel.active }}),
+            data: $httpParamSerializerJQLike({MailTemplates:$scope.mailTemplateModel}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
         }).success(function (data) {
             if (data === 'success') {

@@ -74,6 +74,7 @@ class TasksController extends TeacherCabinetController {
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $params =json_decode($_POST['crmTask'], true);
+            $notificationParams = $params['notification'];
             if(isset($params['id'])){
                 $task=CrmTasks::model()->findByPk($params['id']);
                 $task->attributes=$params;
@@ -86,15 +87,21 @@ class TasksController extends TeacherCabinetController {
             }
 
             $task->setRoles($params['roles']);
-
             $transaction->commit();
-            $task->notifyUsers('changeTaskManager',false);
+            if ($notificationParams['notify']) {
+                $notificationErrors = $task->notifyByEmail($notificationParams, $task->id);
+                if ($notificationErrors) {
+                    $statusCode = 500;
+                    $result = ['message' => 'error', 'reason' => $notificationErrors];
+                }
+            }
+
         } catch (Exception $error) {
             $transaction->rollback();
             $statusCode = 500;
             $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
-        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+       $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionGetTasks(){
@@ -151,8 +158,24 @@ class TasksController extends TeacherCabinetController {
         $observer=[];
 
         $crmTask=CrmTasks::model()->findByPk($id);
-
         $data['task']=ActiveRecordToJSON::toAssocArray($crmTask);
+
+        if ($crmTask){
+            $notificationMessage = Newsletters::model()->find('related_model_id=:task',['task'=>$crmTask->id]);
+            if ($notificationMessage){
+                $data['task']['notification']['notify'] = true;
+                $data['task']['notification']['users'] = $notificationMessage->recipients;
+                $data['task']['notification']['template'] = ActiveRecordToJSON::toAssocArray(MailTemplates::model()->findByPk($notificationMessage->template_id));
+                $schedulerTask = SchedulerTasks::model()->find('related_model_id=:newsletterId AND type=:type',
+                    ['newsletterId'=>$notificationMessage->id,'type'=>TaskFactory::NEWSLETTER]);
+                if($schedulerTask){
+                    $data['task']['notification']['weekdays'] = $schedulerTask->parameters;
+                    $data['task']['notification']['time'] = $schedulerTask->start_time;
+                }
+            }
+        }
+
+
 
         $executant['id']=$crmTask->executant->id_user;
         $executant['name']=$crmTask->executant->idUser->fullName;

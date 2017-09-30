@@ -17,6 +17,20 @@ angular
                         {id:"4",title:'urgent',description:'Терміновий'},
                     ];
                 };
+                    scope.weekdaysList=[
+                        {id:"1",title:'Понеділок'},
+                        {id:"2",title:'Вівторок'},
+                        {id:"3",title:'Середа'},
+                        {id:"4",title:'Четвер'},
+                        {id:"5",title:'П\'ятниця'},
+                        {id:"6",title:'Субота'},
+                        {id:"7",title:'Неділя'},
+                    ];
+
+                scope.notificationUsersList= crmTaskServices.getCrmRoles();
+
+                scope.notificationTemplates = crmTaskServices.getNotificationTemplates();
+
                 scope.prioritiesList();
 
                 if(!scope.task.id){

@@ -36,6 +36,19 @@
 						<option value="0">Не активний</option>
 					</select><br>
 				</div>
+                <div class="form-group">
+                    <select class="form-control" name="active" ng-model="mailTemplateModel.type">
+                        <option value="1">Розсилка</option>
+                        <option value="2">Повідомлення про завдання</option>
+                    </select><br>
+                </div>
+                <div class="form-group">
+                    <label>Параметри повідомлення</label>
+                    <br>
+                    <input type="text" class="form-control" name="title" placeholder="Параметри вводяться за шаблоном 'параметр1, параметр2'"
+                           size="90" ng-model="mailTemplateModel.parameters">
+                    <br>
+                </div>
 				<button class="btn btn-primary" ng-click="addMailTemplate()">
 					<span ng-if="!mailTemplateModel.id">Створити шаблон</span>
 					<span ng-if="mailTemplateModel.id">Змінити шаблон</span>
