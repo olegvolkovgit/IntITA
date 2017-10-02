@@ -74,7 +74,7 @@ class TasksController extends TeacherCabinetController {
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $params =json_decode($_POST['crmTask'], true);
-            $notificationParams = $params['notification'];
+
             if(isset($params['id'])){
                 $task=CrmTasks::model()->findByPk($params['id']);
                 $task->attributes=$params;
@@ -88,7 +88,8 @@ class TasksController extends TeacherCabinetController {
 
             $task->setRoles($params['roles']);
             $transaction->commit();
-            if ($notificationParams['notify']) {
+            if (isset($params['notification']['notify'])) {
+                $notificationParams = $params['notification'];
                 $notificationErrors = $task->notifyByEmail($notificationParams, $task->id);
                 if ($notificationErrors) {
                     $statusCode = 500;
