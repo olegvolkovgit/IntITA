@@ -144,12 +144,12 @@
     </form>
 </div>
 <br>
-<div class="form" id="mailNotifivation" ng-show="task.editMode">
+<div class="form" id="mailNotifivation" ng-show="task.created_by==currentUser || canEditCrmTasks">
     <div class="form-group">
         <label>Оповіщення електронною поштою </label>
-        <input type="checkbox" ng-model="task.notification.notify">
+        <input type="checkbox" ng-model="task.notification.notify" ng-disabled="!(task.created_by==currentUser || canEditCrmTasks)">
     </div>
-    <div ng-if="task.notification.notify">
+    <div ng-if="task.notification.notify && (task.created_by==currentUser || canEditCrmTasks)" >
     <div class="row form-group col-md-12">
         <div class="controls form-inline">
             <span style="margin-right: 5px;" ng-repeat="notificationUser in roles">
