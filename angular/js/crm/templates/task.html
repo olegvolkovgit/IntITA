@@ -156,6 +156,7 @@
                 <input type="checkbox" checklist-model="task.notification.users" checklist-value="notificationUser.id"> {{notificationUser.description}}
             </span>
         </div>
+        <div class="errorMessage" ng-show="task.notification.error.user">{{task.notification.error.user}}</div>
     </div>
 
     <div class="row form-group col-md-4">
@@ -165,7 +166,7 @@
             ng-model="task.notification.template"
             ng-required="task.notification.notify">
         </select>
-
+        <div class="errorMessage" ng-show="task.notification.error.template">{{task.notification.error.template}}</div>
     </div>
     <br>
     <div class="row form-group col-md-12">
@@ -175,6 +176,7 @@
                 <input type="checkbox" checklist-model="task.notification.weekdays" checklist-value="weekday.id"> {{weekday.title}}
             </span>
         </div>
+        <div role="alert" class="errorMessage" ng-show="task.notification.error.weekdays">{{task.notification.error.weekdays}}</div>
     </div>
     <br>
 
@@ -182,7 +184,9 @@
         <div class="col-md-4">
         <label>Час оповіщення</label>
         <span uib-timepicker ng-model="task.notification.time" ng-change="changed()" hour-step=1 minute-step=1 show-meridian="false" ng-required="task.notification.notify">></span>
+        <div class="errorMessage" ng-show="task.notification.error.time">{{task.notification.error.time}}</div>
         </div>
+
     </div>
 
     <br>

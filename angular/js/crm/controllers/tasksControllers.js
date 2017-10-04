@@ -89,28 +89,31 @@ angular
             $scope.initCrmTask();
 
             $scope.sendTask = function (task) {
-                $scope.isDisabled=true;
-                crmTaskServices.sendCrmTask({crmTask: angular.toJson(task)}).$promise
-                    .then(function (data) {
-                        if (data.message === 'OK') {
-                            $scope.closeModal();
-                            $scope.initCrmTask();
-                            ngToast.create({
-                                dismissOnTimeout: true,
-                                dismissButton: true,
-                                className: 'success',
-                                content: 'Завдання успішно додано'
-                            });
-                            $rootScope.loadTasks($rootScope.roleId);
-                        } else {
-                            bootbox.alert(data.reason);
-                        }
-                        $scope.isDisabled=false;
-                    })
-                    .catch(function (error) {
-                        $scope.isDisabled=false;
-                        bootbox.alert(JSON.parse(error.data.reason));
-                    });
+                if (task.isModelValid()){
+                    $scope.isDisabled = true;
+                    crmTaskServices.sendCrmTask({crmTask: angular.toJson(task)}).$promise
+                        .then(function (data) {
+                            if (data.message === 'OK') {
+                                $scope.closeModal();
+                                $scope.initCrmTask();
+                                ngToast.create({
+                                    dismissOnTimeout: true,
+                                    dismissButton: true,
+                                    className: 'success',
+                                    content: 'Завдання успішно додано'
+                                });
+                                $rootScope.loadTasks($rootScope.roleId);
+                            } else {
+                                bootbox.alert(data.reason);
+                            }
+                            $scope.isDisabled = false;
+                        })
+                        .catch(function (error) {
+                            $scope.isDisabled = false;
+                            bootbox.alert(JSON.parse(error.data.reason));
+                        });
+                }
+                return false;
             };
 
             $scope.getTask = function (id, isDragging) {
