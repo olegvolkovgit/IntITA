@@ -278,6 +278,7 @@ class PlainTaskAnswer extends CActiveRecord
         and tcm.end_date IS NULL and tcm.id_teacher=:id and ans.read_answer=0 
         and m.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
         $criteria->params = array(':id' => $id);
+        $criteria->group = 'ans.id DESC';
 
         return PlainTaskAnswer::model()->findAll($criteria);
     }
