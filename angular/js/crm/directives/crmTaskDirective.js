@@ -296,22 +296,18 @@ angular
                     if (scope.task.notification.notify){
                         if (!scope.task.notification.users || !scope.task.notification.users.length){
                             scope.task.notification.error.user = 'Оберіть групу користувачів для оповіщення';
-                            console.log(scope.task.notification.error);
                             return false;
                         }
                         if (!scope.task.notification.template){
                             scope.task.notification.error.template = 'Оберіть шаблон оповіщення';
-                            console.log(scope.task.notification.error);
                             return false;
                         }
                         if (!scope.task.notification.weekdays || !scope.task.notification.weekdays.length  ){
                             scope.task.notification.error.weekdays = 'Оберіть дні для оповіщення';
-                            console.log(scope.task.notification.error);
                             return false;
                         }
                         if (!scope.task.notification.time){
                             scope.task.notification.error.time = 'Оберіть час для оповіщення';
-                            console.log(scope.task.notification.error);
                             return false;
                         }
                     }
