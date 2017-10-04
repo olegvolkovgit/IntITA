@@ -597,4 +597,10 @@ class RegisteredUser
 
         return false;
     }
+
+    public function isСoworker()
+    {
+       return $this->isTeacher() || $this->isDirector() || $this->isSuperAdmin() || $this->isAuditor() || $this->isAdmin();
+    }
+
 }

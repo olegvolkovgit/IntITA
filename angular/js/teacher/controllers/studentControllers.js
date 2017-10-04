@@ -39,6 +39,16 @@ angular
             }else return '';
         };
     })
+    .filter('spentTime', function() {
+        return function(ms) {
+            if(ms){
+                var hours = Math.floor(ms/3600);
+                var minutes = Math.floor((ms-hours*3600)/60);
+
+                return hours + 'год. ' + minutes + 'хв.';
+            }else return '';
+        };
+    })
 
 function studentCtrl($scope, $rootScope, $http, NgTableParams,$resource, $state, studentService) {
     $scope.getNewPlainTasksMarks=function(){

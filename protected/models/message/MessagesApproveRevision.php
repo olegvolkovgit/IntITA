@@ -134,6 +134,7 @@ class MessagesApproveRevision extends Messages implements IMessage
 
 		if ($this->addReceiver($this->receiver)) {
 			$sender->send($this->receiver->email, '', $this->subject, '');
+			$this->notifyUser('newMessages-'.$this->receiver->id,['messages'=>1]);
 		}
 
 		$this->message->draft = 0;

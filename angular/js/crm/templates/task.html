@@ -1,0 +1,309 @@
+<span style="float: right" class="glyphicon glyphicon-remove modal-close" ng-click="cleanTask();"></span>
+<h1>Завдання</h1>
+<div class="form-group">
+    <input class="form-control" maxlength="128" placeholder="Введіть назву завдання" ng-model="task.name" ng-disabled="task.id_state==4 || (task.id && currentUser!=task.created_by)">
+</div>
+<a href="" ng-click="task.editMode=true" ng-show="task.id && !task.editMode && (task.created_by==currentUser || canEditCrmTasks)">Режим редагування</a>
+<a href="" ng-click="task.editMode=false" ng-show="task.id && task.editMode">Режим перегляду</a>
+<br>
+<p class="crmBodyBlock" ng-show="!task.editMode && task.id" ng-bind-html="task.body"></p>
+<div ng-show="task.editMode || !task.id">
+    <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="task.body" required></textarea>
+</div>
+
+<br>
+    <div ng-if="task.id && !task.editMode">
+        <fieldset>
+            <button ng-if="task.id_state==1" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >РОЗПОЧАТИ ВИКОНАННЯ <i class="fa fa-play fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==3" type="button" class="btn executed" ng-click="changeState(task,2)" ng-disabled="isDisabled" >ПРОДОВЖИТИ <i class="fa fa-play fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==2" type="button" class="btn paused" ng-click="changeState(task,3)" ng-disabled="isDisabled" >ПРИЗУПИНИТИ <i class="fa fa-pause fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==2 || task.id_state==3" type="button" class="btn completed" ng-click="changeState(task,4)" ng-disabled="isDisabled" >ЗАВЕРШИТИ <i class="fa fa-check-square-o fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="task.id_state==4" type="button" class="btn expect_to_execute" ng-click="changeState(task,1)" ng-disabled="isDisabled" >ВІДНОВИТИ <i class="fa fa-clock-o fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="currentUser==task.created_by || canEditCrmTasks" type="button" class="btn remove" ng-click="cancelCrmTask(task)" ng-disabled="isDisabled" >ВИДАЛИТИ <i class="fa fa-remove fa-1x" aria-hidden="true"></i></button>
+        </fieldset>
+    </div>
+<br>
+
+<div class="form-group">
+    <label>Категорії користувачів</label>
+    <span ng-if="teacherMode">
+        <label class="radio-inline">
+            <input type="radio" name="category" ng-model="category.name" value="coworkers" checked="">Співробітники
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="category" ng-model="category.name" value="all">Усі користувачі
+        </label>
+    </span>
+    <label class="radio-inline">
+        <input type="radio" name="category" ng-model="category.name" value="students">Студенти
+    </label>
+</div>
+<div class="row form-group col-md-4">
+    <label>Приорітет</label>
+    <select class="form-control"
+            ng-options="priority.id as priority.description for priority in task.priorities"
+            ng-model="task.priority" required>
+    </select>
+</div>
+
+<div style="clear: both" class="row form-group col-md-4">
+    <input type="hidden" ng-model="task.id">
+    <ul class="list-unstyled">
+        <li ng-repeat="role in roles track by $index" ng-if="inputs[role.name] || role.id==1 || task.roles[role.name]">
+            <label>{{role.description}}</label>
+            <oi-select ng-if="role.name!='producer' && role.name!='executant'" placeholder="обери користувача"
+                       oi-options="user.name for user in getUsersForCategory($query, category.name, true) track by user.id"
+                       ng-model="task.roles[role.name]" multiple ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))">
+            </oi-select>
+            <input ng-if="role.name=='producer'" type="text" size="50" ng-model="task.producer"
+                   ng-model-options="{ debounce: 1000 }" placeholder="обери користувача"
+                   uib-typeahead="item.name for item in getUsersForCategory($viewValue, category.name, false) | limitTo : 10"
+                   typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
+                   typeahead-on-select="onSelectUser($item)" ng-change="reloadUser()" class="form-control" autofocus
+                   required ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))"/>
+
+            <input ng-if="role.name=='executant'" type="text" size="50" ng-model="task.executant"
+                   ng-model-options="{ debounce: 1000 }" placeholder="обери користувача"
+                   uib-typeahead="item.name for item in getUsersForCategory($viewValue, category.name, false) | limitTo : 10"
+                   typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
+                   typeahead-on-select="onSelectExecutant($item)" ng-change="reloadExecutant()" class="form-control" autofocus
+                   required ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))"/>
+            <div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> користувача не знайдено</div>
+
+            <ul class="crmRolesList list-inline" ng-if="role.id==1">
+                <li ng-click="rolesVisibility(role.name)" ng-repeat="role in roles track by $index" ng-if="role.id!=1">
+                    {{role.description}}
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div style="clear: both">
+    <form class="form-inline">
+        <div class="form-group">
+            <label>Крайній термін</label>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="dateOptionsDeadline.open()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="task.deadline"
+                       is-open="dateOptionsDeadline.popupOpened"
+                       datepicker-options="dateOptionsDeadline"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'
+                       ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Почати завдання з</label>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="dateOptionsStart.open()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="task.startTask"
+                       is-open="dateOptionsStart.popupOpened"
+                       datepicker-options="dateOptionsStart"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'
+                       ng-disabled="task.id_state==4 || (task.id && (currentUser!=task.created_by && !canEditCrmTasks))">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Завершення</label>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="dateOptionsEnd.open()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="task.endTask"
+                       is-open="dateOptionsEnd.popupOpened"
+                       datepicker-options="dateOptionsEnd"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'
+                       ng-disabled="task.id_state==4 || (task.id &&(currentUser!=task.created_by && !canEditCrmTasks))">
+            </div>
+        </div>
+
+    </form>
+</div>
+<br>
+<div class="form" id="mailNotifivation" ng-show="task.created_by==currentUser || canEditCrmTasks">
+    <div class="form-group">
+        <label>Оповіщення електронною поштою </label>
+        <input type="checkbox" ng-model="task.notification.notify" ng-disabled="!(task.created_by==currentUser || canEditCrmTasks)">
+    </div>
+    <div ng-if="task.notification.notify && (task.created_by==currentUser || canEditCrmTasks)" >
+    <div class="row form-group col-md-12">
+        <div class="controls form-inline">
+            <span style="margin-right: 5px;" ng-repeat="notificationUser in roles">
+                <input type="checkbox" checklist-model="task.notification.users" checklist-value="notificationUser.id"> {{notificationUser.description}}
+            </span>
+        </div>
+        <div class="errorMessage" ng-show="task.notification.error.user">{{task.notification.error.user}}</div>
+    </div>
+
+    <div class="row form-group col-md-4">
+        <label for="templates">Шаблон електронного листа</label>
+        <select class="form-control" id="templates" name="templates"
+            ng-options="item.title for item in notificationTemplates track by item.id"
+            ng-model="task.notification.template"
+            ng-required="task.notification.notify">
+        </select>
+        <div class="errorMessage" ng-show="task.notification.error.template">{{task.notification.error.template}}</div>
+    </div>
+    <br>
+    <div class="row form-group col-md-12">
+        <label>Дні оповіщення</label>
+        <div class="controls form-inline" >
+            <span style="margin-right: 5px; " ng-repeat="weekday in weekdaysList">
+                <input type="checkbox" checklist-model="task.notification.weekdays" checklist-value="weekday.id"> {{weekday.title}}
+            </span>
+        </div>
+        <div role="alert" class="errorMessage" ng-show="task.notification.error.weekdays">{{task.notification.error.weekdays}}</div>
+    </div>
+    <br>
+
+    <div class="row form-group form-inline">
+        <div class="col-md-4">
+        <label>Час оповіщення</label>
+        <span uib-timepicker ng-model="task.notification.time" ng-change="changed()" hour-step=1 minute-step=1 show-meridian="false" ng-required="task.notification.notify">></span>
+        <div class="errorMessage" ng-show="task.notification.error.time">{{task.notification.error.time}}</div>
+        </div>
+
+    </div>
+
+    <br>
+    </div>
+</div>
+
+<div ng-if="task.id">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <uib-tabset active="0" >
+                <uib-tab  index="0" heading="Коментарі">
+                    <table ng-table="commentsTableParams" class="table table-bordered table-striped table-condensed">
+                        <colgroup>
+                            <col width="19%"/>
+                            <col width="60%"/>
+                            <col width="8%"/>
+                            <col width="10%"/>
+                            <col width="3%"/>
+                        </colgroup>
+                        <tr ng-repeat="row in $data track by $index">
+                            <td data-title="'Автор'">
+                                <img style="width: 48px;height: 48px" ng-src="/images/avatars/{{row.idUser.avatar}}">
+                                <a ng-href="#/users/profile/{{row.id_user}}" target="_blank">{{row.idUser.fullName}}</a>
+                            </td>
+                            <td data-title="'Повідомлення'" class="commentMessage">
+                                <input type="hidden" ng-init="rowLimit[$index]=200" ng-model="rowLimit[$index]">
+                                <p ng-bind-html="row.message | limitTo : rowLimit[$index] "></p>
+                                <p style="text-align:center;margin-bottom:0">
+                                    <a href="" ng-if="row.message.length>200 && rowLimit[$index]!='undefined'"  ng-click="rowLimit[$index]='undefined'" style="margin:0;padding:0" ><i class="fa fa-angle-double-down fa-2x" aria-hidden="true"></i></a>
+                                </p>
+                            </td>
+                            <td data-title="'Дата створення'">
+                                {{row.create_date}}
+                            </td>
+                            <td data-title="'Дата редагування'">
+                                {{row.change_date}}
+                            </td>
+                            <td data-title="">
+                                <a href="" ng-if="row.id_user==currentUser" ng-click="removeComment(row.id)" title="Видалити">
+                                    <i class="fa fa-trash fa-fw"></i>
+                                </a>
+                                <a href="" ng-if="row.id_user==currentUser" ng-click="editComment($event, row.id, row.message)" title="Редагувати">
+                                    <i class="fa fa-pencil-square-o fa-fw"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <br>
+                    <a href="" ng-show="!newComment" ng-click="toggleComment();" >Додати коментар</a>
+                    <div ng-show="newComment">
+                        <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="comment.message" required></textarea>
+                        <br>
+                        <p style="clear: both">
+                            <button type="button" class="btn btn-success" ng-click="addComment(comment)" >Додати</button>
+                            <button type="button" class="btn btn-default" ng-click="toggleComment();" >Відміна</button>
+                        </p>
+                    </div>
+                </uib-tab>
+                <uib-tab  index="1" heading="Історія">
+                    <table ng-table="historyTableParams" class="table table-bordered table-striped table-condensed">
+                        <colgroup>
+                            <col/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <tr ng-repeat="row in $data track by $index">
+                            <td data-title="'Дата'">
+                                {{row.change_date}}
+                            </td>
+                            <td data-title="'Користувач'">
+                                <a ng-href="#/users/profile/{{row.id_user}}" target="_blank">{{row.idUser.fullName}}</a>
+                            </td>
+                            <td data-title="'Зміна'">
+                                {{row.idState.description}}
+                            </td>
+                        </tr>
+                    </table>
+                </uib-tab>
+                <uib-tab  index="2" heading="Затрачено часу">
+                    <table ng-table="spentTimeTableParams" class="table table-bordered table-striped table-condensed">
+                        <colgroup>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <tr ng-repeat="row in $data track by $index">
+                            <td data-title="'Користувач'">
+                                <a ng-href="#/users/profile/{{row.id}}" target="_blank">{{row.name}}</a>
+                            </td>
+                            <td data-title="'Затрачено'">
+                                {{row.spent_time | spentTime}}
+                            </td>
+                        </tr>
+                    </table>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
+
+<style>
+    .glyphicon.glyphicon-remove {
+        cursor: pointer;
+        font-size: 20px;
+        padding: 0;
+    }
+
+    .crmRolesList li {
+        margin: 0 5px;
+        cursor: pointer;
+        border-bottom: 1px dashed #000;
+        text-decoration: none;
+    }
+    modal .modal-background {
+        z-index: 1048;
+    }
+    modal .modal {
+        z-index: 1049;
+    }
+</style>

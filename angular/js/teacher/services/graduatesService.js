@@ -1,7 +1,7 @@
 'use strict';
 
 /* Services */
-
+// DEPRECATED
 angular
     .module('teacherApp')
     .factory('graduates', ['$resource',

@@ -5,30 +5,94 @@ angular
     .module('teacherApp')
     .controller('requestsCtrl',requestsCtrl);
 
-function  requestsCtrl($scope, $http, $ngBootbox, $state){
+function  requestsCtrl($scope, $http, $ngBootbox, $state, NgTableDataService, NgTableParams ){
 
     $scope.comment ="";
 
     $scope.initActiveRequests = function(){
-        initActiveRequestsTable();
+        $scope.activeRequestsTable = new NgTableParams({
+            sorting: {
+                id: 'desc'
+            },
+        }, {
+            getData: function(params) {
+                NgTableDataService.setUrl(basePath + "/_teacher/_admin/request/getActiveRequestsList");
+                return NgTableDataService.getData(params.url())
+                    .then(function (data) {
+                        console.log(data);
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+//        initActiveRequestsTable();
     }
     $scope.initApprovedRequests = function(){
-        initApprovedRequestsTable();
+        $scope.approwedRequestsTable = new NgTableParams({
+            sorting: {
+                id: 'desc'
+            },
+        }, {
+            getData: function(params) {
+                NgTableDataService.setUrl(basePath + "/_teacher/_admin/request/getApprovedRequestsList");
+                return NgTableDataService.getData(params.url())
+                    .then(function (data) {
+                        console.log(data);
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
     }
     $scope.initDeletedRequests = function(){
-        initDeletedRequestsTable();
+        $scope.deletedRequestsTable = new NgTableParams({
+            sorting: {
+                id: 'desc'
+            },
+        }, {
+            getData: function(params) {
+                NgTableDataService.setUrl(basePath + "/_teacher/_admin/request/getDeletedRequestsList");
+                return NgTableDataService.getData(params.url())
+                    .then(function (data) {
+                        console.log(data);
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+        //initDeletedRequestsTable();
     }
     $scope.initRejectedRevisionRequests = function(){
-        initRejectedRevisionRequestsTable();
+        $scope.rejectedRequestsTable = new NgTableParams({
+            sorting: {
+                id: 'desc'
+            },
+        }, {
+            getData: function(params) {
+                NgTableDataService.setUrl(basePath + "/_teacher/_admin/request/getRejectedRevisionRequestsList");
+                return NgTableDataService.getData(params.url())
+                    .then(function (data) {
+                        console.log(data);
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+        //initRejectedRevisionRequestsTable();
     }
 
-    $scope.initActiveRequests();
+    //$scope.initActiveRequests();
+
+
+
+
 
     $scope.setRequestStatus = function(message, user) {
         $http({
             url:basePath+'/_teacher/_admin/request/approve/message/'+message+'/user/'+user,
             type:'POST'
         }).success(function(response){
+                $scope.$emit('openMessage','');
                 $ngBootbox.alert(response).then(
                     function(){
                         $state.go('requests');
@@ -75,6 +139,7 @@ function  requestsCtrl($scope, $http, $ngBootbox, $state){
         }).success(function(response){
                 $ngBootbox.alert(response).then(
                     function(){
+                        $scope.$emit('openMessage','');
                         $scope.comment = "";
                         $state.go('requests');
                     }

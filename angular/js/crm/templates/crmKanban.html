@@ -1,0 +1,69 @@
+<section id="kanban-container">
+    <div class="kanban-column concept" ng-style="kanbanHeight" ng-repeat="stage in stages" ng-drop="true" ng-drop-success="onDrop($data,$event,stage)" ng-class="{'concept': stage.name == 'Очікує на виконання', pending: stage.name == 'Виконується', develop: stage.name == 'Призупинено', approved: stage.name == 'Завершено'}">
+        <h3 class="kanbanStageHeader" ng-class="{'ex_to_ex': stage.id == 1, 'ex': stage.id == 2, 'cmp': stage.id == 4,
+                 'psd': stage.id == 3}">{{stage.name}}</h3>
+        <div class="cards-container">
+            <div class="card" ng-drag="true" ng-drag-data="task"
+                 ng-repeat="task in tasks" ng-if="task.stage_id == stage.id"
+                 ng-class="{'expect_to_execute': task.stage_id == 1, 'executed': task.stage_id == 2, 'completed': task.stage_id == 4,
+                 'paused': task.stage_id == 3, 'bg-warning-kanban': (task.stage_id !=4 && task.endTask && currentDate>=(task.endTask  | shortDate:'yyyy-MM-dd')),
+                 'bg-danger-kanban': (task.stage_id !=4 && task.deadline && currentDate>(task.deadline  | shortDate:'yyyy-MM-dd'))}"
+                 ng-drag-start="dragStart($event, task)" ng-init="task.dragging = false" draggable="task.dragging">
+                <div>
+                    <div ng-click="getTask(task.id,task.dragging)" style="text-align: center">
+                        <span class="card-title">{{task.title}}</span>
+                        <div ng-class="task.priorityTitle">
+                            Пріоритет: <em>{{task.priority}}</em>
+                        </div>
+                    </div>
+                    <p ng-click="showMore=!showMore"  style="text-align:right;margin-bottom:0">
+                        <a href="" style="margin:0;padding:0"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                    </p>
+                    <div ng-show="showMore" ng-click="getTask(task.id,task.dragging)">
+                        <div class="description">
+                            <p ng-bind-html="task.description"></p>
+                        </div>
+                        <div class="cardInfo">
+                            <div>
+                                Постановник: <em><br><img ng-src="{{task.producerAvatar}}">{{task.producerName}}</em>
+                            </div>
+                            <div>
+                                Відповідальний: <em><br><img ng-src="{{task.executantAvatar}}">{{task.executantName}}</em>
+                            </div>
+                            <div ng-show="task.changeDate">
+                                Дата: <em>{{task.changeDate}}</em>
+                            </div>
+                            <br>
+                            <div ng-if="task.stage_id != 1">
+                                {{task.stage_id == 2?'Виконує':(task.stage_id == 3?'Призупинив':'Завершив')}}:
+                                <em><br><img ng-src="{{task.lastChangeByAvatar}}">{{task.lastChangeBy}}</em>
+                                <div>
+                                    Дата: <em>{{task.lastChangeDate}}</em>
+                                </div>
+                            </div>
+                            <div ng-show="task.spent_time">
+                                Затрачений час: <em>{{task.spent_time | spentTime}}</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <fieldset class="kanbanButtons">
+                        <i ng-if="task.stage_id==1" class="fa fa-play fa-2x executed" aria-hidden="true" title="ПОЧАТИ" ng-click="changeKanbanState(task,2)" ng-disabled="isDisabled"></i>
+                        <i ng-if="task.stage_id==3" class="fa fa-play fa-2x executed" aria-hidden="true" title="ПРОДОВЖИТИ" ng-click="changeKanbanState(task,2)" ng-disabled="isDisabled"></i>
+                        <i ng-if="task.stage_id==2" class="fa fa-pause fa-2x paused" aria-hidden="true" title="ПРИЗУПИНИТИ" ng-click="changeKanbanState(task,3)" ng-disabled="isDisabled"></i>
+                        <i ng-if="task.stage_id==2 || task.stage_id==3" class="fa fa-check-square-o fa-2x completed" aria-hidden="true" title="ЗАВЕРШИТИ" ng-click="changeKanbanState(task,4)" ng-disabled="isDisabled"></i>
+                        <i ng-if="task.stage_id==4" class="fa fa-clock-o fa-2x expect_to_execute" aria-hidden="true" title="ВІДНОВИТИ" ng-click="changeKanbanState(task,1)" ng-disabled="isDisabled"></i>
+                        <i ng-if="currentUser==task.createdBy" class="fa fa-remove fa-2x remove" aria-hidden="true" title="ВИДАЛИТИ" ng-click="cancelKanbanCrmTask(task)" ng-disabled="isDisabled"></i>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="kanban-navigation">
+        <i class="fa fa-clock-o fa-2x expect_to_execute" aria-hidden="true" title="Очікують" ng-click="scrollTo('ex_to_ex')"></i><br>
+        <i class="fa fa-play fa-2x executed" aria-hidden="true" title="Виконуються" ng-click="scrollTo('ex')"></i><br>
+        <i class="fa fa-pause fa-2x paused" aria-hidden="true" title="Призупинені" ng-click="scrollTo('psd')"></i><br>
+        <i class="fa fa-check-square-o fa-2x completed" aria-hidden="true" title="Завершені" ng-click="scrollTo('cmp')"></i><br>
+    </div>
+</section>

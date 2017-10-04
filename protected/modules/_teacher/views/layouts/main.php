@@ -16,6 +16,9 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
+
+
+
     <!-- lodash -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
 
@@ -29,6 +32,10 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.js'); ?>"></script>
     <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-img-crop/compile/minified/ng-img-crop.css'); ?>" rel="stylesheet"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-sanitize/angular-sanitize.min.js'); ?>"></script>
+
+    <!-- AngularWAMP -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/autobahn.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-wamp/release/angular-wamp.js'); ?>"></script>
 
     <!-- Select multiple -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select-tpls.min.js'); ?>"></script>
@@ -59,6 +66,10 @@
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
 
+    <!-- application less -->
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/modal.less'); ?>" rel="stylesheet/less" type="text/css" />
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/less.min.js'); ?>"></script>
+
     <script>
         basePath = '<?=Config::getBaseUrl()?>';
         baseChatPath = '<?=Config::getFullChatPath()?>';
@@ -67,6 +78,7 @@
 
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/crm.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -88,6 +100,8 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML'); ?>"></script>
     <!--TeacherApp-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/app.js'); ?>"></script>
+
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/app.js'); ?>"></script>
     <?php if (!Yii::app()->user->isGuest) { ?>
         <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
     <?php } ?>
@@ -117,6 +131,10 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/agreementTemplate.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/customValidators.js'); ?>"></script>
 
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/directives/crmTaskDirective.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngDraggable.js'); ?>"></script>
+
     <!--Angular routers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/cabinetRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/adminRouter.js'); ?>"></script>
@@ -143,6 +161,8 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/superVisorRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/newsletterRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/schedulerTasks.js'); ?>"></script>
+
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/routers/crmRouter.js'); ?>"></script>
 
     <!--Angular controllers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers.js'); ?>"></script>
@@ -184,6 +204,8 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/addressControllers.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/specializationsControllers.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/calendarController.js'); ?>"></script>
+
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/controllers/tasksControllers.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'CheckFile.js');?>"></script>
@@ -227,11 +249,14 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/trainerService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/auditorService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/translitService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/ngTableService.js'); ?>"></script>
+
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/services/taskServices.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/transformRequest.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/lodash.js'); ?>"></script>
 
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -242,7 +267,10 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
-
+    <!--Subscribe to new notifications-->
+<script>
+    var useWebsocketNotification = true;
+</script>
 </head>
     <body ng-app="teacherApp">
     <toast style="left:0px"></toast>
@@ -250,10 +278,12 @@
     <div id="contentBoxMain">
         <?php echo $content; ?>
     </div>
+
     <!--IntITAMessenger-->
         <?php if (!Yii::app()->user->isGuest) { ?>
             <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
         <?php } ?>
     <!--IntITAMessenger-->
     </body>
+
 </html>

@@ -141,6 +141,14 @@ config(function ($stateProvider) {
             },
             templateUrl: basePath + "/_teacher/_supervisor/superVisor/trainers",
         })
+        .state('supervisor/changeTrainers', {
+            url: "/supervisor/changeTrainers",
+            cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Заміна тренера');
+            },
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/changeTrainers",
+        })
         .state('trainer/:idTrainer/students', {
             url: "/trainer/:idTrainer/students",
             cache: false,

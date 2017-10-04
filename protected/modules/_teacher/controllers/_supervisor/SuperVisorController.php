@@ -665,6 +665,9 @@ class SuperVisorController extends TeacherCabinetController
         }
         $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
 
+        TrainerStudent::checkStudentInStudentInfo($userId);
+//        die;
+
         if ($result===true){
             $data['data'] = "success";
         } else{

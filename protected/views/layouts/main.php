@@ -1,3 +1,4 @@
+
 <?php
 /* @var $this Controller */
 $header = new Header();
@@ -36,7 +37,6 @@ $header = new Header();
     <!-- trimEmail -->
     <!-- pdf generator -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/jspdf/dist/jspdf.min.js'); ?>"></script>
-
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>

@@ -4,7 +4,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header" id="pageTitle">Особистий кабінет</h1>
+            <h2 style="margin-bottom: 10px;margin-top: 20px" class="page-header" id="pageTitle">Особистий кабінет</h2>
         </div>
     </div>
     <div style="display:none" id="operationMessageHolder"
