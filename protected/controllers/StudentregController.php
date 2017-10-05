@@ -224,8 +224,17 @@ class StudentRegController extends Controller
                 Avatar::saveStudentAvatar($model, $data, $fileName);
             }
 
-            $model->update(array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
-                'linkedin','twitter','skype','prev_job','current_job','education_shift'));
+            $propr = array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
+                'linkedin','twitter','skype','prev_job','current_job','education_shift');
+
+            for($i=0; $i<count($propr); $i++){
+                if( trim($_POST['StudentReg'][$propr[$i]]) != "" ){
+                    $model->updateByPk($id, array($propr[$i]=>$_POST['StudentReg'][$propr[$i]]));
+                }else{
+                    $model->updateByPk($id, array($propr[$i]=>null));
+                }
+            }
+
             $model->updateUserCareer($careers);
             $model->updateUserSpecialization($specializations);
 
