@@ -15,6 +15,30 @@ angular
         });
     })
     .controller('teacherConsultantTasksCtrl', function ($scope, $rootScope, $http, NgTableParams, $templateCache, $state, teacherConsultantService) {
+        $scope.checkboxes = { 'checked': false, items: {} };
+
+        // watch for check all checkbox
+        $scope.$watch('checkboxes.checkAll', function() {
+            if ($scope.checkboxes)
+                angular.forEach($scope.tasksTableParams.data, function(item) {
+                    $scope.checkboxes.items[item.id] = $scope.checkboxes.checkAll;
+                });
+
+        });
+        $scope.$watch('checkboxes.items', function(values) {
+            $scope.checkedStudentsAnswers = [];
+            for (var key in values) {
+                if (values[key]){
+                    $scope.checkedStudentsAnswers.push(key)
+                }
+            }
+            if ($scope.checkedStudentsAnswers.length < $scope.tasksTableParams.data.length && $scope.checkedStudentsAnswers.length > 0)
+                angular.element(document.querySelector("#select_all")).prop('indeterminate',true)
+            else if ($scope.checkedStudentsAnswers.length == 0){
+                angular.element(document.querySelector("#select_all")).prop('indeterminate',false)
+            }
+        }, true);
+
         //set new plain task answers as read
         $scope.readNewPlainTasksAnswers=function(){
             $http({
@@ -77,8 +101,7 @@ angular
             var id = $jq('#plainTaskId').val();
             var mark = $jq('#mark').val();
             var comment = $jq('[name = comment]').val();
-            var userId = $jq('#userId').val();
-            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId})
+            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment})
                 .$promise
                 .then(function() {
                     bootbox.alert('Ваша оцінка записана в базу', function () {
@@ -91,7 +114,7 @@ angular
                 });
         };
 
-        $scope.setMarkTaskInTable = function (id, mark, userId) {
+        $scope.setMarkTaskInTable = function (id, mark) {
             bootbox.dialog({
                     title: "Коментар",
                     message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
@@ -101,8 +124,34 @@ angular
                     buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
                         callback: function () {
                             var comment = $jq('#commentText').val();
-                            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId}).$promise.then(function(){
+                            teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment}).$promise.then(function(){
                                 $scope.tasksTableParams.reload();
+                                $scope.checkedStudentsAnswers = [];
+                            });
+                        }
+                    },
+                        cancel: {label: "Скасувати", className: "btn btn-default",
+                            callback: function () {
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+        $scope.setMarkTaskInTableForChecked = function (ids, mark) {
+            bootbox.dialog({
+                    title: "Коментар",
+                    message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
+                    '<textarea class="form-control" style="resize: none" rows="6" id="commentText" ' +
+                    'placeholder="тут можна залишити коментар"></textarea>'+
+                    '</div></form></div></div>',
+                    buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                        callback: function () {
+                            var comment = $jq('#commentText').val();
+                            teacherConsultantService.setMarkForArrayPlainTask({'answersIdArray': JSON.stringify(ids), 'mark': mark, 'comment': comment}).$promise.then(function(){
+                                $scope.tasksTableParams.reload();
+                                $scope.checkedStudentsAnswers = [];
                             });
                         }
                     },
