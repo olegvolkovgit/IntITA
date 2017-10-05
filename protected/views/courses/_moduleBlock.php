@@ -48,7 +48,7 @@
         </div>
         <!--Стан модуля-->
         <div class="courseStatusBox">
-            <?php echo Yii::t('courses', '0094'); ?>:
+            <?php echo Yii::t('courses', '0094'); ?>
             <span id="courseStatus<?php echo $data->status_online; ?>">
                 <?php if ($data->status_online == Module::DEVELOP) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
