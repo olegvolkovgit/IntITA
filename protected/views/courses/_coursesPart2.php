@@ -54,7 +54,8 @@
 
                     <!--назва організації ++ -->
                     <div class="nameOrganization">
-                        <?php echo 'Назва організації: '; ?>
+                        <?php echo Yii::t('profile', '0966'); ?>
+<!--                        --><?php //echo 'Назва організації: '; ?>
                         <span class="courseLevel">
                             <?php echo $val[0]->organization->name; ?>
                         </span>

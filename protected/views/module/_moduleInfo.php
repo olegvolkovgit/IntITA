@@ -34,7 +34,8 @@
         </div>
         <!--назва організації ++ -->
         <div>
-            <span id="titleModule"><?php echo 'Назва організації: '; ?></span>
+            <span id="titleModule"><?php echo Yii::t('profile', '0966'); ?></span>
+<!--            <span id="titleModule">--><?php //echo 'Назва організації: '; ?><!--</span>-->
             <?php echo $post->organization->name; ?>
         </div>
 
