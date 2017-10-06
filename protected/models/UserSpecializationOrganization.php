@@ -1,26 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "mail_templates".
+ * This is the model class for table "user_specialization_organization".
  *
- * The followings are the available columns in table 'mail_templates':
- * @property integer $id
- * @property string $title
- * @property string $subject
- * @property string $text
- * @property integer $active
- * @property integer $template_type
- * @property integer $organization_id
- * @property integer $parameters
+ * The followings are the available columns in table 'user_specialization_organization':
+ * @property integer $id_student_info
+ * @property integer $id_specialization
+ * @property integer $id_organization
+ *
+ * The followings are the available model relations:
  */
-class MailTemplates extends CActiveRecord
+class UserSpecializationOrganization extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'mail_templates';
+		return 'user_specialization_organization';
 	}
 
 	/**
@@ -31,11 +28,11 @@ class MailTemplates extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, text', 'required'),
-			array('active, template_type, organization_id', 'numerical', 'integerOnly'=>true),
-			array('title, subject', 'length', 'max'=>255),
-			array('parameters', 'type'),
-			array('id, title, subject, text, active, parameters', 'safe', 'on'=>'search'),
+			array('id_student_info, id_specialization, id_organization', 'required'),
+			array('id_student_info, id_specialization, id_organization', 'numerical', 'integerOnly'=>true),
+			// The following rule is used by search().
+			// @todo Please remove those attributes that should not be searched.
+			array('id_student_info, id_specialization, id_organization', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +44,7 @@ class MailTemplates extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'specialization' => array(self::BELONGS_TO, 'SpecializationsGroup', array('id_specialization'=>'id')),
 		);
 	}
 
@@ -56,11 +54,9 @@ class MailTemplates extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'title' => 'Title',
-            'subject' => 'Title',
-			'text' => 'Text',
-			'active' => 'Active',
+			'id_student_info' => 'Id Student Info',
+			'id_specialization' => 'Id Specialization',
+			'id_organization' => 'Id Organization',
 		);
 	}
 
@@ -82,11 +78,9 @@ class MailTemplates extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-        $criteria->compare('subject',$this->title,true);
-		$criteria->compare('text',$this->text,true);
-		$criteria->compare('active',$this->active);
+		$criteria->compare('id_student_info',$this->id_student_info);
+		$criteria->compare('id_specialization',$this->id_specialization, true);
+		$criteria->compare('id_organization',$this->id_organization);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,16 +91,14 @@ class MailTemplates extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MailTemplates the static model class
+	 * @return UserSpecializationOrganization the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	public function bindParams($params){
-
-	      $this->text = str_replace(array_keys($params),array_values($params),$this->text);
-
+    public function primaryKey(){
+        return array('id_student_info','id_specialization');
     }
 }

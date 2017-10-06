@@ -729,16 +729,30 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
             bootbox.dialog({
                     title: "Вибери, будь ласка, причину виключення:",
                     message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
-                             '<select class="form-control" id="selected_reason">'+$scope.option_str+'</select>'+'</div></form></div></div>',
+                             '<select class="form-control" id="selected_reason">'+$scope.option_str+'</select>'+
+                             '<input type="text" id="datepicker" class="form-control" placeholder="Виберіть дату" style="margin-top: 25px;">'+
+                             '<textarea class="form-control custom-control" id="comment" rows="7" cols="45" name="text" placeholder="Ваш коментар ..." style="margin-top: 25px;"></textarea>'+
+                             '</div></form></div></div>',
                     buttons: {
                         success: {label: "Підтвердити", className: "btn btn-primary apply-btn",
                             callback: function () {
                                 var reasonId = $jq('#selected_reason').val();
 
+                                var comment = $jq('#comment').val();
+                                if(comment == ''){
+                                    comment = null;
+                                }
+
+                                var dateObject = $jq("#datepicker").data("datetimepicker").getDate();
+                                var year = dateObject.getFullYear();
+                                var month = dateObject.getMonth()+1;
+                                var day = dateObject.getDate();
+                                var full_date = year+'-'+month+'-'+day;
+
                                 $http({
                                     method: 'POST',
                                     url: basePath+'/_teacher/_supervisor/superVisor/cancelStudentFromSubgroup',
-                                    data: $jq.param({userId: idUser, subgroupId: idSubgroup, reasonId: reasonId}),
+                                    data: $jq.param({userId: idUser, subgroupId: idSubgroup, reasonId: reasonId, fullDate: full_date, comment: comment}),
                                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                                 }).then(function successCallback(response) {
                                         chatIntITAMessenger.updateSubgroup(idSubgroup);
@@ -760,6 +774,26 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
 
             $jq('#selected_reason').on('change', function () {
                 $jq('.apply-btn').prop('disabled', false);
+            });
+
+            $jq(function () {
+                var firstday = new Date();
+                $jq('#datepicker').datetimepicker({
+                    format: "yyyy-mm-dd",
+                    weekStart: 1,
+                    todayBtn: 0,
+                    todayHighlight: true,
+                    startView: 2,
+                    minView: 2,
+                    inline: true,
+                    sideBySide: true,
+                    startDate: firstday
+                }).on('changeDate', function (e) {
+                    $jq(this).datetimepicker('hide');
+                    // var dateObject  = $jq("#date_time_picker").data("datetimepicker").getDate();
+                    // angular.element(document.getElementById('date_time_picker')).scope().showTime(dateObject);
+                    // console.log('date', dateObject);
+                });
             });
 
         }, 400);

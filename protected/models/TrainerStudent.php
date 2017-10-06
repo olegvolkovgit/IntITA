@@ -135,4 +135,40 @@ class TrainerStudent extends CActiveRecord
 
 		return StudentReg::model()->find($criteria);
 	}
+
+	public static function checkStudentInStudentInfo($id_student){
+        $id_student = 3;
+	    $check_student = StudentInfo::model()->findByAttributes(['id_student'=>$id_student]);
+//	    var_dump(!isset($check_student));die;
+	    if(!isset($check_student)){
+            $student = StudentReg::model()->findByPk($id_student);
+
+            $new_student = new StudentInfo();
+
+//            $new_student->attributes = $student->attributes;      // works !!!
+//            $new_student->first_name = $student['firstName'];
+//            $new_student->second_name = $student['secondName'];
+//            var_dump($new_student);die;
+
+            $new_student->id_student = $student['id'];
+            $new_student->first_name = $student['firstName'];
+            $new_student->second_name = $student['secondName'];
+            $new_student->middle_name = $student['middleName'];
+            $new_student->birthday = $student['birthday'];
+            $new_student->email = $student['email'];
+            $new_student->mobile_phone = $student['phone'];
+            $new_student->address = $student['address'];
+            $new_student->facebook = $student['facebook'];
+            $new_student->education = $student['education'];
+            $new_student->interests = $student['interests'];
+            $new_student->source_about_us = $student['aboutUs'];
+            $new_student->prev_job = $student['prev_job'];
+            $new_student->current_job = $student['current_job'];
+            $new_student->rather_form_study = $student['educform'];
+            $new_student->rather_time_study = $student['education_shift'];
+            $new_student->id_organization = Yii::app()->user->model->getCurrentOrganization()->id;
+
+            $new_student->save();
+        }
+    }
 }

@@ -8,12 +8,12 @@
     <div class="col-lg-4">
         <div class="panel panel-green">
             <div class="panel-heading">
-                Закріплені студенти 
+                Закріплені студенти
             </div>
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/trainer/students">Студенти</a>
+                        <a ui-sref="trainer/students.trainerStudents">Студенти</a>
                     </li>
                     <li>
                         <a href="#/trainer/students/agreements">Договора студентів</a>

@@ -9,6 +9,8 @@
  * @property string $start_date
  * @property string $end_date
  * @property string $graduate_date
+ * @property string $end_study_leave
+ * @property string $comment
  * @property integer $id_subgroup
  * @property integer assigned_by
  * @property integer cancelled_by
@@ -42,7 +44,7 @@ class OfflineStudents extends CActiveRecord
 		return array(
 			array('id_user, start_date, id_subgroup, assigned_by', 'required'),
 			// The following rule is used by search().
-			array('id, id_user, start_date, end_date, graduate_date, id_subgroup, assigned_by, cancelled_by, cancel_type', 'safe', 'on'=>'search'),
+			array('id, id_user, start_date, end_date, graduate_date, id_subgroup, assigned_by, cancelled_by, cancel_type, end_study_leave, comment', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,7 +81,9 @@ class OfflineStudents extends CActiveRecord
 			'id_subgroup' => 'ID підгрупи',
 			'assigned_by' => 'ID користувача, який приєднав',
 			'cancelled_by' => 'ID користувача, який скасував',
-            'cancel_type' => 'Причина виключення з підгруппи'
+            'cancel_type' => 'Причина виключення з підгруппи',
+            'end_study_leave' => 'Дата закінчення академвідпустки',
+            'comment' => 'Коментар'
 		);
 	}
 
@@ -108,6 +112,8 @@ class OfflineStudents extends CActiveRecord
 		$criteria->compare('assigned_by',$this->assigned_by,true);
 		$criteria->compare('cancelled_by',$this->cancelled_by,true);
 		$criteria->compare('cancel_type',$this->cancel_type,true);
+		$criteria->compare('end_study_leave',$this->end_study_leave,true);
+		$criteria->compare('comment',$this->comment,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -140,6 +146,8 @@ class OfflineStudents extends CActiveRecord
 			$data["groupName"] = $model->group->name;
 			$data["specialization"] = $model->group->specializationName->title_ua;
 //			$data["cancelType"] = $model->cancelType->description;
+            $data["end_study_leave"] = $model->end_study_leave;
+            $data["comment"] = $model->comment;
 		}
 		return $data;
 	}

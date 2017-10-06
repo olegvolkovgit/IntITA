@@ -37,7 +37,7 @@ class MailTemplatesController extends TeacherCabinetController
 
 		if(isset($_POST['MailTemplates']))
 		{
-			$model->attributes=$_POST['MailTemplates'];
+            $model->attributes=$_POST['MailTemplates'];
 			if($model->save())
 				echo 'success';
             else
@@ -138,4 +138,16 @@ class MailTemplatesController extends TeacherCabinetController
 	public function actionGetModel($id){
 		echo json_encode($this->loadModel($id)->getAttributes());
 	}
+
+	public function actionGetMailTemplatesList($type = 0){
+	    $criteria = new CDbCriteria();
+        $criteria->select = ['id', 'title'];
+	    if ($type){
+	        $criteria->addCondition('template_type=:type');
+	        $criteria->params = ['type'=>(int)$type];
+        }
+        header('Content-type: application/json');
+        echo CJSON::encode(MailTemplates::model()->findAll($criteria));
+        Yii::app()->end();
+    }
 }

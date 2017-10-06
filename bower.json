@@ -1,0 +1,17 @@
+{
+  "name": "intita",
+  "homepage": "https://github.com/ITAAcademy/IntITA",
+  "authors": [
+    "Ivan Andrienko <wdprogr@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

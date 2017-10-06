@@ -102,5 +102,10 @@ angular
                         method: 'GET',
                         isArray:true,
                     },
+                    getNotificationTemplates: {
+                        url: basePath + '/_teacher/mailTemplates/getMailTemplatesList?type=2',
+                        method: 'GET',
+                        isArray:true,
+                    },
                 });
         }]);
