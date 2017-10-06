@@ -30,7 +30,7 @@ class Tenant extends Role
 
     public function title()
     {
-        return "Консультант";
+        return Yii::t('profile','0969');
     }
 
     public function setRole(StudentReg $user, $organizationId = null)

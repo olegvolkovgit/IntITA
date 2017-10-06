@@ -24,6 +24,7 @@ if($idCourse != 0) {
     );
 } else {
     $this->breadcrumbs = array(
+        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         $post->getTitleForBreadcrumbs(),
     );
 }

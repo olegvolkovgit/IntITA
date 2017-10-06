@@ -6,7 +6,7 @@ if (!$model->isDeveloping()) { ?>
         </div>
         <div ng-show="onlineSchemeData.schemes[0].fullPrice!=0">
             <div ng-click="isOpenOnlineSchema = !isOpenOnlineSchema" ng-show="!isOpenOnlineSchema" class="paymentsOnlineSpoiler">
-                <?php echo 'Ціна за весь модуль наперед (схеми проплат онлайн)' ?>&#9662;
+                <?php echo Yii::t('course', '0414'); ?>&#9662;
             </div>
             <div ng-click="isOpenOnlineSchema = !isOpenOnlineSchema" ng-show="isOpenOnlineSchema" class="paymentsOnlineSpoiler">
                 <?php echo Yii::t('course', '0415'); ?>&#9652;
@@ -30,7 +30,7 @@ if (!$model->isDeveloping()) { ?>
 
         <div ng-show="offlineSchemeData.schemes[0].fullPrice!=0">
             <div ng-click="isOpenOfflineSchema = !isOpenOfflineSchema" ng-show="!isOpenOfflineSchema" class="paymentsOfflineSpoiler">
-                <?php echo 'Ціна за весь модуль наперед (розгорнути схеми офлайн)' ?>&#9662;
+                <?php echo Yii::t('course', '0819'); ?>&#9662;
             </div>
             <div ng-click="isOpenOfflineSchema = !isOpenOfflineSchema" ng-show="isOpenOfflineSchema" class="paymentsOfflineSpoiler">
                 <?php echo Yii::t('course', '0415'); ?>&#9652;

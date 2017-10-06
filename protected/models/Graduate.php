@@ -165,7 +165,7 @@ class Graduate extends CActiveRecord
             if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en') {
                 $criteria->order = 'last_name_en COLLATE utf8_unicode_ci ASC';
             }else{
-                $criteria->order = 'user.firstName COLLATE utf8_unicode_ci ASC';
+                $criteria->order = 'user.secondName COLLATE utf8_unicode_ci ASC';
             }
         }
         if ($selector == 'date') $criteria->order = 'graduate_date DESC';
@@ -244,7 +244,13 @@ class Graduate extends CActiveRecord
     }
 
     public function graduateName(){
-        $name=trim($this->user['firstName'].' '.$this->user['secondName']);
-        echo $name?$name:$this->user['email'];
+        if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'en'){
+            $name = trim($this->first_name_en.' '.$this->last_name_en);
+        }else if(isset(Yii::app()->session['lg']) && Yii::app()->session['lg'] == 'ru'){
+            $name = trim($this->first_name_ru.' '.$this->last_name_ru);
+        }else{
+            $name=trim($this->user['firstName'].' '.$this->user['secondName']);
+        }
+        echo $name? $name : $this->user['email'];
     }
 }

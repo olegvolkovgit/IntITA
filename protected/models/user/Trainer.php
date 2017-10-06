@@ -29,7 +29,7 @@ class Trainer extends Role
      */
     public function title()
     {
-        return 'Тренер';
+        return Yii::t('profile','0901');
     }
 
     public function getErrorMessage()
