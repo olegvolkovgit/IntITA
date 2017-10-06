@@ -66,16 +66,24 @@ class TeacherConsultantController extends TeacherCabinetController
     public function actionMarkPlainTask()
     {
         $plainTaskId = Yii::app()->request->getPost('idPlainTask');
-        Yii::app()->user->model->hasAccessToOrganizationModel(PlainTaskAnswer::model()->findByPk($plainTaskId)->plainTaskModule);
         $mark = Yii::app()->request->getPost('mark');
         $comment = Yii::app()->request->getPost('comment');
-        $userId = Yii::app()->request->getPost('userId');
-        if (!PlainTaskMarks::saveMark($plainTaskId, $mark, $comment, $userId))
-            throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
-            Спробуйте пізніше або повідомте адміністратора.');
-        $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>PlainTaskAnswer::model()->findByPk($plainTaskId)->plainTaskModule->module_ID, ':idUser'=>$userId]);
-        if ($rating){
-            $rating->rateUser($userId);
+        $plainTaskAnswer=PlainTaskAnswer::model()->findByPk($plainTaskId);
+        $plainTaskAnswer->setMark($mark, $comment);
+    }
+
+    public function actionMarkedPlainTasksArray()
+    {
+        $mark = Yii::app()->request->getPost('mark');
+        $comment = Yii::app()->request->getPost('comment');
+        $answersId = json_decode($_POST["answersIdArray"]);
+
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition("id", $answersId);
+        $plainTaskAnswers = PlainTaskAnswer::model()->findAll($criteria);
+
+        foreach ($plainTaskAnswers as $answer){
+            $answer->setMark($mark, $comment);
         }
     }
 
