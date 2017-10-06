@@ -27,7 +27,7 @@ class Author extends Role
      * @return string the role title (ua)
      */
     public function title(){
-        return 'Автор контента';
+        return Yii::t('profile', '0967');
     }
 
     public function getErrorMessage(){
