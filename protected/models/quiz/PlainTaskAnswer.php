@@ -304,4 +304,17 @@ class PlainTaskAnswer extends CActiveRecord
             ->join('lectures', 'lectures.id = lecture_element.id_lecture')
             ->queryScalar();
     }
+
+    public function setMark($mark, $comment)
+    {
+        $userId = $this->id_student;
+        if (!PlainTaskMarks::saveMark($this->id, $mark, $comment, $userId))
+            throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
+            Спробуйте пізніше або повідомте адміністратора.');
+        $rating = RatingUserModule::model()->find('id_module=:idModule AND module_done=0 AND id_user=:idUser',[':idModule'=>$this->plainTaskModule->module_ID, ':idUser'=>$userId]);
+        if ($rating){
+            $rating->rateUser($userId);
+        }
+    }
+
 }
