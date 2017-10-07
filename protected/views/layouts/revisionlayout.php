@@ -29,7 +29,7 @@ $header = new Header();
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/revisionApp.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/interpreterServices.js'); ?>"></script>
         <?php if (!Yii::app()->user->isGuest) { ?>
-            <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+            <script src="<?php echo Config::getFullChatPath()."/js/ITA.js" ?>"></script>
         <?php } ?>
         <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
         <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
