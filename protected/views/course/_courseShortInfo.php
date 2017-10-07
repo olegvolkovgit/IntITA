@@ -45,7 +45,7 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
 
     <!--назва організації ++ -->
     <div>
-        <span class="colorP"><?php echo 'Назва організації: '; ?></span>
+        <span class="colorP"><?php echo Yii::t('profile', '0966'); ?></span>
         <?php echo $model->organization->name; ?>
     </div>
 

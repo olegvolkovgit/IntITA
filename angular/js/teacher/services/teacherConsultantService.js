@@ -21,6 +21,12 @@ angular
                         url: url + '/markPlainTask',
                         transformRequest : transformRequest.bind(null)
                     },
+                    setMarkForArrayPlainTask : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/markedPlainTasksArray',
+                        transformRequest : transformRequest.bind(null)
+                    },
                     studentsCategoryList: {
                         url: url + '/getStudentsCategoryList',
                         method: 'GET',

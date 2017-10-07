@@ -137,9 +137,7 @@ class TrainerStudent extends CActiveRecord
 	}
 
 	public static function checkStudentInStudentInfo($id_student){
-        $id_student = 3;
 	    $check_student = StudentInfo::model()->findByAttributes(['id_student'=>$id_student]);
-//	    var_dump(!isset($check_student));die;
 	    if(!isset($check_student)){
             $student = StudentReg::model()->findByPk($id_student);
 

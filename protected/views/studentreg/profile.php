@@ -151,16 +151,16 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <div class="tabs">
             <ul>
                 <li>
-                    <?= ($owner) ? Yii::t('profile', '0108') : Yii::t('profile', '0822'); ?>
+                    <?= Yii::t('profile', '0108'); ?>
                 </li>
                 <li>
-                    <?= ($owner) ? Yii::t('profile', '0113') : Yii::t('profile', '0823'); ?>
+                    <?= Yii::t('profile', '0823'); ?>
                 </li>
                 <li>
-                    <?= ($owner) ? Yii::t('profile', '0116') : Yii::t('profile', '0824'); ?>
+                    <?= Yii::t('profile', '0824'); ?>
                 </li>
                 <li>
-                    Моя кар'єра
+                    <?= Yii::t('profile', '0973'); ?>
                 </li>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>

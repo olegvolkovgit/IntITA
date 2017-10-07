@@ -27,7 +27,7 @@ class Accountant extends Role
      * @return string the role title (ua)
      */
 	public function title(){
-		return 'Бухгалтер';
+		return Yii::t('profile','0971');
 	}
 
     public function getErrorMessage(){
