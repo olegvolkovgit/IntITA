@@ -10,9 +10,11 @@
             <input type="checkbox" ng-model="isLatex" ng-click="renderTableListWithLatex()">Режим рендеру LaTeX формул
         </label>
         <form autocomplete="off">
-            <div ng-if="checkedStudentsAnswers.length > 0" style="padding: 10px; text-align: right">
-                <button class="btn btn-primary"  ng-click="setMarkTaskInTableForChecked(checkedStudentsAnswers, 1)">Зарахувати</button>
-                <button class="btn btn-danger"  ng-click="setMarkTaskInTableForChecked(checkedStudentsAnswers, 0)">Не зарахувати</button>
+            <div style="height: 50px">
+                <div ng-if="checkedStudentsAnswers.length > 0" style="padding: 10px; text-align: right">
+                    <button class="btn btn-primary"  ng-click="setMarkTaskInTableForChecked(checkedStudentsAnswers, 1)">Зарахувати</button>
+                    <button class="btn btn-danger"  ng-click="setMarkTaskInTableForChecked(checkedStudentsAnswers, 0)">Не зарахувати</button>
+                </div>
             </div>
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed">
                 <colgroup>

@@ -34,10 +34,13 @@
                         <a href="#/coworkers">Співробітники</a>
                     </li>
                     <li>
+                        <a href="#/registeredUsers">Зареєстровані користувачі</a>
+                    </li>
+                    <li>
                         <a href="#/supervisor/trainers">Тренера</a>
                     </li>
                     <li>
-                        <a href="#/registeredUsers">Зареєстровані користувачі</a>
+                        <a href="#/supervisor/changeTrainers">Змінити тренера</a>
                     </li>
                 </ul>
             </div>

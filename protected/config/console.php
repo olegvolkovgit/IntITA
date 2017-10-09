@@ -28,6 +28,8 @@ return array(
         'application.models.message.*',
         'application.models.accountancy.services.serviceAccess.*',
         'application.models.quiz.*',
+        'application.models.crm.*',
+        'application.models.crm.tasksState.*',
         'application.vendor.*',
         'application.models.accountancy.services.*',
 

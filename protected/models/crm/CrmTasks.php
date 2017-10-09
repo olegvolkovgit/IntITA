@@ -303,4 +303,60 @@ class CrmTasks extends CTaskUnitActiveRecord
             $this->notifyUser($chanelName.'-'.$signatory->id_user,[]);
         }
     }
+
+    public function notifyByEmail($notificationParams, $task){
+        $notifyMessage = Newsletters::model()->find('related_model_id=:task',['task'=>(int)$task]);
+        if (!$notifyMessage){
+            $notifyMessage = new Newsletters();
+            $schedulerTask = new SchedulerTasks();
+        }
+        else{
+            $schedulerTask = SchedulerTasks::model()->find('related_model_id=:newsletterId AND type=:type',
+                            ['newsletterId'=>$notifyMessage->id,'type'=>TaskFactory::NEWSLETTER]);
+            if(!$schedulerTask){
+                $schedulerTask = new SchedulerTasks();
+            }
+        }
+        $notifyMessage->setScenario('crmTaskNotification');
+        $notifyMessageTemplate = MailTemplates::model()->findByPk((int)$notificationParams['template']['id']);
+        $notifyMessage->newsletter_email = Config::getNewsletterMailAddress();
+        $notifyMessage->template_id = $notifyMessageTemplate->id;
+        $notifyMessage->template_params = $notifyMessageTemplate->parameters;
+        $notifyMessage->recipients = $notificationParams['users'];
+        $notifyMessage->type = 'taskNotification';
+        $notifyMessage->created_by = Yii::app()->user->id;
+        $notifyMessage->id_organization = Yii::app()->user->model->getCurrentOrganizationId();
+        $notifyMessage->related_model_id = $task;
+        $schedulerTask->type = TaskFactory::NEWSLETTER;
+        $schedulerTask->related_model_id = $notifyMessage->id;
+        $schedulerTask->repeat_type = SchedulerTasks::WEEKDAYS;
+        $schedulerTask->parameters = $notificationParams['weekdays'];
+        date_default_timezone_set(Config::getServerTimezone());
+        $schedulerTask->start_time =  date('Y-m-d H:i:s',strtotime($notificationParams['time']));
+        if ($notifyMessage->validate() && $schedulerTask->validate()){
+            $notifyMessage->save(false);
+            $schedulerTask->save(false);
+            return false;
+        }
+        else{
+            return array_merge($notifyMessage->getErrors(),$schedulerTask->getErrors());
+        }
+    }
+
+    public function getTaskUsersByRole($role, $onlyActive = true){
+        $criteria = new CDbCriteria();
+        $criteria->with = ['idUser'];
+        $criteria->addCondition('id_task=:taskId');
+        $criteria->addCondition('t.role=:role');
+        $criteria->params = ['taskId'=>$this->id,'role'=>$role];
+
+        if($onlyActive){
+            $criteria->addCondition('cancelled_date IS NULL');
+        }
+        $users = CrmRolesTasks::model()->findAll($criteria);
+        return $users;
+
+
+    }
+
 }

@@ -162,7 +162,7 @@ angular
                     }
                 }
             );
-        }
+        };
 
         $scope.studentsCategoriesList = teacherConsultantService
             .studentsCategoryList()
@@ -346,4 +346,4 @@ angular
                 $scope.studentsCategory =[{id:'0', title:'Студенти не в групі'}].concat(groupList);
             });
 
-    })
+    });

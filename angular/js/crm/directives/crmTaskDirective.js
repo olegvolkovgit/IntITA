@@ -17,6 +17,20 @@ angular
                         {id:"4",title:'urgent',description:'Терміновий'},
                     ];
                 };
+                    scope.weekdaysList=[
+                        {id:"1",title:'Понеділок'},
+                        {id:"2",title:'Вівторок'},
+                        {id:"3",title:'Середа'},
+                        {id:"4",title:'Четвер'},
+                        {id:"5",title:'П\'ятниця'},
+                        {id:"6",title:'Субота'},
+                        {id:"7",title:'Неділя'},
+                    ];
+
+                scope.notificationUsersList= crmTaskServices.getCrmRoles();
+
+                scope.notificationTemplates = crmTaskServices.getNotificationTemplates();
+
                 scope.prioritiesList();
 
                 if(!scope.task.id){
@@ -276,6 +290,29 @@ angular
                         }
                     });
                 };
+
+                scope.task.isModelValid = function () {
+                    scope.task.notification.error = [];
+                    if (scope.task.notification.notify){
+                        if (!scope.task.notification.users || !scope.task.notification.users.length){
+                            scope.task.notification.error.user = 'Оберіть групу користувачів для оповіщення';
+                            return false;
+                        }
+                        if (!scope.task.notification.template){
+                            scope.task.notification.error.template = 'Оберіть шаблон оповіщення';
+                            return false;
+                        }
+                        if (!scope.task.notification.weekdays || !scope.task.notification.weekdays.length  ){
+                            scope.task.notification.error.weekdays = 'Оберіть дні для оповіщення';
+                            return false;
+                        }
+                        if (!scope.task.notification.time){
+                            scope.task.notification.error.time = 'Оберіть час для оповіщення';
+                            return false;
+                        }
+                    }
+                    return true;
+                }
 
             }
 

@@ -29,7 +29,7 @@ class TeacherConsultant extends Role
 
     public function title()
     {
-        return "Викладач";
+        return Yii::t('profile','0968');
     }
 
     public function attributes(StudentReg $user, $organization=null)

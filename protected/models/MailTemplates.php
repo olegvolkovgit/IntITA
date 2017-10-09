@@ -9,6 +9,9 @@
  * @property string $subject
  * @property string $text
  * @property integer $active
+ * @property integer $template_type
+ * @property integer $organization_id
+ * @property integer $parameters
  */
 class MailTemplates extends CActiveRecord
 {
@@ -29,12 +32,10 @@ class MailTemplates extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title, text', 'required'),
-			array('active', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>255),
-            array('subject', 'length', 'max'=>255),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, title, subject, text, active', 'safe', 'on'=>'search'),
+			array('active, template_type, organization_id', 'numerical', 'integerOnly'=>true),
+			array('title, subject', 'length', 'max'=>255),
+			array('parameters', 'type'),
+			array('id, title, subject, text, active, parameters', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -102,4 +103,10 @@ class MailTemplates extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function bindParams($params){
+
+	      $this->text = str_replace(array_keys($params),array_values($params),$this->text);
+
+    }
 }

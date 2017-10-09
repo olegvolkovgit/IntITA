@@ -1,5 +1,5 @@
 <div class="panel panel-default" ng-controller="crmAllTasksCtrl">
-    <div class="panel-body" ng-show="board==2">
+    <div class="panel-body" ng-if="board==2">
         <div class="dataTable_wrapper">
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed crmTaskTable">
                 <colgroup>

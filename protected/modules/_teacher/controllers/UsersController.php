@@ -388,6 +388,44 @@ class UsersController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionGetActualTrainers()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->distinct = true;
+        $criteria->addCondition('end_time IS NULL');
+        $criteria->addCondition('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $criteria->select = 'trainer';
+        $trainers = TrainerStudent::model()->findAll($criteria);
+        $result = array();
+        foreach($trainers as $item){
+            array_push($result, ['id'=>$item->trainer, 'fullName'=>$item->trainerModel->fullName]);
+        }
+        echo json_encode($result);
+    }
+
+    public function actionExchangeTrainers()
+    {
+        $id_old_trainer = $_GET['id_old'];
+        $id_new_trainer = $_GET['id_new'];
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('trainer = '.$id_old_trainer);
+        $criteria->addCondition('end_time IS NULL');
+        $students = TrainerStudent::model()->findAll($criteria);
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            foreach($students as $student){
+                $student->trainer = $id_new_trainer;
+                $student->save();
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Виникла помилка при видаленні категорії");
+        }
+    }
+
     public function actionGetBlockedUsersList()
     {
         $requestParams = $_GET;
