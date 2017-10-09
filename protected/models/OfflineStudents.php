@@ -155,7 +155,7 @@ class OfflineStudents extends CActiveRecord
 	public function setTrainer($id){
 		$trainer = RegisteredUser::userById($id);
 		$oldTrainerId = TrainerStudent::getTrainerByStudent($this->id_user);
-		if($oldTrainerId) {
+		if($oldTrainerId && $oldTrainerId->id!=$id) {
 			$oldTrainer = RegisteredUser::userById($oldTrainerId->id);
 			$oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $this->id_user);
 		}

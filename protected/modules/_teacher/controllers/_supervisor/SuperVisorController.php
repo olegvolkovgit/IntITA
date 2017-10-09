@@ -470,9 +470,7 @@ class SuperVisorController extends TeacherCabinetController
             }else{
                 if($student->checkOrganization() && $student->save()){
                     $subgroup=OfflineSubgroups::model()->findByPk($subgroupId);
-                    if($subgroup->id_trainer){
-                        $student->setTrainer($subgroup->id_trainer);
-                    }
+
                     $offlineGroupsTeacherModule=OfflineGroupsTeacherConsultantModule::model()->findAllByAttributes(array(
                         'id_group'=>$subgroup->group,'end_date'=>null));
 
