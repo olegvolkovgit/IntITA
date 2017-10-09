@@ -248,12 +248,13 @@ function personalInfoCtrl($scope, trainerService, NgTableParams) {
                     });
             }
         });
-    $scope.updateStudentInfo = function (id_student, attr) {
+    $scope.updateStudentInfo = function (id_student, attr, text) {
+        text=text?text:'';
         bootbox.dialog({
                 title: "Введіть нову назву:",
                 message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
                 '<textarea class="form-control" style="resize: none" rows="6" id="commentMessageText" ' +
-                'placeholder="тут можна ввести нову назву поля">' + '</textarea>'+'</div></form></div></div>',
+                'placeholder="тут можна ввести нову назву поля">' +text+ '</textarea>'+'</div></form></div></div>',
                 buttons:
                     {success:
                         {label: "Підтвердити", className: "btn btn-primary",
@@ -337,12 +338,13 @@ function careerStudentsCtrl($scope, trainerService, NgTableParams, myFactory) {
         });
     $scope.myFactory.careerTbl = $scope.studentCareerInfoTableParams;
 
-    $scope.updateCareerInfo = function (id_student, attr) {
+    $scope.updateCareerInfo = function (id_student, attr, text) {
+        text=text?text:'';
         bootbox.dialog({
                 title: "Введіть нову назву:",
                 message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
                 '<textarea class="form-control" style="resize: none" rows="6" id="commentMessageText" ' +
-                'placeholder="тут можна ввести нову назву поля">' + '</textarea>'+'</div></form></div></div>',
+                'placeholder="тут можна ввести нову назву поля">' +text+ '</textarea>'+'</div></form></div></div>',
                 buttons:
                     {success:
                         {label: "Підтвердити", className: "btn btn-primary",
@@ -395,7 +397,6 @@ function careerStudentsCtrl($scope, trainerService, NgTableParams, myFactory) {
         $scope.optionValue = [];
 
         if(hasValue){
-            console.log($scope.checked_value);
             $scope.checked_value = [];
         }
 
@@ -420,8 +421,6 @@ function careerStudentsCtrl($scope, trainerService, NgTableParams, myFactory) {
             inputType: 'checkbox',
             inputOptions: $scope.optionValue,
             callback: function (result) {
-                console.log(result, $scope.checked_value);
-
                 if(!$scope.checkArrays(result, $scope.checked_value) && result != null){
                     
                     $scope.checked_value = [];
@@ -523,12 +522,13 @@ function contractStudentsCtrl($scope, trainerService, NgTableParams) {
             }
         });
 
-    $scope.updateContractInfo = function (id_student, attr) {
+    $scope.updateContractInfo = function (id_student, attr, text) {
+        text = text?text:'';
         bootbox.dialog({
                 title: "Введіть нову назву:",
                 message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
                 '<textarea class="form-control" style="resize: none" rows="6" id="commentMessageText" ' +
-                'placeholder="тут можна ввести нову назву поля">' + '</textarea>'+'</div></form></div></div>',
+                'placeholder="тут можна ввести нову назву поля">' +text+ '</textarea>'+'</div></form></div></div>',
                 buttons:
                     {success:
                         {label: "Підтвердити", className: "btn btn-primary",
@@ -570,12 +570,13 @@ function visitInfoCtrl($scope, trainerService, NgTableParams, myFactory) {
         });
     $scope.myFactory.visitTbl = $scope.studentVisitInfoTableParams;
 
-    $scope.updateVisitInfo = function (id_student, attr) {
+    $scope.updateVisitInfo = function (id_student, attr, text) {
+        text=text?text:'';
         bootbox.dialog({
                 title: "Введіть нову назву:",
                 message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
                 '<textarea class="form-control" style="resize: none" rows="6" id="commentMessageText" ' +
-                'placeholder="тут можна ввести нову назву поля">' + '</textarea>'+'</div></form></div></div>',
+                'placeholder="тут можна ввести нову назву поля">' +text+ '</textarea>'+'</div></form></div></div>',
                 buttons:
                     {success:
                         {label: "Підтвердити", className: "btn btn-primary",
