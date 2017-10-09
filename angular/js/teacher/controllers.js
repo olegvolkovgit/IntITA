@@ -82,7 +82,7 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
 }
 
 function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, typeAhead, chatIntITAMessenger, crmTaskServices) {
-    audio = new Audio('http://www.mediacollege.com/downloads/sound-effects/money/coin-04.wav');
+    audio = new Audio(basePath+'/angular/audio/notification.wav');
     //function back() redirect to prev link
     $rootScope.back = function () {
         window.history.back();
@@ -147,7 +147,11 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout,$rootScope, ty
         function() {
             conn3.subscribe('changeTaskManager-'+user, function(topic, data) {
                 console.log('Task Manager changed');
-                $rootScope.updateTaskManagerCounter();
+                if(data.data=='false'){
+                    $rootScope.updateTaskManagerCounter(false);
+                }else{
+                    $rootScope.updateTaskManagerCounter();
+                }
             });
         },
         function() {

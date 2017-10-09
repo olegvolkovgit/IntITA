@@ -16,7 +16,7 @@
                                 <span ng-if="scheme.paymentsCount<12">
                                     <span ng-if="scheme.discount>0 && scheme.loan==0" class="coursePriceStatus">{{scheme.translates.currencySymbol}}{{scheme.fullPrice}}</span>
                                     <span ng-if="scheme.discount>0 && scheme.loan==0">&nbsp</span>
-                                    <span ng-class="{coursePriceStatus1: !scheme.inCourse, coursePriceStatus: scheme.inCourse}">{{scheme.translates.currencySymbol}}{{scheme.price}}</span>
+                                    <span class="coursePriceStatus1">{{scheme.translates.currencySymbol}}{{scheme.price}}</span>
                                     <span ng-if="scheme.inCourse">({{scheme.inCourse}}$ {{schemes.translates.inCourse}})</span>
                                     <span ng-if="scheme.paymentsCount!=1">&asymp; {{scheme.approxMonthPayment}}{{scheme.translates.currencySymbol}} x {{scheme.paymentsCount}} {{scheme.translates.payment}}</span>
                                 </span>

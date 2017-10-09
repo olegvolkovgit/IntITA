@@ -3,7 +3,7 @@
         <span ng-if="offlineSchemeData.schemes[0].paymentsCount<12">
             <span ng-if="offlineSchemeData.schemes[0].discount>0 && offlineSchemeData.schemes[0].loan==0" class="coursePriceStatus">{{offlineSchemeData.schemes[0].translates.currencySymbol}}{{offlineSchemeData.schemes[0].fullPrice}}</span>
             <span ng-if="offlineSchemeData.schemes[0].discount>0 && offlineSchemeData.schemes[0].loan==0">&nbsp</span>
-            <span ng-class="{coursePriceStatus1: !offlineSchemeData.schemes[0].inCourse, coursePriceStatus: offlineSchemeData.schemes[0].inCourse}">{{offlineSchemeData.schemes[0].translates.currencySymbol}}{{offlineSchemeData.schemes[0].price}}</span>
+            <span class="coursePriceStatus1">{{offlineSchemeData.schemes[0].translates.currencySymbol}}{{offlineSchemeData.schemes[0].price}}</span>
             <span ng-if="offlineSchemeData.schemes[0].inCourse">({{offlineSchemeData.schemes[0].inCourse}}$ {{offlineSchemeData.translates.inCourse}})</span>
             <span ng-if="offlineSchemeData.schemes[0].paymentsCount!=1">&asymp; {{offlineSchemeData.schemes[0].approxMonthPayment}}{{offlineSchemeData.schemes[0].translates.currencySymbol}} x {{offlineSchemeData.schemes[0].paymentsCount}} {{offlineSchemeData.schemes[0].translates.payment}}</span>
         </span>
@@ -23,7 +23,7 @@
         <span ng-if="selectedScheme.paymentsCount<12">
             <span ng-if="selectedScheme.discount>0 && selectedScheme.loan==0" class="coursePriceStatus">{{selectedScheme.translates.currencySymbol}}{{selectedScheme.fullPrice}}</span>
             <span ng-if="selectedScheme.discount>0 && selectedScheme.loan==0">&nbsp</span>
-            <span ng-class="{coursePriceStatus1: !selectedScheme.inCourse, coursePriceStatus: selectedScheme.inCourse}">{{selectedScheme.translates.currencySymbol}}{{selectedScheme.price}}</span>
+            <span class="coursePriceStatus1">{{selectedScheme.translates.currencySymbol}}{{selectedScheme.price}}</span>
             <span ng-if="selectedScheme.inCourse">({{selectedScheme.inCourse}}$ {{offlineSchemeData.translates.inCourse}})</span>
             <span ng-if="selectedScheme.paymentsCount!=1">&asymp; {{selectedScheme.approxMonthPayment}}{{selectedScheme.translates.currencySymbol}} x {{selectedScheme.paymentsCount}} {{selectedScheme.translates.payment}}</span>
         </span>
