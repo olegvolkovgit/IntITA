@@ -244,6 +244,7 @@ function personalInfoCtrl($scope, trainerService, NgTableParams) {
                     .studentsPersonalInfo(params.url())
                     .$promise
                     .then(function (data) {
+                        params.total(data.count);
                         return data.rows;
                     });
             }
@@ -332,6 +333,7 @@ function careerStudentsCtrl($scope, trainerService, NgTableParams, myFactory) {
                                 $scope.specOfStudents.push(temp_obj);
                             }
                         }
+                        params.total(data.count);
                         return data.rows;
                     });
             }
@@ -517,6 +519,7 @@ function contractStudentsCtrl($scope, trainerService, NgTableParams) {
                     .studentContractInfo(params.url())
                     .$promise
                     .then(function (data) {
+                        params.total(data.count);
                         return data.rows;
                     })
             }
@@ -564,6 +567,7 @@ function visitInfoCtrl($scope, trainerService, NgTableParams, myFactory) {
                     .studentVisitInfo(params.url())
                     .$promise
                     .then(function (data) {
+                        params.total(data.count);
                         return data.rows;
                     })
             }
