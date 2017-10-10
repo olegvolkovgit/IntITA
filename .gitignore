@@ -1,6 +1,7 @@
 # ignore files
 
 .idea/*
+.vagrant/*
 protected/runtime/*
 forum/cache/*
 local.php
