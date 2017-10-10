@@ -1680,6 +1680,80 @@ angular
                 );
             };
         }])
+    .controller('updateAgreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
+        function ($scope, $http, $stateParams, $state, agreementsService) {
+            $scope.changePageHeader('Паперовий договір');
+
+            $scope.date = new Date();
+
+            $scope.editorOptionsAgreement = {
+                toolbar: 'agreement'
+            };
+
+            $http.get(basePath+'/angular/js/teacher/templates/accountancy/agreementExample.json').success(function(response) {
+                $scope.writtenAgreement=response;
+            });
+
+            $scope.saveAgreementTemplate = function (template) {
+                $http({
+                    method: "POST",
+                    url:  basePath+'/_teacher/_accountant/template/updateAgreementTemplate',
+                    data: $jq.param({template:template}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                    cache: false
+                }).success(function(response) {
+                    bootbox.alert('Шаблон успішно збережено');
+                }).error(function(){
+                    bootbox.alert("Шаблон договору оновити не вдалося");
+                });
+            }
+
+            agreementsService
+                .getAgreementTemplate()
+                .$promise
+                .then(function successCallback(response) {
+                    $scope.agreementTemplate=response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Шаблон договору отримати не вдалося");
+                });
+        }])
+    .controller('agreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
+        function ($scope, $http, $stateParams, $state, agreementsService) {
+            $scope.changePageHeader('Паперовий договір');
+
+            $scope.date = new Date();
+
+            $scope.editorOptionsAgreement = {
+                toolbar: 'agreement'
+            };
+
+            $http.get(basePath+'/angular/js/teacher/templates/accountancy/agreementExample.json').success(function(response) {
+                $scope.writtenAgreement=response;
+            });
+
+            $scope.saveAgreementTemplate = function (template) {
+                $http({
+                    method: "POST",
+                    url:  basePath+'/_teacher/_accountant/template/updateAgreementTemplate',
+                    data: $jq.param({template:template}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                    cache: false
+                }).success(function(response) {
+                    bootbox.alert('Шаблон успішно збережено');
+                }).error(function(){
+                    bootbox.alert("Шаблон договору оновити не вдалося");
+                });
+            }
+
+            agreementsService
+                .getAgreementTemplate()
+                .$promise
+                .then(function successCallback(response) {
+                    $scope.agreementTemplate=response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Шаблон договору отримати не вдалося");
+                });
+        }])
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
   context[field] = $model[modelField];

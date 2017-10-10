@@ -309,5 +309,17 @@ angular
                 return accountantUrl + "agreements/writtenAgreementView/request/" + $stateParams.request;
             }
         })
+
+        .state('accountant/updateWrittenAgreement', {
+            url: "/accountant/updateWrittenAgreement",
+            cache         : false,
+            templateUrl: accountantUrl+"template/updateWrittenAgreement",
+        })
+
+        .state('accountant/writtenAgreement', {
+            url: "/accountant/writtenAgreement",
+            cache         : false,
+            templateUrl: accountantUrl+"template/writtenAgreement",
+        })
   }
 );

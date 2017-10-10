@@ -146,4 +146,24 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Паперові договора
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <a ng-href="#/accountant/writtenAgreement">Шаблон паперового договору</a>
+                    </li>
+                </ul>
+                <br>
+                <br>
+            </div>
+            <div class="panel-footer">
+                <em>Паперові договора</em>
+            </div>
+        </div>
+    </div>
 </div>

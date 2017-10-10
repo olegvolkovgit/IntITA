@@ -61,9 +61,6 @@
                         <a ng-href="#/auditor/offerTemplate">Шаблони, оферта</a>
                     </li>
                     <li>
-                        <a ng-href="#/auditor/writtenAgreement">Шаблон паперового договору</a>
-                    </li>
-                    <li>
                         <a ng-href="#/auditor/externalsources">Зовнішні джерела коштів</a>
                     </li>
                     <li>

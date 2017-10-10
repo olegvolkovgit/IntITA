@@ -5,7 +5,7 @@
                 <div class="row" style="padding:5px">
                     <ul class="list-inline">
                         <li>
-                            <a type="button" class="btn btn-primary" ng-href="#/auditor/updateWrittenAgreement">
+                            <a type="button" class="btn btn-primary" ng-href="#/accountant/updateWrittenAgreement">
                                 Редагувати шаблон договору
                             </a>
                         </li>

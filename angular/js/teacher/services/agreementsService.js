@@ -66,7 +66,7 @@ angular
                         url: url + '/getAgreementRequestStatus'
                     },
                     getAgreementTemplate: {
-                        url: basePath+'/_teacher/_auditor/template/getAgreementTemplate'
+                        url: basePath+'/_teacher/_accountant/template/getAgreementTemplate'
                     },
                 });
         }])
