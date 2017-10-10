@@ -292,23 +292,25 @@ angular
                 };
 
                 scope.task.isModelValid = function () {
-                    scope.task.notification.error = [];
-                    if (scope.task.notification.notify){
-                        if (!scope.task.notification.users || !scope.task.notification.users.length){
-                            scope.task.notification.error.user = 'Оберіть групу користувачів для оповіщення';
-                            return false;
-                        }
-                        if (!scope.task.notification.template){
-                            scope.task.notification.error.template = 'Оберіть шаблон оповіщення';
-                            return false;
-                        }
-                        if (!scope.task.notification.weekdays || !scope.task.notification.weekdays.length  ){
-                            scope.task.notification.error.weekdays = 'Оберіть дні для оповіщення';
-                            return false;
-                        }
-                        if (!scope.task.notification.time){
-                            scope.task.notification.error.time = 'Оберіть час для оповіщення';
-                            return false;
+                    if (angular.isDefined(scope.task.notification)) {
+                        scope.task.notification.error = [];
+                        if (scope.task.notification.notify) {
+                            if (!scope.task.notification.users || !scope.task.notification.users.length) {
+                                scope.task.notification.error.user = 'Оберіть групу користувачів для оповіщення';
+                                return false;
+                            }
+                            if (!scope.task.notification.template) {
+                                scope.task.notification.error.template = 'Оберіть шаблон оповіщення';
+                                return false;
+                            }
+                            if (!scope.task.notification.weekdays || !scope.task.notification.weekdays.length) {
+                                scope.task.notification.error.weekdays = 'Оберіть дні для оповіщення';
+                                return false;
+                            }
+                            if (!scope.task.notification.time) {
+                                scope.task.notification.error.time = 'Оберіть час для оповіщення';
+                                return false;
+                            }
                         }
                     }
                     return true;
