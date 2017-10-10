@@ -40,10 +40,12 @@ class StudentProgressController extends TeacherCabinetController
 
         if ($filter){
             $criteria->with = ['idUser'];
-            $criteria->addSearchCondition('idUser.email',$filter);
+            $criteria->addSearchCondition('idUser.email',$filter,true,'OR');
+            $criteria->addSearchCondition('idUser.firstName',$filter,true,'OR');
+            $criteria->addSearchCondition('idUser.secondName',$filter,true,'OR');
+            $criteria->addSearchCondition('idUser.middleName',$filter,true,'OR');
         }
-        $users = RatingUserCourse::model()->findAll($criteria);
-        $models = count($users);
+        $models = RatingUserCourse::model()->count($criteria);
         $criteria->limit = $count;
         $criteria->offset = ($page-1)*$count;
         $ratingModels = RatingUserCourse::model()->findAll($criteria);;
