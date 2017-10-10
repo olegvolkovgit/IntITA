@@ -14,10 +14,9 @@ class ScheduleCommand extends CConsoleCommand
         date_default_timezone_set('Europe/Kiev');
         $time = (new DateTime('now'))->format('Y-m-d H:i:s');
         $criteria = new CDbCriteria();
-        $criteria->addCondition('id = 155');
-//        $criteria->addCondition('start_time <= :time');
-//        $criteria->addCondition('status = :status');
-//        $criteria->params = [':time'=>$time, ':status' => SchedulerTasks::STATUSNEW];
+        $criteria->addCondition('start_time <= :time');
+        $criteria->addCondition('status = :status');
+        $criteria->params = [':time'=>$time, ':status' => SchedulerTasks::STATUSNEW];
         $tasks = SchedulerTasks::model()->findAll($criteria);
         foreach ($tasks as $task)
         {
