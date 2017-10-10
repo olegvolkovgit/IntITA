@@ -817,7 +817,7 @@ function teacherProfileCtrl($scope, usersService, $state) {
 function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
 
     if ($state.is('students/progress')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/_supervisor/studentProgress/getUsers');
+        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getUsers');
         $scope.data = "";
         $scope.totalItems = 0;
         $scope.pageChanged = function () {
@@ -828,12 +828,16 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
         };
         $scope.pageChanged();
 
-        $scope.allpyFilter = function () {
-            $scope.pageChanged();
+
+
+        $scope.allpyFilter = function (keyEvent) {
+            if (!keyEvent || keyEvent.which === 13){
+                $scope.pageChanged();
+            }
         }
     }
     if ($state.is('students/courseProgress/:studentId/:courseId')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/_supervisor/studentProgress/getCourseProgress');
+        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getCourseProgress');
         $scope.data = "";
         $scope.totalItems = 0;
         $scope.getData = function () {
@@ -850,7 +854,7 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
         $scope.getData();
     }
     if ($state.is('students/moduleProgress/:studentId/:module')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/_supervisor/studentProgress/getModuleProgress');
+        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getModuleProgress');
         $scope.data = "";
         $scope.totalItems = 0;
         $scope.getData = function () {
@@ -868,7 +872,7 @@ function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
     }
 
     if ($state.is('students/lectureProgress/:studentId/:lecture')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/_supervisor/studentProgress/getLectureProgress');
+        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getLectureProgress');
         $scope.data = "";
         $scope.totalItems = 0;
         $scope.getData = function () {
