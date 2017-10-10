@@ -16,6 +16,9 @@
                         <a ui-sref="trainer/students.trainerStudents">Студенти</a>
                     </li>
                     <li>
+                        <a ui-sref="students/progress">Прогрес навчання студентів</a>
+                    </li>
+                    <li>
                         <a href="#/trainer/students/agreements">Договора студентів</a>
                     </li>
                 </ul>
@@ -23,3 +26,5 @@
         </div>
     </div>
 </div>
+
+
