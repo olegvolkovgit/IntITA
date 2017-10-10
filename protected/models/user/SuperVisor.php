@@ -26,7 +26,7 @@ class SuperVisor extends Role
 	 * @return string the role title (ua)
 	 */
 	public function title(){
-		return 'Supervisor';
+		return Yii::t('profile','0972');
 	}
 
     public function getErrorMessage(){

@@ -102,7 +102,7 @@ $header = new Header();
                                 <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
                             </li>
                             <?php } ?>
-                            <?php if (!Yii::app()->user->isGuest && (Yii::app()->controller->id == 'site') && (Yii::app()->controller->action->id == 'index') || (Yii::app()->controller->id == 'aboutus')){ ?>
+                            <?php if (!Yii::app()->user->isGuest && (Yii::app()->controller->id == 'site') && (Yii::app()->controller->action->id == 'index') || (!Yii::app()->user->isGuest && (Yii::app()->controller->id == 'aboutus')) ){ ?>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>"><?php echo Yii::t('breadcrumbs', '0054')?></a>
                                 </li>
@@ -203,7 +203,7 @@ $header = new Header();
                         </a>
                     </td>
                     <td>
-                        <a href="https://youtube.com" target="_blank" title="Youtube">
+                        <a href="https://www.youtube.com/channel/UC2EMqcr4pEBuTGEJBaFgOzw" target="_blank" title="Youtube">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'youtube.png'); ?>"/>
                         </a>
                     </td>

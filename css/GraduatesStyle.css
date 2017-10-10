@@ -365,6 +365,7 @@ div.modal-footer {
     height: 50px;
     width: 300px;
     float: right;
+    clear: both;
 }
 .one {
     margin-bottom: 60px;

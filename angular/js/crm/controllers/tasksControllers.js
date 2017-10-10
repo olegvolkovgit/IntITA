@@ -234,7 +234,7 @@ angular
             };
 
             $scope.$watch('board', function () {
-                if($rootScope.roleId) $rootScope.loadTasks($rootScope.roleId);
+                if(typeof $rootScope.roleId!='undefined') $rootScope.loadTasks($rootScope.roleId);
             });
 
             $scope.getKanban = function () {

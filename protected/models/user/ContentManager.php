@@ -19,7 +19,7 @@ class ContentManager extends Role
     }
 
     public function title(){
-        return "Контент менеджер";
+        return Yii::t('profile','0970');
     }
 
     public function getErrorMessage(){
