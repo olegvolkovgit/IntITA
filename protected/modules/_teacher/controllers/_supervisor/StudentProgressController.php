@@ -34,13 +34,19 @@ class StudentProgressController extends TeacherCabinetController
         return $this->renderPartial('_lectureProgress');
     }
 
-    public function actionGetUsers($page=1,$count=10){
+    public function actionGetUsers($page=1,$count=10,$filter=null){
+
         $criteria = new CDbCriteria();
-        $users = RatingUserCourse::model();
-        $models = $users->count();
+
+        if ($filter){
+            $criteria->with = ['idUser'];
+            $criteria->addSearchCondition('idUser.email',$filter);
+        }
+        $users = RatingUserCourse::model()->findAll($criteria);
+        $models = count($users);
         $criteria->limit = $count;
         $criteria->offset = ($page-1)*$count;
-        $ratingModels = $users->findAll($criteria);
+        $ratingModels = RatingUserCourse::model()->findAll($criteria);;
         $result = [];
         foreach ($ratingModels as $ratingModel){
             $rate = new PercentageProgress($ratingModel->id_user);

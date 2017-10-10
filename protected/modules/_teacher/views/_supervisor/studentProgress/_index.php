@@ -9,6 +9,7 @@
 <div class="row" ng-controller="studentProgressCtrl">
     <div class="panel panel-default">
         <div class="panel-body" class="ng-cloak">
+            <input type="text" id="searchField" ng-keypress="" ng-model="filter"><button id="searchButton" ng-click="allpyFilter()">Пошук</button>
             <div class="row" ng-repeat="row in data">
                 <label class="progress-labe col-sm-4"style="float: left;"><a ui-sref="students/courseProgress/:studentId/:courseId({studentId:row.user_id,courseId:row.course_id})">Користувач: {{row.user}} <br /> Курс: {{row.course}} </a> </label>
                 <div class="col-sm-6"><uib-progressbar
