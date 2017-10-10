@@ -184,26 +184,26 @@ angular
                     controller: function($scope){
                         $scope.changePageHeader('Прогрес навчання студентів');
                     },
-                    templateUrl: basePath+"/_teacher/_supervisor/studentProgress",
+                    templateUrl: basePath+"/_teacher/studentProgress",
                 })
                 .state('students/courseProgress/:studentId/:courseId', {
                     url: '/students/courseProgress/:studentId/:courseId',
                     templateUrl: function ($stateParams) {
-                        return basePath+"/_teacher/_supervisor/studentProgress/courseProgress?student="+$stateParams.studentId+"&course="+$stateParams.courseId
+                        return basePath+"/_teacher/studentProgress/courseProgress?student="+$stateParams.studentId+"&course="+$stateParams.courseId
                     }
 
                 })
                 .state('students/moduleProgress/:studentId/:module', {
                     url: '/students/moduleProgress/:studentId/:module',
                     templateUrl: function ($stateParams) {
-                        return basePath+"/_teacher/_supervisor/studentProgress/moduleProgress?student="+$stateParams.studentId+"&module="+$stateParams.module
+                        return basePath+"/_teacher/studentProgress/moduleProgress?student="+$stateParams.studentId+"&module="+$stateParams.module
                     }
 
                 })
                 .state('students/lectureProgress/:studentId/:lecture', {
                     url: '/students/lectureProgress/:studentId/:lecture',
                     templateUrl: function ($stateParams) {
-                        return basePath+"/_teacher/_supervisor/studentProgress/lectureProgress?student="+$stateParams.studentId+"&lecture="+$stateParams.lecture
+                        return basePath+"/_teacher/studentProgress/lectureProgress?student="+$stateParams.studentId+"&lecture="+$stateParams.lecture
                     }
 
                 })
