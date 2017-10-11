@@ -43,6 +43,11 @@ class TemplateController extends TeacherCabinetController
         $this->renderPartial('writtenAgreement', array(), false, true);
     }
 
+    public function actionWrittenAgreementsList()
+    {
+        $this->renderPartial('writtenAgreementsList', array(), false, true);
+    }
+
     public function actionUpdateWrittenAgreement()
     {
         $this->renderPartial('updateWrittenAgreement', array(), false, true);
@@ -58,7 +63,19 @@ class TemplateController extends TeacherCabinetController
     }
 
     public function actionGetAgreementTemplate(){
+        $params = array_filter($_POST);
         $data['data']=WrittenAgreementTemplate::model()->findByPk(1)->template;
         echo json_encode($data);
+    }
+
+    public function actionGetAgreementWrittenTemplateList() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('WrittenAgreementTemplate', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->alias = 't';
+        $criteria->addCondition('t.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 }

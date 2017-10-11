@@ -12,7 +12,7 @@
  *
  * The followings are the available model relations:
  * @property Organization $idOrganization
- * @property User $createBy
+ * @property StudentReg $createBy
  */
 class WrittenAgreementTemplate extends CActiveRecord
 {
@@ -50,7 +50,7 @@ class WrittenAgreementTemplate extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'idOrganization' => array(self::BELONGS_TO, 'Organization', 'id_organization'),
-			'createBy' => array(self::BELONGS_TO, 'User', 'create_by'),
+			'createBy' => array(self::BELONGS_TO, 'StudentReg', 'create_by'),
 		);
 	}
 

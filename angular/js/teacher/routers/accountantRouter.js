@@ -310,16 +310,26 @@ angular
             }
         })
 
-        .state('accountant/updateWrittenAgreement', {
-            url: "/accountant/updateWrittenAgreement",
+        .state('accountant/updateWrittenAgreement/:id', {
+            url: "/accountant/updateWrittenAgreement/:id",
             cache         : false,
-            templateUrl: accountantUrl+"template/updateWrittenAgreement",
+            templateUrl: function ($stateParams) {
+                return accountantUrl + "template/updateWrittenAgreement/" + $stateParams.id;
+            }
         })
 
-        .state('accountant/writtenAgreement', {
-            url: "/accountant/writtenAgreement",
+        .state('accountant/writtenAgreementTemplate/:id', {
+            url: "/accountant/writtenAgreementTemplate/:id",
             cache         : false,
-            templateUrl: accountantUrl+"template/writtenAgreement",
+            templateUrl: function ($stateParams) {
+                return accountantUrl+"template/writtenAgreement/" + $stateParams.id;
+            }
+        })
+
+        .state('accountant/writtenAgreementsList', {
+            url: "/accountant/writtenAgreementsList",
+            cache         : false,
+            templateUrl: accountantUrl+"template/writtenAgreementsList",
         })
   }
 );

@@ -66,7 +66,13 @@ angular
                         url: url + '/getAgreementRequestStatus'
                     },
                     getAgreementTemplate: {
-                        url: basePath+'/_teacher/_accountant/template/getAgreementTemplate'
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath+'/_teacher/_accountant/template/getAgreementTemplate',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    writtenAgreementsTemplateList : {
+                        url: basePath+'/_teacher/_accountant/template/getAgreementWrittenTemplateList'
                     },
                 });
         }])

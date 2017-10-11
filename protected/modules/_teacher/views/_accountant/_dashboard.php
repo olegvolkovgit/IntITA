@@ -155,7 +155,8 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a ng-href="#/accountant/writtenAgreement">Шаблон паперового договору</a>
+<!--                        <a ng-href="#/accountant/writtenAgreement">Шаблон паперового договору</a>-->
+                        <a ng-href="#/accountant/writtenAgreementsList">Шаблони паперового договору</a>
                     </li>
                 </ul>
                 <br>
