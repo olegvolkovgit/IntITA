@@ -60,15 +60,17 @@ abstract class TaskState {
     }
 
     protected function _executed($user) {
-        $criteria = new CDbCriteria();
-        $criteria->alias = "t";
-        $criteria->join = 'LEFT JOIN crm_tasks ct ON t.id_task=ct.id';
-        $criteria->addCondition("ct.id_state=".CrmTaskStatus::EXECUTED." and t.id_user=".$user->getId()." and t.cancelled_date is null");
-        $criteria->group = 't.id_task';
-        $tasks = CrmRolesTasks::model()->findAll($criteria);
-
-        foreach ($tasks as $task){
-            $task->idTask->state->changeTo('Paused', Yii::app()->user);
+        $lastHistoryTask=CrmTaskStateHistory::model()->find(
+            array(
+                'condition'=>'id_user=:id and id_state=:state',
+                'params'=>array(
+                    ':id'=>$user->getId(),
+                    ':state'=>CrmTaskStatus::EXECUTED,
+                ),
+                'order' => 'id desc',
+            ));
+        if($lastHistoryTask && $lastHistoryTask->id_task!=$this->idTask){
+            $lastHistoryTask->idTask->state->changeTo('Paused', Yii::app()->user);
         }
 
         $this->_changeState($this->idTask, self::Executed, $user->getId());

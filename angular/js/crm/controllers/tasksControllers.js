@@ -29,6 +29,7 @@ angular
             $scope.canEditCrmTasks=canEditCrmTasks;
 
             $scope.openModal = function (size, parentSelector) {
+                $scope.initCrmTask();
                 var parentElem = parentSelector ?
                     angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
                 $rootScope.modalInstance = $uibModal.open({
