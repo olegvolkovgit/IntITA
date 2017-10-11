@@ -70,7 +70,7 @@ abstract class TaskState {
                 'order' => 'id desc',
             ));
         if($lastHistoryTask && $lastHistoryTask->id_task!=$this->idTask){
-            if($lastHistoryTask->id_state!=CrmTaskStatus::PAUSED)
+            if($lastHistoryTask->idTask->state->canChange('Paused'))
                 $lastHistoryTask->idTask->state->changeTo('Paused', Yii::app()->user);
         }
 
