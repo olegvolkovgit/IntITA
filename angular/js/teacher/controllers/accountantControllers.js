@@ -1709,9 +1709,9 @@ angular
                 );
             };
         }])
-    .controller('updateAgreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
+    .controller('writtenAgreementTemplateView', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
         function ($scope, $http, $stateParams, $state, agreementsService) {
-            $scope.changePageHeader('Паперовий договір');
+            $scope.changePageHeader('Шаблон паперового договору');
 
             $scope.date = new Date();
 
@@ -1723,22 +1723,28 @@ angular
                 $scope.writtenAgreement = response;
             });
 
-            $scope.saveAgreementTemplate = function (template) {
-                $http({
-                    method: "POST",
-                    url: basePath + '/_teacher/_accountant/template/updateAgreementTemplate',
-                    data: $jq.param({template: template}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                    cache: false
-                }).success(function (response) {
-                    bootbox.alert('Шаблон успішно збережено');
-                }).error(function () {
-                    bootbox.alert("Шаблон договору оновити не вдалося");
-                });
+            $scope.saveAgreementTemplate = function (agreement) {
+                if(!agreement.template || !agreement.name){
+                    bootbox.alert('Тіло шаблону або назва не може бути пустою');
+                }else{
+                    $http({
+                        method: "POST",
+                        url: basePath + '/_teacher/_accountant/template/updateAgreementTemplate',
+                        data: $jq.param({template: agreement}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        cache: false
+                    }).success(function (response) {
+                        bootbox.alert('Шаблон успішно збережено', function () {
+                            $state.go('accountant/writtenAgreementsList');
+                        });
+                    }).error(function () {
+                        bootbox.alert("Шаблон договору створити не вдалося");
+                    });
+                }
             }
 
             agreementsService
-                .getAgreementTemplate({id_message: $stateParams.id})
+                .getAgreementTemplate({id: $stateParams.id})
                 .$promise
                 .then(function successCallback(response) {
                     $scope.agreementTemplate = response.data;
@@ -1746,7 +1752,7 @@ angular
                     bootbox.alert("Шаблон договору отримати не вдалося");
                 });
         }])
-    .controller('agreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
+    .controller('writtenAgreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
         function ($scope, $http, $stateParams, $state, agreementsService) {
             $scope.changePageHeader('Паперовий договір');
 
@@ -1760,28 +1766,25 @@ angular
                 $scope.writtenAgreement = response;
             });
 
-            $scope.saveAgreementTemplate = function (template) {
-                $http({
-                    method: "POST",
-                    url: basePath + '/_teacher/_accountant/template/updateAgreementTemplate',
-                    data: $jq.param({template: template}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                    cache: false
-                }).success(function (response) {
-                    bootbox.alert('Шаблон успішно збережено');
-                }).error(function () {
-                    bootbox.alert("Шаблон договору оновити не вдалося");
-                });
+            $scope.saveAgreementTemplate = function (agreement) {
+                if(!agreement.template || !agreement.name){
+                    bootbox.alert('Тіло шаблону або назва не може бути пустою');
+                }else{
+                    $http({
+                        method: "POST",
+                        url: basePath + '/_teacher/_accountant/template/createAgreementTemplate',
+                        data: $jq.param({template: agreement}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        cache: false
+                    }).success(function (response) {
+                        bootbox.alert('Шаблон успішно збережено', function () {
+                            $state.go('accountant/writtenAgreementsList');
+                        });
+                    }).error(function () {
+                        bootbox.alert("Шаблон договору створити не вдалося");
+                    });
+                }
             }
-
-            agreementsService
-                .getAgreementTemplate({id_message: $stateParams.id})
-                .$promise
-                .then(function successCallback(response) {
-                    $scope.agreementTemplate = response.data;
-                }, function errorCallback() {
-                    bootbox.alert("Шаблон договору отримати не вдалося");
-                });
         }])
     .controller('agreementTemplatesList', ['$scope', '$http', '$stateParams', '$state', 'agreementsService','NgTableParams',
         function ($scope, $http, $stateParams, $state, agreementsService,NgTableParams) {

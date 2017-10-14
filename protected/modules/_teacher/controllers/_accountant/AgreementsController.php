@@ -173,7 +173,8 @@ class AgreementsController extends TeacherCabinetController {
 
     public function actionGetWrittenAgreementData($id)
     {
-        $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount','service',
+        $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount'
+            ,'service.courseServices.courseModel.module.moduleInCourse.lectures','service.moduleServices.moduleModel',
             'corporateEntity.latestCheckingAccount',
             'corporateEntity.actualRepresentatives',
             'corporateEntity.actualRepresentatives.representative')->findByPk($id);

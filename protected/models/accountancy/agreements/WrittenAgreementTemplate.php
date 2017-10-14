@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'acc_written_agreement_template':
  * @property integer $id
  * @property string $template
+ * @property string $name
  * @property integer $id_organization
  * @property integer $create_by
  * @property string $updateAt
@@ -32,12 +33,12 @@ class WrittenAgreementTemplate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_organization, create_by, updateAt', 'required'),
+			array('id_organization, create_by, name', 'required'),
 			array('id_organization, create_by', 'numerical', 'integerOnly'=>true),
 			array('template', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, template, id_organization, create_by, updateAt', 'safe', 'on'=>'search'),
+			array('id, template, id_organization, create_by, updateAt, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +66,7 @@ class WrittenAgreementTemplate extends CActiveRecord
 			'id_organization' => 'Id Organization',
 			'create_by' => 'Create By',
 			'updateAt' => 'Update At',
+            'name' => 'Name',
 		);
 	}
 
@@ -91,6 +93,7 @@ class WrittenAgreementTemplate extends CActiveRecord
 		$criteria->compare('id_organization',$this->id_organization);
 		$criteria->compare('create_by',$this->create_by);
 		$criteria->compare('updateAt',$this->updateAt,true);
+        $criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
