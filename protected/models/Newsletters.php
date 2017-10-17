@@ -150,7 +150,6 @@ class Newsletters extends CActiveRecord implements ITask
     private function getMailList()
     {
         if ($this->recipients){
-            if (@unserialize($this->recipients))
                 $this->recipients = unserialize($this->recipients);
         }
 
