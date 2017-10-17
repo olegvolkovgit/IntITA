@@ -149,9 +149,6 @@ class Newsletters extends CActiveRecord implements ITask
 
     private function getMailList()
     {
-        if ($this->recipients){
-                $this->recipients = unserialize($this->recipients);
-        }
 
         $mailList = [];
         switch ($this->type) {
@@ -295,19 +292,12 @@ class Newsletters extends CActiveRecord implements ITask
     }
 
     public function getRecipients(){
-        if (($this->type === 'allUsers') || ($this->type === 'emailsFromDatabase') ){
-            $_recipients = $this->recipients;
-        }
-        else{
-            $_recipients = $this->recipients;
-
-        }
 
         $criteria = new CDbCriteria();
         $result = [];
         switch ($this->type){
             case "roles":{
-                foreach ($_recipients as $role){
+                foreach ($this->recipients as $role){
                     if ($role == 'coworkers'){
                         array_push($result,['id' =>0, 'name'=>'Всі співробітники']);
                     }
@@ -318,7 +308,7 @@ class Newsletters extends CActiveRecord implements ITask
                 break;
             }
             case "users":{
-                $criteria->addInCondition('email',$_recipients);
+                $criteria->addInCondition('email',$this->recipients);
                 $users = StudentReg::model()->findAll($criteria);
                 foreach ($users as $user){
                     array_push($result,['name'=>$user->firstName.' '.$user->middleName.' '.$user->secondName,'email'=>$user->email ]);
@@ -327,7 +317,7 @@ class Newsletters extends CActiveRecord implements ITask
             }
             case "groups":{
 
-                $criteria->addInCondition('id',$_recipients);
+                $criteria->addInCondition('id',$this->recipients);
                 $groups = OfflineGroups::model()->findAll($criteria);
                 foreach ($groups as $groupe){
                     array_push($result,['id'=>$groupe->id,'name'=>$groupe->name]);
@@ -336,7 +326,7 @@ class Newsletters extends CActiveRecord implements ITask
             }
             case "subGroups":{
                 $criteria->with = ['groupName'];
-                $criteria->addInCondition('t.id',$_recipients);
+                $criteria->addInCondition('t.id',$this->recipients);
                 $subgroups = OfflineSubgroups::model()->findAll($criteria);
                 foreach ($subgroups as $subgroupe){
                     array_push($result,['id'=>$subgroupe->id,
@@ -346,7 +336,7 @@ class Newsletters extends CActiveRecord implements ITask
                 break;
             }
             case "emailsFromDatabase":{
-                $category = EmailsCategory::model()->findByPk($_recipients);
+                $category = EmailsCategory::model()->findByPk($this->recipients);
                 if ($category){
                     array_push($result,['id'=>$category->id, 'name'=>$category->title]);
                 }
@@ -356,7 +346,7 @@ class Newsletters extends CActiveRecord implements ITask
                 break;
             }
             case "courses":{
-                $criteria->addInCondition('course_ID',$_recipients);
+                $criteria->addInCondition('course_ID',$this->recipients);
                 $courses = Course::model()->findAll($criteria);
                 foreach ($courses as $course){
                     array_push($result,['id'=>$course->course_ID,
@@ -365,7 +355,7 @@ class Newsletters extends CActiveRecord implements ITask
                 break;
             }
             case "modules":{
-                $criteria->addInCondition('module_ID',$_recipients);
+                $criteria->addInCondition('module_ID',$this->recipients);
                 $modules = Module::model()->findAll($criteria);
                 foreach ($modules as $module){
                     array_push($result,['id'=>$module->module_ID,
