@@ -45,10 +45,14 @@ class NewsletterController extends TeacherCabinetController
 
     public function actionSendLetter(){
         $newsLetter= new Newsletters();
-        $newsLetter->loadModel($_POST['newsletter']);
+        $newsLetter->attributes = ($_POST['newsletter']);
+        $newsLetter->recipients = $_POST['newsletter']['recipients'];
         if ($newsLetter->save()){
             $task = new SchedulerTasks();
-            $task->loadModel($_POST);
+            $task->attributes = $_POST;
+            if (isset($_POST['parameters'])){
+                $task->parameters = $_POST['parameters'];
+            }
             $task->type = TaskFactory::NEWSLETTER;
             date_default_timezone_set('Europe/Kiev');
             ($_POST['repeat_type'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');

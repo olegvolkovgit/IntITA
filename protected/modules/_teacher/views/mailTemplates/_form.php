@@ -37,7 +37,7 @@
 					</select><br>
 				</div>
                 <div class="form-group">
-                    <select class="form-control" name="active" ng-model="mailTemplateModel.type">
+                    <select class="form-control" name="active" ng-model="mailTemplateModel.template_type">
                         <option value="1">Розсилка</option>
                         <option value="2">Повідомлення про завдання</option>
                     </select><br>
