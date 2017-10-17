@@ -73,7 +73,7 @@ class Newsletters extends CActiveRecord implements ITask
 		return array(
 			'id' => 'ID',
 			'type' => 'Type',
-			'recitients' => 'Recitients',
+			'recipients' => 'Recipients',
 			'subject' => 'Subject',
 			'text' => 'Text',
 			'created_by' => 'Created By',
@@ -149,6 +149,11 @@ class Newsletters extends CActiveRecord implements ITask
 
     private function getMailList()
     {
+        if ($this->recipients){
+            if (@unserialize($this->recipients))
+                $this->recipients = unserialize($this->recipients);
+        }
+
         $mailList = [];
         switch ($this->type) {
             case "roles":
@@ -381,8 +386,8 @@ class Newsletters extends CActiveRecord implements ITask
             $this->template_params = unserialize($this->template_params);
         }
         if ($this->recipients){
-            if (@unserialize($this->recipients))
             $this->recipients = unserialize($this->recipients);
+
         }
 
         if ($this->newsletter_email == ""){
