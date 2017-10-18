@@ -199,7 +199,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     ?>
                 </div>
                 <div id="myCareer">
-                    <a href="http://www.robotamolodi.org/auth/intita">Резюме</a>
+                    <a href="http://www.robotamolodi.org/auth/intita" target="_blank">Резюме</a>
                 </div>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>

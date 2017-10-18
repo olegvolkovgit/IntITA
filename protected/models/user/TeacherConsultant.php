@@ -244,6 +244,19 @@ class TeacherConsultant extends Role
         } else return true;
     }
 
+    public function updateStudentTeacher($teacherModel, $module, $student)
+    {
+        $current_teacher=Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module=' . $module .
+            ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar();
+        if ($current_teacher && $current_teacher!=$teacherModel->id) {
+            $currentTeacherModel=StudentReg::model()->findByPk($current_teacher);
+            $this->cancelStudentAttribute($currentTeacherModel, $student, $module);
+            $this->setStudentAttribute($teacherModel, $student, $module);
+        } else if(!$current_teacher){
+            $this->setStudentAttribute($teacherModel, $student, $module);
+        }
+    }
+
     public function checkModule($teacher, $module)
     {
         $model=Module::model()->findByPk($module);
