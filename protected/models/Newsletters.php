@@ -286,8 +286,10 @@ class Newsletters extends CActiveRecord implements ITask
         }
         $headers = "From: {$fromName} <{$this->newsletter_email}>\n"
             . "MIME-Version: 1.0\n"
+            . "Reply-To: {$this->newsletter_email}" . "\r\n"
+            . "Return-Path: {$this->newsletter_email}"
             . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
-        mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->text,$headers);
+        mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->text,$headers, "-f {$this->newsletter_email}");
 
     }
 
