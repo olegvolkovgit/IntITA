@@ -437,6 +437,7 @@ class StudentController extends TeacherCabinetController
         $documents=$agreement->user->getActualUserDocuments();
 
         $data['agreement']=ActiveRecordToJSON::toAssocArray($agreement);
+        $data['agreementModules']= ActiveRecordToJSON::toAssocArray(UserAgreements::model()->with('service.courseServices.courseModel.module.moduleInCourse.lectures','service.moduleServices.moduleModel')->findByPk($id));
         $data['documents']=ActiveRecordToJSON::toAssocArray($documents);
         echo json_encode($data, JSON_FORCE_OBJECT);
     }
@@ -462,5 +463,33 @@ class StudentController extends TeacherCabinetController
         );
 
         echo json_encode(array_filter($data), JSON_FORCE_OBJECT);
+    }
+
+    public function actionUpdateUserAgreementData()
+    {
+        $type = Yii::app()->request->getPost('type');
+        $attribute = Yii::app()->request->getPost('attribute');
+        $data = Yii::app()->request->getPost('data');
+
+        $actualDocuments=UserDocuments::model()->with('documentType','documentsFiles','idUser')->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'actual'=>UserDocuments::ACTUAL));
+
+        foreach ($actualDocuments as $document){
+            if(isset($document[$attribute]) && $document->type==$type){
+                $document->$attribute=$data;
+                $document->update();
+                return;
+            }
+        }
+
+    }
+
+    public function actionUpdateUserData()
+    {
+        $attribute = Yii::app()->request->getPost('attribute');
+        $data = Yii::app()->request->getPost('data');
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $user->$attribute=$data;
+        $user->update();
+        return;
     }
 }

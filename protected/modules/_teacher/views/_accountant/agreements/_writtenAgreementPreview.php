@@ -5,9 +5,9 @@
 <div ng-if="!writtenAgreement.agreement.cancel_date && writtenAgreement.agreement.contract" style="border: 1px solid #000;border-radius: 5px; background: #e8e8e8; padding: 5px">
     Даний договір передбачає укладення паперового договору та затвердження його сторонами.
     Лише після затвердження паперового договору проплати на рахунок будуть актуальні.
-    Користувач переглянув договір, підтвердив його з своїми даними, та зробив запит на затвердження бехгалтером.
-    Перегляньте будь-ласка паперовий договір та перевірте на коректність документи користувача, які він за ним закріпив (текстові дані та скани документів).
-    Підтвердіть запит, або скасуйте його.
+    Користувач зробив запит на генерування договору. Оберіть тип шаблону паперового договору, перегляньте згенерований паперовий договір
+    на коректність документів користувача, які він за ним закріпив (текстові дані та скани документів).
+    Підтвердіть запит, або скасуйте його. Після підтвердження користувачу буде надіслано згенерований договір на підтвердження.
     <br>
 
     <form ng-if="writtenAgreement.documents">
@@ -62,7 +62,13 @@
                 <hr style="width:80%">
             </div>
         </fieldset>
-
+        <div class="form-group">
+            <label>Шаблон договору*:</label>
+            <select class="form-control" ng-options="item.id as item.name for item in writtenTemplates"
+                    ng-model="selectedTemplate" ng-change="getAgreementTemplate(selectedTemplate)">
+                <option name="writtenTemplates" value="" disabled selected>(Обери шаблон)</option>
+            </select>
+        </div>
         <br>
         <div ng-if="writtenAgreement">
             <div class="tab-content">
@@ -93,3 +99,4 @@
         </div>
     </form>
 </div>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '/_teacher/writtenAgreement.css'); ?>"/>

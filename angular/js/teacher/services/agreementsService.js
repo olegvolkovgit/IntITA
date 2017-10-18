@@ -74,6 +74,10 @@ angular
                     writtenAgreementsTemplateList : {
                         url: basePath+'/_teacher/_accountant/template/getAgreementWrittenTemplateList'
                     },
+                    getTemplatesList: {
+                        url: basePath+'/_teacher/_accountant/template/getTemplatesList',
+                        isArray:true
+                    },
                 });
         }])
     .service('agreementsInformation', ['lodash',

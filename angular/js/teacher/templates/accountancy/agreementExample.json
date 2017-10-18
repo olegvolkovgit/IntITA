@@ -1,27 +1,239 @@
 {
   "agreement": {
-    "id": "218",
-    "user_id": "776",
-    "service_id": "1",
-    "summa": "36036.00",
-    "create_date": "2017-08-05 15:11:09",
-    "number": "1 - 000218 - K",
-    "close_date": "2017-08-17 12:11:08",
-    "payment_schema": "1",
+    "id": "225",
+    "user_id": "822",
+    "service_id": "26",
+    "summa": "30030.00",
+    "create_date": "2017-10-16 12:48:00",
+    "number": "1 - 000225 - K",
+    "close_date": "2017-10-28 09:48:00",
+    "payment_schema": "12",
     "document_type": "passport",
     "educForm": "1",
     "status": "1",
     "id_corporate_entity": "1",
     "id_checking_account": "1",
+    "contract": "1",
     "service": {
-      "service_id": "1",
-      "description": "\u041a\u0443\u0440\u0441 \u0406\u043d\u0442\u0435\u0440\u043d\u0435\u0442 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0456\u0441\u0442 (\u0420\u041d\u0420) ",
-      "create_date": "2016-03-05 13:51:29",
+      "service_id": "26",
+      "description": "\u041a\u0443\u0440\u0441 \u0406\u043d\u0442\u0435\u0440\u043d\u0435\u0442 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0456\u0441\u0442 (\u0420\u041d\u0420) (\u043e\u0444\u043b\u0430\u0439\u043d)",
+      "create_date": "2016-08-06 10:55:06",
+      "billable": "1"
+    },
+    "invoice": {
+      "0": {
+        "id": "673",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:00",
+        "summa": "2502.50",
+        "payment_date": "2017-10-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2017-10-26 09:48:00",
+        "number": "225\/1"
+      },
+      "1": {
+        "id": "674",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:00",
+        "summa": "2502.50",
+        "payment_date": "2017-11-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2017-11-26 09:48:00",
+        "number": "225\/2"
+      },
+      "2": {
+        "id": "675",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2017-12-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2017-12-26 09:48:00",
+        "number": "225\/3"
+      },
+      "3": {
+        "id": "676",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-01-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-01-26 09:48:00",
+        "number": "225\/4"
+      },
+      "4": {
+        "id": "677",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-02-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-02-26 09:48:00",
+        "number": "225\/5"
+      },
+      "5": {
+        "id": "678",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-03-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-03-26 09:48:00",
+        "number": "225\/6"
+      },
+      "6": {
+        "id": "679",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-04-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-04-26 09:48:00",
+        "number": "225\/7"
+      },
+      "7": {
+        "id": "680",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-05-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-05-26 09:48:00",
+        "number": "225\/8"
+      },
+      "8": {
+        "id": "681",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-06-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-06-26 09:48:00",
+        "number": "225\/9"
+      },
+      "9": {
+        "id": "682",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-07-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-07-26 09:48:00",
+        "number": "225\/10"
+      },
+      "10": {
+        "id": "683",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-08-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-08-26 09:48:00",
+        "number": "225\/11"
+      },
+      "11": {
+        "id": "684",
+        "agreement_id": "225",
+        "date_created": "2017-10-16 12:48:01",
+        "summa": "2502.50",
+        "payment_date": "2018-09-16 09:48:00",
+        "user_created": "822",
+        "expiration_date": "2018-09-26 09:48:00",
+        "number": "225\/12"
+      }
+    },
+    "user": {
+      "id": "822",
+      "nickname": "Dev",
+      "birthday": "01\/01\/1901",
+      "email": "developers@gmail.com",
+      "educform": "1",
+      "aboutMy": "Just\r\nDo \r\nIT",
+      "avatar": "591a07bcad94c.jpg",
+      "status": "1",
+      "reg_time": "2017-05-15 22:55:40",
+      "skype": "magicwizlight",
+      "country": "49"
+    },
+    "corporateEntity": {
+      "id": "1",
+      "title": "\u0424\u041e\u041f \u041a\u0430\u043d\u0454\u0432\u0430 \u0406.\u0410.",
+      "EDPNOU": "3113305806",
+      "edpnou_issue_date": "0000-00-00 00:00:00",
+      "certificate_of_vat_issue_date": "0000-00-00 00:00:00",
+      "tax_certificate_issue_date": "0000-00-00 00:00:00",
+      "legal_address": "\u0432\u0443\u043b. \u041a\u0438\u0457\u0432\u0441\u044c\u043a\u0430, 164, \u043a\u0432. 45",
+      "legal_address_city_code": "1",
+      "actual_address_city_code": "1",
+      "id_organization": "1",
+      "contacts": "wizlightdragon@gmail.com, +380979699448",
+      "license_number": "\u0410\u0415 \u2116271363",
+      "license_issued": "\u0414\u0435\u043f\u0430\u0440\u0442\u0430\u043c\u0435\u043d\u0442\u043e\u043c \u043e\u0441\u0432\u0456\u0442\u0438 \u0456 \u043d\u0430\u0443\u043a\u0438 \u0412\u0456\u043d\u043d\u0438\u0446\u044c\u043a\u043e\u0457 \u041e\u0414\u0410",
+      "license_issued_date": "2016-06-11",
+      "latestCheckingAccount": {
+        "id": "1",
+        "bank_name": "\u0412\u0424 \u041f\u0410\u0422 \u041a\u0411 \u00ab\u041f\u0440\u0438\u0432\u0430\u0442\u0431\u0430\u043d\u043a\u00bb",
+        "bank_code": "302689",
+        "checking_account": "26002055332230",
+        "checking_account_order": "1",
+        "corporate_entity": "1",
+        "createdAt": "2017-06-14 19:45:34",
+        "deletedAt": "9999-12-31 23:59:59"
+      },
+      "actualRepresentatives": {
+        "0": {
+          "id": "1",
+          "corporate_entity": "1",
+          "corporate_representative": "1",
+          "representative_order": "1",
+          "position": "\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440",
+          "createdAt": "2017-06-14 19:45:30",
+          "deletedAt": "9999-12-31 23:59:59",
+          "position_accusative": "\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440\u0443",
+          "representative": {
+            "id": "1",
+            "full_name": "\u041a\u0430\u043d\u0454\u0432\u0430 \u0406\u0440\u0438\u043d\u0430 \u0410\u043d\u0430\u0442\u043e\u043b\u0456\u0457\u0432\u043d\u0430",
+            "full_name_accusative": "\u041a\u0430\u043d\u0454\u0432\u043e\u0457 \u0406\u0440\u0438\u043d\u0438 \u0410\u043d\u0430\u0442\u043e\u043b\u0456\u0457\u0432\u043d\u043e\u0457",
+            "full_name_short": "\u041a\u0430\u043d\u0454\u0432\u0430 \u0406. \u0410."
+          }
+        }
+      }
+    },
+    "checkingAccount": {
+      "id": "1",
+      "bank_name": "\u0412\u0424 \u041f\u0410\u0422 \u041a\u0411 \u00ab\u041f\u0440\u0438\u0432\u0430\u0442\u0431\u0430\u043d\u043a\u00bb",
+      "bank_code": "302689",
+      "checking_account": "26002055332230",
+      "checking_account_order": "1",
+      "corporate_entity": "1",
+      "createdAt": "2017-06-14 19:45:34",
+      "deletedAt": "9999-12-31 23:59:59"
+    }
+  },
+  "agreementModules": {
+    "id": "225",
+    "user_id": "822",
+    "service_id": "26",
+    "summa": "30030.00",
+    "create_date": "2017-10-16 12:48:00",
+    "number": "1 - 000225 - K",
+    "close_date": "2017-10-28 09:48:00",
+    "payment_schema": "12",
+    "document_type": "passport",
+    "educForm": "1",
+    "status": "1",
+    "id_corporate_entity": "1",
+    "id_checking_account": "1",
+    "contract": "1",
+    "service": {
+      "service_id": "26",
+      "description": "\u041a\u0443\u0440\u0441 \u0406\u043d\u0442\u0435\u0440\u043d\u0435\u0442 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0456\u0441\u0442 (\u0420\u041d\u0420) (\u043e\u0444\u043b\u0430\u0439\u043d)",
+      "create_date": "2016-08-06 10:55:06",
       "billable": "1",
       "courseServices": {
-        "service_id": "1",
+        "service_id": "26",
         "course_id": "1",
-        "education_form": "1",
+        "education_form": "2",
         "courseModel": {
           "course_ID": "1",
           "alias": "WDphp",
@@ -2973,98 +3185,68 @@
           }
         }
       }
-    },
-    "invoice": {
-      "0": {
-        "id": "605",
-        "agreement_id": "218",
-        "date_created": "2017-08-05 15:11:09",
-        "summa": "36036.00",
-        "payment_date": "2017-08-05 12:11:09",
-        "user_created": "776",
-        "expiration_date": "2017-08-15 12:11:09",
-        "number": "218\/1"
-      }
-    },
-    "user": {
-      "id": "776",
-      "firstName": "tasya",
-      "secondName": "Rko",
-      "nickname": "tasya",
-      "birthday": "30\/10\/1991",
-      "email": "riz.iya@gmail.com",
-      "phone": "+38731666",
-      "address": "Pirogova",
-      "education": "+",
-      "educform": "3",
-      "interests": "+",
-      "aboutUs": "+",
-      "aboutMy": "+",
-      "avatar": "59141c624a78f.jpg",
-      "status": "1",
-      "reg_time": "2017-05-04 00:15:05",
-      "skype": "+",
-      "country": "1",
-      "city": "29",
-      "prev_job": "+",
-      "current_job": "+",
-      "education_shift": "2"
-    },
-    "corporateEntity": {
-      "id": "1",
-      "title": "\u0424\u041e\u041f \u041a\u0430\u043d\u0454\u0432\u0430 \u0406.\u0410.",
-      "EDPNOU": "3113305806",
-      "edpnou_issue_date": "0000-00-00 00:00:00",
-      "certificate_of_vat_issue_date": "0000-00-00 00:00:00",
-      "tax_certificate_issue_date": "0000-00-00 00:00:00",
-      "legal_address": "\u0432\u0443\u043b. \u041a\u0438\u0457\u0432\u0441\u044c\u043a\u0430, 164, \u043a\u0432. 45",
-      "legal_address_city_code": "1",
-      "actual_address_city_code": "1",
-      "id_organization": "1",
-      "contacts": "wizlightdragon@gmail.com, +380979699448",
-      "license_number": "\u0410\u0415 \u2116271363",
-      "license_issued": "\u0414\u0435\u043f\u0430\u0440\u0442\u0430\u043c\u0435\u043d\u0442\u043e\u043c \u043e\u0441\u0432\u0456\u0442\u0438 \u0456 \u043d\u0430\u0443\u043a\u0438 \u0412\u0456\u043d\u043d\u0438\u0446\u044c\u043a\u043e\u0457 \u041e\u0414\u0410",
-      "license_issued_date": "2016-06-11",
-      "latestCheckingAccount": {
-        "id": "1",
-        "bank_name": "\u0412\u0424 \u041f\u0410\u0422 \u041a\u0411 \u00ab\u041f\u0440\u0438\u0432\u0430\u0442\u0431\u0430\u043d\u043a\u00bb",
-        "bank_code": "302689",
-        "checking_account": "26002055332230",
-        "checking_account_order": "1",
-        "corporate_entity": "1",
-        "createdAt": "2017-06-14 19:45:34",
-        "deletedAt": "9999-12-31 23:59:59"
-      },
-      "actualRepresentatives": {
-        "0": {
-          "id": "1",
-          "corporate_entity": "1",
-          "corporate_representative": "1",
-          "representative_order": "1",
-          "position": "\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440",
-          "createdAt": "2017-06-14 19:45:30",
-          "deletedAt": "9999-12-31 23:59:59",
-          "position_accusative": "\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440\u0443",
-          "representative": {
-            "id": "1",
-            "full_name": "\u041a\u0430\u043d\u0454\u0432\u0430 \u0406\u0440\u0438\u043d\u0430 \u0410\u043d\u0430\u0442\u043e\u043b\u0456\u0457\u0432\u043d\u0430",
-            "full_name_accusative": "\u041a\u0430\u043d\u0454\u0432\u043e\u0457 \u0406\u0440\u0438\u043d\u0438 \u0410\u043d\u0430\u0442\u043e\u043b\u0456\u0457\u0432\u043d\u043e\u0457",
-            "full_name_short": "\u041a\u0430\u043d\u0454\u0432\u0430 \u0406. \u0410."
-          }
-        }
-      }
-    },
-    "checkingAccount": {
-      "id": "1",
-      "bank_name": "\u0412\u0424 \u041f\u0410\u0422 \u041a\u0411 \u00ab\u041f\u0440\u0438\u0432\u0430\u0442\u0431\u0430\u043d\u043a\u00bb",
-      "bank_code": "302689",
-      "checking_account": "26002055332230",
-      "checking_account_order": "1",
-      "corporate_entity": "1",
-      "createdAt": "2017-06-14 19:45:34",
-      "deletedAt": "9999-12-31 23:59:59"
     }
   },
-  "documents": {},
-  "sessionTime": 1508019275
+  "documents": {
+    "0": {
+      "id": "9",
+      "id_user": "822",
+      "type": "1",
+      "number": "\u041c\u04150000000",
+      "issued": "\u0412\u0456\u043d\u043d\u0438\u0446\u044c\u043a\u0438\u043c \u0423\u0420\u0424\u0425\u0427",
+      "issued_date": "1999-03-12",
+      "registration_address": "\u041d\u0435\u0447\u0430\u044f 27\/\u0433",
+      "updatedAt": "2017-10-16 12:08:11",
+      "actual": "1",
+      "last_name": "\u041f\u0440\u0456\u0437\u0432\u0438\u0449\u0435",
+      "first_name": "\u0406\u043c'\u044f",
+      "middle_name": "\u041f\u043e-\u0431\u0430\u0442\u044c\u043a\u043e\u0432\u0456",
+      "documentType": {
+        "id": "1",
+        "title_ua": "\u041f\u0430\u0441\u043f\u043e\u0440\u0442",
+        "title_ru": "\u041f\u0430\u0441\u043f\u043e\u0440\u0442",
+        "title_en": "Passport"
+      },
+      "idUser": {
+        "id": "822",
+        "nickname": "Dev",
+        "birthday": "01\/01\/1901",
+        "email": "developers@gmail.com",
+        "educform": "1",
+        "aboutMy": "Just\r\nDo \r\nIT",
+        "avatar": "591a07bcad94c.jpg",
+        "status": "1",
+        "reg_time": "2017-05-15 22:55:40",
+        "skype": "magicwizlight",
+        "country": "49"
+      }
+    },
+    "1": {
+      "id": "10",
+      "id_user": "822",
+      "type": "2",
+      "number": "0000000000",
+      "updatedAt": "2017-10-16 12:09:01",
+      "actual": "1",
+      "documentType": {
+        "id": "2",
+        "title_ua": "\u0406\u043d\u0434\u0438\u0432\u0456\u0434\u0443\u0430\u043b\u044c\u043d\u0438\u0439 \u043f\u043e\u0434\u0430\u0442\u043a\u043e\u0432\u0438\u0439 \u043d\u043e\u043c\u0435\u0440",
+        "title_ru": "\u0418\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u043d\u043e\u043c\u0435\u0440 \u043d\u0430\u043b\u043e\u0433\u043e\u043f\u043b\u0430\u0442\u0435\u043b\u044c\u0449\u0438\u043a\u0430",
+        "title_en": "Taxpayer Identification Number"
+      },
+      "idUser": {
+        "id": "822",
+        "nickname": "Dev",
+        "birthday": "01\/01\/1901",
+        "email": "developers@gmail.com",
+        "educform": "1",
+        "aboutMy": "Just\r\nDo \r\nIT",
+        "avatar": "591a07bcad94c.jpg",
+        "status": "1",
+        "reg_time": "2017-05-15 22:55:40",
+        "skype": "magicwizlight",
+        "country": "49"
+      }
+    }
+  }
 }

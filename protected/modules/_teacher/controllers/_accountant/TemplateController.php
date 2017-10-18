@@ -81,9 +81,14 @@ class TemplateController extends TeacherCabinetController
 
     public function actionGetAgreementTemplate(){
         $params = array_filter($_POST);
-        $model=WrittenAgreementTemplate::model()->findByPk($params['id']);
-        Yii::app()->user->model->hasAccessToOrganizationModel($model);
-        $data['data']=$model;
+        if(isset($params['agreementId'])){
+            $agreement=UserAgreements::model()->findByPk($params['agreementId']);
+            $writtenAgreementTemplate=$agreement->getActualWrittenTemplate();
+        }else{
+            $writtenAgreementTemplate=WrittenAgreementTemplate::model()->findByPk($params['id']);
+            Yii::app()->user->model->hasAccessToOrganizationModel($writtenAgreementTemplate);
+        }
+        $data['data']=$writtenAgreementTemplate;
         echo CJSON::encode($data);
     }
 
@@ -96,5 +101,13 @@ class TemplateController extends TeacherCabinetController
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
+    }
+
+    public function actionGetTemplatesList()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition='id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+
+        echo CJSON::encode(WrittenAgreementTemplate::model()->findAll($criteria));
     }
 }

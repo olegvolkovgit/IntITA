@@ -1620,14 +1620,16 @@ angular
         function ($scope, agreementsService, $stateParams) {
             $scope.date = new Date();
 
-            agreementsService
-                .getAgreementTemplate()
-                .$promise
-                .then(function successCallback(response) {
-                    $scope.agreementTemplate = response.data;
-                }, function errorCallback() {
-                    bootbox.alert("Шаблон договору отримати не вдалося");
-                });
+            $scope.getAgreementTemplate = function(id){
+                agreementsService
+                    .getAgreementTemplate({id: id})
+                    .$promise
+                    .then(function successCallback(response) {
+                        $scope.agreementTemplate = response.data.template;
+                    }, function errorCallback() {
+                        bootbox.alert("Шаблон договору отримати не вдалося");
+                    });
+            }
 
             $scope.getAgreementRequestStatus = function (request) {
                 agreementsService
@@ -1708,6 +1710,16 @@ angular
                     }
                 );
             };
+
+            $scope.loadWrittenAgreementTemplates=function(){
+                return agreementsService
+                    .getTemplatesList()
+                    .$promise
+                    .then(function (data) {
+                        $scope.writtenTemplates=data;
+                    });
+            };
+            $scope.loadWrittenAgreementTemplates();
         }])
     .controller('writtenAgreementTemplateView', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
         function ($scope, $http, $stateParams, $state, agreementsService) {

@@ -679,6 +679,20 @@ class UserAgreements extends CActiveRecord {
 
         return false;
     }
+
+    public function getActualWrittenTemplate()
+    {
+        $userWrittenAgreement=UserWrittenAgreement::model()->findByAttributes(array(
+            'id_user'=>$this->user_id,
+            'id_agreement'=>$this->id,
+            'actual'=>UserWrittenAgreement::ACTUAL,
+        ));
+        if($userWrittenAgreement) {
+            return $userWrittenAgreement->template_html;
+        }else{
+            return $this->service->writtenAgreementTemplate->template;
+        }
+    }
 }
 
 

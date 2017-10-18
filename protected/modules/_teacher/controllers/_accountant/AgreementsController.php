@@ -174,7 +174,7 @@ class AgreementsController extends TeacherCabinetController {
     public function actionGetWrittenAgreementData($id)
     {
         $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount'
-            ,'service.courseServices.courseModel.module.moduleInCourse.lectures','service.moduleServices.moduleModel',
+            ,'service',
             'corporateEntity.latestCheckingAccount',
             'corporateEntity.actualRepresentatives',
             'corporateEntity.actualRepresentatives.representative')->findByPk($id);
@@ -182,6 +182,7 @@ class AgreementsController extends TeacherCabinetController {
         $documents=$agreement->user->getActualUserDocuments();
 
         $data['agreement']=ActiveRecordToJSON::toAssocArray($agreement);
+        $data['agreementModules']= ActiveRecordToJSON::toAssocArray(UserAgreements::model()->with('service.courseServices.courseModel.module.moduleInCourse.lectures','service.moduleServices.moduleModel')->findByPk($id));
         $data['documents']=ActiveRecordToJSON::toAssocArray($documents);
         $date = new DateTime(null, new DateTimeZone(Config::getServerTimezone()));
         $data['sessionTime']=$date->getTimestamp() + $date->getOffset();

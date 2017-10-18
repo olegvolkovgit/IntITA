@@ -70,9 +70,9 @@ angular
             link: link,
             template: '<table>' +
             '<tr style="font-weight: bold"><td style="width:40px">№</td><td>Назва підготовки в межах даного напрямку</td><td>Кількість навчальних годин</td></tr>' +
-            '<tr ng-if="writtenAgreement.agreement.service.courseServices" ng-repeat="module in writtenAgreement.agreement.service.courseServices.courseModel.module track by $index">' +
+            '<tr ng-if="writtenAgreement.agreementModules.service.courseServices" ng-repeat="module in writtenAgreement.agreementModules.service.courseServices.courseModel.module track by $index">' +
             '<td>{{$index+1}}</td><td>{{module.moduleInCourse.title_ua}}</td><td style="text-align: center" class="module-hours">{{(module.moduleInCourse.lectures | objLength)*2 | number:0}}</td></tr>' +
-            '<tr ng-if="writtenAgreement.agreement.service.moduleServices" ng-repeat="module in writtenAgreement.agreement.service.moduleServices.moduleModel track by $index">' +
+            '<tr ng-if="writtenAgreement.agreementModules.service.moduleServices" ng-repeat="module in writtenAgreement.agreement.service.moduleServices.moduleModel track by $index">' +
             '<td>{{$index+1}}</td><td>{{module.moduleInCourse.title_ua}}</td><td style="text-align: center" class="module-hours">{{(module.moduleInCourse.lectures | objLength)*2 | number:0}}</td></tr>'+
             '<tr style="font-weight: bold"><td></td><td>Всього</td><td style="text-align: center">{{ modulesSumHours() }}</td></tr>'+
             '</table>'
@@ -82,47 +82,51 @@ angular
     .directive('uUserPassport', function() {
         return {
             template: '<span ng-repeat="document in writtenAgreement.documents track by $index">'+
-            '<span ng-if="document.type==1">{{document.number}}</span>'
+            '<span ng-if="document.type==1">{{document.number}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.number,\'number\')"></i></span>'
         };
     })
 
     .directive('uUserPassportIssued', function() {
         return {
             template: '<span ng-repeat="document in writtenAgreement.documents track by $index">'+
-            '<span ng-if="document.type==1">{{document.issued}}</span></span>'
+            '<span ng-if="document.type==1">{{document.issued}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.issued,\'issued\')"></i></span></span>'
         };
     })
 
     .directive('uUserPassportDate', function() {
         return {
             template: '<span ng-repeat="document in writtenAgreement.documents track by $index">'+
-            '<span ng-if="document.type==1">{{document.issued_date | date:"dd.MM.yyyy"}}</span></span>'
+            '<span ng-if="document.type==1">{{document.issued_date | date:"dd.MM.yyyy"}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.issued_date,\'issued_date\')"></i></span></span>'
         };
     })
 
     .directive('uUserInn', function() {
         return {
             template: '<span ng-repeat="document in writtenAgreement.documents track by $index">'+
-            '<span ng-if="document.type==2">{{document.number}}</span>'
+            '<span ng-if="document.type==2">{{document.number}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.number,\'number\')"></i></span>'
         };
     })
 
     .directive('uUserDataAddress', function() {
         return {
             template: '<span ng-repeat="document in writtenAgreement.documents track by $index">'+
-            '<span ng-if="document.type==1">{{document.last_name}} {{document.first_name}} {{document.middle_name}}, ' +
-            '{{document.registration_address}}</span></span>'
+            '<span ng-if="document.type==1">{{document.last_name}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.last_name,\'last_name\')"></i>' +
+            ' {{document.first_name}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.first_name,\'first_name\')"></i>' +
+            ' {{document.middle_name}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.middle_name,\'middle_name\')"></i>, ' +
+            '{{document.registration_address}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.registration_address,\'registration_address\')"></i></span></span>'
         };
     })
     .directive('uName', function() {
         return {
             template: '<span ng-repeat="document in writtenAgreement.documents track by $index"><span ng-if="document.type==1">' +
-            '{{document.last_name}} {{document.first_name}} {{document.middle_name}}</span></span>'
+            '{{document.last_name}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.last_name,\'last_name\')"></i> ' +
+            '{{document.first_name}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.first_name,\'first_name\')"></i> ' +
+            '{{document.middle_name}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.middle_name,\'middle_name\')"></i></span></span>'
         };
     })
     .directive('uUserPhone', function() {
         return {
-            template: '{{writtenAgreement.agreement.user.phone}}'
+            template: '{{writtenAgreement.agreement.user.phone}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserData(writtenAgreement.agreement.user.phone,\'phone\')"></i>'
         };
     })
     .directive('uUserEmail', function() {

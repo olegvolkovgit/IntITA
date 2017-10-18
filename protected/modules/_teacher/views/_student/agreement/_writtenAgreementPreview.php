@@ -2,6 +2,12 @@
 /* @var $agreement UserAgreements
  */
 ?>
+<style>
+    .fa-edit{
+        color:#4b75a4;
+        cursor: pointer;
+    }
+</style>
 <div ng-if="!writtenAgreement.agreement.cancel_date && writtenAgreement.agreement.contract" style="border: 1px solid #000;border-radius: 5px; background: #e8e8e8; padding: 5px">
     Даний договір передбачає укладення паперового договору та затвердження його сторонами.
     Перегляньте ваші дані на коректність. Додати або змінити текстові дані та скани документів можна в формі редагування профіля в вкладці
@@ -79,3 +85,4 @@
         <button type="button" class="btn btn-success btn-xs" ng-click="sendCheckedWrittenAgreementRequest(writtenAgreement.agreement.id)" >Відправити запит</button>
     </div>
 </div>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '/_teacher/writtenAgreement.css'); ?>"/>
