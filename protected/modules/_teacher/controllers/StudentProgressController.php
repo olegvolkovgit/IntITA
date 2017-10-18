@@ -11,10 +11,11 @@
 
 class StudentProgressController extends TeacherCabinetController
 {
+
+
     public function hasRole()
     {
-
-        return Yii::app()->user->model->isSuperVisor();
+        return Yii::app()->user->model->isSuperVisor() || Yii::app()->user->model->isTrainer();
     }
 
     public function actionIndex(){
@@ -34,13 +35,28 @@ class StudentProgressController extends TeacherCabinetController
         return $this->renderPartial('_lectureProgress');
     }
 
-    public function actionGetUsers($page=1,$count=10){
+    public function actionGetUsers($page=1,$count=10,$filter=null){
+
         $criteria = new CDbCriteria();
-        $users = RatingUserCourse::model();
-        $models = $users->count();
+        $criteria->with = ['idUser'];
+        if (!Yii::app()->user->model->isSuperVisor() && Yii::app()->user->model->isTrainer()){
+            $studentsIdArray = [];
+            $students = TrainerStudent::getStudentByTrainer(Yii::app()->user->id);
+            foreach ($students as $student){
+                array_push($studentsIdArray, $student->id);
+            }
+            $criteria->addInCondition('idUser.id',$studentsIdArray);
+        }
+        if ($filter){
+            $criteria->addSearchCondition('idUser.email',$filter,true,'OR');
+            $criteria->addSearchCondition('idUser.firstName',$filter,true,'OR');
+            $criteria->addSearchCondition('idUser.secondName',$filter,true,'OR');
+            $criteria->addSearchCondition('idUser.middleName',$filter,true,'OR');
+        }
+        $models = RatingUserCourse::model()->count($criteria);
         $criteria->limit = $count;
         $criteria->offset = ($page-1)*$count;
-        $ratingModels = $users->findAll($criteria);
+        $ratingModels = RatingUserCourse::model()->findAll($criteria);;
         $result = [];
         foreach ($ratingModels as $ratingModel){
             $rate = new PercentageProgress($ratingModel->id_user);
@@ -56,6 +72,8 @@ class StudentProgressController extends TeacherCabinetController
     }
 
     public function actionGetCourseProgress($student,$course){
+        $this->checkTrainerPermission($student);
+
         $user = StudentReg::model()->findByPk((int)$student);
         $course = RatingUserCourse::model()->find('id_course=:idCourse AND id_user=:idUser',['idCourse'=>$course,'idUser'=>$student]);
         $result = [];
@@ -70,6 +88,7 @@ class StudentProgressController extends TeacherCabinetController
     }
 
     public function actionGetModuleProgress($student,$module){
+        $this->checkTrainerPermission($student);
         $result = [];
         $user = StudentReg::model()->findByPk((int)$student);
         $module = RatingUserModule::model()->find('id_module=:idModule AND id_user=:idUser',['idModule'=>$module,'idUser'=>$student]);
@@ -91,11 +110,21 @@ class StudentProgressController extends TeacherCabinetController
     }
 
     public function actionGetLectureProgress($student, $lecture){
+        $this->checkTrainerPermission($student);
         $lectureForPregress = RevisionModuleLecture::model()->with(['lecture'])->find('id=:lecture',['lecture'=>$lecture]);
         $user = StudentReg::model()->findByPk((int)$student);
         $rate = new PercentageProgress((int)$student);
         $data = $rate->getLectureElementProgress($lectureForPregress->lecture->id_lecture);
         echo CJSON::encode((array_merge(['student'=>['id'=>$user->id,'fullName'=>$user->fullName()]],$data)));
+    }
+
+    private function checkTrainerPermission($studentId){
+        if (!Yii::app()->user->model->isSuperVisor() && Yii::app()->user->model->isTrainer()){
+            $trainer = TrainerStudent::getTrainerByStudent($studentId);
+            if (!$trainer || ($trainer->id != Yii::app()->user->id)){
+                throw new CHttpException(403,'Ви не є тренером даного студента, перегляд прогресу неможливий!');
+            }
+        }
     }
 
 }

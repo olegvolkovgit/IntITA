@@ -18,7 +18,7 @@ if ($editMode){
                 <div align="center" style="width:85%">
                     <a class="btnChat" href="<?php
                     if (!Yii::app()->user->isGuest){
-                        echo Config::getBaseUrl(); echo Config::getChatPath(); echo $model->user_id; echo '" target="_blank';
+                        echo Config::getChatPath(); echo $model->user_id; echo '" target="_blank';
                     } else {
                         echo '" onclick="openSignIn();';
                     }

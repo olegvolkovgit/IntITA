@@ -1,3 +1,6 @@
+<script type="text/ng-template" id="headerCheckbox.html">
+    <input type="checkbox" ng-model="checkboxes.checkAll" id="select_all" name="filter-checkbox" value="" />
+</script>
 <div class="panel-body">
     <div ng-controller="teacherConsultantTasksCtrl">
         <label>
@@ -7,6 +10,12 @@
             <input type="checkbox" ng-model="isLatex" ng-click="renderTableListWithLatex()">Режим рендеру LaTeX формул
         </label>
         <form autocomplete="off">
+            <div style="height: 50px">
+                <div ng-if="checkedStudentsAnswers.length > 0" style="padding: 10px; text-align: right">
+                    <button class="btn btn-primary"  ng-click="setMarkTaskInTableForChecked(checkedStudentsAnswers, 1)">Зарахувати</button>
+                    <button class="btn btn-danger"  ng-click="setMarkTaskInTableForChecked(checkedStudentsAnswers, 0)">Не зарахувати</button>
+                </div>
+            </div>
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed">
                 <colgroup>
                     <col ng-if="!isDetail"/>
@@ -20,6 +29,7 @@
                     <col ng-if="!isDetail"/>
                     <col ng-if="!isDetail"/>
                     <col ng-if="!isDetail"/>
+                    <col width="5%" />
                 </colgroup>
                 <tr ng-repeat="row in $data track by $index" ng-class="{success: row.plainTaskMark.mark, danger: row.plainTaskMark && !row.plainTaskMark.mark}">
                     <td ng-if="!isDetail" data-title="'Модуль'" filter="{'plainTaskModule.title_ua': 'text'}" sortable="'plainTaskModule.title_ua'">
@@ -61,8 +71,8 @@
                         <span ng-if="!row.plainTaskMark">?</span>
 
                         <div ng-if="!row.plainTaskMark">
-                            <a title="зараховано" href="" ng-click="setMarkTaskInTable(row.id, 1, row.user.id)"><i class="fa fa-check fa-fw"></i></a>
-                            <a title="не зараховано" href="" ng-click="setMarkTaskInTable(row.id, 0,row.user.id)"><i class="fa fa-times fa-fw"></i></a>
+                            <a title="зараховано" href="" ng-click="setMarkTaskInTable(row.id, 1)"><i class="fa fa-check fa-fw"></i></a>
+                            <a title="не зараховано" href="" ng-click="setMarkTaskInTable(row.id, 0)"><i class="fa fa-times fa-fw"></i></a>
                         </div>
                     </td>
                     <td ng-if="!isDetail" data-title="'Коментар'" filter="{'plainTaskMark.comment': 'text'}">
@@ -74,6 +84,7 @@
                     <td ng-if="!isDetail" data-title="'Дата оцінювання'" filter="{'plainTaskMark.time': 'text'}" sortable="'plainTaskMark.time'">
                         {{row.plainTaskMark.time}}
                     </td>
+                    <td header="'headerCheckbox.html'"> <input type="checkbox" ng-model="checkboxes.items[row.id]" /></td>
                 </tr>
             </table>
         </form>

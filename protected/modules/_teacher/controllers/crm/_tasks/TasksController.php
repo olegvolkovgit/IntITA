@@ -445,7 +445,7 @@ class TasksController extends TeacherCabinetController {
             $model->date_of_visit= new CDbExpression('NOW()');
             $model->save();
         }
-        $this->notifyUser('changeTaskManager-'.Yii::app()->user->getId(),[]);
+        $this->notifyUser('changeTaskManager-'.Yii::app()->user->getId(), false);
     }
 
     public function actionGetTaskManagerCounter(){

@@ -35,7 +35,7 @@ $roles = $data->getRoles();
             <br>
             <a class="btnChat" href="<?php
             if (!Yii::app()->user->isGuest){
-                echo Config::getBaseUrl(); echo Config::getChatPath(); echo $data->user_id; echo '" target="_blank';
+                echo Config::getChatPath(); echo $data->user_id; echo '" target="_blank';
             } else {
                 echo '" onclick="openSignIn();';
             }
