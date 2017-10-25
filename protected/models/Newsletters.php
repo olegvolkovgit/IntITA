@@ -284,11 +284,11 @@ class Newsletters extends CActiveRecord implements ITask
             $model = Teacher::model()->with('user')->findByAttributes(array('corporate_mail'=>$this->newsletter_email));
             $fromName = "{$model->user->firstName} {$model->user->middleName} {$model->user->secondName}";
         }
-        $headers = "From: {$fromName} <{$this->newsletter_email}>\n"
-            . "MIME-Version: 1.0\n"
+        $headers = "From: {$fromName} <{$this->newsletter_email}>". "\r\n"
+            . "MIME-Version: 1.0". "\r\n"
             . "Reply-To: {$this->newsletter_email}" . "\r\n"
-            . "Return-Path: {$this->newsletter_email}"
-            . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
+            . "Return-Path: {$this->newsletter_email}". "\r\n"
+            . "Content-type: text/html;charset=utf-8" . "\r\n";
         mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->text,$headers, "-f {$this->newsletter_email}");
 
     }
