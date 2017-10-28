@@ -92,8 +92,8 @@ $header = new Header();
                             <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                             </li>
-                            <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
-                                   target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
+<!--                            <li><a href="--><?php //echo Config::getBaseUrl() . '/crmForum'; ?><!--"-->
+<!--                                   target="_blank">--><?php //echo Yii::t('header', '0017'); ?><!--</a></li>-->
                             <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                             </li>
@@ -268,8 +268,8 @@ $header = new Header();
                     <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                     </li>
-                    <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
-                           target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
+<!--                    <li><a href="--><?php //echo Config::getBaseUrl() . '/crmForum'; ?><!--"-->
+<!--                           target="_blank">--><?php //echo Yii::t('header', '0017'); ?><!--</a></li>-->
                     <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?>>
                         <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                     </li>

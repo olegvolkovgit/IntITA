@@ -487,6 +487,10 @@ class SuperVisorController extends TeacherCabinetController
                         }
                         $role->setStudentAttribute($model->teacher, $student->id_user, $model->module->module_ID);
                     }
+                    $url=Config::getFullChatPath()."/group_operations/update/".$subgroup->groupName->id;
+                    $callUrl = new CurlHelper();
+                    $callUrl->callPageByCurl($url);
+
                     echo 'Студента додано в підгрупу';
                 }else{
                     echo 'Додати студента не вдалося';
