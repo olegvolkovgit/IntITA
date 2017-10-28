@@ -137,6 +137,12 @@
                             <span ng-cloak class="label label-primary" ng-if="countOfActualWrittenAgreementRequests > 0">{{countOfActualWrittenAgreementRequests}}</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#/accountant/writtenagreementslist">
+                            Список паперових договорів
+                            <span ng-cloak class="label label-info" ng-if="countOfActualWrittenAgreements > 0">{{countOfActualWrittenAgreements}}</span>
+                        </a>
+                    </li>
                 </ul>
                 <br>
                 <br>
@@ -155,8 +161,12 @@
             <div class="panel-body">
                 <ul>
                     <li>
-<!--                        <a ng-href="#/accountant/writtenAgreement">Шаблон паперового договору</a>-->
                         <a ng-href="#/accountant/writtenAgreementsList">Шаблони паперового договору</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a ng-href="#/accountant/writtenAgreementsApplied">Застосування шаблона до сервісу</a>
                     </li>
                 </ul>
                 <br>

@@ -61,10 +61,7 @@
                         <a href="" ng-if="!row.cancel_date && row.paidAmount=='0.00'" ng-click="cancel(row.id)">
                             <i class="fa fa-trash fa-fw"></i>
                         </a>
-<!--                        <button ng-if="row.approval_date && !row.close_date" class="btn btn-danger"-->
-<!--                                ng-click="close(row.id)">-->
-<!--                                Закрити-->
-<!--                        </button>-->
+                        <a href="#/accountant/studentagreement/id/{{row.id}}"><i class="fa fa-eye fa-fw"></i></a>
                     </td>
                     <?php } ?>
                 </tr>

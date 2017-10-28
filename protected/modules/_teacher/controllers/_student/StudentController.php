@@ -303,47 +303,70 @@ class StudentController extends TeacherCabinetController
     }
 
     public function actionNewCourseAgreement(){
-        $user = Yii::app()->user->getId();
-        $course = Yii::app()->request->getPost('course', 0);
-        $educationForm = Yii::app()->request->getPost('educationForm');
-        $courseModel=Course::model()->findByPk($course);
-        if(!Yii::app()->user->model->isStudent($courseModel->organization->id)){
-            $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, $courseModel->organization->id);
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        try {
+            if (Yii::app()->request->getPost('user')) {
+                $user = Yii::app()->request->getPost('user');
+            } else {
+                $user = Yii::app()->user->getId();
+            }
+            $course = Yii::app()->request->getPost('course', 0);
+            $educationForm = Yii::app()->request->getPost('educationForm');
+            $courseModel = Course::model()->findByPk($course);
+            if (!Yii::app()->user->model->isStudent($courseModel->organization->id)) {
+                $roleObj = Role::getInstance(UserRoles::STUDENT);
+                $roleObj->setRole(Yii::app()->user->model->registrationData, $courseModel->organization->id);
+            }
+
+            if ($educationForm == 'online') $educationForm = EducationForm::ONLINE;
+            else if ($educationForm == 'offline') $educationForm = EducationForm::OFFLINE;
+            else $educationForm = EducationForm::ONLINE;
+
+            $schemaNum = Yii::app()->request->getPost('payment', '0');
+            $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
+            $result = ($agreement) ? $agreement->id : 0;
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
-
-        if($educationForm=='online') $educationForm=EducationForm::ONLINE;
-        else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
-        else $educationForm=EducationForm::ONLINE;
-
-        $schemaNum = Yii::app()->request->getPost('payment', '0');
-
-        $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
-
-        echo ($agreement)?$agreement->id:0;
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionNewModuleAgreement(){
-        $user = Yii::app()->user->getId();
-        $course = Yii::app()->request->getPost('course', 0);
-        $module = Yii::app()->request->getPost('module', 0);
-        $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
 
-        $moduleModel=Module::model()->findByPk($module);
-        if(!Yii::app()->user->model->isStudent($moduleModel->organization->id)){
-            $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, $moduleModel->organization->id);
+        try {
+            if(Yii::app()->request->getPost('user')){
+                $user = Yii::app()->request->getPost('user');
+            }else{
+                $user = Yii::app()->user->getId();
+            }
+            $course = Yii::app()->request->getPost('course', 0);
+            $module = Yii::app()->request->getPost('module', 0);
+            $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
+
+            $moduleModel=Module::model()->findByPk($module);
+            if(!Yii::app()->user->model->isStudent($moduleModel->organization->id)){
+                $roleObj = Role::getInstance(UserRoles::STUDENT);
+                $roleObj->setRole(Yii::app()->user->model->registrationData, $moduleModel->organization->id);
+            }
+
+            if($educationForm=='online') $educationForm=EducationForm::ONLINE;
+            else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
+            else $educationForm=EducationForm::ONLINE;
+
+            $schemaNum = Yii::app()->request->getPost('payment', '0');
+
+            $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, $schemaNum, $educationForm);
+            $result = ($agreement) ? $agreement->id : 0;
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
-
-        if($educationForm=='online') $educationForm=EducationForm::ONLINE;
-        else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
-        else $educationForm=EducationForm::ONLINE;
-
-        $schemaNum = Yii::app()->request->getPost('payment', '0');
-
-        $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, $schemaNum, $educationForm);
-
-        echo ($agreement)?$agreement->id:0;
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionOfflineEducation()
@@ -476,6 +499,7 @@ class StudentController extends TeacherCabinetController
         foreach ($actualDocuments as $document){
             if(isset($document[$attribute]) && $document->type==$type){
                 $document->$attribute=$data;
+                $document->updatedAt=new CDbExpression('NOW()');
                 $document->update();
                 return;
             }
@@ -487,9 +511,34 @@ class StudentController extends TeacherCabinetController
     {
         $attribute = Yii::app()->request->getPost('attribute');
         $data = Yii::app()->request->getPost('data');
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        $user->$attribute=$data;
-        $user->update();
+        StudentReg::model()->updateByPk(Yii::app()->user->getId(), array($attribute=>$data));
         return;
+    }
+
+    public function actionCheckAgreementPdf($agreementId)
+    {
+        $data['data']=ActiveRecordToJSON::toAssocArrayWithRelations(UserWrittenAgreement::model()->with('user')->findByAttributes(
+            array('id_agreement'=>$agreementId,'actual'=>UserWrittenAgreement::ACTUAL)));
+        echo json_encode($data);
+    }
+
+    public function actionCheckAgreementByUser()
+    {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        try {
+            $params = array_filter($_POST);
+            $writtenAgreement=UserWrittenAgreement::model()->findByPk($params['id']);
+            $writtenAgreement->checked_by_user=UserWrittenAgreement::CHECKED;
+            if(!$writtenAgreement->save()){
+                throw new \application\components\Exceptions\IntItaException(500, "Підтвердити договір не вдалося. Зверніться до адміністрації.");
+            }
+
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 }

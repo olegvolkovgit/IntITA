@@ -17,6 +17,7 @@
  */
 class WrittenAgreementTemplate extends CActiveRecord
 {
+    const DEFAULT_TEMPLATE = 1;
 	/**
 	 * @return string the associated database table name
 	 */

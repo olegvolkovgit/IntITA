@@ -1616,15 +1616,121 @@ angular
             });
         }])
 
+    .controller('writtenAgreementsTableCtrl', ['$scope', '$stateParams', 'NgTableParams', 'agreementsService', '$http', '$rootScope',
+        function ($scope, $stateParams, NgTableParams, agreementsService, $http, $rootScope) {
+            $scope.changePageHeader('Паперові договора');
+
+            $scope.status = [
+                {id: '1', title: 'затвердженні і згенеровані'},
+                {id: '2', title: 'очікують затвердження користувача'},
+                {id: '3', title: 'затверджені користувачем, але не згенеровані'},
+            ];
+
+            $scope.writtenAgreementsTableParams = new NgTableParams({filter: {'status': '3'},
+                sorting: {
+                    updatedAt: 'desc'
+                },}, {
+                getData: function (params) {
+                    return agreementsService
+                        .writtenAreementsList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+        }])
+
+    .controller('writtenAgreementsAppliedTableCtrl', ['$scope', '$stateParams', 'NgTableParams', 'agreementsService', '$http', '$rootScope',
+        function ($scope, $stateParams, NgTableParams, agreementsService, $http, $rootScope) {
+            $scope.changePageHeader('Застосовані паперові договора до сервісів');
+
+            $scope.writtenAgreementsAppliedTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return agreementsService
+                        .writtenAreementsAppliedList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            console.log(data.rows);
+                            return data.rows;
+                        });
+                }
+            });
+
+            $scope.cancelAppliedAgreement = function (id) {
+                bootbox.confirm('Ти впевнений, що хочеш скасувати шаблон?', function (result) {
+                    if (result) {
+                        agreementsService.cancelAppliedAgreement({service_id: id}).$promise
+                            .then(function (data) {
+                                $scope.writtenAgreementsAppliedTableParams.reload();
+                            });
+                    }
+                });
+            };
+
+            $scope.loadTemplates = function () {
+                $http({
+                    url: basePath + '/_teacher/_accountant/template/GetTemplatesList',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    $scope.templates = response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Отримати шаблони схем не вдалося");
+                });
+            };
+            $scope.loadTemplates();
+
+            $scope.formData = {};
+            $scope.clearInputs=function () {
+                $scope.formData.service_id=null;
+                $scope.serviceSelected=null;
+            };
+
+            $scope.onSelectService = function ($item) {
+                $scope.formData.service_id = $item.id;
+            };
+
+            $scope.reloadService = function(){
+                $scope.formData.service_id=null;
+            };
+
+            $scope.setWrittenAgreementTemplateForService = function(data){
+                if (data.written_agreement_template_id && data.service_id){
+                    agreementsService
+                        .applyWrittenAgreementForService(data)
+                        .$promise
+                        .then(function successCallback(response) {
+                            $scope.writtenAgreementsAppliedTableParams.reload();
+                            $scope.clearInputs();
+                        }, function errorCallback(response) {
+                            console.log(response);
+                            bootbox.alert("Операцію не вдалося виконати");
+                        });
+                }else{
+                    bootbox.alert("Користувача або модуль не вибрано");
+                }
+            }
+        }])
+
     .controller('writtenAgreementViewCtrl', ['$scope', 'agreementsService', '$stateParams',
         function ($scope, agreementsService, $stateParams) {
             $scope.date = new Date();
+            $scope.options={};
+
+            $scope.editorOptionsAgreement = {
+                toolbar: 'agreement',
+                height: '1000'
+            };
 
             $scope.getAgreementTemplate = function(id){
                 agreementsService
-                    .getAgreementTemplate({id: id})
+                    .getAgreementTemplate({agreementId: id, id: $scope.options.selectedTemplate})
                     .$promise
                     .then(function successCallback(response) {
+                        $scope.options.selectedTemplate= response.data.id;
                         $scope.agreementTemplate = response.data.template;
                     }, function errorCallback() {
                         bootbox.alert("Шаблон договору отримати не вдалося");
@@ -1639,15 +1745,42 @@ angular
                         $scope.agreementRequestStatus = data.status;
                     });
             };
-            $scope.getAgreementRequestStatus($stateParams.request);
+            if($stateParams.request){
+                $scope.getAgreementRequestStatus($stateParams.request);
+            }
+
 
             $scope.writtenAgreementPreviewForAccountant = function (agreementId) {
                 agreementsService
                     .getWrittenAgreementData({'id': agreementId})
                     .$promise
                     .then(function (data) {
+                        $scope.getAgreementTemplate(agreementId);
                         $scope.writtenAgreement = data;
-                        $scope.getAgreementRequestStatus($stateParams.request);
+                        if($stateParams.request){
+                         $scope.getAgreementRequestStatus($stateParams.request);
+                        }
+                    });
+            };
+
+            $scope.checkAgreementPdf = function (agreementId) {
+                agreementsService
+                    .checkAgreementPdf({agreementId:agreementId})
+                    .$promise
+                    .then(function (response) {
+                        $scope.actualAgreement=response.data;
+                        if ($scope.actualAgreement) {
+                            if (parseInt($scope.actualAgreement.checked)) {
+                                $scope.pdfAgreement=true;
+                            }else{
+                                $scope.pdfAgreement=false;
+                                $scope.writtenAgreementPreviewForAccountant(agreementId);
+                                $scope.agreementTemplate = $scope.actualAgreement.html_for_edit;
+                            }
+                        }else{
+                            $scope.pdfAgreement=false;
+                            $scope.writtenAgreementPreviewForAccountant(agreementId);
+                        }
                     });
             };
 
@@ -1657,24 +1790,50 @@ angular
                     .$promise
                     .then(function (response) {
                         $scope.contract = response;
-                        if (!$scope.contract.personParty) {
-                            $scope.writtenAgreementPreviewForAccountant(agreementId);
-                        } else {
-                            $scope.writtenAgreement = null;
-                        }
                     });
             };
 
-            $scope.checkWrittenAgreementRequest = function (data) {
+            $scope.checkWrittenAgreement = function (data, agreementTemplate) {
                 agreementsService
-                    .approveAgreementRequest(
+                    .approveAgreement(
                         {
-                            'idMessage': $stateParams.request, 'sessionTime': data.sessionTime,
-                            'content': document.getElementById('printableArea').innerHTML
+                            'idRequest': $stateParams.request, 'writtenAgreementId': $stateParams.id, 'sessionTime': data.sessionTime,
+                            'id_agreement': data.agreement.id,
+                            'html_for_pdf': document.getElementById('printableArea').innerHTML,
+                            'html_for_edit': agreementTemplate
                         })
                     .$promise
                     .then(function (response) {
-                        $scope.getAgreementContract(data.agreement.id);
+                        $scope.checkAgreementPdf(data.agreement.id);
+                    })
+                    .catch(function (error) {
+                        bootbox.alert(error.data.reason);
+                    })
+            };
+
+            $scope.cancelAgreementRequestToUser = function (data, id) {
+                agreementsService
+                    .cancelAgreementRequestToUser({'id':id,})
+                    .$promise
+                    .then(function (response) {
+                        $scope.checkAgreementPdf(data.agreement.id);
+                    })
+                    .catch(function (error) {
+                        bootbox.alert(error.data.reason);
+                    })
+            };
+
+            $scope.sendAgreementRequestToUser = function (data, agreementTemplate) {
+                agreementsService
+                    .agreementRequestToUser(
+                        {
+                            'id_agreement':data.agreement.id,
+                            'html_for_pdf': document.getElementById('printableArea').innerHTML,
+                            'html_for_edit': agreementTemplate
+                        })
+                    .$promise
+                    .then(function (response) {
+                        $scope.checkAgreementPdf(data.agreement.id);
                     })
                     .catch(function (error) {
                         bootbox.alert(error.data.reason);
@@ -1720,8 +1879,27 @@ angular
                     });
             };
             $scope.loadWrittenAgreementTemplates();
+
+            $scope.editUserAgreement=function () {
+                if(!$scope.editModeAgreement){
+                    $scope.options.updatedUserAgreement=$scope.agreementTemplate;
+                    $scope.editModeAgreement=true;
+                }else{
+                    $scope.agreementTemplate=$scope.options.updatedUserAgreement;
+                    $scope.editModeAgreement=false;
+                }
+            }
+
+            $scope.saveUpdateAgreement =function (agreement, template) {
+                agreementsService
+                    .saveUpdateAgreement({agreementId:agreement.id,template: template})
+                    .$promise
+                    .then(function (data) {
+                        $scope.editUserAgreement();
+                    });
+            }
         }])
-    .controller('writtenAgreementTemplateView', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
+    .controller('writtenAgreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
         function ($scope, $http, $stateParams, $state, agreementsService) {
             $scope.changePageHeader('Шаблон паперового договору');
 
@@ -1735,13 +1913,13 @@ angular
                 $scope.writtenAgreement = response;
             });
 
-            $scope.saveAgreementTemplate = function (agreement) {
+            $scope.saveAgreementTemplate = function (agreement, action) {
                 if(!agreement.template || !agreement.name){
                     bootbox.alert('Тіло шаблону або назва не може бути пустою');
                 }else{
                     $http({
                         method: "POST",
-                        url: basePath + '/_teacher/_accountant/template/updateAgreementTemplate',
+                        url: basePath + '/_teacher/_accountant/template/'+action,
                         data: $jq.param({template: agreement}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         cache: false
@@ -1755,47 +1933,15 @@ angular
                 }
             }
 
-            agreementsService
-                .getAgreementTemplate({id: $stateParams.id})
-                .$promise
-                .then(function successCallback(response) {
-                    $scope.agreementTemplate = response.data;
-                }, function errorCallback() {
-                    bootbox.alert("Шаблон договору отримати не вдалося");
-                });
-        }])
-    .controller('writtenAgreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
-        function ($scope, $http, $stateParams, $state, agreementsService) {
-            $scope.changePageHeader('Паперовий договір');
-
-            $scope.date = new Date();
-
-            $scope.editorOptionsAgreement = {
-                toolbar: 'agreement'
-            };
-
-            $http.get(basePath + '/angular/js/teacher/templates/accountancy/agreementExample.json').success(function (response) {
-                $scope.writtenAgreement = response;
-            });
-
-            $scope.saveAgreementTemplate = function (agreement) {
-                if(!agreement.template || !agreement.name){
-                    bootbox.alert('Тіло шаблону або назва не може бути пустою');
-                }else{
-                    $http({
-                        method: "POST",
-                        url: basePath + '/_teacher/_accountant/template/createAgreementTemplate',
-                        data: $jq.param({template: agreement}),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                        cache: false
-                    }).success(function (response) {
-                        bootbox.alert('Шаблон успішно збережено', function () {
-                            $state.go('accountant/writtenAgreementsList');
-                        });
-                    }).error(function () {
-                        bootbox.alert("Шаблон договору створити не вдалося");
+            if($stateParams.id){
+                agreementsService
+                    .getAgreementTemplate({id: $stateParams.id})
+                    .$promise
+                    .then(function successCallback(response) {
+                        $scope.agreementTemplate = response.data;
+                    }, function errorCallback() {
+                        bootbox.alert("Шаблон договору отримати не вдалося");
                     });
-                }
             }
         }])
     .controller('agreementTemplatesList', ['$scope', '$http', '$stateParams', '$state', 'agreementsService','NgTableParams',
@@ -1814,6 +1960,12 @@ angular
                 }
             });
         }])
+    .filter('timestamp', function(){
+        return function(input) {
+            return Date.parse( angular.isString(input) ? input.replace(/\-/g, '/') : input );
+        }
+    })
+
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];
 }

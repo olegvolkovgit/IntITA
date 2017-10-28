@@ -38,43 +38,46 @@ class TemplateController extends TeacherCabinetController
         }
     }
 
-    public function actionWrittenAgreement()
-    {
-        $this->renderPartial('writtenAgreement', array(), false, true);
-    }
-
     public function actionWrittenAgreementsList()
     {
         $this->renderPartial('writtenAgreementsList', array(), false, true);
     }
 
+    public function actionWrittenAgreement()
+    {
+        $this->renderPartial('writtenAgreement', array('scenario'=>'create'), false, true);
+    }
+
     public function actionWrittenAgreementView()
     {
-        $this->renderPartial('writtenAgreementView', array('scenario'=>'view'), false, true);
+        $this->renderPartial('writtenAgreement', array('scenario'=>'view'), false, true);
     }
 
     public function actionWrittenAgreementUpdate()
     {
-        $this->renderPartial('writtenAgreementView', array('scenario'=>'update'), false, true);
+        $this->renderPartial('writtenAgreement', array('scenario'=>'update'), false, true);
     }
 
-    public function actionCreateAgreementTemplate(){
+    public function actionWrittenAgreementsApplied()
+    {
+        $this->renderPartial('writtenAgreementsApplied', array(), false, true);
+    }
+
+    public function actionCreate(){
         $template = Yii::app()->request->getPost('template');
 
         $model = new WrittenAgreementTemplate();
-        $model->template=$template['template'];
-        $model->name=$template['name'];
+        $model->attributes=$template;
         $model->id_organization=Yii::app()->user->model->getCurrentOrganization()->id;
         $model->create_by=Yii::app()->user->getId();
         $model->save();
     }
 
-    public function actionUpdateAgreementTemplate(){
+    public function actionUpdate(){
         $template = Yii::app()->request->getPost('template');
         $model=WrittenAgreementTemplate::model()->findByPk($template['id']);
         Yii::app()->user->model->hasAccessToOrganizationModel($model);
-        $model->template=$template['template'];
-        $model->name=$template['name'];
+        $model->attributes=$template;
         $model->create_by=Yii::app()->user->getId();
         $model->save();
     }
@@ -109,5 +112,40 @@ class TemplateController extends TeacherCabinetController
         $criteria->condition='id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
 
         echo CJSON::encode(WrittenAgreementTemplate::model()->findAll($criteria));
+    }
+
+    public function actionSaveUpdateAgreement(){
+        $agreementId = Yii::app()->request->getPost('agreementId');
+        $template = Yii::app()->request->getPost('template');
+        $userWrittenAgreement=UserWrittenAgreement::model()->findByAttributes(array(
+            'id_agreement'=>$agreementId,
+            'actual'=>UserWrittenAgreement::ACTUAL,
+        ));
+        if($userWrittenAgreement){
+            $userWrittenAgreement->html_for_edit=$template;
+        }else{
+            $userWrittenAgreement= new UserWrittenAgreement();
+            $userWrittenAgreement->id_agreement=$agreementId;
+            $userWrittenAgreement->html_for_edit=$template;
+            $userWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
+        }
+
+        $userWrittenAgreement->save();
+    }
+
+    public function actionCancelAppliedAgreement()
+    {
+        $params = array_filter($_POST);
+        $service=Service::model()->findByPk($params['service_id']);
+        $service->written_agreement_template_id=WrittenAgreementTemplate::DEFAULT_TEMPLATE;
+        $service->save();
+    }
+
+    public function actionApplyWrittenAgreementForService()
+    {
+        $params = array_filter($_POST);
+        $service=Service::model()->findByPk($params['service_id']);
+        $service->written_agreement_template_id=$params['written_agreement_template_id'];
+        $service->save();
     }
 }

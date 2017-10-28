@@ -337,5 +337,29 @@ angular
                     return accountantUrl + "template/writtenAgreementUpdate/" + $stateParams.id;
                 }
             })
+            .state('accountant/writtenagreementslist', {
+                url: "/accountant/writtenagreementslist",
+                cache: false,
+                templateUrl: accountantUrl + "agreements/writtenagreementslist"
+            })
+            .state('accountant/writtenAgreement/id/:id', {
+                url: "/accountant/writtenAgreement/id/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return accountantUrl + "agreements/writtenAgreement/id/" + $stateParams.id;
+                }
+            })
+            .state('accountant/writtenAgreementsApplied', {
+                url: "/accountant/writtenAgreementsApplied",
+                cache: false,
+                templateUrl: accountantUrl + "template/writtenAgreementsApplied"
+            })
+            .state('accountant/studentagreement/id/:id', {
+                url: "/accountant/studentagreement/id/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return accountantUrl + "agreements/studentAgreement/id/" + $stateParams.id;
+                }
+            })
     }
 );

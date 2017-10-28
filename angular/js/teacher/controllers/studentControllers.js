@@ -216,10 +216,10 @@ function offlineEducationCtrl($scope, $http) {
 
 function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService, agreementsService) {
     $scope.changePageHeader('Договір/рахунки');
-    $scope.editAgreementData=true;
 
     $scope.invoiceUrl=basePath+'/invoice/';
-    
+    $scope.editAgreementData=true;
+
     $scope.invoicesTable = new NgTableParams({}, {
         getData: function (params) {
             $scope.currentDate = currentDate;
@@ -249,13 +249,13 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
             .getAgreementTemplate({'agreementId': agreementId})
             .$promise
             .then(function successCallback(response) {
-                $scope.agreementTemplate = response.data;
+                $scope.agreementTemplate = response.data.template;
             }, function errorCallback() {
                 bootbox.alert("Шаблон договору отримати не вдалося");
             });
     }
 
-    $scope.writtenAgreementPreviewForAccountant=function(agreementId){
+    $scope.writtenAgreementPreview=function(agreementId){
         studentService
             .getWrittenAgreementData({'id': agreementId})
             .$promise
@@ -271,10 +271,28 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
             .$promise
             .then(function (response) {
                 $scope.contract=response;
-                if(!$scope.contract.personParty){
-                    $scope.writtenAgreementPreviewForAccountant(agreementId);
-                } else {
-                    $scope.writtenAgreement=null;
+            });
+    };
+
+    $scope.checkAgreementPdf = function (agreementId) {
+        studentService
+            .checkAgreementPdf({agreementId:agreementId})
+            .$promise
+            .then(function (response) {
+                $scope.actualAgreement=response.data;
+                $scope.waitingForApproval= $scope.actualAgreement.checked_by_accountant==1 &&
+                    $scope.actualAgreement.checked_by_user==0 && $scope.actualAgreement.checked==0;
+                if ($scope.actualAgreement) {
+                    if (parseInt($scope.actualAgreement.checked)) {
+                        $scope.pdfAgreement=true;
+                    }else{
+                        $scope.pdfAgreement=false;
+                        $scope.writtenAgreementPreview(agreementId);
+                        $scope.agreementTemplate = $scope.actualAgreement.html_for_edit;
+                    }
+                }else{
+                    $scope.pdfAgreement=false;
+                    $scope.writtenAgreementPreview(agreementId);
                 }
             });
     };
@@ -317,7 +335,7 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                                     .updateUserAgreementData({type:type,attribute: attributes,data: data})
                                     .$promise
                                     .then(function (data) {
-                                        $scope.writtenAgreementPreviewForAccountant($stateParams.agreementId);
+                                        $scope.writtenAgreementPreview($stateParams.agreementId);
                                     });
                             }
                         },
@@ -346,7 +364,7 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                                     .updateUserData({attribute: attributes,data: data})
                                     .$promise
                                     .then(function (data) {
-                                        $scope.writtenAgreementPreviewForAccountant($stateParams.agreementId);
+                                        $scope.writtenAgreementPreview($stateParams.agreementId);
                                     });
                             }
                         },
@@ -359,6 +377,21 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
             }
         );
     }
+
+    $scope.checkWrittenAgreementRequestByUser = function (data) {
+        studentService
+            .checkAgreementByUser(
+                {
+                    'id': data.id,
+                })
+            .$promise
+            .then(function (response) {
+                $scope.checkAgreementPdf(data.id_agreement);
+            })
+            .catch(function (error) {
+                bootbox.alert(error.data.reason);
+            })
+    };
 }
 
 function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService) {

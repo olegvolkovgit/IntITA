@@ -11,35 +11,35 @@ $price = $course->getBasePrice();
     <div class="panel-body">
         <div class="tab-content" ng-cloak>
             <div style="overflow: hidden">
-            <div style="width: 50%; float: right">
-                <em>*Зверніть увагу! Заключайте договір по офлайн формі навчання лише у тому випадку,
-                    коли це було обговорено з адміністрацією по данному контенту
-                </em>
+                <div style="width: 50%; float: right">
+                    <em>*Зверніть увагу! Заключайте договір по офлайн формі навчання лише у тому випадку,
+                        коли це було обговорено з адміністрацією по данному контенту
+                    </em>
+                </div>
             </div>
-            </div>
-                <div class="schemesBlock">
+            <div class="schemesBlock">
                 <h3>Навчання онлайн</h3>
                 <payments-scheme
-                    data-content-id="contentId"
-                    data-service-type="serviceType"
-                    data-education-form="online"
-                    data-schemes="onlineSchemeData"
-                    data-selected-model-scheme="selectedScheme"
-                    data-set-form="setForm"
-                    data-set-scheme="schemeId"
+                        data-content-id="contentId"
+                        data-service-type="serviceType"
+                        data-education-form="online"
+                        data-schemes="onlineSchemeData"
+                        data-selected-model-scheme="selectedScheme"
+                        data-set-form="setForm"
+                        data-set-scheme="schemeId"
                 >
                 </payments-scheme>
             </div>
             <div class="schemesBlock">
                 <h3>Навчання офлайн</h3>
                 <payments-scheme
-                    data-content-id="contentId"
-                    data-service-type="serviceType"
-                    data-education-form="offline"
-                    data-schemes="offlineSchemeData"
-                    data-selected-model-scheme="selectedScheme"
-                    data-set-form="setForm"
-                    data-set-scheme="schemeId"
+                        data-content-id="contentId"
+                        data-service-type="serviceType"
+                        data-education-form="offline"
+                        data-schemes="offlineSchemeData"
+                        data-selected-model-scheme="selectedScheme"
+                        data-set-form="setForm"
+                        data-set-scheme="schemeId"
                 >
                 </payments-scheme>
             </div>

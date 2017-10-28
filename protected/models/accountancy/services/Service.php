@@ -133,4 +133,25 @@ class Service extends CActiveRecord {
     public function serviceLink() {
         return $this->getConcreteServiceModel()->getContentLink();
     }
+
+    public static function allServices($query, $organization)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "description";
+        $criteria->with=['courseServices.courseModel','moduleServices.moduleModel'];
+        $criteria->addSearchCondition('description', $query, true, "OR", "LIKE");
+        if($organization) $criteria->addCondition('(courseModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+        or moduleModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.') 
+        and cancel_date is null');
+
+        $data = Service::model()->findAll($criteria);
+
+        $result = array();
+        foreach ($data as $key => $record) {
+            $result["results"][$key]["id"] = $record->service_id;
+            $result["results"][$key]["description"] = $record->description;
+        }
+
+        return json_encode($result);
+    }
 }

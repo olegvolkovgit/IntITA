@@ -198,10 +198,15 @@ class ModuleService extends AbstractIntITAService
 
     /**
      * @param EducationForm $educationForm
+     * @param $userId
      * @return array
      */
-    public function getPaymentSchemas(EducationForm $educationForm) {
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+    public function getPaymentSchemas(EducationForm $educationForm, $userId=null) {
+        if(Yii::app()->user->model->isAccountant() && $userId){
+            $user = StudentReg::model()->findByPk($userId);
+        }else{
+            $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        }
         $paymentSchemas = PaymentScheme::model()->getPaymentScheme($user, $this);
         $calculator = $paymentSchemas->getSchemaCalculator($educationForm,'module');
         $result = [];

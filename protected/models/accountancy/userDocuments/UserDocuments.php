@@ -150,6 +150,16 @@ class UserDocuments extends CActiveRecord
 		return parent::model($className);
 	}
 
+    public function scopes() {
+        return [
+            'lastEditedDocuments' => [
+                'alias'=>'ld',
+                'order' => 'ld.updatedAt DESC',
+                'condition' => 'ld.actual='.self::ACTUAL,
+            ]
+        ];
+    }
+
     public function afterFind() {
         if($this->issued_date){
             $date = str_replace('-', '/', $this->issued_date);

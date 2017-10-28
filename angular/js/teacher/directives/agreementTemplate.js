@@ -88,8 +88,7 @@ angular
 
     .directive('uUserPassportIssued', function() {
         return {
-            template: '<span ng-repeat="document in writtenAgreement.documents track by $index">'+
-            '<span ng-if="document.type==1">{{document.issued}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.issued,\'issued\')"></i></span></span>'
+            template: '<span ng-repeat="document in writtenAgreement.documents track by $index"><span ng-if="document.type==1">{{document.issued}}<i ng-if="editAgreementData" class="fa fa-edit fa-fw" ng-click="updateUserAgreementData(document.type, document.issued,\'issued\')"></i></span></span>'
         };
     })
 

@@ -138,9 +138,21 @@ class AgreementsController extends TeacherCabinetController {
             and t.status is null'));
     }
 
+    public function actionGetActualWrittenAgreementsCount()
+    {
+        echo count(UserWrittenAgreement::model()->with('agreement','agreement.organization')->findAll(
+            'organization.id='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+            and t.checked_by_user='.UserWrittenAgreement::CHECKED.' and  t.checked='.UserWrittenAgreement::NOT_CHECKED));
+    }
+
     public function actionAgreementsRequests()
     {
         $this->renderPartial('agreementsrequests',array(),false,true);
+    }
+
+    public function actionWrittenAgreementsList()
+    {
+        $this->renderPartial('writtenagreementslist',array(),false,true);
     }
 
     public function actionGetAgreementRequestsNgTable()
@@ -161,13 +173,56 @@ class AgreementsController extends TeacherCabinetController {
         echo json_encode($result);
     }
 
+    public function actionGetWrittenAgreementsNgTable()
+    {
+        $requestParams = $_GET;
+        $criteria =  new CDbCriteria();
+        $criteria->join = 'left join acc_user_agreements ua on ua.id=t.id_agreement';
+        $criteria->join .= ' left join acc_corporate_entity ce on ce.id=ua.id_corporate_entity';
+        if(isset($requestParams['filter']['status'])) {
+            switch ($requestParams['filter']['status']) {
+                case 1:
+                    $criteria->condition = 't.checked=' . UserWrittenAgreement::CHECKED;
+                    break;
+                case 2:
+                    $criteria->condition = 't.checked_by_accountant=' . UserWrittenAgreement::CHECKED.' and t.checked_by_user=' . UserWrittenAgreement::NOT_CHECKED;
+                    break;
+                case 3:
+                    $criteria->condition = 't.checked_by_user=' . UserWrittenAgreement::CHECKED.' and t.checked=' . UserWrittenAgreement::NOT_CHECKED;
+                    break;
+                default:
+                    break;
+            }
+            unset($requestParams['filter']['status']);
+        }
+
+        $criteria->addCondition('ce.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' and t.actual='.UserWrittenAgreement::ACTUAL);
+        $ngTable = new NgTableAdapter('UserWrittenAgreement', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionGetWrittenAgreementsAppliedNgTable()
+    {
+        $requestParams = $_GET;
+        $criteria =  new CDbCriteria();
+        $criteria->with=['courseServices.courseModel','moduleServices.moduleModel'];
+        $criteria->addCondition('(courseModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+        or moduleModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.') and t.written_agreement_template_id!='.WrittenAgreementTemplate::DEFAULT_TEMPLATE);
+        $ngTable = new NgTableAdapter('Service', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
     public function actionWrittenAgreementView($request=null)
     {
         if($request){
             $model=MessagesWrittenAgreementRequest::model()->findByPk($request);
             Yii::app()->user->model->hasAccessToOrganizationModel($model->agreement->corporateEntity);
 
-            $this->renderPartial('writtenAgreementView',array('agreement'=>$model->agreement),false,true);
+            $this->renderPartial('writtenAgreementView',array('agreement'=>$model->agreement,'type'=>'request'),false,true);
         }
     }
 
@@ -211,21 +266,92 @@ class AgreementsController extends TeacherCabinetController {
         echo json_encode(array_filter($data), JSON_FORCE_OBJECT);
     }
 
-    public function actionApproveAgreementRequest()
+    public function actionCheckAgreementPdf($agreementId)
+    {
+        $data['data']=ActiveRecordToJSON::toAssocArrayWithRelations(UserWrittenAgreement::model()->with('user')->findByAttributes(
+            array('id_agreement'=>$agreementId,'actual'=>UserWrittenAgreement::ACTUAL)));
+        echo json_encode($data);
+    }
+
+    public function actionApproveAgreement()
     {
         $result = ['message' => 'OK'];
         $statusCode = 201;
+
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
         try {
             $params = array_filter($_POST);
-            $idMessage=$params['idMessage'];
+            $idRequest=isset($params['idRequest'])?$params['idRequest']:false;
+            $idWrittenAgreement=isset($params['writtenAgreementId'])?$params['writtenAgreementId']:false;
+            $idAgreement=isset($params['id_agreement'])?$params['id_agreement']:false;
             $sessionTime=$params['sessionTime'];
 
-            $model=MessagesWrittenAgreementRequest::model()->findByPk($idMessage);
-            Yii::app()->user->model->hasAccessToOrganizationModel($model->agreement->corporateEntity);
-            $model->setApproved($sessionTime);
+            $agreement=UserAgreements::agreementByType($idAgreement, $idRequest, $idWrittenAgreement);
 
-            $model->saveAgreementPdf($params['content'],$model->agreement->user_id, $model->agreement->id);
+            Yii::app()->user->model->hasAccessToOrganizationModel($agreement->corporateEntity);
+            $agreement->makePrivatePerson($sessionTime);
+
+            if($idRequest){
+                $model=MessagesWrittenAgreementRequest::model()->findByPk($idRequest);
+                $model->setApproved();
+            }
+
+            $actualWrittenAgreement = $agreement->checkAndGetWrittenAgreement($params);
+            $actualWrittenAgreement->saveAgreementPdf();
+
+            $transaction->commit();
         } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionAgreementRequestToUser()
+    {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
+        try {
+            $params = array_filter($_POST);
+            $userAgreement=UserAgreements::model()->findByPk($params['id_agreement']);
+            $userAgreement->sendAgreementRequestToUser($params);
+
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionCancelAgreementRequestToUser()
+    {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
+        try {
+            $params = array_filter($_POST);
+            $agreement=UserWrittenAgreement::model()->findByPk($params['id']);
+            $agreement->checked_by_accountant=UserWrittenAgreement::NOT_CHECKED;
+            $agreement->save();
+
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
             $statusCode = 500;
             $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
@@ -245,4 +371,46 @@ class AgreementsController extends TeacherCabinetController {
         $data['status']=MessagesWrittenAgreementRequest::model()->findByPk($idMessage)->status;
         echo json_encode($data);
     }
+    public function actionWrittenAgreement($id)
+    {
+        $model=UserWrittenAgreement::model()->findByPk($id);
+        Yii::app()->user->model->hasAccessToOrganizationModel($model->agreement->corporateEntity);
+
+        $this->renderPartial('writtenAgreementView',array('agreement'=>$model->agreement,'type'=>'agreement'),false,true);
+    }
+
+    public function actionCreateUserWrittenAgreement()
+    {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
+        try {
+            $params = array_filter($_POST);
+            $agreement=UserWrittenAgreement::model()->findByPk($params['id']);
+            $agreement->checked_by_accountant=UserWrittenAgreement::NOT_CHECKED;
+            $agreement->save();
+
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionStudentAgreement($id)
+    {
+        $agreement = UserAgreements::model()->findByPk($id);
+        if (!isset($agreement)) {
+            throw new \application\components\Exceptions\IntItaException(400, 'Договір не знайдено.');
+        }
+        Yii::app()->user->model->hasAccessToOrganizationModel($agreement->corporateEntity);
+        $this->renderPartial('writtenAgreementView',array('agreement'=>$agreement,'type'=>'agreement'),false,true);
+    }
+
 }
