@@ -778,10 +778,8 @@ class SuperVisorController extends TeacherCabinetController
                     if($groupModule->save()){
                         $role = new TeacherConsultant();
                         $students=OfflineGroups::model()->findByPk($group)->students;
-                        foreach ($students as $student){
-                            if ($role->checkStudent($module, $student->id)) {
-                                $role->setStudentAttribute($model, $student->id, $module);
-                            }
+                        foreach ($students as $key=>$student){
+                            $role->updateStudentTeacher($model, $module, $student->id);
                         }
                         echo "Викладача для модуля призначено. Студентам, які входять в групу, назначено данного викладача по данному модулю";
                     }else{

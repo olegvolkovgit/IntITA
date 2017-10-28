@@ -22,7 +22,6 @@ foreach ($teachers as $teacher) {
                     <br>
                     <a class="btnChat" href="<?php
                     if (!Yii::app()->user->isGuest) {
-                        echo Config::getBaseUrl();
                         echo Config::getChatPath();
                         echo $teacher->user_id;
                         echo '" target="_blank';

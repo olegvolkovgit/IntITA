@@ -103,7 +103,7 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/app.js'); ?>"></script>
     <?php if (!Yii::app()->user->isGuest) { ?>
-        <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+        <script src="<?php echo Config::getFullChatPath()."/js/ITA.js" ?>"></script>
     <?php } ?>
     <!--Angular directives-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/cabinetDirectives.js'); ?>"></script>
