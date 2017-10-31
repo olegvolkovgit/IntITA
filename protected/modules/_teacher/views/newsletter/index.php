@@ -228,7 +228,7 @@
                 </div>
                 </div>
                 <div class="col-md-8">
-                    <button type="submit" class="btn btn-primary"
+                    <button type="submit" class="btn btn-primary" ng-disabled="startSend"
                             ng-click="send();">
                         Надіслати
                     </button>
