@@ -224,31 +224,33 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     $scope.send = function () {
         if ($scope.newsletterForm.$valid && $scope.newsletterType) {
             var recipients = [];
-            angular.forEach($scope.selectedRecipients, function (value) {
-                switch ($scope.newsletterType) {
-                    case 'roles':
-                        recipients.push(value.id);
-                        break;
-                    case 'users':
-                        recipients.push(value.email);
-                        break;
-                    case 'groups':
-                        recipients.push(value.id);
-                        break;
-                    case 'subGroups':
-                        recipients.push(value.id);
-                        break;
-                    case 'emailsFromDatabase':
-                        recipients = value;
-                        break;
-                    case 'modules':
-                        recipients.push(value.id);
-                        break;
-                    case 'courses':
-                        recipients.push(value.id);
-                        break;
-                }
-            });
+            if ($scope.newsletterType == 'emailsFromDatabase'){
+                recipients = $scope.selectedRecipients;
+            }else{
+                angular.forEach($scope.selectedRecipients, function (value) {
+                    switch ($scope.newsletterType) {
+                        case 'roles':
+                            recipients.push(value.id);
+                            break;
+                        case 'users':
+                            recipients.push(value.email);
+                            break;
+                        case 'groups':
+                            recipients.push(value.id);
+                            break;
+                        case 'subGroups':
+                            recipients.push(value.id);
+                            break;
+                        case 'modules':
+                            recipients.push(value.id);
+                            break;
+                        case 'courses':
+                            recipients.push(value.id);
+                            break;
+                    }
+                });
+            }
+
 
             if($scope.newsletterType=='emailsFromDatabase' && $scope.selectedRecipients == null || $scope.selectedRecipients == 'undefined'){
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');

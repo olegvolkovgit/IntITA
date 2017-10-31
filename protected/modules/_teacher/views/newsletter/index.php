@@ -75,7 +75,7 @@
                         <br>
                         <div ng-show="newsletterType=='emailsFromDatabase'" class="form-group">
                             <label>Категорія*:</label>
-                            <select class="form-control" ng-options="item.id as item.title for item in emailsCategory"
+                            <select class="form-control" ng-options="item.id as item.title for item in emailsCategory track by item.id"
                                     ng-model="selectedRecipients">
                                 <option name="emailCategory" value="" disabled selected>(Виберіть категорію)</option>
                             </select>
