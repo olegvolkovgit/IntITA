@@ -274,6 +274,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, t
     var activeUsersTypeaheadUrl = basePath + '/_teacher/cabinet/activeUsersByQuery';
     var teachersTypeaheadUrl = basePath + '/_teacher/cabinet/teachersByQuery';
     var moduleTypeaheadUrl = basePath + '/_teacher/cabinet/modulesByQuery';
+    var serviceTypeaheadUrl = basePath + '/_teacher/cabinet/servicesByQuery';
     var consultantTypeaheadUrl = basePath + '/_teacher/cabinet/consultantsByQuery';
     var authorsTypeaheadUrl = basePath + '/_teacher/cabinet/authorsByQuery';
     var teachersConsultantTypeaheadUrl = basePath + '/_teacher/cabinet/teacherConsultantsByQuery';
@@ -302,8 +303,11 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, t
     $scope.getModules = function (value) {
         return typeAhead.getData(moduleTypeaheadUrl, {query: value});
     };
-    $scope.getConsultants = function (value) {
-        return typeAhead.getData(consultantTypeaheadUrl, {query: value});
+    $scope.getServices = function(value){
+        return typeAhead.getData(serviceTypeaheadUrl,{query : value});
+    };
+    $scope.getConsultants = function(value){
+        return typeAhead.getData(consultantTypeaheadUrl,{query : value});
     };
     $scope.getUsers = function (value) {
         return typeAhead.getData(usersTypeaheadUrl, {query: value});
@@ -784,6 +788,9 @@ function mainAccountantCtrl($rootScope, paymentSchemaService, agreementsService)
     });
     agreementsService.getActualWrittenAgreementRequests().$promise.then(function (response) {
         $rootScope.countOfActualWrittenAgreementRequests = response[0];
+    });
+    agreementsService.getActualWrittenAgreements().$promise.then(function(response){
+        $rootScope.countOfActualWrittenAgreements=response[0];
     });
 }
 

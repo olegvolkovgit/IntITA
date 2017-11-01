@@ -18,6 +18,9 @@
  * @property integer $actual_address_city_code
  * @property integer $id_organization
  * @property integer $contacts
+ * @property string $license_number
+ * @property string $license_issued
+ * @property string $license_issued_date
  *
  * The followings are the available model relations:
  * @property AddressCity $legalCity
@@ -57,9 +60,11 @@ class CorporateEntity extends CActiveRecord {
             array('legal_address_city_code, actual_address_city_code, id_organization', 'numerical', 'integerOnly' => true),
             array('EDPNOU, certificate_of_vat, tax_certificate', 'length', 'max' => 14),
             array('legal_address, actual_address, title', 'length', 'max' => 255),
-            array('edpnou_issue_date, certificate_of_vat_issue_date, tax_certificate_issue_date, contacts', 'safe'),
+            array('edpnou_issue_date, certificate_of_vat_issue_date, tax_certificate_issue_date, contacts,license_number,license_issued,license_issued_date', 'safe'),
             // The following rule is used by search().
-            array('id, EDPNOU, title, edpnou_issue_date, certificate_of_vat, certificate_of_vat_issue_date, tax_certificate, tax_certificate_issue_date, legal_address, legal_address_city_code, actual_address, actual_address_city_code, contacts', 'safe', 'on' => 'search'),
+            array('id, EDPNOU, title, edpnou_issue_date, certificate_of_vat, certificate_of_vat_issue_date, tax_certificate, 
+            tax_certificate_issue_date, legal_address, legal_address_city_code, actual_address, actual_address_city_code, contacts,
+            license_number,license_issued,license_issued_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -107,7 +112,10 @@ class CorporateEntity extends CActiveRecord {
             'actual_address' => 'Фактична адреса',
             'actual_address_city_code' => 'Код міста (фактична адреса)',
             'id_organization' => 'Id Organization',
-            'contacts' => 'Contacts'
+            'contacts' => 'Contacts',
+            'license_number' => 'Номер ліцензії',
+            'license_issued' => 'Ліцензія видана',
+            'license_issued_date' => 'Дата видачі ліцензії'
         );
     }
 
@@ -140,6 +148,9 @@ class CorporateEntity extends CActiveRecord {
         $criteria->compare('actual_address_city_code', $this->actual_address_city_code);
         $criteria->compare('id_organization', $this->id_organization);
         $criteria->compare('contacts', $this->contacts);
+        $criteria->compare('license_number', $this->actual_address_city_code);
+        $criteria->compare('license_issued', $this->id_organization);
+        $criteria->compare('license_issued_date', $this->contacts);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

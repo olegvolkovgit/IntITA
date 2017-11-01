@@ -114,15 +114,18 @@ class ContractingParty extends CActiveRecord {
      * @throws Exception
      */
 	public function bindToAgreement(UserAgreements $agreement, $roleId) {
-	    $binding = new UserAgreementContractingParty();
-	    $binding->user_agreement_id = $agreement->id;
-	    $binding->contracting_party_id = $this->id;
-	    $binding->role_id = $roleId;
-        if (UserAgreementContractingParty::model()->findByAttributes(array('user_agreement_id'=>$agreement->id,'role_id'=>$roleId))) {
-            throw new Exception("Запис договір-учасник уже створено");
-        };
-	    if (!$binding->save()) {
-	        throw new Exception("Unable to create binding with contracting party");
-        };
+//	    todo
+	    if(!UserAgreementContractingParty::model()->findByAttributes(array('user_agreement_id'=>$agreement->id,'role_id'=>$roleId))){
+            $binding = new UserAgreementContractingParty();
+            $binding->user_agreement_id = $agreement->id;
+            $binding->contracting_party_id = $this->id;
+            $binding->role_id = $roleId;
+//            if (UserAgreementContractingParty::model()->findByAttributes(array('user_agreement_id'=>$agreement->id,'role_id'=>$roleId))) {
+//                throw new Exception("Запис договір-учасник уже створено");
+//            };
+            if (!$binding->save()) {
+                throw new Exception("Unable to create binding with contracting party");
+            };
+        }
     }
 }

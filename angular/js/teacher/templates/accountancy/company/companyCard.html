@@ -200,6 +200,63 @@
             >
         </div>
     </div>
+
+    <div class="row">
+        <div class="form-group col-xs-6" >
+            <label for="license_number">Номер ліцензії</label>
+            <input name=""
+                   id="license_number"
+                   class="form-control"
+                   placeholder="Номер ліцензії"
+                   ng-model="company.license_number"
+            >
+        </div>
+
+        <div class="form-group col-xs-6">
+            <label for="license_issued_date">Дата видачі ліцензії</label>
+            <p class="input-group">
+                <input id="license_issued_date"
+                       class="form-control"
+                       type="text"
+                       name="license_issued_date"
+                       uib-datepicker-popup="dd-MM-yyyy"
+                       popup-placement="bottom"
+                       is-open="datePopup.license_issued_date"
+                       close-text="Закрити"
+                       clear-text="Очистити"
+                       current-text="Сьогодні"
+                       ng-model="company.license_issued_date"
+                >
+                <span class="input-group-addon" ng-click="toggleDPPopup('license_issued_date')">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-12" >
+            <label for="license_issued">Ким видана ліцензія</label>
+            <input id="license_issued"
+                   type="text"
+                   name="license_issued"
+                   class="form-control"
+                   ng-model="company.license_issued"
+            >
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-12" >
+            <label for="contacts">Контакти</label>
+            <input id="contacts"
+                   type="text"
+                   name="contacts"
+                   class="form-control"
+                   ng-model="company.contacts"
+            >
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-offset-6 col-xs-6">
             <input class="btn btn-primary pull-right" type="button" value="Зберегти" ng-click="save()"

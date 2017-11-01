@@ -247,6 +247,17 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
+    public function actionServicesByQuery($query, $organization=null)
+    {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        if ($query) {
+            $services = Service::allServices($query, $organization);
+            echo $services;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
     public function actionStudentsByQuery($query)
     {
         if ($query) {

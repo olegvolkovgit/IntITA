@@ -184,7 +184,7 @@ class CourseController extends Controller
         echo json_encode($data);
     }
 
-    public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE, $templateId=null) {
+    public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE, $templateId=null, $userId=null) {
         $educationForm = EducationForm::model()->findByPk($educationFormId);
         switch ($service){
             case 'module':
@@ -197,12 +197,12 @@ class CourseController extends Controller
                 $service = null;
                 break;
         }
-  
+
         $result=[];
         if($templateId){
             $result['schemes']=$service->getPaymentSchemasByTemplate($educationForm, $templateId);
         }else{
-            $result['schemes']=$service->getPaymentSchemas($educationForm);
+            $result['schemes']=$service->getPaymentSchemas($educationForm, $userId);
         }
         $result['status']=$service->getStatus();
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');

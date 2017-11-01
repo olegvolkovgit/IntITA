@@ -36,6 +36,7 @@
  * @property Invoice[] invoice
  * @property CorporateEntity $corporateEntity
  * @property CheckingAccounts $checkingAccount
+ * @property UserWrittenAgreement $actualWrittenAgreement
  */
 class UserAgreements extends CActiveRecord {
 
@@ -95,6 +96,7 @@ class UserAgreements extends CActiveRecord {
             'corporateEntity' => [self::BELONGS_TO, 'CorporateEntity', 'id_corporate_entity'],
             'organization' => [self::BELONGS_TO, 'Organization', ['id_organization' => 'id'], 'through' => 'corporateEntity'],
             'checkingAccount' => [self::BELONGS_TO, 'CheckingAccounts', 'id_checking_account'],
+            'actualWrittenAgreement' => [self::HAS_ONE, 'UserWrittenAgreement', ['id_agreement' => 'id'], 'scopes' => 'actualAgreement'],
         );
     }
 
@@ -679,6 +681,112 @@ class UserAgreements extends CActiveRecord {
 
         return false;
     }
+
+    public function getActualWrittenTemplate()
+    {
+        $userWrittenAgreement=UserWrittenAgreement::model()->findByAttributes(array(
+            'id_agreement'=>$this->id,
+            'actual'=>UserWrittenAgreement::ACTUAL,
+        ));
+        if($userWrittenAgreement) {
+            return ['id'=>0,'template'=>$userWrittenAgreement->html_for_edit];
+        }else{
+            return ['id'=>$this->service->written_agreement_template_id,'template'=>$this->service->writtenAgreementTemplate->template];
+        }
+    }
+
+    public function checkAndGetWrittenAgreement($params) {
+        if($this->actualWrittenAgreement){
+            $this->actualWrittenAgreement->attributes=$params;
+            $this->actualWrittenAgreement->checked_by=Yii::app()->user->getId();
+            $this->actualWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
+            $this->actualWrittenAgreement->checked=UserWrittenAgreement::CHECKED;
+            $this->actualWrittenAgreement->checked_date=new CDbExpression('NOW()');
+            if(!$this->actualWrittenAgreement->save()){
+                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
+            }
+            return $this->actualWrittenAgreement;
+        }else{
+            $userWrittenAgreement=new UserWrittenAgreement();
+            $userWrittenAgreement->attributes=$params;
+            $userWrittenAgreement->id_agreement=$this->id;
+            $userWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
+            $userWrittenAgreement->checked_by=Yii::app()->user->getId();
+            $userWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
+            $userWrittenAgreement->checked=UserWrittenAgreement::CHECKED;
+            $userWrittenAgreement->checked_date=new CDbExpression('NOW()');
+            if(!$userWrittenAgreement->save()){
+                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
+            }
+
+            return $userWrittenAgreement;
+        }
+    }
+
+    public function sendAgreementRequestToUser($params) {
+        if($this->actualWrittenAgreement){
+            $this->actualWrittenAgreement->attributes=$params;
+            $this->actualWrittenAgreement->checked_by=Yii::app()->user->getId();
+            $this->actualWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
+            $this->actualWrittenAgreement->checked_date=new CDbExpression('NOW()');
+            if(!$this->actualWrittenAgreement->save()){
+                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
+            }
+
+            $this->actualWrittenAgreement->notifyUserAboutAgreementRequest();
+        }else{
+            $userWrittenAgreement=new UserWrittenAgreement();
+            $userWrittenAgreement->attributes=$params;
+            $userWrittenAgreement->id_agreement=$this->id;
+            $userWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
+            $userWrittenAgreement->checked_by=Yii::app()->user->getId();
+            $userWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
+            $userWrittenAgreement->checked_date=new CDbExpression('NOW()');
+            if(!$userWrittenAgreement->save()){
+                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
+            }
+
+            $userWrittenAgreement->notifyUserAboutAgreementRequest();
+        }
+    }
+
+    public function makePrivatePerson($sessionTime)
+    {
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
+        try {
+            $builder = new ContractingPartyBuilder();
+            $contractingParty = $builder->makePrivatePerson($this->user);
+            $contractingParty->bindToAgreement($this, ContractingParty::ROLE_STUDENT);
+            $this->user->checkedActualUserDocuments($sessionTime);
+
+            if ($transaction) {
+                $transaction->commit();
+            }
+        } catch (Exception $e) {
+            if ($transaction) {
+                $transaction->rollback();
+            }
+            throw new \application\components\Exceptions\IntItaException(500, $e->getMessage());
+        }
+    }
+
+    public static function agreementByType($agreement,$request,$writtenAgreement)
+    {
+        $model = null;
+        if($agreement){
+            $model = UserAgreements::model()->findByPk($agreement);
+        }elseif($request){
+            $model = MessagesWrittenAgreementRequest::model()->findByPk($request)->agreement;
+        }elseif($writtenAgreement){
+            $model = UserWrittenAgreement::model()->findByPk($writtenAgreement)->agreement;
+        }
+
+        return $model;
+    }
+
 }
 
 

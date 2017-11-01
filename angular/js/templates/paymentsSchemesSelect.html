@@ -1,0 +1,19 @@
+<div class="paymentsForm">
+    <div class="rowRadio">
+        <select class="form-control" ng-change="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme">
+            <option ng-repeat="scheme in schemes.schemes track by $index" value="{{scheme}}">
+                <div class="priceBlock">
+                    <div ng-class="{basePayment:true}">{{scheme.translates.title}}<span ng-if="scheme.loan>0"> ({{schemes.translates.loan}})</span>
+                    </div>
+                    <div class="numbers">
+                        {{scheme.translates.currencySymbol}}{{scheme.approxMonthPayment}} / {{scheme.translates.month}}  х {{scheme.paymentsCount}} {{scheme.translate.payment}}
+                        &asymp; <b>{{scheme.price}}{{scheme.translates.currencySymbol}}</b>
+                    </div>
+                    <span class="discount" ng-if="scheme.discount>0">
+                        <span class="discountColor">({{scheme.translates.discount}} - {{scheme.discount}}%)</span>
+                    </span>
+                </div>
+            </option>
+        </select>
+    </div>
+</div>

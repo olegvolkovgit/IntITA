@@ -1,0 +1,24 @@
+*{
+    font-weight: normal !important;
+    font-size: 12px;
+}
+table{
+    width:100%;
+    border-collapse: collapse;
+}
+td{
+    border: 1px solid #000!important;
+    padding: 2px!important;
+    font-size: 12px !important;
+}
+span{
+   padding: 0!important;
+    margin: 0!important;
+}
+p{
+    font-size: 12px;
+    margin: 2px !important;
+}
+b{
+    font-weight: normal !important;
+}

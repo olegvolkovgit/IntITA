@@ -2,6 +2,12 @@
 /* @var $agreement UserAgreements
  */
 ?>
+<style>
+    .fa-edit{
+        color:#4b75a4;
+        cursor: pointer;
+    }
+</style>
 <div ng-if="!writtenAgreement.agreement.cancel_date && writtenAgreement.agreement.contract" style="border: 1px solid #000;border-radius: 5px; background: #e8e8e8; padding: 5px">
     Даний договір передбачає укладення паперового договору та затвердження його сторонами.
     Перегляньте ваші дані на коректність. Додати або змінити текстові дані та скани документів можна в формі редагування профіля в вкладці
@@ -60,22 +66,27 @@
                 <hr style="width:80%">
             </div>
         </fieldset>
-
+        <br>
+        <div ng-if="waitingForApproval">
+            <h3>Тобі надіслано запит на перевірку і погодження з умовами договору.
+            Натисни кнопку <button type="button" class="btn btn-success btn-xs" ng-click="checkWrittenAgreementRequestByUser(actualAgreement)" >Підтвердити</button>, якщо ти погоджуєшся з договором.
+            </h3>
+        </div>
         <br>
         <div ng-if="writtenAgreement">
-            <div class="offer" style="background:#f9f9f9; padding: 10px">
+            <div class="offer" style="background:white;">
                 <div compile="agreementTemplate"></div>
             </div>
         </div>
         <br>
-        <div ng-if="!writtenAgreementRequestStatus">
+        <div ng-if="!waitingForApproval && !writtenAgreementRequestStatus">
             Запит на затвердження паперового договору в процесі обробки.
-            Після успішної перевірки ваших даних з вами зв'яжуться для укладення договору.
         </div>
     </form>
-    <div ng-if="writtenAgreementRequestStatus=='empty' || writtenAgreementRequestStatus==0">
+    <div ng-if="!waitingForApproval && (writtenAgreementRequestStatus=='empty' || writtenAgreementRequestStatus==0)">
         Якщо ви ввели актуальні дані, переглянули договір,
         та погоджуєтесь з ним, то відправте запит на генерування паперового договору:
         <button type="button" class="btn btn-success btn-xs" ng-click="sendCheckedWrittenAgreementRequest(writtenAgreement.agreement.id)" >Відправити запит</button>
     </div>
 </div>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '/_teacher/writtenAgreement.css'); ?>"/>

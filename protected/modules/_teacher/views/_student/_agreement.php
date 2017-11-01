@@ -3,16 +3,16 @@
  * @var $documents UserDocuments
  */
 ?>
-<div ng-controller="invoicesByAgreement" ng-init="getAgreementContract('<?php echo $agreement->id ?>')">
+<div ng-controller="invoicesByAgreement" ng-init="checkAgreementPdf('<?php echo $agreement->id ?>')">
 
     <div class="titleAgreement">
         <em ng-if="writtenAgreement.agreement.cancel_date" tyle="font-weight: bold;color:red">
             Договір скасований, проплати здійснені по договру не є актуальними
         </em>
-        <div ng-if="!contract.personParty" >
+        <div ng-if="!pdfAgreement" >
             <?php $this->renderPartial('/_student/agreement/_writtenAgreementPreview', array(), false, true); ?>
         </div>
-        <div ng-if="contract.personParty" >
+        <div ng-if="pdfAgreement" >
             <?php $this->renderPartial('/_student/agreement/_writtenAgreementContract', array(), false, true); ?>
         </div>
         <br>

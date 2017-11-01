@@ -43,5 +43,26 @@ angular
                     getAgreementContract: {
                         url: url + '/getAgreementContract'
                     },
+                    checkAgreementPdf: {
+                        url: url + '/checkAgreementPdf'
+                    },
+                    updateUserAgreementData: {
+                        url: url + '/updateUserAgreementData',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null),
+                    },
+                    updateUserData: {
+                        url: url + '/updateUserData',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null),
+                    },
+                    checkAgreementByUser: {
+                        url: url + '/checkAgreementByUser',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
                 });
         }]);

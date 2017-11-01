@@ -43,6 +43,22 @@
                 <td>Фактична адреса: </td>
                 <td><?=$model->actualCity->title_ua.", ".$model->actual_address;?></td>
             </tr>
+            <tr>
+                <td>Номер ліцензії: </td>
+                <td><?=$model->license_number;?></td>
+            </tr>
+            <tr>
+                <td>Ким видана ліцензія: </td>
+                <td><?=$model->license_issued;?></td>
+            </tr>
+            <tr>
+                <td>Дата видачі ліцензії: </td>
+                <td><?=date("d.m.Y", strtotime($model->license_issued_date));?></td>
+            </tr>
+            <tr>
+                <td>Контакти: </td>
+                <td><?=$model->contacts;?></td>
+            </tr>
             </tbody>
         </table>
     </div>

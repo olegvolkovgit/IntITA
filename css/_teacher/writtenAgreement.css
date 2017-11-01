@@ -1,0 +1,51 @@
+span.cke_button__a_number_label,
+span.cke_button__a_date_label,
+span.cke_button__c_title_label,
+span.cke_button__c_representative_position_label,
+span.cke_button__c_representative_position_accusative_label,
+span.cke_button__c_representative_name_label,
+span.cke_button__c_representative_name_accusative_label,
+span.cke_button__c_representative_short_name_label,
+span.cke_button__c_representative_name_label,
+span.cke_button__c_license_label,
+span.cke_button__c_license_issued_label,
+span.cke_button__c_license_issued_date_label,
+span.cke_button__a_description_label,
+span.cke_button__a_summa_label,
+span.cke_button__a_invoices_label,
+span.cke_button__u_user_passport_date_label,
+span.cke_button__u_user_passport_issued_label,
+span.cke_button__u_user_passport_label,
+span.cke_button__u_user_inn_label,
+span.cke_button__u_user_data_address_label,
+span.cke_button__u_name_label,
+span.cke_button__u_user_email_label,
+span.cke_button__u_user_phone_label,
+span.cke_button__c_edpnou_label,
+span.cke_button__c_bank_name_label,
+span.cke_button__c_bank_code_label,
+span.cke_button__c_legal_address_label,
+span.cke_button__c_contacts_label,
+span.cke_button__c_checking_account_label,
+span.cke_button__u_user_passport_date_label,
+span.cke_button__a_sum_string_label,
+span.cke_button__a_service_hours_label,
+span.cke_button__a_sum_string_label{
+    display: inline-block !important;
+}
+.offer em{
+    font-weight: bold;
+    border: 1px solid #000;
+}
+.offer table{
+    width:100%;
+}
+.offer td{
+    border: 1px solid #000;
+    padding: 5px;
+}
+.offer span{
+    font-weight: bold;
+    font-style: italic;
+    color: #000;
+}
