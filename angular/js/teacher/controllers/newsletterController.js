@@ -156,7 +156,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         $scope.hours = 1;
         $scope.minutes = 1;
         $scope.weekdaysList = [];
-
+        $scope.startSend = false;
     }
     
     function getUserMailboxes() {
@@ -223,32 +223,35 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
 
     $scope.send = function () {
         if ($scope.newsletterForm.$valid && $scope.newsletterType) {
+            $scope.startSend = true;
             var recipients = [];
-            angular.forEach($scope.selectedRecipients, function (value) {
-                switch ($scope.newsletterType) {
-                    case 'roles':
-                        recipients.push(value.id);
-                        break;
-                    case 'users':
-                        recipients.push(value.email);
-                        break;
-                    case 'groups':
-                        recipients.push(value.id);
-                        break;
-                    case 'subGroups':
-                        recipients.push(value.id);
-                        break;
-                    case 'emailsFromDatabase':
-                        recipients = value;
-                        break;
-                    case 'modules':
-                        recipients.push(value.id);
-                        break;
-                    case 'courses':
-                        recipients.push(value.id);
-                        break;
-                }
-            });
+            if ($scope.newsletterType == 'emailsFromDatabase'){
+                recipients = $scope.selectedRecipients;
+            }else{
+                angular.forEach($scope.selectedRecipients, function (value) {
+                    switch ($scope.newsletterType) {
+                        case 'roles':
+                            recipients.push(value.id);
+                            break;
+                        case 'users':
+                            recipients.push(value.email);
+                            break;
+                        case 'groups':
+                            recipients.push(value.id);
+                            break;
+                        case 'subGroups':
+                            recipients.push(value.id);
+                            break;
+                        case 'modules':
+                            recipients.push(value.id);
+                            break;
+                        case 'courses':
+                            recipients.push(value.id);
+                            break;
+                    }
+                });
+            }
+
 
             if($scope.newsletterType=='emailsFromDatabase' && $scope.selectedRecipients == null || $scope.selectedRecipients == 'undefined'){
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
@@ -274,15 +277,20 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             }).success(function (response) {
                 bootbox.alert('Задача запланована',function () {
+                   $scope.startSend = false;
                    $state.go('scheduler/tasks');
                 });
             }).error(function () {
+                $scope.startSend = false;
                 bootbox.alert('Вибачте, виникла помилка');
             });
         }
-        else
+        else{
+            $scope.startSend = false;
             bootbox.alert('Невірні дані')
-    }
+        }
+
+    };
 
     $scope.clearForm = function () {
         init();

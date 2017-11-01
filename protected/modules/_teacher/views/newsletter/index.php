@@ -75,7 +75,7 @@
                         <br>
                         <div ng-show="newsletterType=='emailsFromDatabase'" class="form-group">
                             <label>Категорія*:</label>
-                            <select class="form-control" ng-options="item.id as item.title for item in emailsCategory"
+                            <select class="form-control" ng-options="item.id as item.title for item in emailsCategory track by item.id"
                                     ng-model="selectedRecipients">
                                 <option name="emailCategory" value="" disabled selected>(Виберіть категорію)</option>
                             </select>
@@ -228,7 +228,7 @@
                 </div>
                 </div>
                 <div class="col-md-8">
-                    <button type="submit" class="btn btn-primary"
+                    <button type="submit" class="btn btn-primary" ng-disabled="startSend"
                             ng-click="send();">
                         Надіслати
                     </button>
