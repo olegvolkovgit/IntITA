@@ -169,4 +169,16 @@ class OfflineStudents extends CActiveRecord
 		}
 		return true;
 	}
+
+    public static function groupStudents($group){
+        $students=[];
+        $sql="SELECT DISTINCT t.id_user FROM offline_students t LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id 
+                LEFT JOIN offline_groups g ON sg.group = g.id WHERE g.id=".$group." and t.end_date IS NULL";
+        $list = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($list as $item) {
+            array_push($students, $item['id_user']);
+        }
+
+        return $students;
+    }
 }

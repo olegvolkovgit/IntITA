@@ -420,6 +420,9 @@ class StudentController extends TeacherCabinetController
 
     public function actionWrittenAgreementRequest()
     {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
         $agreement = UserAgreements::model()->findByPk(Yii::app()->request->getPost('id'));
         $documents = $agreement->user->getActualUserDocuments();
         if($documents){
@@ -432,15 +435,16 @@ class StudentController extends TeacherCabinetController
                     $sender = new MailTransport();
                     $message->send($sender);
                     $transaction->commit();
-                    echo "Запит на затвердження паперового договору відіслано. Зачекайте, поки ваш запит буде оброблено";
+                    $result = ['message' => 'success', 'reason' => 'Запит на затвердження паперового договору відіслано. Зачекайте, поки ваш запит буде оброблено'];
                 }
             } catch (Exception $e){
                 $transaction->rollback();
-                throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження паперового договору не вдалося надіслати.");
+                $result = ['message' => 'error', 'reason' => 'Запит на затвердження паперового договору не вдалося надіслати.'];
             }
         }else{
-            echo "У тебе немає жодного актуального документа";
+            $result = ['message' => 'error', 'reason' => 'У тебе немає жодного актуального документа'];
         }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionWrittenAgreementRequestStatus($id)
@@ -452,7 +456,7 @@ class StudentController extends TeacherCabinetController
 
     public function actionGetWrittenAgreementData($id)
     {
-        $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount','service',
+        $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount','service.moduleServices.moduleModel.lectures',
             'corporateEntity.latestCheckingAccount',
             'corporateEntity.actualRepresentatives',
             'corporateEntity.actualRepresentatives.representative')->findByPk($id);

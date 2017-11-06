@@ -63,7 +63,7 @@
             </div>
         </fieldset>
         <?php if($type=='agreement') {?>
-            <div nf-if="(actualAgreement.checked_date | timestamp)<(actualAgreement.lastEditedUserDocument.updatedAt | timestamp)" style="color:red">
+            <div ng-if="(actualAgreement.checked_date | timestamp)<(actualAgreement.lastEditedUserDocument.updatedAt | timestamp)" style="color:red">
                 *дані користувача не перевірялися бухгалтером після часу останьої зміни цих даних
             </div>
         <?php } ?>
@@ -105,6 +105,7 @@
             <button type="button" class="btn btn-success" ng-click="checkWrittenAgreement(writtenAgreement, agreementTemplate)">Підтвердити/згенерувати PDF</button>
             <button ng-if="actualAgreement.checked_by_accountant==0" type="button" class="btn btn-success" ng-click="sendAgreementRequestToUser(writtenAgreement, agreementTemplate)">Відправити на перевірку користувачу</button>
             <button ng-if="actualAgreement.checked_by_accountant==1" type="button" class="btn btn-warning" ng-click="cancelAgreementRequestToUser(writtenAgreement, actualAgreement.id)">Скасувати перевірку</button>
+            <button ng-if="actualAgreement.checked!=1" type="button" class="btn btn-warning" ng-click="removeWrittenAgreement(writtenAgreement, actualAgreement.id)">Видалити</button>
         </div>
         <div style="text-align: right" ng-if="agreementRequestStatus==0">
             Запит скасований

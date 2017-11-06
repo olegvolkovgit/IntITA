@@ -229,7 +229,7 @@ class AgreementsController extends TeacherCabinetController {
     public function actionGetWrittenAgreementData($id)
     {
         $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount'
-            ,'service',
+            ,'service.moduleServices.moduleModel.lectures',
             'corporateEntity.latestCheckingAccount',
             'corporateEntity.actualRepresentatives',
             'corporateEntity.actualRepresentatives.representative')->findByPk($id);
@@ -347,6 +347,7 @@ class AgreementsController extends TeacherCabinetController {
             $params = array_filter($_POST);
             $agreement=UserWrittenAgreement::model()->findByPk($params['id']);
             $agreement->checked_by_accountant=UserWrittenAgreement::NOT_CHECKED;
+            $agreement->checked_by_user=UserWrittenAgreement::NOT_CHECKED;
             $agreement->save();
 
             $transaction->commit();
@@ -411,6 +412,84 @@ class AgreementsController extends TeacherCabinetController {
         }
         Yii::app()->user->model->hasAccessToOrganizationModel($agreement->corporateEntity);
         $this->renderPartial('writtenAgreementView',array('agreement'=>$agreement,'type'=>'agreement'),false,true);
+    }
+
+    public function actionSetAgreementForStudents()
+    {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
+        try {
+            $params = $_POST;
+            $errorMessage=[];
+            $allStudents = filter_var($params['allStudents'], FILTER_VALIDATE_BOOLEAN);
+            $students=isset($params['students'])?$params['students']:[];
+            $courseId=isset($params['courseId'])?$params['courseId']:null;
+            $moduleId=isset($params['moduleId'])?$params['moduleId']:null;
+
+            if($allStudents){
+                $students=OfflineStudents::groupStudents($params['group']);
+            }
+            if ($params['scheme']['educForm'] == 'online') $educationForm = EducationForm::ONLINE;
+            else if ($params['scheme']['educForm'] == 'offline') $educationForm = EducationForm::OFFLINE;
+            else $educationForm = EducationForm::ONLINE;
+
+            foreach ($students as $studentId){
+                $userAgreement=UserAgreements::agreementByParams(
+                    ucfirst($params['serviceType']), $studentId, $moduleId, $courseId, $params['scheme']['schemeId'], $educationForm);
+                if(!$userAgreement){
+                    array_push($errorMessage,StudentReg::model()->findByPk($studentId)->fullName());
+                }
+                if($params['templateId'] && $userAgreement){
+                    $userAgreement->sendAgreementRequestToUser([],$params['templateId']);
+                }
+            }
+
+            if(!empty($errorMessage)){
+                $result='Деяким студентам не вдалося згенерувати договір. Можливо дана схема проплат для них не є актуальною.
+                Студенти: '.   implode(", ", $errorMessage);
+            }else{
+                $result='Договора згенеровано успішно';
+            }
+
+            if ($transaction) {
+                $transaction->commit();
+            }
+        } catch (Exception $error) {
+            if ($transaction) {
+                $transaction->rollback();
+            }
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionRemoveWrittenAgreement()
+    {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
+        try {
+            $params = array_filter($_POST);
+            $agreement=UserWrittenAgreement::model()->findByPk($params['id']);
+            $agreement->delete();
+
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
 }

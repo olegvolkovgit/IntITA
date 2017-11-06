@@ -103,12 +103,13 @@ function studentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
         }
     });
 
-    $scope.updateStudentList=function(startDate, endDate){
+    $scope.updateStudentList=function(organization, startDate, endDate){
         $scope.studentsTableParams = new NgTableParams({}, {
             getData: function (params) {
                 $scope.params=params.url();
                 $scope.params.startDate=startDate;
                 $scope.params.endDate=endDate;
+                $scope.params.organization=organization;
                 return usersService
                     .studentsList($scope.params)
                     .$promise

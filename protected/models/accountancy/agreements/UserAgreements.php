@@ -308,46 +308,48 @@ class UserAgreements extends CActiveRecord {
             return $item->id == $schemaId;
         });
 
-        $billableObjectOrganization = $billableObject->organization;
-        $corporateEntity = $billableObjectOrganization->getCorporateEntityFor($billableObject, $educForm);
-        $checkingAccount = $billableObjectOrganization->getCheckingAccountFor($billableObject, $educForm);
+        if($calculator){
+            $billableObjectOrganization = $billableObject->organization;
+            $corporateEntity = $billableObjectOrganization->getCorporateEntityFor($billableObject, $educForm);
+            $checkingAccount = $billableObjectOrganization->getCheckingAccountFor($billableObject, $educForm);
 
-        $builder = new ContractingPartyBuilder();
+            $builder = new ContractingPartyBuilder();
 
-        $contractingParty = $builder->makeCorporateEntity($corporateEntity, $checkingAccount);
+            $contractingParty = $builder->makeCorporateEntity($corporateEntity, $checkingAccount);
+            $calculator = array_values($calculator)[0];
+            $model = new UserAgreements();
+            $model->user_id = $userId;
+            $model->payment_schema = $calculator->payCount;
+            $model->service_id = $serviceModel->service_id;
+            $model->id_corporate_entity = $corporateEntity->id;
+            $model->id_checking_account = $checkingAccount->id;
+            $model->contract = $calculator->contract;
 
-        $calculator = array_values($calculator)[0];
-        $model = new UserAgreements();
-        $model->user_id = $userId;
-        $model->payment_schema = $calculator->payCount;
-        $model->service_id = $serviceModel->service_id;
-        $model->id_corporate_entity = $corporateEntity->id;
-        $model->id_checking_account = $checkingAccount->id;
-        $model->contract = $calculator->contract;
+            //create phantom billableObject model for converting object's price to UAH
+            //used only in computing agreement and invoices price
+            $billableObjectUAH = clone $billableObject->getModelUAH();
 
-        //create phantom billableObject model for converting object's price to UAH
-        //used only in computing agreement and invoices price
-        $billableObjectUAH = clone $billableObject->getModelUAH();
+            $model->summa = $calculator->getSumma($billableObjectUAH);
+            $model->close_date = $calculator->getCloseDate($billableObject, new DateTime())->format(Yii::app()->params['dbDateFormat']);
+            $model->status = 1;
 
-        $model->summa = $calculator->getSumma($billableObjectUAH);
-        $model->close_date = $calculator->getCloseDate($billableObject, new DateTime())->format(Yii::app()->params['dbDateFormat']);
-        $model->status = 1;
+            if ($model->save()) {
 
-        if ($model->save()) {
+                $contractingParty->bindToAgreement($model, ContractingParty::ROLE_COMPANY);
 
-            $contractingParty->bindToAgreement($model, ContractingParty::ROLE_COMPANY);
+                $invoicesList = $calculator->getInvoicesList($billableObjectUAH, new DateTime());
+                $agreementId = $model->id;
+                $model->updateByPk($agreementId, array(
+                    'number' => UserAgreements::generateNumber($billableObject, $agreementId
+                    )));
+                Invoice::setInvoicesParamsAndSave($invoicesList, $userId, $agreementId);
+                $model->provideAccess();
+            } else {
+                throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
+            }
 
-            $invoicesList = $calculator->getInvoicesList($billableObjectUAH, new DateTime());
-            $agreementId = $model->id;
-            $model->updateByPk($agreementId, array(
-                'number' => UserAgreements::generateNumber($billableObject, $agreementId
-                )));
-            Invoice::setInvoicesParamsAndSave($invoicesList, $userId, $agreementId);
-            $model->provideAccess();
-        } else {
-            throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
+            return $model;
         }
-        return $model;
     }
 
     public function afterSave()
@@ -688,7 +690,7 @@ class UserAgreements extends CActiveRecord {
             'id_agreement'=>$this->id,
             'actual'=>UserWrittenAgreement::ACTUAL,
         ));
-        if($userWrittenAgreement) {
+        if($userWrittenAgreement && $userWrittenAgreement->html_for_edit) {
             return ['id'=>0,'template'=>$userWrittenAgreement->html_for_edit];
         }else{
             return ['id'=>$this->service->written_agreement_template_id,'template'=>$this->service->writtenAgreementTemplate->template];
@@ -696,36 +698,58 @@ class UserAgreements extends CActiveRecord {
     }
 
     public function checkAndGetWrittenAgreement($params) {
-        if($this->actualWrittenAgreement){
-            $this->actualWrittenAgreement->attributes=$params;
-            $this->actualWrittenAgreement->checked_by=Yii::app()->user->getId();
-            $this->actualWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
-            $this->actualWrittenAgreement->checked=UserWrittenAgreement::CHECKED;
-            $this->actualWrittenAgreement->checked_date=new CDbExpression('NOW()');
-            if(!$this->actualWrittenAgreement->save()){
-                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
-            }
-            return $this->actualWrittenAgreement;
-        }else{
+        if($this->actualWrittenAgreement) {
+            $userWrittenAgreement = $this->actualWrittenAgreement;
+        }else {
             $userWrittenAgreement=new UserWrittenAgreement();
-            $userWrittenAgreement->attributes=$params;
-            $userWrittenAgreement->id_agreement=$this->id;
-            $userWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
-            $userWrittenAgreement->checked_by=Yii::app()->user->getId();
-            $userWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
-            $userWrittenAgreement->checked=UserWrittenAgreement::CHECKED;
-            $userWrittenAgreement->checked_date=new CDbExpression('NOW()');
-            if(!$userWrittenAgreement->save()){
-                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
-            }
-
-            return $userWrittenAgreement;
         }
+        $userWrittenAgreement->attributes=$params;
+        $userWrittenAgreement->checked_by=Yii::app()->user->getId();
+        $userWrittenAgreement->id_agreement=$this->id;
+        $userWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
+        $userWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
+        $userWrittenAgreement->checked=UserWrittenAgreement::CHECKED;
+        $userWrittenAgreement->checked_date=new CDbExpression('NOW()');
+        if(!$userWrittenAgreement->save()){
+            throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
+        }
+
+        $userWrittenAgreement->notifyUserAboutGenerateAgreement();
+        return $userWrittenAgreement;
+
+//        if($this->actualWrittenAgreement){
+//            $this->actualWrittenAgreement->attributes=$params;
+//            $this->actualWrittenAgreement->checked_by=Yii::app()->user->getId();
+//            $this->actualWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
+//            $this->actualWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
+//            $this->actualWrittenAgreement->checked=UserWrittenAgreement::CHECKED;
+//            $this->actualWrittenAgreement->checked_date=new CDbExpression('NOW()');
+//            if(!$this->actualWrittenAgreement->save()){
+//                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
+//            }
+//            return $this->actualWrittenAgreement;
+//        }else{
+//            $userWrittenAgreement=new UserWrittenAgreement();
+//            $userWrittenAgreement->attributes=$params;
+//            $userWrittenAgreement->checked_by=Yii::app()->user->getId();
+//            $userWrittenAgreement->id_agreement=$this->id;
+//            $userWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
+//            $userWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
+//            $userWrittenAgreement->checked=UserWrittenAgreement::CHECKED;
+//            $userWrittenAgreement->checked_date=new CDbExpression('NOW()');
+//            if(!$userWrittenAgreement->save()){
+//                throw new \application\components\Exceptions\IntItaException(403, 'Виникла помилка при затверджені паперового договору');
+//            }
+//
+//            return $userWrittenAgreement;
+//        }
     }
 
-    public function sendAgreementRequestToUser($params) {
+    public function sendAgreementRequestToUser($params, $id_template=null) {
         if($this->actualWrittenAgreement){
             $this->actualWrittenAgreement->attributes=$params;
+            if($id_template)
+                $this->actualWrittenAgreement->html_for_edit=WrittenAgreementTemplate::model()->findByPk($id_template)->template;
             $this->actualWrittenAgreement->checked_by=Yii::app()->user->getId();
             $this->actualWrittenAgreement->checked_by_accountant=UserWrittenAgreement::CHECKED;
             $this->actualWrittenAgreement->checked_date=new CDbExpression('NOW()');
@@ -737,6 +761,8 @@ class UserAgreements extends CActiveRecord {
         }else{
             $userWrittenAgreement=new UserWrittenAgreement();
             $userWrittenAgreement->attributes=$params;
+            if($id_template)
+                $userWrittenAgreement->html_for_edit=WrittenAgreementTemplate::model()->findByPk($id_template)->template;
             $userWrittenAgreement->id_agreement=$this->id;
             $userWrittenAgreement->actual=UserWrittenAgreement::ACTUAL;
             $userWrittenAgreement->checked_by=Yii::app()->user->getId();

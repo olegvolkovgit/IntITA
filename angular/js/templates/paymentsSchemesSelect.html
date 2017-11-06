@@ -1,6 +1,6 @@
 <div class="paymentsForm">
     <div class="rowRadio">
-        <select class="form-control" ng-change="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme">
+        <select class="form-control" ng-selected="$parent.selectedModelScheme" ng-change="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme">
             <option ng-repeat="scheme in schemes.schemes track by $index" value="{{scheme}}">
                 <div class="priceBlock">
                     <div ng-class="{basePayment:true}">{{scheme.translates.title}}<span ng-if="scheme.loan>0"> ({{schemes.translates.loan}})</span>

@@ -16,6 +16,9 @@
                     <?php if($scenario!='view') {?>
                         <ul class="list-inline" style="text-align: right">
                             <li>
+                                <label>Горизонтальний режим: <input type="checkbox" ng-model="horizontalMode"></label>
+                            </li>
+                            <li>
                                 <button class="btn btn-primary" ng-click="saveAgreementTemplate(agreementTemplate,'<?php echo $scenario ?>')">Зберегти шаблон договору</button>
                             </li>
                         </ul>
@@ -26,11 +29,15 @@
                     <input type="text" size="135" ng-model="agreementTemplate.name" placeholder="Назва" class="form-control" <?php if($scenario=='view') echo 'disabled'?>/>
                     <br>
                     <?php if($scenario!='view') {?>
-                        <textarea id="CKE" ng-cloak ckeditor="editorOptionsAgreement" name="html_block" ng-model="agreementTemplate.template" required></textarea>
+                        <div ng-class="{'col-md-12' : !horizontalMode, 'col-md-6' : horizontalMode}">
+                            <textarea id="CKE" ng-cloak ckeditor="editorOptionsAgreement" name="html_block" ng-model="agreementTemplate.template" required></textarea>
+                        </div>
                     <?php } ?>
-                    <h2 style="text-align: center">Попередній перегляд</h2>
-                    <div class="offer" style="background:#f9f9f9; padding: 10px">
-                        <div compile="agreementTemplate.template"></div>
+                    <div ng-class="{'col-md-12' : !horizontalMode, 'col-md-6 margin-top-250-px' : horizontalMode}">
+                        <h2 style="text-align: center">Попередній перегляд</h2>
+                        <div class="offer" style="background:#f9f9f9; padding: 10px">
+                            <div compile="agreementTemplate.template"></div>
+                        </div>
                     </div>
                 </div>
             </div>

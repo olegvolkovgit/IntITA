@@ -287,13 +287,12 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                         $scope.pdfAgreement=true;
                     }else{
                         $scope.pdfAgreement=false;
-                        $scope.writtenAgreementPreview(agreementId);
                         $scope.agreementTemplate = $scope.actualAgreement.html_for_edit;
                     }
                 }else{
                     $scope.pdfAgreement=false;
-                    $scope.writtenAgreementPreview(agreementId);
                 }
+                $scope.writtenAgreementPreview(agreementId);
             });
     };
 
@@ -303,9 +302,12 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                 studentService
                     .writtenAgreementRequest({'id': agreementId})
                     .$promise
-                    .then(function (data) {
+                    .then(function successCallback(response) {
+                        bootbox.alert(response.reason);
                         $scope.getWrittenAgreementRequestStatus(agreementId);
-                    });
+                    }, function errorCallback(response) {
+                        bootbox.alert(response.reason);
+                    })
             }
         });
     };

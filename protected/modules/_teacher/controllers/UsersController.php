@@ -212,7 +212,9 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetStudentsList()
     {
-        Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
+        if($_GET['organization']){
+            Yii::app()->user->model->hasAccessToGlobalRoleLists($_GET['organization']);
+        }
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserStudent', $requestParams);
         $criteria =  new CDbCriteria();

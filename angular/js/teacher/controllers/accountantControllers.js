@@ -1653,7 +1653,6 @@ angular
                         .$promise
                         .then(function (data) {
                             params.total(data.count);
-                            console.log(data.rows);
                             return data.rows;
                         });
                 }
@@ -1715,8 +1714,8 @@ angular
             }
         }])
 
-    .controller('writtenAgreementViewCtrl', ['$scope', 'agreementsService', '$stateParams',
-        function ($scope, agreementsService, $stateParams) {
+    .controller('writtenAgreementViewCtrl', ['$scope', 'agreementsService', '$stateParams','$state',
+        function ($scope, agreementsService, $stateParams, $state) {
             $scope.date = new Date();
             $scope.options={};
 
@@ -1750,7 +1749,7 @@ angular
             }
 
 
-            $scope.writtenAgreementPreviewForAccountant = function (agreementId) {
+            $scope.writtenAgreementPreview = function (agreementId) {
                 agreementsService
                     .getWrittenAgreementData({'id': agreementId})
                     .$promise
@@ -1774,13 +1773,12 @@ angular
                                 $scope.pdfAgreement=true;
                             }else{
                                 $scope.pdfAgreement=false;
-                                $scope.writtenAgreementPreviewForAccountant(agreementId);
                                 $scope.agreementTemplate = $scope.actualAgreement.html_for_edit;
                             }
                         }else{
                             $scope.pdfAgreement=false;
-                            $scope.writtenAgreementPreviewForAccountant(agreementId);
                         }
+                        $scope.writtenAgreementPreview(agreementId);
                     });
             };
 
@@ -1813,7 +1811,7 @@ angular
 
             $scope.cancelAgreementRequestToUser = function (data, id) {
                 agreementsService
-                    .cancelAgreementRequestToUser({'id':id,})
+                    .cancelAgreementRequestToUser({'id':id})
                     .$promise
                     .then(function (response) {
                         $scope.checkAgreementPdf(data.agreement.id);
@@ -1856,7 +1854,7 @@ angular
                                         id_message: $stateParams.request,
                                         reject_comment: comment
                                     }).$promise.then(function () {
-                                        $scope.writtenAgreementPreviewForAccountant(agreementId);
+                                        $scope.writtenAgreementPreview(agreementId);
                                     });
                                 }
                             },
@@ -1896,6 +1894,23 @@ angular
                     .$promise
                     .then(function (data) {
                         $scope.editUserAgreement();
+                    });
+            }
+
+            $scope.removeWrittenAgreement = function (data, id) {
+                bootbox.confirm('Ви впевнені, що хочете скасувати договір?', function (result) {
+                    if (result) {
+                        agreementsService
+                            .removeWrittenAgreement(
+                                {'id':id})
+                            .$promise
+                            .then(function (response) {
+                                $state.go('accountant/writtenAgreementsList');
+                            })
+                            .catch(function (error) {
+                                bootbox.alert(error.data.reason);
+                            })
+                        }
                     });
             }
         }])
@@ -1959,6 +1974,70 @@ angular
                         });
                 }
             });
+        }])
+    .controller('agreementsForGroupCtrl', ['$scope','$compile','$http','$stateParams',
+        function ($scope, $compile, $http, $stateParams) {
+            $scope.checkboxes = {'checked': false, items: {}};
+
+            $scope.$watch('checkboxes.items', function (values) {
+                $scope.selectedStudents = []
+                for (var key in values) {
+                    if (values[key]) {
+                        $scope.selectedStudents.push(key)
+                    }
+                }
+                if ($scope.selectedStudents.length < $scope.offlineStudentsTableParams.data.length && $scope.selectedStudents.length > 0)
+                    angular.element(document.querySelector("#select_all")).prop('indeterminate', true)
+                else if ($scope.selectedStudents.length == 0) {
+                    angular.element(document.querySelector("#select_all")).prop('indeterminate', false)
+                }
+            }, true);
+
+            $scope.setService=function (type, id) {
+                if(type=='module'){
+                    $scope.selectedCourseService=null;
+                } else $scope.selectedModuleService=null;
+                $scope.selectedContent=id;
+                $scope.serviceType=type;
+                var schemesBlock=$jq('#agreementBlock');
+                schemesBlock.show();
+                ($compile(schemesBlock)($scope));
+            }
+
+            $scope.loadTemplates = function () {
+                $http({
+                    url: basePath + '/_teacher/_accountant/template/getTemplatesList',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    $scope.templates = response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Отримати шаблони схем не вдалося");
+                });
+            };
+            $scope.loadTemplates();
+
+            $scope.createStudentsAgreement = function (moduleId, courseId, serviceType, scheme, templateId, allStudents, students) {
+                if(typeof scheme == 'object'){
+                    bootbox.alert("Спочатку обери схему проплати");
+                }else{
+                    var scheme = JSON.parse(scheme);
+                    $scope.disabledButton=true;
+                    $http({
+                        url: basePath + '/_teacher/_accountant/agreements/setAgreementForStudents',
+                        method: "POST",
+                        data:$jq.param({moduleId: moduleId, courseId: courseId, serviceType: serviceType,
+                            scheme:scheme, templateId:templateId, allStudents:allStudents,students:students, group:  $stateParams.id }),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).then(function successCallback(response) {
+                        $scope.disabledButton=false;
+                        bootbox.alert(response.data);
+                    }, function errorCallback() {
+                        $scope.disabledButton=false;
+                        bootbox.alert("Виконати операцію не вдалося");
+                    });
+                }
+            };
         }])
     .filter('timestamp', function(){
         return function(input) {

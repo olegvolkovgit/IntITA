@@ -53,7 +53,7 @@
                 <hr style="width:80%">
             </div>
         </fieldset>
-        <h2 style="text-align:center">Договір затверджений</h2>
+        <h2 style="text-align:center">Договір затверджений <span style="color:red" ng-if="writtenAgreement.agreement.cancel_date">(скасований)</span></h2>
         <div style="text-align: center">
             <embed embed-src="<?php echo StaticFilesHelper::fullPathToFiles('documents/agreements') ?>/{{actualAgreement.user.id}}/a{{actualAgreement.id_agreement}}.pdf" width="90%" height="1200px">
         </div>

@@ -6,22 +6,22 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
 <div ng-controller="studentsTableCtrl" organization="<?php echo $organization ?>">
     <br>
     <button class="btn btn-primary"
-            ng-click="updateStudentList()">
+            ng-click="updateStudentList('<?php echo $organization ?>')">
         Всі студенти
     </button>
 
     <button class="btn btn-primary"
-            ng-click="updateStudentList('<?=$startOfDay?>', '<?=$currentTime?>')">
+            ng-click="updateStudentList('<?php echo $organization ?>','<?=$startOfDay?>', '<?=$currentTime?>')">
         За сьогодні
     </button>
 
     <button class="btn btn-primary"
-            ng-click="updateStudentList('<?=$last_24h?>', '<?=$currentTime?>')">
+            ng-click="updateStudentList('<?php echo $organization ?>','<?=$last_24h?>', '<?=$currentTime?>')">
         За добу
     </button>
 
     <button class="btn btn-primary"
-            ng-click="updateStudentList(startDate+ ' 00:00:00', endDate+' 23:59:59')">
+            ng-click="updateStudentList('<?php echo $organization ?>',startDate+ ' 00:00:00', endDate+' 23:59:59')">
         За період:
     </button>
 

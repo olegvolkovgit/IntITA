@@ -361,5 +361,17 @@ angular
                     return accountantUrl + "agreements/studentAgreement/id/" + $stateParams.id;
                 }
             })
+            .state('accountant/offlineGroups', {
+                url: "/accountant/offlineGroups",
+                cache: false,
+                templateUrl: accountantUrl + "accountant/offlineGroups",
+            })
+            .state('accountant/offlineGroup/:id', {
+                url: "/accountant/offlineGroup/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return accountantUrl + "accountant/offlineGroup/?id=" + $stateParams.id
+                }
+            })
     }
 );

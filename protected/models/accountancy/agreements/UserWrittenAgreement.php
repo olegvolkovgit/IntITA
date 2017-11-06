@@ -28,6 +28,8 @@ class UserWrittenAgreement extends CActiveRecord
     const NOT_CHECKED = 0;
 
     private $requestToApproveAgreement = 'accountant'. DIRECTORY_SEPARATOR . '_requestToApproveAgreement';
+    private $generatedAgreement = 'accountant'. DIRECTORY_SEPARATOR . '_generatedAgreement';
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -169,6 +171,13 @@ class UserWrittenAgreement extends CActiveRecord
     public function notifyUserAboutAgreementRequest()
     {
         $this->notify($this->agreement->user, 'Запит на підтвердження паперового договору', $this->requestToApproveAgreement,
+            array($this->agreement));
+        return "Операцію успішно виконано.";
+    }
+
+    public function notifyUserAboutGenerateAgreement()
+    {
+        $this->notify($this->agreement->user, 'Згенеровано паперовий договір', $this->generatedAgreement,
             array($this->agreement));
         return "Операцію успішно виконано.";
     }
