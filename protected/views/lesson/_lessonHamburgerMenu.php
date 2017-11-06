@@ -48,6 +48,7 @@
             <li><a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a></li>
             <li><a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a></li>
             <li><a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a></li>
+            <li><a href="https://drive.google.com/file/d/12ITQApYhzr6LhhGMfc1SagDWY_XnV-m5/view" target="_blank"><?php echo Yii::t('header', '0981'); ?></a></li>
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {
