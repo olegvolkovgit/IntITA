@@ -69,4 +69,15 @@ class AccountantController extends TeacherCabinetController {
             throw new CHttpException(404,'Документ не знайдено');
         }
     }
+
+    public function actionOfflineGroups()
+    {
+        $this->renderPartial('/_accountant/students/offlineGroupsTable', array(), false, true);
+    }
+
+    public function actionOfflineGroup($id)
+    {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineGroups::model()->findByPk($id));
+        $this->renderPartial('/_accountant/students/offlineGroup', array(), false, true);
+    }
 }

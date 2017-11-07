@@ -129,6 +129,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                     .$promise
                     .then(function (data) {
                         params.total(data.count);
+                        $scope.courseServices=data.rows;
                         return data.rows;
                     });
             }
@@ -140,6 +141,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                     .$promise
                     .then(function (data) {
                         params.total(data.count);
+                        $scope.moduleServices=data.rows;
                         return data.rows;
                     });
             }

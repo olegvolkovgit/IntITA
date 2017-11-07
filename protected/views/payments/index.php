@@ -8,7 +8,7 @@
         $this->breadcrumbs = array('Договір');?>
     </div>
     <div class="titleAgreement">
-        <h1>Рахунки до сплати за договором №<?php echo $agreement->number; ?> від
+        <h1>Рахунки до сплати за договором №<?php echo $agreement->number; ?>-<?php echo $agreement->service_id; ?>-<?php echo $agreement->user_id; ?> від
             <?php echo $agreement->create_date; ?></h1>
     </div>
 

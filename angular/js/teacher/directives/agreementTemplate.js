@@ -72,8 +72,8 @@ angular
             '<tr style="font-weight: bold"><td style="width:40px">№</td><td>Назва підготовки в межах даного напрямку</td><td>Кількість навчальних годин</td></tr>' +
             '<tr ng-if="writtenAgreement.agreementModules.service.courseServices" ng-repeat="module in writtenAgreement.agreementModules.service.courseServices.courseModel.module track by $index">' +
             '<td>{{$index+1}}</td><td>{{module.moduleInCourse.title_ua}}</td><td style="text-align: center" class="module-hours">{{(module.moduleInCourse.lectures | objLength)*2 | number:0}}</td></tr>' +
-            '<tr ng-if="writtenAgreement.agreementModules.service.moduleServices" ng-repeat="module in writtenAgreement.agreement.service.moduleServices.moduleModel track by $index">' +
-            '<td>{{$index+1}}</td><td>{{module.moduleInCourse.title_ua}}</td><td style="text-align: center" class="module-hours">{{(module.moduleInCourse.lectures | objLength)*2 | number:0}}</td></tr>'+
+            '<tr ng-if="writtenAgreement.agreementModules.service.moduleServices">' +
+            '<td>1</td><td>{{writtenAgreement.agreementModules.service.moduleServices.moduleModel.title_ua}}</td><td style="text-align: center" class="module-hours">{{(writtenAgreement.agreement.service.moduleServices.moduleModel.lectures | objLength)*2 | number:0}}</td></tr>'+
             '<tr style="font-weight: bold"><td></td><td>Всього</td><td style="text-align: center">{{ modulesSumHours() }}</td></tr>'+
             '</table>'
         };

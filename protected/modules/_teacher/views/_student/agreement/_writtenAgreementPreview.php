@@ -83,7 +83,10 @@
             Запит на затвердження паперового договору в процесі обробки.
         </div>
     </form>
-    <div ng-if="!waitingForApproval && (writtenAgreementRequestStatus=='empty' || writtenAgreementRequestStatus==0)">
+    <div ng-if="actualAgreement.checked_by_user==1">
+        Договір в процесі перевірки
+    </div>
+    <div ng-if="!waitingForApproval && (writtenAgreementRequestStatus=='empty' || writtenAgreementRequestStatus==0) && actualAgreement.checked_by_user!=1">
         Якщо ви ввели актуальні дані, переглянули договір,
         та погоджуєтесь з ним, то відправте запит на генерування паперового договору:
         <button type="button" class="btn btn-success btn-xs" ng-click="sendCheckedWrittenAgreementRequest(writtenAgreement.agreement.id)" >Відправити запит</button>

@@ -13,15 +13,22 @@ class ContractingPartyBuilder {
      * @throws Exception
      */
     public function makeCorporateEntity(CorporateEntity $entity, CheckingAccounts $account) {
-        $transaction = Yii::app()->db->beginTransaction();
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
         try {
             $contractingParty = $this->createContractingParty(self::CORPORATE_ENTITY);
             $this->createContractingPartyCorporateEntity($contractingParty, $entity, $account);
             $this->createContractingPartyCorporateEntityRepresentatives($contractingParty, $entity->actualRepresentatives);
-            $transaction->commit();
+            if ($transaction) {
+                $transaction->commit();
+            }
             return $contractingParty;
         } catch (Exception $error) {
-            $transaction->rollback();
+            if ($transaction) {
+                $transaction->rollback();
+            }
             throw $error;
         }
     }

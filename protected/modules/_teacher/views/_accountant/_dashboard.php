@@ -65,6 +65,9 @@
                         <a href="#/students">Студенти</a>
                     </li>
                     <li>
+                        <a href="#/accountant/offlineGroups">Офлайнові групи</a>
+                    </li>
+                    <li>
                         <a href="#/accountant/documents">Копії документів</a>
                     </li>
                 </ul>

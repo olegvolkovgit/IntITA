@@ -126,6 +126,12 @@ angular
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         transformRequest : transformRequest.bind(null)
                     },
+                    removeWrittenAgreement: {
+                        url: url+'/removeWrittenAgreement',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
                 });
         }])
     .service('agreementsInformation', ['lodash',

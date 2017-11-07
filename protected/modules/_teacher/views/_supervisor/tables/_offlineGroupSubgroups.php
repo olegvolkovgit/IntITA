@@ -16,7 +16,7 @@
                     <td data-title="'Журнал'" ><span ng-bind-html="row.journal | linky:'_blank'"></span></td>
                     <td data-title="'Корисні посилання'" ><span ng-bind-html="row.link | linky:'_blank'"></span></td>
                     <td data-title="'Тренер підгрупи'" filter="{'subgroupTrainer.fullName': 'text'}" sortable="'subgroupTrainer.fullName'">
-                        <a ng-href="#/users/profile/{{row.id_trainer}}">{{row.subgroupTrainer.fullName}} ({{row.subgroupTrainer.email}})</a>
+                        <a ng-href="#/users/profile/{{row.id_trainer}}">{{row.subgroupTrainer.fullName}}</a>
                     </td>
                 </tr>
             </table>

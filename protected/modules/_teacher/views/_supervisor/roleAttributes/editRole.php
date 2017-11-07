@@ -1,7 +1,7 @@
 <div ng-controller="editTeacherRoleCtrl">
     <ul class="list-inline">
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/users/teachers">Співробітники</a>
+            <a type="button" class="btn btn-primary" ng-href="#/users/coworkers">Співробітники</a>
         </li>
         <li>
             <a type="button" class="btn btn-primary" ng-href="#/users/profile/{{data.user.id}}">Переглянути інформацію даного користувача</a>

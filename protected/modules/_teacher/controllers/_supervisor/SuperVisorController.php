@@ -3,7 +3,12 @@
 class SuperVisorController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isSuperVisor();
+
+        $allowedAccountantActions = ['getOfflineGroupsList','getSpecializationsList','getOfflineStudentsList',
+            'getCourseAccessList','getModuleAccessList','getGroupData','getCuratorById','getCityById'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isSuperVisor() || (Yii::app()->user->model->isAccountant() &&
+                in_array($action, $allowedAccountantActions));
     }
 
     public function actionOfflineGroups()
