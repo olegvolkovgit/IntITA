@@ -492,4 +492,20 @@ class AgreementsController extends TeacherCabinetController {
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
+    public function actionRemove($userId, $serviceId)
+    {
+        $data['data']=UserAgreements::model()->findByAttributes(array('user_id'=>$userId,'service_id'=>$serviceId,'cancel_date'=>null));
+        echo json_encode($data);
+    }
+
+    public function actionGetAgreementFile($id){
+        $agreement=UserAgreements::model()->findByPk($id);
+        $file = Yii::app()->basePath . "/../files/documents/agreements/".$agreement->user_id."/a".$id.".pdf";
+        if (file_exists($file)){
+            $result['data']=StaticFilesHelper::fullPathToFiles("documents/agreements").'/'.$agreement->user_id.'/a'.$id.'.pdf';
+            echo json_encode($result);
+        } else {
+            throw new CHttpException(404,'Документ не знайдено');
+        }
+    }
 }
