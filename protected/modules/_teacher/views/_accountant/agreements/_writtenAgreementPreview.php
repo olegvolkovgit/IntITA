@@ -12,6 +12,8 @@
 
     <form ng-if="writtenAgreement.documents">
         <fieldset ng-disabled="true">
+            <a ng-href="#/users/profile/{{writtenAgreement.documents[0].idUser.id}}" target="_blank">
+                Користувач: {{writtenAgreement.documents[0].idUser.secondName}} {{writtenAgreement.documents[0].idUser.firstName}} {{writtenAgreement.documents[0].idUser.email}}</a>
             <div ng-repeat="document in writtenAgreement.documents track by $index">
                 <div>
                     <em>{{document.documentType.title_ua}}</em>
@@ -88,7 +90,6 @@
                     <div class="panel panel-default">
                         <div class="panel-body" >
                             <div class="offer" id="printableArea" compile="agreementTemplate"></div>
-<!--                            <div ng-if="actualAgreement.id" class="offer" id="printableArea" ng-bind-html="agreementTemplate"></div>-->
                         </div>
                     </div>
                 </div>

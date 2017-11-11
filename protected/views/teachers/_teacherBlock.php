@@ -62,8 +62,10 @@ $roles = $data->getRoles();
 
                 <div>
                     <?php foreach ($data->teacherOrganizations as $item){
-                            echo $item->organization->name.": ";
-                            echo "<em> ".$item->getUserRoles()."</em><br>";
+                            $rolesString=$item->getUserRoles();
+                            echo $item->organization->name;
+                            if ($rolesString)
+                                echo ":<em> ".$rolesString."</em><br>";
                     }?>
                 </div>
             </div>

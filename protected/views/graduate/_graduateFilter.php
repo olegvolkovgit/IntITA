@@ -42,7 +42,7 @@
 <!--            </td>-->
             <td>
                 <div>
-                    <input type="search" id="search_input" ng-model="input" ng-keyup="searchInput()" placeholder="пошук випусників"/>
+                    <input type="search" id="search_input" ng-model="input" ng-keyup="searchInput()" placeholder="<?php echo Yii::t('graduates', '0982'); ?>"/>
                 </div>
             </td>
         </tr>

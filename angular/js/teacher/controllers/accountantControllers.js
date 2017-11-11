@@ -2044,9 +2044,9 @@ angular
                     }).then(function successCallback(response) {
                         $scope.disabledButton=false;
                         bootbox.alert(response.data);
-                    }, function errorCallback() {
+                    }, function errorCallback(response) {
                         $scope.disabledButton=false;
-                        bootbox.alert("Виконати операцію не вдалося");
+                        bootbox.alert(response.data.reason);
                     });
                 }
             };

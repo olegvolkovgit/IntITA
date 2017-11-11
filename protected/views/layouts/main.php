@@ -114,7 +114,7 @@ $header = new Header();
                                 <a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
                             </li>
                             <li>
-                                <a href="https://drive.google.com/file/d/12ITQApYhzr6LhhGMfc1SagDWY_XnV-m5/view" target="_blank"><?php echo Yii::t('header', '0981'); ?></a>
+                                <a href="<?php echo Mainpage::getPartnerLink() ?>" target="_blank"><?php echo Yii::t('header', '0981'); ?></a>
                             </li>
                         </ul>
                     </td>
@@ -292,7 +292,7 @@ $header = new Header();
                         <a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
                     </li>
                     <li>
-                        <a href="https://drive.google.com/file/d/12ITQApYhzr6LhhGMfc1SagDWY_XnV-m5/view" target="_blank"><?php echo Yii::t('header', '0981'); ?></a>
+                        <a href="<?php echo Mainpage::getPartnerLink() ?>" target="_blank"><?php echo Yii::t('header', '0981'); ?></a>
                     </li>
                 </ul>
             </div>

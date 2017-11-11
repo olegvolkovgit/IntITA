@@ -125,8 +125,9 @@ angular
                         callback: function () {
                             var comment = $jq('#commentText').val();
                             teacherConsultantService.setMarkPlainTask({'idPlainTask': id, 'mark': mark, 'comment': comment}).$promise.then(function(){
-                                $scope.tasksTableParams.reload();
                                 $scope.checkedStudentsAnswers = [];
+                                $scope.checkboxes = { 'checked': false, items: {} };
+                                $scope.tasksTableParams.reload();
                             });
                         }
                     },
@@ -150,8 +151,9 @@ angular
                         callback: function () {
                             var comment = $jq('#commentText').val();
                             teacherConsultantService.setMarkForArrayPlainTask({'answersIdArray': JSON.stringify(ids), 'mark': mark, 'comment': comment}).$promise.then(function(){
-                                $scope.tasksTableParams.reload();
                                 $scope.checkedStudentsAnswers = [];
+                                $scope.checkboxes = { 'checked': false, items: {} };
+                                $scope.tasksTableParams.reload();
                             });
                         }
                     },

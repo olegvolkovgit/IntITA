@@ -140,7 +140,7 @@ class RevisionController extends Controller {
         }
 
         $lectureBody = $page->getLectureBody();
-        $dataProvider = new CArrayDataProvider($lectureBody);
+        $dataProvider = new CArrayDataProvider($lectureBody, array('pagination' => false));
         $quiz = $page->getQuiz();
 
         $this->render("indexCKE", array(

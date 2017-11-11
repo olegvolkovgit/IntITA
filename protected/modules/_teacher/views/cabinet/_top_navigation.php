@@ -80,7 +80,7 @@
             <li><a href="http://profitday.info/upcomingevents" target="_blank"><i
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0912'); ?></a></li>
             <li>
-                <a href="https://drive.google.com/file/d/12ITQApYhzr6LhhGMfc1SagDWY_XnV-m5/view" target="_blank">
+                <a href="<?php echo Mainpage::getPartnerLink() ?>" target="_blank">
                     <i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0981'); ?></a>
             </li>
             <li class="divider"></li>

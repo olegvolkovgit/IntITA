@@ -9,8 +9,8 @@ class UsersController extends TeacherCabinetController
         $allowedCMActions = ['contentAuthors','getAuthorsList','teacherConsultants','getTeacherConsultantsList'];
 
         $action = Yii::app()->controller->action->id;
-        return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() || Yii::app()->user->model->isAuditor() && !in_array($action, $allowedDenySetActions)) ||
-        (Yii::app()->user->model->isSuperVisor() || Yii::app()->user->model->isAccountant() && in_array($action, $allowedUsersTables)) ||
+        return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() || Yii::app()->user->model->isAuditor() || Yii::app()->user->model->isAccountant() && !in_array($action, $allowedDenySetActions)) ||
+        (Yii::app()->user->model->isSuperVisor() && in_array($action, $allowedUsersTables)) ||
         Yii::app()->user->model->isAdmin() ||
         (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions));
     }

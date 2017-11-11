@@ -492,7 +492,7 @@ class SuperVisorController extends TeacherCabinetController
                         }
                         $role->setStudentAttribute($model->teacher, $student->id_user, $model->module->module_ID);
                     }
-                    $url=Config::getFullChatPath()."/group_operations/update/".$subgroup->groupName->id;
+                    $url=Config::getFullChatPath()."/sub_group_operations/update/".$subgroupId;
                     $callUrl = new CurlHelper();
                     $callUrl->callPageByCurl($url);
 
@@ -568,6 +568,9 @@ class SuperVisorController extends TeacherCabinetController
                 $student->comment = $comment;
             }
             if($student->update()){
+                $url=Config::getFullChatPath()."/sub_group_operations/update/".$subgroupId;
+                $callUrl = new CurlHelper();
+                $callUrl->callPageByCurl($url);
                 echo 'Студента скасовано';
             }else{
                 echo 'Скасувати студента не вдалося';
@@ -671,8 +674,6 @@ class SuperVisorController extends TeacherCabinetController
             $cancelResult="Попереднього тренера скасовано.";
         }
         $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-
-        TrainerStudent::checkStudentInStudentInfo($userId);
 
         if ($result===true){
             $data['data'] = "success";
