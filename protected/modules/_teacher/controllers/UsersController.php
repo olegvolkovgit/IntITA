@@ -7,12 +7,14 @@ class UsersController extends TeacherCabinetController
         $allowedDenySetActions = ['addAdmin', 'createAccountant'];
         $allowedUsersTables = ['users','getUsersList','getTrainersList','coworkers','getTeachersList','students','getStudentsList'];
         $allowedCMActions = ['contentAuthors','getAuthorsList','teacherConsultants','getTeacherConsultantsList'];
+        $allowedGroups = ['offlineGroups','offlineGroup','offlineSubgroup'];
 
         $action = Yii::app()->controller->action->id;
         return (Yii::app()->user->model->isDirector() || Yii::app()->user->model->isSuperAdmin() || Yii::app()->user->model->isAuditor() || Yii::app()->user->model->isAccountant() && !in_array($action, $allowedDenySetActions)) ||
         (Yii::app()->user->model->isSuperVisor() && in_array($action, $allowedUsersTables)) ||
         Yii::app()->user->model->isAdmin() ||
-        (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions));
+        (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions)) ||
+            (Yii::app()->user->model->isTeacherConsultant() || Yii::app()->user->model->isTrainer() && in_array($action, $allowedGroups));
     }
 
     public function actionIndex($id=0)
@@ -821,5 +823,22 @@ class UsersController extends TeacherCabinetController
         $emailCategory=EmailsCategory::model()->findByPk($id);
         $emailCategory->title=$title;
         $emailCategory->update();
+    }
+
+    public function actionOfflineGroups()
+    {
+        $this->renderPartial('/users/offlineGroups/offlineGroupsTable', array(), false, true);
+    }
+
+    public function actionOfflineGroup($id)
+    {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineGroups::model()->findByPk($id));
+        $this->renderPartial('/users/offlineGroups/offlineGroup', array(), false, true);
+    }
+
+    public function actionOfflineSubgroup($id)
+    {
+        Yii::app()->user->model->hasAccessToOrganizationModel(OfflineSubgroups::model()->findByPk($id)->groupName);
+        $this->renderPartial('/users/offlineGroups/offlineSubgroup', array(), false, true);
     }
 }

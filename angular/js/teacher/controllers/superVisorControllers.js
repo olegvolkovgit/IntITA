@@ -434,6 +434,24 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     $scope.updateSubgroupChat=function(subgroupId){
         chatIntITAMessenger.updateSubgroup(subgroupId);
     };
+
+    $scope.updateSubgroupLink=function(link){
+        superVisorService.updateSubgroupLink(link).$promise
+            .then(function successCallback() {
+                $scope.loadSubgroupData(link.id_subgroup);
+                $scope.newLink={id_subgroup:link.id_subgroup, description:null,link:null};
+            }, function errorCallback() {
+                bootbox.alert("Оновити посилання не вдалося");
+            });
+    };
+    $scope.removeSubgroupLink=function(link){
+        superVisorService.removeSubgroupLink(link).$promise
+            .then(function successCallback() {
+                $scope.loadSubgroupData(link.id_subgroup);
+            }, function errorCallback() {
+                bootbox.alert("Видалити посилання не вдалося");
+            });
+    };
 }
 
 function groupAccessCtrl ($scope, $http, $stateParams, superVisorService){

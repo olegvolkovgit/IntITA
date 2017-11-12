@@ -2,12 +2,7 @@
     <div class="panel-body">
         <ul class="list-inline">
             <li>
-                <a type="button" class="btn btn-primary" ng-href="#/supervisor/editSubgroup/{{subgroup.id}}">
-                    Редагувати підгрупу
-                </a>
-            </li>
-            <li>
-                <a type="button" class="btn btn-primary" ng-href="#/supervisor/offlineGroup/{{group.id}}">
+                <a type="button" class="btn btn-primary" ng-href="#/offlineGroup/{{group.id}}">
                     Група підгрупи
                 </a>
             </li>
@@ -45,7 +40,7 @@
                     </ul>
                 </uib-tab>
                 <uib-tab index="1" heading="Студенти">
-                    <?php $this->renderPartial('/_supervisor/tables/_offlineStudents', array());?>
+                    <?php $this->renderPartial('/users/offlineGroups/tables/_offlineStudents', array());?>
                 </uib-tab>
             </uib-tabset>
         </div>
