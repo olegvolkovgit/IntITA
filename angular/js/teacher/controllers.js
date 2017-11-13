@@ -81,7 +81,7 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
     };
 }
 
-function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, typeAhead, chatIntITAMessenger, crmTaskServices) {
+function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, typeAhead, chatIntITAMessenger) {
     audio = new Audio(basePath + '/angular/audio/notification.wav');
     //function back() redirect to prev link
     $rootScope.back = function () {
@@ -266,6 +266,20 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, t
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
+    };
+
+    //redirect to graduate page
+    $scope.graduateLink = function (id) {
+        $http({
+            url: basePath + '/_teacher/cabinet/getGraduateId',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.location.hash = '/graduate/edit/'+response.data;
         }, function errorCallback() {
             return false;
         });

@@ -173,7 +173,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     $scope.loadGroupData=function(){
         superVisorService.groupData({'id':$stateParams.id}).$promise
             .then(function successCallback(response) {
-                $scope.group=response;
+                $scope.group=response.group;
                 $scope.loadCityToModel($scope.group.city);
                 $scope.loadCuratorToModel($scope.group.chat_author_id);
                 $scope.changePageHeader('Офлайн група: '+$scope.group.name);
@@ -341,7 +341,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     $scope.loadGroupData=function(groupId){
         superVisorService.groupData({'id':groupId}).$promise
             .then(function successCallback(response) {
-                $scope.group=response;
+                $scope.group=response.group;
             }, function errorCallback() {
                 bootbox.alert("Отримати дані групи не вдалося");
             });
@@ -461,7 +461,7 @@ function groupAccessCtrl ($scope, $http, $stateParams, superVisorService){
     $scope.loadGroupData=function(groupId){
         superVisorService.groupData({'id':groupId}).$promise
             .then(function successCallback(response) {
-                $scope.selectedGroup=response;
+                $scope.selectedGroup=response.group;
                 $scope.groupSelected=response.name;
             }, function errorCallback() {
                 bootbox.alert("Отримати дані групи не вдалося");
@@ -623,8 +623,9 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
         superVisorService.groupData({'id':groupId}).$promise
             .then(function successCallback(response) {
                 $scope.defaultGroup=true;
-                $scope.selectedGroup=response;
-                $scope.groupSelected=response.name;
+                $scope.selectedGroup=response.group;
+                $scope.groupSelected=response.group.name;
+                $scope.services=response.services;
             }, function errorCallback() {
                 bootbox.alert("Отримати дані групи не вдалося");
             });
@@ -647,11 +648,11 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
     };
     $scope.loadOfflineStudentModel=function(offlineStudentModelId){
         $http.get(basePath + "/_teacher/_supervisor/superVisor/getOfflineStudentModel/?id="+offlineStudentModelId).then(function (response) {
+            $scope.studentModel=response.data;
             $scope.start_date=response.data.startDate;
             $scope.graduate_date = response.data.graduateDate;
             $scope.end_date = response.data.endDate;
             $scope.loadUserData(response.data.id);
-            $scope.loadGroupData(response.data.idGroup);
             $scope.loadSubgroupData(response.data.idSubgroup);
         });
     };
@@ -668,10 +669,10 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
         $scope.start_date= $filter('date')(new Date(), "yyyy-MM-dd");
     }
 
-    $scope.sendOfflineStudentSubgroupForm=function(scenario, idUser,idSubgroup,startDate, graduateDate, modelId){
+    $scope.sendOfflineStudentSubgroupForm=function(scenario, idUser,idSubgroup,startDate, graduateDate, modelId, rating){
         if(scenario=='create')
             $scope.addStudentToSubgroup(idUser,idSubgroup,startDate);
-        else $scope.updateOfflineStudentSubgroup(idUser, idSubgroup, startDate, graduateDate, modelId);
+        else $scope.updateOfflineStudentSubgroup(idUser, idSubgroup, startDate, graduateDate, modelId, rating);
     };
 
     $scope.addStudentToSubgroup=function (idUser,idSubgroup,startDate) {
@@ -707,21 +708,27 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
         }
     };
 
-    $scope.updateOfflineStudentSubgroup=function (idUser, idSubgroup, startDate, graduateDate, modelId) {
+    $scope.updateOfflineStudentSubgroup=function (idUser, idSubgroup, startDate, graduateDate, modelId, services) {
+        services.modules.forEach(function (item, key) {
+            if (item.rat) {
+                item.rat = item.rat/10;
+            }
+        });
+        services.courses.forEach(function (item, key) {
+            if (item.rat) {
+                item.rat = item.rat/10;
+            }
+        });
         $http({
             method: 'POST',
             url: basePath+'/_teacher/_supervisor/superVisor/updateOfflineStudent',
             data: $jq.param({
-                userId: idUser, subgroupId: idSubgroup, 
-                startDate: startDate, graduateDate: graduateDate, 
-                modelId: modelId}),
+                userId: idUser, subgroupId: idSubgroup,
+                startDate: startDate, graduateDate: graduateDate,
+                modelId: modelId,
+                services: services}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            chatIntITAMessenger.updateSubgroup(idSubgroup);
-            if(response.data.oldSubgroup){
-                chatIntITAMessenger.updateSubgroup(response.data.oldSubgroup);
-            }
-
             $scope.addUIHandlers(response.data.message);
             $scope.loadOfflineStudentModel($scope.studentModelId);
         }, function errorCallback() {

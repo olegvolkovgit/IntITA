@@ -253,4 +253,77 @@ class Graduate extends CActiveRecord
         }
         echo $name? $name : $this->user['email'];
     }
+
+    public static function addGraduate($request){
+        $errors = [];
+        if (Graduate::model()->findByAttributes(array('id_user' => $request['user']['id'])))
+            $errors = ['Випускник уже існує'];
+        if (!isset($request['graduate_date']))
+            $errors = ['Оберіть дату випуску'];
+        if (!empty($errors)) {
+            echo json_encode(['errors' => $errors]);
+            Yii::app()->end();
+        }
+        $graduate = new Graduate();
+
+        if ($request) {
+            $graduate->loadModel($request);
+            $graduate->published = 1;
+        }
+
+        $graduate->id_user = $request['user']['id'];
+        $date = strtotime($request['graduate_date']);
+        $graduate->graduate_date = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+        if (!$graduate->validate()) {
+            $errorsGraduate = $graduate->getErrors();
+            echo json_encode(['errors' => $errorsGraduate]);
+            Yii::app()->end();
+        }
+        $graduate->save(false);
+        if (isset($request['courses'])) {
+            foreach ($request['courses'] as $course) {
+                if(isset($course['rat']) && $course['rat']){
+                    $courseRating = new RatingUserCourse();
+                    $courseRating->id_user = isset($request['user']['id']) ? $request['user']['id'] : null;
+                    $courseRating->rating = $course['rat'];
+                    $courseRating->id_course = $course['course_ID'];
+                    $courseRating->start_course = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                    $courseRating->date_done = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                    $courseRating->course_revision = 1;
+                    $courseRating->course_done = (int)true;
+                    $courseRating->save();
+                }
+            }
+        }
+        if (isset($request['modules'])) {
+            foreach ($request['modules'] as $module) {
+                if(isset($module['rat']) && $module['rat']) {
+                    $moduleRating = new RatingUserModule();
+                    $moduleRating->id_user = isset($request['user']['id']) ? $request['user']['id'] : null;
+                    $moduleRating->rating = $module['rat'];
+                    $moduleRating->id_module = $module['module_ID'];
+                    $moduleRating->start_module = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                    $moduleRating->end_module = date_format(date_timestamp_set(new DateTime(), $date), 'Y-m-d');
+                    $moduleRating->module_revision = 1;
+                    $moduleRating->module_done = (int)true;
+                    $moduleRating->paid_module = (int)true;
+                    $moduleRating->save();
+                }
+            }
+        }
+
+        $errorsGraduate = [];
+        $errorsCourse = [];
+        $errorsModule = [];
+
+
+        $errors = array_merge($errorsGraduate, $errorsCourse, $errorsModule);
+        if (!empty($errors)) {
+            echo json_encode(['errors' => $errors]);
+            Yii::app()->end();
+        }
+
+        return 'done';
+    }
+
 }

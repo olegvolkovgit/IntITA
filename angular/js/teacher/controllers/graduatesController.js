@@ -42,7 +42,7 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, NgTableDataService,  
 
     if ($state.is('graduate/edit/:graduateId')){
         $scope.modelStatus = 'update';
-        $http.get('/_teacher/graduate/getGraduateData/'+$stateParams.graduateId).then(function (response) {
+        $http.get(basePath+'/_teacher/graduate/getGraduateData/'+$stateParams.graduateId).then(function (response) {
             $scope.graduate = response.data;
             $scope.graduate.graduate_date = new Date($scope.graduate.graduate_date);
         });
@@ -198,7 +198,7 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, NgTableDataService,  
         $scope.changeData = data;
         $scope.changeData.type = type;
         $scope.customDialogOptions = {
-            templateUrl: '/angular/js/teacher/templates/addRate.html',
+            templateUrl: basePath+'/angular/js/teacher/templates/addRate.html',
             scope: $scope,
             title: 'Змінити рейтинг',
         };
@@ -236,7 +236,7 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, NgTableDataService,  
                         return false;
                     }
                     else{
-                        $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId});
+                        $state.go('graduate/edit/:graduateId',{graduateId:$stateParams.graduateId}, {reload: true});
                     }
                 })
             }, function() {
@@ -247,7 +247,7 @@ function graduateCtrl ($rootScope, $scope, $filter, $http, NgTableDataService,  
     $scope.addRating = function (type) {
         $scope.addRatingType = type;
         $scope.customDialogOptions = {
-            templateUrl: '/angular/js/teacher/templates/addServiceRate.html',
+            templateUrl: basePath+'/angular/js/teacher/templates/addServiceRate.html',
             scope: $scope,
             title: 'Дотати рейтинг',
         };
@@ -297,7 +297,7 @@ function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $st
 
     $scope.addUserRate = function () {
         if ($state.is('graduate/create')){
-            $scope.service.rating = $scope.rating;
+            $scope.service.rat = $scope.rating;
             switch ($scope.addRatingType){
                 case 'course':
                     $scope.$emit('courseAdded', $scope.service);
@@ -312,7 +312,7 @@ function editGraduateCtrl($scope, $http, $state, $httpParamSerializerJQLike, $st
         $http({
             method:'POST',
             url: basePath+'/_teacher/graduate/addRating',
-            data: $httpParamSerializerJQLike({'Rating':{service:$scope.service, rating:$scope.rating, user:$scope.graduate.id_user, type: $scope.addRatingType}}),
+            data: $httpParamSerializerJQLike({'Rating':{service:$scope.service, rat:$scope.rating, user:$scope.graduate.id_user, type: $scope.addRatingType}}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).success(function (response) {
             if (typeof response === 'object'){

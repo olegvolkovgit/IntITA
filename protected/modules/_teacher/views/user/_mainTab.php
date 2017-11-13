@@ -99,7 +99,7 @@ $user = $model->registrationData;
                         </li>
                     </ul>
                 </li>
-                <li class="list-group-item">Акаунт (активований/не активований): <em>{{user.status==1 ? "активований" : "не активований"}}</em>
+                <li class="list-group-item">Акаунт: <em>{{user.status==1 ? "активований" : "не активований"}}</em>
                     <?php if (Yii::app()->user->model->isSuperAdmin()) { ?>
                         <button type="button" class="btn btn-outline btn-primary btn-xs"
                                 ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
@@ -108,7 +108,7 @@ $user = $model->registrationData;
                         </button>
                     <?php } ?>
                 </li>
-                <li class="list-group-item">Статус (активний/заблокований): <em>{{user.cancelled==0 ? "активний" : "заблокований"}}</em>
+                <li class="list-group-item">Статус: <em>{{user.cancelled==0 ? "активний" : "заблокований"}}</em>
                     <?php if (Yii::app()->user->model->isSuperAdmin()) { ?>
                         <button type="button" class="btn  btn-outline btn-primary btn-xs"
                                 ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',

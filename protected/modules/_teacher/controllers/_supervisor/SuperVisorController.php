@@ -230,7 +230,10 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionGetGroupData($id)
     {
-        echo CJSON::encode(OfflineGroups::model()->findByPk($id));
+        $result['group']=OfflineGroups::model()->findByPk($id);
+        $result['services']['courses']=$result['group']->groupCourses();
+        $result['services']['modules']=$result['group']->groupModules();
+        echo CJSON::encode($result);
     }
 
     public function actionGetOfflineStudentModel()
@@ -496,9 +499,9 @@ class SuperVisorController extends TeacherCabinetController
                         }
                         $role->setStudentAttribute($model->teacher, $student->id_user, $model->module->module_ID);
                     }
-                    $url = Config::getFullChatPath() . "/sub_group_operations/update/" . $subgroupId;
+
                     $callUrl = new CurlHelper();
-                    $callUrl->callPageByCurl($url);
+                    $callUrl->callPageByCurl(Config::getFullChatPath() . "/sub_group_operations/update/" . $subgroupId);
 
                     echo 'Студента додано в підгрупу';
                 } else {
@@ -520,36 +523,53 @@ class SuperVisorController extends TeacherCabinetController
         $subgroupId = Yii::app()->request->getPost('subgroupId');
         $startDate = Yii::app()->request->getPost('startDate');
         $graduateDate = Yii::app()->request->getPost('graduateDate');
+        $services = Yii::app()->request->getPost('services');
 
-        $student = OfflineStudents::model()->findByPk($modelId);
-        if ($student) {
-            if ($student->id_subgroup != $subgroupId) {
-                $newSubgroup = $subgroupId;
-                $result['oldSubgroup'] = $student->id_subgroup;
-                $student->id_subgroup = $subgroupId;
-                if (OfflineStudents::model()->findByAttributes(array('id_user' => $userId, 'end_date' => null, 'id_subgroup' => $subgroupId))) {
-                    $result['message'] = 'Студент уже входить в дану підгрупу';
-                    return;
-                }
-            }
-            $student->start_date = $startDate;
-            if ($graduateDate) $student->graduate_date = $graduateDate;
-            else $student->graduate_date = null;
-            if ($student->checkOrganization() && $student->update()) {
-                if (isset($newSubgroup)) {
-                    $subgroup = OfflineSubgroups::model()->findByPk($newSubgroup);
-                    if ($subgroup->id_trainer) {
-                        $student->setTrainer($subgroup->id_trainer);
+        $connection = Yii::app()->db;
+        $transaction = $connection->beginTransaction();
+
+        try {
+            $student = OfflineStudents::model()->findByPk($modelId);
+            if ($student) {
+                if ($student->id_subgroup != $subgroupId) {
+                    $newSubgroup = $subgroupId;
+                    $result['oldSubgroup'] = $student->id_subgroup;
+                    $student->id_subgroup = $subgroupId;
+                    if (OfflineStudents::model()->findByAttributes(array('id_user' => $userId, 'end_date' => null, 'id_subgroup' => $subgroupId))) {
+                        $result['message'] = 'Студент уже входить в дану підгрупу';
+                        return;
                     }
                 }
-                $result['message'] = 'Дані оновлено';
+                $student->start_date = $startDate;
+                if ($graduateDate) {
+                    $student->graduate_date = $graduateDate;
+                    $request['user']=$student->user;
+                    $request['graduate_date']=$graduateDate;
+                    $request['courses']=$services['courses'];
+                    $request['modules']=$services['modules'];
+                    if (!Graduate::model()->findByAttributes(array('id_user' => $request['user']['id'])))
+                        Graduate::AddGraduate($request);
+                } else $student->graduate_date = null;
+                if ($student->checkOrganization() && $student->update()) {
+                    if (isset($newSubgroup)) {
+                        $subgroup = OfflineSubgroups::model()->findByPk($newSubgroup);
+                        if ($subgroup->id_trainer) {
+                            $student->setTrainer($subgroup->id_trainer);
+                        }
+                    }
+                    $result['message'] = 'Дані оновлено';
+                } else {
+                    $result['message'] = 'Оновити дані не вдалося';
+                }
             } else {
-                $result['message'] = 'Оновити дані не вдалося';
+                $result['message'] = 'Студента в даній підгрупі не знайдено';
             }
-        } else {
-            $result['message'] = 'Студента в даній підгрупі не знайдено';
+            $transaction->commit();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
         }
-        echo json_encode($result);
     }
 
     public function actionCancelStudentFromSubgroup()

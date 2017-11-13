@@ -218,4 +218,32 @@ class OfflineGroups extends CActiveRecord
 		}
 		return true;
 	}
+
+    public function groupCourses()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->join = ' LEFT JOIN acc_course_service cs ON t.service_id = cs.service_id';
+        $criteria->join .= ' LEFT JOIN course c ON cs.course_id = c.course_ID';
+        $criteria->condition = 't.group_id=' . $this->id . ' and cs.course_id IS NOT NULL';
+
+        $courses = array_map(function ($row) {
+            return $row['course'];
+        }, GroupAccess::model()->with('course')->findAll($criteria));
+
+        return $courses;
+    }
+    public function groupModules()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->join = ' LEFT JOIN acc_module_service ms ON t.service_id = ms.service_id';
+        $criteria->join .= ' LEFT JOIN module m ON ms.module_id = m.module_ID';
+        $criteria->condition = 't.group_id=' . $this->id . ' and ms.module_id IS NOT NULL';
+
+        $modules = array_map(function ($row) {
+            return $row['module'];
+        },  GroupAccess::model()->with('module')->findAll($criteria));
+
+        return $modules;
+    }
+
 }
