@@ -394,6 +394,18 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                 bootbox.alert(error.data.reason);
             })
     };
+
+    $scope.getAgreementPdf = function (id) {
+        studentService
+            .getAgreementFile({'id':id})
+            .$promise
+            .then(function (response) {
+                $scope.agreementPdf=response.data;
+            })
+            .catch(function (error) {
+                bootbox.alert("Отримати файл договору не вдалося");
+            })
+    }
 }
 
 function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService) {

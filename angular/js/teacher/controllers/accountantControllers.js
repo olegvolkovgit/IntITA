@@ -1913,6 +1913,18 @@ angular
                         }
                     });
             }
+
+            $scope.getAgreementPdf = function (id) {
+                agreementsService
+                    .getAgreementFile({'id':id})
+                    .$promise
+                    .then(function (response) {
+                        $scope.agreementPdf=response.data;
+                    })
+                    .catch(function (error) {
+                        bootbox.alert("Отримати файл договору не вдалося");
+                    })
+            }
         }])
     .controller('writtenAgreementTemplate', ['$scope', '$http', '$stateParams', '$state', 'agreementsService',
         function ($scope, $http, $stateParams, $state, agreementsService) {

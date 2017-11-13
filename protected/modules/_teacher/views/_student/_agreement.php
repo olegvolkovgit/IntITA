@@ -13,7 +13,7 @@
             <?php $this->renderPartial('/_student/agreement/_writtenAgreementPreview', array(), false, true); ?>
         </div>
         <div ng-if="pdfAgreement" >
-            <?php $this->renderPartial('/_student/agreement/_writtenAgreementContract', array(), false, true); ?>
+            <?php $this->renderPartial('/_student/agreement/_writtenAgreementContract', array('agreementId'=>$agreement->id), false, true); ?>
         </div>
         <br>
         <div ng-if="writtenAgreementRequestStatus==1">
