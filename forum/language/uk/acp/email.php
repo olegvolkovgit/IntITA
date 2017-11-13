@@ -59,7 +59,7 @@ $lang = array_merge($lang, array(
 	'MAIL_HIGH_PRIORITY'	=> 'Високий',
 	'MAIL_LOW_PRIORITY'		=> 'Низький',
 	'MAIL_NORMAL_PRIORITY'	=> 'Звичайний',
-	'MAIL_PRIORITY'			=> 'Приорітет пошти',
+	'MAIL_PRIORITY'			=> 'Пріоритет пошти',
 	'MASS_MESSAGE'			=> 'Ваше повідомлення',
 	'MASS_MESSAGE_EXPLAIN'	=> 'Майте на увазі, ви можете ввести лише текст. Все форматування буде видалено перед відправленням.',
 	
