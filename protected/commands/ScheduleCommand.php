@@ -113,5 +113,56 @@ class ScheduleCommand extends CConsoleCommand
 
     }
 
+    public function actionCheckEndStudyLiveStudents(){
+        $date = date("Y-m-d",strtotime("+1 month"));
+         $students = OfflineStudents::model()
+             ->with(['user','group','trainerData'])
+             ->findAll('end_study_leave = :end_study_leave',
+                 ['end_study_leave'=>$date]);
+
+        $messagesList = [];
+        foreach ($students as $student){
+           $mailList = [];
+           $supervisors = UserSuperVisor::model()
+               ->with(['user'])
+               ->findAll('id_organization=:id_organization',
+                   ['id_organization'=>$student->group->id_organization]);
+           foreach ($supervisors as $supervisor){
+               $mailList[$supervisor->user->id] = $supervisor->user->email;
+           }
+           $mailList[$student->trainerData->id] = $student->trainerData->email;
+           array_push($messagesList,
+               ['recipients'=>$mailList,
+                   'user'=> $student->user->fullName,
+                   'end_study_leave'=>date("d-m-Y",strtotime($student->end_study_leave))
+               ]
+           );
+        }
+        foreach ($messagesList as $message){
+            $subject = 'Оповіщення про вихід з академ відпустки';
+            $text = "Студент {$message['user']} виходить з академічної відпустки {$message['end_study_leave']}" ;
+
+            foreach ($message['recipients'] as $key=>$email){
+                $user = StudentReg::model()->findByPk($key);
+                $userMessage = new UserMessages();
+                $receiverId = $key;
+                $userMessage->build($subject, $text, array($user), $user);
+                $msg = $userMessage->create();
+
+                Yii::app()->db->createCommand()->insert('message_receiver', array(
+                    'id_message' => $msg->id_message,
+                    'id_receiver' => $receiverId,
+                ));
+            }
+            $newsLetter = new Newsletters();
+            $newsLetter->type = 'users';
+            $newsLetter->subject = $subject;
+            $newsLetter->text =  $text;
+            $newsLetter->recipients = $message['recipients'];
+            $newsLetter->startSend();
+        }
+
+    }
+
 
 }
