@@ -228,6 +228,7 @@ class TrainerController extends TeacherCabinetController
         $criteria->join = 'left join trainer_student as ts on t.id_student=ts.student';
         $criteria->condition = 'ts.trainer='.Yii::app()->user->getId().' and ts.end_time is null
         and ts.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $criteria->order = 'ts.start_time DESC';
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
 
@@ -270,7 +271,7 @@ class TrainerController extends TeacherCabinetController
         if($specialization_id != 0){
            $criteria->addCondition('sg.id='.$specialization_id);
         }
-
+        $criteria->order = 'ts.start_time DESC';
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
 
@@ -395,6 +396,7 @@ class TrainerController extends TeacherCabinetController
         $criteria->join = 'left join trainer_student as ts on t.id_student=ts.student';
         $criteria->condition = 'ts.trainer='.Yii::app()->user->getId().' and ts.end_time is null
         and ts.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id;
+        $criteria->order = 'ts.start_time DESC';
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
 
@@ -438,6 +440,7 @@ class TrainerController extends TeacherCabinetController
         if($reason_id != 0){
             $criteria->addCondition('osct.id='.$reason_id);
         }
+        $criteria->order = 'ts.start_time DESC';
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
 

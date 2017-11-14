@@ -487,6 +487,25 @@ angular
                     cache         : false,
                     templateUrl: basePath+"/_teacher/_super_admin/superAdmin/shareLinks"
                 })
+                .state('offlineGroups', {
+                    url: "/offlineGroups",
+                    cache: false,
+                    templateUrl: basePath + "/_teacher/users/offlineGroups",
+                })
+                .state('offlineGroup/:id', {
+                    url: "/offlineGroup/:id",
+                    cache: false,
+                    templateUrl: function ($stateParams) {
+                        return basePath + "/_teacher/users/offlineGroup/?id=" + $stateParams.id
+                    }
+                })
+                .state('offlineSubgroup/:id', {
+                    url: "/offlineSubgroup/:id",
+                    cache: false,
+                    templateUrl: function ($stateParams) {
+                        return basePath + "/_teacher/users/offlineSubgroup/?id=" + $stateParams.id
+                    }
+                })
     }
     );
 

@@ -59,6 +59,9 @@
             <div class="panel-body">
                 <ul>
                     <li>
+                        <a ui-sref="organization.coworkers">Співробітники</a>
+                    </li>
+                    <li>
                         <a href="#/registeredUsers">Зареєстровані користувачі</a>
                     </li>
                     <li>

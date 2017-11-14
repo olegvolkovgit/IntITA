@@ -6,6 +6,7 @@
     </div>
     <table ng-table="usersTableParams" class="table table-bordered table-striped table-condensed">
         <colgroup>
+            <col width="5%"/>
             <col width="30%"/>
             <col/>
             <col/>
@@ -14,6 +15,7 @@
             <col/>
         </colgroup>
         <tr ng-repeat="row in $data track by row.id">
+            <td data-title="'ID'">{{row.id}}</td>
             <td style="word-wrap:break-word" data-title="'Користувач'" sortable="'fullName'" filter="{'fullName': 'text'}" >
                 <a ng-href="#/users/profile/{{row.id}}">{{row.fullName}}</a>
             </td>

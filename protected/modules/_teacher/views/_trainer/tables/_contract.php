@@ -13,6 +13,9 @@
             <td data-title="'Прізвище'" filter="{'second_name': 'text'}" sortable="'second_name'">
                 <a ng-href="" ng-click="updateContractInfo(row.id_student ,'second_name', row.second_name)">{{ row.second_name ? row.second_name : 'Редагувати' }}</a>
             </td>
+            <td data-title="'Еmail'" filter="{'email': 'text'}">
+                {{ row.email }}
+            </td>
             <td data-title="'Номер договору'">
                 ???
             </td>

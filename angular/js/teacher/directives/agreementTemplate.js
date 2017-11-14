@@ -51,7 +51,7 @@ angular
     .directive('aInvoices', function() {
         return {
             template: '<span ng-repeat="invoice in writtenAgreement.agreement.invoice track by $index">'+
-            '{{$index+1}}-ий платіж: сума {{invoice.summa}} ({{invoice.summa | toPhrase}}) грн. без ПДВ до {{invoice.payment_date | limitTo: 10 | date:"dd.MM.yyyy"}} року<br></span>'
+            '{{$index+1}}-ий платіж: сума {{invoice.summa}} грн. ({{invoice.summa | toPhrase}}) без ПДВ до {{invoice.payment_date | limitTo: 10 | date:"dd.MM.yyyy"}} року<br></span>'
         };
     })
 
@@ -247,7 +247,7 @@ function toPhrase(summa) {
     groups[0][-1] = {'RUB': 'рублів', 'USD': 'доларів США', 'EUR': 'євро', 'UAH': 'гривень'};
 //исключения
     groups[0][1] = {'RUB': 'рубль', 'USD': 'долар США', 'EUR': 'євро', 'UAH': 'гривня'};
-    groups[0][2] = {'RUB': 'рубля', 'USD': 'доларів США', 'EUR': 'євро', 'UAH': 'гривень'};
+    groups[0][2] = {'RUB': 'рубля', 'USD': 'доларів США', 'EUR': 'євро', 'UAH': 'гривні'};
     groups[0][3] = {'RUB': 'рубля', 'USD': 'долара США', 'EUR': 'євро', 'UAH': 'гривні'};
     groups[0][4] = {'RUB': 'рубля', 'USD': 'долара США', 'EUR': 'євро', 'UAH': 'гривні'};
 

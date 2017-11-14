@@ -83,8 +83,19 @@ angular
                         url: url + '/getAllReasons',
                         method: 'GET',
                         isArray : true
-                    }
-
+                    },
+                    updateSubgroupLink: {
+                        url: url + '/updateSubgroupLink',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    removeSubgroupLink: {
+                        url: url + '/removeSubgroupLink',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
                 });
         }])
     .service('chatIntITAMessenger', ['$http',

@@ -11,11 +11,6 @@
                     Всі групи
                 </a>
             </li>
-            <li>
-                <a type="button" class="btn btn-success" ng-href="" ng-click="updateGroupChat(groupId)">
-                    Оновити чат групи
-                </a>
-            </li>
         </ul>
         <div class="panel-body" style="padding:15px 0 0 0">
             <uib-tabset active="0" >

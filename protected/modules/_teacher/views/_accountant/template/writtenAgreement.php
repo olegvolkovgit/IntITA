@@ -35,7 +35,7 @@
                     <?php } ?>
                     <div ng-class="{'col-md-12' : !horizontalMode, 'col-md-6 margin-top-250-px' : horizontalMode}">
                         <h2 style="text-align: center">Попередній перегляд</h2>
-                        <div class="offer" style="background:#f9f9f9; padding: 10px">
+                        <div class="offer" ng-class="{'offer-with-scroll' : horizontalMode}" style="background:#f9f9f9; padding: 10px">
                             <div compile="agreementTemplate.template"></div>
                         </div>
                     </div>

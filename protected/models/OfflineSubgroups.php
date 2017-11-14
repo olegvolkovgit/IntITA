@@ -11,7 +11,6 @@
  * @property integer $id_user_created
  * @property integer $id_trainer
  * @property integer $journal
- * @property integer $link
  *
  * @property Organization $organization
  * @property OfflineGroups $groupName
@@ -37,7 +36,7 @@ class OfflineSubgroups extends CActiveRecord
 			array('name, group, id_user_created, id_trainer', 'required'),
 			array('name', 'length', 'max'=>128),
 			// The following rule is used by search().
-			array('id, name, group, data, id_user_created, id_trainer, journal, link', 'safe', 'on'=>'search'),
+			array('id, name, group, data, id_user_created, id_trainer, journal', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +52,8 @@ class OfflineSubgroups extends CActiveRecord
 			'specialization' => array(self::BELONGS_TO, 'SpecializationsGroup', array('specialization'=>'id'), 'through' => 'groupName'),
 			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
 			'subgroupTrainer'=>array(self::BELONGS_TO, 'StudentReg', 'id_trainer'),
-			'organization' => [self::BELONGS_TO, 'Organization', ['id_organization' => 'id'], 'through' => 'groupName']
+			'organization' => [self::BELONGS_TO, 'Organization', ['id_organization' => 'id'], 'through' => 'groupName'],
+            'links' => array(self::HAS_MANY, 'OfflineSubgroupsLinks', 'id_subgroup'),
 		);
 	}
 
@@ -79,7 +79,6 @@ class OfflineSubgroups extends CActiveRecord
 			'id_user_created' => 'Ід автора підгрупи',
 			'id_trainer' => 'Ід тренера в групі',
             'journal' => 'Журнал',
-            'link' => 'Корисні посилання',
 		);
 	}
 
@@ -106,7 +105,6 @@ class OfflineSubgroups extends CActiveRecord
 		$criteria->compare('id_user_created',$this->id_user_created,true);
 		$criteria->compare('id_trainer',$this->id_trainer,true);
         $criteria->compare('journal',$this->journal,true);
-        $criteria->compare('link',$this->link,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -126,7 +124,7 @@ class OfflineSubgroups extends CActiveRecord
 
 	public function subgroupData(){
 		$result = array();
-		$result['subgroup']=$this->getAttributes();
+		$result['subgroup']=ActiveRecordToJSON::toAssocArrayWithRelations($this);
 		$result['subgroupTrainer']= $this->subgroupTrainer? StudentReg::model()->findByPk($this->subgroupTrainer->id)->userIdFullName():null;
 
 		return $result;

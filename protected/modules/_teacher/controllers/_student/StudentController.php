@@ -383,7 +383,7 @@ class StudentController extends TeacherCabinetController
             $subgroups[$key]['subgroup']=$subgroup->subgroupName->name;
             $subgroups[$key]['info']=$subgroup->subgroupName->data;
             $subgroups[$key]['journal']=$subgroup->subgroupName->journal;
-            $subgroups[$key]['link']=$subgroup->subgroupName->link;
+            $subgroups[$key]['links']=ActiveRecordToJSON::toAssocArrayWithRelations($subgroup->subgroupName->links);
             $subgroups[$key]['groupCurator']=$subgroup->group->userChatAuthor->userNameWithEmail();
             $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userChatAuthor->email;
             $subgroups[$key]['groupCuratorId']=$subgroup->group->userChatAuthor->id;
@@ -425,7 +425,13 @@ class StudentController extends TeacherCabinetController
 
         $agreement = UserAgreements::model()->findByPk(Yii::app()->request->getPost('id'));
         $documents = $agreement->user->getActualUserDocuments();
-        if($documents){
+        $documentsType=[DocumentsTypes::PASSPORT,DocumentsTypes::INN];
+        $requiredDocCount=0;
+        foreach ($documents as $document){
+            if(in_array($document->type,$documentsType))
+                $requiredDocCount+=1;
+        }
+        if($requiredDocCount==count($documentsType) ){
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 if(!MessagesWrittenAgreementRequest::isRequestOpen(array('agreement'=>$agreement->id,'user'=>$agreement->user_id))){
@@ -442,7 +448,7 @@ class StudentController extends TeacherCabinetController
                 $result = ['message' => 'error', 'reason' => 'Запит на затвердження паперового договору не вдалося надіслати.'];
             }
         }else{
-            $result = ['message' => 'error', 'reason' => 'У тебе немає жодного актуального документа'];
+            $result = ['message' => 'error', 'reason' => 'Перед відправкою запиту заповни паспортні дані та ідентифікаційний код в формі редагування профілю'];
         }
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }

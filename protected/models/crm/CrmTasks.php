@@ -99,7 +99,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             'cancelled_by' => 'Скасовано користувачем',
             'cancelled_date' => 'Дата скасування',
             'change_date' => 'Дата оновлення',
-            'priority' => 'Приорітет',
+            'priority' => 'Пріоритет',
             'id_parent' => 'Батьківське завдання',
         );
     }

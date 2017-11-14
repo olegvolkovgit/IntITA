@@ -26,9 +26,32 @@
                         <label>Журнал</label>
                         <input name="journal" class="form-control" ng-model="subgroup.journal">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-link">
                         <label>Корисні посилання</label>
-                        <input name="link" class="form-control" ng-model="subgroup.link">
+                        <div ng-repeat="link in subgroup.links track by $index">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="Назва ресурсу" ng-model="link.description">
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" placeholder="Посилання на ресурс" ng-model="link.link">
+                            </div>
+                            <div class="col-md-2">
+                                <i class="fa fa-floppy-o fa-2x" title="Зберегти" aria-hidden="true" ng-click="updateSubgroupLink(link)"></i>
+                                <i class="fa fa-trash fa-2x" title="Видалити" aria-hidden="true" ng-click="removeSubgroupLink(link)"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-3">
+                                <input type="hidden" ng-init="newLink.id_subgroup=subgroupId" ng-model="newLink.id_subgroup">
+                                <input type="text" class="form-control" placeholder="Назва ресурсу" ng-model="newLink.description">
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" placeholder="Посилання на ресурс" ng-model="newLink.link">
+                            </div>
+                            <div class="col-md-2">
+                                <i class="fa fa-floppy-o fa-2x" title="Зберегти" aria-hidden="true" ng-click="updateSubgroupLink(newLink)"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Тренер в підгрупі*:</label>
@@ -54,3 +77,21 @@
         </div>
     </div>
 </div>
+<style>
+    .form-link{
+        margin: 20px 0;
+        overflow: hidden;
+    }
+    .form-link input{
+        border:none;
+        border-radius: 0;
+        border-bottom: 1px solid #ccc;
+        padding-left: 0;
+        padding-right: 0;
+        margin-right: 10px;
+        box-shadow: none;
+    }
+    .form-link i{
+        cursor: pointer;
+    }
+</style>

@@ -352,11 +352,15 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
     }
 
     $scope.updateUserData = function(data,attributes){
+        if(!data){
+            data='';
+            var placeholder='Введіть атрибут '+attributes;
+        }
         bootbox.dialog({
                 title: "Змінити дані",
                 message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
                 '<textarea class="form-control" style="resize: none" rows="6" id="dataText" ' +
-                'placeholder="тут можна ввести нові дані">' +data+ '</textarea>'+'</div></form></div></div>',
+                'placeholder="'+placeholder+'">' +data+ '</textarea>'+'</div></form></div></div>',
                 buttons:
                     {success:
                         {label: "Підтвердити", className: "btn btn-primary",

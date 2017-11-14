@@ -1,29 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "acc_documents_types".
+ * This is the model class for table "offline_subgroups_links".
  *
- * The followings are the available columns in table 'acc_documents_types':
+ * The followings are the available columns in table 'offline_subgroups_links':
  * @property integer $id
- * @property string $title_ua
- * @property string $title_ru
- * @property string $title_en
+ * @property integer $id_subgroup
+ * @property string $description
+ * @property string $link
+ * @property integer $updated_by
+ * @property string $updated_at
  *
  * The followings are the available model relations:
- * @property UserDocuments[] $userDocuments
+ * @property OfflineSubgroups $idSubgroup
+ * @property StudentReg $updatedBy
  */
-class DocumentsTypes extends CActiveRecord
+class OfflineSubgroupsLinks extends CActiveRecord
 {
-    const PASSPORT=1;
-    const INN=2;
-
-    public $title = '';
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_documents_types';
+		return 'offline_subgroups_links';
 	}
 
 	/**
@@ -34,11 +33,13 @@ class DocumentsTypes extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title_ua, title_ru, title_en', 'required'),
-			array('title_ua, title_ru, title_en', 'length', 'max'=>128),
+			array('id_subgroup, description, link', 'required'),
+			array('id_subgroup, updated_by', 'numerical', 'integerOnly'=>true),
+			array('description', 'length', 'max'=>255),
+			array('link', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title_ua, title_ru, title_en', 'safe', 'on'=>'search'),
+			array('id, id_subgroup, description, link, updated_by, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,7 +51,8 @@ class DocumentsTypes extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'userDocuments' => array(self::HAS_MANY, 'UserDocuments', 'type'),
+			'idSubgroup' => array(self::BELONGS_TO, 'OfflineSubgroups', 'id_subgroup'),
+			'updatedBy' => array(self::BELONGS_TO, 'StudentReg', 'updated_by'),
 		);
 	}
 
@@ -61,9 +63,11 @@ class DocumentsTypes extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title_ua' => 'Title ua',
-            'title_ru' => 'Title ru',
-            'title_en' => 'Title en',
+			'id_subgroup' => 'Id Subgroup',
+			'description' => 'Description',
+			'link' => 'Link',
+			'updated_by' => 'Updated By',
+			'updated_at' => 'Updated At',
 		);
 	}
 
@@ -86,9 +90,11 @@ class DocumentsTypes extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title_ua',$this->title_ua,true);
-        $criteria->compare('title_ru',$this->title_ru,true);
-        $criteria->compare('title_en',$this->title_en,true);
+		$criteria->compare('id_subgroup',$this->id_subgroup);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('link',$this->link,true);
+		$criteria->compare('updated_by',$this->updated_by);
+		$criteria->compare('updated_at',$this->updated_at,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -99,17 +105,10 @@ class DocumentsTypes extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return DocumentsTypes the static model class
+	 * @return OfflineSubgroupsLinks the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-    public function afterFind() {
-        $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:'title_ua';
-        $this->title = $this->$param;
-
-        parent::afterFind();
 	}
 }

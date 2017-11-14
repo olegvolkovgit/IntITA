@@ -34,6 +34,9 @@
                     <li>
                         <a href="#/teacherConsultant/students">Студенти</a>
                     </li>
+                    <li>
+                        <a href="#/offlineGroups">Офлайнові групи</a>
+                    </li>
                 </ul>
             </div>
             <div class="panel-footer">

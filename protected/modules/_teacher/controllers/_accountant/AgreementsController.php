@@ -46,7 +46,7 @@ class AgreementsController extends TeacherCabinetController {
     public function actionGetAgreementsList() {
         $requestParams = $_GET;
         $organization = Yii::app()->user->model->getCurrentOrganization();
-        $ngTable = new NgTableAdapter(UserAgreements::model()->belongsToOrganization($organization), $requestParams);
+        $ngTable = new NgTableAdapter(UserAgreements::model()->with('service')->belongsToOrganization($organization), $requestParams);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -268,7 +268,7 @@ class AgreementsController extends TeacherCabinetController {
 
     public function actionCheckAgreementPdf($agreementId)
     {
-        $data['data']=ActiveRecordToJSON::toAssocArrayWithRelations(UserWrittenAgreement::model()->with('user')->findByAttributes(
+        $data['data']=ActiveRecordToJSON::toAssocArrayWithRelations(UserWrittenAgreement::model()->with('user','lastEditedUserDocument')->findByAttributes(
             array('id_agreement'=>$agreementId,'actual'=>UserWrittenAgreement::ACTUAL)));
         echo json_encode($data);
     }
@@ -295,8 +295,12 @@ class AgreementsController extends TeacherCabinetController {
             $agreement->makePrivatePerson($sessionTime);
 
             if($idRequest){
-                $model=MessagesWrittenAgreementRequest::model()->findByPk($idRequest);
-                $model->setApproved();
+                $request=MessagesWrittenAgreementRequest::model()->findByPk($idRequest);
+                $request->setApproved();
+            }else{
+                $request=MessagesWrittenAgreementRequest::model()->findByAttributes(array('id_user'=>$agreement->user_id,'id_agreement'=>$agreement->id,'status'=>null));
+                if($request)
+                    $request->setApproved();
             }
 
             $actualWrittenAgreement = $agreement->checkAndGetWrittenAgreement($params);

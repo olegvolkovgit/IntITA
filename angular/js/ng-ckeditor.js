@@ -97,7 +97,7 @@
                         toolbar_agreement: [
                             { name: 'document', items : [ 'Source','-' ] },
                             { name: 'basicstyles', items : [ 'Table','Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
-                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','RightSpan','-','BidiLtr','BidiRtl' ] },
                             { name: 'styles', items : [ 'Font','FontSize' ] },
                             '/',
                             { name: 'agreement', items : [ 'a_number','a_date','a_description','a_summa','a_invoices','a_service_hours','a_sum_string'] },
