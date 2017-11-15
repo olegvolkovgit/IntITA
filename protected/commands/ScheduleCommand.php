@@ -130,7 +130,9 @@ class ScheduleCommand extends CConsoleCommand
            foreach ($supervisors as $supervisor){
                $mailList[$supervisor->user->id] = $supervisor->user->email;
            }
-           $mailList[$student->trainerData->id] = $student->trainerData->email;
+           if (isset($student->trainerData)){
+               $mailList[$student->trainerData->id] = $student->trainerData->email;
+           }
            array_push($messagesList,
                ['recipients'=>$mailList,
                    'user'=> $student->user->fullName,
