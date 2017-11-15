@@ -41,8 +41,17 @@ angular
                     getActualWrittenAgreementRequests: {
                         url: url + '/getActualWrittenAgreementRequestsCount',
                     },
+                    getActualWrittenAgreements: {
+                        url: url + '/getActualWrittenAgreementsCount',
+                    },
                     agreementsRequestsList : {
                         url: url + '/getAgreementRequestsNgTable'
+                    },
+                    writtenAreementsList : {
+                        url: url + '/getWrittenAgreementsNgTable'
+                    },
+                    writtenAreementsAppliedList : {
+                        url: url + '/getWrittenAgreementsAppliedNgTable'
                     },
                     getWrittenAgreementData: {
                         url: url + '/getWrittenAgreementData'
@@ -50,8 +59,23 @@ angular
                     getAgreementContract: {
                         url: url + '/getAgreementContract'
                     },
-                    approveAgreementRequest: {
-                        url: url + '/approveAgreementRequest',
+                    checkAgreementPdf: {
+                        url: url + '/checkAgreementPdf'
+                    },
+                    approveAgreement: {
+                        url: url + '/approveAgreement',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    agreementRequestToUser: {
+                        url: url + '/agreementRequestToUser',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                     cancelAgreementRequestToUser: {
+                        url: url + '/cancelAgreementRequestToUser',
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         transformRequest : transformRequest.bind(null)
@@ -66,7 +90,50 @@ angular
                         url: url + '/getAgreementRequestStatus'
                     },
                     getAgreementTemplate: {
-                        url: basePath+'/_teacher/_auditor/template/getAgreementTemplate'
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath+'/_teacher/_accountant/template/getAgreementTemplate',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    writtenAgreementsTemplateList : {
+                        url: basePath+'/_teacher/_accountant/template/getAgreementWrittenTemplateList'
+                    },
+                    getTemplatesList: {
+                        url: basePath+'/_teacher/_accountant/template/getTemplatesList',
+                        isArray:true
+                    },
+                    saveUpdateAgreement: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: basePath+'/_teacher/_accountant/template/saveUpdateAgreement',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    cancelAppliedAgreement: {
+                        url: url + '/cancelAppliedAgreement',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    applyWrittenAgreementForService: {
+                        url: basePath+'/_teacher/_accountant/template/applyWrittenAgreementForService',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    createUserWrittenAgreement: {
+                        url: url+'/createUserWrittenAgreement',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    removeWrittenAgreement: {
+                        url: url+'/removeWrittenAgreement',
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getAgreementFile: {
+                        url: url + '/getAgreementFile'
                     },
                 });
         }])

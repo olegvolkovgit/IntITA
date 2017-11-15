@@ -3,8 +3,8 @@
         <div class="panel-body">
             <table ng-table="agreementsTableParams" class="table table-bordered table-striped table-condensed">
                 <colgroup>
-                    <col/>
-                    <col width="20%"/>
+                    <col width="10%"/>
+                    <col />
                     <col width="10%"/>
                     <col/>
                     <col width="10%"/>
@@ -20,6 +20,8 @@
                     ng-class="{'bg-warning': (currentDate>=(row.payment_date  | shortDate:'yyyy-MM-dd') && currentDate<=(row.expiration_date  | shortDate:'yyyy-MM-dd')),
                     'bg-danger': (currentDate>(row.expiration_date  | shortDate:'yyyy-MM-dd') || row.cancel_date),
                     'bg-success': (row.summa==row.paidAmount)}">
+                    <td data-title="'Сервіс'" filter="{'service.description': 'text'}" sortable="'service.description'"><a
+                                href="#/accountant/agreement/{{row.id}}">{{row.service.description}}</a></td>
                     <td data-title="'Номер'" filter="{number: 'text'}" sortable="'number'"><a
                             href="#/accountant/agreement/{{row.id}}">{{row.number}}</a></td>
                     <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
@@ -61,10 +63,7 @@
                         <a href="" ng-if="!row.cancel_date && row.paidAmount=='0.00'" ng-click="cancel(row.id)">
                             <i class="fa fa-trash fa-fw"></i>
                         </a>
-<!--                        <button ng-if="row.approval_date && !row.close_date" class="btn btn-danger"-->
-<!--                                ng-click="close(row.id)">-->
-<!--                                Закрити-->
-<!--                        </button>-->
+                        <a href="#/accountant/studentagreement/id/{{row.id}}"><i class="fa fa-eye fa-fw"></i></a>
                     </td>
                     <?php } ?>
                 </tr>

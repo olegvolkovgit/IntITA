@@ -61,4 +61,20 @@ class Mainpage {
         return Yii::t('regform', '0012');
     }
 
+    public static function getPartnerLink(){
+        switch (Yii::app()->session['lg']) {
+            case 'ua':
+                return 'https://drive.google.com/file/d/1hIGJBTHCkfQMsLWgWhh7yrLcSR4DAlwh/view';
+                break;
+            case 'ru':
+                return 'https://drive.google.com/file/d/1hIGJBTHCkfQMsLWgWhh7yrLcSR4DAlwh/view';
+                break;
+            case 'en':
+                return 'https://drive.google.com/file/d/1YiAXa2TARIMLtA8W6ptuaPdxty4k3MYD/view';
+                break;
+            default:
+                return 'https://drive.google.com/file/d/1hIGJBTHCkfQMsLWgWhh7yrLcSR4DAlwh/view';
+                break;
+        }
+    }
 }

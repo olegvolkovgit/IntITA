@@ -79,7 +79,7 @@
                         {{row.plainTaskMark.comment  | textToShotPlaintext: isDetail}}
                     </td>
                     <td ng-if="!isDetail" data-title="'Викладач'" filter="{'markedBy.fullName': 'text'}">
-                        {{row.markedBy.fullName}} {{row.markedBy.email}}
+                        {{row.markedBy.fullName}}
                     </td>
                     <td ng-if="!isDetail" data-title="'Дата оцінювання'" filter="{'plainTaskMark.time': 'text'}" sortable="'plainTaskMark.time'">
                         {{row.plainTaskMark.time}}

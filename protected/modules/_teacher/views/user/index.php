@@ -9,10 +9,10 @@
             </uib-tab>
             <?php if ($model->isStudent()){?>
                 <uib-tab index="2" heading="Доступні курси">
-                    <?php $this->renderPartial('_coursesTab');?>
+                    <?php $this->renderPartial('_coursesTab', array('model' =>$model));?>
                 </uib-tab>
                 <uib-tab index="3" heading="Доступні модулі">
-                    <?php $this->renderPartial('_modulesTab');?>
+                    <?php $this->renderPartial('_modulesTab', array('model' =>$model));?>
                 </uib-tab>
             <?php }?>
         </uib-tabset>

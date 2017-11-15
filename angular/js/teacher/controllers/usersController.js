@@ -103,12 +103,13 @@ function studentsTableCtrl ($scope, usersService, NgTableParams, $attrs){
         }
     });
 
-    $scope.updateStudentList=function(startDate, endDate){
+    $scope.updateStudentList=function(organization, startDate, endDate){
         $scope.studentsTableParams = new NgTableParams({}, {
             getData: function (params) {
                 $scope.params=params.url();
                 $scope.params.startDate=startDate;
                 $scope.params.endDate=endDate;
+                $scope.params.organization=organization;
                 return usersService
                     .studentsList($scope.params)
                     .$promise
@@ -368,7 +369,7 @@ function authorsTableCtrl ($scope, usersService, NgTableParams, roleService, $at
     };
 }
 
-function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, $q, userService, superVisorService){
+function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, $q, userService, $state, agreementsService){
     $scope.changePageHeader('Профіль користувача');
     $scope.userId=$stateParams.id;
     $scope.formData={};
@@ -444,6 +445,62 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope, 
                 else bootbox.alert(response.data);
             }, function errorCallback() { bootbox.alert("Операцію не вдалося виконати");});}
         });
+    };
+
+    //type: course/module
+    $scope.createUserWrittenAgreement = function (type, id, form, schema) {
+        if(user && role){
+            agreementsService
+                .createUserWrittenAgreement({
+                    'type': type,
+                    'id': id,
+                    'form': form,
+                    'paymentSchema': schema
+                })
+                .$promise
+                .then(function successCallback(response) {
+                    $scope.addUIHandlers(response.data);
+                    $scope.reloadRolesData($scope.userId);
+                }, function errorCallback(response) {
+                    console.log(response);
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+        }
+    };
+
+    $scope.createAccount=function (url, course, module, scenario, offerScenario, schema, educationForm, selectedScheme, user) {
+        if(typeof selectedScheme=='string'){
+            selectedScheme=JSON.parse(selectedScheme);
+        }
+        $scope.educationForm=selectedScheme.educForm;
+        $scope.schemeId=selectedScheme.schemeId;
+        if (typeof selectedScheme=='undefined' || $scope.schemeId == 0) {
+            bootbox.alert("Виберіть схему проплати.");
+        } else {
+            $scope.createAgreement(url, $scope.schemeId, course, $scope.educationForm, module, scenario, user);
+        }
+    };
+
+    $scope.createAgreement=function (url, schema, course, educationForm, module, scenario, user) {
+        $http({
+            method: 'POST',
+            url: url,
+            data: $jq.param({
+                payment: schema,
+                course: course,
+                educationForm: educationForm,
+                module: module,
+                scenario: scenario,
+                user: user
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $state.go('accountant/studentagreement/id/:id',{id:response.data},{reload:true});
+            })
+            .catch(function (error) {
+                bootbox.alert(error.data.reason);
+            })
     };
 
     $scope.collapse=function (el) {

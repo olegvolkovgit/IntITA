@@ -59,10 +59,16 @@
             <div class="panel-body">
                 <ul>
                     <li>
+                        <a ui-sref="organization.coworkers">Співробітники</a>
+                    </li>
+                    <li>
                         <a href="#/registeredUsers">Зареєстровані користувачі</a>
                     </li>
                     <li>
                         <a href="#/students">Студенти</a>
+                    </li>
+                    <li>
+                        <a href="#/accountant/offlineGroups">Офлайнові групи</a>
                     </li>
                     <li>
                         <a href="#/accountant/documents">Копії документів</a>
@@ -137,12 +143,43 @@
                             <span ng-cloak class="label label-primary" ng-if="countOfActualWrittenAgreementRequests > 0">{{countOfActualWrittenAgreementRequests}}</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#/accountant/writtenagreementslist">
+                            Список паперових договорів
+                            <span ng-cloak class="label label-info" ng-if="countOfActualWrittenAgreements > 0">{{countOfActualWrittenAgreements}}</span>
+                        </a>
+                    </li>
                 </ul>
                 <br>
                 <br>
             </div>
             <div class="panel-footer">
                 <em>Запити користувачів</em>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Паперові договора
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <a ng-href="#/accountant/writtenAgreementsList">Шаблони паперового договору</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a ng-href="#/accountant/writtenAgreementsApplied">Застосування шаблона до сервісу</a>
+                    </li>
+                </ul>
+                <br>
+                <br>
+            </div>
+            <div class="panel-footer">
+                <em>Паперові договора</em>
             </div>
         </div>
     </div>

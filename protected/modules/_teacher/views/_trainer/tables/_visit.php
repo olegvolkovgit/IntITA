@@ -13,6 +13,9 @@
             <td data-title="'Прізвище'" filter="{'second_name': 'text'}" sortable="'second_name'">
                 <a ng-href="" ng-click="updateVisitInfo(row.id_student ,'second_name', row.second_name)">{{ row.second_name ? row.second_name : 'Редагувати' }}</a>
             </td>
+            <td data-title="'Еmail'" filter="{'email': 'text'}">
+                {{ row.email }}
+            </td>
             <td data-title="'Група'" filter="{ 'group_name.id' : 'select' }" filter-data="groupsNames">
                 <span ng-repeat="item in row.group_name">{{ item.name + ' ' }}</span>
             </td>

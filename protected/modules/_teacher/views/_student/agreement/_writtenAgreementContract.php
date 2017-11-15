@@ -3,7 +3,7 @@
  */
 ?>
 <div style="border: 1px solid #000;border-radius: 5px; background: #e8e8e8; padding: 5px">
-    <form ng-if="contract.personParty.contractingParty.contractingPartyPrivatePerson.documents">
+    <form ng-if="contract.personParty.contractingParty.contractingPartyPrivatePerson.documents || pdfAgreement">
         <fieldset ng-disabled="true">
             <div ng-repeat="document in contract.personParty.contractingParty.contractingPartyPrivatePerson.documents track by $index">
                 <div>
@@ -53,9 +53,11 @@
                 <hr style="width:80%">
             </div>
         </fieldset>
-        <h2 style="text-align:center">Договір затверджений</h2>
-        <div style="text-align: center">
-            <embed embed-src="<?php echo StaticFilesHelper::fullPathToFiles('documents/agreements') ?>/{{contract.personParty.agreement.user_id}}/a{{contract.personParty.agreement.id}}.pdf" width="90%" height="1200px">
+        <h2 style="text-align:center">Договір затверджений <span style="color:red" ng-if="writtenAgreement.agreement.cancel_date">(скасований)</span></h2>
+        <div style="text-align: center" ng-init="getAgreementPdf('<?php echo $agreementId ?>')">
+            <div ng-if="agreementPdf">
+                <embed embed-src="{{agreementPdf}}" width="90%" height="1200px">
+            </div>
         </div>
     </form>
 </div>

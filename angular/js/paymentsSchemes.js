@@ -21,29 +21,33 @@ angular
     function paymentsScheme(paymentsService) {
         function link($scope, element, attrs) {
             $scope.form=attrs.educationForm;
-            if(attrs.educationForm=='online'){
-                paymentsService
-                    .scheme({service:$scope.serviceType, contentId: $scope.contentId,educationFormId:1})
-                    .$promise
-                    .then(function (data) {
-                        $scope.schemes=data;
-                        if($scope.setForm=='online'){
-                            var index = getIndexOf($scope.schemes.schemes, $scope.setScheme, "schemeId");
-                            $scope.selectedModelScheme = $scope.schemes.schemes[index];
-                        }
-                        if(typeof $scope.selectedModelScheme=='undefined') $scope.selectedModelScheme=$scope.schemes.schemes[0];
-                    });
-            } else if(attrs.educationForm=='offline'){
-                paymentsService
-                    .scheme({service:$scope.serviceType, contentId: $scope.contentId,educationFormId:2})
-                    .$promise
-                    .then(function (data) {
-                        $scope.schemes=data;
-                        if($scope.setForm=='offline'){
-                            var index = getIndexOf($scope.schemes.schemes, $scope.setScheme, "schemeId");
-                            $scope.selectedModelScheme = $scope.schemes.schemes[index];
-                        }
-                    });
+            if($scope.serviceType && $scope.contentId){
+                if(attrs.educationForm=='online'){
+                    paymentsService
+                        .scheme({service:$scope.serviceType, contentId: $scope.contentId,educationFormId:1,templateId:null,user:$scope.user})
+                        .$promise
+                        .then(function (data) {
+                            $scope.schemes=data;
+                            if($scope.setForm=='online'){
+                                var index = getIndexOf($scope.schemes.schemes, $scope.setScheme, "schemeId");
+                                $scope.selectedModelScheme = $scope.schemes.schemes[index];
+                            }
+                            if(typeof $scope.selectedModelScheme=='undefined') {
+                                $scope.selectedModelScheme=$scope.schemes.schemes[0];
+                            }
+                        });
+                } else if(attrs.educationForm=='offline'){
+                    paymentsService
+                        .scheme({service:$scope.serviceType, contentId: $scope.contentId,educationFormId:2,templateId:null,user:$scope.user})
+                        .$promise
+                        .then(function (data) {
+                            $scope.schemes=data;
+                            if($scope.setForm=='offline'){
+                                var index = getIndexOf($scope.schemes.schemes, $scope.setScheme, "schemeId");
+                                $scope.selectedModelScheme = $scope.schemes.schemes[index];
+                            }
+                        });
+                }
             }
 
             $scope.setSchema = function (event, model) {
@@ -61,6 +65,9 @@ angular
             }
 
             $scope.getContentUrl = function() {
+                if($scope.user){
+                    return basePath + '/angular/js/templates/paymentsSchemesSelect.html';
+                }
                 if($scope.serviceType=='course')
                     return basePath + '/angular/js/templates/paymentsSchemes.html';
                 else return basePath + '/angular/js/templates/modulesPaymentsSchemes.html';
@@ -74,6 +81,7 @@ angular
                 'serviceType':'=serviceType',
                 'selectedModelScheme':'=selectedModelScheme',
                 'schemes':'=schemes',
+                'user':'=user'
             },
             link: link,
             template: '<div ng-include="getContentUrl()"></div>'

@@ -218,7 +218,8 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
     $scope.changePageHeader('Договір/рахунки');
 
     $scope.invoiceUrl=basePath+'/invoice/';
-    
+    $scope.editAgreementData=true;
+
     $scope.invoicesTable = new NgTableParams({}, {
         getData: function (params) {
             $scope.currentDate = currentDate;
@@ -243,24 +244,24 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
     });
 
     //contract views
-    $scope.getAgreementTemplate=function() {
+    $scope.getAgreementTemplate=function(agreementId) {
         agreementsService
-            .getAgreementTemplate()
+            .getAgreementTemplate({'agreementId': agreementId})
             .$promise
             .then(function successCallback(response) {
-                $scope.agreementTemplate = response.data;
+                $scope.agreementTemplate = response.data.template;
             }, function errorCallback() {
                 bootbox.alert("Шаблон договору отримати не вдалося");
             });
     }
 
-    $scope.writtenAgreementPreviewForAccountant=function(agreementId){
+    $scope.writtenAgreementPreview=function(agreementId){
         studentService
             .getWrittenAgreementData({'id': agreementId})
             .$promise
             .then(function (data) {
                 $scope.writtenAgreement=data;
-                $scope.getAgreementTemplate();
+                $scope.getAgreementTemplate(agreementId);
             });
     };
 
@@ -270,23 +271,43 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
             .$promise
             .then(function (response) {
                 $scope.contract=response;
-                if(!$scope.contract.personParty){
-                    $scope.writtenAgreementPreviewForAccountant(agreementId);
-                } else {
-                    $scope.writtenAgreement=null;
+            });
+    };
+
+    $scope.checkAgreementPdf = function (agreementId) {
+        studentService
+            .checkAgreementPdf({agreementId:agreementId})
+            .$promise
+            .then(function (response) {
+                $scope.actualAgreement=response.data;
+                $scope.waitingForApproval= $scope.actualAgreement.checked_by_accountant==1 &&
+                    $scope.actualAgreement.checked_by_user==0 && $scope.actualAgreement.checked==0;
+                if ($scope.actualAgreement) {
+                    if (parseInt($scope.actualAgreement.checked)) {
+                        $scope.pdfAgreement=true;
+                    }else{
+                        $scope.pdfAgreement=false;
+                        $scope.agreementTemplate = $scope.actualAgreement.html_for_edit;
+                    }
+                }else{
+                    $scope.pdfAgreement=false;
                 }
+                $scope.writtenAgreementPreview(agreementId);
             });
     };
 
     $scope.sendCheckedWrittenAgreementRequest = function (agreementId) {
-        bootbox.confirm('Після відправлення запиту, скасувати його зможе лише бухгалтер. Затвердити?',function(result){
+        bootbox.confirm('Після відправлення запиту, скасувати його зможе лише бухгалтер. Відправити?',function(result){
             if (result) {
                 studentService
                     .writtenAgreementRequest({'id': agreementId})
                     .$promise
-                    .then(function (data) {
+                    .then(function successCallback(response) {
+                        bootbox.alert(response.reason);
                         $scope.getWrittenAgreementRequestStatus(agreementId);
-                    });
+                    }, function errorCallback(response) {
+                        bootbox.alert(response.reason);
+                    })
             }
         });
     };
@@ -300,6 +321,95 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
             });
     };
     $scope.getWrittenAgreementRequestStatus($stateParams.agreementId);
+
+    $scope.updateUserAgreementData = function(type, data,attributes){
+        bootbox.dialog({
+                title: "Змінити дані",
+                message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
+                '<textarea class="form-control" style="resize: none" rows="6" id="dataText" ' +
+                'placeholder="тут можна ввести нові дані">' +data+ '</textarea>'+'</div></form></div></div>',
+                buttons:
+                    {success:
+                        {label: "Підтвердити", className: "btn btn-primary",
+                            callback: function () {
+                                var data = $jq('#dataText').val();
+                                studentService
+                                    .updateUserAgreementData({type:type,attribute: attributes,data: data})
+                                    .$promise
+                                    .then(function (data) {
+                                        $scope.writtenAgreementPreview($stateParams.agreementId);
+                                    });
+                            }
+                        },
+                        cancel:
+                            {label: "Скасувати", className: "btn btn-default",
+                                callback: function () {
+                                }
+                            }
+                    }
+            }
+        );
+    }
+
+    $scope.updateUserData = function(data,attributes){
+        if(!data){
+            data='';
+            var placeholder='Введіть атрибут '+attributes;
+        }
+        bootbox.dialog({
+                title: "Змінити дані",
+                message: '<div class="panel-body"><div class="row"><form role="form" name="commentMessage"><div class="form-group col-md-12">'+
+                '<textarea class="form-control" style="resize: none" rows="6" id="dataText" ' +
+                'placeholder="'+placeholder+'">' +data+ '</textarea>'+'</div></form></div></div>',
+                buttons:
+                    {success:
+                        {label: "Підтвердити", className: "btn btn-primary",
+                            callback: function () {
+                                var data = $jq('#dataText').val();
+                                studentService
+                                    .updateUserData({attribute: attributes,data: data})
+                                    .$promise
+                                    .then(function (data) {
+                                        $scope.writtenAgreementPreview($stateParams.agreementId);
+                                    });
+                            }
+                        },
+                        cancel:
+                            {label: "Скасувати", className: "btn btn-default",
+                                callback: function () {
+                                }
+                            }
+                    }
+            }
+        );
+    }
+
+    $scope.checkWrittenAgreementRequestByUser = function (data) {
+        studentService
+            .checkAgreementByUser(
+                {
+                    'id': data.id,
+                })
+            .$promise
+            .then(function (response) {
+                $scope.checkAgreementPdf(data.id_agreement);
+            })
+            .catch(function (error) {
+                bootbox.alert(error.data.reason);
+            })
+    };
+
+    $scope.getAgreementPdf = function (id) {
+        studentService
+            .getAgreementFile({'id':id})
+            .$promise
+            .then(function (response) {
+                $scope.agreementPdf=response.data;
+            })
+            .catch(function (error) {
+                bootbox.alert("Отримати файл договору не вдалося");
+            })
+    }
 }
 
 function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService) {

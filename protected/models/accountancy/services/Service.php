@@ -9,12 +9,15 @@
  * @property string $create_date
  * @property string $cancel_date
  * @property integer $billable
+ * @property integer $written_agreement_template_id
  *
  * The followings are the available model relations:
  * @property CourseService $courseServices
  * @property ModuleService $moduleServices
  * @property CorporateEntity $corporateEntity
  * @property CheckingAccounts $checkingAccount
+ * @property WrittenAgreementTemplate $writtenAgreementTemplate
+ *
  */
 class Service extends CActiveRecord {
     const COURSE = 1;
@@ -39,7 +42,7 @@ class Service extends CActiveRecord {
             array('billable', 'numerical', 'integerOnly' => true),
             array('description', 'length', 'max' => 512),
             // The following rule is used by search().
-            array('service_id, description, create_date, billable', 'safe', 'on' => 'search'),
+            array('service_id, description, create_date, billable, written_agreement_template_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -54,7 +57,8 @@ class Service extends CActiveRecord {
             'moduleServices' => array(self::HAS_ONE, 'ModuleService', 'service_id'),
             'corporateEntityService' => [self::HAS_ONE, 'CorporateEntityService', 'serviceId', 'on' => 'corporateEntityService.deletedAt IS NULL OR corporateEntityService.deletedAt > NOW()'],
             'corporateEntity' => [self::HAS_ONE, 'CorporateEntity', ['corporateEntityId' => 'id'], 'through' => 'corporateEntityService'],
-            'checkingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['checkingAccountId' => 'id'], 'through' => 'corporateEntityService']
+            'checkingAccount' => [self::HAS_ONE, 'CheckingAccounts', ['checkingAccountId' => 'id'], 'through' => 'corporateEntityService'],
+            'writtenAgreementTemplate' => array(self::BELONGS_TO, 'WrittenAgreementTemplate', 'written_agreement_template_id'),
         );
     }
 
@@ -66,7 +70,8 @@ class Service extends CActiveRecord {
             'service_id' => 'Service code',
             'description' => 'service description',
             'create_date' => 'service creation date',
-            'billable' => 'Is billable'
+            'billable' => 'Is billable',
+            'written_agreement_template_id' => 'Agreement Template',
         );
     }
 
@@ -90,6 +95,7 @@ class Service extends CActiveRecord {
         $criteria->compare('create_date', $this->create_date, true);
         $criteria->compare('billable', $this->billable);
         $criteria->compare('cancel_date', $this->cancel_date);
+        $criteria->compare('written_agreement_template_id', $this->written_agreement_template_id);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -126,5 +132,26 @@ class Service extends CActiveRecord {
 
     public function serviceLink() {
         return $this->getConcreteServiceModel()->getContentLink();
+    }
+
+    public static function allServices($query, $organization)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "description";
+        $criteria->with=['courseServices.courseModel','moduleServices.moduleModel'];
+        $criteria->addSearchCondition('description', $query, true, "OR", "LIKE");
+        if($organization) $criteria->addCondition('(courseModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.' 
+        or moduleModel.id_organization='.Yii::app()->user->model->getCurrentOrganization()->id.') 
+        and cancel_date is null');
+
+        $data = Service::model()->findAll($criteria);
+
+        $result = array();
+        foreach ($data as $key => $record) {
+            $result["results"][$key]["id"] = $record->service_id;
+            $result["results"][$key]["description"] = $record->description;
+        }
+
+        return json_encode($result);
     }
 }

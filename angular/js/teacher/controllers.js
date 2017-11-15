@@ -81,7 +81,7 @@ function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $n
     };
 }
 
-function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, typeAhead, chatIntITAMessenger, crmTaskServices) {
+function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, typeAhead, chatIntITAMessenger) {
     audio = new Audio(basePath + '/angular/audio/notification.wav');
     //function back() redirect to prev link
     $rootScope.back = function () {
@@ -270,10 +270,25 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, t
             return false;
         });
     };
+
+    //redirect to graduate page
+    $scope.graduateLink = function (id) {
+        $http({
+            url: basePath + '/_teacher/cabinet/getGraduateId',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.location.hash = '/graduate/edit/'+response.data;
+        }, function errorCallback() {
+            return false;
+        });
+    };
     //different typeaheads data
     var activeUsersTypeaheadUrl = basePath + '/_teacher/cabinet/activeUsersByQuery';
     var teachersTypeaheadUrl = basePath + '/_teacher/cabinet/teachersByQuery';
     var moduleTypeaheadUrl = basePath + '/_teacher/cabinet/modulesByQuery';
+    var serviceTypeaheadUrl = basePath + '/_teacher/cabinet/servicesByQuery';
     var consultantTypeaheadUrl = basePath + '/_teacher/cabinet/consultantsByQuery';
     var authorsTypeaheadUrl = basePath + '/_teacher/cabinet/authorsByQuery';
     var teachersConsultantTypeaheadUrl = basePath + '/_teacher/cabinet/teacherConsultantsByQuery';
@@ -302,8 +317,11 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, t
     $scope.getModules = function (value) {
         return typeAhead.getData(moduleTypeaheadUrl, {query: value});
     };
-    $scope.getConsultants = function (value) {
-        return typeAhead.getData(consultantTypeaheadUrl, {query: value});
+    $scope.getServices = function(value){
+        return typeAhead.getData(serviceTypeaheadUrl,{query : value});
+    };
+    $scope.getConsultants = function(value){
+        return typeAhead.getData(consultantTypeaheadUrl,{query : value});
     };
     $scope.getUsers = function (value) {
         return typeAhead.getData(usersTypeaheadUrl, {query: value});
@@ -784,6 +802,9 @@ function mainAccountantCtrl($rootScope, paymentSchemaService, agreementsService)
     });
     agreementsService.getActualWrittenAgreementRequests().$promise.then(function (response) {
         $rootScope.countOfActualWrittenAgreementRequests = response[0];
+    });
+    agreementsService.getActualWrittenAgreements().$promise.then(function(response){
+        $rootScope.countOfActualWrittenAgreements=response[0];
     });
 }
 

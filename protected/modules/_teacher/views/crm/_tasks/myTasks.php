@@ -27,7 +27,7 @@
                             </fieldset>
                         </div>
                     </td>
-                    <td data-title="'Приорітет'" filter="{'crmPriority.id': 'select'}" filter-data="crmPrioritiesList" >
+                    <td data-title="'Пріоритет'" filter="{'crmPriority.id': 'select'}" filter-data="crmPrioritiesList" >
                         <div ng-class="row.idTask.priorityModel.title">{{row.idTask.priorityModel.description}}</div>
                     </td>
                     <td data-title="'Постановник'" filter="{'producerName.fullName': 'text'}" sortable="'producerName.fullName'">

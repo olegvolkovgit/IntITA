@@ -3,17 +3,17 @@
  * @var $documents UserDocuments
  */
 ?>
-<div ng-controller="invoicesByAgreement" ng-init="getAgreementContract('<?php echo $agreement->id ?>')">
+<div ng-controller="invoicesByAgreement" ng-init="checkAgreementPdf('<?php echo $agreement->id ?>')">
 
     <div class="titleAgreement">
-        <em ng-if="writtenAgreement.agreement.cancel_date" tyle="font-weight: bold;color:red">
+        <em ng-if="writtenAgreement.agreement.cancel_date" style="font-weight: bold;color:red">
             Договір скасований, проплати здійснені по договру не є актуальними
         </em>
-        <div ng-if="!contract.personParty" >
+        <div ng-if="!pdfAgreement" >
             <?php $this->renderPartial('/_student/agreement/_writtenAgreementPreview', array(), false, true); ?>
         </div>
-        <div ng-if="contract.personParty" >
-            <?php $this->renderPartial('/_student/agreement/_writtenAgreementContract', array(), false, true); ?>
+        <div ng-if="pdfAgreement" >
+            <?php $this->renderPartial('/_student/agreement/_writtenAgreementContract', array('agreementId'=>$agreement->id), false, true); ?>
         </div>
         <br>
         <div ng-if="writtenAgreementRequestStatus==1">
@@ -22,7 +22,7 @@
         <br>
     </div>
     <div>
-        <h4>Рахунки до сплати за договором №<?php echo $agreement->number; ?> від
+        <h4>Рахунки до сплати за договором №<?php echo $agreement->number; ?>-<?php echo $agreement->service_id; ?>-<?php echo $agreement->user_id; ?> від
             <?= date("d.m.Y", strtotime($agreement->create_date));?></h4>
         <h4>
             <?php if($agreement->service->courseServices) {?>
@@ -56,7 +56,7 @@
                         <td data-title="'Сплачено, грн.'">{{row.paidAmount}}</td>
                         <td data-title="'Сплатити до'">{{row.payment_date | shortDate:'dd.MM.yyyy'}}</td>
                         <td data-title="'Крайній термін'">{{row.expiration_date | shortDate:'dd.MM.yyyy'}}</td>
-                        <td data-title="'Статус'">{{(row.date_cancelled || row.agreement.cancel_date)?'скасований':'актуальний'}}</td>
+                        <td data-title="'Статус'">{{(row.agreement.cancel_date)?'скасований':'актуальний'}}</td>
                         <td data-title="'Надрукувати'" >
                             <a ng-if="!(row.date_cancelled || row.agreement.cancel_date)" href="{{invoiceUrl}}{{row.id}}/?nolayout=1">переглянути</a>
                         </td>

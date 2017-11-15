@@ -103,6 +103,7 @@ class Trainer extends Role
                         'id_organization'=>Yii::app()->user->model->getCurrentOrganization()->id
                     ))
                     ) {
+                        TrainerStudent::checkStudentInStudentInfo($value);
                         $user->notify('trainer' . DIRECTORY_SEPARATOR . '_assignNewStudent',
                             array(StudentReg::model()->findByPk($value), Yii::app()->user->model->getCurrentOrganization()->id),
                             'Призначено нового студента', Yii::app()->user->getId());

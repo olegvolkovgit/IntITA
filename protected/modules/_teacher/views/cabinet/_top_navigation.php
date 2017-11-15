@@ -79,6 +79,10 @@
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0902'); ?></a></li>
             <li><a href="http://profitday.info/upcomingevents" target="_blank"><i
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0912'); ?></a></li>
+            <li>
+                <a href="<?php echo Mainpage::getPartnerLink() ?>" target="_blank">
+                    <i class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0981'); ?></a>
+            </li>
             <li class="divider"></li>
             <li><a href="<?php echo Yii::app()->createUrl('site/logout'); ?>">
                     <i class="fa fa-sign-out fa-fw"></i> Вихід</a>

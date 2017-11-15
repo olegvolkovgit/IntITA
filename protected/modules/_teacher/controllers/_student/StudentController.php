@@ -303,47 +303,70 @@ class StudentController extends TeacherCabinetController
     }
 
     public function actionNewCourseAgreement(){
-        $user = Yii::app()->user->getId();
-        $course = Yii::app()->request->getPost('course', 0);
-        $educationForm = Yii::app()->request->getPost('educationForm');
-        $courseModel=Course::model()->findByPk($course);
-        if(!Yii::app()->user->model->isStudent($courseModel->organization->id)){
-            $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, $courseModel->organization->id);
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        try {
+            if (Yii::app()->request->getPost('user')) {
+                $user = Yii::app()->request->getPost('user');
+            } else {
+                $user = Yii::app()->user->getId();
+            }
+            $course = Yii::app()->request->getPost('course', 0);
+            $educationForm = Yii::app()->request->getPost('educationForm');
+            $courseModel = Course::model()->findByPk($course);
+            if (!Yii::app()->user->model->isStudent($courseModel->organization->id)) {
+                $roleObj = Role::getInstance(UserRoles::STUDENT);
+                $roleObj->setRole(Yii::app()->user->model->registrationData, $courseModel->organization->id);
+            }
+
+            if ($educationForm == 'online') $educationForm = EducationForm::ONLINE;
+            else if ($educationForm == 'offline') $educationForm = EducationForm::OFFLINE;
+            else $educationForm = EducationForm::ONLINE;
+
+            $schemaNum = Yii::app()->request->getPost('payment', '0');
+            $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
+            $result = ($agreement) ? $agreement->id : 0;
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
-
-        if($educationForm=='online') $educationForm=EducationForm::ONLINE;
-        else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
-        else $educationForm=EducationForm::ONLINE;
-
-        $schemaNum = Yii::app()->request->getPost('payment', '0');
-
-        $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
-
-        echo ($agreement)?$agreement->id:0;
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionNewModuleAgreement(){
-        $user = Yii::app()->user->getId();
-        $course = Yii::app()->request->getPost('course', 0);
-        $module = Yii::app()->request->getPost('module', 0);
-        $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
 
-        $moduleModel=Module::model()->findByPk($module);
-        if(!Yii::app()->user->model->isStudent($moduleModel->organization->id)){
-            $roleObj = Role::getInstance(UserRoles::STUDENT);
-            $roleObj->setRole(Yii::app()->user->model->registrationData, $moduleModel->organization->id);
+        try {
+            if(Yii::app()->request->getPost('user')){
+                $user = Yii::app()->request->getPost('user');
+            }else{
+                $user = Yii::app()->user->getId();
+            }
+            $course = Yii::app()->request->getPost('course', 0);
+            $module = Yii::app()->request->getPost('module', 0);
+            $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
+
+            $moduleModel=Module::model()->findByPk($module);
+            if(!Yii::app()->user->model->isStudent($moduleModel->organization->id)){
+                $roleObj = Role::getInstance(UserRoles::STUDENT);
+                $roleObj->setRole(Yii::app()->user->model->registrationData, $moduleModel->organization->id);
+            }
+
+            if($educationForm=='online') $educationForm=EducationForm::ONLINE;
+            else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
+            else $educationForm=EducationForm::ONLINE;
+
+            $schemaNum = Yii::app()->request->getPost('payment', '0');
+
+            $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, $schemaNum, $educationForm);
+            $result = ($agreement) ? $agreement->id : 0;
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
-
-        if($educationForm=='online') $educationForm=EducationForm::ONLINE;
-        else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
-        else $educationForm=EducationForm::ONLINE;
-
-        $schemaNum = Yii::app()->request->getPost('payment', '0');
-
-        $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, $schemaNum, $educationForm);
-
-        echo ($agreement)?$agreement->id:0;
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionOfflineEducation()
@@ -360,7 +383,7 @@ class StudentController extends TeacherCabinetController
             $subgroups[$key]['subgroup']=$subgroup->subgroupName->name;
             $subgroups[$key]['info']=$subgroup->subgroupName->data;
             $subgroups[$key]['journal']=$subgroup->subgroupName->journal;
-            $subgroups[$key]['link']=$subgroup->subgroupName->link;
+            $subgroups[$key]['links']=ActiveRecordToJSON::toAssocArrayWithRelations($subgroup->subgroupName->links);
             $subgroups[$key]['groupCurator']=$subgroup->group->userChatAuthor->userNameWithEmail();
             $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userChatAuthor->email;
             $subgroups[$key]['groupCuratorId']=$subgroup->group->userChatAuthor->id;
@@ -397,9 +420,18 @@ class StudentController extends TeacherCabinetController
 
     public function actionWrittenAgreementRequest()
     {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
         $agreement = UserAgreements::model()->findByPk(Yii::app()->request->getPost('id'));
         $documents = $agreement->user->getActualUserDocuments();
-        if($documents){
+        $documentsType=[DocumentsTypes::PASSPORT,DocumentsTypes::INN];
+        $requiredDocCount=0;
+        foreach ($documents as $document){
+            if(in_array($document->type,$documentsType))
+                $requiredDocCount+=1;
+        }
+        if($requiredDocCount==count($documentsType) ){
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 if(!MessagesWrittenAgreementRequest::isRequestOpen(array('agreement'=>$agreement->id,'user'=>$agreement->user_id))){
@@ -409,15 +441,16 @@ class StudentController extends TeacherCabinetController
                     $sender = new MailTransport();
                     $message->send($sender);
                     $transaction->commit();
-                    echo "Запит на затвердження паперового договору відіслано. Зачекайте, поки ваш запит буде оброблено";
+                    $result = ['message' => 'success', 'reason' => 'Запит на затвердження паперового договору відіслано. Зачекайте, поки ваш запит буде оброблено'];
                 }
             } catch (Exception $e){
                 $transaction->rollback();
-                throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження паперового договору не вдалося надіслати.");
+                $result = ['message' => 'error', 'reason' => 'Запит на затвердження паперового договору не вдалося надіслати.'];
             }
         }else{
-            echo "У тебе немає жодного актуального документа";
+            $result = ['message' => 'error', 'reason' => 'Перед відправкою запиту заповни паспортні дані та ідентифікаційний код в формі редагування профілю'];
         }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionWrittenAgreementRequestStatus($id)
@@ -429,7 +462,7 @@ class StudentController extends TeacherCabinetController
 
     public function actionGetWrittenAgreementData($id)
     {
-        $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount','service',
+        $agreement = UserAgreements::model()->with('user','invoice','corporateEntity','checkingAccount','service.moduleServices.moduleModel.lectures',
             'corporateEntity.latestCheckingAccount',
             'corporateEntity.actualRepresentatives',
             'corporateEntity.actualRepresentatives.representative')->findByPk($id);
@@ -437,6 +470,7 @@ class StudentController extends TeacherCabinetController
         $documents=$agreement->user->getActualUserDocuments();
 
         $data['agreement']=ActiveRecordToJSON::toAssocArray($agreement);
+        $data['agreementModules']= ActiveRecordToJSON::toAssocArray(UserAgreements::model()->with('service.courseServices.courseModel.module.moduleInCourse.lectures','service.moduleServices.moduleModel')->findByPk($id));
         $data['documents']=ActiveRecordToJSON::toAssocArray($documents);
         echo json_encode($data, JSON_FORCE_OBJECT);
     }
@@ -462,5 +496,70 @@ class StudentController extends TeacherCabinetController
         );
 
         echo json_encode(array_filter($data), JSON_FORCE_OBJECT);
+    }
+
+    public function actionUpdateUserAgreementData()
+    {
+        $type = Yii::app()->request->getPost('type');
+        $attribute = Yii::app()->request->getPost('attribute');
+        $data = Yii::app()->request->getPost('data');
+
+        $actualDocuments=UserDocuments::model()->with('documentType','documentsFiles','idUser')->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'actual'=>UserDocuments::ACTUAL));
+
+        foreach ($actualDocuments as $document){
+            if(isset($document[$attribute]) && $document->type==$type){
+                $document->$attribute=$data;
+                $document->updatedAt=new CDbExpression('NOW()');
+                $document->update();
+                return;
+            }
+        }
+
+    }
+
+    public function actionUpdateUserData()
+    {
+        $attribute = Yii::app()->request->getPost('attribute');
+        $data = Yii::app()->request->getPost('data');
+        StudentReg::model()->updateByPk(Yii::app()->user->getId(), array($attribute=>$data));
+        return;
+    }
+
+    public function actionCheckAgreementPdf($agreementId)
+    {
+        $data['data']=ActiveRecordToJSON::toAssocArrayWithRelations(UserWrittenAgreement::model()->with('user')->findByAttributes(
+            array('id_agreement'=>$agreementId,'actual'=>UserWrittenAgreement::ACTUAL)));
+        echo json_encode($data);
+    }
+
+    public function actionCheckAgreementByUser()
+    {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+
+        try {
+            $params = array_filter($_POST);
+            $writtenAgreement=UserWrittenAgreement::model()->findByPk($params['id']);
+            $writtenAgreement->checked_by_user=UserWrittenAgreement::CHECKED;
+            if(!$writtenAgreement->save()){
+                throw new \application\components\Exceptions\IntItaException(500, "Підтвердити договір не вдалося. Зверніться до адміністрації.");
+            }
+
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionGetAgreementFile($id){
+        $agreement=UserAgreements::model()->findByPk($id);
+        $file = Yii::app()->basePath . "/../files/documents/agreements/".$agreement->user_id."/a".$id.".pdf";
+        if (file_exists($file)){
+            $result['data']=StaticFilesHelper::fullPathToFiles("documents/agreements").'/'.$agreement->user_id.'/a'.$id.'.pdf';
+            echo json_encode($result);
+        } else {
+            throw new CHttpException(404,'Документ не знайдено');
+        }
     }
 }

@@ -14,6 +14,9 @@
  */
 class DocumentsTypes extends CActiveRecord
 {
+    const PASSPORT=1;
+    const INN=2;
+
     public $title = '';
 	/**
 	 * @return string the associated database table name

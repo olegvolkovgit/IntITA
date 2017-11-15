@@ -11,11 +11,6 @@
                     Група підгрупи
                 </a>
             </li>
-            <li>
-                <a type="button" class="btn btn-success" ng-href="" ng-click="updateSubgroupChat(subgroup.id)">
-                    Оновити чат підгрупи
-                </a>
-            </li>
         </ul>
         <div class="panel-body" style="padding:15px 0 0 0">
             <uib-tabset active="0" >
@@ -38,7 +33,14 @@
                             <label>Журнал:</label> <span ng-bind-html="subgroup.journal | linky:'_blank'"></span>
                         </li>
                         <li class="list-group-item">
-                            <label>Корисні посилання:</label> <span ng-bind-html="subgroup.link | linky:'_blank'"></span>
+                            <label>Корисні посилання:</label>
+                            <ul>
+                                <li ng-repeat="link in subgroup.links track by $index">
+                                    <span ng-bind-html="link.description"></span>
+                                    <br>
+                                    <span ng-bind-html="link.link | linky:'_blank'"></span>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </uib-tab>

@@ -108,11 +108,11 @@
         </div>
         <div uib-collapse="courseCollapsed">
             <div class="form-group" ng-repeat="studentCourses in courses">
-                        <span>
-                            <strong>{{studentCourses.title_ua}}, рейтинг: {{studentCourses.rating * graduate.ratingScale}} </strong>
-                            <button class="btn btn-primary" ng-click="changeRating(studentCourses)">Змінити рейтинг</button>
-                            <button class="btn btn-danger" ng-click="deleteRating('course',studentCourses)">Видалити курс</button>
-                        </span>
+                <span>
+                    <strong>{{studentCourses.title_ua}}, рейтинг: {{studentCourses.rat * graduate.ratingScale}} </strong>
+                    <button class="btn btn-primary" ng-click="changeRating(studentCourses)">Змінити рейтинг</button>
+                    <button class="btn btn-danger" ng-click="deleteRating('course',studentCourses)">Видалити курс</button>
+                </span>
             </div>
             <button class="btn btn-success" ng-click="addRating('course')">Додати курс</button>
         </div>
@@ -121,7 +121,7 @@
         </div>
         <div uib-collapse="modulesCollapsed">
             <div class="form-group" ng-repeat="studentModules in modules">
-                <span><strong>{{studentModules.title_ua}}, рейтинг: {{studentModules.rating * graduate.ratingScale}} </strong> </span>
+                <span><strong>{{studentModules.title_ua}}, рейтинг: {{studentModules.rat * graduate.ratingScale}} </strong> </span>
                 <button class="btn btn-primary" ng-click="changeRating('module',studentModules )">Змінити рейтинг</button>
                 <button class="btn btn-danger" ng-click="deleteRating('module',studentModules.id)">Видалити модуль</button>
             </div>

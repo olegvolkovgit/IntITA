@@ -218,27 +218,18 @@ class MessagesWrittenAgreementRequest extends Messages implements IMessage
         return MessagesWrittenAgreementRequest::model()->findAll($criteria);
     }
 
-    public function setApproved($sessionTime)
+    public function setApproved()
     {
         $user = RegisteredUser::userById($this->message0->sender);
 
         $this->status = MessagesWrittenAgreementRequest::APPROVED;
         $this->user_checked = Yii::app()->user->getId();
         $this->date_checked = new CDbExpression('NOW()');
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            $this->save();
-
-            $builder = new ContractingPartyBuilder();
-            $contractingParty = $builder->makePrivatePerson($this->agreement->user);
-            $contractingParty->bindToAgreement($this->agreement, ContractingParty::ROLE_STUDENT);
-            $this->agreement->user->checkedActualUserDocuments($sessionTime);
-            $this->notify($user->registrationData, 'Затвердження запиту по паперовому договору', $this->approveTemplate, array($this->agreement));
-
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw new \application\components\Exceptions\IntItaException(500, $e->getMessage());
+        if ($this->save()) {
+        $this->notify($user->registrationData, 'Затвердження запиту по паперовому договору', $this->approveTemplate, array($this->agreement));
+            return "Операцію успішно виконано.";
+        } else {
+            return "Операцію не вдалося виконати.";
         }
     }
 
@@ -467,17 +458,4 @@ class MessagesWrittenAgreementRequest extends Messages implements IMessage
 
         return StudentReg::model()->findAll($criteria);
     }
-
-    public function saveAgreementPdf($content, $user, $agreement){
-        $pdf = Yii::app()->ePdf->mpdf();
-        $pdf->WriteHTML($content);
-
-        if (!file_exists(Yii::app()->basePath . "/../files/documents/agreements/".$user)) {
-            mkdir(Yii::app()->basePath . "/../files/documents/agreements/".$user);
-        }
-
-        $filename=Yii::getpathOfAlias('webroot').'/files/documents/agreements/'.$user.'/a'.$agreement.'.pdf';
-        $pdf->Output($filename,'F');
-    }
-
 }

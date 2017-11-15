@@ -25,7 +25,14 @@
                         <label>Журнал:</label> <span ng-bind-html="subgroup.journal | linky:'_blank'"></span>
                     </li>
                     <li class="list-group-item">
-                        <label>Корисні посилання:</label> <span ng-bind-html="subgroup.link | linky:'_blank'"></span>
+                        <label>Корисні посилання:</label>
+                        <ul>
+                            <li ng-repeat="link in subgroup.links track by $index">
+                                <span ng-bind-html="link.description"></span>
+                                <br>
+                                <span ng-bind-html="link.link | linky:'_blank'"></span>
+                            </li>
+                        </ul>
                     </li>
                     <li ng-if="subgroup.trainer" class="list-group-item">
                         <label>Тренер:</label> <a ng-href="{{subgroup.trainerLink}}" target="_blank">{{subgroup.trainer}}</a>

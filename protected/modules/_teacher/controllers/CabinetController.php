@@ -247,6 +247,17 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
+    public function actionServicesByQuery($query, $organization=null)
+    {
+        $organization=$organization?$organization:Yii::app()->user->model->getCurrentOrganizationId();
+        if ($query) {
+            $services = Service::allServices($query, $organization);
+            echo $services;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
     public function actionStudentsByQuery($query)
     {
         if ($query) {
@@ -395,6 +406,12 @@ class CabinetController extends TeacherCabinetController
     {
         echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
     }
+
+    public function actionGetGraduateId()
+    {
+        echo Graduate::model()->findByAttributes(array('id_user'=>Yii::app()->request->getPost('id')))->id;
+    }
+
     public function actionGetCourseLink()
     {
         echo Yii::app()->createUrl('course/index', array('id' => Yii::app()->request->getPost('id')));
