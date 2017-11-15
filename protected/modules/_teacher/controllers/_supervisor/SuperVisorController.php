@@ -368,7 +368,6 @@ class SuperVisorController extends TeacherCabinetController
         $group = Yii::app()->request->getParam('group');
         $data = Yii::app()->request->getParam('data');
         $journal = Yii::app()->request->getParam('journal');
-        $link = Yii::app()->request->getParam('link');
         $trainerId = Yii::app()->request->getParam('trainer');
 
         $subgroup = new OfflineSubgroups();
@@ -376,7 +375,6 @@ class SuperVisorController extends TeacherCabinetController
         $subgroup->group = $group;
         $subgroup->data = $data;
         $subgroup->journal = $journal;
-        $subgroup->link = $link;
         $subgroup->id_user_created = Yii::app()->user->getId();
         $subgroup->id_trainer = $trainerId;
 
@@ -419,15 +417,12 @@ class SuperVisorController extends TeacherCabinetController
         $name = Yii::app()->request->getPost('name');
         $data = Yii::app()->request->getPost('data');
         $journal = Yii::app()->request->getParam('journal');
-        $link = Yii::app()->request->getParam('link');
         $trainerId = Yii::app()->request->getParam('trainer');
-
         $subgroup = OfflineSubgroups::model()->findByPk($id);
         $oldTrainer = $subgroup->id_trainer;
         $subgroup->name = $name;
         $subgroup->data = $data;
         $subgroup->journal = $journal;
-        $subgroup->link = $link;
         $subgroup->id_trainer = $trainerId;
 
         if ($subgroup->save()) {
@@ -499,7 +494,6 @@ class SuperVisorController extends TeacherCabinetController
                         }
                         $role->setStudentAttribute($model->teacher, $student->id_user, $model->module->module_ID);
                     }
-
                     $callUrl = new CurlHelper();
                     $callUrl->callPageByCurl(Config::getFullChatPath() . "/sub_group_operations/update/" . $subgroupId);
 
