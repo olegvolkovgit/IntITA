@@ -395,7 +395,7 @@ class CourseModules extends CActiveRecord
                 $module->check=true;
                 return true;
             }else{
-                $module->statusMessage=CHtml::encode(Yii::t('modul', '0955').' "'.$module->mandatoryCourseModule->moduleInCourse->getTitle().'"');
+                $module->statusMessage=Yii::t('modul', '0955').' "'.$module->mandatoryCourseModule->moduleInCourse->getTitle().'"';
                 $module->access=false;
                 $module->check=true;
                 return false;
