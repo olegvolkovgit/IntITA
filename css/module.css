@@ -474,6 +474,9 @@ td.button-column{
 .moduleInfoTable{display: table}
 .moduleInfoTd{display: table-cell;}
 .moduleParam{padding-left: 15px; border-left: 1px solid #cccccc;}
+.grid-view table.items tbody tr:hover {
+    background: none;
+}
 @media only screen and (max-width: 800px) {
     .leftModule,.rightModule{width: 100%;float: none;margin: 0 auto}
     .teacherBox table {width: 100%}
