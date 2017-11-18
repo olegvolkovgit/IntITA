@@ -36,7 +36,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                             foreach ($courseModules as $record) {
                                                 if (!$record["cancelled"]) { ?>
                                                     <li>
-                                                        <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $record["id"])); ?>"
+                                                        <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $record["id"],'idCourse' => $course["id"])); ?>"
                                                            target="_blank">
                                                             <?= $record["title"] . " (" . $record["lang"] . ")"; ?>
                                                         </a>

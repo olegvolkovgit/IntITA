@@ -16,6 +16,7 @@
                          <td data-title="'Посада'" filter="{position: 'text'}">{{row.position}}</td>
                          <td data-title="'Місце роботи'" filter="{work_place: 'text'}">{{row.work_place}}</td>
                          <td data-title="'Відгук'" style="white-space:nowrap; height:100px; text-overflow: ellipsis !important; overflow: hidden; ">{{row.recall}}</td>
+                         <td data-title="'Дата випуску'" style="white-space:nowrap; height:100px; text-overflow: ellipsis !important; overflow: hidden; " sortable="'graduate_date'" filter="{graduate_date: 'text'}">{{row.graduate_date}}</td>
                          <td data-title="'Статус'" filter="{published: 'select'}" filter-data="publishStatus" style="white-space:nowrap; height:100px; text-overflow: ellipsis !important; overflow: hidden; "><a href="javascript:void(0)" ng-click="changeGraduateStatus(row)">
                                 <span> {{row.published ? 'Опубліковано' : 'Не опубліковано'}} <span>
                              </a>
