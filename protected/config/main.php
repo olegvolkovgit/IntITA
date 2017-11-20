@@ -139,7 +139,7 @@ return array(
                 'cabinet/mail' => '_teacher/cabinet/mail',
                 'profile/edit' => 'studentreg/edit',
                 'agreement/<id:\d+>' => 'payments/showAgreement',
-
+                'p/<id:\d+>' => 'studentreg/portfolio',
 
                 array('class' => 'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
                 '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',

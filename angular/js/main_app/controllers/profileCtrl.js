@@ -5,7 +5,7 @@ angular
     .module('mainApp')
     .controller('profileCtrl',profileCtrl);
 
-function profileCtrl($http,$scope) {
+function profileCtrl($http, $scope, FileUploader) {
     $scope.getProfileData=function (userId) {
         var promise = $http({
             url: basePath+'/studentreg/getProfileData',
@@ -145,5 +145,77 @@ function profileCtrl($http,$scope) {
             }
         })
     }
+
+    //portfolio request
+    $scope.portfolioRequest = function () {
+        $http({
+            url: basePath+'/studentreg/addReview',
+            method: "POST",
+            data: $.param({review: $scope.profileData.review}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).success(function (response) {
+            if (typeof response === 'object'){
+                $scope.errors = response.errors;
+            }
+        })
+    }
+
+
+    //documents
+    var fileUploader = $scope.fileUploader = new FileUploader({
+        url: basePath+'/studentreg/uploadPortfolio',
+        removeAfterUpload: true
+    });
+    fileUploader.onCompleteAll = function() {
+        $scope.loadPortfolioFiles();
+    };
+    fileUploader.onErrorItem = function(item, response, status, headers) {
+        if(status==500)
+            bootbox.alert("Виникла помилка при завантажені файлів.");
+    };
+
+    fileUploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|javascript|jpg|png|jpeg|bmp|gif|html|css|'.indexOf(type) !== -1;
+        }
+    });
+
+    fileUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+
+    $scope.loadPortfolioFiles=function () {
+        $http({
+            url: basePath + "/studentreg/getAllPortfolioFiles",
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.portfolioFiles = response.data;
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка при завантажені файлів");
+        });
+    };
+    $scope.loadPortfolioFiles();
+
+    $scope.removePortfolioFile=function (id) {
+        bootbox.confirm('Видалити файл?', function(result) {
+            if(result)
+                $http({
+                    url: basePath + "/studentreg/removePortfolioFile",
+                    method: "POST",
+                    data: $.param({id: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.loadPortfolioFiles();
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при видалені документу.");
+                });
+        });
+    }
+
+
+
 
 }

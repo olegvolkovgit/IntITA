@@ -1496,4 +1496,9 @@ class StudentReg extends CActiveRecord {
 
         return StudentReg::model()->findAll($criteria);
     }
+
+    public function getPortfolioFiles()
+    {
+        return UserPortfolio::model()->findAllByAttributes(array('id_user'=>$this->id));
+    }
 }

@@ -567,4 +567,29 @@ class StudentRegController extends Controller
             echo null;
         }
     }
+
+    public function actionUploadPortfolio()
+    {
+        UserPortfolio::model()->uploadPortfolioDocuments();
+    }
+
+    public function actionGetAllPortfolioFiles()
+    {
+        echo json_encode(ActiveRecordToJSON::toAssocArrayWithRelations(Yii::app()->user->model->getPortfolioFiles()));
+    }
+
+    public function actionRemovePortfolioFile()
+    {
+        $idFile=Yii::app()->request->getPost('id');
+        $model=UserPortfolio::model()->findByPk($idFile);
+        $file=Yii::getpathOfAlias('webroot').'/files/documents/portfolio/'.Yii::app()->user->getId().'/'.$model->file_name;
+        if (is_file($file))
+            unlink($file);
+        $model->delete();
+    }
+
+    public function actionPortfolio($id)
+    {
+        $this->renderFile('files/documents/portfolio/'.$id.'/index.html');
+    }
 }
