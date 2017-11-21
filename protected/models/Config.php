@@ -206,4 +206,16 @@ class Config extends CActiveRecord
     public static function getRatingScale(){
         return Yii::app()->config->get('ratingScale');
     }
+
+    public static function getTempProjectsPath(){
+        return Yii::app()->config->get('tempProjectsPath');
+    }
+
+    public static function getRealProjectsPath(){
+        return Yii::app()->config->get('realProjectsPath');
+    }
+
+    public static function getStudentsProjectsUrl(){
+        return Yii::app()->config->get('studentsProjectsUrl');
+    }
 }

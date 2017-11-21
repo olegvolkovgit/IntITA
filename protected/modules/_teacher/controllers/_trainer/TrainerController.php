@@ -475,4 +475,44 @@ class TrainerController extends TeacherCabinetController
 
         echo json_encode($result);
     }
+
+    public function actionStudentsProjects()
+    {
+        $this->renderPartial('/_trainer/tables/_studentsProjects', array(), false, true);
+    }
+
+    public function actionGetStudentsProjectList(){
+
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentsProjects', $requestParams);
+        $criteria =  new CDbCriteria();
+
+       // $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionViewStudentProject(){
+        $projectId =  Yii::app()->request->getPost('id');
+        $project = StudentsProjects::model()->findByPk($projectId);
+        $project->pullProject();
+        echo json_encode(['data'=>1,'msg'=>'Проект затведжено' ]);
+        Yii::app()->end();
+    }
+
+    public function actionApproveStudentProject(){
+        $projectId =  Yii::app()->request->getPost('id');
+        $project = StudentsProjects::model()->findByPk($projectId);
+        if ($project){
+            $project->approveProject();
+            echo json_encode(['data'=>1,'msg'=>'Проект затведжено' ]);
+            Yii::app()->end();
+        }
+        else{
+            echo  json_encode(['data'=>1,'msg'=>'Помилка' ]);
+            Yii::app()->end();
+        }
+
+    }
+
 }

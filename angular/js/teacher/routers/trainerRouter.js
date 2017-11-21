@@ -58,6 +58,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 }
             }
         })
+        .state('trainer/students.studentsProjects', {
+            url: '/studentsProjects',
+            views: {
+                'trainerTabs': {
+                    templateUrl: basePath+"/_teacher/_trainer/trainer/studentsProjects",
+                }
+            }
+        })
 
         .state('trainer/viewStudent/:studentId', {
             url: "/trainer/viewStudent/:studentId",
