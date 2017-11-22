@@ -4,7 +4,8 @@
 //Change tooltips when lecture spots hover
 angular
     .module('lessonApp')
-    .directive('hoverSpot', hoverSpot);
+    .directive('hoverSpot', hoverSpot)
+    .directive('animateOnChange', animateOnChange);
 
 function hoverSpot() {
     return {
@@ -50,3 +51,24 @@ function hoverSpot() {
         }
     }
 };
+
+function animateOnChange($timeout) {
+    return {
+        link: function (scope, element, attr) {
+            scope.$watch(attr.animateOnChange, function(nv,ov) {
+                if (nv>ov) {
+                    element.addClass('rating-up');
+                    $timeout(function() {
+                        element.removeClass('rating-up');
+                    }, 2000); // Could be enhanced to take duration as a parameter
+                }
+                if (nv<ov) {
+                    element.addClass('rating-down');
+                    $timeout(function() {
+                        element.removeClass('rating-down');
+                    }, 2000); // Could be enhanced to take duration as a parameter
+                }
+            });
+        }
+    }
+}

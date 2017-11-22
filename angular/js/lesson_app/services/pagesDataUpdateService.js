@@ -19,13 +19,25 @@ angular
                     for (var i = 0; i < count; i++) {
                         if (i == (count - 1) && $rootScope.pageData[i]['isDone']){
                             $rootScope.lastAccessPage = i+1;
+                            $rootScope.pageChanged=!$rootScope.pageChanged;
                             break;
                         }
                         if ($rootScope.pageData[i]['isDone'] && !$rootScope.pageData[i+1]['isDone']){
                             $rootScope.lastAccessPage = i+1;
+                            $rootScope.pageChanged=!$rootScope.pageChanged;
                             break;
                         }
                     }
+                });
+            };
+            this.updateRating = function (){
+                $http({
+                    url: basePath + '/lesson/updateRating',
+                    method: "POST",
+                    data: $.param({lecture: idLecture}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function(response){
+                    $rootScope.lectureRating = Number(response.data);
                 });
             };
         }
