@@ -619,7 +619,7 @@ function visitInfoCtrl($scope, trainerService, NgTableParams, myFactory) {
         });
 }
 
-function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http) {
+function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http, $state, $stateParams) {
     NgTableDataService.setUrl(basePath+'/_teacher/_trainer/trainer/getStudentsProjectList');
     $scope.studentProjectTable = new NgTableParams({
         sorting: {
@@ -673,6 +673,25 @@ function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http) 
                 });
             }
         })
+    };
+
+    if ($state.is('studentsProject')){
+        $scope.files = $http({
+            method:'GET',
+            url: basePath+'/_teacher/_trainer/trainer/getProjectFiles/projectId/'+$stateParams.projectId
+        }).then(function (response) {
+            $scope.files = response.data;
+        });
+
+        $scope.getFileContent = function () {
+            $http({
+                method:'GET',
+                url: basePath+'/_teacher/_trainer/trainer/getFileContent'
+            }).then(function (response) {
+                $scope.file = response.data;
+            });
+        }
+
     }
 
 }

@@ -515,4 +515,20 @@ class TrainerController extends TeacherCabinetController
 
     }
 
+    public function actionShowFiles(){
+        $this->renderPartial('/_trainer/viewFiles');
+    }
+
+    public function actionGetProjectFiles($projectId){
+        $project = StudentsProjects::model()->findByPk($projectId);
+        echo json_encode($project->showFiles());
+        Yii::app()->end();
+    }
+
+    public function actionGetFileContent(){
+        echo file_get_contents('/var/www/IntITA/test/500/Test01/master/index.php');
+        Yii::app()->end();
+
+    }
+
 }

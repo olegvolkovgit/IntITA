@@ -66,6 +66,13 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 }
             }
         })
+        .state('studentsProject', {
+            url: "/studentsProject/:projectId",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_trainer/trainer/showFiles/projectId/" + $stateParams.projectId;
+            }
+        })
 
         .state('trainer/viewStudent/:studentId', {
             url: "/trainer/viewStudent/:studentId",

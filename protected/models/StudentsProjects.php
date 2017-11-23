@@ -113,21 +113,49 @@ class StudentsProjects extends CActiveRecord
 	}
 
 	public function pullProject(){
-        $dir = Config::getTempProjectsPath().'/'.$this->id_student.'/'.$this->title;
-        if (!is_dir($dir))
+        $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
+        if (!is_dir($dir)){
             mkdir($dir,0644, true);
+        }
             exec("cd {$dir} && git clone {$this->repository} {$dir}");
         $files = scandir($dir);
         return $files;
     }
 
     public function approveProject(){
-        $projectDir = Config::getTempProjectsPath().'/'.$this->id_student.'/'.$this->title;
+        $projectDir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
         $destDir =  Config::getRealProjectsPath().'/'.$this->id_student;
         if (!is_dir($destDir))
             mkdir($destDir,0644, true);
         exec("rsync -a --exclude '.git' {$projectDir} {$destDir}");
         $this->need_check = 0;
         $this->save();
+    }
+
+    public function showFiles(){
+        $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
+        $files = $this->scanDir($dir);
+        return $files;
+    }
+
+    private function scanDir($dir){
+
+        $result = array();
+
+        $cdir = scandir($dir);
+        foreach ($cdir as $key => $value) {
+            if (!in_array($value, array(".", "..",".git" ))) {
+                if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
+                    $result[$value] = $this->scanDir($dir . DIRECTORY_SEPARATOR . $value);
+                } else {
+                    $result = $value;
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function showFileContent($file){
+        return htmlentities(file_get_contents($file));
     }
 }
