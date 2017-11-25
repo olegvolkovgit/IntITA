@@ -53,6 +53,11 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
 
+    <!-- ngTree -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.treeview.min.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'css/angular.treeview.css') ?>">
+
+
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-2.5.0.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-locale_uk-ua.js'); ?>"></script>
 

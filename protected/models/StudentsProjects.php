@@ -146,9 +146,9 @@ class StudentsProjects extends CActiveRecord
         foreach ($cdir as $key => $value) {
             if (!in_array($value, array(".", "..",".git" ))) {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                    $result[$value] = $this->scanDir($dir . DIRECTORY_SEPARATOR . $value);
+                    $result[] = ['path'=>$dir, 'name'=>$value, 'children' => $this->scanDir($dir . DIRECTORY_SEPARATOR . $value)];
                 } else {
-                    $result = $value;
+                    $result[] = ['path'=>$dir, 'name'=>$value, 'children' => []];
                 }
             }
         }

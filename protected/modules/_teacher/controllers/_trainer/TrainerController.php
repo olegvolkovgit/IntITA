@@ -525,8 +525,8 @@ class TrainerController extends TeacherCabinetController
         Yii::app()->end();
     }
 
-    public function actionGetFileContent(){
-        echo file_get_contents('/var/www/IntITA/test/500/Test01/master/index.php');
+    public function actionGetFileContent($path, $fileName){
+        echo file_get_contents($path.'/'.$fileName);
         Yii::app()->end();
 
     }

@@ -156,7 +156,7 @@ span.interestBG{
 }
 .profileActivity .tabsContent > div {
     display: none;
-    padding: 15px 15px 15px 30px;
+    padding: 10px 10px 15px 10px;
     border: 1px solid #d8d8d8;
     background: #fff;
     border-radius: 5px;
@@ -957,7 +957,7 @@ body .grid-view table.items td{
 
 /*celebre - profileActivity*/
 .profileActivity {
-    padding: 15px 15px 15px 30px;
+    padding: 10px 10px 15px 10px;
     border: 1px solid #d8d8d8;
     background: #fff;
     border-radius: 5px;

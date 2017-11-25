@@ -7,13 +7,15 @@
  */
 ?>
 <div ng-controller="studentsProjectsCtrl">
-    <button ng-click="getFileContent()">getfile</button>
-    <div style="height: 80%;  width: 100%; border: 1px solid; overflow: auto;">
 <pre>
     {{file}}
 </pre>
+    <div
+            data-angular-treeview="true"
+            data-tree-id="projectFiles"
+            data-tree-model="files"
+            data-node-id="id"
+            data-node-label="name"
+            data-node-children="children" >
     </div>
-<div id="files">
-
-</div>
 </div>

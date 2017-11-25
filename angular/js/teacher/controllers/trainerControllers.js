@@ -692,6 +692,19 @@ function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http, 
             });
         }
 
+        $scope.$watch( 'projectFiles.currentNode', function( newObj, oldObj ) {
+            if( $scope.projectFiles && angular.isObject($scope.projectFiles.currentNode) ) {
+                $http({
+                    method:'GET',
+                    url: basePath+'/_teacher/_trainer/trainer/getFileContent?path='+$scope.projectFiles.currentNode.path+'&fileName='+$scope.projectFiles.currentNode.name,
+                }).then(function (response) {
+                    $scope.file = response.data;
+                });
+                console.log( 'Node Selected!!' );
+                console.log( $scope.projectFiles.currentNode );
+            }
+        }, false);
+
     }
 
 }
