@@ -54,6 +54,7 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/transformRequest.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
 
     <?php if (!Yii::app()->user->isGuest) { ?>
         <script src="<?php echo Config::getFullChatPath()."/js/ITA.js" ?>"></script>
