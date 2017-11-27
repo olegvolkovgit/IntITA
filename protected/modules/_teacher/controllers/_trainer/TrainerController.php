@@ -427,6 +427,7 @@ class TrainerController extends TeacherCabinetController
 
         $ngTable = new NgTableAdapter('StudentInfo', $requestParams);
         $criteria =  new CDbCriteria();
+        $criteria->with=['group'];
         $criteria->join = 'left join trainer_student as ts on t.id_student=ts.student';
         $criteria->join .= ' left join offline_students as os ON t.id_student=os.id_user';
         $criteria->join .= ' left join offline_subgroups as osbgr ON os.id_subgroup=osbgr.id';
