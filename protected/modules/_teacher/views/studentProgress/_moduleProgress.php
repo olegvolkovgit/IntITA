@@ -6,17 +6,26 @@
  * Time: 12:29
  */
 ?>
-<div class="row" ng-controller="studentProgressCtrl">
+<div class="row">
+    <div class="form-group">
+        <a type="button" class="btn btn-default" ng-click='back()'>
+            Назад
+        </a>
+    </div>
     <div class="panel panel-default">
+        <br>
+        <div style="padding-left: 15px; color:#4B75A4">
+            <i class="fa fa-calculator fa-2x" style="cursor: pointer" aria-hidden="true" title="Підрахувати рейтинг по всіх лекціях"
+               ng-click="progress.getAllLecturesRating(stateParams.studentId, stateParams.module)"></i>
+        </div>
         <div class="panel-body" class="ng-cloak">
-            <div class="row" ng-repeat="row in data">
-                <label class="progress-labe col-sm-4"style="float: left;"><a ui-sref="students/lectureProgress/:studentId/:lecture({studentId:student.id,lecture:row.id_lecture})">Лекція: {{row.lecture}} </a> </label>
-                <div class="col-sm-6"><uib-progressbar  max="row.progress.lecturePages"
-                                                        value="row.progress.passedPages"
-                                                        ng-attr-type="{{((row.progress.passedPages/row.progress.lecturePages *100) < 33) && 'danger' || ((row.progress.passedPages/row.progress.lecturePages *100) < 66) && 'warning' || 'success' }}">
-                        {{(row.progress.isDone) && 'Завершено' || 'Пройдено занять  ' + row.progress.passedPages + ' з ' + row.progress.lecturePages }}
-                        </uib-progressbar></div>
-            </div>
+            <content-progress
+                    data-template="'<?php echo Config::getBaseUrl() ?>/angular/js/templates/progress/lecturesProgress.html'"
+                    data-data-url="'<?php echo Config::getBaseUrl() ?>/_teacher/studentProgress/getModuleProgress'"
+                    data-progress=progress
+                    data-state-params=stateParams
+            >
+            </content-progress>
         </div>
     </div>
 </div>

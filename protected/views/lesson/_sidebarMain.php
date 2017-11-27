@@ -42,7 +42,7 @@
             </div>
         </li>
         <li ng-if=lectureRating class="lecturesSpots">
-            <?php echo Yii::t('graduates', '0319') ?> <span animate-on-change="lectureRating">{{lectureRating*10| number:2}}/10</span>
+            <?php echo Yii::t('graduates', '0319') ?> <span animate-on-change="lectureRating">{{lectureRating*10| limitTo:3}}/10</span>
         </li>
         <li ng-if=lecturesData.currentOrder class="lecturesSpots">
             ({{lecturesData.currentOrder}} / {{lecturesData.module.lectures.length}} <?php echo Yii::t('lecture', '0616'); ?>)

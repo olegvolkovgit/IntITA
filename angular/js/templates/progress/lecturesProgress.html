@@ -1,0 +1,19 @@
+<div class="row progress-block" ng-repeat="row in data">
+    <label class="progress-labe col-sm-4" style="float: left;">
+        <a ng-attr-class="{{(row.progress.passed == 0 && !row.progress.isDone )}}"
+            ui-sref="students/lectureProgress/:studentId/:lecture({studentId:row.user_id,lecture:row.content_id})">
+            <span style="color:cadetblue"><i> Лекція: {{row.content_title}}</i></span></a>
+        </a>
+    </label>
+    <div class="col-sm-6">
+        <uib-progressbar max="((row.progress.parts > 0)) && row.progress.parts || 99999 "
+                         value="row.progress.passed"
+                         ng-attr-type="{{((row.progress.passed/row.progress.parts *100) < 33) && 'danger' || ((row.progress.passed/row.progress.parts *100) < 66) && 'warning' || 'success' }}">
+            {{(row.progress.isDone) && 'Завершено' || 'Пройдено занять ' + row.progress.passed + ' з ' + row.progress.parts }}
+            <span ng-if="progress.lectureRatings[$index]">Рейтинг: {{progress.lectureRatings[$index]*10 | limitTo:3}}/10</span>
+        </uib-progressbar>
+    </div>
+    <span ng-if="!row.progress.rating && moduleRating[$index]">{{moduleRating[$index]*10 | limitTo:3}}/10</span>
+    <i ng-if="!row.progress.rating" class="fa fa-calculator" style="cursor: pointer" aria-hidden="true"
+       title="Підрахувати проміжний рейтинг" ng-click="progress.getAllLecturesRating(row.user_id, stateParams.module, $index)"></i>
+</div>
