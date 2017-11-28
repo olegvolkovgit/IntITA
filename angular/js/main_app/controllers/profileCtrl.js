@@ -145,13 +145,9 @@ function profileCtrl($http,$scope, $ngBootbox, $httpParamSerializerJQLike) {
             }
         })
     };
-    var projectDialogOptions = {
-        templateUrl: '/angular/js/templates/studentProjectDialog.html',
-        scope: $scope,
-        title: 'Проект',
-    };
 
-    function getprojects() {
+    $scope.projects = "";
+    $scope.getprojects = function() {
         $http({
             method: 'GET',
             url: basePath+'/studentreg/getMyProjects'
@@ -159,8 +155,8 @@ function profileCtrl($http,$scope, $ngBootbox, $httpParamSerializerJQLike) {
             $scope.projects = response.data;
         });
     }
-
-    getprojects();
+    $scope.getprojects();
+    $scope.baseProjectsUrl = studentProjectPath;
 
     $scope.submitProjectData = function () {
         $http({
@@ -169,14 +165,23 @@ function profileCtrl($http,$scope, $ngBootbox, $httpParamSerializerJQLike) {
             data: $httpParamSerializerJQLike($scope.project),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function (response) {
-            getprojects();
-            console.log(response.data);
+            if (response.data.errors){
+                $scope.errors = response.data.errors;
+                return false;
+            }
+            $scope.getprojects();
+            $ngBootbox.hideAll();
         })
 
     }
 
     $scope.addProject = function () {
         $scope.project = "";
+        var projectDialogOptions = {
+            templateUrl: '/angular/js/templates/studentProjectDialog.html',
+            scope: $scope,
+            title: 'Проект',
+        };
         $ngBootbox.customDialog(projectDialogOptions);
     }
     
@@ -186,6 +191,11 @@ function profileCtrl($http,$scope, $ngBootbox, $httpParamSerializerJQLike) {
             url: basePath+'/studentreg/getProjectData?projectId='+projectId
         }).then(function (response) {
             $scope.project = response.data;
+            projectDialogOptions = {
+                templateUrl: '/angular/js/templates/studentProjectDialog.html',
+                scope: $scope,
+                title: 'Змінити проект',
+            }
             $ngBootbox.customDialog(projectDialogOptions);
         })
     }

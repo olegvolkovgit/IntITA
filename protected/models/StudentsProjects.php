@@ -32,7 +32,9 @@ class StudentsProjects extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_student, title, repository, branch', 'required'),
+			array('title, repository, branch', 'required'),
+			array('title, branch', 'match', 'pattern'=>'/^[a-z0-9\.]+$/i'),
+			array('repository', 'match', 'pattern'=>'!\.git$!i'),
 			array('id_student, need_check', 'numerical', 'integerOnly'=>true),
 			array('title, repository, branch', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -117,17 +119,23 @@ class StudentsProjects extends CActiveRecord
         if (!is_dir($dir)){
             mkdir($dir,0644, true);
         }
+        if ($this->checkDirForEmpty($dir) === true){
             exec("cd {$dir} && git clone {$this->repository} {$dir}");
+        }
+        else{
+            exec("cd {$dir} && git reset --hard && git checkout {$this->branch} && git pull");
+        }
+
         $files = scandir($dir);
         return $files;
     }
 
     public function approveProject(){
         $projectDir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
-        $destDir =  Config::getRealProjectsPath().'/'.$this->id_student;
+        $destDir =  Config::getRealProjectsPath().'/'.$this->id_student.'/'.$this->title;
         if (!is_dir($destDir))
             mkdir($destDir,0644, true);
-        exec("rsync -a --exclude '.git' {$projectDir} {$destDir}");
+        exec("rsync -a --delete --exclude '.git' {$projectDir}/ {$destDir}/");
         $this->need_check = 0;
         $this->save();
     }
@@ -157,5 +165,15 @@ class StudentsProjects extends CActiveRecord
 
     public function showFileContent($file){
         return htmlentities(file_get_contents($file));
+    }
+
+    private function checkDirForEmpty($dir){
+        $handle = opendir($dir);
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                return false;
+            }
+        }
+        return true;
     }
 }

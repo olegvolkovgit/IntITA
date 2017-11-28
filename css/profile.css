@@ -48,12 +48,12 @@ div.regLinks{
 .profileActivity{
     display:inline-block;
     float: right;
-    width: 60%;
+    width: 62%;
 }
 .studProfInf{
     display:inline-block;
     float:left;
-    width: 38%;
+    width: 35%;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
 }
@@ -1043,3 +1043,8 @@ body .grid-view table.items td{
     }
 }
 /*celebre - profileActivity*/
+
+.studentProject {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}

@@ -616,7 +616,7 @@ class StudentRegController extends Controller
             echo json_encode(['message'=>"OK"]);
         }
         else{
-            echo json_encode($project->getErrors());
+            echo json_encode(['errors'=>$project->getErrors()]);
         }
         Yii::app()->end();
     }

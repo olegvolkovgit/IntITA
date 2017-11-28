@@ -8,7 +8,7 @@
             </label>
             <input id="position" type="text" class="form-control" name="title"
                    size="90" required ng-model="project.title">
-            <div class="error" ng-show="errors.title">{{errors.title}}</div>
+            <div class="error-info" ng-show="errors.title">{{errors.title[0]}}</div>
         </div>
 
         <div class="form-group">
@@ -17,7 +17,7 @@
             </label>
             <input id="repository" type="text" class="form-control" name="repository"
                    size="90" required ng-model="project.repository">
-            <div class="error" ng-show="errors.repo">{{errors.repository}}</div>
+            <div class="error-info" ng-show="errors.repository">{{errors.repository[0]}}</div>
         </div>
 
         <div class="form-group">
@@ -26,7 +26,7 @@
             </label>
             <input id="branch" type="text" class="form-control" name="branch"
                    size="90" required ng-model="project.branch">
-            <div class="error" ng-show="errors.branch">{{errors.branch}}</div>
+            <div class="error-info" ng-show="errors.branch">{{errors.branch[0]}}</div>
         </div>
 
         <div class="form-group">

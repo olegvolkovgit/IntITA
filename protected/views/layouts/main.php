@@ -64,6 +64,7 @@ $header = new Header();
     <script>
         lang = lg = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
         basePath = '<?php echo Config::getBaseUrl(); ?>';
+        studentProjectPath = '<?php echo Config::getStudentsProjectsUrl();?>';
     </script>
 </head>
 

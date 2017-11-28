@@ -486,8 +486,10 @@ class TrainerController extends TeacherCabinetController
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('StudentsProjects', $requestParams);
         $criteria =  new CDbCriteria();
-
-       // $ngTable->mergeCriteriaWith($criteria);
+        $criteria->with = ['studentTrainer'];
+        $criteria->addCondition('studentTrainer.trainer = :trainer');
+        $criteria->params = ['trainer' => Yii::app()->user->getId()];
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -496,7 +498,7 @@ class TrainerController extends TeacherCabinetController
         $projectId =  Yii::app()->request->getPost('id');
         $project = StudentsProjects::model()->findByPk($projectId);
         $project->pullProject();
-        echo json_encode(['data'=>1,'msg'=>'Проект затведжено' ]);
+        echo json_encode(['data'=>1,'message'=>'Проект оновлено!' ]);
         Yii::app()->end();
     }
 
@@ -505,11 +507,11 @@ class TrainerController extends TeacherCabinetController
         $project = StudentsProjects::model()->findByPk($projectId);
         if ($project){
             $project->approveProject();
-            echo json_encode(['data'=>1,'msg'=>'Проект затведжено' ]);
+            echo json_encode(['data'=>1,',message'=>'Проект затведжено!' ]);
             Yii::app()->end();
         }
         else{
-            echo  json_encode(['data'=>1,'msg'=>'Помилка' ]);
+            echo  json_encode(['data'=>1,'message'=>'Помилка' ]);
             Yii::app()->end();
         }
 

@@ -628,7 +628,6 @@ function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http, 
         getData: function(params) {
             return NgTableDataService.getData(params.url())
                 .then(function (data) {
-                    console.log(data);
                     params.total(data.count);
                     return data.rows;
                 });
@@ -644,8 +643,7 @@ function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http, 
                     data: $jq.param({id: projectId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {
-                    bootbox.alert(response.message, function () {
-
+                    bootbox.alert(response.data.message, function () {
                         $scope.studentProjectTable.reload();
                     });
                 }, function errorCallback() {
@@ -664,8 +662,7 @@ function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http, 
                     data: $jq.param({id: projectId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {
-                    bootbox.alert(response.message, function () {
-                            console.log(response);
+                    bootbox.alert(response.data.message, function () {
                         $scope.studentProjectTable.reload();
                     });
                 }, function errorCallback() {
@@ -700,8 +697,6 @@ function studentsProjectsCtrl($scope, NgTableDataService, NgTableParams, $http, 
                 }).then(function (response) {
                     $scope.file = response.data;
                 });
-                console.log( 'Node Selected!!' );
-                console.log( $scope.projectFiles.currentNode );
             }
         }, false);
 

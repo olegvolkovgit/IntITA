@@ -11,13 +11,13 @@
 </div>
 
 <div class="row" ng-repeat="project in projects">
-        <div class="col-md-2 col-sm-2">
+        <div class="col-md-2 col-sm-2 studentProject">
                 <strong>Проект:</strong>
         </div>
         <div class="col-md-5 col-sm-5">
-            <a href="{{project.url}}" target="_blank">{{project.title}}</a>
+            <a href="{{baseProjectsUrl}}/{{project.id_student}}/{{project.title}}" target="_blank">{{project.title}}</a>
         </div>
-        <div class="col-md-5 col-sm-5">
+        <div class="col-md-5 col-sm-5 studentProject" style="">
             <span class="col-sm-4">
             <button class="btn btn-sm btn-primary" ng-click="editProject(project.id)">Змінити</button>
             </span>
