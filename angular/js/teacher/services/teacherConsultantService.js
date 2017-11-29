@@ -28,7 +28,7 @@ angular
                         transformRequest : transformRequest.bind(null)
                     },
                     studentsCategoryList: {
-                        url: url + '/getStudentsCategoryList',
+                        url: basePath+'/_teacher/cabinet/getStudentsCategoryList',
                         method: 'GET',
                         isArray:true,
                     },

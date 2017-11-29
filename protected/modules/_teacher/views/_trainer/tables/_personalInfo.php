@@ -23,7 +23,7 @@
                 <a ng-href="" ng-click="updateStudentInfo(row.id_student ,'mobile_phone_2', row.mobile_phone_2)">{{ row.mobile_phone_2 ? row.mobile_phone_2 : 'Редагувати' }}</a>
             </td>
             <td data-title="'Еmail'" filter="{'email': 'text'}">
-                {{ row.email }}
+                <a ng-href="#/users/profile/{{row.id_student}}">{{row.email}}</a>
             </td>
 <!--                    <td data-title="'Еmail INTITA'">-->
 <!--                        {{ row.email_intita }}-->

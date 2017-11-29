@@ -1098,4 +1098,114 @@ class Lecture extends CActiveRecord
         return json_encode($result);
     }
 
+    public function getLectureRate($user){
+        $lectureRate = 0;
+        $plainTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type = 6',[':lecture'=>$this->id]);
+        $skipTasks = LectureElement::model()->with('skipTask')->findAll('id_lecture=:lecture AND id_type = 9 AND skipTask.condition IS NOT NULL',[':lecture'=>$this->id]);
+        $ohterTasks = LectureElement::model()->findAll('id_lecture=:lecture AND id_type IN (5,12,13)',[':lecture'=>$this->id]);
+
+        $tasks = array_merge($ohterTasks,$skipTasks, $plainTasks);
+        $pastTasks=0;
+        foreach ($tasks as $k=>$task){
+            switch ($task->id_type){
+                case LectureElement::TEST;
+                    $testRate =0;
+                    $answers =TestsMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$task->id_block, ':user'=>$user]);
+                    $answersCount = 0;
+                    $past=false;
+                    foreach ($answers as $key=>$answer){
+                        $testRate += $answer->mark;
+                        $answersCount++;
+                        if ($answer->mark){
+                            $past=true;
+                            break;
+                        }
+                    }
+                    if($answersCount){
+                        $answersCount=$past?$answersCount:($answersCount+1);
+                        $lectureRate +=$this->taskRate(1,$answersCount);
+                        $pastTasks++;
+                    }
+                    break;
+                case LectureElement::SKIP_TASK;
+                    $skipTaskRate = 0;
+                    $answers =SkipTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND user=:user',['block'=>$task->id_block, ':user'=>$user]);
+                    $answersCount = 0;
+                    $past=false;
+                    foreach ($answers as $key=>$answer){
+                        $skipTaskRate += $answer->mark;
+                        $answersCount++;
+                        if ($answer->mark){
+                            $past=true;
+                            break;
+                        }
+                    }
+
+                    if($answersCount){
+                        $answersCount=$past?$answersCount:($answersCount+1);
+                        $lectureRate +=$this->taskRate(1,$answersCount);
+                        $pastTasks++;
+                    }
+                    break;
+                case LectureElement::PLAIN_TASK;
+                    $plainTaskRate = 0;
+                    $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$task->id_block, ':user'=>$user]);
+                    $answersCount = 0;
+                    $past=false;
+                    foreach ($answers as $key=>$answer){
+                        $plainTaskRate += $answer->mark;
+                        $answersCount++;
+                        if ($answer->mark){
+                            $past=true;
+                            break;
+                        }
+                    }
+
+                    if($answersCount){
+                        $answersCount=$past?$answersCount:($answersCount+1);
+                        $lectureRate +=$plainTaskRate/$answersCount;
+                        $pastTasks++;
+                    }
+                    break;
+                case LectureElement::TASK;
+                    $taskRate = 0;
+                    $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture AND id_user=:user',[':lecture'=>$this->id, ':user'=>$user]);
+                    $answersCount = 0;
+                    $past=false;
+                    foreach ($answers as $key=>$answer){
+                        $taskRate += $answer->mark;
+                        $answersCount++;
+                        if ($answer->mark){
+                            $past=true;
+                            break;
+                        }
+                    }
+
+                    if($answersCount){
+                        $answersCount=$past?$answersCount:($answersCount+1);
+                        $lectureRate +=$this->taskRate(1,$answersCount);
+                        $pastTasks++;
+                    }
+                    break;
+            }
+        }
+
+        if($pastTasks==0){
+            return 0;
+        } else {
+            return (double)$lectureRate/$pastTasks;
+        }
+    }
+
+    private function taskRate($oldRate,$answersCount)
+    {
+        if ($answersCount === 1) {
+            return $oldRate;
+        }
+        else{
+            return $this->taskRate($oldRate -$oldRate*0.1,$answersCount-1);
+        }
+
+    }
+
 }

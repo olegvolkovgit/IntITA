@@ -13,5 +13,5 @@
     <div class="modalContent">
         <p><?php echo Yii::t('lecture', '0679'); ?></p>
     </div>
-    <a class="modalButton" ng-click="dialogHide()" ui-sref="{{'page({page: nextPage() || (lastAccessPage+1)})'}}" ><?php echo Yii::t('lecture', '0681'); ?></a>
+    <a class="modalButton" ng-click="dialogHide()" ><?php echo Yii::t('lecture', '0681'); ?></a>
 </div>

@@ -15,8 +15,8 @@
  *
  * The followings are the available model relations:
  * @property Course $idCourse
- * @property VcCourse $courseRevision
- * @property User $idUser
+ * @property RevisionCourse $courseRevision
+ * @property StudentReg $idUser
  */
 class RatingUserCourse extends CActiveRecord implements IUserRating
 {
@@ -54,7 +54,7 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
 		// class name for the relations automatically generated below.
 		return array(
 			'idCourse' => array(self::BELONGS_TO, 'Course', 'id_course'),
-			'courseRevision' => array(self::BELONGS_TO, 'VcCourse', 'course_revision'),
+			'courseRevision' => array(self::BELONGS_TO, 'RevisionCourse', 'course_revision'),
 			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 		);
 	}
@@ -153,4 +153,8 @@ class RatingUserCourse extends CActiveRecord implements IUserRating
         }
     }
 
+    public function getContentModel()
+    {
+        return $this->idCourse;
+    }
 }

@@ -681,6 +681,17 @@ class LessonController extends Controller
         echo json_encode($passedPages);
     }
 
+    public function actionUpdateRating()
+    {
+        $user = Yii::app()->user->getId();
+        $id = Yii::app()->request->getPost('lecture');
+
+        $lecture = Lecture::model()->findByPk($id);
+        $rating=$lecture->getLectureRate($user);
+
+        echo json_encode($rating);
+    }
+
     public function actionGetAccessLectures()
     {
         $data=array();

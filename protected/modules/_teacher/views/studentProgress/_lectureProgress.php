@@ -7,14 +7,21 @@
  */
 ?>
 
-<div class="row" ng-controller="studentProgressCtrl">
+<div class="row">
+    <div class="form-group">
+        <a type="button" class="btn btn-default" ng-click='back()'>
+            Назад
+        </a>
+    </div>
     <div class="panel panel-default">
         <div class="panel-body" class="ng-cloak">
-            <div class="row" ng-repeat="row in data">
-                    <label class="col-sm-4"style="float: left;"><a href="{{row.link}}" ng-attr-class="{{!row.isDone && 'disabled'}}" target="_blank">Заняття: {{row.title}} </a> </label>
-                <div class="col-sm-6" ng-show="row.isDone">Пройдено</div>
-                <div class="col-sm-6" ng-show="!row.isDone">Не пройдено</div>
-            </div>
+            <content-progress
+                    data-template="'<?php echo Config::getBaseUrl() ?>/angular/js/templates/progress/lecturePartsProgress.html'"
+                    data-data-url="'<?php echo Config::getBaseUrl() ?>/_teacher/studentProgress/getLectureProgress'"
+                    data-progress=progress
+                    data-state-params=stateParams
+            >
+            </content-progress>
         </div>
     </div>
 </div>
