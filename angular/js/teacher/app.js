@@ -44,7 +44,8 @@ angular
         'ngImgCrop',
         'crmApp',
         'vxWamp',
-        'angularTreeview'
+        'angularTreeview',
+        'contentProgressApp'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

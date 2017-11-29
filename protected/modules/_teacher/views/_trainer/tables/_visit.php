@@ -14,7 +14,7 @@
                 <a ng-href="" ng-click="updateVisitInfo(row.id_student ,'second_name', row.second_name)">{{ row.second_name ? row.second_name : 'Редагувати' }}</a>
             </td>
             <td data-title="'Еmail'" filter="{'email': 'text'}">
-                {{ row.email }}
+                <a ng-href="#/users/profile/{{row.id_student}}">{{row.email}}</a>
             </td>
             <td data-title="'Група'" filter="{ 'group_name.id' : 'select' }" filter-data="groupsNames">
                 <span ng-repeat="item in row.group_name">{{ item.name + ' ' }}</span>
@@ -38,6 +38,9 @@
             <td data-title="'Причини виключення з групи'" filter="{ 'reason.id' : 'select' }" filter-data="cancelType">
                 <span ng-repeat="cancel in row.cancel_name">{{ cancel.description }}</span>
 
+            </td>
+            <td data-title="'Дата виключення / ак.відпустки'">
+                <span ng-repeat="group in row.group">{{group.end_study_leave}}<br></span>
             </td>
             <td data-title="'Коли зручно дзвонити'" filter="{'time_call': 'text'}" sortable="'time_call'">
                 <a ng-href="" ng-click="updateVisitInfo(row.id_student ,'time_call', row.time_call)">{{ row.time_call ? row.time_call : 'Редагувати' }}</a>

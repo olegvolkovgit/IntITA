@@ -186,6 +186,13 @@ angular
                     },
                     templateUrl: basePath+"/_teacher/studentProgress",
                 })
+                .state('student/progress', {
+                    url: '/student/progress',
+                    controller: function($scope){
+                        $scope.changePageHeader('Прогрес навчання');
+                    },
+                    templateUrl: basePath+"/_teacher/studentProgress/content",
+                })
                 .state('students/courseProgress/:studentId/:courseId', {
                     url: '/students/courseProgress/:studentId/:courseId',
                     templateUrl: function ($stateParams) {

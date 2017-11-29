@@ -16,8 +16,8 @@
  *
  * The followings are the available model relations:
  * @property Module $idModule
- * @property VcModule $moduleRevision
- * @property User $idUser
+ * @property RevisionModule $moduleRevision
+ * @property StudentReg $idUser
  */
 class RatingUserModule extends CActiveRecord implements IUserRating
 {
@@ -55,7 +55,7 @@ class RatingUserModule extends CActiveRecord implements IUserRating
 		// class name for the relations automatically generated below.
 		return array(
 			'idModule' => array(self::BELONGS_TO, 'Module', 'id_module'),
-			'moduleRevision' => array(self::BELONGS_TO, 'VcModule', 'module_revision'),
+			'moduleRevision' => array(self::BELONGS_TO, 'RevisionModule', 'module_revision'),
 			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 		);
 	}
@@ -275,5 +275,10 @@ class RatingUserModule extends CActiveRecord implements IUserRating
             return $this->taskRate($oldRate -$oldRate*0.1,$answersCount-1);
         }
 
+    }
+
+    public function getContentModel()
+    {
+        return $this->idModule;
     }
 }

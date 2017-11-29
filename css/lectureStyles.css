@@ -1860,3 +1860,19 @@ audio::-webkit-media-controls-enclosure {
 audio::-webkit-media-controls-panel {
     width: calc(100% + 30px); /* Adjust as needed */
 }
+
+/*change rating animation*/
+[animate-on-change] {
+    transition: all 1s;
+    -webkit-transition: all 1s;
+}
+[animate-on-change].rating-up {
+    color: green;
+    transition: none;
+    -webkit-transition: none;
+}
+[animate-on-change].rating-down {
+    color: red;
+    transition: none;
+    -webkit-transition: none;
+}

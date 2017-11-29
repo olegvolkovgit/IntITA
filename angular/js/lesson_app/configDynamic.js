@@ -8,6 +8,7 @@ angular
         function ($rootScope, $state, $stateParams, $http, paramService,accessLectureService,pagesUpdateService, ipCookie) {
             paramService.getStartParam($rootScope, $state, $stateParams);
             accessLectureService.getAccessLectures();
+            pagesUpdateService.updateRating();
 
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
