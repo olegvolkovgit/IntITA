@@ -476,4 +476,62 @@ class TrainerController extends TeacherCabinetController
 
         echo json_encode($result);
     }
+
+    public function actionStudentsProjects()
+    {
+        $this->renderPartial('/_trainer/tables/_studentsProjects', array(), false, true);
+    }
+
+    public function actionGetStudentsProjectList(){
+
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentsProjects', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->with = ['studentTrainer'];
+        $criteria->addCondition('studentTrainer.trainer = :trainer');
+        $criteria->params = ['trainer' => Yii::app()->user->getId()];
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionViewStudentProject(){
+        $projectId =  Yii::app()->request->getPost('id');
+        $project = StudentsProjects::model()->findByPk($projectId);
+        $project->pullProject();
+        echo json_encode(['data'=>1,'message'=>'Проект оновлено!' ]);
+        Yii::app()->end();
+    }
+
+    public function actionApproveStudentProject(){
+        $projectId =  Yii::app()->request->getPost('id');
+        $project = StudentsProjects::model()->findByPk($projectId);
+        if ($project){
+            $project->approveProject();
+            echo json_encode(['data'=>1,',message'=>'Проект затведжено!' ]);
+            Yii::app()->end();
+        }
+        else{
+            echo  json_encode(['data'=>1,'message'=>'Помилка' ]);
+            Yii::app()->end();
+        }
+
+    }
+
+    public function actionShowFiles(){
+        $this->renderPartial('/_trainer/viewFiles');
+    }
+
+    public function actionGetProjectFiles($projectId){
+        $project = StudentsProjects::model()->findByPk($projectId);
+        echo json_encode($project->showFiles());
+        Yii::app()->end();
+    }
+
+    public function actionGetFileContent($path, $fileName){
+        echo file_get_contents($path.'/'.$fileName);
+        Yii::app()->end();
+
+    }
+
 }

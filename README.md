@@ -18,3 +18,11 @@ Yii 1.1.19 <br/>
 1. [IntITA CMS] (http://intita.com/_admin) - http://intita.com/_admin  <br/>
 
 PHP Extensions needed: mcrypt, zip, xml, imap
+
+Nginx Configuration
+ location ~* ^/(test|projects)/{
+             index index.html index.htm;
+         }
+         location ~* ^/(test|projects)/.+\.(php|php3|php4|php5|phtml|phps|pl|pm)$ {
+             deny all;
+         }

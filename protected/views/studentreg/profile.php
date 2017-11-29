@@ -162,6 +162,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <li>
                     <?= Yii::t('profile', '0973'); ?>
                 </li>
+                <li>
+                    <?= Yii::t('profile', '0984'); ?>
+                </li>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>
                     <li>
@@ -200,6 +203,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 </div>
                 <div id="myCareer">
                     <a href="http://www.robotamolodi.org/auth/intita" target="_blank">Резюме</a>
+                </div>
+                <div id="myProjects">
+                    <?php
+                    $this->renderPartial('_projects');
+                    ?>
                 </div>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>
