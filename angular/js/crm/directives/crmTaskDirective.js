@@ -4,8 +4,8 @@
 // dependence on ngCkeditor
 angular
     .module('crmApp')
-    .directive('crmTask', ['$resource', 'typeAhead','crmTaskServices','NgTableParams','$rootScope','$compile',
-        function ($resource, typeAhead, crmTaskServices,NgTableParams,$rootScope,$compile) {
+    .directive('crmTask', ['$resource', 'typeAhead','crmTaskServices','NgTableParams','$rootScope','$compile','$uibModal',
+        function ($resource, typeAhead, crmTaskServices,NgTableParams,$rootScope,$compile, $uibModal) {
             function link(scope, element, attrs) {
                 scope.teacherMode = $rootScope.teacherMode;
 
@@ -215,49 +215,57 @@ angular
                         });
                 };
 
-                scope.removeComment = function (commentId) {
-                    bootbox.confirm('Видалити коментар?', function (result) {
-                        if (result) {
-                            crmTaskServices.removeCrmTaskComment({commentId:commentId}).$promise
-                                .then(function (data) {
-                                    scope.loadTasksComments(scope.task.id);
-                                })
-                                .catch(function (error) {
-                                    bootbox.alert('Операцію не вдалося виконати');
-                                });
-                        }
+                scope.removeCommentDialog = function () {
+                    scope.openCommentDialog = $uibModal.open({
+                        animation: true,
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        templateUrl: basePath + '/angular/js/crm/templates/deleteComment.html',
+                        scope: scope,
+                        size: 'lg',
+                        appendTo: false,
                     });
                 };
 
-                scope.editComment=function(event, commentId, oldComment){
-                    scope.commentMessage=oldComment;
-                    var template = '<textarea ng-cloak ckeditor="ckeditorOptions" ng-model="commentMessage" required></textarea><br>'
-                    bootbox.dialog({
-                            title: "Редагувати коментар",
-                            message: ($compile(template)(scope)),
-                            buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
-                                callback: function () {
-                                    scope.isDisabledComment=true;
-                                    crmTaskServices.editCrmTaskComment({commentId:commentId, comment:scope.commentMessage}).$promise
-                                        .then(function (data) {
-                                            scope.newComment=false;
-                                            scope.loadTasksComments(scope.task.id);
-                                            scope.isDisabledComment=false;
-                                        })
-                                        .catch(function (error) {
-                                            scope.isDisabledComment=false;
-                                            bootbox.alert(JSON.parse(error.data.reason));
-                                        });
-                                }
-                            },
-                                cancel: {label: "Скасувати", className: "btn btn-default",
-                                    callback: function () {
-                                    }
-                                }
-                            }
-                        }
-                    );
+                scope.removeComment = function (commentId) {
+                    crmTaskServices.removeCrmTaskComment({commentId:commentId}).$promise
+                        .then(function (data) {
+                            scope.loadTasksComments(scope.task.id);
+                            scope.openCommentDialog.close();
+                        })
+                        .catch(function (error) {
+                            bootbox.alert('Операцію не вдалося виконати');
+                        });
                 };
+
+                scope.editComment=function(event, commentId, oldComment) {
+                    scope.commentMessage = oldComment;
+                    scope.commentId = commentId;
+                    scope.openCommentDialog = $uibModal.open({
+                        animation: true,
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        templateUrl: basePath + '/angular/js/crm/templates/commentDialog.html',
+                        scope: scope,
+                        size: 'lg',
+                        appendTo: false,
+                    });
+                };
+
+                scope.updateComment = function (commentId, commentMessage) {
+                    scope.isDisabledComment=true;
+                    crmTaskServices.editCrmTaskComment({commentId:commentId, comment:commentMessage}).$promise
+                        .then(function (data) {
+                            scope.newComment=false;
+                            scope.loadTasksComments(scope.task.id);
+                            scope.isDisabledComment=false;
+                            scope.openCommentDialog.close();
+                        })
+                        .catch(function (error) {
+                            scope.isDisabledComment=false;
+                            bootbox.alert(JSON.parse(error.data.reason));
+                        });
+                }
 
                 scope.addComment = function (comment) {
                     scope.comment.id_task=scope.task.id;

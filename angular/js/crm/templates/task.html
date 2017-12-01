@@ -225,7 +225,7 @@
                                 {{row.change_date}}
                             </td>
                             <td data-title="">
-                                <a href="" ng-if="row.id_user==currentUser" ng-click="removeComment(row.id)" title="Видалити">
+                                <a href="" ng-if="row.id_user==currentUser" ng-click="removeCommentDialog(row.id)" title="Видалити">
                                     <i class="fa fa-trash fa-fw"></i>
                                 </a>
                                 <a href="" ng-if="row.id_user==currentUser" ng-click="editComment($event, row.id, row.message)" title="Редагувати">
