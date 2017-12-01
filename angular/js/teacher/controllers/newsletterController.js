@@ -276,10 +276,20 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             }).success(function (response) {
-                bootbox.alert('Задача запланована',function () {
-                   $scope.startSend = false;
-                   $state.go('scheduler/tasks');
-                });
+                console.log(response);
+                if (parseInt(response.success,10)){
+                    bootbox.alert('Задача запланована',function () {
+                        $scope.startSend = false;
+                        $state.go('scheduler/tasks');
+                    });
+                }
+                else {
+                    $scope.errors = response.errors;
+                    bootbox.alert('Невірні дані');
+                    $scope.startSend = false;
+                    return false;
+                }
+
             }).error(function () {
                 $scope.startSend = false;
                 bootbox.alert('Вибачте, виникла помилка');
