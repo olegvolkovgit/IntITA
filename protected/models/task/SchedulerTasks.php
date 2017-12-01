@@ -84,6 +84,7 @@ class SchedulerTasks extends CActiveRecord implements ITask
 		// will receive user inputs.
 		return array(
 			array('status','required'),
+			array('parameters','required','on' => 'typeWeekdays','message'=>'Оберіть дні повторення завдання'),
 			array('type, repeat_type, status, created_by, related_model_id, id_organization', 'numerical', 'integerOnly'=>true),
 			array('name, error', 'length', 'max'=>255),
 			array('start_time, end_time', 'safe'),
