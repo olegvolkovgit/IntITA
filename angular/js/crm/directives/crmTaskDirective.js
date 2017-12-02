@@ -222,7 +222,7 @@ angular
                         ariaDescribedBy: 'modal-body',
                         templateUrl: basePath + '/angular/js/crm/templates/deleteComment.html',
                         scope: scope,
-                        size: 'lg',
+                        size: 'md',
                         appendTo: false,
                     });
                 };
@@ -282,21 +282,29 @@ angular
                         });
                 };
 
-                scope.cancelCrmTask = function (task) {
-                    bootbox.confirm('Ти впевнений, що хочеш видалити завдання?', function (result) {
-                        if (result) {
-                            crmTaskServices.cancelCrmTask({id:task.id}).$promise
-                                .then(function (data) {
-                                    scope.getTaskInDirective(task.id);
-                                    scope.historyTableParams.reload({id:task.id});
-                                    scope.someCtrlFn({tasksType: $rootScope.roleId});
-                                    $rootScope.modalInstance.close();
-                                })
-                                .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
-                                });
-                        }
+                scope.cancelCrmTaskDialog = function (id) {
+                    scope.taskId=id;
+                    scope.openCommentDialog = $uibModal.open({
+                        animation: true,
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        templateUrl: basePath + '/angular/js/crm/templates/deleteTask.html',
+                        scope: scope,
+                        size: 'md',
+                        appendTo: false,
                     });
+                };
+                scope.cancelCrmTask = function (id) {
+                    crmTaskServices.cancelCrmTask({id:id}).$promise
+                        .then(function (data) {
+                            scope.getTaskInDirective(id);
+                            scope.historyTableParams.reload({id:id});
+                            scope.someCtrlFn({tasksType: $rootScope.roleId});
+                            $rootScope.modalInstance.close();
+                        })
+                        .catch(function (error) {
+                            bootbox.alert(JSON.parse(error.data.reason));
+                        });
                 };
 
                 scope.task.isModelValid = function () {
