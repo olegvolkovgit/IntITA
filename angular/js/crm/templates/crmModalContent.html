@@ -1,0 +1,10 @@
+<div class="modal-body">
+    <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" callback-fn="loadTasks(tasksType)"></crm-task>
+    <br>
+    <p style="clear: both">
+        <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4) && (crmTask.created_by==currentUser || canEditCrmTasks)" class="btn btn-success" ng-click="sendTask(crmTask)" ng-disabled="isDisabled" >
+            {{crmTask.id?'Зберегти':'Поставити завдання'}}
+        </button>
+        <button type="button" class="btn btn-default" ng-click="closeModal();">Відміна</button>
+    </p>
+</div>

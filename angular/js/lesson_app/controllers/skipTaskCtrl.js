@@ -56,6 +56,7 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
             cache: false
         }).then(function(response){
             $('#ajaxLoad').hide();
+            pagesUpdateService.updateRating();
             if (response.data == 'done') {
                 pagesUpdateService.pagesDataUpdate();
                 openDialogsService.openTrueDialog();

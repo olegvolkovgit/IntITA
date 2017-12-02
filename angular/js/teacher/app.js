@@ -43,7 +43,9 @@ angular
         'auditorRouter',
         'ngImgCrop',
         'crmApp',
-        'vxWamp'
+        'vxWamp',
+        'angularTreeview',
+        'contentProgressApp'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

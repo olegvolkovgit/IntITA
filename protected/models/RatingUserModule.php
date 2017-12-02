@@ -276,4 +276,9 @@ class RatingUserModule extends CActiveRecord implements IUserRating
         }
 
     }
+
+    public function getContentModel()
+    {
+        return $this->idModule;
+    }
 }

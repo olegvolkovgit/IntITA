@@ -1254,4 +1254,8 @@ class Module extends CActiveRecord implements IBillableObject, IServiceableWithE
         }
     }
 
+    public function getId()
+    {
+        return $this->module_ID;
+    }
 }

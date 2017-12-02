@@ -75,6 +75,7 @@
     <!-- /.modal -->
 </div>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'schemes.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '/_teacher/contentProgress.css'); ?>"/>
 <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
 <!-- Bootstrap Core JavaScript -->

@@ -326,11 +326,7 @@ class LectureElement extends CActiveRecord
         $dataProvider = new CActiveDataProvider('LectureElement');
         $dataProvider->criteria = $criteria;
         $criteria->order = 'block_order ASC';
-        $dataProvider->setPagination(array(
-                'pageSize' => '200',
-            )
-        );
-        
+        $dataProvider->pagination=false;
 
         return $dataProvider;
     }

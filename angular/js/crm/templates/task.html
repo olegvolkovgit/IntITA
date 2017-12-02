@@ -19,7 +19,7 @@
             <button ng-if="task.id_state==2" type="button" class="btn paused" ng-click="changeState(task,3)" ng-disabled="isDisabled" >ПРИЗУПИНИТИ <i class="fa fa-pause fa-1x" aria-hidden="true"></i></button>
             <button ng-if="task.id_state==2 || task.id_state==3" type="button" class="btn completed" ng-click="changeState(task,4)" ng-disabled="isDisabled" >ЗАВЕРШИТИ <i class="fa fa-check-square-o fa-1x" aria-hidden="true"></i></button>
             <button ng-if="task.id_state==4" type="button" class="btn expect_to_execute" ng-click="changeState(task,1)" ng-disabled="isDisabled" >ВІДНОВИТИ <i class="fa fa-clock-o fa-1x" aria-hidden="true"></i></button>
-            <button ng-if="currentUser==task.created_by || canEditCrmTasks" type="button" class="btn remove" ng-click="cancelCrmTask(task)" ng-disabled="isDisabled" >ВИДАЛИТИ <i class="fa fa-remove fa-1x" aria-hidden="true"></i></button>
+            <button ng-if="currentUser==task.created_by || canEditCrmTasks" type="button" class="btn remove" ng-click="cancelCrmTaskDialog(task.id)" ng-disabled="isDisabled" >ВИДАЛИТИ <i class="fa fa-remove fa-1x" aria-hidden="true"></i></button>
         </fieldset>
     </div>
 <br>
@@ -225,7 +225,7 @@
                                 {{row.change_date}}
                             </td>
                             <td data-title="">
-                                <a href="" ng-if="row.id_user==currentUser" ng-click="removeComment(row.id)" title="Видалити">
+                                <a href="" ng-if="row.id_user==currentUser" ng-click="removeCommentDialog(row.id)" title="Видалити">
                                     <i class="fa fa-trash fa-fw"></i>
                                 </a>
                                 <a href="" ng-if="row.id_user==currentUser" ng-click="editComment($event, row.id, row.message)" title="Редагувати">

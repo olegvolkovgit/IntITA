@@ -1,0 +1,10 @@
+<div class="modal-body">
+    <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="commentMessage" required></textarea><br>
+    <br>
+    <p style="clear: both">
+        <button type="button" class="btn btn-success" ng-click="updateComment(commentId, commentMessage)">
+            Зберегти
+        </button>
+        <button type="button" class="btn btn-default" ng-click="openCommentDialog.close();">Відміна</button>
+    </p>
+</div>

@@ -1,0 +1,11 @@
+.progress-block{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 5px;
+}
+.progress-bar{
+    white-space: nowrap;
+    color: #000;
+}
+.progress-bar.progress-bar-success{
+    color: white;
+}

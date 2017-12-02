@@ -35,9 +35,6 @@ angular
 angular
     .module('teacherApp')
     .controller('addGraduateCtrl', addGraduateCtrl);
-angular
-    .module('teacherApp')
-    .controller('studentProgressCtrl', studentProgressCtrl);
 
 
 function addGraduateCtrl($scope, $http, $timeout, $httpParamSerializerJQLike, $ngBootbox) {
@@ -833,82 +830,4 @@ function teacherProfileCtrl($scope, usersService, $state) {
             }
         });
     };
-}
-
-function studentProgressCtrl($scope, NgTableDataService, $state, $stateParams) {
-
-    if ($state.is('students/progress')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getUsers');
-        $scope.data = "";
-        $scope.totalItems = 0;
-        $scope.pageChanged = function () {
-            NgTableDataService.getData({'page': $scope.currentPage,'filter':$scope.filter}).then(function (data) {
-                $scope.data = data.data;
-                $scope.totalItems = data.count;
-            })
-        };
-        $scope.pageChanged();
-
-
-
-        $scope.allpyFilter = function (keyEvent) {
-            if (!keyEvent || keyEvent.which === 13){
-                $scope.pageChanged();
-            }
-        }
-    }
-    if ($state.is('students/courseProgress/:studentId/:courseId')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getCourseProgress');
-        $scope.data = "";
-        $scope.totalItems = 0;
-        $scope.getData = function () {
-            NgTableDataService.getData({
-                'student': $stateParams.studentId,
-                course: $stateParams.courseId
-            }).then(function (data) {
-                $scope.student = data.student;
-                $scope.data = data.data;
-                $scope.totalItems = data.count;
-                $scope.changePageHeader('Прогрес навчання студента: ' + $scope.student.fullName);
-            })
-        };
-        $scope.getData();
-    }
-    if ($state.is('students/moduleProgress/:studentId/:module')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getModuleProgress');
-        $scope.data = "";
-        $scope.totalItems = 0;
-        $scope.getData = function () {
-            NgTableDataService.getData({
-                'student': $stateParams.studentId,
-                module: $stateParams.module
-            }).then(function (data) {
-                $scope.student = data.student;
-                $scope.data = data.data;
-                $scope.totalItems = data.count;
-                $scope.changePageHeader('Прогрес навчання студента: ' + $scope.student.fullName);
-            })
-        };
-        $scope.getData();
-    }
-
-    if ($state.is('students/lectureProgress/:studentId/:lecture')) {
-        NgTableDataService.setUrl(basePath + '/_teacher/studentProgress/getLectureProgress');
-        $scope.data = "";
-        $scope.totalItems = 0;
-        $scope.getData = function () {
-            NgTableDataService.getData({
-                'student': $stateParams.studentId,
-                lecture: $stateParams.lecture
-            }).then(function (data) {
-                $scope.student = data.student;
-                $scope.data = data.data;
-                $scope.totalItems = data.count;
-                $scope.changePageHeader('Прогрес навчання студента: ' + $scope.student.fullName);
-            })
-        };
-        $scope.getData();
-    }
-
-
 }

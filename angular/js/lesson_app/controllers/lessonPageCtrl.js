@@ -5,16 +5,18 @@ angular
     .module('lessonApp')
     .controller('lessonPageCtrl',lessonPageCtrl);
 
-function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService, $http) {
+function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService, $http, $state) {
     $scope.currentLocation = window.location.pathname;
-    $scope.nextPage=function(){
-        if($rootScope.currentPage>=$rootScope.pageCount){
-            return $rootScope.currentPage;
-        }else{
-            return parseInt($rootScope.currentPage)+parseInt(1);
-        }
-    };
 
+    $scope.$watch('pageChanged', function (newValue, oldValue) {
+        if(newValue!=oldValue){
+            if($rootScope.currentPage>=$rootScope.pageCount){
+                $state.go('page',{page:$rootScope.currentPage}, {reload: true});
+            }else{
+                $state.go('page',{page:parseInt($rootScope.currentPage)+parseInt(1)}, {reload: true});
+            }
+        }
+    });
 
     angular.element(document.querySelector("#MyTab-Menu")).children("ul").children("li").on('click', function() {
 

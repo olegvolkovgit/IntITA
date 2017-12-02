@@ -444,4 +444,9 @@ class CabinetController extends TeacherCabinetController
         unset(Yii::app()->session['organization']);
         $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
     }
+
+    public function actionGetStudentsCategoryList()
+    {
+        echo  CJSON::encode(OfflineGroups::model()->findAll('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id));
+    }
 }

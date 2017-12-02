@@ -344,3 +344,6 @@ a.disabled {
     color: gray;
     pointer-events: none;
 }
+div.error-info {
+    color: #c13030;
+}
