@@ -94,7 +94,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
                     alert('error SaveFormulaImage');
                 }
             });
-            EqEditor.Example.add_history(EqEditor.getTextArea().getLaTeX());
+            // EqEditor.Example.add_history(EqEditor.getTextArea().getLaTeX());
         }
     };
 });

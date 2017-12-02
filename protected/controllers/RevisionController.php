@@ -1132,6 +1132,7 @@ class RevisionController extends Controller {
         $page=$lectureRevision->lecturePages[$pageOrder-1];
 
         $dataProvider = new CArrayDataProvider($page->getLectureBody());
+        $dataProvider->pagination=false;
 
         echo $this->renderPartial('lecturePreview/_textTab',
             array('data' => $dataProvider->getData()), true);

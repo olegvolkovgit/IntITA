@@ -201,15 +201,15 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     ));
                     ?>
                 </div>
-                <div id="myCareer">
-                    <a href="http://www.robotamolodi.org/auth/intita" target="_blank">Резюме</a>
-                </div>
                 <div id="myProjects">
                     <?php
                     $this->renderPartial('_projects');
                     ?>
                 </div>
                 <?php if ($owner) { ?>
+                    <div id="myCareer">
+                        <a href="http://www.robotamolodi.org/auth/intita" target="_blank">Резюме</a>
+                    </div>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>
                     <div id="myReview">
                         <?php

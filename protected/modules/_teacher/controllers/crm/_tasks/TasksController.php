@@ -137,6 +137,7 @@ class TasksController extends TeacherCabinetController {
         $date_now = new DateTime('now', new DateTimeZone(Config::getServerTimezone()));
         foreach ($rows['rows'] as $k=>$row){
             $models=CrmTaskStateHistory::model()->findAllByAttributes(array('id_task'=>$row['id_task']),array('order'=>'change_date asc'));
+            $lastIndex=count($models)-1;
             $interval=0;
             foreach ($models as $key=>$model){
                 if($model->id_state==CrmTaskStatus::EXECUTED && isset($models[$key+1])){
@@ -145,10 +146,16 @@ class TasksController extends TeacherCabinetController {
                     $interval =$interval+ ($end_time-$start_time);
                 }else if($model->id_state==CrmTaskStatus::EXECUTED && !isset($models[$key+1])){
                     $start_time = strtotime($model->change_date);
-                    $interval =$interval+($date_now->getTimestamp()-$start_time);
+                    $interval =$interval+($date_now->getTimestamp()+$date_now->getOffset()-$start_time);
                 }
             }
+
             $rows['rows'][$k]['spent_time']=$interval;
+            if(!empty($models)){
+                $rows['rows'][$k]['lastChangeBy']=$models[$lastIndex]->idUser->fullName;
+                $rows['rows'][$k]['lastChangeByAvatar']=StaticFilesHelper::createPath('image', 'avatars', $models[$lastIndex]->idUser->avatar);
+                $rows['rows'][$k]['lastChangeDate']=$models[$lastIndex]->change_date;
+            }
         }
         echo json_encode($rows);
     }
@@ -332,7 +339,7 @@ class TasksController extends TeacherCabinetController {
                 $data[$model->id_user]['id']=$model->id_user;
                 $data[$model->id_user]['name']=$model->idUser->fullName;
                 $data[$model->id_user]['spent_time']=isset($data[$model->id_user]['spent_time'])?
-                    $data[$model->id_user]['spent_time']+($date_now->getTimestamp()-$start_time):$date_now->getTimestamp()-$start_time;
+                    $data[$model->id_user]['spent_time']+($date_now->getTimestamp()+$date_now->getOffset()-$start_time):$date_now->getTimestamp()+$date_now->getOffset()-$start_time;
             }
         }
 

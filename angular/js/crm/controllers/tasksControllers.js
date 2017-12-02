@@ -28,24 +28,18 @@ angular
             $scope.currentUser=user;
             $scope.canEditCrmTasks=canEditCrmTasks;
 
-            $scope.openModal = function (size, parentSelector) {
-                $scope.initCrmTask();
+            $scope.openCrmModal = function (size, parentSelector, clear) {
+                if(clear) $scope.initCrmTask();
                 var parentElem = parentSelector ?
                     angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
                 $rootScope.modalInstance = $uibModal.open({
                     animation: true,
                     ariaLabelledBy: 'modal-title',
                     ariaDescribedBy: 'modal-body',
-                    templateUrl: 'crmModalContent.html',
+                    templateUrl: basePath+'/angular/js/crm/templates/crmModalContent.html',
                     scope:$scope,
                     size: size,
                     appendTo: parentElem,
-                });
-
-                $rootScope.modalInstance.result.then(function (selectedItem) {
-                    $scope.selected = selectedItem;
-                }, function () {
-                    console.log('Modal dismissed at: ' + new Date());
                 });
             };
 
@@ -96,7 +90,6 @@ angular
                         .then(function (data) {
                             if (data.message === 'OK') {
                                 $scope.closeModal();
-                                $scope.initCrmTask();
                                 ngToast.create({
                                     dismissOnTimeout: true,
                                     dismissButton: true,
@@ -119,21 +112,27 @@ angular
 
             $scope.getTask = function (id, isDragging) {
                 if(!isDragging){
-                    crmTaskServices.getCrmTask({id:id}).$promise
-                        .then(function (data) {
-                            $scope.openModal('lg');
-                            $scope.crmTask=data.task;
-                            $scope.crmTask.startTask=$scope.crmTask.startTask?new Date($scope.crmTask.startTask) : null;
-                            $scope.crmTask.endTask=$scope.crmTask.endTask?new Date($scope.crmTask.endTask) : null;
-                            $scope.crmTask.deadline=$scope.crmTask.deadline?new Date($scope.crmTask.deadline) : null;
-                            $scope.crmTask.roles=data.roles;
-                            $scope.crmTask.editMode=false;
-                            $scope.crmTask.producer=data.roles.producer.name;
-                            $scope.crmTask.executant=data.roles.executant.name;
-                        })
-                        .catch(function (error) {
-                            bootbox.alert(JSON.parse(error.data.reason));
-                        });
+                    if(!$scope.taskLoading){
+                        $scope.taskLoading=true;
+                        crmTaskServices.getCrmTask({id:id}).$promise
+                            .then(function (data) {
+                                $scope.initCrmTask();
+                                $scope.crmTask=data.task;
+                                $scope.crmTask.startTask=$scope.crmTask.startTask?new Date($scope.crmTask.startTask) : null;
+                                $scope.crmTask.endTask=$scope.crmTask.endTask?new Date($scope.crmTask.endTask) : null;
+                                $scope.crmTask.deadline=$scope.crmTask.deadline?new Date($scope.crmTask.deadline) : null;
+                                $scope.crmTask.roles=data.roles;
+                                $scope.crmTask.editMode=false;
+                                $scope.crmTask.producer=data.roles.producer.name;
+                                $scope.crmTask.executant=data.roles.executant.name;
+                                $scope.openCrmModal('lg');
+                                $scope.taskLoading=false;
+                            })
+                            .catch(function (error) {
+                                $scope.taskLoading=false;
+                                bootbox.alert(JSON.parse(error.data.reason));
+                            });
+                    }
                 }
             }
 
@@ -202,9 +201,9 @@ angular
                                     status: "concept",
                                     type: "task",
                                     stage_id:item.idTask.id_state,
-                                    lastChangeBy:item.lastChangeName?item.lastChangeName.fullName:'',
-                                    lastChangeByAvatar: item.lastChangeName?basePath+'/images/avatars/'+item.lastChangeName.avatar:'',
-                                    lastChangeDate:item.lastChangeName?item.lastStateHistory[0].change_date:'',
+                                    lastChangeBy:item.lastChangeBy,
+                                    lastChangeByAvatar: item.lastChangeByAvatar,
+                                    lastChangeDate:item.lastChangeDate,
                                     spent_time:item.spent_time,
                                     endTask:item.idTask.endTask,
                                     deadline:item.idTask.deadline,
