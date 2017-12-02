@@ -74,6 +74,7 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
         var jqxhr = $.post(basePath + "/tests/getTestResult", JSON.stringify(command), function () {
         })
             .done(function (data) {
+                pagesUpdateService.updateRating();
                 if (data['status'] == '1' && data['lastTest'] == '0') {
                     pagesUpdateService.pagesDataUpdate();
                     openDialogsService.openTrueDialog();

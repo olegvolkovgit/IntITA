@@ -206,11 +206,6 @@ class TeacherConsultantController extends TeacherCabinetController
         echo PlainTaskAnswer::plainTaskListByTeacher();
     }
 
-    public function actionGetStudentsCategoryList()
-    {
-        echo  CJSON::encode(OfflineGroups::model()->findAll('id_organization='.Yii::app()->user->model->getCurrentOrganization()->id));
-    }
-
     public function actionGetTeacherConsultantsGroupList()
     {
         $criteria = new CDbCriteria();

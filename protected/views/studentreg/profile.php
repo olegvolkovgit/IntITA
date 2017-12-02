@@ -162,6 +162,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <li>
                     <?= Yii::t('profile', '0973'); ?>
                 </li>
+                <li>
+                    <?= Yii::t('profile', '0984'); ?>
+                </li>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>
                     <li>
@@ -196,6 +199,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                             'header' => '',
                         ),
                     ));
+                    ?>
+                </div>
+                <div id="myProjects">
+                    <?php
+                    $this->renderPartial('_projects');
                     ?>
                 </div>
                 <?php if ($owner) { ?>

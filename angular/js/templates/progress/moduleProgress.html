@@ -1,0 +1,30 @@
+<div class="row progress-block" ng-repeat="row in data">
+    <label class="progress-labe col-sm-4" style="float: left;">
+        <a ng-attr-class="{{(row.progress.passed == 0 && !row.progress.isDone )}}"
+           ui-sref="students/moduleProgress/:studentId/:module({studentId:row.user_id,module:row.content_id})">{{row.user}}
+            <span style="color:cadetblue"><i> Модуль: {{row.content_title}}</i></span></a>
+        </a>
+    </label>
+    <div class="col-sm-6">
+        <uib-progressbar max="((row.progress.parts > 0)) && row.progress.parts || 99999 "
+                         value="row.progress.passed"
+                         ng-attr-type="{{((row.progress.passed/row.progress.parts *100) < 33) && 'danger' || ((row.progress.passed/row.progress.parts *100) < 66) && 'warning' || 'success' }}">
+            {{(row.progress.isDone) && 'Завершено' || 'Пройдено лекцій ' + row.progress.passed + ' з ' + row.progress.parts }}
+            <span ng-if="row.progress.rating">Рейтинг: {{row.progress.rating*10 | limitTo:3}}/10</span>
+        </uib-progressbar>
+    </div>
+    <span ng-if="!row.progress.rating && progress.moduleRating[$index]">{{progress.moduleRating[$index]*10 | limitTo:3}}/10</span>
+    <i ng-if="!row.progress.rating" class="fa fa-calculator" style="cursor: pointer" aria-hidden="true"
+       title="Підрахувати проміжний рейтинг" ng-click="progress.getIntermediateModuleRating(row.user_id, row.content_id, $index)"></i>
+</div>
+<ul uib-pagination total-items="totalItems"
+    ng-model="progress.currentPage"
+    ng-change="progress.pageChanged()"
+    first-text="Перша"
+    max-size="5"
+    boundary-links="true"
+    last-text="Остання"
+    force-ellipses="true"
+    previous-text="Попередня"
+    next-text="Наступна">
+</ul>

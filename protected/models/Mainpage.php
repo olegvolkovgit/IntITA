@@ -67,7 +67,7 @@ class Mainpage {
                 return 'https://drive.google.com/file/d/1hIGJBTHCkfQMsLWgWhh7yrLcSR4DAlwh/view';
                 break;
             case 'ru':
-                return 'https://drive.google.com/file/d/1hIGJBTHCkfQMsLWgWhh7yrLcSR4DAlwh/view';
+                return 'https://drive.google.com/file/d/17yHGC4JIseEDObtmiS7h7T5VzC3NVEQr/view';
                 break;
             case 'en':
                 return 'https://drive.google.com/file/d/1YiAXa2TARIMLtA8W6ptuaPdxty4k3MYD/view';

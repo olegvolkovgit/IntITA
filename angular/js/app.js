@@ -15,4 +15,5 @@ angular
         'angularFileUpload',
         'angular-loading-bar',
         'ngImgCrop',
+        'ngBootbox',
     ]);

@@ -211,8 +211,9 @@
                         <label ng-repeat="weekday in weekdays" style="display: block">
                             <input type="checkbox" checklist-model="weekdaysList" checklist-value="weekday.id"> {{weekday.name}}
                         </label>
-
+                        <div style="color:red" ng-show="errors.parameters">{{errors.parameters[0]}}</div>
                     </div>
+
                 <div class="form-group col-md-8">
                     <label for="selectSchedulerType">Дата</label>
                     <p class="input-group col-md-3">

@@ -16,6 +16,9 @@
                         <a href="#/student/courses">Доступні курси/модулі</a>
                     </li>
                     <li>
+                        <a href="#/student/progress">Прогрес навчання</a>
+                    </li>
+                    <li>
                         <a href="#/student/finances">Фінанси</a>
                     </li>
                 </ul>

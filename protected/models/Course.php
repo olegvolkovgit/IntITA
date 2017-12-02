@@ -1175,4 +1175,9 @@ class Course extends CActiveRecord implements IBillableObject, IServiceableWithE
             $courseRating->save(false);
         }
     }
+
+    public function getId()
+    {
+        return $this->course_ID;
+    }
 }

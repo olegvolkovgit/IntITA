@@ -567,4 +567,57 @@ class StudentRegController extends Controller
             echo null;
         }
     }
+
+    public function actionGetMyProjects(){
+        $projects = StudentsProjects::model()->findAll('id_student = '.Yii::app()->user->model->id);
+        echo json_encode(ActiveRecordToJSON::toAssocArray($projects));
+        Yii::app()->end();
+    }
+
+    public function actionGetProjectDAta($projectId){
+        $project = StudentsProjects::model()->find('id = :id AND id_student = :student',['id'=>(int)$projectId,'student'=>Yii::app()->user->model->id]);
+        echo json_encode(ActiveRecordToJSON::toAssocArray($project));
+        Yii::app()->end();
+    }
+
+    public function actionApproveProjectRequest(){
+        $message = "Невідома помилка";
+        $projectId = Yii::app()->request->getPost('projectId',-1);
+        $project = StudentsProjects::model()->find('id = :id AND id_student = :student',['id'=>(int)$projectId,'student'=>Yii::app()->user->model->id]);
+        if ($project){
+            if ($project->need_check){
+                $message = "Запит був відправлений раніше, очікуйте результату!";
+            }
+            else{
+                $project->need_check = 1;
+                $project->save();
+                $message = "Запит відправлено, очікуйте результату!";
+            }
+        }
+        else{
+            $message = "Помилка! Проект не знайдено, або відсутній доступ до проекту!";
+        }
+
+        echo json_encode(['message'=>$message]);
+        Yii::app()->end();
+    }
+
+    public function actionAddOrUpdateProject(){
+        $projectId = (int)Yii::app()->request->getPost('id',0);
+        $project = StudentsProjects::model()->find('id = :id AND id_student = :student',['id'=>(int)$projectId,'student'=>Yii::app()->user->model->id]);
+
+        if (!$project){
+            $project = new StudentsProjects();
+        }
+        $project->setAttributes($_POST);
+        $project->id_student = Yii::app()->user->model->id;
+        if ($project->validate()){
+            $project->save();
+            echo json_encode(['message'=>"OK"]);
+        }
+        else{
+            echo json_encode(['errors'=>$project->getErrors()]);
+        }
+        Yii::app()->end();
+    }
 }

@@ -12,6 +12,7 @@
  *  @property string $page_title
  *
  *  @property Lecture $lecture
+ *  @property LectureElement $quizElement
  */
 class LecturePage extends CActiveRecord
 {
@@ -48,6 +49,7 @@ class LecturePage extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'lecture' => array(self::BELONGS_TO,'Lecture','id'),
+            'quizElement' => array(self::BELONGS_TO,'LectureElement',['quiz'=>'id_block']),
 		);
 	}
 
@@ -413,6 +415,110 @@ class LecturePage extends CActiveRecord
         }, $elementsList);
 
         return LectureElement::model()->findAllByPk($elementsList);
+    }
+
+    public function getPageRate($user){
+        $pageRate = 0;
+        $pastTasks=0;
+
+        switch ($this->quizElement && $this->quizElement->id_type){
+            case LectureElement::TEST;
+                $testRate =0;
+                $answers =TestsMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$this->quizElement->id_block, ':user'=>$user]);
+                $answersCount = 0;
+                $past=false;
+                foreach ($answers as $key=>$answer){
+                    $testRate += $answer->mark;
+                    $answersCount++;
+                    if ($answer->mark){
+                        $past=true;
+                        break;
+                    }
+                }
+                if($answersCount){
+                    $answersCount=$past?$answersCount:($answersCount+1);
+                    $pageRate +=$this->taskRate(1,$answersCount);
+                    $pastTasks++;
+                }
+                break;
+            case LectureElement::SKIP_TASK;
+                $skipTaskRate = 0;
+                $answers =SkipTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND user=:user',['block'=>$this->quizElement->id_block, ':user'=>$user]);
+                $answersCount = 0;
+                $past=false;
+                foreach ($answers as $key=>$answer){
+                    $skipTaskRate += $answer->mark;
+                    $answersCount++;
+                    if ($answer->mark){
+                        $past=true;
+                        break;
+                    }
+                }
+
+                if($answersCount){
+                    $answersCount=$past?$answersCount:($answersCount+1);
+                    $pageRate +=$this->taskRate(1,$answersCount);
+                    $pastTasks++;
+                }
+                break;
+            case LectureElement::PLAIN_TASK;
+                $plainTaskRate = 0;
+                $answers =PlainTaskMarks::model()->with(['lectureElement'])->findAll('id_block=:block AND id_user=:user',['block'=>$this->quizElement->id_block, ':user'=>$user]);
+                $answersCount = 0;
+                $past=false;
+                foreach ($answers as $key=>$answer){
+                    $plainTaskRate += $answer->mark;
+                    $answersCount++;
+                    if ($answer->mark){
+                        $past=true;
+                        break;
+                    }
+                }
+
+                if($answersCount){
+                    $answersCount=$past?$answersCount:($answersCount+1);
+                    $pageRate +=$plainTaskRate/$answersCount;
+                    $pastTasks++;
+                }
+                break;
+            case LectureElement::TASK;
+                $taskRate = 0;
+                $answers = TaskMarks::model()->with(['lectureElement'])->findAll('id_lecture=:lecture AND id_user=:user',[':lecture'=>$this->id, ':user'=>$user]);
+                $answersCount = 0;
+                $past=false;
+                foreach ($answers as $key=>$answer){
+                    $taskRate += $answer->mark;
+                    $answersCount++;
+                    if ($answer->mark){
+                        $past=true;
+                        break;
+                    }
+                }
+
+                if($answersCount){
+                    $answersCount=$past?$answersCount:($answersCount+1);
+                    $pageRate +=$this->taskRate(1,$answersCount);
+                    $pastTasks++;
+                }
+                break;
+        }
+
+        if($pastTasks==0){
+            return 0;
+        } else {
+            return (double)$pageRate/$pastTasks;
+        }
+    }
+
+    private function taskRate($oldRate,$answersCount)
+    {
+        if ($answersCount === 1) {
+            return $oldRate;
+        }
+        else{
+            return $this->taskRate($oldRate -$oldRate*0.1,$answersCount-1);
+        }
+
     }
 
 }

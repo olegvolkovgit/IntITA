@@ -14,7 +14,7 @@
                 <a ng-href="" ng-click="updateContractInfo(row.id_student ,'second_name', row.second_name)">{{ row.second_name ? row.second_name : 'Редагувати' }}</a>
             </td>
             <td data-title="'Еmail'" filter="{'email': 'text'}">
-                {{ row.email }}
+                <a ng-href="#/users/profile/{{row.id_student}}">{{row.email}}</a>
             </td>
             <td data-title="'Номер договору'">
                 ???

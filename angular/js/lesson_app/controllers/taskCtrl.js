@@ -96,6 +96,7 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
                             if(serverResponse.done==true){
                                 $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning)
                                     .then(function(setMarkResponse) {
+                                        pagesUpdateService.updateRating();
                                         pagesUpdateService.pagesDataUpdate();
                                         if($rootScope.currentPage==$rootScope.pageData.length){
                                             openDialogsService.openLastTrueDialog();
