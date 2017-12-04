@@ -215,7 +215,8 @@ angular
                         });
                 };
 
-                scope.removeCommentDialog = function () {
+                scope.removeCommentDialog = function (commentId) {
+                    scope.commentId=commentId;
                     scope.openCommentDialog = $uibModal.open({
                         animation: true,
                         ariaLabelledBy: 'modal-title',
