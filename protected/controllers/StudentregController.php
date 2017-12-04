@@ -568,13 +568,13 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionGetMyProjects(){
-        $projects = StudentsProjects::model()->findAll('id_student = '.Yii::app()->user->model->id);
+    public function actionGetProjects($student){
+        $projects = StudentsProjects::model()->findAll('id_student = :student',['student'=>(int)$student]);
         echo json_encode(ActiveRecordToJSON::toAssocArray($projects));
         Yii::app()->end();
     }
 
-    public function actionGetProjectDAta($projectId){
+    public function actionGetProjectData($projectId){
         $project = StudentsProjects::model()->find('id = :id AND id_student = :student',['id'=>(int)$projectId,'student'=>Yii::app()->user->model->id]);
         echo json_encode(ActiveRecordToJSON::toAssocArray($project));
         Yii::app()->end();
