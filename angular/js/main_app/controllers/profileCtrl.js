@@ -150,7 +150,7 @@ function profileCtrl($http,$scope, $ngBootbox, $httpParamSerializerJQLike) {
     $scope.getprojects = function() {
         $http({
             method: 'GET',
-            url: basePath+'/studentreg/getMyProjects'
+            url: basePath+'/studentreg/getProjects?student='+userId
         }).then(function (response) {
             $scope.projects = response.data;
         });

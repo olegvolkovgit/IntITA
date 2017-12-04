@@ -154,9 +154,9 @@ class StudentsProjects extends CActiveRecord
         foreach ($cdir as $key => $value) {
             if (!in_array($value, array(".", "..",".git" ))) {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                    $result[] = ['path'=>$dir, 'name'=>$value, 'children' => $this->scanDir($dir . DIRECTORY_SEPARATOR . $value)];
+                    $result[] = ['path'=>str_replace(Config::getTempProjectsPath().DIRECTORY_SEPARATOR,"",$dir), 'name'=>$value, 'children' => $this->scanDir($dir . DIRECTORY_SEPARATOR . $value)];
                 } else {
-                    $result[] = ['path'=>$dir, 'name'=>$value, 'children' => []];
+                    $result[] = ['path'=>str_replace(Config::getTempProjectsPath().DIRECTORY_SEPARATOR,"",$dir), 'name'=>$value, 'children' => []];
                 }
             }
         }
