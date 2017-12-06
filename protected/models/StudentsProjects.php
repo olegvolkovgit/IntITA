@@ -117,7 +117,7 @@ class StudentsProjects extends CActiveRecord
 	public function pullProject(){
         $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
         if (!is_dir($dir)){
-            mkdir($dir,0644, true);
+            mkdir($dir,0755, true);
         }
         if ($this->checkDirForEmpty($dir) === true){
             exec("cd {$dir} && git clone {$this->repository} {$dir}");
