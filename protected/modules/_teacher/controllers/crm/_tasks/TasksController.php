@@ -78,7 +78,6 @@ class TasksController extends TeacherCabinetController {
             if(isset($params['id'])){
                 $task=CrmTasks::model()->findByPk($params['id']);
                 $task->attributes=$params;
-                $task->created_by =  Yii::app()->user->getId();
                 $task->change_date =  new CDbExpression('NOW()');
                 $task->saveCheck();
             }else{
