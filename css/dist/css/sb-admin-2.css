@@ -115,7 +115,7 @@ tbody tr td {
         margin: 0 0 0 250px;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
-        overflow: auto;
+        /*overflow: auto;*/
     }
 }
 
