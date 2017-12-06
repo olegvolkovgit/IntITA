@@ -1,6 +1,6 @@
 <div teachermode1="<?php echo Yii::app()->user->model->isСoworker() ?>" ng-controller="crmTasksCtrl" >
     <div style="float: right; margin: 2px">
-        <button ng-click="openModal('lg')" type="button" class="btn btn-primary">Додати завдання</button>
+        <button ng-click="openCrmModal('lg', null, true)" type="button" class="btn btn-primary">Додати завдання</button>
     </div>
     <ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" >
         <li ng-class="[{active: board==1, disabled: disabled}, classes]" class="uib-tab nav-item ng-scope ng-isolate-scope" index="0" heading="Kanban" >
@@ -17,24 +17,4 @@
         </uib-tabset>
         <div ui-view="usersTasks"></div>
     </div>
-
-    <modal id="newTask">
-        <div class="modal">
-            <script type="text/ng-template" id="crmModalContent.html">
-                <div class="modal-body">
-                    <crm-task data-ckeditor-options="editorOptionsCrm" task="crmTask" callback-fn="loadTasks(tasksType)"></crm-task>
-                    <br>
-                    <p style="clear: both">
-                        <button type="button" ng-if="!crmTask.id || (crmTask.id && crmTask.id_state!=4) && (crmTask.created_by==currentUser || canEditCrmTasks)" class="btn btn-success" ng-click="sendTask(crmTask)" ng-disabled="isDisabled" >
-                            {{crmTask.id?'Зберегти':'Поставити завдання'}}
-                        </button>
-                        <button type="button" class="btn btn-default" ng-click="closeModal();">Відміна</button>
-                    </p>
-                </div>
-            </script>
-        </div>
-        <div class="modal-background"></div>
-    </modal>
-
-
 </div>

@@ -31,7 +31,7 @@ $testType = $test->getTestType();
                                 <input id="<?php echo $answers[$i-1]['id']; ?>"
                                        type="radio"
                                        name="radioanswer" class="answer"
-                                       value='<?php echo $answers[$i-1]["answer"]; ?>'>
+                                >
                             </td>
                             <td>
                                 <?php echo $answers[$i-1]['answer']; ?>
@@ -46,7 +46,7 @@ $testType = $test->getTestType();
                                 <input id="<?php echo $answers[$j-1]['id']; ?>"
                                        type="checkbox"
                                        name="checkboxanswer" class="answer"
-                                       value='<?php echo $answers[$j-1]["answer"]; ?>'>
+                                >
                             </td>
                             <td>
                                 <?php echo $answers[$j-1]['answer']; ?>
