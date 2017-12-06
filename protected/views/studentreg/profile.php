@@ -206,7 +206,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 </div>
                 <div id="myProjects">
                     <?php
-                    $this->renderPartial('_projects');
+                    $this->renderPartial('_projects',['owner'=>$owner]);
                     ?>
                 </div>
                 <?php if ($owner) { ?>

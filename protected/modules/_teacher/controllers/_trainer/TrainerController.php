@@ -529,7 +529,7 @@ class TrainerController extends TeacherCabinetController
     }
 
     public function actionGetFileContent($path, $fileName){
-        echo file_get_contents($path.'/'.$fileName);
+        echo file_get_contents(Config::getTempProjectsPath().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName);
         Yii::app()->end();
 
     }
