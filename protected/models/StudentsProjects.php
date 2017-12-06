@@ -134,7 +134,7 @@ class StudentsProjects extends CActiveRecord
         $projectDir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
         $destDir =  Config::getRealProjectsPath().'/'.$this->id_student.'/'.$this->title;
         if (!is_dir($destDir))
-            mkdir($destDir,0644, true);
+            mkdir($destDir,0755, true);
         exec("rsync -a --delete --exclude '.git' {$projectDir}/ {$destDir}/");
         $this->need_check = 0;
         $this->save();
