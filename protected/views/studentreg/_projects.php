@@ -12,16 +12,16 @@
     <button class="btn btn-primary" ng-click="addProject()"> Додати проект</button>
 </div>
 <?php }?>
-<div class="row" ng-repeat="project in projects">
+<div class="row studentProject" ng-repeat="project in projects">
 
-        <div class="col-md-2 col-sm-2 studentProject">
+        <div class="col-md-2 col-sm-2 ">
                 <strong>Проект:</strong>
         </div>
-        <div class="col-md-5 col-sm-5">
+        <div class="col-md-5 col-sm-5" >
             <a href="{{baseProjectsUrl}}/{{project.id_student}}/{{project.title}}" target="_blank">{{project.title}}</a>
         </div>
     <?php if ($owner) {?>
-        <div class="col-md-5 col-sm-5 studentProject" style="">
+        <div class="col-md-5 col-sm-5" style="">
             <span class="col-sm-4">
             <button class="btn btn-sm btn-primary" ng-click="editProject(project.id)">Змінити</button>
             </span>
