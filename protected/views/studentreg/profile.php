@@ -201,7 +201,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     ));
                     ?>
                 </div>
-                <div id="myProjects">
+                <div id="myProjects" ng-controller="studentProjectsCtrl">
                     <?php
                     $this->renderPartial('_projects',['owner'=>$owner]);
                     ?>
