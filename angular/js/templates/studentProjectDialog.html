@@ -1,4 +1,4 @@
-<div class="formMargin" ng-controller="profileCtrl">
+<div class="formMargin" ng-controller="studentProjectsCtrl">
 
     <form id="graduateForm" novalidate>
         <div class="form-group">
@@ -7,7 +7,7 @@
                 <strong>Назва проекту:</strong>
             </label>
             <input id="position" type="text" class="form-control" name="title"
-                   size="90" required ng-model="project.title">
+                   size="90" required ng-model="project.title" placeholder="Введіть назву пректу">
             <div class="error-info" ng-show="errors.title">{{errors.title[0]}}</div>
         </div>
 
@@ -16,7 +16,7 @@
                 <strong>Репозирорій:</strong>
             </label>
             <input id="repository" type="text" class="form-control" name="repository"
-                   size="90" required ng-model="project.repository">
+                   size="90" required ng-model="project.repository" placeholder="Посилання на репозиторій github або gitlab, наприклад https://github.com/myRepo.git">
             <div class="error-info" ng-show="errors.repository">{{errors.repository[0]}}</div>
         </div>
 
@@ -25,7 +25,7 @@
                 <strong>Гілка в репозиторії</strong>
             </label>
             <input id="branch" type="text" class="form-control" name="branch"
-                   size="90" required ng-model="project.branch">
+                   size="90" required ng-model="project.branch" placeholder="Гілка, з якої відбувається оновлення проекту, наприклад master">
             <div class="error-info" ng-show="errors.branch">{{errors.branch[0]}}</div>
         </div>
 

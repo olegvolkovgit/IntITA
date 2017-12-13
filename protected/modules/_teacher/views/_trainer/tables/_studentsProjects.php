@@ -7,7 +7,7 @@
         </colgroup>
         <tr ng-repeat="row in $data track by $index">
             <td style="word-wrap:break-word" data-title="'Студент'" filter="{'studentModel.fullName': 'text'}" sortable="'studentModel.fullName'">
-                <a href="/test/{{row.idStudent.id}}/{{row.title}}/{{row.branch}}" target="_blank">{{row.idStudent.fullName}}</a>
+                <a ng-href="#/users/profile/{{row.idStudent.id}}">{{row.idStudent.fullName}}</a>
             </td>
             <td data-title="'Проект'" filter="{'title': 'text'}" sortable="'start_time'"><a href="/test/{{row.idStudent.id}}/{{row.title}}/{{row.branch}}" target="_blank">{{row.title}}</a></td>
             <td data-title="'Дії'">

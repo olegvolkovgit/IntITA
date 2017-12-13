@@ -23,9 +23,10 @@ class ScheduleCommand extends CConsoleCommand
             $weekdays = $task->parameters;
             if ($weekdays)
             {
-                $startTime = (new DateTime($time))->format($task->start_time);
+                $startTime = (new DateTime($task->start_time))->format('H:i:s');
+                $nowTime = (new DateTime('now'))->format('H:i:s');
                 $dayOfWeek =  (new DateTime('now'))->format('N');
-                if (in_array($dayOfWeek,$weekdays) && ((new DateTime($task->end_time))->format('N') !=$dayOfWeek || !$task->end_time) && (new DateTime('now'))->format('H:i:s')>=$startTime ){
+                if (in_array($dayOfWeek,$weekdays) && ((new DateTime($task->end_time))->format('N') !=$dayOfWeek || !$task->end_time) && strtotime($nowTime)>=strtotime($startTime) ){
                     $this->startTask($task);
                 }
             }

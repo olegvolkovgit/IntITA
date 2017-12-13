@@ -7,6 +7,7 @@ angular
     .controller('sendTeacherLetter',sendTeacherLetter)
     .controller('teacherResponse', teacherResponse)
     .controller('promotionSchemesCtrl',promotionSchemesCtrl)
+    .controller('studentProjectsCtrl',studentProjectsCtrl)
 
 
 /* Controllers */
@@ -852,4 +853,76 @@ function updateChatName(){
         },
         cache: false,
     });
+}
+
+function studentProjectsCtrl($scope, $ngBootbox, $http, $httpParamSerializerJQLike ) {
+    $scope.projects = "";
+    $scope.getprojects = function() {
+        $http({
+            method: 'GET',
+            url: basePath+'/studentreg/getProjects?student='+userId
+        }).then(function (response) {
+            $scope.projects = response.data;
+        });
+    }
+    $scope.getprojects();
+    $scope.baseProjectsUrl = studentProjectPath;
+
+    $scope.submitProjectData = function () {
+        $http({
+            method: "POST",
+            url: basePath+'/studentreg/addOrUpdateProject',
+            data: $httpParamSerializerJQLike($scope.project),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function (response) {
+            if (response.data.errors){
+                $scope.errors = response.data.errors;
+                return false;
+            }
+            $scope.getprojects();
+            $ngBootbox.hideAll();
+        })
+
+    }
+
+    $scope.addProject = function () {
+        $scope.project = "";
+        var projectDialogOptions = {
+            templateUrl: '/angular/js/templates/studentProjectDialog.html',
+            scope: $scope,
+            title: 'Проект',
+        };
+        $ngBootbox.customDialog(projectDialogOptions);
+    }
+
+    $scope.editProject = function (projectId) {
+        $http({
+            method: 'GET',
+            url: basePath+'/studentreg/getProjectData?projectId='+projectId
+        }).then(function (response) {
+            $scope.project = response.data;
+            projectDialogOptions = {
+                templateUrl: '/angular/js/templates/studentProjectDialog.html',
+                scope: $scope,
+                title: 'Змінити проект',
+            }
+            $ngBootbox.customDialog(projectDialogOptions);
+        })
+    }
+
+    $scope.makeApproveRequest = function (projectId) {
+        $ngBootbox.confirm('Відправити запит на затвердження проекту?')
+            .then(function() {
+                $http({
+                    method: 'POST',
+                    url: basePath+'/studentreg/approveProjectRequest',
+                    data: $.param({projectId: projectId}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function (response) {
+                    $ngBootbox.hideAll();
+                    $ngBootbox.alert(response.data.message);
+                })
+            });
+
+    }
 }
