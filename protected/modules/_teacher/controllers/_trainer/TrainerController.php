@@ -507,14 +507,17 @@ class TrainerController extends TeacherCabinetController
         $projectId =  Yii::app()->request->getPost('id');
         $project = StudentsProjects::model()->findByPk($projectId);
         if ($project){
-            $project->approveProject();
-            echo json_encode(['data'=>1,',message'=>'Проект затведжено!' ]);
-            Yii::app()->end();
+            if (!$project->approveProject()){
+                echo json_encode(['data'=>1,'message'=>'Помилка затвердження проекту! Можливо директорія з проектом порожня. Спробуйте спочатку оновити проект до останньої версії!' ]);
+            }
+            else{
+                echo json_encode(['data'=>1,'message'=>'Проект затведжено!' ]);
+            }
         }
         else{
             echo  json_encode(['data'=>1,'message'=>'Помилка' ]);
-            Yii::app()->end();
         }
+        Yii::app()->end();
 
     }
 
@@ -524,7 +527,12 @@ class TrainerController extends TeacherCabinetController
 
     public function actionGetProjectFiles($projectId){
         $project = StudentsProjects::model()->findByPk($projectId);
-        echo json_encode($project->showFiles());
+        if ($project->showFiles()){
+            echo json_encode($project->showFiles());
+        }
+        else{
+            echo json_encode(['data'=>0,'message'=>'Помилка! Можливо директорія з проектом порожня. Спробуйте спочатку оновити проект до останньої версії!' ]);
+        }
         Yii::app()->end();
     }
 

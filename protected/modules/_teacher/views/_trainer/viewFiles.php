@@ -7,9 +7,6 @@
  */
 ?>
 <div ng-controller="studentsProjectsCtrl">
-<pre>
-    {{file}}
-</pre>
     <div
             data-angular-treeview="true"
             data-tree-id="projectFiles"
@@ -18,4 +15,7 @@
             data-node-label="name"
             data-node-children="children" >
     </div>
+    <pre>
+    {{file}}
+    </pre>
 </div>

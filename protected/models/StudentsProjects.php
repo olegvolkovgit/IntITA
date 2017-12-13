@@ -133,15 +133,22 @@ class StudentsProjects extends CActiveRecord
     public function approveProject(){
         $projectDir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
         $destDir =  Config::getRealProjectsPath().'/'.$this->id_student.'/'.$this->title;
+        if (!is_dir($projectDir) || $this->checkDirForEmpty($projectDir)){
+            return false;
+        }
         if (!is_dir($destDir))
             mkdir($destDir,0755, true);
         exec("rsync -a --delete --exclude '.git' {$projectDir}/ {$destDir}/");
         $this->need_check = 0;
         $this->save();
+        return true;
     }
 
     public function showFiles(){
         $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
+        if (!is_dir($dir) || $this->checkDirForEmpty($dir)){
+            return false;
+        }
         $files = $this->scanDir($dir);
         return $files;
     }
