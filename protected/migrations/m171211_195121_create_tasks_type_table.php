@@ -48,6 +48,18 @@ class m171211_195121_create_tasks_type_table extends CDbMigration
                 'description' => 'Test',
             ],
             [
+                'title' => 'Event',
+                'description' => 'Event',
+            ],
+            [
+                'title' => 'Hometask',
+                'description' => 'Hometask',
+            ],
+            [
+                'title' => 'Consultation',
+                'description' => 'Consultation',
+            ],
+            [
                 'title' => 'Course project',
                 'description' => 'Course project',
             ],
@@ -74,18 +86,6 @@ class m171211_195121_create_tasks_type_table extends CDbMigration
             [
                 'title' => 'Motivation letter',
                 'description' => 'Motivation letter',
-            ],
-            [
-                'title' => 'Hometask',
-                'description' => 'Hometask',
-            ],
-            [
-                'title' => 'Consultation',
-                'description' => 'Consultation',
-            ],
-            [
-                'title' => 'Event',
-                'description' => 'Event',
             ],
             [
                 'title' => 'Rest',
