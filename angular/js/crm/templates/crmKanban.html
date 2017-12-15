@@ -1,3 +1,8 @@
+<div class="form-group" style="overflow: hidden;margin: 5px 0 0 0 ">
+    <div class="col-xs-4 col-md-4 col-lg-4">
+        <input class="form-control col-md-5" type="text" id="searchField" ng-keypress="applyTasksFilter($event)" ng-model="filter.kanbanFilter" placeholder="Фільтр"/>
+    </div>
+</div>
 <section id="kanban-container">
     <div class="kanban-column concept" ng-style="kanbanHeight" ng-repeat="stage in stages" ng-drop="true" ng-drop-success="onDrop($data,$event,stage)" ng-class="{'concept': stage.name == 'Очікує на виконання', pending: stage.name == 'Виконується', develop: stage.name == 'Призупинено', approved: stage.name == 'Завершено'}">
         <h3 class="kanbanStageHeader" ng-class="{'ex_to_ex': stage.id == 1, 'ex': stage.id == 2, 'cmp': stage.id == 4,
@@ -10,16 +15,19 @@
                  'bg-danger-kanban': (task.stage_id !=4 && task.deadline && currentDate>(task.deadline  | shortDate:'yyyy-MM-dd'))}"
                  ng-drag-start="dragStart($event, task)" ng-init="task.dragging = false" draggable="task.dragging">
                 <div>
-                    <div ng-click="getTask(task.id,task.dragging)" style="text-align: center">
-                        <span class="card-title">{{task.title}}</span>
-                        <div ng-class="task.priorityTitle">
-                            Пріоритет: <em>{{task.priority}}</em>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="card-title">{{task.title}}</span>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="openIco" ng-include="pathToCrmTemplates+'/svg/windows.svg'" title="Відкрити" ng-click="getTask(task.id)"></div>
+                            <a ng-href="#task/{{task.id}}" target="_blank">
+                                <div class="openIco" ng-include="pathToCrmTemplates+'/svg/new_window.svg'" title="Відкрити в новому вікні" ></div>
+                            </a>
+                            <div ng-class="task.priorityTitle" ng-include="pathToCrmTemplates+'/svg/priority.svg'" title="Пріоритет: {{task.priority}}"></div>
                         </div>
                     </div>
-                    <p ng-click="showMore=!showMore"  style="text-align:right;margin-bottom:0">
-                        <a href="" style="margin:0;padding:0"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
-                    </p>
-                    <div ng-show="showMore" ng-click="getTask(task.id,task.dragging)">
+                    <div ng-show="showMore">
                         <div class="description">
                             <p ng-bind-html="task.description"></p>
                         </div>
@@ -47,15 +55,16 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <fieldset class="kanbanButtons">
-                        <i ng-if="task.stage_id==1" class="fa fa-play fa-2x executed" aria-hidden="true" title="ПОЧАТИ" ng-click="changeKanbanState(task,2)" ng-disabled="isDisabled"></i>
-                        <i ng-if="task.stage_id==3" class="fa fa-play fa-2x executed" aria-hidden="true" title="ПРОДОВЖИТИ" ng-click="changeKanbanState(task,2)" ng-disabled="isDisabled"></i>
-                        <i ng-if="task.stage_id==2" class="fa fa-pause fa-2x paused" aria-hidden="true" title="ПРИЗУПИНИТИ" ng-click="changeKanbanState(task,3)" ng-disabled="isDisabled"></i>
-                        <i ng-if="task.stage_id==2 || task.stage_id==3" class="fa fa-check-square-o fa-2x completed" aria-hidden="true" title="ЗАВЕРШИТИ" ng-click="changeKanbanState(task,4)" ng-disabled="isDisabled"></i>
-                        <i ng-if="task.stage_id==4" class="fa fa-clock-o fa-2x expect_to_execute" aria-hidden="true" title="ВІДНОВИТИ" ng-click="changeKanbanState(task,1)" ng-disabled="isDisabled"></i>
-                        <i ng-if="currentUser==task.createdBy" class="fa fa-remove fa-2x remove" aria-hidden="true" title="ВИДАЛИТИ" ng-click="cancelKanbanCrmTask(task)" ng-disabled="isDisabled"></i>
-                    </fieldset>
+                <div class="kanbanButtons">
+                    <i ng-if="task.stage_id==1" class="fa fa-play fa-2x executed" aria-hidden="true" title="ПОЧАТИ" ng-click="changeKanbanState(task,2)" ng-disabled="isDisabled"></i>
+                    <i ng-if="task.stage_id==3" class="fa fa-play fa-2x executed" aria-hidden="true" title="ПРОДОВЖИТИ" ng-click="changeKanbanState(task,2)" ng-disabled="isDisabled"></i>
+                    <i ng-if="task.stage_id==2" class="fa fa-pause fa-2x paused" aria-hidden="true" title="ПРИЗУПИНИТИ" ng-click="changeKanbanState(task,3)" ng-disabled="isDisabled"></i>
+                    <i ng-if="task.stage_id==2 || task.stage_id==3" class="fa fa-check-square-o fa-2x completed" aria-hidden="true" title="ЗАВЕРШИТИ" ng-click="changeKanbanState(task,4)" ng-disabled="isDisabled"></i>
+                    <i ng-if="task.stage_id==4" class="fa fa-clock-o fa-2x expect_to_execute" aria-hidden="true" title="ВІДНОВИТИ" ng-click="changeKanbanState(task,1)" ng-disabled="isDisabled"></i>
+                    <i ng-if="currentUser==task.createdBy" class="fa fa-remove fa-2x remove" aria-hidden="true" title="ВИДАЛИТИ" ng-click="cancelKanbanCrmTask(task)" ng-disabled="isDisabled"></i>
+                </div>
+                <div ng-click="showMore=!showMore"  style="text-align:center;">
+                    <div style="width:30px;margin:0 auto" ng-include="pathToCrmTemplates+'/svg/more.svg'" title="Відкрити"></div>
                 </div>
             </div>
         </div>

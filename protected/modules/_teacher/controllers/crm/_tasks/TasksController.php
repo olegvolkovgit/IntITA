@@ -11,6 +11,14 @@ class TasksController extends TeacherCabinetController {
         $this->renderPartial('/crm/_tasks/index', array(), false, true);
     }
 
+    public function actionView($id) {
+        if(!CrmRolesTasks::model()->find('id_task=:taskID and id_user=:userID and cancelled_by is NULL',
+            array(':taskID'=>$id,':userID'=>Yii::app()->user->getId()))){
+            throw new CException("У тебе немає доступу до завдання");
+        }
+        $this->renderPartial('/crm/_tasks/view', array(), false, true);
+    }
+
     public function actionMyTasks() {
         $this->renderPartial('/crm/_tasks/myTasks', array(), false, true);
     }
@@ -64,6 +72,20 @@ class TasksController extends TeacherCabinetController {
         }
     }
 
+    public function actionGetSubTasks($query){
+        if ($query) {
+            $result=[];
+            $models = CrmTasks::model()->subTasksList($query);
+            if (isset($models)){
+                foreach ($models as $model){
+                    array_push($result,['id'=>$model->id,'name'=>$model->name]);
+                }
+            }
+
+            echo json_encode($result);
+        }
+    }
+
     public function actionGetRoles(){
         echo CJSON::encode(CrmRoles::model()->findAll());
     }
@@ -82,7 +104,10 @@ class TasksController extends TeacherCabinetController {
                 $task->saveCheck();
             }else{
                 $task=new CrmTasks();
-                $task->initialize($params);;
+                $task->initialize($params);
+                $criteria = new CDbCriteria;
+                $criteria->addInCondition( "id" , $_POST['subTasks'] ) ;
+                CrmTasks::model()->updateAll(['id_parent'=>$task->id], $criteria);
             }
 
             $task->setRoles($params['roles']);
@@ -104,11 +129,33 @@ class TasksController extends TeacherCabinetController {
        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
+    public function actionUpdateBody(){
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $params =json_decode($_POST['crmTask'], true);
+
+            $task=CrmTasks::model()->findByPk($params['id']);
+            $task->body=$params['body'];
+            $task->change_date =  new CDbExpression('NOW()');
+            $task->saveCheck();
+
+            $transaction->commit();
+
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
     public function actionGetTasks(){
         $params = $_GET;
         $criteria = new CDbCriteria();
         $criteria->alias='t';
-        $criteria->with=['idTask.taskState','idTask.priorityModel'];
+        $criteria->with=['idTask.taskState','idTask.priorityModel','idTask.taskType'];
         if($params['id']){
             $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.role='.$params['id'].' and t.cancelled_date is null';
         }else{
@@ -125,6 +172,11 @@ class TasksController extends TeacherCabinetController {
             $criteria->join = 'LEFT JOIN crm_tasks ct ON ct.id = t.id_task';
             $criteria->addCondition("ct.priority=".$params['filter']['crmPriority.id']);
             unset($params['filter']['crmPriority.id']);
+        }
+        if(isset($params['filter']['crmType.id'])){
+            $criteria->join = 'LEFT JOIN crm_tasks ct ON ct.id = t.id_task';
+            $criteria->addCondition("ct.type=".$params['filter']['crmType.id']);
+            unset($params['filter']['crmType.id']);
         }
         $criteria->addCondition("idTask.cancelled_date is NULL");
 
@@ -164,7 +216,7 @@ class TasksController extends TeacherCabinetController {
         $collaborator=[];
         $observer=[];
 
-        $crmTask=CrmTasks::model()->findByPk($id);
+        $crmTask=CrmTasks::model()->with('parentTask')->findByPk($id);
         $data['task']=ActiveRecordToJSON::toAssocArray($crmTask);
 
         if ($crmTask){
@@ -204,6 +256,81 @@ class TasksController extends TeacherCabinetController {
         $data['roles']['observer']=$observer;
 
         echo json_encode($data);
+    }
+
+    public function actionGetCrmSubTasks($id){
+        $subTasks=CrmTasks::model()->findAllByAttributes(array('id_parent'=>$id));
+        echo CJSON::encode($subTasks);
+    }
+
+    public function actionGetCheckList($id){
+        $checkList=CrmCheckList::model()->with(['idTask','elements'])->findByAttributes(array('id_task'=>$id));
+        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($checkList));
+    }
+
+    public function actionUpdateSubTasks(){
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $taskId=$_POST['id'];
+            $subTasksIds = $_POST['subTasks'];
+
+            $oldSubtasks=CrmTasks::model()->findAllByAttributes(array('id_parent'=>$taskId));
+            foreach ($oldSubtasks as $old){
+                if(!in_array($old->id, $oldSubtasks)){
+                    $old->id_parent=null;
+                    $old->update();
+                }
+            }
+            $criteria = new CDbCriteria;
+            $criteria->addInCondition( "id" , $subTasksIds ) ;
+            CrmTasks::model()->updateAll(['id_parent'=>$taskId], $criteria);
+
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionCreateCrmCheckList(){
+        $result = ['message' => 'OK'];
+        $statusCode = 200;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $model = CrmCheckList::model()->findByAttributes(array('id_task'=>$_POST['id_task']));
+            if(!$model){
+                $model= new CrmCheckList();
+            }
+            $model->attributes=$_POST;
+            $model->save();
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionCreateCrmCheckListElement(){
+        $result = ['message' => 'OK'];
+        $statusCode = 200;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $model= new CrmCheckListElement();
+            $model->attributes=$_POST;
+            $model->save();
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
     public function actionChangeTaskState(){

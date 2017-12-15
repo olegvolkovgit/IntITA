@@ -1,0 +1,14 @@
+<table ng-table="spentTimeTableParams" class="table table-bordered table-striped table-condensed">
+    <colgroup>
+        <col/>
+        <col/>
+    </colgroup>
+    <tr ng-repeat="row in $data track by $index">
+        <td data-title="'Користувач'">
+            <a ng-href="#/users/profile/{{row.id}}" target="_blank">{{row.name}}</a>
+        </td>
+        <td data-title="'Затрачено'">
+            {{row.spent_time | spentTime}}
+        </td>
+    </tr>
+</table>

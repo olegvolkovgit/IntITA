@@ -1,0 +1,39 @@
+<div class="form-group">
+    <label>Чек-лист</label>
+    <div ng-if="!crmTask.checkList.id || crmTask.options.checkListEditMode" class="input-group">
+        <input type="text" size="50" ng-model="crmTask.checkList.name"
+               placeholder="назва чек-листа" class="form-control"
+               ng-disabled="!crmTask.editable"/>
+        <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button" ng-click="crmTask.createCheckList(crmTask.checkList.name)" ng-disabled="!crmTask.editable || !crmTask.checkList.name">
+                <i class="fa fa-save" aria-hidden="true" title="Додати"></i>
+            </button>
+        </span>
+    </div>
+    <div ng-show="crmTask.checkList.id && !crmTask.options.checkListEditMode" class="input-group">
+        {{crmTask.checkList.name}}
+        <i class="fa fa-edit" aria-hidden="true" ng-click="crmTask.options.checkListEditMode=true" title="Змінити"></i>
+        <i class="fa fa-remove" aria-hidden="true" ng-click="crmTask.createCheckList(crmTask.checkList.name)" title="Видалити"></i>
+    </div>
+    <br>
+    <div class="input-group" ng-if="crmTask.checkList.id">
+        <input type="text" size="50" ng-model="crmTask.checkList.newListElement"
+               placeholder="додати елемент" class="form-control" />
+        <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button" ng-click="addListElement(crmTask.checkList.id)" ng-disabled="!crmTask.editable || !crmTask.checkList.name">
+                <i class="fa fa-plus" aria-hidden="true" title="Додати"></i>
+            </button>
+        </span>
+    </div>
+    <br>
+    <div ng-repeat="element in crmTask.checkList.elements track by $index">
+        <input type="checkbox" name="check-list">
+        <span ng-show="!crmTask.options.checkListElementEditMode[element.id]">{{element.name}}</span>
+        <div ng-show="crmTask.options.checkListElementEditMode[element.id]">
+            <input type="text" ng-model="elementName[element.id]" ng-init="elementName[element.id]=element.name">
+            <i class="fa fa-save" aria-hidden="true" title="Зберегти" ng-click="crmTask.createCheckList(crmTask.checkList.name)"></i>
+        </div>
+        <i class="fa fa-edit" aria-hidden="true" ng-click="crmTask.options.checkListElementEditMode[element.id]=true" title="Змінити"></i>
+        <i class="fa fa-remove" aria-hidden="true" ng-click="crmTask.createCheckList(crmTask.checkList.name)" title="Видалити"></i>
+    </div>
+</div>

@@ -10,6 +10,13 @@ angular
                 cache: false,
                 templateUrl: basePath+"/_teacher/crm/_tasks/tasks/index",
             })
+            .state('task/:id', {
+                url: "/task/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return basePath+"/_teacher/crm/_tasks/tasks/view/?id="+$stateParams.id;
+                }
+            })
             .state('tasks.executant', {
                 url: '/executant',
                 views: {

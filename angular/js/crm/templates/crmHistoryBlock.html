@@ -1,0 +1,18 @@
+<table ng-table="historyTableParams" class="table table-bordered table-striped table-condensed">
+    <colgroup>
+        <col/>
+        <col/>
+        <col/>
+    </colgroup>
+    <tr ng-repeat="row in $data track by $index">
+        <td data-title="'Дата'">
+            {{row.change_date}}
+        </td>
+        <td data-title="'Користувач'">
+            <a ng-href="#/users/profile/{{row.id_user}}" target="_blank">{{row.idUser.fullName}}</a>
+        </td>
+        <td data-title="'Зміна'">
+            {{row.idState.description}}
+        </td>
+    </tr>
+</table>
