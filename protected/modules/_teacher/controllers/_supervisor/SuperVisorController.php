@@ -539,8 +539,8 @@ class SuperVisorController extends TeacherCabinetController
                     $student->graduate_date = $graduateDate;
                     $request['user']=$student->user;
                     $request['graduate_date']=$graduateDate;
-                    $request['courses']=$services['courses'];
-                    $request['modules']=$services['modules'];
+                    $request['courses']=isset($services['courses'])?$services['courses']:[];
+                    $request['modules']=isset($services['modules'])?$services['modules']:[];
                     if (!Graduate::model()->findByAttributes(array('id_user' => $request['user']['id'])))
                         Graduate::AddGraduate($request);
                 } else $student->graduate_date = null;

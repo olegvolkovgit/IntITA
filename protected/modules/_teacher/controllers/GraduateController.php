@@ -120,6 +120,7 @@ class GraduateController extends TeacherCabinetController
      */
     public function loadModel($id)
     {
+//        TODO modules if manual graduate, payd not requirement
         $model = Graduate::model()->with('user', 'courses', 'modules.idModule', 'courses.idCourse')->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -157,9 +158,6 @@ class GraduateController extends TeacherCabinetController
 
         $criteria = new CDbCriteria();
         $criteria->with = ['user'];
-        if (isset($_GET['sorting']['first_name'])) {
-            $criteria->order = 'user.first_name  COLLATE utf8_unicode_ci ' . $_GET['sorting']['first_name'];
-        }
         $adapter = new NgTableAdapter('Graduate', $_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
@@ -297,7 +295,7 @@ class GraduateController extends TeacherCabinetController
         $className = 'RatingUser' . ucfirst($request['type']);
         if (class_exists($className)) {
             $model = $className::model()->findByPk($request['id']);
-            $model->rating = $request['rating'];
+            $model->rating = $request['rat'];
             $model->save();
             Yii::app()->end();
         } else {
@@ -343,7 +341,7 @@ class GraduateController extends TeacherCabinetController
             $model = new $className;
             $model->id_user = $request['user'];
             $model->{'id_' . $type} = $request['service'][$type . '_ID'];
-            $model->rating = $request['rating'];
+            $model->rating = $request['rat'];
             if ($revision) {
                 $model->{$type . '_revision'} = $revision->{'id_' . $type . '_revision'};
             } else {
