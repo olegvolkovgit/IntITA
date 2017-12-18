@@ -10,6 +10,7 @@ angular
                 scope.pathToTemplates=attrs.templatesPath;
                 scope.modalMode=attrs.modal== 'true';
                 var self=scope.crmTask={
+                    editable:true,
                     options:{},
                     selectedSubTask:'',
                     subTasks:[],
@@ -38,6 +39,7 @@ angular
                     teacherMode: scope.teacherMode,
                     initTask:function() {
                         return {
+                            priority: "2",
                             name:null,body:null,startTask:null,endTask:null, deadline:null,
                             roles: { collaborator:null, executant:null, observer:null, producer:null },
                         }
@@ -50,6 +52,7 @@ angular
                                     self.data.startTask = data.task.startTask ? new Date(data.task.startTask) : null;
                                     self.data.endTask = data.task.endTask ? new Date(data.task.endTask) : null;
                                     self.data.deadline = data.task.deadline ? new Date(data.task.deadline) : null;
+                                    self.data.expected_time = Number(data.task.expected_time);
                                     self.data.roles = data.roles;
                                     self.data.producer = data.roles.producer.name;
                                     self.data.executant = data.roles.executant.name;
@@ -80,30 +83,51 @@ angular
                             crmTaskServices.getCheckList({id: id}).$promise
                                 .then(function (data) {
                                     self.checkList=data;
-                                    console.log(self.checkList);
                                 })
                                 .catch(function (error) {
                                     bootbox.alert(JSON.parse(error.data.reason));
                                 });
                         }
                     },
-                    createCheckList: function (name, listId) {
+                    createCheckList: function (name) {
                         if(name){
-                            crmTaskServices.createCrmCheckList({id_task: self.data.id, name: name, listId: listId}).$promise
-                                .then(function (data) {
+                            crmTaskServices.createCrmCheckList({id_task: self.data.id, name: name}).$promise
+                                .then(function (response) {
                                     ngToast.create({
                                         dismissOnTimeout: true,
                                         timeout:2000,
                                         dismissButton: true,
                                         className: 'success',
-                                        content: 'Чек-ліст створено'
+                                        content: 'Чек-ліст оновлено'
                                     });
+                                    self.loadCheckList(self.data.id);
                                     self.options.checkListEditMode=false;
                                 })
                                 .catch(function (error) {
                                     bootbox.alert(JSON.parse(error.data.reason));
                                 });
                         }
+                    },
+                    removeCheckList: function () {
+                        bootbox.confirm("Ти дійсно бажаєш видалити чек-лист?", function(result) {
+                            if(result){
+                                crmTaskServices.removeCrmCheckList({id:self.data.id}).$promise
+                                    .then(function (response) {
+                                        ngToast.create({
+                                            dismissOnTimeout: true,
+                                            timeout:2000,
+                                            dismissButton: true,
+                                            className: 'success',
+                                            content: 'Чек-ліст видалено'
+                                        });
+                                        self.loadCheckList(self.data.id);
+                                        self.options.checkListEditMode=false;
+                                    })
+                                    .catch(function (error) {
+                                        bootbox.alert(JSON.parse(error.data.reason));
+                                    });
+                            }
+                        })
                     },
                     addElementToCheckList: function (id) {
                         if(element){
@@ -116,17 +140,52 @@ angular
                                 });
                         }
                     },
-                    updateSubTasks: function (id, subtasks) {
+                    updateCheckListElement: function (id, name) {
+                        if(name){
+                            crmTaskServices.updateCrmCheckListElement({id: id, name: name}).$promise
+                                .then(function (data) {
+                                    self.loadCheckList(self.data.id);
+                                })
+                                .catch(function (error) {
+                                    bootbox.alert(JSON.parse(error.data.reason));
+                                });
+                        }
+                    },
+                    changeCheckListElementStatus: function (id) {
                         if(id){
-                            crmTaskServices.updateSubTasks({id: id, subTasks:scope.subTasksMapId(subtasks)}).$promise
+                            crmTaskServices.changeCrmCheckListElementStatus({id: id}).$promise
+                                .then(function (data) {
+                                    self.loadCheckList(self.data.id);
+                                })
+                                .catch(function (error) {
+                                    bootbox.alert(JSON.parse(error.data.reason));
+                                });
+                        }
+                    },
+                    deleteCheckListElement: function (id) {
+                        if(id){
+                            crmTaskServices.deleteCrmCheckListElement({id: id}).$promise
+                                .then(function (data) {
+                                    self.loadCheckList(self.data.id);
+                                })
+                                .catch(function (error) {
+                                    bootbox.alert(JSON.parse(error.data.reason));
+                                });
+                        }
+                    },
+                    addSubTask: function (subtask) {
+                        if(subtask){
+                            crmTaskServices.addSubTask({id: self.data.id, subTask:subtask.id}).$promise
                                 .then(function (data) {
                                     ngToast.create({
                                         dismissOnTimeout: true,
                                         timeout:2000,
                                         dismissButton: true,
                                         className: 'success',
-                                        content: 'Підзадачі оновлено'
+                                        content: 'Підзадачу додано'
                                     });
+                                    self.loadSubTasks(self.data.id);
+                                    scope.clearSubTaskInput();
                                 })
                                 .catch(function (error) {
                                     ngToast.create({
@@ -134,7 +193,31 @@ angular
                                         timeout:2000,
                                         dismissButton: true,
                                         className: 'warning',
-                                        content: 'Підзадачі оновити не вдалося'
+                                        content: 'Підзадачу додати не вдалося'
+                                    });
+                                });
+                        }
+                    },
+                    removeSubTask: function (subtaskId) {
+                        if(subtaskId){
+                            crmTaskServices.removeSubTask({subTask:subtaskId}).$promise
+                                .then(function (data) {
+                                    ngToast.create({
+                                        dismissOnTimeout: true,
+                                        timeout:2000,
+                                        dismissButton: true,
+                                        className: 'success',
+                                        content: 'Підзадачу скасовано'
+                                    });
+                                    self.loadSubTasks(self.data.id);
+                                })
+                                .catch(function (error) {
+                                    ngToast.create({
+                                        dismissOnTimeout: true,
+                                        timeout:2000,
+                                        dismissButton: true,
+                                        className: 'warning',
+                                        content: 'Підзадачу скасувати не вдалося'
                                     });
                                 });
                         }
@@ -181,12 +264,25 @@ angular
                                 return crmTaskServices
                                     .getSpentTimeTask(params.url())
                                     .$promise
-                                    .then(function (response) {
-                                        return response.data;
+                                    .then(function (data) {
+                                        return data.rows;
                                     });
                             }
                         });
                     },
+                    // loadDetailSpentTaskTime:function (idUser) {
+                    //     crmTaskServices.getTimeList({id:self.data.id, id_user:idUser}).$promise
+                    //         .then(function (response) {
+                    //             console.log(response);
+                    //             if ( !scope.detailedSpentTimes[idUser] ) {
+                    //                 scope.detailedSpentTimes[idUser] = {};
+                    //                 scope.detailedSpentTimes[idUser]=response.data;
+                    //             }
+                    //         })
+                    //         .catch(function (error) {
+                    //             bootbox.alert(JSON.parse(error.data.reason));
+                    //         });
+                    // },
                     changeState:function (state) {
                         var id=this.data.id;
                         crmTaskServices.changeTaskState({id: id, state: state}).$promise.then(function () {
@@ -274,13 +370,17 @@ angular
                                 bootbox.alert(JSON.parse(error.data.reason));
                             });
                     },
-                    sendTask:function () {
+                    sendTask:function (notReload) {
                         if (self.isModelValid()){
                             scope.isDisabled = true;
                             crmTaskServices.sendCrmTask({crmTask: angular.toJson(self.data), subTasks:scope.subTasksMapId(self.subTasks)}).$promise
                                 .then(function (data) {
                                     if (data.message === 'OK') {
-                                        self.cleanTask();
+                                        if(notReload){
+                                            self.loadTask(data.id);
+                                        }else{
+                                            self.cleanTask();
+                                        }
                                         ngToast.create({
                                             dismissOnTimeout: true,
                                             dismissButton: true,
@@ -354,6 +454,19 @@ angular
                             scope.$parent.$close();
                         }
                     },
+                    rolesVisibility: function (role) {
+                        if (self.data.roles[role]) scope.inputs[role] = true;
+                        scope.inputs[role] = !scope.inputs[role];
+                        if (!scope.inputs[role]) {
+                            self.data.roles[role] = null;
+                            if (role == 'producer') {
+                                self.data.producer = null;
+                            }
+                            if (role == 'executant') {
+                                self.data.executant = null;
+                            }
+                        }
+                    }
                 };
                 self.loadTask(scope.taskId);
                 self.loadSubTasks(scope.taskId);
@@ -414,23 +527,23 @@ angular
                     });
                 };
 
-                scope.addSubTaskToList= function (task) {
-                    var unique=true;
-                    $jq.each(self.subTasks, function( key, value ) {
-                        if(task.id==value.id){
-                            unique=false;
-                            return false;
-                        }
-                    });
-                    if(unique){
-                        self.subTasks.push(task);
-                    }
-                    scope.clearSubTaskInput();
-                }
+                // scope.addSubTaskToList= function (task) {
+                //     var unique=true;
+                //     $jq.each(self.subTasks, function( key, value ) {
+                //         if(task.id==value.id){
+                //             unique=false;
+                //             return false;
+                //         }
+                //     });
+                //     if(unique){
+                //         self.subTasks.push(task);
+                //     }
+                //     scope.clearSubTaskInput();
+                // }
 
-                scope.removeSubTaskFromList= function (index) {
-                    self.subTasks.splice(index, 1);
-                }
+                // scope.removeSubTaskFromList= function (index) {
+                //     self.subTasks.splice(index, 1);
+                // }
 
                 scope.clearSubTaskInput= function () {
                     self.selectedSubTask='';
@@ -464,20 +577,6 @@ angular
                     self.data.roles.executant = null;
                 };
 
-                scope.rolesVisibility = function (role) {
-                    if (self.data.roles[role]) scope.inputs[role] = true;
-                    scope.inputs[role] = !scope.inputs[role];
-                    if (!scope.inputs[role]) {
-                        self.data.roles[role] = null;
-                        if (role == 'producer') {
-                            scope.producer = null;
-                        }
-                        if (role == 'executant') {
-                            scope.executant = null;
-                        }
-                    }
-                }
-
                 scope.cancelCrmTaskDialog = function (id) {
                     scope.taskId = id;
                     scope.openCommentDialog = $uibModal.open({
@@ -491,13 +590,13 @@ angular
                     });
                 };
 
-                scope.subTasksMapId = function (subTasks) {
-                    var subtasksArr = subTasks.map(function(task) {
-                        return task['id'];
-                    });
-
-                    return subtasksArr;
-                };
+                // scope.subTasksMapId = function (subTasks) {
+                //     var subtasksArr = subTasks.map(function(task) {
+                //         return task['id'];
+                //     });
+                //
+                //     return subtasksArr;
+                // };
 
                 scope.addListElement=function(listId){
                     self.addElementToCheckList(listId);
@@ -518,4 +617,4 @@ angular
                 link: link,
                 templateUrl: basePath + '/angular/js/crm/templates/task.html'
             };
-        }]);
+        }])

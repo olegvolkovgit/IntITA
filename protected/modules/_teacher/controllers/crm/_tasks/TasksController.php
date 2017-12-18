@@ -106,18 +106,21 @@ class TasksController extends TeacherCabinetController {
                 $task=new CrmTasks();
                 $task->initialize($params);
                 $criteria = new CDbCriteria;
-                $criteria->addInCondition( "id" , $_POST['subTasks'] ) ;
-                CrmTasks::model()->updateAll(['id_parent'=>$task->id], $criteria);
+                if(isset($_POST['subTasks'])){
+                    $criteria->addInCondition( "id" , $_POST['subTasks'] ) ;
+                    CrmTasks::model()->updateAll(['id_parent'=>$task->id], $criteria);
+                }
             }
 
             $task->setRoles($params['roles']);
+            $result = ['message' => 'OK', 'id' => $task->id];
             $transaction->commit();
             if (isset($params['notification']['notify'])) {
                 $notificationParams = $params['notification'];
                 $notificationErrors = $task->notifyByEmail($notificationParams, $task->id);
                 if ($notificationErrors) {
                     $statusCode = 500;
-                    $result = ['message' => 'error', 'reason' => $notificationErrors];
+                    $result = ['message' => 'error', 'reason' => $notificationErrors, 'id' => $task->id];
                 }
             }
 
@@ -265,28 +268,65 @@ class TasksController extends TeacherCabinetController {
 
     public function actionGetCheckList($id){
         $checkList=CrmCheckList::model()->with(['idTask','elements'])->findByAttributes(array('id_task'=>$id));
-        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($checkList));
+        if($checkList){
+            echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($checkList));
+        } else {
+            echo CJSON::encode((object)[]);
+        }
     }
 
-    public function actionUpdateSubTasks(){
+//    public function actionUpdateSubTasks(){
+//        $result = ['message' => 'OK'];
+//        $statusCode = 201;
+//        $transaction = Yii::app()->db->beginTransaction();
+//        try {
+//            $taskId=$_POST['id'];
+//            $subTasksIds = $_POST['subTasks'];
+//
+//            $oldSubtasks=CrmTasks::model()->findAllByAttributes(array('id_parent'=>$taskId));
+//            foreach ($oldSubtasks as $old){
+//                if(!in_array($old->id, $oldSubtasks)){
+//                    $old->id_parent=null;
+//                    $old->update();
+//                }
+//            }
+//            $criteria = new CDbCriteria;
+//            $criteria->addInCondition( "id" , $subTasksIds ) ;
+//            CrmTasks::model()->updateAll(['id_parent'=>$taskId], $criteria);
+//
+//            $transaction->commit();
+//        } catch (Exception $error) {
+//            $transaction->rollback();
+//            $statusCode = 500;
+//            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+//        }
+//        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+//    }
+
+    public function actionAddSubTask(){
         $result = ['message' => 'OK'];
         $statusCode = 201;
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $taskId=$_POST['id'];
-            $subTasksIds = $_POST['subTasks'];
+            $subTaskId = $_POST['subTask'];
+            CrmTasks::model()->updateByPk($subTaskId, array('id_parent'=>$taskId));
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
 
-            $oldSubtasks=CrmTasks::model()->findAllByAttributes(array('id_parent'=>$taskId));
-            foreach ($oldSubtasks as $old){
-                if(!in_array($old->id, $oldSubtasks)){
-                    $old->id_parent=null;
-                    $old->update();
-                }
-            }
-            $criteria = new CDbCriteria;
-            $criteria->addInCondition( "id" , $subTasksIds ) ;
-            CrmTasks::model()->updateAll(['id_parent'=>$taskId], $criteria);
-
+    public function actionRemoveSubTask(){
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $subTaskId = $_POST['subTask'];
+            CrmTasks::model()->updateByPk($subTaskId, array('id_parent'=>null));
             $transaction->commit();
         } catch (Exception $error) {
             $transaction->rollback();
@@ -316,6 +356,22 @@ class TasksController extends TeacherCabinetController {
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
+    public function actionRemoveCrmCheckList(){
+        $result = ['message' => 'OK'];
+        $statusCode = 200;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $model = CrmCheckList::model()->findByAttributes(array('id_task'=>$_POST['id']));
+            $model->delete();
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
     public function actionCreateCrmCheckListElement(){
         $result = ['message' => 'OK'];
         $statusCode = 200;
@@ -324,6 +380,56 @@ class TasksController extends TeacherCabinetController {
             $model= new CrmCheckListElement();
             $model->attributes=$_POST;
             $model->save();
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionUpdateCheckListElement(){
+        $result = ['message' => 'OK'];
+        $statusCode = 200;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $model = CrmCheckListElement::model()->findByPk($_POST['id']);
+            $model->name=$_POST['name'];
+            $model->save();
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionChangeCheckListElementStatus(){
+        $result = ['message' => 'OK'];
+        $statusCode = 200;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $model = CrmCheckListElement::model()->findByPk($_POST['id']);
+            $model->done=(int)(!(int)$model->done);
+            $model->save();
+            $transaction->commit();
+        } catch (Exception $error) {
+            $transaction->rollback();
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionDeleteCheckListElement(){
+        $result = ['message' => 'OK'];
+        $statusCode = 200;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $model = CrmCheckListElement::model()->findByPk($_POST['id']);
+            $model->delete();
             $transaction->commit();
         } catch (Exception $error) {
             $transaction->rollback();
@@ -457,6 +563,8 @@ class TasksController extends TeacherCabinetController {
                 $end_time = strtotime($models[$key+1]->change_date);
                 $data[$model->id_user]['id']=$model->id_user;
                 $data[$model->id_user]['name']=$model->idUser->fullName;
+                $data[$model->id_user]['detailed'][$key]['start']=$model->change_date;
+                $data[$model->id_user]['detailed'][$key]['end']=$models[$key+1]->change_date;
                 $data[$model->id_user]['spent_time']=isset($data[$model->id_user]['spent_time'])?
                     $data[$model->id_user]['spent_time']+($end_time-$start_time):$end_time-$start_time;
             }else if($model->id_state==CrmTaskStatus::EXECUTED && !isset($models[$key+1])){
@@ -469,8 +577,13 @@ class TasksController extends TeacherCabinetController {
             }
         }
 
-        $result['data']=$data;
+        $result['rows']=$data;
         echo json_encode($result);
+    }
+
+    public function actionGetTimeList() {
+        $models=CrmTaskStateHistory::model()->with('idUser')->findAllByAttributes(array('id_task'=>$_GET['id'],'id_user'=>$_GET['id_user']),array('order'=>'change_date asc'));
+        echo CJSON::encode(ActiveRecordToJSON::toAssocArrayWithRelations($models));
     }
 
     public function actionTasksManagerList()

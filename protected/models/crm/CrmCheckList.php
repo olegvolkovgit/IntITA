@@ -100,4 +100,13 @@ class CrmCheckList extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    protected function beforeDelete() {
+        foreach ($this->elements as $element) {
+            if (!$element->delete()) {
+                return false;
+            }
+        }
+        return parent::beforeDelete();
+    }
 }

@@ -4,11 +4,11 @@
 
 angular
     .module('crmApp')
-    .controller('crmTaskCtrl', ['$attrs', '$scope', '$rootScope','$stateParams',
+    .controller('crmTaskCtrl', ['$attrs', '$scope', '$rootScope', '$stateParams',
         function ($attrs, $scope, $rootScope, $stateParams) {
             $scope.changePageHeader('Завдання');
 
-            $scope.currentTaskId=$stateParams.id;
+            $scope.currentTaskId = $stateParams.id;
             $scope.teacherMode = $attrs.teachermode1;
             $scope.editorOptionsCrm = {toolbar: 'main'};
             $scope.currentDate = currentDate;
@@ -39,7 +39,7 @@ angular
             $scope.currentUser = user;
             $scope.rolesCanEditCrmTasks = rolesCanEditCrmTasks;
             $scope.pathToCrmTemplates = basePath + '/angular/js/crm/templates';
-            $rootScope.filter={};
+            $rootScope.filter = {};
 
             var conn = new ab.Session('wss://' + window.location.host + '/wss/',
                 function () {
@@ -91,22 +91,7 @@ angular
                 {id: "20", title: 'Rest'},
             ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                $scope.openCrmModal = function (size, parentSelector, clear, id) {
+            $scope.openCrmModal = function (size, parentSelector, clear, id) {
                 if (clear) {
                     $scope.currentTaskId = null;
                 }
@@ -152,9 +137,9 @@ angular
                 }
             }
 
-            $rootScope.loadTasks = function (idRole, filter) {
+            $rootScope.loadTasks = function (idRole, filterName, filterId, filterPriority, filterType) {
                 if ($scope.board == 1) {
-                    return $scope.loadKanbanTasks(idRole, filter).then(function (data) {
+                    return $scope.loadKanbanTasks(idRole, filterName, filterId, filterPriority, filterType).then(function (data) {
                         $scope.setKanbanHeight();
                     });
                 } else {
@@ -163,9 +148,20 @@ angular
             };
 
             $scope.applyTasksFilter = function (keyEvent) {
-                if (!keyEvent || keyEvent.which === 13){
-                    $rootScope.loadTasks($rootScope.roleId, $rootScope.filter.kanbanFilter);
+                if (!keyEvent || keyEvent.which === 13) {
+                    $rootScope.loadTasks(
+                        $rootScope.roleId,
+                        $rootScope.filter.name,
+                        $rootScope.filter.id,
+                        $rootScope.filter.priority,
+                        $rootScope.filter.type
+                    );
                 }
+            },
+
+            $scope.clearFilter = function () {
+                $rootScope.filter={};
+                $rootScope.loadTasks($rootScope.roleId);
             },
 
             $scope.crmStateList = crmTaskServices
@@ -198,10 +194,17 @@ angular
                 return promise;
             };
 
-            $scope.loadKanbanTasks = function (idRole, filter) {
+            $scope.loadKanbanTasks = function (idRole, filterName, filterId, filterPriority, filterType) {
                 var promise = $scope.crmCanbanTasksList =
                     crmTaskServices
-                        .getTasks({'sorting[idTask.priority]': 'desc', id: idRole, 'filter[idTask.name]': filter})
+                        .getTasks({
+                            'sorting[idTask.priority]': 'desc',
+                            id: idRole,
+                            'filter[idTask.name]': filterName,
+                            'filter[idTask.id]': filterId,
+                            'filter[idTask.priority]': filterPriority,
+                            'filter[idTask.type]': filterType,
+                        })
                         .$promise
                         .then(function (data) {
                             $scope.crmCards = data.rows.map(function (item) {
@@ -325,35 +328,35 @@ angular
         function ($scope, $rootScope) {
             $scope.changePageHeader('Мої завдання');
             $rootScope.roleId = 1;
-            $rootScope.filter={};
+            $rootScope.filter = {};
             $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmEntrustTasksCtrl', ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Завдання які доручив');
             $rootScope.roleId = 2;
-            $rootScope.filter={};
+            $rootScope.filter = {};
             $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmWatchTasksCtrl', ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Завдання в яких спостерігаю');
             $rootScope.roleId = 4;
-            $rootScope.filter={};
+            $rootScope.filter = {};
             $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmHelpsTasksCtrl', ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Завдання в яких допомагаю');
             $rootScope.roleId = 3;
-            $rootScope.filter={};
+            $rootScope.filter = {};
             $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmAllTasksCtrl', ['$scope', '$rootScope',
         function ($scope, $rootScope) {
             $scope.changePageHeader('Усі завдання зі мною');
             $rootScope.roleId = 0;
-            $rootScope.filter={};
+            $rootScope.filter = {};
             $rootScope.loadTasks($rootScope.roleId);
         }])
     .controller('crmManagerCtrl', ['$scope', 'crmTaskServices',

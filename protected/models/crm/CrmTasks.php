@@ -19,6 +19,7 @@
  * @property integer $priority
  * @property integer $id_parent
  * @property integer $type
+ * @property integer $expected_time
  *
  * The followings are the available model relations:
  * @property CrmRolesTasks[] $crmRolesTasks
@@ -54,10 +55,10 @@ class CrmTasks extends CTaskUnitActiveRecord
             array('name, body, created_by, priority', 'required', 'message' => '{attribute} обов\'язкове для заповнення'),
             array('id_state, created_by, cancelled_by', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 128),
-            array('endTask, deadline, cancelled_date', 'safe'),
+            array('endTask, deadline, cancelled_date, expected_time', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent', 'safe', 'on' => 'search'),
+            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent, expected_time', 'safe', 'on' => 'search'),
         );
     }
 
@@ -104,6 +105,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             'priority' => 'Пріоритет',
             'id_parent' => 'Батьківське завдання',
             'type' => 'Категорія',
+            'expected_time' => 'Очікуваний час виконання',
         );
     }
 
@@ -140,6 +142,7 @@ class CrmTasks extends CTaskUnitActiveRecord
         $criteria->compare('priority', $this->priority, true);
         $criteria->compare('id_parent', $this->id_parent, true);
         $criteria->compare('type', $this->type, true);
+        $criteria->compare('expected_time', $this->expected_time, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

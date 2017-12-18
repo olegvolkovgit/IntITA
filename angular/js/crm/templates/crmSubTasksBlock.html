@@ -1,28 +1,28 @@
-<div class="form-group">
-    <div>
-        <label ng-if="crmTask.data.id_parent">Батьківське завдання:</label>
-        <a ng-href="#task/{{crmTask.data.id_parent}}" target="_blank">{{crmTask.data.parentTask.name}}</a>
+<div class="panel panel-default check-list">
+    <div class="form-group panel-body">
+        <div>
+            <label ng-if="crmTask.data.id_parent">Батьківське завдання:</label>
+            <a ng-href="#task/{{crmTask.data.id_parent}}" target="_blank">{{crmTask.data.parentTask.name}}</a>
+        </div>
+        <label>Підзавдання</label>
+        <div class="input-group" ng-if="crmTask.editable">
+            <input type="text" size="50" ng-model="crmTask.selectedSubTask"
+                   ng-model-options="{ debounce: 1000 }" placeholder="обери завдання"
+                   uib-typeahead="item.name for item in getSubTasks($viewValue) | limitTo : 10"
+                   typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
+                   typeahead-on-select="onSelectTask($item)" ng-change="reloadTask()" class="form-control"
+                   ng-disabled="!crmTask.editable"/>
+            <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button" ng-click="crmTask.addSubTask(subTaskModel)" ng-disabled="!crmTask.editable">
+                <i class="fa fa-plus" aria-hidden="true" title="Додати"></i>
+            </button>
+          </span>
+        </div>
+        <ul class="list-unstyled subTasksList">
+            <li ng-repeat="task in crmTask.subTasks track by $index">
+                <a ng-href="#task/{{task.id}}" target="_blank">{{task.name}}</a>
+                <i ng-if="crmTask.editable" class="fa fa-minus" aria-hidden="true" ng-click="crmTask.removeSubTask(task.id)" title="Скасувати"></i>
+            </li>
+        </ul>
     </div>
-    <label>Підзавдання</label>
-    <div class="input-group">
-        <input type="text" size="50" ng-model="crmTask.selectedSubTask"
-               ng-model-options="{ debounce: 1000 }" placeholder="обери завдання"
-               uib-typeahead="item.name for item in getSubTasks($viewValue) | limitTo : 10"
-               typeahead-no-results="noResults" typeahead-template-url="customTemplate.html"
-               typeahead-on-select="onSelectTask($item)" ng-change="reloadTask()" class="form-control" autofocus
-               ng-disabled="!crmTask.editable"/>
-        <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" ng-click="addSubTaskToList(subTaskModel)" ng-disabled="!crmTask.editable">
-            <i class="fa fa-plus" aria-hidden="true" title="Додати"></i>
-        </button>
-      </span>
-    </div>
-    <ul class="list-unstyled subTasksList">
-        <li ng-repeat="task in crmTask.subTasks track by $index">
-            <a ng-href="#task/{{task.id}}" target="_blank">{{task.name}}</a>
-            <i class="fa fa-minus" aria-hidden="true" ng-click="removeSubTaskFromList($index)" title="Скасувати"></i>
-        </li>
-    </ul>
-    <div ng-if="crmTask.subTasks.length && crmTask.data.id" class="btn btn-primary pull-right"
-            ng-click="crmTask.updateSubTasks(crmTask.data.id, crmTask.subTasks)">Зберегти</div>
 </div>

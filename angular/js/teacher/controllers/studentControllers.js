@@ -49,6 +49,20 @@ angular
             }else return '';
         };
     })
+    .filter("getDateDiff", function() {
+        return function(timeArr) {
+            var startDate = new Date(timeArr[0]);
+            var endDate = new Date(timeArr[1]);
+            var milisecondsDiff = endDate - startDate;
+
+            return Math.floor(milisecondsDiff/(1000*60*60)).toLocaleString(undefined, {minimumIntegerDigits: 2}) + ":" + (Math.floor(milisecondsDiff/(1000*60))%60).toLocaleString(undefined, {minimumIntegerDigits: 2})  + ":" + (Math.floor(milisecondsDiff/1000)%60).toLocaleString(undefined, {minimumIntegerDigits: 2}) ;
+        }
+    })
+    .filter("asDate", function () {
+        return function (input) {
+            return new Date(input);
+        }
+    });
 
 function studentCtrl($scope, $rootScope, $http, NgTableParams,$resource, $state, studentService) {
     $scope.getNewPlainTasksMarks=function(){

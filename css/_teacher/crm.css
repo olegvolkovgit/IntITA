@@ -8,9 +8,10 @@
 .kanbanButtons{
     text-align: center;
 }
-.kanbanButtons>.fa{
-    margin: 4px 10px;
+.kanbanButtons .fa{
+    margin: 4px;
     font-size: 24px;
+    padding: 0;
 }
 .crmBodyBlock{
     padding: 5px;
@@ -239,35 +240,29 @@ ul.draggable-objects:after{
 }
 @media (max-width: 800px)
 {
-    .kanbanStageHeader{
-        margin: 0;
+    #kanban-container, .dataTable_wrapper {
+        overflow: scroll;
+    }
+    .kanban-column .cards-container .card, .dataTable_wrapper colgroup col {
+        width: 260px;
     }
     .kanban-column{
-        width: 95%;
-        min-height: 100px;
-        float: left;
-    }
-    .kanban-navigation{
-        display: block;
-        position: fixed;
-        top: 50%;
-        right: 0;
-    }
-    .kanban-navigation .fa{
-        margin: 10px;
-        cursor: pointer;
-    }
-    .panel-body{
-        padding: 0;
+        display: table-cell;
     }
 }
 
 .glyphicon.glyphicon-remove {
     cursor: pointer;
-    font-size: 20px;
     padding: 0;
 }
 
+.check-list .fa{
+    cursor: pointer;
+    margin: 0 4px;
+}
+.check-list .editable:hover{
+    border-bottom: 1px solid #ccc;
+}
 .crmRolesList li {
     margin: 0 5px;
     cursor: pointer;
@@ -298,4 +293,19 @@ modal .modal {
 }
 .subTasksList li{
     margin: 10px;
+}
+.elementsList div{
+    display: inline-block;
+}
+.elementsList .form-control{
+    display: inline-block;
+    width: inherit;
+}
+.svgContainer{
+    display: flow-root;
+    text-align: center;
+}
+.svgContainer div{
+    display: inline-block;
+    width: 24px;
 }

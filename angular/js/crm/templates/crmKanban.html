@@ -1,6 +1,24 @@
 <div class="form-group" style="overflow: hidden;margin: 5px 0 0 0 ">
-    <div class="col-xs-4 col-md-4 col-lg-4">
-        <input class="form-control col-md-5" type="text" id="searchField" ng-keypress="applyTasksFilter($event)" ng-model="filter.kanbanFilter" placeholder="Фільтр"/>
+    <div class="col-xs-6 col-md-3 col-lg-3">
+        <input class="form-control col-md-5" type="text" ng-keypress="applyTasksFilter($event)" ng-model="filter.name" placeholder="Пошук по назві"/>
+    </div>
+    <div class="col-xs-6 col-md-2 col-lg-2">
+        <input class="form-control col-md-5" type="text" ng-keypress="applyTasksFilter($event)" ng-model="filter.id" placeholder="Пошук по ід"/>
+    </div>
+    <div class="col-xs-6 col-md-3 col-lg-3">
+        <select class="form-control col-md-3" ng-model="filter.priority" ng-change="applyTasksFilter()">
+            <option value="" selected>Усі приорітети</option>
+            <option ng-repeat="priority in crmPrioritiesList track by $index" value="{{priority.id}}">{{priority.title}}</option>
+        </select>
+    </div>
+    <div class="col-xs-6 col-md-3 col-lg-3">
+        <select class="form-control col-md-3" ng-model="filter.type" ng-change="applyTasksFilter()">
+            <option value="" selected>Усі категорії</option>
+            <option ng-repeat="category in crmTypesList track by $index" value="{{category.id}}">{{category.title}}</option>
+        </select>
+    </div>
+    <div class="col-xs-1 col-md-1 col-lg-1 pull-right" style="height: 32px;">
+        <i class="fa fa-refresh" style="line-height: 32px; cursor: pointer" aria-hidden="true" title="Очистити" ng-click="clearFilter()"></i>
     </div>
 </div>
 <section id="kanban-container">
@@ -16,10 +34,13 @@
                  ng-drag-start="dragStart($event, task)" ng-init="task.dragging = false" draggable="task.dragging">
                 <div>
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-2">
+                            <span style="color:#ccc">#{{task.id}}</span>
+                        </div>
+                        <div class="col-md-7">
                             <span class="card-title">{{task.title}}</span>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xs-12 col-md-3 col-lg-3 svgContainer">
                             <div class="openIco" ng-include="pathToCrmTemplates+'/svg/windows.svg'" title="Відкрити" ng-click="getTask(task.id)"></div>
                             <a ng-href="#task/{{task.id}}" target="_blank">
                                 <div class="openIco" ng-include="pathToCrmTemplates+'/svg/new_window.svg'" title="Відкрити в новому вікні" ></div>

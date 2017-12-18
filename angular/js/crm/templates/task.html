@@ -2,6 +2,7 @@
     <span style="float: right" class="glyphicon glyphicon-remove modal-close" ng-click="crmTask.cleanTask();"></span>
     <h1>Завдання</h1>
 </div>
+<span ng-if="crmTask.data.id" style="color:#ccc">#{{crmTask.data.id}}</span>
 <div class="form-group">
     <input class="form-control" maxlength="128" placeholder="Введіть назву завдання" ng-model="crmTask.data.name" ng-disabled="!crmTask.editable">
 </div>
@@ -11,7 +12,7 @@
 <p class="crmBodyBlock" ng-show="!crmTask.data.editMode && crmTask.data.id" ng-bind-html="crmTask.data.body"></p>
 <div ng-show="crmTask.data.editMode || !crmTask.data.id">
     <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="crmTask.data.body" required></textarea>
-    <button ng-if="crmTask.data.id" type="button" class="btn btn-prymari pull-right" style="margin-top: 10px" ng-click="crmTask.updateCrmBody()" ng-disabled="isDisabled">
+    <button ng-if="crmTask.data.id" type="button" class="btn btn-prymari pull-right" style="margin: 5px" ng-click="crmTask.updateCrmBody()" ng-disabled="isDisabled">
         Зберегти
     </button>
 </div>
@@ -57,7 +58,7 @@
             <div ng-include="pathToTemplates+'/crmMailNotificationBlock.html'"></div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" ng-if="crmTask.data.id">
         <div class="form-group">
             <div ng-include="pathToTemplates+'/crmSubTasksBlock.html'"></div>
         </div>
@@ -86,8 +87,11 @@
 </div>
 <br>
 <p style="clear: both">
-    <button type="button" ng-if="crmTask.editable" class="btn btn-success" ng-click="crmTask.sendTask(crmTask.data)" ng-disabled="isDisabled">
+    <button type="button" ng-if="crmTask.editable" class="btn btn-success" ng-click="crmTask.sendTask()" ng-disabled="isDisabled">
         {{crmTask.data.id?'Зберегти':'Поставити завдання'}}
+    </button>
+    <button type="button" ng-if="!crmTask.data.id" class="btn btn-success" ng-click="crmTask.sendTask(true)" ng-disabled="isDisabled">
+        Поставити та продовжити редагувати
     </button>
     <button ng-if="modalMode" type="button" class="btn btn-default" ng-click="crmTask.cleanTask();">Відміна</button>
 </p>
