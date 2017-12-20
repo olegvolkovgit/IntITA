@@ -1,4 +1,4 @@
-<div class="panel panel-default check-list">
+<div class="panel panel-default check-list" ng-hide="!crmTask.editable && !crmTask.checkList.elements.length">
     <div class="form-group panel-body">
         <label>Чек-лист</label>
         <div style="margin-bottom: 5px" ng-if="!crmTask.checkList.id || crmTask.options.checkListEditMode && crmTask.editable" class="input-group">

@@ -19,24 +19,8 @@ class TasksController extends TeacherCabinetController {
         $this->renderPartial('/crm/_tasks/view', array(), false, true);
     }
 
-    public function actionMyTasks() {
-        $this->renderPartial('/crm/_tasks/myTasks', array(), false, true);
-    }
-
-    public function actionHelpsTasks() {
-        $this->renderPartial('/crm/_tasks/helpsTasks', array(), false, true);
-    }
-
-    public function actionEntrustTasks() {
-        $this->renderPartial('/crm/_tasks/entrustTasks', array(), false, true);
-    }
-
-    public function actionWatchTasks() {
-        $this->renderPartial('/crm/_tasks/watchTasks', array(), false, true);
-    }
-
-    public function actionAllTasks() {
-        $this->renderPartial('/crm/_tasks/allTasks', array(), false, true);
+    public function actionTasks() {
+        $this->renderPartial('/crm/_tasks/tasks', array(), false, true);
     }
 
     public function actionManager() {

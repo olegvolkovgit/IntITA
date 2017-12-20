@@ -33,13 +33,60 @@ angular
     .controller('crmTasksCtrl', ['$attrs', '$scope', 'crmTaskServices', 'ngToast', '$rootScope', 'NgTableParams', '$state', 'lodash', '$filter', '$uibModal', '$timeout', '$window',
         function ($attrs, $scope, crmTaskServices, ngToast, $rootScope, NgTableParams, $state, lodash, $filter, $uibModal, $timeout, $window) {
             $scope.changePageHeader('Завдання');
+
+            $rootScope.$on('$stateChangeStart',
+                function(event, toState, toParams, fromState, fromParams){
+                    $scope.changeRouterState(toState.name);
+                })
+
+            $scope.changeRouterState=function (state) {
+                switch (state) {
+                    case 'tasks.executant':
+                        $scope.changePageHeader('Мої завдання');
+                        $rootScope.roleId = 1;
+                        $scope.filter = {};
+                        $rootScope.loadTasks($rootScope.roleId);
+                        break;
+                    case 'tasks.collaborator':
+                        $scope.changePageHeader('Завдання в яких допомагаю');
+                        $rootScope.roleId = 3;
+                        $scope.filter = {};
+                        $rootScope.loadTasks($rootScope.roleId);
+                        break;
+                    case 'tasks.producer':
+                        $scope.changePageHeader('Завдання які доручив');
+                        $rootScope.roleId = 2;
+                        $scope.filter = {};
+                        $rootScope.loadTasks($rootScope.roleId);
+                        break;
+                    case 'tasks.observer':
+                        $scope.changePageHeader('Завдання в яких спостерігаю');
+                        $rootScope.roleId = 4;
+                        $scope.filter = {};
+                        $rootScope.loadTasks($rootScope.roleId);
+                        break;
+                    case 'tasks.all':
+                        $scope.changePageHeader('Усі завдання зі мною');
+                        $rootScope.roleId = 0;
+                        $scope.filter = {};
+                        $rootScope.loadTasks($rootScope.roleId);
+                        break;
+                    default:
+                        $scope.changePageHeader('Мої завдання');
+                        $rootScope.roleId = 1;
+                        $scope.filter = {};
+                        $rootScope.loadTasks($rootScope.roleId);
+                        break;
+                }
+            }
+
             $scope.teacherMode = $attrs.teachermode1;
             $scope.currentDate = currentDate;
             $scope.board = 1;
             $scope.currentUser = user;
             $scope.rolesCanEditCrmTasks = rolesCanEditCrmTasks;
             $scope.pathToCrmTemplates = basePath + '/angular/js/crm/templates';
-            $rootScope.filter = {};
+            $scope.filter = {};
 
             var conn = new ab.Session('wss://' + window.location.host + '/wss/',
                 function () {
@@ -151,16 +198,16 @@ angular
                 if (!keyEvent || keyEvent.which === 13) {
                     $rootScope.loadTasks(
                         $rootScope.roleId,
-                        $rootScope.filter.name,
-                        $rootScope.filter.id,
-                        $rootScope.filter.priority,
-                        $rootScope.filter.type
+                        $scope.filter.name,
+                        $scope.filter.id,
+                        $scope.filter.priority,
+                        $scope.filter.type
                     );
                 }
             },
 
             $scope.clearFilter = function () {
-                $rootScope.filter={};
+                $scope.filter={};
                 $rootScope.loadTasks($rootScope.roleId);
             },
 
@@ -323,41 +370,8 @@ angular
                     scrollTop: $jq('.' + cl).offset().top
                 }, 'slow');
             };
-        }])
-    .controller('crmMyTasksCtrl', ['$scope', '$rootScope',
-        function ($scope, $rootScope) {
-            $scope.changePageHeader('Мої завдання');
-            $rootScope.roleId = 1;
-            $rootScope.filter = {};
-            $rootScope.loadTasks($rootScope.roleId);
-        }])
-    .controller('crmEntrustTasksCtrl', ['$scope', '$rootScope',
-        function ($scope, $rootScope) {
-            $scope.changePageHeader('Завдання які доручив');
-            $rootScope.roleId = 2;
-            $rootScope.filter = {};
-            $rootScope.loadTasks($rootScope.roleId);
-        }])
-    .controller('crmWatchTasksCtrl', ['$scope', '$rootScope',
-        function ($scope, $rootScope) {
-            $scope.changePageHeader('Завдання в яких спостерігаю');
-            $rootScope.roleId = 4;
-            $rootScope.filter = {};
-            $rootScope.loadTasks($rootScope.roleId);
-        }])
-    .controller('crmHelpsTasksCtrl', ['$scope', '$rootScope',
-        function ($scope, $rootScope) {
-            $scope.changePageHeader('Завдання в яких допомагаю');
-            $rootScope.roleId = 3;
-            $rootScope.filter = {};
-            $rootScope.loadTasks($rootScope.roleId);
-        }])
-    .controller('crmAllTasksCtrl', ['$scope', '$rootScope',
-        function ($scope, $rootScope) {
-            $scope.changePageHeader('Усі завдання зі мною');
-            $rootScope.roleId = 0;
-            $rootScope.filter = {};
-            $rootScope.loadTasks($rootScope.roleId);
+
+            $scope.changeRouterState($state.$current.name);
         }])
     .controller('crmManagerCtrl', ['$scope', 'crmTaskServices',
         function ($scope, crmTaskServices) {

@@ -1,8 +1,9 @@
-<div class="panel panel-default" ng-controller="crmAllTasksCtrl">
+<div class="panel panel-default">
     <div class="panel-body" ng-if="board==2">
         <div class="dataTable_wrapper">
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed crmTaskTable">
                 <colgroup>
+                    <col width="70px"/>
                     <col/>
                     <col/>
                     <col/>
@@ -16,6 +17,9 @@
                     ng-class="{'expect_to_execute': row.idTask.id_state == 1, 'executed': row.idTask.id_state == 2,
                         'completed': row.idTask.id_state == 4,'paused': row.idTask.id_state == 3, 'bg-warning-kanban': (row.idTask.id_state!=4 && row.idTask.endTask && currentDate>=(row.idTask.endTask  | shortDate:'yyyy-MM-dd')),
                     'bg-danger-kanban': (row.idTask.id_state!=4 && row.idTask.deadline && currentDate>(row.idTask.deadline  | shortDate:'yyyy-MM-dd'))}">
+                    <td data-title="'id'" filter="{'idTask.id': 'text'}" sortable="'idTask.id'">
+                        {{row.idTask.id}}
+                    </td>
                     <td data-title="'Назва'" filter="{'idTask.name': 'text'}" sortable="'idTask.name'">
                         <a ng-href="" ng-click="getTask(row.idTask.id)">{{row.idTask.name}}</a>
                         <div class="col-md-12 svgContainer">
