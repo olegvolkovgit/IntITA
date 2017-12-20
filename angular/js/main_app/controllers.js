@@ -888,7 +888,7 @@ function studentProjectsCtrl($scope, $ngBootbox, $http, $httpParamSerializerJQLi
     $scope.addProject = function () {
         $scope.project = "";
         var projectDialogOptions = {
-            templateUrl: '/angular/js/templates/studentProjectDialog.html',
+            templateUrl: basePath+'/angular/js/templates/studentProjectDialog.html',
             scope: $scope,
             title: 'Проект',
         };
@@ -902,7 +902,7 @@ function studentProjectsCtrl($scope, $ngBootbox, $http, $httpParamSerializerJQLi
         }).then(function (response) {
             $scope.project = response.data;
             projectDialogOptions = {
-                templateUrl: '/angular/js/templates/studentProjectDialog.html',
+                templateUrl: basePath+'/angular/js/templates/studentProjectDialog.html',
                 scope: $scope,
                 title: 'Змінити проект',
             }
