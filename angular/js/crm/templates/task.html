@@ -49,6 +49,13 @@
             </select>
         </div>
         <div class="form-group">
+            <label>Категорії</label>
+            <select class="form-control"
+                    ng-options="type.id as type.title for type in crmTask.types"
+                    ng-model="crmTask.data.type" required  ng-disabled="!crmTask.editable">
+            </select>
+        </div>
+        <div class="form-group">
             <div ng-include="pathToTemplates+'/crmRolesBlock.html'"></div>
         </div>
         <div class="form-group">

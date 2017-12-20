@@ -21,6 +21,28 @@ angular
                         {id: "3", title: 'high', description: 'Високий'},
                         {id: "4", title: 'urgent', description: 'Терміновий'},
                     ],
+                    types: [
+                        {id: "1", title: 'Task'},
+                        {id: "2", title: 'Bug'},
+                        {id: "3", title: 'Feature'},
+                        {id: "4", title: 'Support'},
+                        {id: "5", title: 'Technical advice'},
+                        {id: "6", title: 'Improvement'},
+                        {id: "7", title: 'Requirement'},
+                        {id: "8", title: 'Test Case'},
+                        {id: "9", title: 'Test'},
+                        {id: "10", title: 'Event'},
+                        {id: "11", title: 'Hometask'},
+                        {id: "12", title: 'Consultation'},
+                        {id: "13", title: 'Course project'},
+                        {id: "14", title: 'Diploma project'},
+                        {id: "15", title: 'Interview'},
+                        {id: "16", title: 'Assessment'},
+                        {id: "17", title: 'Essey'},
+                        {id: "18", title: 'CV'},
+                        {id: "19", title: 'Motivation letter'},
+                        {id: "20", title: 'Rest'},
+                    ],
                     weekdaysList: [
                         {id: "1", title: 'Понеділок'},
                         {id: "2", title: 'Вівторок'},
@@ -34,12 +56,14 @@ angular
                     notificationTemplates: crmTaskServices.getNotificationTemplates(),
                     data:{
                         priority: "2",
+                        type: "1"
                     },
                     currentUser: scope.currentUser,
                     teacherMode: scope.teacherMode,
                     initTask:function() {
                         return {
                             priority: "2",
+                            type: "1",
                             name:null,body:null,startTask:null,endTask:null, deadline:null,
                             roles: { collaborator:null, executant:null, observer:null, producer:null },
                         }
@@ -270,19 +294,6 @@ angular
                             }
                         });
                     },
-                    // loadDetailSpentTaskTime:function (idUser) {
-                    //     crmTaskServices.getTimeList({id:self.data.id, id_user:idUser}).$promise
-                    //         .then(function (response) {
-                    //             console.log(response);
-                    //             if ( !scope.detailedSpentTimes[idUser] ) {
-                    //                 scope.detailedSpentTimes[idUser] = {};
-                    //                 scope.detailedSpentTimes[idUser]=response.data;
-                    //             }
-                    //         })
-                    //         .catch(function (error) {
-                    //             bootbox.alert(JSON.parse(error.data.reason));
-                    //         });
-                    // },
                     changeState:function (state) {
                         var id=this.data.id;
                         crmTaskServices.changeTaskState({id: id, state: state}).$promise.then(function () {
@@ -373,7 +384,7 @@ angular
                     sendTask:function (notReload) {
                         if (self.isModelValid()){
                             scope.isDisabled = true;
-                            crmTaskServices.sendCrmTask({crmTask: angular.toJson(self.data), subTasks:scope.subTasksMapId(self.subTasks)}).$promise
+                            crmTaskServices.sendCrmTask({crmTask: angular.toJson(self.data)}).$promise
                                 .then(function (data) {
                                     if (data.message === 'OK') {
                                         if(notReload){
@@ -527,24 +538,6 @@ angular
                     });
                 };
 
-                // scope.addSubTaskToList= function (task) {
-                //     var unique=true;
-                //     $jq.each(self.subTasks, function( key, value ) {
-                //         if(task.id==value.id){
-                //             unique=false;
-                //             return false;
-                //         }
-                //     });
-                //     if(unique){
-                //         self.subTasks.push(task);
-                //     }
-                //     scope.clearSubTaskInput();
-                // }
-
-                // scope.removeSubTaskFromList= function (index) {
-                //     self.subTasks.splice(index, 1);
-                // }
-
                 scope.clearSubTaskInput= function () {
                     self.selectedSubTask='';
                     scope.subTaskModel=null;
@@ -589,14 +582,6 @@ angular
                         appendTo: false,
                     });
                 };
-
-                // scope.subTasksMapId = function (subTasks) {
-                //     var subtasksArr = subTasks.map(function(task) {
-                //         return task['id'];
-                //     });
-                //
-                //     return subtasksArr;
-                // };
 
                 scope.addListElement=function(listId){
                     self.addElementToCheckList(listId);

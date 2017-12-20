@@ -55,10 +55,10 @@ class CrmTasks extends CTaskUnitActiveRecord
             array('name, body, created_by, priority', 'required', 'message' => '{attribute} обов\'язкове для заповнення'),
             array('id_state, created_by, cancelled_by', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 128),
-            array('endTask, deadline, cancelled_date, expected_time', 'safe'),
+            array('endTask, deadline, cancelled_date, expected_time, type', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent, expected_time', 'safe', 'on' => 'search'),
+            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent, expected_time, type', 'safe', 'on' => 'search'),
         );
     }
 
