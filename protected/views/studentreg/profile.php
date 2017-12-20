@@ -160,10 +160,10 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     <?= Yii::t('profile', '0824'); ?>
                 </li>
                 <li>
-                    <?= Yii::t('profile', '0973'); ?>
+                    <?= Yii::t('profile', '0984'); ?>
                 </li>
                 <li>
-                    <?= Yii::t('profile', '0984'); ?>
+                    <?= Yii::t('profile', '0973'); ?>
                 </li>
                 <?php if ($owner) { ?>
                     <?php if (Yii::app()->user->model->isGraduate()){ ?>
@@ -201,9 +201,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     ));
                     ?>
                 </div>
-                <div id="myProjects">
+                <div id="myProjects" ng-controller="studentProjectsCtrl">
                     <?php
-                    $this->renderPartial('_projects');
+                    $this->renderPartial('_projects',['owner'=>$owner]);
                     ?>
                 </div>
                 <?php if ($owner) { ?>

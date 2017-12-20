@@ -117,7 +117,7 @@ class StudentsProjects extends CActiveRecord
 	public function pullProject(){
         $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
         if (!is_dir($dir)){
-            mkdir($dir,0644, true);
+            mkdir($dir,0755, true);
         }
         if ($this->checkDirForEmpty($dir) === true){
             exec("cd {$dir} && git clone {$this->repository} {$dir}");
@@ -133,15 +133,22 @@ class StudentsProjects extends CActiveRecord
     public function approveProject(){
         $projectDir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
         $destDir =  Config::getRealProjectsPath().'/'.$this->id_student.'/'.$this->title;
+        if (!is_dir($projectDir) || $this->checkDirForEmpty($projectDir)){
+            return false;
+        }
         if (!is_dir($destDir))
-            mkdir($destDir,0644, true);
+            mkdir($destDir,0755, true);
         exec("rsync -a --delete --exclude '.git' {$projectDir}/ {$destDir}/");
         $this->need_check = 0;
         $this->save();
+        return true;
     }
 
     public function showFiles(){
         $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
+        if (!is_dir($dir) || $this->checkDirForEmpty($dir)){
+            return false;
+        }
         $files = $this->scanDir($dir);
         return $files;
     }
@@ -154,9 +161,9 @@ class StudentsProjects extends CActiveRecord
         foreach ($cdir as $key => $value) {
             if (!in_array($value, array(".", "..",".git" ))) {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                    $result[] = ['path'=>$dir, 'name'=>$value, 'children' => $this->scanDir($dir . DIRECTORY_SEPARATOR . $value)];
+                    $result[] = ['path'=>str_replace(Config::getTempProjectsPath().DIRECTORY_SEPARATOR,"",$dir), 'name'=>$value, 'children' => $this->scanDir($dir . DIRECTORY_SEPARATOR . $value)];
                 } else {
-                    $result[] = ['path'=>$dir, 'name'=>$value, 'children' => []];
+                    $result[] = ['path'=>str_replace(Config::getTempProjectsPath().DIRECTORY_SEPARATOR,"",$dir), 'name'=>$value, 'children' => []];
                 }
             }
         }

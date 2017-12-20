@@ -5,19 +5,24 @@
  * Date: 09.06.2017
  * Time: 12:36
  */
+
 ?>
+<?php if ($owner) {?>
 <div class="col-md-12 col-sm-12" >
     <button class="btn btn-primary" ng-click="addProject()"> Додати проект</button>
 </div>
+<?php }?>
+<div class="row studentProject" ng-repeat="project in projects">
 
-<div class="row" ng-repeat="project in projects">
-        <div class="col-md-2 col-sm-2 studentProject">
+        <div class="col-md-2 col-sm-2 ">
                 <strong>Проект:</strong>
         </div>
-        <div class="col-md-5 col-sm-5">
-            <a href="{{baseProjectsUrl}}/{{project.id_student}}/{{project.title}}" target="_blank">{{project.title}}</a>
+        <div class="col-md-5 col-sm-5" >
+            <span ng-show="!angular.isDefined(project.need_check)"><a href="{{baseProjectsUrl}}/{{project.id_student}}/{{project.title}}" target="_blank">{{project.title}}</a></span>
+            <span ng-show="project.need_check == 1">{{project.title}}</span>
         </div>
-        <div class="col-md-5 col-sm-5 studentProject" style="">
+    <?php if ($owner) {?>
+        <div class="col-md-5 col-sm-5" style="">
             <span class="col-sm-4">
             <button class="btn btn-sm btn-primary" ng-click="editProject(project.id)">Змінити</button>
             </span>
@@ -25,5 +30,6 @@
             <button class="btn btn-sm btn-success" ng-click="makeApproveRequest(project.id)">Запит на перевірку</button>
             </span>
         </div>
+    <?php }?>
 
 </div>

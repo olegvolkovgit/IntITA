@@ -320,7 +320,6 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         then(function (response) {
             $scope.model = response.data;
             console.log($scope.model);
-            $scope.selectedRecipients = $scope.model.newsletter.recipients;
             $scope.newsletterType =  $scope.model.newsletter.type;
             $scope.emailSelected.email = $scope.model.newsletter.newsletter_email;
             $scope.subject = $scope.model.newsletter.subject;
@@ -328,6 +327,12 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
             $scope.taskType = $scope.taskTypes[1].value;
             $scope.taskRepeat = $scope.model.repeat_type;
             $scope.weekdaysList = $scope.model.parameters;
+            if ($scope.newsletterType == "emailsFromDatabase"){
+                $scope.selectedRecipients = $scope.model.newsletter.recipients[0];
+            }
+            else {
+                $scope.selectedRecipients = $scope.model.newsletter.recipients;
+            }
         });
 
     }
