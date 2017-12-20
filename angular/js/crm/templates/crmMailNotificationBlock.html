@@ -1,0 +1,57 @@
+<div class="form-group">
+    <label>Оповіщення електронною поштою </label>
+    <input type="checkbox" ng-model="crmTask.data.notification.notify" ng-disabled="!crmTask.canEditCrmTasks">
+</div>
+<div ng-if="crmTask.data.notification.notify && crmTask.canEditCrmTasks">
+    <div class="row form-group col-md-12">
+        <div class="controls form-inline">
+            <span style="margin-right: 5px;" ng-repeat="notificationUser in roles">
+                <input type="checkbox" checklist-model="crmTask.data.notification.users"
+                       checklist-value="notificationUser.id"> {{notificationUser.description}}
+            </span>
+        </div>
+        <div class="errorMessage" ng-show="crmTask.data.notification.error.user">
+            {{crmTask.data.notification.error.user}}
+        </div>
+    </div>
+
+    <div class="row form-group col-md-4">
+        <label for="templates">Шаблон електронного листа</label>
+        <select class="form-control" id="templates" name="templates"
+                ng-options="item.title for item in crmTask.notificationTemplates track by item.id"
+                ng-model="crmTask.data.notification.template"
+                ng-required="crmTask.data.notification.notify">
+        </select>
+        <div class="errorMessage" ng-show="crmTask.data.notification.error.template">
+            {{crmTask.data.notification.error.template}}
+        </div>
+    </div>
+    <br>
+    <div class="row form-group col-md-12">
+        <label>Дні оповіщення</label>
+        <div class="controls form-inline">
+            <span style="margin-right: 5px; " ng-repeat="weekday in crmTask.weekdaysList">
+                <input type="checkbox" checklist-model="crmTask.data.notification.weekdays"
+                       checklist-value="weekday.id"> {{weekday.title}}
+            </span>
+        </div>
+        <div role="alert" class="errorMessage" ng-show="crmTask.data.notification.error.weekdays">
+            {{crmTask.data.notification.error.weekdays}}
+        </div>
+    </div>
+    <br>
+
+    <div class="row form-group form-inline">
+        <div class="col-md-4">
+            <label>Час оповіщення</label>
+            <span uib-timepicker ng-model="crmTask.data.notification.time" ng-change="changed()" hour-step=1
+                  minute-step=1 show-meridian="false" ng-required="crmTask.data.notification.notify">></span>
+            <div class="errorMessage" ng-show="crmTask.data.notification.error.time">
+                {{crmTask.data.notification.error.time}}
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+</div>

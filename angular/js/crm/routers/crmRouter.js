@@ -10,11 +10,18 @@ angular
                 cache: false,
                 templateUrl: basePath+"/_teacher/crm/_tasks/tasks/index",
             })
+            .state('task/:id', {
+                url: "/task/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return basePath+"/_teacher/crm/_tasks/tasks/view/?id="+$stateParams.id;
+                }
+            })
             .state('tasks.executant', {
                 url: '/executant',
                 views: {
                     'usersTasks': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/myTasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
                     }
                 }
             })
@@ -22,7 +29,7 @@ angular
                 url: '/collaborator',
                 views: {
                     'usersTasks': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/helpsTasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
                     }
                 }
             })
@@ -30,7 +37,7 @@ angular
                 url: '/producer',
                 views: {
                     'usersTasks': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/entrustTasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
                     }
                 }
             })
@@ -38,7 +45,7 @@ angular
                 url: '/observer',
                 views: {
                     'usersTasks': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/watchTasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
                     }
                 }
             })
@@ -46,7 +53,7 @@ angular
                 url: '/all',
                 views: {
                     'usersTasks': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/allTasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
                     }
                 }
             })

@@ -8,7 +8,6 @@
             <?php
             for ( $j = 0; $j < 4; $j++) {
                 if( !( $i%2 ) ){ ?>
-<!--                <td class='--><?php //echo var_dump(Consultationscalendar::classTD($teacherId, Consultationscalendar::timeInterval2($i,$j,30), $day)) ; ?><!--'>-->
                 <td class='<?php echo TeacherCalendarConsultation::classTD($teacherId, Consultationscalendar::timeInterval2($i,$j,30), $day); ?>'>
                     <?php  echo Consultationscalendar::timeInterval2($i,$j,30); ?>
                 </td>
