@@ -1,0 +1,18 @@
+<table ng-table="spentTimeTableParams" class="table table-bordered table-striped table-condensed">
+    <colgroup>
+        <col/>
+        <col/>
+    </colgroup>
+    <tr ng-repeat="row in $data track by $index" ng-if="row.id">
+        <td data-title="'Користувач'">
+            <a ng-href="#/users/profile/{{row.id}}" target="_blank">{{row.name}}</a>
+        </td>
+        <td data-title="'Затрачено'">
+            <span ng-class="{'text-success': true, 'text-danger': (row.spent_time-crmTask.data.expected_time*3600)>0}">{{row.spent_time | spentTime}} <span ng-if="crmTask.data.expected_time">/ {{crmTask.data.expected_time}}год.</span></span>
+            <span class="text-info" ng-click="spentTimeDetail[row.id]=!spentTimeDetail[row.id];">(детально)</span>
+            <div ng-repeat="interval in row.detailed" ng-if="spentTimeDetail[row.id]">
+                {{interval.start  | asDate | date:"MM.dd.yyyy HH:mm"}} - {{interval.end  | asDate | date:"MM.dd.yyyy HH:mm"}} <span class="text-success">({{[interval.start,interval.end] | getDateDiff}})</span>
+            </div>
+        </td>
+    </tr>
+</table>

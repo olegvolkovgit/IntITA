@@ -18,6 +18,8 @@
  * @property string $change_date
  * @property integer $priority
  * @property integer $id_parent
+ * @property integer $type
+ * @property integer $expected_time
  *
  * The followings are the available model relations:
  * @property CrmRolesTasks[] $crmRolesTasks
@@ -53,10 +55,10 @@ class CrmTasks extends CTaskUnitActiveRecord
             array('name, body, created_by, priority', 'required', 'message' => '{attribute} обов\'язкове для заповнення'),
             array('id_state, created_by, cancelled_by', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 128),
-            array('endTask, deadline, cancelled_date', 'safe'),
+            array('endTask, deadline, cancelled_date, expected_time, type', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent', 'safe', 'on' => 'search'),
+            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent, expected_time, type', 'safe', 'on' => 'search'),
         );
     }
 
@@ -78,6 +80,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             'observers' => array(self::HAS_MANY, 'CrmRolesTasks', 'id_task', 'on' => 'observers.cancelled_date IS NULL and observers.role = ' . CrmTasks::OBSERVER),
             'parentTask' => array(self::BELONGS_TO, 'CrmTasks', 'id_parent'),
             'priorityModel' => array(self::BELONGS_TO, 'CrmTaskPriority', 'priority'),
+            'taskType' => array(self::BELONGS_TO, 'CrmTaskType', 'type'),
         );
     }
 
@@ -101,6 +104,8 @@ class CrmTasks extends CTaskUnitActiveRecord
             'change_date' => 'Дата оновлення',
             'priority' => 'Пріоритет',
             'id_parent' => 'Батьківське завдання',
+            'type' => 'Категорія',
+            'expected_time' => 'Очікуваний час виконання',
         );
     }
 
@@ -136,6 +141,8 @@ class CrmTasks extends CTaskUnitActiveRecord
         $criteria->compare('change_date', $this->change_date, true);
         $criteria->compare('priority', $this->priority, true);
         $criteria->compare('id_parent', $this->id_parent, true);
+        $criteria->compare('type', $this->type, true);
+        $criteria->compare('expected_time', $this->expected_time, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -357,6 +364,19 @@ class CrmTasks extends CTaskUnitActiveRecord
         return $users;
 
 
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page
+     */
+    public function subTasksList($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "st";
+        $criteria->addSearchCondition('name', $query, true, "OR", "LIKE");
+        $criteria->addCondition('st.id_parent IS NULL and st.cancelled_date is NULL');
+        return CrmTasks::model()->findAll($criteria);
     }
 
 }

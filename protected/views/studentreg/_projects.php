@@ -18,7 +18,7 @@
                 <strong>Проект:</strong>
         </div>
         <div class="col-md-5 col-sm-5" >
-            <span ng-show="!angular.isDefined(project.need_check)"><a href="{{baseProjectsUrl}}/{{project.id_student}}/{{project.title}}" target="_blank">{{project.title}}</a></span>
+            <span ng-show="project.need_check != 1"><a href="{{baseProjectsUrl}}/{{project.id_student}}/{{project.title}}" target="_blank">{{project.title}}</a></span>
             <span ng-show="project.need_check == 1">{{project.title}}</span>
         </div>
     <?php if ($owner) {?>

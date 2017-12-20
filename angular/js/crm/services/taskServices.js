@@ -21,10 +21,21 @@ angular
                         method: 'GET',
                         isArray:true,
                     },
+                    getSubTasks: {
+                        url: url + '/getSubTasks',
+                        method: 'GET',
+                        isArray:true,
+                    },
                     sendCrmTask : {
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         url: url + '/sendTask',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    updateCrmBody : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/updateBody',
                         transformRequest : transformRequest.bind(null)
                     },
                     getTasks: {
@@ -34,6 +45,74 @@ angular
                     getCrmTask: {
                         url: url + '/getCrmTask',
                         method: 'GET',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getCrmSubTasks: {
+                        url: url + '/getCrmSubTasks',
+                        method: 'GET',
+                        isArray:true,
+                    },
+                    getTimeList: {
+                        url: url + '/getTimeList',
+                        method: 'GET',
+                        isArray:true,
+                    },
+                    getCheckList: {
+                        url: url + '/getCheckList',
+                        method: 'GET',
+                    },
+                    createCrmCheckList: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/createCrmCheckList',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    removeCrmCheckList: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/removeCrmCheckList',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    createCrmCheckListElement: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/createCrmCheckListElement',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    updateCrmCheckListElement: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/updateCheckListElement',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    changeCrmCheckListElementStatus: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/changeCheckListElementStatus',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    deleteCrmCheckListElement: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/deleteCheckListElement',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    // updateSubTasks: {
+                    //     method: 'POST',
+                    //     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                    //     url: url + '/updateSubTasks',
+                    //     transformRequest : transformRequest.bind(null)
+                    // },
+                    addSubTask: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/addSubTask',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    removeSubTask: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/removeSubTask',
                         transformRequest : transformRequest.bind(null)
                     },
                     changeTaskState: {

@@ -1,0 +1,41 @@
+<div class="panel panel-default check-list" ng-hide="!crmTask.editable && !crmTask.checkList.elements.length">
+    <div class="form-group panel-body">
+        <label>Чек-лист</label>
+        <div style="margin-bottom: 5px" ng-if="!crmTask.checkList.id || crmTask.options.checkListEditMode && crmTask.editable" class="input-group">
+            <input type="text" size="50" ng-model="crmTask.checkList.name"
+                   placeholder="назва чек-листа" class="form-control"
+                   ng-disabled="!crmTask.editable"/>
+            <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button" ng-click="crmTask.createCheckList(crmTask.checkList.name)" ng-disabled="!crmTask.editable || !crmTask.checkList.name">
+                    <i class="fa fa-save" aria-hidden="true" title="Додати"></i>
+                </button>
+            </span>
+        </div>
+        <div ng-show="crmTask.checkList.id && !crmTask.options.checkListEditMode" class="input-group">
+            <span style="font-size: x-large" ng-if="!crmTask.editable" >{{crmTask.checkList.name}}</span>
+            <span class="editable" style="font-size: x-large" ng-if="crmTask.editable" ng-click="crmTask.options.checkListEditMode=true" >{{crmTask.checkList.name}}</span>
+            <i ng-if="crmTask.editable" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.removeCheckList()" title="Видалити"></i>
+        </div>
+        <hr>
+        <div ng-repeat="element in crmTask.checkList.elements track by element.id" class="elementsList">
+            <input type="checkbox" name="check-list" ng-checked="element.done==1" ng-click="crmTask.changeCheckListElementStatus(element.id)">
+            <div ng-if="!crmTask.editable" >{{element.name}}</div>
+            <div ng-if="crmTask.editable" class="editable" ng-show="!crmTask.options.checkListElementEditMode[element.id]" ng-click="crmTask.options.checkListElementEditMode[element.id]=true">{{element.name}}</div>
+            <div ng-if="crmTask.editable" ng-show="crmTask.options.checkListElementEditMode[element.id]">
+                <input class="form-control" type="text" ng-model="elementName[element.id]" ng-init="elementName[element.id]=element.name">
+                <div class="glyphicon glyphicon-ok" ng-click="crmTask.updateCheckListElement(element.id, elementName[element.id]);crmTask.options.checkListElementEditMode[element.id]=false"></div>
+                <div class="glyphicon glyphicon-remove" ng-click="crmTask.options.checkListElementEditMode[element.id]=false"></div>
+            </div>
+            <i ng-if="crmTask.editable" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.deleteCheckListElement(element.id)" title="Видалити"></i>
+        </div>
+        <div class="input-group" ng-if="crmTask.checkList.id && crmTask.editable">
+            <input type="text" size="50" ng-model="crmTask.checkList.newListElement"
+                   placeholder="додати елемент" class="form-control" />
+            <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button" ng-click="addListElement(crmTask.checkList.id)" ng-disabled="!crmTask.editable || !crmTask.checkList.name">
+                    <i class="fa fa-plus" aria-hidden="true" title="Додати"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>

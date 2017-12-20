@@ -4,8 +4,14 @@
 .kanban-navigation{
     display: none;
 }
-.kanbanButtons>.fa{
-    margin: 4px 8px;
+
+.kanbanButtons{
+    text-align: center;
+}
+.kanbanButtons .fa{
+    margin: 4px;
+    font-size: 24px;
+    padding: 0;
 }
 .crmBodyBlock{
     padding: 5px;
@@ -138,19 +144,19 @@
     color: rgba(131, 0, 13, 1);
 }
 .low{
-    border:2px solid green;
+    fill:green;
     font-size: 12px;
 }
 .medium{
-    border:2px solid #ffcf1e;
+    fill:#ffcf1e;
     font-size: 12px;
 }
 .high{
-    border:2px solid orangered;
+    fill: #ff7915;
     font-size: 12px;
 }
 .urgent{
-    border:2px solid red;
+    fill: #e00820;
     font-size: 12px;
 }
 button.expect_to_execute{
@@ -234,25 +240,72 @@ ul.draggable-objects:after{
 }
 @media (max-width: 800px)
 {
-    .kanbanStageHeader{
-        margin: 0;
+    #kanban-container, .dataTable_wrapper {
+        overflow: scroll;
+    }
+    .kanban-column .cards-container .card, .dataTable_wrapper colgroup col {
+        width: 260px;
     }
     .kanban-column{
-        width: 95%;
-        min-height: 100px;
-        float: left;
+        display: table-cell;
     }
-    .kanban-navigation{
-        display: block;
-        position: fixed;
-        top: 50%;
-        right: 0;
-    }
-    .kanban-navigation .fa{
-        margin: 10px;
-        cursor: pointer;
-    }
-    .panel-body{
-        padding: 0;
-    }
+}
+
+.glyphicon.glyphicon-remove {
+    cursor: pointer;
+    padding: 0;
+}
+
+.check-list .fa{
+    cursor: pointer;
+    margin: 0 4px;
+}
+.check-list .editable:hover{
+    border-bottom: 1px solid #ccc;
+}
+.crmRolesList li {
+    margin: 0 5px;
+    cursor: pointer;
+    border-bottom: 1px dashed #000;
+    text-decoration: none;
+}
+modal .modal-background {
+    z-index: 1048;
+}
+modal .modal {
+    z-index: 1049;
+}
+.openIco, .fa-minus, .fa-edit, .fa-remove{
+    cursor: pointer;
+    transition: width 2s, height 2s, transform 2s;
+}
+.fa-edit, .fa-remove{
+    margin: 0 2px;
+}
+.openIco{
+    fill:#4b75a4;
+}
+.openIco:hover{
+    fill: #233ea4;
+}
+.fa-minus:hover{
+    color: red;
+}
+.subTasksList li{
+    margin: 10px;
+}
+.elementsList div{
+    display: inline-block;
+}
+.elementsList .form-control{
+    display: inline-block;
+    width: inherit;
+}
+.svgContainer{
+    display: flow-root;
+    text-align: center;
+}
+.svgContainer div{
+    display: inline-block;
+    width: 24px;
 }

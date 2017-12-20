@@ -1,8 +1,13 @@
-<div class="panel panel-default" ng-controller="crmAllTasksCtrl">
+<div class="panel panel-default">
     <div class="panel-body" ng-if="board==2">
         <div class="dataTable_wrapper">
             <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed crmTaskTable">
                 <colgroup>
+                    <col width="70px"/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
                     <col/>
                     <col/>
                     <col/>
@@ -12,10 +17,19 @@
                     ng-class="{'expect_to_execute': row.idTask.id_state == 1, 'executed': row.idTask.id_state == 2,
                         'completed': row.idTask.id_state == 4,'paused': row.idTask.id_state == 3, 'bg-warning-kanban': (row.idTask.id_state!=4 && row.idTask.endTask && currentDate>=(row.idTask.endTask  | shortDate:'yyyy-MM-dd')),
                     'bg-danger-kanban': (row.idTask.id_state!=4 && row.idTask.deadline && currentDate>(row.idTask.deadline  | shortDate:'yyyy-MM-dd'))}">
+                    <td data-title="'id'" filter="{'idTask.id': 'text'}" sortable="'idTask.id'">
+                        {{row.idTask.id}}
+                    </td>
                     <td data-title="'Назва'" filter="{'idTask.name': 'text'}" sortable="'idTask.name'">
                         <a ng-href="" ng-click="getTask(row.idTask.id)">{{row.idTask.name}}</a>
-                        <div>
-                            <fieldset class="kanbanButtons">
+                        <div class="col-md-12 svgContainer">
+                            <div class="openIco" ng-include="pathToCrmTemplates+'/svg/windows.svg'" title="Відкрити" ng-click="getTask(row.idTask.id)"></div>
+                            <a ng-href="#task/{{row.idTask.id}}" target="_blank">
+                                <div class="openIco" ng-include="pathToCrmTemplates+'/svg/new_window.svg'" title="Відкрити в новому вікні" ></div>
+                            </a>
+                        </div>
+                        <div class="col-md-12 kanbanButtons">
+                            <fieldset>
                                 <i ng-if="row.idTask.id_state==1" class="fa fa-play executed" aria-hidden="true" title="ПОЧАТИ" ng-click="changeKanbanState(row.idTask,2)" ng-disabled="isDisabled"></i>
                                 <i ng-if="row.idTask.id_state==3" class="fa fa-play executed" aria-hidden="true" title="ПРОДОВЖИТИ" ng-click="changeKanbanState(row.idTask,2)" ng-disabled="isDisabled"></i>
                                 <i ng-if="row.idTask.id_state==2" class="fa fa-pause paused" aria-hidden="true" title="ПРИЗУПИНИТИ" ng-click="changeKanbanState(row.idTask,3)" ng-disabled="isDisabled"></i>
@@ -26,7 +40,12 @@
                         </div>
                     </td>
                     <td data-title="'Пріоритет'" filter="{'crmPriority.id': 'select'}" filter-data="crmPrioritiesList">
-                        <div ng-class="row.idTask.priorityModel.title">{{row.idTask.priorityModel.description}}</div>
+                        <div class="svgContainer" ng-class="row.idTask.priorityModel.title">{{row.idTask.priorityModel.description}}
+                            <div style="vertical-align: bottom" ng-class="row.idTask.priorityModel.title" ng-include="pathToCrmTemplates+'/svg/priority.svg'" ></div>
+                        </div>
+                    </td>
+                    <td data-title="'Категорія'" filter="{'crmType.id': 'select'}" filter-data="crmTypesList">
+                        <div ng-class="row.idTask.taskType.title">{{row.idTask.taskType.description}}</div>
                     </td>
                     <td data-title="'Постановник'" filter="{'producerName.fullName': 'text'}" sortable="'producerName.fullName'">
                         {{row.producerName.fullName}}

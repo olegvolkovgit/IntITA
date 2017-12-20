@@ -1,0 +1,78 @@
+<div class="panel panel-default check-list">
+    <div class="form-group panel-body">
+        <div class="col-md-12 form-group">
+            <label class="col-md-6" style="line-height: 30px">Почати завдання з</label>
+            <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default" ng-click="dateOptionsStart.open()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="crmTask.data.startTask"
+                       is-open="dateOptionsStart.popupOpened"
+                       datepicker-options="dateOptionsStart"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'
+                       ng-disabled="!crmTask.editable">
+            </div>
+        </div>
+        <div class="col-md-12 form-group">
+            <label class="col-md-6" style="line-height: 30px">Завершення</label>
+            <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default" ng-click="dateOptionsEnd.open()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="crmTask.data.endTask"
+                       is-open="dateOptionsEnd.popupOpened"
+                       datepicker-options="dateOptionsEnd"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'
+                       ng-disabled="!crmTask.editable">
+            </div>
+        </div>
+        <div class="col-md-12 form-group">
+            <label class="col-md-6" style="line-height: 30px">Час виконання(год)</label>
+            <div class="input-group">
+                 <span class="input-group-btn">
+                        <span class="btn btn-default">
+                            <i class="glyphicon glyphicon-time"></i>
+                        </span>
+                    </span>
+                <input type="number" step="0.1" min="0"
+                       class="form-control"
+                       ng-model="crmTask.data.expected_time"
+                       ng-disabled="!crmTask.editable">
+            </div>
+        </div>
+        <div class="col-md-12 form-group">
+            <label class="col-md-6" style="line-height: 30px">Крайній термін</label>
+            <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default" ng-click="dateOptionsDeadline.open()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="crmTask.data.deadline"
+                       is-open="dateOptionsDeadline.popupOpened"
+                       datepicker-options="dateOptionsDeadline"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'
+                       ng-disabled="!crmTask.editable">
+            </div>
+        </div>
+    </div>
+</div>
