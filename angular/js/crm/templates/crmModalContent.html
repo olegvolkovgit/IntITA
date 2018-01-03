@@ -1,5 +1,6 @@
 <div class="modal-body">
     <crm-task
+            class="intitaCrm"
             data-ckeditor-options="editorOptionsCrm"
             task-id=currentTaskId
             modal=true
@@ -8,6 +9,8 @@
             teacher-mode=teacherMode
             role-id=roleId
             templates-path={{pathToCrmTemplates}}
-            callback-fn="loadTasks(tasksType)">
+            callback-fn="loadTasks(tasksType)"
+            clone="false"
+    >
     </crm-task>
 </div>

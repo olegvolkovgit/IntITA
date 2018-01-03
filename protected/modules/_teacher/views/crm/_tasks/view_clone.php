@@ -17,7 +17,7 @@
             role-id=roleId
             templates-path={{pathToCrmTemplates}}
             callback-fn="loadTasks(tasksType)"
-            clone="false"
+            clone="true"
     >
     </crm-task>
 </div>

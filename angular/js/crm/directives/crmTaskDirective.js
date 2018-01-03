@@ -4,8 +4,8 @@
 // dependence on ngCkeditor
 angular
     .module('crmApp')
-    .directive('crmTask', ['$resource', 'typeAhead', 'crmTaskServices', 'NgTableParams', '$compile', '$uibModal', 'ngToast',
-        function ($resource, typeAhead, crmTaskServices, NgTableParams, $compile, $uibModal, ngToast) {
+    .directive('crmTask', ['$resource', 'typeAhead', 'crmTaskServices', 'NgTableParams', '$compile', '$uibModal', 'ngToast','$state',
+        function ($resource, typeAhead, crmTaskServices, NgTableParams, $compile, $uibModal, ngToast, $state) {
             function link(scope, element, attrs) {
                 scope.pathToTemplates=attrs.templatesPath;
                 scope.modalMode=attrs.modal== 'true';
@@ -375,15 +375,18 @@ angular
                                 self.loadTask(self.data.id);
                                 scope.historyTableParams.reload({id: self.data.id});
                                 scope.reloadTaskList({tasksType: scope.roleId});
-                                $uibModal.close();
+                                scope.openCommentDialog.close();
                             })
                             .catch(function (error) {
                                 bootbox.alert(JSON.parse(error.data.reason));
                             });
                     },
-                    sendTask:function (notReload) {
+                    sendTask:function (notReload, clone) {
+                        if(clone){
+                            self.cloneTask();
+                            return;
+                        }
                         if (self.isModelValid()){
-                            scope.isDisabled = true;
                             crmTaskServices.sendCrmTask({crmTask: angular.toJson(self.data)}).$promise
                                 .then(function (data) {
                                     if (data.message === 'OK') {
@@ -399,6 +402,31 @@ angular
                                             content: 'Завдання успішно додано'
                                         });
                                         scope.reloadTaskList({tasksType: scope.roleId});
+                                    } else {
+                                        bootbox.alert(data.reason);
+                                    }
+                                    scope.isDisabled = false;
+                                })
+                                .catch(function (error) {
+                                    scope.isDisabled = false;
+                                    bootbox.alert(JSON.parse(error.data.reason));
+                                });
+                        }
+                        return false;
+                    },
+                    cloneTask:function () {
+                        if (self.isModelValid()){
+                            delete self.data.id;
+                            crmTaskServices.sendCrmTask({crmTask: angular.toJson(self.data)}).$promise
+                                .then(function (data) {
+                                    if (data.message === 'OK') {
+                                        $state.go("task/:id", {id:data.id}, {reload: true});
+                                        ngToast.create({
+                                            dismissOnTimeout: true,
+                                            dismissButton: true,
+                                            className: 'success',
+                                            content: 'Завдання успішно клоновано'
+                                        });
                                     } else {
                                         bootbox.alert(data.reason);
                                     }
@@ -597,6 +625,7 @@ angular
                     'teacherMode':'=teacherMode',
                     'roleId':'=roleId',
                     'rolesCanEditCrmTasks':'=rolesCanEditCrmTasks',
+                    'clone':'=clone',
                     reloadTaskList: '&callbackFn',
                 },
                 link: link,

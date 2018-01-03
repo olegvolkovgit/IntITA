@@ -17,6 +17,13 @@ angular
                     return basePath+"/_teacher/crm/_tasks/tasks/view/?id="+$stateParams.id;
                 }
             })
+            .state('task_clone/:id', {
+                url: "/task_clone/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return basePath+"/_teacher/crm/_tasks/tasks/viewClone/?id="+$stateParams.id;
+                }
+            })
             .state('tasks.executant', {
                 url: '/executant',
                 views: {

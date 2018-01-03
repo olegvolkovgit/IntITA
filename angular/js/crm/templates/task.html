@@ -1,15 +1,19 @@
 <div ng-if="modalMode">
     <span style="float: right" class="glyphicon glyphicon-remove modal-close" ng-click="crmTask.cleanTask();"></span>
-    <h1>Завдання</h1>
+    <h1>Завдання <span ng-if="crmTask.data.id" style="color:#ccc">#{{crmTask.data.id}}</span></h1>
 </div>
-<span ng-if="crmTask.data.id" style="color:#ccc">#{{crmTask.data.id}}</span>
+<a ng-if="!clone" ng-href="#/task_clone/{{crmTask.data.id}}" target="_blank">
+    <i class="fa fa-copy pull-right" aria-hidden="true" title="Клонувати"></i>
+</a>
+<span ng-if="crmTask.data.id && !modalMode" style="color:#ccc">#{{crmTask.data.id}}</span>
 <div class="form-group">
     <input class="form-control" maxlength="128" placeholder="Введіть назву завдання" ng-model="crmTask.data.name" ng-disabled="!crmTask.editable">
 </div>
+
 <a href="" ng-click="crmTask.data.editMode=true" ng-show="crmTask.data.id && !crmTask.data.editMode && (crmTask.data.created_by==currentUser || crmTask.canEditCrmTasks)">Режим редагування</a>
 <a href="" ng-click="crmTask.data.editMode=false" ng-show="crmTask.data.id && crmTask.data.editMode">Режим перегляду</a>
 <br>
-<p class="crmBodyBlock" ng-show="!crmTask.data.editMode && crmTask.data.id" ng-bind-html="crmTask.data.body"></p>
+<p class="crmBodyBlock" ng-show="!crmTask.data.editMode && crmTask.data.id" ng-bind-html="crmTask.data.body | trustAsHtml"></p>
 <div ng-show="crmTask.data.editMode || !crmTask.data.id">
     <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="crmTask.data.body" required></textarea>
     <button ng-if="crmTask.data.id" type="button" class="btn btn-prymari pull-right" style="margin: 5px" ng-click="crmTask.updateCrmBody()" ng-disabled="isDisabled">
@@ -18,7 +22,7 @@
 </div>
 
 <br>
-<div ng-if="crmTask.data.id && !crmTask.data.editMode">
+<div ng-if="crmTask.data.id && !crmTask.data.editMode && !crmTask.data.cancelled_date && !clone">
     <fieldset>
         <button ng-if="crmTask.data.id_state==1" type="button" class="btn executed" ng-click="crmTask.changeState(2)"
                 ng-disabled="isDisabled">РОЗПОЧАТИ ВИКОНАННЯ <i class="fa fa-play fa-1x" aria-hidden="true"></i>
@@ -34,8 +38,9 @@
                 ng-click="crmTask.changeState(1)" ng-disabled="isDisabled">ВІДНОВИТИ <i class="fa fa-clock-o fa-1x"
                                                                                         aria-hidden="true"></i></button>
         <button ng-if="crmTask.canEditCrmTasks" type="button" class="btn remove"
-                ng-click="cancelCrmTaskDialog(crmTask.data.id)" ng-disabled="isDisabled">ВИДАЛИТИ <i
-                class="fa fa-remove fa-1x" aria-hidden="true"></i></button>
+                ng-click="cancelCrmTaskDialog(crmTask.data.id)" ng-disabled="isDisabled">ВИДАЛИТИ
+                <i class="fa fa-remove fa-1x" aria-hidden="true"></i>
+        </button>
     </fieldset>
 </div>
 <br>
@@ -94,11 +99,13 @@
 </div>
 <br>
 <p style="clear: both">
-    <button type="button" ng-if="crmTask.editable" class="btn btn-success" ng-click="crmTask.sendTask()" ng-disabled="isDisabled">
+    <button type="button" ng-if="crmTask.editable" class="btn btn-success" ng-click="crmTask.sendTask(false, clone)" ng-disabled="isDisabled">
         {{crmTask.data.id?'Зберегти':'Поставити завдання'}}
     </button>
-    <button type="button" ng-if="!crmTask.data.id" class="btn btn-success" ng-click="crmTask.sendTask(true)" ng-disabled="isDisabled">
-        Поставити та продовжити редагувати
-    </button>
-    <button ng-if="modalMode" type="button" class="btn btn-default" ng-click="crmTask.cleanTask();">Відміна</button>
+    <div ng-if="!clone">
+        <button type="button" ng-if="!crmTask.data.id" class="btn btn-success" ng-click="crmTask.sendTask(true)" ng-disabled="isDisabled">
+            Поставити та продовжити редагувати
+        </button>
+        <button ng-if="modalMode" type="button" class="btn btn-default" ng-click="crmTask.cleanTask();">Відміна</button>
+    </div>
 </p>

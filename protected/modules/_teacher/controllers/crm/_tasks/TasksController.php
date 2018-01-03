@@ -19,6 +19,14 @@ class TasksController extends TeacherCabinetController {
         $this->renderPartial('/crm/_tasks/view', array(), false, true);
     }
 
+    public function actionViewClone($id) {
+        if(!CrmRolesTasks::model()->find('id_task=:taskID and id_user=:userID and cancelled_by is NULL',
+            array(':taskID'=>$id,':userID'=>Yii::app()->user->getId()))){
+            throw new CException("У тебе немає доступу до завдання");
+        }
+        $this->renderPartial('/crm/_tasks/view_clone', array(), false, true);
+    }
+
     public function actionTasks() {
         $this->renderPartial('/crm/_tasks/tasks', array(), false, true);
     }
