@@ -186,5 +186,9 @@ angular
                         method: 'GET',
                         isArray:true,
                     },
+                    getCreatedEvents: {
+                        url: url + '/getCreatedEvents',
+                        method: 'GET',
+                    },
                 });
         }]);

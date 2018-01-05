@@ -32,7 +32,11 @@ class TasksController extends TeacherCabinetController {
     }
 
     public function actionManager() {
-        $this->renderPartial('/crm/_tasks/manager', array(), false, true);
+        $this->renderPartial('/crm/_manager/manager', array(), false, true);
+    }
+
+    public function actionCreatedEvents() {
+        $this->renderPartial('/crm/_manager/createdEvents', array(), false, true);
     }
 
     public function actionGetUsers($query, $category, $multiple){
@@ -725,5 +729,113 @@ class TasksController extends TeacherCabinetController {
         $result['roles_count']=$rolesAdded;
         $result['states_count']=$statesAdded;
         echo json_encode($result);
+    }
+
+    public function actionGetCreatedEvents(){
+        $sql_tasks="SELECT DISTINCT `id_task` FROM crm_roles_tasks WHERE id_user=".Yii::app()->user->getId();
+        $tasks=CrmRolesTasks::model()->findAllBySql($sql_tasks);
+        $ids=array();
+        foreach($tasks as $task):
+            $ids[]=$task->id_task;
+        endforeach;
+
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->alias="t";
+        $criteria->with=['createdBy'];
+        $criteria->addInCondition('t.id', $ids);
+        $adapter = new NgTableAdapter('CrmTasks',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+
+//        $sql_tasks="SELECT DISTINCT `id_task` FROM crm_roles_tasks WHERE id_user=".Yii::app()->user->getId();
+//        $tasks=CrmRolesTasks::model()->findAllBySql($sql_tasks);
+//        $ids=array();
+//        foreach($tasks as $task):
+//            $ids[]=$task->id_task;
+//        endforeach;
+//
+//        $result=[];
+//        //        tasks changed
+//        $criteria = new CDbCriteria();
+//        $criteria->alias='t';
+//        $criteria->with=['idTask.createdBy','assignedBy','cancelledBy','role0','idUser','producer','producerName'];
+//        $criteria->condition="t.id_user=".Yii::app()->user->getId().' and idTask.created_by!='.Yii::app()->user->getId();
+//        $criteria->group = 't.id_task';
+//        $tasksChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmRolesTasks::model()->findAll($criteria));
+//
+//        foreach($tasksChanged as $key=>$task):
+//            $tasksChanged[$key]['event']='task';
+//        endforeach;
+//
+//        //        comments changed
+//        $criteria = new CDbCriteria();
+//        $criteria->alias='t';
+//        $criteria->with=['idTask','idUser'];
+//        $criteria->condition='t.id_user!='.Yii::app()->user->getId();
+//        $criteria->addInCondition('id_task', $ids);
+//        $commentsChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmTaskComments::model()->findAll($criteria));
+//
+//        foreach($commentsChanged as $key=>$comment):
+//            $commentsChanged[$key]['event']='comment';
+//        endforeach;
+//
+//        //        roles changed
+//        $criteria = new CDbCriteria();
+//        $criteria->alias='t';
+//        $criteria->with=['idTask.createdBy','assignedBy','cancelledBy','role0','idUser','producer','producerName'];
+//        $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.assigned_by!='.Yii::app()->user->getId();
+//        $rolesChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmRolesTasks::model()->findAll($criteria));
+//
+//        foreach($rolesChanged as $key=>$task):
+//            $rolesChanged[$key]['event']='role';
+//        endforeach;
+//
+//        //        state changed
+//        $criteria = new CDbCriteria();
+//        $criteria->alias='t';
+//        $criteria->with=['idTask.createdBy','idState','idUser'];
+//        $criteria->condition="t.id_user!=".Yii::app()->user->getId();
+//        $criteria->addInCondition('id_task', $ids);
+//        $statesChanged=ActiveRecordToJSON::toAssocArrayWithRelations(CrmTaskStateHistory::model()->findAll($criteria));
+//
+//        foreach($statesChanged as $key=>$state):
+//            $statesChanged[$key]['event']='state';
+//        endforeach;
+//
+//        $result=array_merge($tasksChanged, $commentsChanged, $rolesChanged, $statesChanged);
+//
+//        function sortByTime($a, $b)
+//        {
+//            if($a['event']=='task'){
+//                $a_time=$a['idTask']['change_date']?$a['idTask']['change_date']:$a['idTask']['created_date'];
+//            }else  if($a['event']=='comment'){
+//                $a_time=$a['create_date'];
+//            }else if($a['event']=='role'){
+//                $a_time=$a['assigned_date'];
+//            }else if($a['event']=='state'){
+//                $a_time=$a['change_date'];
+//            }
+//
+//            if($b['event']=='task'){
+//                $b_time=$b['idTask']['change_date']?$b['idTask']['change_date']:$b['idTask']['created_date'];
+//            }else  if($b['event']=='comment'){
+//                $b_time=$b['create_date'];
+//
+//            }else if($b['event']=='role'){
+//                $b_time=$b['assigned_date'];
+//            }else if($b['event']=='state'){
+//                $b_time=$b['change_date'];
+//            }
+//
+//            if ($a_time == $b_time) {
+//                return 0;
+//            }
+//            return ($a_time < $b_time) ? 1 : -1;
+//        }
+//
+//        usort($result, "sortByTime");
+//
+//        echo json_encode($result);
     }
 }

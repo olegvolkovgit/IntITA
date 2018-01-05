@@ -373,9 +373,17 @@ angular
 
             $scope.changeRouterState($state.$current.name);
         }])
-    .controller('crmManagerCtrl', ['$scope', 'crmTaskServices',
-        function ($scope, crmTaskServices) {
+    .controller('crmManagerCtrl', ['$scope', 'crmTaskServices','NgTableParams',
+        function ($scope, crmTaskServices, NgTableParams) {
             $scope.changePageHeader('Менеджер завдань');
+
+            $scope.events = [
+                {title: "Створено", route: "created"},
+                {title: "Відредаговано", route: "updated"},
+                {title: "Переведено", route: "changed"},
+                {title: "Відкоментовано", route: "commented"},
+                {title: "Надано роль", route: "set_role"},
+            ];
 
             $scope.visitedTasksManager = function () {
                 crmTaskServices
@@ -397,4 +405,21 @@ angular
             };
 
             $scope.getTasksManager();
+
+            $scope.createdEventsTableParams = new NgTableParams({
+                    sorting: {
+                        // 'idTask.priority': 'desc',
+                        // assigned_date: 'desc',
+                    },
+                }, {
+                    getData: function (params) {
+                        return crmTaskServices
+                            .getCreatedEvents(params.url())
+                            .$promise
+                            .then(function (data) {
+                                params.total(data.count);
+                                return data.rows;
+                            });
+                    }
+            });
         }]);
