@@ -190,5 +190,21 @@ angular
                         url: url + '/getCreatedEvents',
                         method: 'GET',
                     },
+                    getUpdatedEvents: {
+                        url: url + '/getUpdatedEvents',
+                        method: 'GET',
+                    },
+                    getChangedEvents: {
+                        url: url + '/getChangedEvents',
+                        method: 'GET',
+                    },
+                    getCommentedEvents: {
+                        url: url + '/getCommentedEvents',
+                        method: 'GET',
+                    },
+                    getSetRoleEvents: {
+                        url: url + '/getSetRoleEvents',
+                        method: 'GET',
+                    },
                 });
         }]);

@@ -80,7 +80,7 @@ angular
                 url: '/updated',
                 views: {
                     'managerEvents': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/updatedEvents",
                     }
                 }
             })
@@ -88,7 +88,7 @@ angular
                 url: '/changed',
                 views: {
                     'managerEvents': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/changedEvents",
                     }
                 }
             })
@@ -96,7 +96,7 @@ angular
                 url: '/commented',
                 views: {
                     'managerEvents': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/commentedEvents",
                     }
                 }
             })
@@ -104,7 +104,15 @@ angular
                 url: '/set_role',
                 views: {
                     'managerEvents': {
-                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/tasks",
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/setRoleEvents",
+                    }
+                }
+            })
+            .state('tasksManager.all', {
+                url: '/all',
+                views: {
+                    'managerEvents': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/allEvents",
                     }
                 }
             })
