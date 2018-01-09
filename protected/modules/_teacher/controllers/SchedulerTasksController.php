@@ -154,6 +154,8 @@ class SchedulerTasksController extends TeacherCabinetController
 
 		$adapter = new NgTableAdapter('SchedulerTasks',$_GET);
 		$criteria = new CDbCriteria();
+		$criteria->with = ['newsletter'];
+        $criteria->addCondition("newsletter.type!='taskNotification'");
 		$criteria->addCondition('t.type='.TaskFactory::NEWSLETTER);
 		if (!Yii::app()->user->model->isAdmin() || !Yii::app()->user->model->isSupervisor())
 		{

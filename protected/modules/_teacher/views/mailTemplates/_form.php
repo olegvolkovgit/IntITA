@@ -31,22 +31,27 @@
 					<br>
 				</div>
 				<div class="form-group">
+                    <label>Видимість шаблону</label>
 					<select class="form-control" name="active" ng-model="mailTemplateModel.active">
-						<option value="1">Активний</option>
-						<option value="0">Не активний</option>
+						<option value="1">Видимий</option>
+						<option value="0">Не видимий</option>
 					</select><br>
 				</div>
                 <div class="form-group">
+                    <label>Тип шаблону</label>
                     <select class="form-control" name="active" ng-model="mailTemplateModel.template_type">
                         <option value="1">Розсилка</option>
                         <option value="2">Повідомлення про завдання</option>
                     </select><br>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-show="mailTemplateModel.template_type == 2">
                     <label>Параметри повідомлення</label>
                     <br>
-                    <input type="text" class="form-control" name="title" placeholder="Параметри вводяться за шаблоном 'параметр1, параметр2'"
-                           size="90" ng-model="mailTemplateModel.parameters">
+                    <ul>
+                        <li>{userName} - Повне ім'я користувача </li>
+                        <li>{taskName} - Назва завдання </li>
+                        <li>{taskLink} - Посилання на завдання </li>
+                    </ul>
                     <br>
                 </div>
 				<button class="btn btn-primary" ng-click="addMailTemplate()">

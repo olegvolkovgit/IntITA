@@ -278,7 +278,7 @@ class Newsletters extends CActiveRecord implements ITask
         if ($this->template_id){
             $template = MailTemplates::model()->findByPk($this->template_id);
             $this->subject = $template->subject;
-            $template->bindParams(['{username}'=>'test','{task}'=>'task0']);
+            $this->text = $template->bindParams($this,$recipients);
         }
         if ($this->newsletter_email != Config::getNewsletterMailAddress()){
             $model = Teacher::model()->with('user')->findByAttributes(array('corporate_mail'=>$this->newsletter_email));
@@ -289,7 +289,8 @@ class Newsletters extends CActiveRecord implements ITask
             . "Reply-To: {$this->newsletter_email}" . "\r\n"
             . "Return-Path: {$this->newsletter_email}". "\r\n"
             . "Content-type: text/html;charset=utf-8" . "\r\n";
-        mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->text,$headers, "-f {$this->newsletter_email}");
+        if (!defined(MAIL_DEBUG))
+            mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->text,$headers, "-f {$this->newsletter_email}");
 
     }
 
@@ -365,6 +366,7 @@ class Newsletters extends CActiveRecord implements ITask
                 }
                 break;
             }
+
             default:{
                 $result = ['id'=>0,'name'=>'Всі користувачі сайту'];
             }

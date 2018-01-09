@@ -104,9 +104,14 @@ class MailTemplates extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public function bindParams($params){
+	public function bindParams($newsletterModel,$userEmail){
+        if($newsletterModel->type == "taskNotification"){
+            $this->text = str_replace(['{userName}','{taskName}','{taskLink}'], [
+                    StudentReg::model()->find('email=:email',['email'=>$userEmail])->fullName(),
+                    CrmTasks::model()->findByPk($newsletterModel->related_model_id)->name,
+                Config::getBaseUrl()."/cabinet/".$newsletterModel->id_organization."/#/task/".$newsletterModel->related_model_id], $this->text);
 
-	      $this->text = str_replace(array_keys($params),array_values($params),$this->text);
-
+        }
+        return $this->text;
     }
 }
