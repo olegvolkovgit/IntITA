@@ -1,4 +1,4 @@
-we<?php
+<?php
 /**
  * Created by PhpStorm.
  * User: adm
