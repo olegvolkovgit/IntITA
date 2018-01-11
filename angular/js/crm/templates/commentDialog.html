@@ -1,5 +1,5 @@
 <div class="modal-body">
-    <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="commentMessage" required></textarea><br>
+    <textarea ng-cloak id="comment_cke_dialog" crm-ckeditor="ckeditorOptions" class="mention" ng-model="commentMessage" required></textarea><br>
     <br>
     <p style="clear: both">
         <button type="button" class="btn btn-success" ng-click="crmTask.updateComment(commentId, commentMessage)">

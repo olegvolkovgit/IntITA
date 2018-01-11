@@ -49,9 +49,6 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-toast/ngToast.min.js'); ?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-toast/ngToast.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/ng-toast/ngToast-animations.min.css') ?>">
-    <!-- ngCkeditor -->
-    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
 
     <!-- ngTree -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.treeview.min.js'); ?>"></script>
@@ -262,7 +259,11 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/transformRequest.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/lodash.js'); ?>"></script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <!-- ngCkeditor -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/mentionForCkeditor.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
+    <script src="https://ligamagic.com.br/teste/ckeditor4x/samples/extras/underscore-min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -277,6 +278,7 @@
 <script>
     var useWebsocketNotification = true;
 </script>
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/mentionsInput.css'); ?>" rel="stylesheet">
 </head>
     <body ng-app="teacherApp">
     <toast style="left:0px"></toast>
@@ -291,5 +293,4 @@
         <?php } ?>
     <!--IntITAMessenger-->
     </body>
-
 </html>

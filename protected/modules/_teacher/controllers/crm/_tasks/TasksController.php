@@ -807,4 +807,20 @@ class TasksController extends TeacherCabinetController {
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
     }
+
+    public function actionGetTasksList(){
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
+        $data=[];
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+//        $criteria->addSearchCondition('id', $q, true, "OR", "LIKE");
+//        $criteria->addSearchCondition('name', $q, true, "OR", "LIKE");
+        $criteria->addInCondition('t.id', $ids);
+        $models = CrmTasks::model()->findAll($criteria);
+        foreach ($models as $index=>$model)
+        {
+            $data[$index] = array('id'=>$model['id'], 'name'=>$model['name']);
+        }
+        echo json_encode($data);
+    }
 }

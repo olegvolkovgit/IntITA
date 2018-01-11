@@ -260,7 +260,170 @@
                 }
             }
         };
+    }])
+    app.directive('crmCkeditor', ['$timeout', '$q', '$http','$compile', '$ngBootbox', function ($timeout, $q, $http, $compile, $ngBootbox) {
+
+        return {
+            restrict: 'AC',
+            require: ['ngModel', '^?form'],
+            scope: false,
+            link: function (scope, element, attrs, ctrls) {
+                var ngModel = ctrls[0];
+                var form = ctrls[1] || null;
+                var EMPTY_HTML = '<p></p>',
+                    isTextarea = element[0].tagName.toLowerCase() === 'textarea',
+                    data = [],
+                    isReady = false;
+
+                if (!isTextarea) {
+                    element.attr('contenteditable', true);
+                }
+
+                var onLoad = function () {
+                    var options = {
+                        toolbar: 'main',
+                        toolbar_main: [ //jshint ignore:line
+                            { name: 'document', items : [ 'Source','-' ] },
+                            { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                            { name: 'editing', items : [ ] },
+                            { name: 'forms', items : [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'HiddenField' ] },
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                            { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                            { name: 'insert', items : [ 'Image','Table','HorizontalRule','SpecialChar','PageBreak' ] },
+                            { name: 'styles', items : [ 'Font','FontSize' ] },
+                            { name: 'colors', items : [ 'TextColor','BGColor','mentions'] },
+                        ],
+                    };
+                    options = angular.extend(options, scope[attrs.ckeditor]);
+
+                    initMention(jQuery(element[0]).attr('id'),'@',2);
+                    // initMention(jQuery(element[0]).attr('id'),'#',3);
+                    initUsers(jQuery(element[0]).attr('id'));
+                    initTasks(jQuery(element[0]).attr('id'));
+
+                    var instance = (isTextarea) ? CKEDITOR.replace(element[0], options) : CKEDITOR.inline(element[0], options),
+                        configLoaderDef = $q.defer();
+
+                    element.bind('$destroy', function () {
+                        if (instance && CKEDITOR.instances[instance.name]) {
+                            CKEDITOR.instances[instance.name].destroy();
+                        }
+                    });
+                    var setModelData = function (setPristine) {
+                        var data = instance.getData();
+                        if (data === '') {
+                            data = null;
+                        }
+                        $timeout(function () { // for key up event
+                            if (setPristine !== true || data !== ngModel.$viewValue) {
+                                ngModel.$setViewValue(data);
+                            }
+
+                            if (setPristine === true && form) {
+                                form.$setPristine();
+                            }
+                        }, 0);
+                    }, onUpdateModelData = function (setPristine) {
+                        if (!data.length) {
+                            return;
+                        }
+
+                        var item = data.pop() || EMPTY_HTML;
+                        isReady = false;
+                        instance.setData(item, function () {
+                            setModelData(setPristine);
+                            isReady = true;
+                        });
+                    };
+
+                    //instance.on('pasteState',   setModelData);
+                    instance.on('change', setModelData);
+                    instance.on('blur', setModelData);
+                    //instance.on('key',          setModelData); // for source view
+
+                    instance.on('instanceReady', function () {
+                        scope.$broadcast('ckeditor.ready');
+                        scope.$apply(function () {
+                            onUpdateModelData(true);
+                        });
+                        instance.document.on('keyup', setModelData);
+                        // instance.on('key', function (e) { getContentLists(e.data.domEvent.$.key, instance)});
+                    });
+
+                    ngModel.$render = function () {
+                        data.push(ngModel.$viewValue);
+                        if (isReady) {
+                            onUpdateModelData();
+                        }
+                    };
+                };
+
+                function getContentLists(key, instance) {
+                    if(key=='#'){
+                        instance.insertHtml('<select id="hash-tasks"></select>');
+                        $jq("#hash-tasks").select2({
+                            ajax: {
+                                url:  basePath+"/_teacher/crm/_tasks/tasks/getTasksList",
+                                dataType: 'json',
+                                delay: 250,
+                                data: function (params) {
+                                    return {
+                                        q: params.term, // search term
+                                    };
+                                },
+                                processResults: function (data, params) {
+                                    // parse the results into the format expected by Select2
+                                    // since we are using custom formatting functions we do not need to
+                                    // alter the remote JSON data, except to indicate that infinite
+                                    // scrolling can be used
+                                    return {
+                                        results: data.items,
+                                    };
+                                },
+                                cache: true
+                            },
+                            placeholder: 'завдання',
+                            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                            templateResult: formatRepo,
+                            templateSelection: formatRepoSelection
+                        });
+                    }else if(key=='@'){
+                        console.log('Users list');
+                    }
+                }
+
+                function formatRepo (repo) {
+                    if (repo.loading) {
+                        return repo.name;
+                    }
+                    return repo.name;
+                }
+
+                function formatRepoSelection (repo) {
+                    return repo.name || repo.text;
+                }
+
+                if (CKEDITOR.status === 'loaded') {
+                    loaded = true;
+                }
+                if (loaded) {
+                    onLoad();
+                } else {
+                    $defer.promise.then(onLoad);
+                }
+            }
+        };
     }]);
 
     return app;
 }));
+
+(function() {
+    CKEDITOR.keystrokeHandler.prototype = {
+        attach: function(domObject) {
+            //domObject.on( 'keydown', onInputBoxKeyDown, this );
+            domObject.on('keypress', window.onInputBoxKeyPress, this);
+        }
+    };
+})();

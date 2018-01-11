@@ -4,11 +4,13 @@
 // dependence on ngCkeditor
 angular
     .module('crmApp')
-    .directive('crmTask', ['$resource', 'typeAhead', 'crmTaskServices', 'NgTableParams', '$compile', '$uibModal', 'ngToast','$state',
-        function ($resource, typeAhead, crmTaskServices, NgTableParams, $compile, $uibModal, ngToast, $state) {
+    .directive('crmTask', ['$resource', 'typeAhead', 'crmTaskServices', 'NgTableParams', '$compile', '$uibModal', 'ngToast','$state','$timeout','$rootScope',
+        function ($resource, typeAhead, crmTaskServices, NgTableParams, $compile, $uibModal, ngToast, $state, $timeout, $rootScope) {
             function link(scope, element, attrs) {
                 scope.pathToTemplates=attrs.templatesPath;
                 scope.modalMode=attrs.modal== 'true';
+                var pressedSymbol;
+
                 var self=scope.crmTask={
                     editable:true,
                     options:{},
@@ -615,6 +617,31 @@ angular
                     self.addElementToCheckList(listId);
                     self.checkList.newListElement=null;
                 };
+
+                // $rootScope.$on('$includeContentLoaded', function() {
+                //     $timeout(function(){
+                //         setEventToEditableField();
+                //     });
+                // });
+                //
+                // var setEventToEditableField = function() {
+                //     $jq( ".cke_editable" ).keyup(function(e) {
+                //     });
+                // }
+                // setEventToEditableField();
+                //
+                // scope.$watch('comment.message', function (newValue, oldValue) {
+                //     // console.log(pressedSymbol);
+                //     // if (pressedSymbol==="#"){
+                //     //     console.log('ajax');
+                //     // }
+                // });
+                // function keyUp(e){
+                //     console.log(e.key);
+                //     pressedSymbol=e.key;
+                // }
+                //
+                // addEventListener("keyup", keyUp);
             }
 
             return {
