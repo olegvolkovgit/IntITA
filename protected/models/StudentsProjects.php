@@ -116,14 +116,15 @@ class StudentsProjects extends CActiveRecord
 
 	public function pullProject(){
         $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
+        $gitSSHcommandPath = Config::getGitScriptPath();
         if (!is_dir($dir)){
             mkdir($dir,0755, true);
         }
         if ($this->checkDirForEmpty($dir) === true){
-            exec("cd {$dir} && git clone {$this->repository} {$dir}");
+            exec("GIT_SSH={$gitSSHcommandPath} cd {$dir} && git clone {$this->repository} {$dir}");
         }
         else{
-            exec("cd {$dir} && git reset --hard && git checkout {$this->branch} && git pull");
+            exec("GIT_SSH={$gitSSHcommandPath} cd {$dir} && git reset --hard && git checkout {$this->branch} && git pull");
         }
 
         $files = scandir($dir);
