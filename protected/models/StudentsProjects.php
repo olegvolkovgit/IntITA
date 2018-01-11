@@ -126,7 +126,7 @@ class StudentsProjects extends CActiveRecord
             exec(escapeshellcmd("GIT_SSH={$gitSSHcommandPath} git clone {$this->repository} {$dir}"));
         }
         else{
-            exec("GIT_SSH={$gitSSHcommandPath} cd {$dir} && git reset --hard && git checkout {$this->branch} && git pull");
+            exec("cd {$dir} && GIT_SSH={$gitSSHcommandPath}  git reset --hard && GIT_SSH={$gitSSHcommandPath}  git checkout {$this->branch} && GIT_SSH={$gitSSHcommandPath}  git pull");
         }
 
         $files = scandir($dir);
