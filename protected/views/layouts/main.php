@@ -203,8 +203,8 @@ $header = new Header();
 <div id="mainfooter">
     <div ng-cloak class="bannersArea">
         <div class="bannersCarousel" ng-controller="bannersSliderCtrl">
-            <ul rn-carousel rn-carousel-index="1" rn-carousel-auto-slide rn-carousel-pause-on-hover rn-carousel-buffered rn-carousel-transition="hexagon" rn-carousel-duration="{{slides.slideTime}}">
-                <li ng-repeat="slide in slides.banners track by slide.id" ng-class="'id-' + slide.id">
+            <ul rn-carousel rn-carousel-index="1" rn-carousel-auto-slide rn-carousel-pause-on-hover rn-carousel-buffered rn-carousel-transition="hexagon" rn-carousel-duration="{{slideTime}}">
+                <li ng-repeat="slide in slides track by slide.id" ng-class="'id-' + slide.id">
                     <div ng-style="{'background-image': 'url(' + slide.file_path + ')','background-size':'contain', 'background-repeat':'no-repeat' }"  class="bannerImage">
                         &nbsp;
                     </div>

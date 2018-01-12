@@ -927,13 +927,13 @@ function studentProjectsCtrl($scope, $ngBootbox, $http, $httpParamSerializerJQLi
     }
 }
 function bannersSliderCtrl($scope, $http) {
-    console.log(window.location.pathname);
     $scope.slides = [];
     $http({
         method:'get',
         url:"/site/getBanners/location"+window.location.pathname
     }).then(function (response) {
-        $scope.slides = response.data;
+        $scope.slideTime = response.data.slideTime;
+        $scope.slides = response.data.banners;
     });
 
 }
