@@ -8,12 +8,14 @@
  * License: MIT License - http://www.opensource.org/licenses/mit-license.php
  */
 
-function initMention(el, char, min) {
+function initMention(el, charUser, charTask, min) {
     // Settings
     var KEY = { BACKSPACE: 8, TAB: 9, RETURN: 13, ESC: 27, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, COMMA: 188, SPACE: 32, HOME: 36, END: 35 }; // Keys "enum"
     //Default settings
     var defaultSettings = {
-        triggerChar: char, //Char that respond to event
+        triggerCharUser: charUser, //Char that respond to event
+        triggerCharTask: charTask, //Char that respond to event
+        currentTriggerChar:charUser,
         onDataRequest: jQuery.noop, //Function where we can search the data
         minChars: min, //Minimum chars to fire the event
         showAvatars: true, //Show the avatars
@@ -91,6 +93,7 @@ function initMention(el, char, min) {
         //Initializes the autocomplete list, append to elmWrapperBox and delegate the mousedown event to li elements
         function initAutocomplete() {
             elmAutocompleteList = jQuery(settings.templates.autocompleteList()); //Get the HTML code for the list
+            console.log(elmWrapperBox);
             elmAutocompleteList.appendTo(elmWrapperBox); //Append to elmWrapperBox element
             elmAutocompleteList.delegate('li', 'click', onAutoCompleteItemClick); //Delegate the event
         }
@@ -114,7 +117,7 @@ function initMention(el, char, min) {
         //Adds mention to mentions collections
         function addMention(value, id, type) {
             var currentMessage = getInputBoxValue();
-            var findString = settings.triggerChar + currentDataQuery;
+            var findString = settings.currentTriggerChar + currentDataQuery;
 
             // Using a regex to figure out positions
             var regex = new RegExp("\\" + findString, "gi");
@@ -163,7 +166,12 @@ function initMention(el, char, min) {
                     range.deleteContents();
                     range.select();
 
-                    editor.insertHtml('<a href="#/users/profile/'+id+'" target="_blank">'+value+'</a>');
+                    if(settings.currentTriggerChar==settings.triggerCharUser){
+                        var html='<a href="#/users/profile/'+id+'" target="_blank">'+value+'</a>';
+                    }else if(settings.currentTriggerChar==settings.triggerCharTask){
+                        var html='<a href="#/task/'+id+'" target="_blank">'+value+'</a>';
+                    }
+                    editor.insertHtml(html);
                 }
             }
             editor.updateElement();
@@ -193,11 +201,16 @@ function initMention(el, char, min) {
         window.onInputBoxInput = function(e) {
             updateMentionsCollection();
             hideAutoComplete();
-            var triggerCharIndex = _.lastIndexOf(inputBuffer, settings.triggerChar);
+            var triggerCharIndexUser = _.lastIndexOf(inputBuffer, settings.triggerCharUser);
+            var triggerCharIndexTask = _.lastIndexOf(inputBuffer, settings.triggerCharTask);
+            if(triggerCharIndexUser > -1) var firstKey = settings.triggerCharUser;
+            if(triggerCharIndexTask > -1) var firstKey = settings.triggerCharTask;
+            var triggerCharIndex = Math.max(triggerCharIndexUser, triggerCharIndexTask);
             if (triggerCharIndex > -1) {
+                settings.currentTriggerChar = firstKey;
                 currentDataQuery = inputBuffer.slice(triggerCharIndex + 1).join('');
                 currentDataQuery = utils.rtrim(currentDataQuery);
-                _.defer(_.bind(doSearch, this, currentDataQuery));
+                _.defer(_.bind(doSearch, this, currentDataQuery, firstKey));
             }
         }
 
@@ -331,11 +344,12 @@ function initMention(el, char, min) {
         }
 
         //Search into data list passed as parameter
-        function doSearch(query) {
+        function doSearch(query, key) {
             //If the query is not null, undefined, empty and has the minimum chars
             if (query && query.length && query.length >= settings.minChars) {
                 //Call the onDataRequest function and then call the populateDropDrown
-                settings.onDataRequest.call(this, 'search', query, function(responseData) {
+                var type = key==settings.triggerCharUser?'user':'task';
+                settings.onDataRequest.call(this, 'search', query, type, function(responseData) {
                     populateDropdown(query, responseData);
                 });
             }
@@ -380,7 +394,6 @@ function initMention(el, char, min) {
 
     //Main function to include into jQuery and initialize the plugin
     jQuery.fn.mentionsInputUser = function(method, settings) {
-        console.log(settings);
         if (typeof method === 'object' || !method) {
             settings = jQuery.extend(true, {}, defaultSettings, method);
         }
@@ -403,8 +416,7 @@ function initMention(el, char, min) {
         });
     };
     //Main function to include into jQuery and initialize the plugin
-    jQuery.fn.mentionsInputTask = function(method, settings) {
-        console.log(settings);
+    jQuery.fn.mentionsInput = function(method, settings) {
         if (typeof method === 'object' || !method) {
             settings = jQuery.extend(true, {}, defaultSettings, method);
         }
@@ -427,36 +439,3 @@ function initMention(el, char, min) {
         });
     };
 };
-
-function initUsers(el) {
-    jQuery.ajax({
-        url: basePath + "/_teacher/crm/_tasks/tasks/getTasksList",
-        dataType: "json",                     // тип загружаемых данных
-        success: function (response) { // вешаем свой обработчик на функцию success
-            jQuery('textarea.mention').mentionsInputUser({
-                onDataRequest: function (mode, query, callback) {
-                    var data = _.filter(response, function (item) {
-                        return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
-                    });
-                    callback.call(this, data);
-                }
-            });
-        }
-    });
-}
-function initTasks(el) {
-    jQuery.ajax({
-        url: basePath + "/_teacher/crm/_tasks/tasks/getTasksList",
-        dataType: "json",                     // тип загружаемых данных
-        success: function (response) { // вешаем свой обработчик на функцию success
-            jQuery('textarea.mention').mentionsInputTask({
-                onDataRequest: function (mode, query, callback) {
-                    var data = _.filter(response, function (item) {
-                        return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
-                    });
-                    callback.call(this, data);
-                }
-            });
-        }
-    });
-}

@@ -278,7 +278,6 @@
 <script>
     var useWebsocketNotification = true;
 </script>
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/mentionsInput.css'); ?>" rel="stylesheet">
 </head>
     <body ng-app="teacherApp">
     <toast style="left:0px"></toast>
@@ -292,5 +291,6 @@
             <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
         <?php } ?>
     <!--IntITAMessenger-->
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/mentionsInput.css'); ?>" rel="stylesheet">
     </body>
 </html>

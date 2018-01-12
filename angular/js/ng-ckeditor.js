@@ -297,66 +297,81 @@
                     };
                     options = angular.extend(options, scope[attrs.ckeditor]);
 
-                    initMention(jQuery(element[0]).attr('id'),'@',2);
-                    // initMention(jQuery(element[0]).attr('id'),'#',3);
-                    initUsers(jQuery(element[0]).attr('id'));
-                    initTasks(jQuery(element[0]).attr('id'));
+                    jQuery.when(
+                        jQuery.get(basePath + "/_teacher/crm/_tasks/tasks/getUsersList"),
+                        jQuery.get(basePath + "/_teacher/crm/_tasks/tasks/getTasksList")
+                    ).then(function( users, tasks ) {
+                        var users=JSON.parse(users[0]);
+                        var tasks=JSON.parse(tasks[0]);
 
-                    var instance = (isTextarea) ? CKEDITOR.replace(element[0], options) : CKEDITOR.inline(element[0], options),
-                        configLoaderDef = $q.defer();
+                        initMention(jQuery(element[0]).attr('id'),'@', '#', 2);
 
-                    element.bind('$destroy', function () {
-                        if (instance && CKEDITOR.instances[instance.name]) {
-                            CKEDITOR.instances[instance.name].destroy();
-                        }
-                    });
-                    var setModelData = function (setPristine) {
-                        var data = instance.getData();
-                        if (data === '') {
-                            data = null;
-                        }
-                        $timeout(function () { // for key up event
-                            if (setPristine !== true || data !== ngModel.$viewValue) {
-                                ngModel.$setViewValue(data);
+                        jQuery('textarea.mention').mentionsInput({
+                            onDataRequest: function (mode, query, type, callback) {
+                                var response = type=='user'?users:tasks;
+                                var data = _.filter(response, function (item) {
+                                    return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+                                });
+                                callback.call(this, data);
+                            }
+                        });
+
+                        var instance = (isTextarea) ? CKEDITOR.replace(element[0], options) : CKEDITOR.inline(element[0], options),
+                            configLoaderDef = $q.defer();
+
+                        element.bind('$destroy', function () {
+                            if (instance && CKEDITOR.instances[instance.name]) {
+                                CKEDITOR.instances[instance.name].destroy();
+                            }
+                        });
+                        var setModelData = function (setPristine) {
+                            var data = instance.getData();
+                            if (data === '') {
+                                data = null;
+                            }
+                            $timeout(function () { // for key up event
+                                if (setPristine !== true || data !== ngModel.$viewValue) {
+                                    ngModel.$setViewValue(data);
+                                }
+
+                                if (setPristine === true && form) {
+                                    form.$setPristine();
+                                }
+                            }, 0);
+                        }, onUpdateModelData = function (setPristine) {
+                            if (!data.length) {
+                                return;
                             }
 
-                            if (setPristine === true && form) {
-                                form.$setPristine();
+                            var item = data.pop() || EMPTY_HTML;
+                            isReady = false;
+                            instance.setData(item, function () {
+                                setModelData(setPristine);
+                                isReady = true;
+                            });
+                        };
+
+                        //instance.on('pasteState',   setModelData);
+                        instance.on('change', setModelData);
+                        instance.on('blur', setModelData);
+                        //instance.on('key',          setModelData); // for source view
+
+                        instance.on('instanceReady', function () {
+                            scope.$broadcast('ckeditor.ready');
+                            scope.$apply(function () {
+                                onUpdateModelData(true);
+                            });
+                            instance.document.on('keyup', setModelData);
+                            // instance.on('key', function (e) { getContentLists(e.data.domEvent.$.key, instance)});
+                        });
+
+                        ngModel.$render = function () {
+                            data.push(ngModel.$viewValue);
+                            if (isReady) {
+                                onUpdateModelData();
                             }
-                        }, 0);
-                    }, onUpdateModelData = function (setPristine) {
-                        if (!data.length) {
-                            return;
-                        }
-
-                        var item = data.pop() || EMPTY_HTML;
-                        isReady = false;
-                        instance.setData(item, function () {
-                            setModelData(setPristine);
-                            isReady = true;
-                        });
-                    };
-
-                    //instance.on('pasteState',   setModelData);
-                    instance.on('change', setModelData);
-                    instance.on('blur', setModelData);
-                    //instance.on('key',          setModelData); // for source view
-
-                    instance.on('instanceReady', function () {
-                        scope.$broadcast('ckeditor.ready');
-                        scope.$apply(function () {
-                            onUpdateModelData(true);
-                        });
-                        instance.document.on('keyup', setModelData);
-                        // instance.on('key', function (e) { getContentLists(e.data.domEvent.$.key, instance)});
+                        };
                     });
-
-                    ngModel.$render = function () {
-                        data.push(ngModel.$viewValue);
-                        if (isReady) {
-                            onUpdateModelData();
-                        }
-                    };
                 };
 
                 function getContentLists(key, instance) {

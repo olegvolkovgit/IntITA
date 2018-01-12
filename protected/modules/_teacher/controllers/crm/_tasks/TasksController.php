@@ -813,8 +813,6 @@ class TasksController extends TeacherCabinetController {
         $data=[];
         $criteria = new CDbCriteria();
         $criteria->alias='t';
-//        $criteria->addSearchCondition('id', $q, true, "OR", "LIKE");
-//        $criteria->addSearchCondition('name', $q, true, "OR", "LIKE");
         $criteria->addInCondition('t.id', $ids);
         $models = CrmTasks::model()->findAll($criteria);
         foreach ($models as $index=>$model)
@@ -823,4 +821,17 @@ class TasksController extends TeacherCabinetController {
         }
         echo json_encode($data);
     }
+
+    public function actionGetUsersList(){
+        $data=[];
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $models = StudentReg::model()->findAll($criteria);
+        foreach ($models as $index=>$model)
+        {
+            $data[$index] = array('id'=>$model['id'], 'name'=>$model->fullName);
+        }
+        echo json_encode($data);
+    }
+
 }
