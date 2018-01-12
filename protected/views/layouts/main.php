@@ -39,6 +39,11 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/jspdf/dist/jspdf.min.js'); ?>"></script>
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-touch/angular-touch.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-carousel/dist/angular-carousel.min.js'); ?>"></script>
+    <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-carousel/dist/angular-carousel.min.css'); ?>" rel="stylesheet"/>
+
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-file-upload/dist/angular-file-upload.min.js'); ?>"></script>
@@ -196,6 +201,17 @@ $header = new Header();
     </div>
 </div>
 <div id="mainfooter">
+    <div ng-cloak class="bannersArea">
+        <div class="bannersCarousel" ng-controller="bannersSliderCtrl">
+            <ul rn-carousel rn-carousel-index="1" rn-carousel-auto-slide rn-carousel-pause-on-hover rn-carousel-buffered rn-carousel-transition="hexagon" rn-carousel-duration="{{slides.slideTime}}">
+                <li ng-repeat="slide in slides.banners track by slide.id" ng-class="'id-' + slide.id">
+                    <div ng-style="{'background-image': 'url(' + slide.file_path + ')','background-size':'contain', 'background-repeat':'no-repeat' }"  class="bannerImage">
+                        &nbsp;
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="footercontent">
         <div class="leftfooter">
             <table>

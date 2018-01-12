@@ -8,7 +8,7 @@ angular
     .controller('teacherResponse', teacherResponse)
     .controller('promotionSchemesCtrl',promotionSchemesCtrl)
     .controller('studentProjectsCtrl',studentProjectsCtrl)
-
+    .controller('bannersSliderCtrl',bannersSliderCtrl)
 
 /* Controllers */
 function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout, FileUploader, documentsServices) {
@@ -925,4 +925,15 @@ function studentProjectsCtrl($scope, $ngBootbox, $http, $httpParamSerializerJQLi
             });
 
     }
+}
+function bannersSliderCtrl($scope, $http) {
+    console.log(window.location.pathname);
+    $scope.slides = [];
+    $http({
+        method:'get',
+        url:"/site/getBanners/location"+window.location.pathname
+    }).then(function (response) {
+        $scope.slides = response.data;
+    });
+
 }
