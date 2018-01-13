@@ -4,11 +4,14 @@
 // dependence on ngCkeditor
 angular
     .module('crmApp')
-    .directive('crmTask', ['$resource', 'typeAhead', 'crmTaskServices', 'NgTableParams', '$compile', '$uibModal', 'ngToast',
-        function ($resource, typeAhead, crmTaskServices, NgTableParams, $compile, $uibModal, ngToast) {
+    .directive('crmTask', ['$resource', 'typeAhead', 'crmTaskServices', 'NgTableParams', '$compile', '$uibModal', 'ngToast','$state','$timeout','$rootScope', 'FileUploader','$ngBootbox',
+        function ($resource, typeAhead, crmTaskServices, NgTableParams, $compile, $uibModal, ngToast, $state, $timeout, $rootScope, FileUploader, $ngBootbox) {
             function link(scope, element, attrs) {
                 scope.pathToTemplates=attrs.templatesPath;
+                scope.pathToFiles=attrs.filesPath;
                 scope.modalMode=attrs.modal== 'true';
+                var pressedSymbol;
+
                 var self=scope.crmTask={
                     editable:true,
                     options:{},
@@ -85,7 +88,7 @@ angular
                                     self.editable = !(self.data.id_state==4 || (self.data.id && !self.canEditCrmTasks))
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }else{
                             self.data=self.initTask();
@@ -98,7 +101,7 @@ angular
                                     self.subTasks=data;
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
                     },
@@ -109,9 +112,40 @@ angular
                                     self.checkList=data;
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
+                    },
+                    loadTaskDocuments: function (id) {
+                        crmTaskServices
+                            .getTaskDocuments({id: id})
+                            .$promise
+                            .then(function (data) {
+                                self.taskDocuments = data;
+                            });
+                    },
+                    removeDocumentsFileDialog: function (fileId) {
+                        scope.fileId = fileId;
+                        scope.openFileDialog = $uibModal.open({
+                            animation: true,
+                            ariaLabelledBy: 'modal-title',
+                            ariaDescribedBy: 'modal-body',
+                            templateUrl: basePath + '/angular/js/crm/templates/deleteFileDialog.html',
+                            scope: scope,
+                            size: 'md',
+                            appendTo: false,
+                        });
+                    },
+                    removeDocumentsFile: function (id) {
+                        crmTaskServices
+                            .removeTaskFile({id: id})
+                            .$promise
+                            .then(function successCallback() {
+                                self.loadTaskDocuments(self.data.id);
+                                scope.openFileDialog.close();
+                            }, function errorCallback() {
+                                alert("Виникла помилка при видалені документу.");
+                            });
                     },
                     createCheckList: function (name) {
                         if(name){
@@ -128,30 +162,38 @@ angular
                                     self.options.checkListEditMode=false;
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
                     },
+                    removeCheckListDialog: function () {
+                        scope.openCheckListDialog = $uibModal.open({
+                            animation: true,
+                            ariaLabelledBy: 'modal-title',
+                            ariaDescribedBy: 'modal-body',
+                            templateUrl: basePath + '/angular/js/crm/templates/deleteCheckListDialog.html',
+                            scope: scope,
+                            size: 'md',
+                            appendTo: false,
+                        });
+                    },
                     removeCheckList: function () {
-                        bootbox.confirm("Ти дійсно бажаєш видалити чек-лист?", function(result) {
-                            if(result){
-                                crmTaskServices.removeCrmCheckList({id:self.data.id}).$promise
-                                    .then(function (response) {
-                                        ngToast.create({
-                                            dismissOnTimeout: true,
-                                            timeout:2000,
-                                            dismissButton: true,
-                                            className: 'success',
-                                            content: 'Чек-ліст видалено'
-                                        });
-                                        self.loadCheckList(self.data.id);
-                                        self.options.checkListEditMode=false;
-                                    })
-                                    .catch(function (error) {
-                                        bootbox.alert(JSON.parse(error.data.reason));
-                                    });
-                            }
-                        })
+                        crmTaskServices.removeCrmCheckList({id:self.data.id}).$promise
+                            .then(function (response) {
+                                ngToast.create({
+                                    dismissOnTimeout: true,
+                                    timeout:2000,
+                                    dismissButton: true,
+                                    className: 'success',
+                                    content: 'Чек-ліст видалено'
+                                });
+                                self.loadCheckList(self.data.id);
+                                self.options.checkListEditMode=false;
+                                scope.openCheckListDialog.close();
+                            })
+                            .catch(function (error) {
+                                alert(JSON.parse(error.data.reason));
+                            });
                     },
                     addElementToCheckList: function (id) {
                         if(element){
@@ -160,7 +202,7 @@ angular
                                     self.loadCheckList(self.data.id);
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
                     },
@@ -171,7 +213,7 @@ angular
                                     self.loadCheckList(self.data.id);
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
                     },
@@ -182,7 +224,7 @@ angular
                                     self.loadCheckList(self.data.id);
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
                     },
@@ -193,7 +235,7 @@ angular
                                     self.loadCheckList(self.data.id);
                                 })
                                 .catch(function (error) {
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
                     },
@@ -313,7 +355,7 @@ angular
                             })
                             .catch(function (error) {
                                 scope.isDisabledComment = false;
-                                bootbox.alert(JSON.parse(error.data.reason));
+                                alert(JSON.parse(error.data.reason));
                             });
                     },
                     removeCommentDialog: function (commentId) {
@@ -335,7 +377,7 @@ angular
                                 scope.openCommentDialog.close();
                             })
                             .catch(function (error) {
-                                bootbox.alert('Операцію не вдалося виконати');
+                                alert('Операцію не вдалося виконати');
                             });
                     },
                     editComment:function (event, commentId, oldComment) {
@@ -362,7 +404,7 @@ angular
                             })
                             .catch(function (error) {
                                 scope.isDisabledComment = false;
-                                bootbox.alert(JSON.parse(error.data.reason));
+                                alert(JSON.parse(error.data.reason));
                             });
                     },
                     toggleComment: function () {
@@ -375,15 +417,18 @@ angular
                                 self.loadTask(self.data.id);
                                 scope.historyTableParams.reload({id: self.data.id});
                                 scope.reloadTaskList({tasksType: scope.roleId});
-                                $uibModal.close();
+                                scope.openCommentDialog.close();
                             })
                             .catch(function (error) {
-                                bootbox.alert(JSON.parse(error.data.reason));
+                                alert(JSON.parse(error.data.reason));
                             });
                     },
-                    sendTask:function (notReload) {
+                    sendTask:function (notReload, clone) {
+                        if(clone){
+                            self.cloneTask();
+                            return;
+                        }
                         if (self.isModelValid()){
-                            scope.isDisabled = true;
                             crmTaskServices.sendCrmTask({crmTask: angular.toJson(self.data)}).$promise
                                 .then(function (data) {
                                     if (data.message === 'OK') {
@@ -400,13 +445,38 @@ angular
                                         });
                                         scope.reloadTaskList({tasksType: scope.roleId});
                                     } else {
-                                        bootbox.alert(data.reason);
+                                        alert(data.reason);
                                     }
                                     scope.isDisabled = false;
                                 })
                                 .catch(function (error) {
                                     scope.isDisabled = false;
-                                    bootbox.alert(JSON.parse(error.data.reason));
+                                    alert(JSON.parse(error.data.reason));
+                                });
+                        }
+                        return false;
+                    },
+                    cloneTask:function () {
+                        if (self.isModelValid()){
+                            delete self.data.id;
+                            crmTaskServices.sendCrmTask({crmTask: angular.toJson(self.data)}).$promise
+                                .then(function (data) {
+                                    if (data.message === 'OK') {
+                                        $state.go("task/:id", {id:data.id}, {reload: true});
+                                        ngToast.create({
+                                            dismissOnTimeout: true,
+                                            dismissButton: true,
+                                            className: 'success',
+                                            content: 'Завдання успішно клоновано'
+                                        });
+                                    } else {
+                                        alert(data.reason);
+                                    }
+                                    scope.isDisabled = false;
+                                })
+                                .catch(function (error) {
+                                    scope.isDisabled = false;
+                                    alert(JSON.parse(error.data.reason));
                                 });
                         }
                         return false;
@@ -425,13 +495,13 @@ angular
                                     });
                                     scope.reloadTaskList({tasksType: scope.roleId});
                                 } else {
-                                    bootbox.alert(data.reason);
+                                    alert(data.reason);
                                 }
                                 scope.isDisabled = false;
                             })
                             .catch(function (error) {
                                 scope.isDisabled = false;
-                                bootbox.alert(JSON.parse(error.data.reason));
+                                alert(JSON.parse(error.data.reason));
                             });
                     },
                     isModelValid: function () {
@@ -481,6 +551,7 @@ angular
                 };
                 self.loadTask(scope.taskId);
                 self.loadSubTasks(scope.taskId);
+                self.loadTaskDocuments(scope.taskId);
                 self.loadCheckList(scope.taskId);
 
                 scope.$watch('crmTask.data.id', function (newValue, oldValue) {
@@ -583,10 +654,60 @@ angular
                     });
                 };
 
-                scope.addListElement=function(listId){
+                scope.addListElement=function(listId) {
                     self.addElementToCheckList(listId);
                     self.checkList.newListElement=null;
                 };
+
+                //documents
+                var documentUploader = scope.documentUploader = new FileUploader({
+                    url: basePath + '/_teacher/crm/_tasks/tasks/uploadTaskDocuments?task='+scope.taskId,
+                    removeAfterUpload: true
+                });
+
+                documentUploader.onCompleteAll = function() {
+                    self.loadTaskDocuments(scope.taskId);
+                };
+                documentUploader.onErrorItem = function(item, response, status, headers) {
+                    if(status==500)
+                        alert("Виникла помилка при завантажені документа.");
+                };
+
+                documentUploader.filters.push({
+                    name: 'imageFilter',
+                    fn: function(item /*{File|FileLikeObject}*/, options) {
+                        return true;
+                    }
+                });
+
+                documentUploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+                    console.info('onWhenAddingFileFailed', item, filter, options);
+                };
+
+                // $rootScope.$on('$includeContentLoaded', function() {
+                //     $timeout(function(){
+                //         setEventToEditableField();
+                //     });
+                // });
+                //
+                // var setEventToEditableField = function() {
+                //     $jq( ".cke_editable" ).keyup(function(e) {
+                //     });
+                // }
+                // setEventToEditableField();
+                //
+                // scope.$watch('comment.message', function (newValue, oldValue) {
+                //     // console.log(pressedSymbol);
+                //     // if (pressedSymbol==="#"){
+                //     //     console.log('ajax');
+                //     // }
+                // });
+                // function keyUp(e){
+                //     console.log(e.key);
+                //     pressedSymbol=e.key;
+                // }
+                //
+                // addEventListener("keyup", keyUp);
             }
 
             return {
@@ -597,6 +718,7 @@ angular
                     'teacherMode':'=teacherMode',
                     'roleId':'=roleId',
                     'rolesCanEditCrmTasks':'=rolesCanEditCrmTasks',
+                    'clone':'=clone',
                     reloadTaskList: '&callbackFn',
                 },
                 link: link,

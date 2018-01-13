@@ -17,6 +17,13 @@ angular
                     return basePath+"/_teacher/crm/_tasks/tasks/view/?id="+$stateParams.id;
                 }
             })
+            .state('task_clone/:id', {
+                url: "/task_clone/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return basePath+"/_teacher/crm/_tasks/tasks/viewClone/?id="+$stateParams.id;
+                }
+            })
             .state('tasks.executant', {
                 url: '/executant',
                 views: {
@@ -60,5 +67,53 @@ angular
             .state('tasksManager', {
                 url: '/tasksManager',
                 templateUrl: basePath+"/_teacher/crm/_tasks/tasks/manager",
+            })
+            .state('tasksManager.created', {
+                url: '/created',
+                views: {
+                    'managerEvents': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/createdEvents",
+                    }
+                }
+            })
+            .state('tasksManager.updated', {
+                url: '/updated',
+                views: {
+                    'managerEvents': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/updatedEvents",
+                    }
+                }
+            })
+            .state('tasksManager.changed', {
+                url: '/changed',
+                views: {
+                    'managerEvents': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/changedEvents",
+                    }
+                }
+            })
+            .state('tasksManager.commented', {
+                url: '/commented',
+                views: {
+                    'managerEvents': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/commentedEvents",
+                    }
+                }
+            })
+            .state('tasksManager.set_role', {
+                url: '/set_role',
+                views: {
+                    'managerEvents': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/setRoleEvents",
+                    }
+                }
+            })
+            .state('tasksManager.all', {
+                url: '/all',
+                views: {
+                    'managerEvents': {
+                        templateUrl: basePath+"/_teacher/crm/_tasks/tasks/allEvents",
+                    }
+                }
             })
     });

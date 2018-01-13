@@ -144,11 +144,11 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#/tasksManager" class="show_elem">
+                    <a href="#/tasksManager/created" class="show_elem">
                         <i class="fa fa-bell fa-fw"></i> Менеджер завдань
                         <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>
                     </a>
-                    <a href="#/tasksManager" uib-tooltip="Менеджер завдань" tooltip-placement="right" class="hid" style="display: none">
+                    <a href="#/tasksManager/created" uib-tooltip="Менеджер завдань" tooltip-placement="right" class="hid" style="display: none">
                         <i class="fa fa-bell fa-fw"></i>
                         <span ng-cloak class="label label-success" ng-if="taskManagerCount > 0">{{taskManagerCount}}</span>
                     </a>

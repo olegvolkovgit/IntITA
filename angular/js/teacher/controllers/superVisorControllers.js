@@ -462,7 +462,7 @@ function groupAccessCtrl ($scope, $http, $stateParams, superVisorService){
         superVisorService.groupData({'id':groupId}).$promise
             .then(function successCallback(response) {
                 $scope.selectedGroup=response.group;
-                $scope.groupSelected=response.name;
+                $scope.groupSelected=response.group.name;
             }, function errorCallback() {
                 bootbox.alert("Отримати дані групи не вдалося");
             });

@@ -65,7 +65,6 @@ class CrmRolesTasks extends CActiveRecord
             'executant' => array(self::HAS_ONE, 'CrmRolesTasks', ['id'=>'id_task'], 'on' => 'executant.cancelled_date IS NULL and executant.role = ' . CrmTasks::EXECUTANT, 'through' => 'idTaskDuplicate'),
             'executantName' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id'], 'through' => 'executant'),
             'lastStateHistory' => array(self::HAS_MANY, 'CrmTaskStateHistory', ['id_task'=>'id_task'], 'order' => 'lastStateHistory.change_date desc', 'limit'=>1),
-            'lastChangeName' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id'], 'through' => 'lastStateHistory'),
         );
 	}
 

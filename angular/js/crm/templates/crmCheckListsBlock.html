@@ -14,19 +14,22 @@
         <div ng-show="crmTask.checkList.id && !crmTask.options.checkListEditMode" class="input-group">
             <span style="font-size: x-large" ng-if="!crmTask.editable" >{{crmTask.checkList.name}}</span>
             <span class="editable" style="font-size: x-large" ng-if="crmTask.editable" ng-click="crmTask.options.checkListEditMode=true" >{{crmTask.checkList.name}}</span>
-            <i ng-if="crmTask.editable" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.removeCheckList()" title="Видалити"></i>
+            <i ng-if="crmTask.editable" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.removeCheckListDialog()" title="Видалити"></i>
         </div>
         <hr>
-        <div ng-repeat="element in crmTask.checkList.elements track by element.id" class="elementsList">
-            <input type="checkbox" name="check-list" ng-checked="element.done==1" ng-click="crmTask.changeCheckListElementStatus(element.id)">
-            <div ng-if="!crmTask.editable" >{{element.name}}</div>
-            <div ng-if="crmTask.editable" class="editable" ng-show="!crmTask.options.checkListElementEditMode[element.id]" ng-click="crmTask.options.checkListElementEditMode[element.id]=true">{{element.name}}</div>
-            <div ng-if="crmTask.editable" ng-show="crmTask.options.checkListElementEditMode[element.id]">
-                <input class="form-control" type="text" ng-model="elementName[element.id]" ng-init="elementName[element.id]=element.name">
-                <div class="glyphicon glyphicon-ok" ng-click="crmTask.updateCheckListElement(element.id, elementName[element.id]);crmTask.options.checkListElementEditMode[element.id]=false"></div>
-                <div class="glyphicon glyphicon-remove" ng-click="crmTask.options.checkListElementEditMode[element.id]=false"></div>
-            </div>
-            <i ng-if="crmTask.editable" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.deleteCheckListElement(element.id)" title="Видалити"></i>
+        <div ng-repeat="element in crmTask.checkList.elements track by element.id"  ng-if="element.done==0" class="elementsList">
+            <input ng-hide="crmTask.options.checkListElementEditMode[element.id]" type="checkbox" name="check-list" ng-checked="element.done==1" ng-click="crmTask.changeCheckListElementStatus(element.id)">
+            <span ng-if="!crmTask.editable">{{element.id}} {{element.name}}</span>
+            <span ng-if="crmTask.editable" class="editable" ng-show="!crmTask.options.checkListElementEditMode[element.id]" ng-click="crmTask.options.checkListElementEditMode[element.id]=true">{{element.name}}</span>
+            <span ng-if="crmTask.editable" ng-show="crmTask.options.checkListElementEditMode[element.id]">
+                <textarea class="form-control" ng-model="elementName[element.id]" ng-init="elementName[element.id]=element.name">{{elementName[element.id]}}</textarea>
+                <div class="checkListsActions">
+                    <div class="glyphicon glyphicon-ok" ng-click="crmTask.updateCheckListElement(element.id, elementName[element.id]);crmTask.options.checkListElementEditMode[element.id]=false"></div>
+                    <div class="glyphicon glyphicon-remove" ng-click="crmTask.options.checkListElementEditMode[element.id]=false"></div>
+                    <i class="fa fa-trash" aria-hidden="true" ng-click="crmTask.deleteCheckListElement(element.id)" title="Видалити"></i>
+                </div>
+            </span>
+            <i ng-if="crmTask.editable && !crmTask.options.checkListElementEditMode[element.id]" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.deleteCheckListElement(element.id)" title="Видалити"></i>
         </div>
         <div class="input-group" ng-if="crmTask.checkList.id && crmTask.editable">
             <input type="text" size="50" ng-model="crmTask.checkList.newListElement"
@@ -36,6 +39,20 @@
                     <i class="fa fa-plus" aria-hidden="true" title="Додати"></i>
                 </button>
             </span>
+        </div>
+        <div ng-repeat="element in crmTask.checkList.elements track by element.id" ng-if="element.done==1" class="elementsList">
+            <input ng-hide="crmTask.options.checkListElementEditMode[element.id]" type="checkbox" name="check-list" ng-checked="element.done==1" ng-click="crmTask.changeCheckListElementStatus(element.id)">
+            <span ng-if="!crmTask.editable" class="line_through">{{element.id}} {{element.name}}</span>
+            <span ng-if="crmTask.editable" class="editable line_through" ng-show="!crmTask.options.checkListElementEditMode[element.id]" ng-click="crmTask.options.checkListElementEditMode[element.id]=true">{{element.name}}</span>
+            <span ng-if="crmTask.editable" ng-show="crmTask.options.checkListElementEditMode[element.id]">
+                <textarea class="form-control" ng-model="elementName[element.id]" ng-init="elementName[element.id]=element.name">{{elementName[element.id]}}</textarea>
+                <div class="checkListsActions">
+                    <div class="glyphicon glyphicon-ok" ng-click="crmTask.updateCheckListElement(element.id, elementName[element.id]);crmTask.options.checkListElementEditMode[element.id]=false"></div>
+                    <div class="glyphicon glyphicon-remove" ng-click="crmTask.options.checkListElementEditMode[element.id]=false"></div>
+                    <i class="fa fa-trash" aria-hidden="true" ng-click="crmTask.deleteCheckListElement(element.id)" title="Видалити"></i>
+                </div>
+            </span>
+            <i ng-if="crmTask.editable && !crmTask.options.checkListElementEditMode[element.id]" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.deleteCheckListElement(element.id)" title="Видалити"></i>
         </div>
     </div>
 </div>

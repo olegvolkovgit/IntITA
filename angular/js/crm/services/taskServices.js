@@ -186,5 +186,39 @@ angular
                         method: 'GET',
                         isArray:true,
                     },
+                    getCreatedEvents: {
+                        url: url + '/getCreatedEvents',
+                        method: 'GET',
+                    },
+                    getUpdatedEvents: {
+                        url: url + '/getUpdatedEvents',
+                        method: 'GET',
+                    },
+                    getChangedEvents: {
+                        url: url + '/getChangedEvents',
+                        method: 'GET',
+                    },
+                    getCommentedEvents: {
+                        url: url + '/getCommentedEvents',
+                        method: 'GET',
+                    },
+                    getSetRoleEvents: {
+                        url: url + '/getSetRoleEvents',
+                        method: 'GET',
+                    },
+                    getTaskDocuments: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + "/getTaskDocuments",
+                        isArray: true,
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    removeTaskFile: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + "/removeTaskFile",
+                        isArray: true,
+                        transformRequest : transformRequest.bind(null)
+                    },
                 });
         }]);

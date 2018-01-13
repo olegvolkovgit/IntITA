@@ -28,6 +28,14 @@ class TasksController extends TeacherCabinetController
         $this->renderPartial('/crm/_tasks/tasks', array(), false, true);
     }
 
+    public function actionViewClone($id) {
+        if(!CrmRolesTasks::model()->find('id_task=:taskID and id_user=:userID and cancelled_by is NULL',
+            array(':taskID'=>$id,':userID'=>Yii::app()->user->getId()))){
+            throw new CException("У тебе немає доступу до завдання");
+        }
+        $this->renderPartial('/crm/_tasks/view_clone', array(), false, true);
+    }
+
     public function actionManager()
     {
         $this->renderPartial('/crm/_tasks/manager', array(), false, true);
@@ -99,6 +107,7 @@ class TasksController extends TeacherCabinetController
                 $task = CrmTasks::model()->findByPk($params['id']);
                 $task->attributes = $params;
                 $task->change_date = new CDbExpression('NOW()');
+                $task->changed_by =  Yii::app()->user->getId();
                 $task->saveCheck();
             } else {
                 $task = new CrmTasks();
@@ -610,12 +619,7 @@ class TasksController extends TeacherCabinetController
 
     public function actionTasksManagerList()
     {
-        $sql_tasks = "SELECT DISTINCT `id_task` FROM crm_roles_tasks WHERE id_user=" . Yii::app()->user->getId();
-        $tasks = CrmRolesTasks::model()->findAllBySql($sql_tasks);
-        $ids = array();
-        foreach ($tasks as $task):
-            $ids[] = $task->id_task;
-        endforeach;
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
 
         $result = [];
         //        tasks changed
@@ -722,21 +726,18 @@ class TasksController extends TeacherCabinetController
         $date_now = new DateTime(strtotime(new CDbExpression("NOW()")));
         $last_visit = $lastVisitModel ? $lastVisitModel->date_of_visit : $date_now->format('Y-m-d H:i:s');
 
-        $sql_tasks = "SELECT DISTINCT `id_task` FROM crm_roles_tasks WHERE id_user=" . Yii::app()->user->getId();
-        $tasks = CrmRolesTasks::model()->findAllBySql($sql_tasks);
-        $ids = array();
-        foreach ($tasks as $task):
-            $ids[] = $task->id_task;
-        endforeach;
-        $in = '(' . implode(',', $ids) . ')';
-        $commentsAdded = 0;
-        $statesAdded = 0;
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
+        $in='('.implode(',',$ids).')';
+        $commentsAdded=0;
+        $statesAdded=0;
 
-        //        tasks
-        $sql_changed_task = "SELECT COUNT('rt.id_task') FROM crm_roles_tasks as rt left join crm_tasks as t on t.id=rt.id_task WHERE rt.id_user=" . Yii::app()->user->getId() . " 
-        and rt.cancelled_date is null and t.created_by!=" . Yii::app()->user->getId() . " and (t.change_date > '" . $last_visit . "' or t.created_date > '" . $last_visit . "')";
-        $tasksChanged = Yii::app()->db->createCommand($sql_changed_task)->queryScalar();
-        if (!empty($ids)) {
+        //created tasks
+        $sql_created_task="SELECT COUNT('t.id') FROM crm_tasks as t WHERE t.id in ".$in." and t.created_by!=".Yii::app()->user->getId()." and t.created_date > '".$last_visit."'";
+        $tasksCreated=Yii::app()->db->createCommand($sql_created_task)->queryScalar();
+        //updated tasks
+        $sql_changed_task="SELECT COUNT('t.id') FROM crm_tasks as t WHERE t.id in ".$in." and t.changed_by!=".Yii::app()->user->getId()." and t.change_date > '".$last_visit."'";
+        $tasksUpdated=Yii::app()->db->createCommand($sql_changed_task)->queryScalar();
+        if(!empty($ids)){
             //        comments
             $sql_added_comments = "SELECT COUNT('tc.id_task') FROM crm_task_comments as tc WHERE tc.id_task in " . $in . " and tc.id_user!=" . Yii::app()->user->getId() . " and tc.create_date > '" . $last_visit . "'";
             $commentsAdded = Yii::app()->db->createCommand($sql_added_comments)->queryScalar();
@@ -751,10 +752,125 @@ class TasksController extends TeacherCabinetController
         and (rt.assigned_date > '" . $last_visit . "' or rt.cancelled_date > '" . $last_visit . "') and rt.assigned_by!=" . Yii::app()->user->getId();
         $rolesAdded = Yii::app()->db->createCommand($sql_changed_role)->queryScalar();
 
-        $result['tasks_count'] = $tasksChanged;
-        $result['comments_count'] = $commentsAdded;
-        $result['roles_count'] = $rolesAdded;
-        $result['states_count'] = $statesAdded;
+        $result['created_count']=$tasksCreated;
+        $result['updated_count']=$tasksUpdated;
+        $result['comments_count']=$commentsAdded;
+        $result['roles_count']=$rolesAdded;
+        $result['states_count']=$statesAdded;
         echo json_encode($result);
+    }
+
+    public function actionGetCreatedEvents(){
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
+
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->alias="t";
+        $criteria->with=['createdBy'];
+        $criteria->condition="t.created_by!=".Yii::app()->user->getId();
+        $criteria->addInCondition('t.id', $ids);
+        $adapter = new NgTableAdapter('CrmTasks',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+    }
+
+    public function actionGetUpdatedEvents(){
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
+
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->alias="t";
+        $criteria->with=['changedBy'];
+        $criteria->condition="t.changed_by!=".Yii::app()->user->getId().' and t.changed_by IS NOT NULL';
+        $criteria->addInCondition('t.id', $ids);
+        $adapter = new NgTableAdapter('CrmTasks',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+    }
+
+    public function actionGetChangedEvents(){
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
+
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->with=['idState','idUser'];
+        $criteria->condition="t.id_user!=".Yii::app()->user->getId();
+        $criteria->addInCondition('t.id_task', $ids);
+        $adapter = new NgTableAdapter('CrmTaskStateHistory',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+    }
+
+    public function actionGetCommentedEvents(){
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
+
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->with=['idTask','idUser'];
+        $criteria->condition='t.id_user!='.Yii::app()->user->getId();
+        $criteria->addInCondition('t.id_task', $ids);
+
+        $adapter = new NgTableAdapter('CrmTaskComments',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+    }
+
+    public function actionGetSetRoleEvents(){
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->with=['assignedBy','cancelledBy','role0','idTask'];
+        $criteria->condition="t.id_user=".Yii::app()->user->getId().' and t.assigned_by!='.Yii::app()->user->getId();
+        $adapter = new NgTableAdapter('CrmRolesTasks',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+    }
+
+    public function actionGetTasksList(){
+        $ids=CrmHelper::getUsersCrmTasks(Yii::app()->user->getId());
+        $data=[];
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $criteria->addInCondition('t.id', $ids);
+        $models = CrmTasks::model()->findAll($criteria);
+        foreach ($models as $index=>$model)
+        {
+            $data[$index] = array('id'=>$model['id'], 'name'=>$model['name']);
+        }
+        echo json_encode($data);
+    }
+
+    public function actionGetUsersList(){
+        $data=[];
+        $criteria = new CDbCriteria();
+        $criteria->alias='t';
+        $models = StudentReg::model()->findAll($criteria);
+        foreach ($models as $index=>$model)
+        {
+            $data[$index] = array('id'=>$model['id'], 'name'=>$model->fullName);
+        }
+        echo json_encode($data);
+    }
+
+    public function actionGetTaskDocuments()
+    {
+        echo CJSON::encode(CrmTaskDocuments::model()->findAllByAttributes(array('id_task'=>Yii::app()->request->getPost('id'))));
+    }
+
+    public function actionUploadTaskDocuments($task)
+    {
+        CrmTaskDocuments::model()->uploadDocument($task);
+    }
+
+    public function actionRemoveTaskFile()
+    {
+        $idFile=Yii::app()->request->getPost('id');
+        $model=CrmTaskDocuments::model()->findByPk($idFile);
+        $file=Yii::getpathOfAlias('webroot').'/files/crm/tasks/'.$model->id_task.'/'.$model->file_name;
+        if (is_file($file))
+            unlink($file);
+        $model->delete();
     }
 }

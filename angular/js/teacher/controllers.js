@@ -114,8 +114,13 @@ function cabinetCtrl($http, $scope, $compile, $location, $timeout, $rootScope, t
     $rootScope.updateTaskManagerCounter = function (sound) {
         $http.get(basePath + '/_teacher/crm/_tasks/tasks/getTaskManagerCounter', {}).then(function (response) {
             if (typeof sound == 'undefined') audio.play();
-            $scope.taskManagerCount = parseInt(response.data.tasks_count) + parseInt(response.data.comments_count) +
-                parseInt(response.data.roles_count) + parseInt(response.data.states_count);
+            $rootScope.createdCount=parseInt(response.data.created_count);
+            $rootScope.updatedCount=parseInt(response.data.updated_count);
+            $rootScope.commentsCount=parseInt(response.data.comments_count);
+            $rootScope.rolesCount=parseInt(response.data.roles_count);
+            $rootScope.statesCount=parseInt(response.data.states_count);
+            $rootScope.taskManagerCount = $rootScope.createdCount + $rootScope.updatedCount + $rootScope.commentsCount +
+                $rootScope.rolesCount + $rootScope.statesCount;
         });
 
     };

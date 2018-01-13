@@ -18,7 +18,7 @@
             templates-path={{pathToCrmTemplates}}
             files-path={{pathToCrmFiles}}
             callback-fn="loadTasks(tasksType)"
-            clone="false"
+            clone="true"
     >
     </crm-task>
 </div>
