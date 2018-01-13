@@ -108,12 +108,12 @@ class CrmTaskDocuments extends CActiveRecord
 	}
 
     public function uploadDocument($task){
-        if (!file_exists(Yii::getpathOfAlias('webroot')."/files/crm/tasks/".$task)) {
-            mkdir(Yii::getpathOfAlias('webroot')."/files/crm/tasks/".$task,777, true);
+        if (!file_exists(Yii::app()->basePath . "/../files/crm/tasks/".$task)) {
+            mkdir(Yii::app()->basePath . "/../files/crm/tasks/".$task);
         }
         if(!empty($_FILES['file'])){
             $ext = pathinfo($_FILES['file']['name'],PATHINFO_EXTENSION);
-            $file = time().'.'.$ext;
+            $file = md5($_FILES['file']["tmp_name"]).'.'.$ext;
             $path = Yii::getpathOfAlias('webroot').'/files/crm/tasks/'.$task.'/'.$file;
             move_uploaded_file($_FILES['file']["tmp_name"], $path);
             $files = new CrmTaskDocuments();
