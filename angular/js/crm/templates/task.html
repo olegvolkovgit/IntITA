@@ -15,12 +15,14 @@
 <br>
 <p class="crmBodyBlock" ng-show="!crmTask.data.editMode && crmTask.data.id" ng-bind-html="crmTask.data.body | trustAsHtml"></p>
 <div ng-show="crmTask.data.editMode || !crmTask.data.id">
-    <textarea id="comment_cke_body" crm-ckeditor="ckeditorOptions" class="mention" ng-cloak ng-model="crmTask.data.body" required></textarea>
+    <textarea ng-hide="true" ng-cloak id="comment_cke_body" crm-ckeditor="ckeditorOptions" class="mention" ng-model="crmTask.data.body" required></textarea>
     <button ng-if="crmTask.data.id" type="button" class="btn btn-prymari pull-right" style="margin: 5px" ng-click="crmTask.updateCrmBody()" ng-disabled="isDisabled">
         Зберегти
     </button>
 </div>
-
+<div class="form-group" ng-if="!clone">
+    <div ng-include="pathToTemplates+'/crmFilesBlock.html'"></div>
+</div>
 <br>
 <div ng-if="crmTask.data.id && !crmTask.data.editMode && !crmTask.data.cancelled_date && !clone">
     <fieldset>

@@ -14,7 +14,7 @@
         <div ng-show="crmTask.checkList.id && !crmTask.options.checkListEditMode" class="input-group">
             <span style="font-size: x-large" ng-if="!crmTask.editable" >{{crmTask.checkList.name}}</span>
             <span class="editable" style="font-size: x-large" ng-if="crmTask.editable" ng-click="crmTask.options.checkListEditMode=true" >{{crmTask.checkList.name}}</span>
-            <i ng-if="crmTask.editable" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.removeCheckList()" title="Видалити"></i>
+            <i ng-if="crmTask.editable" class="fa fa-trash" aria-hidden="true" ng-click="crmTask.removeCheckListDialog()" title="Видалити"></i>
         </div>
         <hr>
         <div ng-repeat="element in crmTask.checkList.elements track by element.id"  ng-if="element.done==0" class="elementsList">

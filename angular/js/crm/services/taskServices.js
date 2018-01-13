@@ -206,5 +206,19 @@ angular
                         url: url + '/getSetRoleEvents',
                         method: 'GET',
                     },
+                    getTaskDocuments: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + "/getTaskDocuments",
+                        isArray: true,
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    removeTaskFile: {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + "/removeTaskFile",
+                        isArray: true,
+                        transformRequest : transformRequest.bind(null)
+                    },
                 });
         }]);

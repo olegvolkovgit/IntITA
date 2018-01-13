@@ -324,3 +324,20 @@ modal .modal {
 .line_through{
     text-decoration: line-through;
 }
+
+.file-link{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+.delete-button{
+    color: red;
+    margin-right: 4px;
+}
+.file-links-list, .uploadDocuments{
+    display: flex;
+}
+.actualDocuments{
+    padding: 5px;
+}

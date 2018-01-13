@@ -1,0 +1,25 @@
+<div class="panel panel-default actualDocuments">
+    <h4 ng-if="crmTask.taskDocuments.length">
+        <em style="border-bottom: 1px solid #ccc; font-weight: normal">Прикріплені файли</em>
+    </h4>
+    <div class="uploadDocuments">
+        <span ng-repeat="item in crmTask.taskDocuments track by $index" class="file-links-list">
+            <a class="file-link" title="{{item.file_name}}" ng-href="{{pathToFiles}}/{{item.id_task}}/{{item.file_name}}" download>{{item.file_name}}</a>
+            <a href="" ng-click="crmTask.removeDocumentsFileDialog(item.id)" ng-if="crmTask.data.id && (crmTask.data.created_by==currentUser || crmTask.canEditCrmTasks)" class="delete-button">[x]</a>
+        </span>
+    </div>
+    <input ng-if="crmTask.data.id && (crmTask.data.created_by==currentUser || crmTask.canEditCrmTasks)" type="file" nv-file-select="" uploader="documentUploader" multiple="" class="text-right">
+    <ul>
+        <li ng-repeat="item in documentUploader.queue">
+            <span ng-bind="item.file.name"></span><button ng-click="item.remove()" class="btn btn-danger btn-xs"></button>
+        </li>
+    </ul>
+    <div ng-if="documentUploader.getNotUploadedItems().length" >
+        <div class="progress" style="margin-bottom:0">
+            <div class="progress-bar" role="progressbar" ng-style="{ 'width': documentUploader.progress + '%' }" style="width: 0%;"></div>
+        </div>
+        <button type="button" class="btn btn-success btn-xs" ng-click="documentUploader.uploadAll()" ng-disabled="!documentUploader.getNotUploadedItems().length" disabled="disabled">
+            Завантажити
+        </button>
+    </div>
+</div>

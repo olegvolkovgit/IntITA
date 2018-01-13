@@ -834,4 +834,23 @@ class TasksController extends TeacherCabinetController {
         echo json_encode($data);
     }
 
+    public function actionGetTaskDocuments()
+    {
+        echo CJSON::encode(CrmTaskDocuments::model()->findAllByAttributes(array('id_task'=>Yii::app()->request->getPost('id'))));
+    }
+
+    public function actionUploadTaskDocuments($task)
+    {
+        CrmTaskDocuments::model()->uploadDocument($task);
+    }
+
+    public function actionRemoveTaskFile()
+    {
+        $idFile=Yii::app()->request->getPost('id');
+        $model=CrmTaskDocuments::model()->findByPk($idFile);
+        $file=Yii::getpathOfAlias('webroot').'/files/crm/tasks/'.$model->id_task.'/'.$model->file_name;
+        if (is_file($file))
+            unlink($file);
+        $model->delete();
+    }
 }

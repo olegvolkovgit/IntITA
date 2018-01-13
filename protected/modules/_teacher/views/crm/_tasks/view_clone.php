@@ -16,6 +16,7 @@
             teacher-mode=teacherMode
             role-id=roleId
             templates-path={{pathToCrmTemplates}}
+            files-path={{pathToCrmFiles}}
             callback-fn="loadTasks(tasksType)"
             clone="true"
     >
