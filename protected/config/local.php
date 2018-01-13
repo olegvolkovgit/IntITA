@@ -5,6 +5,9 @@
  * Date: 30.08.2015
  * Time: 16:24
  */
+
+define('MAIL_DEBUG',true);
+
 return array(
     'db' => array(
         'class' => 'CDbConnection',

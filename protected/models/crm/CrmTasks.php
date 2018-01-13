@@ -16,6 +16,7 @@
  * @property integer $cancelled_by
  * @property string $cancelled_date
  * @property string $change_date
+ * @property integer $changed_by
  * @property integer $priority
  * @property integer $id_parent
  * @property integer $type
@@ -55,10 +56,10 @@ class CrmTasks extends CTaskUnitActiveRecord
             array('name, body, created_by, priority', 'required', 'message' => '{attribute} обов\'язкове для заповнення'),
             array('id_state, created_by, cancelled_by', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 128),
-            array('endTask, deadline, cancelled_date, expected_time, type', 'safe'),
+            array('endTask, deadline, cancelled_date, expected_time, type, changed_by', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent, expected_time, type', 'safe', 'on' => 'search'),
+            array('id, name, body, startTask, endTask, deadline, id_state, created_by, created_date, cancelled_by, cancelled_date, change_date, priority, id_parent, expected_time, type, changed_by', 'safe', 'on' => 'search'),
         );
     }
 
@@ -72,6 +73,7 @@ class CrmTasks extends CTaskUnitActiveRecord
         return array(
             'crmRolesTasks' => array(self::HAS_MANY, 'CrmRolesTasks', 'id_task'),
             'cancelledBy' => array(self::BELONGS_TO, 'StudentReg', 'cancelled_by'),
+            'changedBy' => array(self::BELONGS_TO, 'StudentReg', 'changed_by'),
             'createdBy' => array(self::BELONGS_TO, 'StudentReg', 'created_by'),
             'taskState' => array(self::BELONGS_TO, 'CrmTaskStatus', 'id_state'),
             'executant' => array(self::HAS_ONE, 'CrmRolesTasks', 'id_task', 'on' => 'executant.cancelled_date IS NULL and executant.role = ' . CrmTasks::EXECUTANT),
@@ -100,6 +102,7 @@ class CrmTasks extends CTaskUnitActiveRecord
             'created_by' => 'Створено користувачем',
             'created_date' => 'Дата створення',
             'cancelled_by' => 'Скасовано користувачем',
+            'changed_by' => 'Оновлено користувачем',
             'cancelled_date' => 'Дата скасування',
             'change_date' => 'Дата оновлення',
             'priority' => 'Пріоритет',
@@ -143,6 +146,7 @@ class CrmTasks extends CTaskUnitActiveRecord
         $criteria->compare('id_parent', $this->id_parent, true);
         $criteria->compare('type', $this->type, true);
         $criteria->compare('expected_time', $this->expected_time, true);
+        $criteria->compare('changed_by', $this->changed_by, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -335,13 +339,13 @@ class CrmTasks extends CTaskUnitActiveRecord
         $notifyMessage->id_organization = Yii::app()->user->model->getCurrentOrganizationId();
         $notifyMessage->related_model_id = $task;
         $schedulerTask->type = TaskFactory::NEWSLETTER;
-        $schedulerTask->related_model_id = $notifyMessage->id;
         $schedulerTask->repeat_type = SchedulerTasks::WEEKDAYS;
         $schedulerTask->parameters = $notificationParams['weekdays'];
         date_default_timezone_set(Config::getServerTimezone());
         $schedulerTask->start_time =  date('Y-m-d H:i:s',strtotime($notificationParams['time']));
         if ($notifyMessage->validate() && $schedulerTask->validate()){
             $notifyMessage->save(false);
+            $schedulerTask->related_model_id = $notifyMessage->id;
             $schedulerTask->save(false);
             return false;
         }

@@ -15,6 +15,7 @@ angular
             $scope.currentUser = user;
             $scope.rolesCanEditCrmTasks = rolesCanEditCrmTasks;
             $scope.pathToCrmTemplates = basePath + '/angular/js/crm/templates';
+            $scope.pathToCrmFiles = basePath + '/files/crm/tasks';
 
             var conn = new ab.Session('wss://' + window.location.host + '/wss/',
                 function () {
@@ -86,6 +87,7 @@ angular
             $scope.currentUser = user;
             $scope.rolesCanEditCrmTasks = rolesCanEditCrmTasks;
             $scope.pathToCrmTemplates = basePath + '/angular/js/crm/templates';
+            $scope.pathToCrmFiles = basePath + '/files/crm/tasks';
             $scope.filter = {};
 
             var conn = new ab.Session('wss://' + window.location.host + '/wss/',
@@ -373,9 +375,23 @@ angular
 
             $scope.changeRouterState($state.$current.name);
         }])
-    .controller('crmManagerCtrl', ['$scope', 'crmTaskServices',
-        function ($scope, crmTaskServices) {
+    .controller('crmManagerCtrl', ['$scope', 'crmTaskServices','NgTableParams','$state','$rootScope',
+        function ($scope, crmTaskServices, NgTableParams, $state, $rootScope) {
             $scope.changePageHeader('Менеджер завдань');
+
+            $scope.events = [
+                {title: "Створено", route: "created", count: $rootScope.createdCount},
+                {title: "Відредаговано", route: "updated", count: $rootScope.updatedCount},
+                {title: "Змінено статус", route: "changed", count: $rootScope.statesCount},
+                {title: "Відкоментовано", route: "commented", count: $rootScope.commentsCount},
+                {title: "Надано роль", route: "set_role", count: $rootScope.rolesCount},
+                {title: "Усі", route: "all", count: $rootScope.taskManagerCount},
+            ];
+            $scope.events.forEach(function (item, i) {
+                if ('tasksManager.' + item.route == $state.current.name) {
+                    $scope.active = i;
+                }
+            });
 
             $scope.visitedTasksManager = function () {
                 crmTaskServices
@@ -397,4 +413,80 @@ angular
             };
 
             $scope.getTasksManager();
+
+            $scope.createdEventsTableParams = new NgTableParams({
+                    sorting: {
+                        created_date: 'desc',
+                    },
+                }, {
+                    getData: function (params) {
+                        return crmTaskServices
+                            .getCreatedEvents(params.url())
+                            .$promise
+                            .then(function (data) {
+                                params.total(data.count);
+                                return data.rows;
+                            });
+                    }
+            });
+            $scope.updatedEventsTableParams = new NgTableParams({
+                sorting: {
+                    change_date: 'desc',
+                },
+            }, {
+                getData: function (params) {
+                    return crmTaskServices
+                        .getUpdatedEvents(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+            $scope.changedEventsTableParams = new NgTableParams({
+                sorting: {
+                    change_date: 'desc',
+                },
+            }, {
+                getData: function (params) {
+                    return crmTaskServices
+                        .getChangedEvents(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+            $scope.commentedEventsTableParams = new NgTableParams({
+                sorting: {
+                    create_date: 'desc',
+                },
+            }, {
+                getData: function (params) {
+                    return crmTaskServices
+                        .getCommentedEvents(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+            $scope.setRoleEventsTableParams = new NgTableParams({
+                sorting: {
+                    assigned_date: 'desc',
+                },
+            }, {
+                getData: function (params) {
+                    return crmTaskServices
+                        .getSetRoleEvents(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
         }]);

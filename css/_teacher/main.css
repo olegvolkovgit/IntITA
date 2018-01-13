@@ -64,9 +64,6 @@ a,a:active,button,button:active,input[type="submit"],input[type="submit"]:active
     padding:15px 0 0 5px;
     vertical-align: top;
 }
-.navbar.navbar-default.navbar-static-top{
-    height: 50px;
-}
 #emailVerification-form {
     margin: 50px auto;
     width: 540px;

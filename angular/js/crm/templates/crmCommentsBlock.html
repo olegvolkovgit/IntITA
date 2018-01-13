@@ -38,7 +38,7 @@
 <br>
 <a href="" ng-show="!newComment" ng-click="crmTask.toggleComment();" >Додати коментар</a>
 <div ng-show="newComment">
-    <textarea ng-cloak ckeditor="ckeditorOptions" ng-model="comment.message" required></textarea>
+    <textarea id="comment_cke" crm-ckeditor="ckeditorOptions" class="mention" ng-cloak ng-model="comment.message" required></textarea>
     <br>
     <p style="clear: both">
         <button type="button" class="btn btn-success" ng-click="crmTask.addComment(comment)" >Додати</button>
