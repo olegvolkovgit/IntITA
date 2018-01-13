@@ -218,4 +218,8 @@ class Config extends CActiveRecord
     public static function getStudentsProjectsUrl(){
         return Yii::app()->config->get('studentsProjectsUrl');
     }
+
+    public static function getGitScriptPath(){
+        return Yii::app()->config->get('gitScriptPath');
+    }
 }

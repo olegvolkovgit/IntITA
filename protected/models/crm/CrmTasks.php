@@ -339,13 +339,13 @@ class CrmTasks extends CTaskUnitActiveRecord
         $notifyMessage->id_organization = Yii::app()->user->model->getCurrentOrganizationId();
         $notifyMessage->related_model_id = $task;
         $schedulerTask->type = TaskFactory::NEWSLETTER;
-        $schedulerTask->related_model_id = $notifyMessage->id;
         $schedulerTask->repeat_type = SchedulerTasks::WEEKDAYS;
         $schedulerTask->parameters = $notificationParams['weekdays'];
         date_default_timezone_set(Config::getServerTimezone());
         $schedulerTask->start_time =  date('Y-m-d H:i:s',strtotime($notificationParams['time']));
         if ($notifyMessage->validate() && $schedulerTask->validate()){
             $notifyMessage->save(false);
+            $schedulerTask->related_model_id = $notifyMessage->id;
             $schedulerTask->save(false);
             return false;
         }

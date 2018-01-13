@@ -12,7 +12,8 @@
  * @property integer $need_check
  *
  * The followings are the available model relations:
- * @property User $idStudent
+ * @property
+ * User $idStudent
  */
 class StudentsProjects extends CActiveRecord
 {
@@ -111,19 +112,21 @@ class StudentsProjects extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+	    return parent::model($className);
 	}
 
 	public function pullProject(){
         $dir = Config::getTempProjectsPath()."/{$this->id_student}/{$this->title}/{$this->branch}";
+        $gitSSHcommandPath = Config::getGitScriptPath();
         if (!is_dir($dir)){
             mkdir($dir,0755, true);
         }
         if ($this->checkDirForEmpty($dir) === true){
-            exec("cd {$dir} && git clone {$this->repository} {$dir}");
+
+            exec(escapeshellcmd("GIT_SSH={$gitSSHcommandPath} git clone {$this->repository} {$dir}"));
         }
         else{
-            exec("cd {$dir} && git reset --hard && git checkout {$this->branch} && git pull");
+            exec("cd {$dir} && GIT_SSH={$gitSSHcommandPath}  git reset --hard && GIT_SSH={$gitSSHcommandPath}  git checkout {$this->branch} && GIT_SSH={$gitSSHcommandPath}  git pull");
         }
 
         $files = scandir($dir);
