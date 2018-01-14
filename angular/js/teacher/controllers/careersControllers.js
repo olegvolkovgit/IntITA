@@ -36,7 +36,7 @@ function careerStartTableCtrl ($scope, careerService, $state, $http){
                 $state.go("configuration/careers", {}, {reload: true});
             });
         }, function errorCallback() {
-            bootbox.alert("Створити варіфант кар'єри для IT не вдалося. Помилка сервера.");
+            bootbox.alert("Створити варіант кар'єри для IT не вдалося. Помилка сервера.");
         });
     };
 }

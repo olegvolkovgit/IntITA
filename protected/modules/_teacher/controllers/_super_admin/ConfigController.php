@@ -234,4 +234,68 @@ class ConfigController extends TeacherCabinetController {
         echo CJSON::encode(SpecializationsGroup::model()->findByPk(Yii::app()->request->getParam('id')));
     }
 
+    public function actionTaskTypes()
+    {
+        $this->renderPartial('/_super_admin/config/task_types/taskTypes', array(), false, true);
+    }
+
+    public function actionTaskTypeCreate()
+    {
+        $this->renderPartial('/_super_admin/config/task_types/taskTypeCreate', array(), false, true);
+    }
+
+    public function actionTaskTypeUpdate()
+    {
+        $this->renderPartial('/_super_admin/config/task_types/taskTypeUpdate', array(), false, true);
+    }
+
+    public function actionCreateTaskType()
+    {
+        $params = json_decode(Yii::app()->request->getPost('data'), true);
+        $order=count(CrmTaskType::model()->findAll())+1;
+        $type=new CrmTaskType();
+        $type->attributes=$params;
+        $type->order=$order;
+        $type->save();
+    }
+
+    public function actionGetTaskTypeData()
+    {
+        echo CJSON::encode(CrmTaskType::model()->findByPk(Yii::app()->request->getParam('id')));
+    }
+
+    public function actionUpdateTaskType()
+    {
+        $params = json_decode(Yii::app()->request->getPost('data'), true);
+        $type=CrmTaskType::model()->findByPk($params['id']);
+        $type->attributes=$params;
+        $type->update();
+    }
+
+    public function actionReorderTaskType()
+    {
+        $id=Yii::app()->request->getPost('id');
+        $order=Yii::app()->request->getPost('order');
+
+        $currentType = CrmTaskType::model()->findByPk($id);
+        $oldOrder=$currentType->order;
+        $orderedType = CrmTaskType::model()->findByAttributes(array('order'=>$order));
+
+        $transaction = Yii::app()->db->beginTransaction();
+        if($order<=count(CrmTaskType::model()->findAll())){
+            try {
+                $orderedType->order=0;
+                $orderedType->save();
+                $currentType->order=$order;
+                $currentType->save();
+                $orderedType->order=$oldOrder;
+                $orderedType->save();
+                $transaction->commit();
+            } catch (Exception $error) {
+                $transaction->rollback();
+            }
+        }
+
+    }
+
 }

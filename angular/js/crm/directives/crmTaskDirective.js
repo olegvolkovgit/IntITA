@@ -24,28 +24,6 @@ angular
                         {id: "3", title: 'high', description: 'Високий'},
                         {id: "4", title: 'urgent', description: 'Терміновий'},
                     ],
-                    types: [
-                        {id: "1", title: 'Task'},
-                        {id: "2", title: 'Bug'},
-                        {id: "3", title: 'Feature'},
-                        {id: "4", title: 'Support'},
-                        {id: "5", title: 'Technical advice'},
-                        {id: "6", title: 'Improvement'},
-                        {id: "7", title: 'Requirement'},
-                        {id: "8", title: 'Test Case'},
-                        {id: "9", title: 'Test'},
-                        {id: "10", title: 'Event'},
-                        {id: "11", title: 'Hometask'},
-                        {id: "12", title: 'Consultation'},
-                        {id: "13", title: 'Course project'},
-                        {id: "14", title: 'Diploma project'},
-                        {id: "15", title: 'Interview'},
-                        {id: "16", title: 'Assessment'},
-                        {id: "17", title: 'Essey'},
-                        {id: "18", title: 'CV'},
-                        {id: "19", title: 'Motivation letter'},
-                        {id: "20", title: 'Rest'},
-                    ],
                     weekdaysList: [
                         {id: "1", title: 'Понеділок'},
                         {id: "2", title: 'Вівторок'},
@@ -553,6 +531,16 @@ angular
                         }
                     }
                 };
+
+                crmTaskServices
+                    .crmTasksTypeList()
+                    .$promise
+                    .then(function (response) {
+                        return self.types = response.map(function (item) {
+                            return {id: item.id, title: item.title_ua}
+                        });
+                    });
+
                 self.loadTask(scope.taskId);
                 self.loadSubTasks(scope.taskId);
                 self.loadTaskDocuments(scope.taskId);

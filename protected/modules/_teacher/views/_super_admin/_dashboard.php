@@ -73,6 +73,9 @@
                     <li><a href="#/configuration/careers">Перелік кар'єр
                         </a>
                     </li>
+                    <li><a href="#/configuration/task_types">Типи завдань
+                        </a>
+                    </li>
                     <li>
                         <a href="#/configuration/specializations">Спеціалізації(для груп та форми реєстрації)</a>
                     </li>

@@ -900,4 +900,10 @@ class TasksController extends TeacherCabinetController
             unlink($file);
         $model->delete();
     }
+
+    public function actionGetCrmTasksTypeList()
+    {
+        echo CJSON::encode(CrmTaskType::model()->findAll(array('order'=>'`order` asc')));
+    }
+
 }
