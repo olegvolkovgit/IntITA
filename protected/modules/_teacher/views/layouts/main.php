@@ -277,6 +277,7 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/mentionsInput.css'); ?>">
     <!--Subscribe to new notifications-->
 <script>
     var useWebsocketNotification = true;
@@ -294,6 +295,5 @@
             <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
         <?php } ?>
     <!--IntITAMessenger-->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/mentionsInput.css'); ?>" rel="stylesheet">
     </body>
 </html>

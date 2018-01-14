@@ -15,7 +15,12 @@
 <br>
 <p class="crmBodyBlock" ng-show="!crmTask.data.editMode && crmTask.data.id" ng-bind-html="crmTask.data.body | trustAsHtml"></p>
 <div ng-show="crmTask.data.editMode || !crmTask.data.id">
-    <textarea ng-hide="true" ng-cloak id="comment_cke_body" crm-ckeditor="ckeditorOptions" class="mention" ng-model="crmTask.data.body" required></textarea>
+    <div style="font-size: 12px">
+        <b>@</b> - три символи після знаку підтягує список користувачів
+        <br>
+        <b>#</b> - три символи після знаку підтягує список доступних завдань
+    </div>
+    <textarea ng-hide="true" ng-cloak id="cke_body" crm-ckeditor="ckeditorOptions" class="mention" ng-model="crmTask.data.body" required></textarea>
     <button ng-if="crmTask.data.id" type="button" class="btn btn-prymari pull-right" style="margin: 5px" ng-click="crmTask.updateCrmBody()" ng-disabled="isDisabled">
         Зберегти
     </button>

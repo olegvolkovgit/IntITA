@@ -349,6 +349,10 @@ angular
                         scope.isDisabledComment = true;
                         crmTaskServices.addCrmTaskComment({comment: comment}).$promise
                             .then(function (data) {
+                                scope.comment = {
+                                    id_task: null,
+                                    message: null,
+                                };
                                 scope.newComment = false;
                                 self.loadTasksComments(self.data.id);
                                 scope.isDisabledComment = false;

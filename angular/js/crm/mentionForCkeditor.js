@@ -16,16 +16,20 @@ function initMention(el, charUser, charTask, min) {
         triggerCharUser: charUser, //Char that respond to event
         triggerCharTask: charTask, //Char that respond to event
         currentTriggerChar:charUser,
+        currentEditorName:el,
         onDataRequest: jQuery.noop, //Function where we can search the data
         minChars: min, //Minimum chars to fire the event
-        showAvatars: true, //Show the avatars
+        showAvatars: false, //Show the avatars
         classes: {
             autoCompleteItemActive: "active" //Classes to apply in each item
         },
         templates: {
             wrapper: _.template('<div class="mentions-input-box_'+el+'"></div>'),
             autocompleteList: _.template('<div class="mentions-autocomplete-list"></div>'),
-            autocompleteListItem: _.template('<li data-ref-id="<%= id %>" data-ref-type="<%= type %>" data-display="<%= display %>"><%= content %></li>'),
+            autocompleteListItem: _.template('<li ' +
+                'style="padding: 0 5px;margin: 0 0 0 -40px;width: auto;border-bottom: 1px solid #eee;height: 26px;line-height: 26px;overflow: hidden;cursor: pointer;' +
+                'list-style: none;white-space: nowrap;" onmouseover="this.style.backgroundColor=\'#f2f2f2\'" onmouseout="this.style.backgroundColor=\'\'"'+
+                'data-ref-id="<%= id %>" data-ref-type="<%= type %>" data-display="<%= display %>"><%= content %></li>'),
             autocompleteListItemAvatar: _.template('<img  src="<%= avatar %>" />'),
             autocompleteListItemIcon: _.template('<div class="icon <%= icon %>"></div>'),
             mentionItemSyntax: _.template('@[<%= value %>](<%= type %>:<%= id %>)'),
@@ -75,6 +79,7 @@ function initMention(el, charUser, charTask, min) {
 
         //Initializes the text area target
         function initTextarea() {
+
             elmInputBox = jQuery(input); //Get the text area target
 
             //If the text area is already configured, return
@@ -93,7 +98,6 @@ function initMention(el, charUser, charTask, min) {
         //Initializes the autocomplete list, append to elmWrapperBox and delegate the mousedown event to li elements
         function initAutocomplete() {
             elmAutocompleteList = jQuery(settings.templates.autocompleteList()); //Get the HTML code for the list
-            console.log(elmWrapperBox);
             elmAutocompleteList.appendTo(elmWrapperBox); //Append to elmWrapperBox element
             elmAutocompleteList.delegate('li', 'click', onAutoCompleteItemClick); //Delegate the event
         }
@@ -143,7 +147,7 @@ function initMention(el, charUser, charTask, min) {
             currentDataQuery = '';
             hideAutoComplete();
 
-            var editor = CKEDITOR.instances[el];
+            var editor = CKEDITOR.instances[settings.currentEditorName];
             var sel = editor.getSelection();
 
 
@@ -180,11 +184,11 @@ function initMention(el, charUser, charTask, min) {
 
         //Gets the actual value of the text area without white spaces from the beginning and end of the value
         function getInputBoxValue() {
-            return jQuery.trim(CKEDITOR.instances[el].getData());
+            return jQuery.trim(CKEDITOR.instances[settings.currentEditorName].getData());
         }
 
         //Takes the click event when the user select a item of the dropdown
-        function onAutoCompleteItemClick(e) {
+        function onAutoCompleteItemClick() {
             var elmTarget = jQuery(this); //Get the item selected
 
             addMention(elmTarget.attr('data-display'), elmTarget.attr('data-ref-id'), elmTarget.attr('data-ref-type'));
@@ -207,6 +211,14 @@ function initMention(el, charUser, charTask, min) {
             if(triggerCharIndexTask > -1) var firstKey = settings.triggerCharTask;
             var triggerCharIndex = Math.max(triggerCharIndexUser, triggerCharIndexTask);
             if (triggerCharIndex > -1) {
+                settings.currentEditorName=e.sender.editor.name;
+                elmInputBox = jQuery('#'+e.sender.editor.name); //Get the text area target
+                elmInputWrapper = elmInputBox.parent(); //Get the DOM element parent
+
+                elmAutocompleteList = jQuery(settings.templates.autocompleteList()); //Get the HTML code for the list
+                elmAutocompleteList.appendTo(jQuery('.mentions-input-box_'+e.sender.editor.name)); //Append to elmWrapperBox element
+                elmAutocompleteList.delegate('li', 'click', onAutoCompleteItemClick); //Delegate the event
+
                 settings.currentTriggerChar = firstKey;
                 currentDataQuery = inputBuffer.slice(triggerCharIndex + 1).join('');
                 currentDataQuery = utils.rtrim(currentDataQuery);
