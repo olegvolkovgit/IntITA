@@ -211,12 +211,13 @@ function initMention(el, charUser, charTask, min) {
             if(triggerCharIndexTask > -1) var firstKey = settings.triggerCharTask;
             var triggerCharIndex = Math.max(triggerCharIndexUser, triggerCharIndexTask);
             if (triggerCharIndex > -1) {
+                console.log(e.sender.editor.name);
                 settings.currentEditorName=e.sender.editor.name;
-                elmInputBox = jQuery('#'+e.sender.editor.name); //Get the text area target
+                elmInputBox = jQuery('#'+settings.currentEditorName); //Get the text area target
                 elmInputWrapper = elmInputBox.parent(); //Get the DOM element parent
 
                 elmAutocompleteList = jQuery(settings.templates.autocompleteList()); //Get the HTML code for the list
-                elmAutocompleteList.appendTo(jQuery('.mentions-input-box_'+e.sender.editor.name)); //Append to elmWrapperBox element
+                elmAutocompleteList.appendTo(jQuery('.mentions-input-box_'+settings.currentEditorName)); //Append to elmWrapperBox element
                 elmAutocompleteList.delegate('li', 'click', onAutoCompleteItemClick); //Delegate the event
 
                 settings.currentTriggerChar = firstKey;

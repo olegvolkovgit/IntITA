@@ -1,23 +1,26 @@
 <div class="form-group" style="overflow: hidden;margin: 5px 0 0 0 ">
-    <div class="col-xs-6 col-md-3 col-lg-3">
-        <input class="form-control col-md-5" type="text" ng-keypress="applyTasksFilter($event)" ng-model="filter.name" placeholder="Пошук по назві"/>
+    <div class="col-xs-4 col-md-2 col-lg-2">
+        <input class="form-control col-md-5" type="text" ng-keypress="applyTasksFilter($event)" ng-model="filter.name" placeholder="По назві"/>
     </div>
-    <div class="col-xs-6 col-md-2 col-lg-2">
-        <input class="form-control col-md-5" type="text" ng-keypress="applyTasksFilter($event)" ng-model="filter.id" placeholder="Пошук по ід"/>
+    <div class="col-xs-4 col-md-3 col-lg-3">
+        <input class="form-control col-md-5" type="text" ng-keypress="applyTasksFilter($event)" ng-model="filter.fullName" placeholder="По користувачу"/>
     </div>
-    <div class="col-xs-6 col-md-3 col-lg-3">
+    <div class="col-xs-4 col-md-2 col-lg-2">
+        <input class="form-control col-md-5" type="text" ng-keypress="applyTasksFilter($event)" ng-model="filter.id" placeholder="По ід"/>
+    </div>
+    <div class="col-xs-5 col-md-2 col-lg-2">
         <select class="form-control col-md-3" ng-model="filter.priority" ng-change="applyTasksFilter()">
             <option value="" selected>Усі приорітети</option>
             <option ng-repeat="priority in crmPrioritiesList track by $index" value="{{priority.id}}">{{priority.title}}</option>
         </select>
     </div>
-    <div class="col-xs-6 col-md-3 col-lg-3">
+    <div class="col-xs-5 col-md-2 col-lg-2">
         <select class="form-control col-md-3" ng-model="filter.type" ng-change="applyTasksFilter()">
             <option value="" selected>Усі категорії</option>
             <option ng-repeat="category in crmTypesList track by $index" value="{{category.id}}">{{category.title}}</option>
         </select>
     </div>
-    <div class="col-xs-1 col-md-1 col-lg-1 pull-right" style="height: 32px;">
+    <div class="col-xs-2 col-md-2 col-lg-1 pull-right" style="height: 32px;">
         <i class="fa fa-refresh" style="line-height: 32px; cursor: pointer" aria-hidden="true" title="Очистити" ng-click="clearFilter()"></i>
     </div>
 </div>

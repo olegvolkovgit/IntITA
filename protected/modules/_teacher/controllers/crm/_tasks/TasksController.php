@@ -197,12 +197,9 @@ class TasksController extends TeacherCabinetController
         $params = $_GET;
         $criteria = new CDbCriteria();
         $criteria->alias = 't';
-        $criteria->with = ['idTask.taskState', 'idTask.priorityModel', 'idTask.taskType'];
-        if ($params['id']) {
-            $criteria->condition = "t.id_user=" . Yii::app()->user->getId() . ' and t.role=' . $params['id'] . ' and t.cancelled_date is null';
-        } else {
-            $criteria->condition = "t.id_user=" . Yii::app()->user->getId() . ' and t.cancelled_date is null';
-        }
+        $criteria->with = ['idTask.taskState', 'idTask.priorityModel', 'idTask.taskType', 'idUser'];
+        $ids = CrmHelper::getUsersCrmTasks(Yii::app()->user->getId(), true, $params['id'] );
+        $criteria->addInCondition('t.id_task', $ids);
         $criteria->group = 't.id_task';
         if (isset($params['filter']['crmStates.id'])) {
             $criteria->join = 'LEFT JOIN crm_tasks ct ON ct.id = t.id_task';

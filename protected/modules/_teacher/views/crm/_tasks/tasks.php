@@ -12,6 +12,7 @@
                     <col/>
                     <col/>
                     <col/>
+                    <col/>
                 </colgroup>
                 <tr ng-repeat="row in $data track by $index"
                     ng-class="{'expect_to_execute': row.idTask.id_state == 1, 'executed': row.idTask.id_state == 2,
@@ -46,6 +47,9 @@
                     </td>
                     <td data-title="'Категорія'" filter="{'crmType.id': 'select'}" filter-data="crmTypesList">
                         <div ng-class="row.idTask.taskType.title">{{row.idTask.taskType.description}}</div>
+                    </td>
+                    <td data-title="'Користувач'" filter="{'idUser.fullName': 'text'}" sortable="'idUser.fullName'">
+                        {{row.idUser.fullName}}
                     </td>
                     <td data-title="'Постановник'" filter="{'producerName.fullName': 'text'}" sortable="'producerName.fullName'">
                         {{row.producerName.fullName}}
