@@ -92,4 +92,21 @@ angular
                 cache: false,
                 templateUrl: url+"/specializationCreate"
             })
+            .state('configuration/task_types', {
+                url: "/configuration/task_types",
+                cache: false,
+                templateUrl: url+"/taskTypes",
+            })
+            .state('configuration/task_types/update/:id', {
+                url: "/configuration/task_types/update/:id",
+                cache: false,
+                templateUrl: function ($stateParams) {
+                    return url+"/taskTypeUpdate/id/"+$stateParams.id;
+                }
+            })
+            .state('configuration/create_task_type', {
+                url: "/configuration/create_task_type",
+                cache: false,
+                templateUrl: url+"/taskTypeCreate"
+            })
 });

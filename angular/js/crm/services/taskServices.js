@@ -220,5 +220,10 @@ angular
                         isArray: true,
                         transformRequest : transformRequest.bind(null)
                     },
+                    crmTasksTypeList: {
+                        url: url + '/getCrmTasksTypeList',
+                        method: 'GET',
+                        isArray:true,
+                    },
                 });
         }]);

@@ -330,7 +330,7 @@ modal .modal {
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
-    width: 100px;
+    max-width: 150px;
 }
 .delete-button{
     color: red;

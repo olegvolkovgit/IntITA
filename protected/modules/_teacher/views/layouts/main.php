@@ -209,6 +209,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/addressControllers.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/specializationsControllers.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/calendarController.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/taskTypesControllers.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/controllers/tasksControllers.js'); ?>"></script>
 
@@ -256,6 +257,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/auditorService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/translitService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/ngTableService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/taskTypeService.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/crm/services/taskServices.js'); ?>"></script>
 
@@ -277,6 +279,7 @@
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
     <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/mentionsInput.css'); ?>">
     <!--Subscribe to new notifications-->
 <script>
     var useWebsocketNotification = true;
@@ -294,6 +297,5 @@
             <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
         <?php } ?>
     <!--IntITAMessenger-->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/mentionsInput.css'); ?>" rel="stylesheet">
     </body>
 </html>

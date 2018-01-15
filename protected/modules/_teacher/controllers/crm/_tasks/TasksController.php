@@ -38,8 +38,35 @@ class TasksController extends TeacherCabinetController
 
     public function actionManager()
     {
-        $this->renderPartial('/crm/_tasks/manager', array(), false, true);
+        $this->renderPartial('/crm/_manager/manager', array(), false, true);
     }
+
+    public function actionCreatedEvents()
+    {
+        $this->renderPartial('/crm/_manager/createdEvents', array(), false, true);
+    }
+
+    public function actionUpdatedEvents()
+    {
+        $this->renderPartial('/crm/_manager/updatedEvents', array(), false, true);
+    }
+    public function actionChangedEvents()
+    {
+        $this->renderPartial('/crm/_manager/changedEvents', array(), false, true);
+    }
+    public function actionCommentedEvents()
+    {
+        $this->renderPartial('/crm/_manager/commentedEvents', array(), false, true);
+    }
+    public function actionSetRoleEvents()
+    {
+        $this->renderPartial('/crm/_manager/setRoleEvents', array(), false, true);
+    }
+    public function actionAllEvents()
+    {
+        $this->renderPartial('/crm/_manager/allEvents', array(), false, true);
+    }
+
 
     public function actionGetUsers($query, $category, $multiple)
     {
@@ -873,4 +900,10 @@ class TasksController extends TeacherCabinetController
             unlink($file);
         $model->delete();
     }
+
+    public function actionGetCrmTasksTypeList()
+    {
+        echo CJSON::encode(CrmTaskType::model()->findAll(array('order'=>'`order` asc')));
+    }
+
 }
