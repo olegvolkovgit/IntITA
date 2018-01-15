@@ -117,28 +117,18 @@ angular
                 {id: "3", title: 'Високий'},
                 {id: "4", title: 'Терміновий'},
             ];
-            $scope.crmTypesList = [
-                {id: "1", title: 'Task'},
-                {id: "2", title: 'Bug'},
-                {id: "3", title: 'Feature'},
-                {id: "4", title: 'Support'},
-                {id: "5", title: 'Technical advice'},
-                {id: "6", title: 'Test Case'},
-                {id: "7", title: 'Test'},
-                {id: "8", title: 'Course project'},
-                {id: "9", title: 'Diploma project'},
-                {id: "10", title: 'Interview'},
-                {id: "11", title: 'Assessment'},
-                {id: "12", title: 'Essey'},
-                {id: "13", title: 'CV'},
-                {id: "14", title: 'Motivation letter'},
-                {id: "15", title: 'Hometask'},
-                {id: "16", title: 'Consultation'},
-                {id: "17", title: 'Improvement'},
-                {id: "18", title: 'Requirement'},
-                {id: "19", title: 'Event'},
-                {id: "20", title: 'Rest'},
-            ];
+
+            $scope.getCrmTasksTypeList = function () {
+                crmTaskServices
+                    .crmTasksTypeList()
+                    .$promise
+                    .then(function (response) {
+                        return $scope.crmTypesList = response.map(function (item) {
+                            return {id: item.id, title: item.title_ua}
+                        });
+                    });
+            };
+            $scope.getCrmTasksTypeList();
 
             $scope.openCrmModal = function (size, parentSelector, clear, id) {
                 if (clear) {

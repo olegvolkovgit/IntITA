@@ -1,4 +1,4 @@
-<div class="panel panel-default actualDocuments">
+<div class="panel panel-default actualDocuments" ng-if="crmTask.data.id && (crmTask.data.created_by==currentUser || crmTask.canEditCrmTasks) || crmTask.taskDocuments.length">
     <h4 ng-if="crmTask.taskDocuments.length">
         <em style="border-bottom: 1px solid #ccc; font-weight: normal">Прикріплені файли</em>
     </h4>

@@ -5,8 +5,10 @@
  *
  * The followings are the available columns in table 'crm_task_type':
  * @property integer $id
- * @property string $title
- * @property string $description
+ * @property string $title_ua
+ * @property string $title_ru
+ * @property string $title_en
+ * @property string $order
  *
  * The followings are the available model relations:
  * @property CrmTasks[] $crmTasks
@@ -29,11 +31,12 @@ class CrmTaskType extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, description', 'required'),
-			array('title, description', 'length', 'max'=>50),
+			array('title_ua, title_ru, title_en, order', 'required'),
+            array('order', 'unique'),
+			array('title_ua, title_ru, title_en', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, description', 'safe', 'on'=>'search'),
+			array('id, title_ua, title_ru, title_en, order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,8 +59,10 @@ class CrmTaskType extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'description' => 'Description',
+			'title_ua' => 'Title UA',
+            'title_ru' => 'Title RU',
+            'title_en' => 'Title EN',
+            'order' => 'Order',
 		);
 	}
 
@@ -80,9 +85,9 @@ class CrmTaskType extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('description',$this->description,true);
-
+		$criteria->compare('title_ua',$this->title_ua,true);
+        $criteria->compare('title_ru',$this->title_ru,true);
+        $criteria->compare('title_en',$this->title_en,true);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

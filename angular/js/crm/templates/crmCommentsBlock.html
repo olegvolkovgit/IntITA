@@ -38,6 +38,11 @@
 <br>
 <a href="" ng-show="!newComment" ng-click="crmTask.toggleComment();" >Додати коментар</a>
 <div ng-show="newComment">
+    <div style="font-size: 12px">
+        <b>@</b> - три символи після знаку підтягує список користувачів
+        <br>
+        <b>#</b> - три символи після знаку підтягує список доступних завдань
+    </div>
     <textarea id="comment_cke" crm-ckeditor="ckeditorOptions" class="mention" ng-cloak ng-model="comment.message" required></textarea>
     <br>
     <p style="clear: both">
