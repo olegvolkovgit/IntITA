@@ -176,9 +176,9 @@ angular
                 }
             }
 
-            $rootScope.loadTasks = function (idRole, filterName, filterId, filterPriority, filterType) {
+            $rootScope.loadTasks = function (idRole, filterName, fullName, filterId, filterPriority, filterType) {
                 if ($scope.board == 1) {
-                    return $scope.loadKanbanTasks(idRole, filterName, filterId, filterPriority, filterType).then(function (data) {
+                    return $scope.loadKanbanTasks(idRole, filterName, fullName, filterId, filterPriority, filterType).then(function (data) {
                         $scope.setKanbanHeight();
                     });
                 } else {
@@ -191,6 +191,7 @@ angular
                     $rootScope.loadTasks(
                         $rootScope.roleId,
                         $scope.filter.name,
+                        $scope.filter.fullName,
                         $scope.filter.id,
                         $scope.filter.priority,
                         $scope.filter.type
@@ -233,13 +234,14 @@ angular
                 return promise;
             };
 
-            $scope.loadKanbanTasks = function (idRole, filterName, filterId, filterPriority, filterType) {
+            $scope.loadKanbanTasks = function (idRole, filterName, fullName, filterId, filterPriority, filterType) {
                 var promise = $scope.crmCanbanTasksList =
                     crmTaskServices
                         .getTasks({
                             'sorting[idTask.priority]': 'desc',
                             id: idRole,
                             'filter[idTask.name]': filterName,
+                            'filter[idUser.fullName]': fullName,
                             'filter[idTask.id]': filterId,
                             'filter[idTask.priority]': filterPriority,
                             'filter[idTask.type]': filterType,
