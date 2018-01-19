@@ -98,8 +98,8 @@ function initMention(el, charUser, charTask, min) {
         //Initializes the autocomplete list, append to elmWrapperBox and delegate the mousedown event to li elements
         function initAutocomplete() {
             elmAutocompleteList = jQuery(settings.templates.autocompleteList()); //Get the HTML code for the list
-            elmAutocompleteList.appendTo(elmWrapperBox); //Append to elmWrapperBox element
-            elmAutocompleteList.delegate('li', 'click', onAutoCompleteItemClick); //Delegate the event
+            // elmAutocompleteList.appendTo(elmWrapperBox); //Append to elmWrapperBox element
+            // elmAutocompleteList.delegate('li', 'click', onAutoCompleteItemClick); //Delegate the event
         }
 
         //Cleans the buffer
@@ -211,13 +211,15 @@ function initMention(el, charUser, charTask, min) {
             if(triggerCharIndexTask > -1) var firstKey = settings.triggerCharTask;
             var triggerCharIndex = Math.max(triggerCharIndexUser, triggerCharIndexTask);
             if (triggerCharIndex > -1) {
-                console.log(e.sender.editor.name);
                 settings.currentEditorName=e.sender.editor.name;
                 elmInputBox = jQuery('#'+settings.currentEditorName); //Get the text area target
                 elmInputWrapper = elmInputBox.parent(); //Get the DOM element parent
 
                 elmAutocompleteList = jQuery(settings.templates.autocompleteList()); //Get the HTML code for the list
                 elmAutocompleteList.appendTo(jQuery('.mentions-input-box_'+settings.currentEditorName)); //Append to elmWrapperBox element
+                console.log('.mentions-input-box_'+settings.currentEditorName);
+                console.log(jQuery('.mentions-input-box_'+settings.currentEditorName));
+                console.log(elmAutocompleteList);
                 elmAutocompleteList.delegate('li', 'click', onAutoCompleteItemClick); //Delegate the event
 
                 settings.currentTriggerChar = firstKey;
