@@ -8,6 +8,7 @@
  * @property string $file_path
  * @property integer $slide_position
  * @property integer $visible
+ * @property string $url
  */
 class Banners extends CActiveRecord
 {
@@ -29,7 +30,7 @@ class Banners extends CActiveRecord
 		return array(
 			array('file_path', 'required'),
 			array('slide_position, visible', 'numerical', 'integerOnly'=>true),
-			array('file_path', 'length', 'max'=>255),
+			array('file_path, url', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, file_path, slide_position, visible', 'safe', 'on'=>'search'),
@@ -57,6 +58,7 @@ class Banners extends CActiveRecord
 			'file_path' => 'File Path',
 			'slide_position' => 'Slide Position',
 			'visible' => 'Visible',
+			'url' => 'Url',
 		);
 	}
 
@@ -82,6 +84,7 @@ class Banners extends CActiveRecord
 		$criteria->compare('file_path',$this->file_path,true);
 		$criteria->compare('slide_position',$this->slide_position);
 		$criteria->compare('visible',$this->visible);
+		$criteria->compare('url',$this->url);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

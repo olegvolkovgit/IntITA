@@ -201,17 +201,7 @@ $header = new Header();
     </div>
 </div>
 <div id="mainfooter">
-    <div class="bannersArea" ng-cloak>
-        <div class="bannersCarousel" ng-controller="bannersSliderCtrl" ng-cloak>
-            <ul rn-carousel rn-carousel-index="1" rn-carousel-auto-slide rn-carousel-pause-on-hover rn-carousel-buffered rn-carousel-transition="hexagon" rn-carousel-duration="{{slideTime}}">
-                <li ng-repeat="slide in slides track by slide.id" ng-class="'id-' + slide.id">
-                    <div ng-style="{'background-image': 'url(' + slide.file_path + ')','background-size':'contain', 'background-repeat':'no-repeat' }"  class="bannerImage">
-                        &nbsp;
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+
     <div class="footercontent">
         <div class="leftfooter">
             <table>
