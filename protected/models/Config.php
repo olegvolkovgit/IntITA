@@ -222,4 +222,8 @@ class Config extends CActiveRecord
     public static function getGitScriptPath(){
         return Yii::app()->config->get('gitScriptPath');
     }
+
+    public static function getBannerSliderTime(){
+        return Yii::app()->config->get('bannersSlideTime');
+    }
 }

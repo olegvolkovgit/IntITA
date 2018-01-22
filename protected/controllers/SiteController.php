@@ -758,4 +758,9 @@ class SiteController extends Controller {
             throw new KeyValidationException();
         }
     }
+
+    public function actionGetBanners($location){
+        $banners = Banners::model()->findAll('visible = 1');
+        echo CJSON::encode(['slideTime'=>Config::getBannerSliderTime(), 'banners'=>$banners]);
+    }
 }

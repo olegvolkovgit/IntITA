@@ -16,4 +16,5 @@ angular
         'angular-loading-bar',
         'ngImgCrop',
         'ngBootbox',
+        'angular-carousel'
     ]);
