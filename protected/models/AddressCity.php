@@ -171,7 +171,7 @@ class AddressCity extends CActiveRecord
 	public static function citiesListByCountry($idCountry){
 		$param = "title_".Yii::app()->session["lg"];
 		$criteria = new CDbCriteria();
-		$criteria->select = "id, $param";
+		$criteria->select = "id, $param, title_en";
 		$criteria->condition = "country=:country";
 		$criteria->order=$param.' COLLATE utf8_unicode_ci ASC';
 		$criteria->params = array(':country' => $idCountry);
@@ -181,6 +181,7 @@ class AddressCity extends CActiveRecord
 		foreach ($cities as $key=>$record) {
 			$data[$key]["id"] = $record->id;
 			$data[$key]["title"] = $record->$param;
+            $data[$key]["title_en"] = $record->title_en;
 		}
 		return json_encode($data);
 	}
