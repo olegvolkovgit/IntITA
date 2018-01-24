@@ -279,7 +279,7 @@ class ConfigController extends TeacherCabinetController {
         foreach ($data as $item){
             $model = CrmTaskType::model()->findByPk($item->id);
             $model->order=$item->order;
-            $model->save();
+            $model->save(false);
         }
     }
 }
