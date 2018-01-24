@@ -45,7 +45,8 @@ angular
         'crmApp',
         'vxWamp',
         'angularTreeview',
-        'contentProgressApp'
+        'contentProgressApp',
+        'dndLists'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

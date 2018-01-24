@@ -32,7 +32,7 @@ class CrmTaskType extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title_ua, title_ru, title_en, order', 'required'),
-            array('order', 'unique'),
+            //array('order', 'unique'),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

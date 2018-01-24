@@ -274,28 +274,12 @@ class ConfigController extends TeacherCabinetController {
 
     public function actionReorderTaskType()
     {
-        $id=Yii::app()->request->getPost('id');
-        $order=Yii::app()->request->getPost('order');
-
-        $currentType = CrmTaskType::model()->findByPk($id);
-        $oldOrder=$currentType->order;
-        $orderedType = CrmTaskType::model()->findByAttributes(array('order'=>$order));
-
-        $transaction = Yii::app()->db->beginTransaction();
-        if($order<=count(CrmTaskType::model()->findAll())){
-            try {
-                $orderedType->order=0;
-                $orderedType->save();
-                $currentType->order=$order;
-                $currentType->save();
-                $orderedType->order=$oldOrder;
-                $orderedType->save();
-                $transaction->commit();
-            } catch (Exception $error) {
-                $transaction->rollback();
-            }
+        $data=Yii::app()->request->getPost('data');
+        $data = json_decode($data);
+        foreach ($data as $item){
+            $model = CrmTaskType::model()->findByPk($item->id);
+            $model->order=$item->order;
+            $model->save();
         }
-
     }
-
 }
