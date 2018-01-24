@@ -115,7 +115,7 @@ table.graduatesFilter{
     vertical-align: middle;
 }
 .graduatesFilter td{
-    padding: 0 10px 0 10px;
+    padding: 0 2% 0 2%;
     border-left: 1px solid #4b75a4;
 }
 .graduatesFilter td a{
@@ -143,6 +143,7 @@ table.graduatesFilter{
     padding-top: 4px;
     margin-bottom: 4px;
     color: #777;
+    letter-spacing: -0.05em;
 }
 input[type="search"]::-webkit-input-placeholder {
     color: #ccc;
@@ -322,6 +323,18 @@ div.aboutMore{
     div.aboutMore{
         float:inherit;
         border-bottom: 1px solid #d8d8d8;
+    }
+    .graduatesFilter td:nth-child(3) {
+        display: block;
+        border-left: none;
+        margin: 5px 0 5px 0;
+        width:100%;
+        text-align: center;
+    }
+    .graduatesFilter td {
+        float:left;
+        width:50%;
+        text-align: center;
     }
 }
 /*celebre*/
