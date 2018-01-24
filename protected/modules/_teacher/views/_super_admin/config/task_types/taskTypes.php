@@ -4,38 +4,34 @@
 <br>
 <br>
 <div class="panel panel-default" ng-controller="taskTypesTableCtrl">
-    <div class="panel-body" >
-        <div class="dataTable_wrapper">
-            <table class="table table-striped table-bordered table-hover" style="table-layout: fixed">
-                <tr>
-                    <th>Назва українською</th>
-                    <th>Назва російською</th>
-                    <th>Назва англійською</th>
-                    <th>П/н</th>
-                </tr>
-                <tr ng-repeat="row in taskTypes">
-                    <td>
-                        <a ng-href="#/configuration/task_types/update/{{row.id}}">{{row.title_ua}}</a>
-                    </td>
-                    <td>
-                        <a ng-href="#/configuration/task_types/update/{{row.id}}">{{row.title_ru}}</a>
-                    </td>
-                    <td>
-                        <a ng-href="#/configuration/task_types/update/{{row.id}}">{{row.title_en}}</a>
-                    </td>
-                    <td>
-                        <div class="col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon">{{row.order}}</span>
-                                <input type="number" step="1" size="3" min="1" max="{{taskTypes.length}}" placeholder="новий порядок" ng-model="order" class="form-control" >
-                                <span class="input-group-addon">
-                                    <i class="fa fa-save" aria-hidden="true" title="Змінити" ng-click="changeTypeOrder(row.id, order)"></i>
-                                </span>
-                            </div>
+    <div ng-repeat="list in model" class="col-sm-12 col-md-12 main-list">
+        <div class="panel panel-info">
+            <div class="panel-heading header-list">
+                <div class="col-md-3 col-sm-3 col-xs-3">Назва укр</div>
+                <div class="col-md-3 col-sm-3 col-xs-3">Назва рос</div>
+                <div class="col-md-3 col-sm-3 col-xs-3">Назва анг</div>
+                <div class="col-md-3 col-sm-3 col-xs-3">П/н</div>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group" dnd-list dnd-drop="callback({targetList: list, targetIndex: index})"
+                >
+                    <li class="list-group-item" ng-repeat="item in list"
+                        dnd-draggable="null" dnd-callback="onDrop(list, $index, targetList, targetIndex)">
+                        <div class="col-md-3 col-xs-3">
+                            {{item.labelFunc($index)[1].title_ua}}
                         </div>
-                    </td>
-                </tr>
-            </table>
+                        <div class="col-md-3 col-xs-3">
+                            {{item.labelFunc($index)[1].title_ru}}
+                        </div>
+                        <div class="col-md-3 col-xs-3">
+                            {{item.labelFunc($index)[1].title_en}}
+                        </div>
+                        <div class="col-md-3 col-xs-3">
+                            {{item.labelFunc($index)[1].order}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

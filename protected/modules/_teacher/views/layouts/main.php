@@ -80,6 +80,7 @@
 
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/dragAndDropList.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/crm.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">
