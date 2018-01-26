@@ -49,7 +49,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             msg:$(this).attr('data-source')
         });
     });
-    
+
     $('#progressBar').show();
     $('#gridBlock').show();
 
@@ -265,7 +265,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
         $scope.specializationsListToString(form.specializations);
         $scope.avatarStringToField($scope.myCroppedImage);
     };
-    
+
     $scope.$watch('form.selectedCountry', function() {
         if(typeof $scope.form.selectedCountry!='undefined'){
             $("#StudentReg_country").val($scope.form.selectedCountry.id);
@@ -517,6 +517,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
 
 function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {
     var local = location.search.split('local=')[1];
+    var specialization = location.search.split('specialization=')[1];
     $scope.uiSelectInit = function(){
         $timeout(function () {
             $scope.$digest();
@@ -549,7 +550,7 @@ function registrationFormController($scope, countryCity, careerService, speciali
             $('input[name=avatar]').val(myCroppedImage);
         }
     };
-    
+
     $scope.sendForm=function (form) {
         $scope.careersListToString(form.careerStart);
         $scope.specializationsListToString(form.specializations);
@@ -558,7 +559,7 @@ function registrationFormController($scope, countryCity, careerService, speciali
     $scope.dataForm=[];
 
     $scope.educformOn=true;
-    
+
     $scope.include = false;
     $scope.showInclude = function(){alert($scope.include)};
 
@@ -573,6 +574,11 @@ function registrationFormController($scope, countryCity, careerService, speciali
 
     specializations.getSpecializationsList().then(function (response) {
         $scope.specializations=response;
+        if(specialization){
+            $scope.dataForm.specializations = $.grep($scope.specializations, function(e){
+                return e.id == 8;
+            });
+        }
     });
 
     $scope.$watch('dataForm.selectedCountry', function() {
@@ -643,7 +649,7 @@ function aboutUsCtrl($scope, $http) {
         return promise;
     };
     $scope.getAboutUsData();
-    
+
     $scope.windowShow=function (buttonNumber, anchor) {
         if (anchor == 1) {
             $("body").animate({"scrollTop": 440}, "fast");
@@ -657,7 +663,7 @@ function aboutUsCtrl($scope, $http) {
             $('body,html').animate({scrollTop: $("#anchorAboutUs").offset().top}, 400);
         }
     };
-    
+
     $scope.nextPage=function (buttonNumber) {
         $scope.openPage=buttonNumber;
     }
@@ -687,22 +693,22 @@ function teacherResponse($scope, $http) {
     $scope.knowldg = '0';
     $scope.behvr = '0';
     $scope.motivtn = '0';
-    
+
     $('#material').raty({
-        score: $scope.knowldg, 
+        score: $scope.knowldg,
         click: function (score) {
             $scope.knowledge = score;
         }
     });
 
     $('#behavior').raty({
-        score: $scope.behvr, 
+        score: $scope.behvr,
         click: function (score) {
             $scope.behavior = score;
         }
     });
     $('#motiv').raty({
-        score: $scope.motivtn, 
+        score: $scope.motivtn,
         click: function (score) {
             $scope.motivation = score;
         }
@@ -713,7 +719,7 @@ function teacherResponse($scope, $http) {
         $scope.text=$('.wysibb-text-editor').html();
         $http({
             url: basePath+"/profile/sendresponse/?idTeacher="+idTeacher,
-            method: "POST", 
+            method: "POST",
             data: $.param({
             knowledge: $scope.knowledge,behavior:$scope.behavior,
             motivation:$scope.motivation,text:$scope.text

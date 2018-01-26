@@ -597,6 +597,11 @@ angular
                     return crmTaskServices.getSubTasks({
                         query: query,
                     }).$promise.then(function (response) {
+                        $jq.each(response, function(index, value) {
+                            if($jq.inArray( value.id, [self.data.parent, self.data.id])){
+                                delete response[index];
+                            }
+                        });
                         return response;
                     });
                 };
@@ -604,7 +609,7 @@ angular
                 scope.clearSubTaskInput= function () {
                     self.selectedSubTask='';
                     scope.subTaskModel=null;
-                }
+                };
 
                 // functions for typeahead
                 scope.onSelectTask = function ($item) {

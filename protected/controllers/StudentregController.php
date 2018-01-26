@@ -53,7 +53,7 @@ class StudentRegController extends Controller
     /**
      * Lists all models.
      */
-    public function actionIndex($email = '', $local = '')
+    public function actionIndex($email = '', $local = '', $specialization='')
     {
         if (!Yii::app()->user->isGuest) {
             $this->redirect(Yii::app()->createUrl('/site/index'));
