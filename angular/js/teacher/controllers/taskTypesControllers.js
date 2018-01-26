@@ -13,6 +13,29 @@ angular
                     .$promise
                     .then(function (data) {
                         $scope.taskTypes=data;
+                        $scope.model = [generateList()];
+                        $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
+                            targetList.splice(targetIndex, 0, srcList[srcIndex]);
+                            if (srcList == targetList && targetIndex <= srcIndex) srcIndex++;
+                            srcList.splice(srcIndex, 1);
+
+                            var newList = [];
+                            for(var i=0; i<targetList.length;i++){
+                                newList.push(targetList[i].labelFunc(i)[1]);
+                            }
+                            $scope.changeTypeOrder(newList);
+                            return true;
+                        };
+                        function generateList() {
+                            return data.map(function(letter) {
+                                return {
+                                    labelFunc: function(index) {
+                                        letter.order=index+1;
+                                        return [index+1,letter];
+                                    }
+                                };
+                            });
+                        }
                     });
             };
             $scope.loadTaskTypes();
@@ -25,9 +48,9 @@ angular
                         bootbox.alert("Створити тип завдання не вдалося. Помилка сервера.");
                     });
             };
-
-            $scope.changeTypeOrder= function (id, order) {
-                taskTypeService.reorderTaskType({id: id, order:order}).$promise
+            $scope.changeTypeOrder= function (data) {
+                $scope.modelAsJson = angular.toJson(data, true);
+                taskTypeService.reorderTaskType({data:$scope.modelAsJson}).$promise
                     .then(function successCallback() {
                         $scope.loadTaskTypes()
                     }, function errorCallback() {

@@ -473,7 +473,7 @@ hr {
 }
 /* consult */
 div#page-wrapper {
-    /*overflow: inherit;!important;*/
+    overflow: auto;
 }
 /*offer*/
 pre.offer{
