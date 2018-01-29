@@ -441,7 +441,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
         var today = new Date();
         var yr = today.getFullYear();
         $(".date").inputmask("dd/mm/yyyy", {
-            yearrange: {minyear: 1900, maxyear: yr - 3},
+            yearrange: {minyear: 1900, maxyear: yr},
             "placeholder": "<?php echo Yii::t('regexp', '0262');?>"
         }); //specify year range
     });
