@@ -320,8 +320,8 @@ $header = new Header();
 
 <div id="rocket_div">
     <img id="rocket" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
-    <img id="pad_1" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'tail_1.png'); ?>"/>
-    <img id="pad_2" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'tail_2.png'); ?>"/>
+    <img id="pad_1" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'tail.png'); ?>"/>
+    <img id="pad_2" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'tail.png'); ?>"/>
 </div>
 <div id="exhaust_div">
     <img id="exhaust_1" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
