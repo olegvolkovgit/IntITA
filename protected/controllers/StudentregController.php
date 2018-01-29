@@ -53,10 +53,10 @@ class StudentRegController extends Controller
     /**
      * Lists all models.
      */
-    public function actionIndex($email = '')
+    public function actionIndex($email = '', $local = '')
     {
         if (!Yii::app()->user->isGuest) {
-            throw new \application\components\Exceptions\IntItaException('403', 'Ти вже зареєстрований');
+            $this->redirect(Yii::app()->createUrl('/site/index'));
         }
         $model = new StudentReg('reguser');
         $this->render("studentreg", array('model' => $model, 'email' => $email));

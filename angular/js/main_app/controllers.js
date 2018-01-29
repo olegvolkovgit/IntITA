@@ -8,7 +8,7 @@ angular
     .controller('teacherResponse', teacherResponse)
     .controller('promotionSchemesCtrl',promotionSchemesCtrl)
     .controller('studentProjectsCtrl',studentProjectsCtrl)
-
+    .controller('bannersSliderCtrl',bannersSliderCtrl)
 
 /* Controllers */
 function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout, FileUploader, documentsServices) {
@@ -516,6 +516,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
 }
 
 function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {
+    var local = location.search.split('local=')[1];
     $scope.uiSelectInit = function(){
         $timeout(function () {
             $scope.$digest();
@@ -563,6 +564,7 @@ function registrationFormController($scope, countryCity, careerService, speciali
 
     countryCity.getCountriesList().then(function (response) {
         $scope.countriesList=response;
+        if(local) $scope.dataForm.selectedCountry=$scope.countriesList[0];
     });
 
     careerService.getCareersList().then(function (response) {
@@ -578,6 +580,11 @@ function registrationFormController($scope, countryCity, careerService, speciali
             $("#StudentReg_country").val($scope.dataForm.selectedCountry.id);
             countryCity.getCitiesList($scope.dataForm.selectedCountry.id).then(function (response) {
                 $scope.dataForm.citiesList=response;
+                if(local){
+                    $scope.dataForm.selectedCity = $.grep($scope.dataForm.citiesList, function(e){
+                        return e.title_en.toLowerCase() == local;
+                    })[0];
+                }
             });
         }else{
             $("#StudentReg_country").val(null);
@@ -925,4 +932,15 @@ function studentProjectsCtrl($scope, $ngBootbox, $http, $httpParamSerializerJQLi
             });
 
     }
+}
+function bannersSliderCtrl($scope, $http) {
+    $scope.slides = [];
+    $http({
+        method:'get',
+        url:"/site/getBanners/location"+window.location.pathname
+    }).then(function (response) {
+        $scope.slideTime = response.data.slideTime;
+        $scope.slides = response.data.banners;
+    });
+
 }

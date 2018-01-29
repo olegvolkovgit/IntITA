@@ -38,6 +38,11 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/jspdf/dist/jspdf.min.js'); ?>"></script>
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-touch/angular-touch.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-carousel/dist/angular-carousel.min.js'); ?>"></script>
+    <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-carousel/dist/angular-carousel.min.css'); ?>" rel="stylesheet"/>
+
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-file-upload/dist/angular-file-upload.min.js'); ?>"></script>
@@ -195,6 +200,7 @@ $header = new Header();
     </div>
 </div>
 <div id="mainfooter">
+
     <div class="footercontent">
         <div class="leftfooter">
             <table>
