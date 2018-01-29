@@ -2,30 +2,122 @@
  * Created by Wizlight on 28.07.2015.
  */
 
-function rocketMove(element,w) {
-    element.animate({
-        top:-$('#rocket').height(),
-        left:w
-    }, 3000);
+;(function(){
 
-    setTimeout(function () {
-        $('#exhaust').hide();
-    }, 500);
-    setTimeout(function () {
-        $('#rocket').hide();
-    }, 3000);
-}
+    var tail_img_1;
+    var tail_img_2;
+    var rock_img;
+    var exh_img_1;
+    var rock_div;
+    var exh_div;
 
-function goUp(){
-    var hPosR=$(document).outerHeight()-($('#rocket').height()+$('#exhaust').height());
-    var wPosR=$(document).outerWidth()/2-$(window).width()*0.225;
-    var hPosE=$(document).outerHeight()-$('#exhaust').height();
-    var wPosE=$(document).outerWidth()/2-$(window).width()*0.4167;
-    $('#rocket').show();
-    $('#rocket').offset({top:hPosR, left:wPosR});
-    $('#exhaust').show();
-    $('#exhaust').offset({top:hPosE, left:wPosE});
+    $('div .rightfooter a').click(goUp);
 
-    $('body,html').animate({scrollTop: 0}, 2700);
-    rocketMove($('#rocket'),wPosR);
-};
+    function goUp(){
+        var SCROLL_DURATION = 2700;
+        var ANIM_DURATION = 3000;
+
+        rock_div = $('#rocket_div');
+        exh_div = $('#exhaust_div');
+
+        rock_div.show();
+        exh_div.show();
+
+        looking_for_internal_nodes();
+
+        allocate_animation();
+
+        tail_img_2.hide();
+
+        set_tail_animation(tail_img_1, ANIM_DURATION, 50, 75);
+        set_tail_animation(tail_img_2, ANIM_DURATION, 50, 75);
+
+        set_exhaust_animation(1);
+
+        $('body,html').animate({scrollTop: 0}, SCROLL_DURATION);
+        rocketMove(rock_div, ANIM_DURATION);
+    }
+
+    function looking_for_internal_nodes(){
+        tail_img_1 = $('#pad_1');
+        tail_img_2 = $('#pad_2');
+        rock_img = $('#rocket');
+        exh_img_1 = $('#exhaust_1');
+    }
+
+    function allocate_animation(){
+        var horizBorder;
+        var vPosExh;
+        var vPosRoc;
+        var horizQuarter;
+        var hPosExh;
+        var hPosRoc;
+
+        var rock_hight = rock_img.height();
+        var rock_width = rock_img.width();
+        var exh_hight = exh_img_1.height();
+        var exh_width = exh_img_1.width();
+
+        if(rock_div.css("left") != "0px"){
+            vertBorder = $(document).height();
+        }else{
+            vertBorder = $(document).height() - Math.max(exh_hight, rock_hight);
+        }
+
+        horizQuarter = $(window).outerWidth()/4;
+        vPosExh = vertBorder - exh_hight - 10;
+        vPosRoc = vPosExh - rock_hight;
+        hPosExh = horizQuarter - exh_width/2;
+        hPosRoc = horizQuarter - rock_width/2;
+
+        rock_div.offset({top:vPosRoc, left:hPosRoc});
+        exh_div.offset({top:vPosExh, left:hPosExh});
+    }
+
+    function set_tail_animation(elem, duration, min_step, max_step){
+        var cur_time;
+        var step;
+
+        for(cur_time = 0; cur_time < duration;){
+            switch_visiable(elem, cur_time, 50);
+
+            step = min_step + Math.random() * (max_step + 1 - min_step);
+            step = Math.floor(step);
+            cur_time += step;
+        }
+
+        setTimeout(function () {
+            rock_div.hide();
+        }, duration);
+    }
+
+    function switch_visiable(elem, delay, duration){
+        setTimeout(function (){
+            elem.fadeToggle(duration, "linear");
+        }, delay);
+    }
+
+    function set_exhaust_animation(exh_id){
+        var curr = $('#exhaust_'+exh_id);
+        var next = $('#exhaust_'+(exh_id+1));
+
+        curr.fadeOut(700, "swing");
+        next.fadeIn(700, "swing", function(){
+            if(exh_id < 4){
+                set_exhaust_animation(exh_id + 1);
+            }else{
+                next.fadeOut(2000, "swing", function(){
+                    exh_div.hide();
+                });
+            }
+        });
+    }
+
+    function rocketMove(hPosRoc, duration) {
+        rock_div.animate({
+            top:0-rock_img.height(),
+            left:hPosRoc
+        }, duration);
+    }
+
+}());
