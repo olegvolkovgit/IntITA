@@ -1,7 +1,7 @@
 angular
     .module('courseRevisionsApp')
     .controller('courseRevisionCtrl',courseRevisionCtrl)
-    .controller('moduleCreateCtrl',moduleCreateCtrl);
+            .controller('moduleCreateCtrl',moduleCreateCtrl);
 
 function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevisionsActions, courseRevisionMessage) {
     redirectFromEdit=true;
@@ -13,6 +13,36 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     $scope.tempId=[];
     //load from service lecture data for scope
     getCourseData.getData(idRevision).then(function(response){
+        $scope.model = generateList();
+        $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
+            if(srcIndex<targetIndex){
+                targetIndex-=1;
+            }
+            var deletedElement=srcList.splice(srcIndex,1)[0];
+            srcList.splice(targetIndex,0,deletedElement);
+            updateOrder($scope.model);
+            return true;
+        };
+        function updateOrder(arr) {
+            for(var i=0; i<arr.length;i++){
+                arr[i].module_order = i+1;
+            }
+        }
+
+        function generateList() {
+            return response.modules.map(function(letter) {
+                return {
+                    labelFunc: function(index) {
+                        letter.module_order=index+1;
+                        return letter;
+                    }
+                };
+            });
+        }
+        $scope.model.map(function (currentValue,index) {
+            $scope.model[index] = currentValue.labelFunc(index);
+
+        });
         $rootScope.courseData=response;
         $scope.moduleInCourse=$rootScope.courseData.modules;
         getCourseData.getModules().then(function(response){
@@ -46,24 +76,30 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     }
 
 
-    $scope.addRevisionToCourseFromCurrentList = function (moduleId, index, status) {
+    $scope.addRevisionToCourseFromCurrentList = function (moduleId, index, status,model) {
         var module=$scope.readyModules.current[status][index];
         module.list='current';
         module.status=status;
+        console.log($scope.readyModules.current[status]);
         $scope.readyModules.current[status].splice(index, 1);
-        $scope.moduleInCourse.push(module);
+        module.module_order = model.length+1;
+        $scope.model.push(module);
     };
-    $scope.addRevisionToCourseFromForeignList= function (moduleId, index, status) {
+    $scope.addRevisionToCourseFromForeignList= function (moduleId, index, status,model) {
         var module=$scope.readyModules.foreign[status][index];
         module.list='foreign';
         module.status=status;
         $scope.readyModules.foreign[status].splice(index, 1);
-        $scope.moduleInCourse.push(module);
+        module.module_order = model.length+1;
+        $scope.model.push(module);
+
     };
 
     $scope.removeModuleFromCourse= function (moduleId, index) {
-        var module=$scope.moduleInCourse[index];
-        $scope.moduleInCourse.splice(index, 1);
+
+        var module=$scope.model;
+        $scope.model.splice(index, 1);
+
         if(module.list=='foreign'){
             $scope.readyModules.foreign[module.status].push(module);
         }else{
@@ -82,22 +118,23 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
         }
     };
     //reorder block
-    $scope.upModuleInCourse = function(index) {
-        if(index>0){
-            var prevModule=$scope.moduleInCourse[index-1];
-            $scope.moduleInCourse[index-1]=$scope.moduleInCourse[index];
-            $scope.moduleInCourse[index]=prevModule;
-        }
-    };
-    $scope.downModuleInCourse = function(index) {
-        if(index<$scope.moduleInCourse.length-1){
-            var nextModule=$scope.moduleInCourse[index+1];
-            $scope.moduleInCourse[index+1]=$scope.moduleInCourse[index];
-            $scope.moduleInCourse[index]=nextModule;
-        }
-    };
+    // $scope.upModuleInCourse = function(index) {
+    //     if(index>0){
+    //         var prevModule=$scope.model[index-1];
+    //         $scope.moduleInCourse[index-1]=$scope.moduleInCourse[index];
+    //         $scope.moduleInCourse[index]=prevModule;
+    //     }
+    // };
+    // $scope.downModuleInCourse = function(index) {
+    //     if(index<$scope.moduleInCourse.length-1){
+    //         var nextModule=$scope.moduleInCourse[index+1];
+    //         $scope.moduleInCourse[index+1]=$scope.moduleInCourse[index];
+    //         $scope.moduleInCourse[index]=nextModule;
+    //     }
+    // };
 
     $scope.editCourseRevision = function (modulesList) {
+        console.log(modulesList);
         if($scope.enabled!=false){
             $scope.enabled=false;
             var object = {};
@@ -124,6 +161,22 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
             });
         }
     };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $scope.previewCourseRevision = function(url) {
         location.href=url;
     };
