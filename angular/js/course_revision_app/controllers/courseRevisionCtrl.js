@@ -1,7 +1,7 @@
 angular
     .module('courseRevisionsApp')
     .controller('courseRevisionCtrl',courseRevisionCtrl)
-    .controller('moduleCreateCtrl',moduleCreateCtrl);
+            .controller('moduleCreateCtrl',moduleCreateCtrl);
 
 function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevisionsActions, courseRevisionMessage) {
     redirectFromEdit=true;
@@ -13,6 +13,36 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     $scope.tempId=[];
     //load from service lecture data for scope
     getCourseData.getData(idRevision).then(function(response){
+        $scope.model = generateList();
+        $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
+            if(srcIndex<targetIndex){
+                targetIndex-=1;
+            }
+            var deletedElement=srcList.splice(srcIndex,1)[0];
+            srcList.splice(targetIndex,0,deletedElement);
+            updateOrder($scope.model);
+            return true;
+        };
+        function updateOrder(arr) {
+            for(var i=0; i<arr.length;i++){
+                arr[i].module_order = i+1;
+            }
+        }
+
+        function generateList() {
+            return response.modules.map(function(letter) {
+                return {
+                    labelFunc: function(index) {
+                        letter.module_order=index+1;
+                        return letter;
+                    }
+                };
+            });
+        }
+        $scope.model.map(function (currentValue,index) {
+            $scope.model[index] = currentValue.labelFunc(index);
+
+        });
         $rootScope.courseData=response;
         $scope.moduleInCourse=$rootScope.courseData.modules;
         getCourseData.getModules().then(function(response){
@@ -46,24 +76,29 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     }
 
 
-    $scope.addRevisionToCourseFromCurrentList = function (moduleId, index, status) {
+    $scope.addRevisionToCourseFromCurrentList = function (moduleId, index, status,model) {
         var module=$scope.readyModules.current[status][index];
         module.list='current';
         module.status=status;
         $scope.readyModules.current[status].splice(index, 1);
-        $scope.moduleInCourse.push(module);
+        module.module_order = model.length+1;
+        $scope.model.push(module);
     };
-    $scope.addRevisionToCourseFromForeignList= function (moduleId, index, status) {
+    $scope.addRevisionToCourseFromForeignList= function (moduleId, index, status,model) {
         var module=$scope.readyModules.foreign[status][index];
         module.list='foreign';
         module.status=status;
         $scope.readyModules.foreign[status].splice(index, 1);
-        $scope.moduleInCourse.push(module);
+        module.module_order = model.length+1;
+        $scope.model.push(module);
+
     };
 
     $scope.removeModuleFromCourse= function (moduleId, index) {
-        var module=$scope.moduleInCourse[index];
-        $scope.moduleInCourse.splice(index, 1);
+
+        var module=$scope.model;
+        $scope.model.splice(index, 1);
+
         if(module.list=='foreign'){
             $scope.readyModules.foreign[module.status].push(module);
         }else{
@@ -81,22 +116,6 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
             }
         }
     };
-    //reorder block
-    $scope.upModuleInCourse = function(index) {
-        if(index>0){
-            var prevModule=$scope.moduleInCourse[index-1];
-            $scope.moduleInCourse[index-1]=$scope.moduleInCourse[index];
-            $scope.moduleInCourse[index]=prevModule;
-        }
-    };
-    $scope.downModuleInCourse = function(index) {
-        if(index<$scope.moduleInCourse.length-1){
-            var nextModule=$scope.moduleInCourse[index+1];
-            $scope.moduleInCourse[index+1]=$scope.moduleInCourse[index];
-            $scope.moduleInCourse[index]=nextModule;
-        }
-    };
-
     $scope.editCourseRevision = function (modulesList) {
         if($scope.enabled!=false){
             $scope.enabled=false;
@@ -142,14 +161,12 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     //send revision for approve
     $scope.sendCourseRevision = function(id, redirect) {
         courseRevisionsActions.sendCourseRevision(id).then(function(senResponse){
-            // bootbox.alert(senResponse, function () {
                 getCourseData.getData(idRevision).then(function (response) {
                     $rootScope.courseData = response;
                     if (redirect) {
                         location.href = basePath + '/courseRevision/previewCourseRevision?idRevision=' + idRevision;
                     }
                 });
-            // });
         });
     };
     //canceled edit revision by the editor
@@ -181,28 +198,11 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     };
 
     $scope.rejectCourseRevision = function(id) {
-        // bootbox.dialog({
-        //     title: "Ти впевнений, що хочеш відхилити ревізію?",
-        //         message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
-        //         '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
-        //         '</div></form></div></div>',
-        //         buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
-        //             callback: function () {
-        //                 var comment = $('#rejectMessageText').val();
                         courseRevisionsActions.rejectCourseRevision(id).then(function(){
                             getCourseData.getData(idRevision).then(function(response) {
                                 $rootScope.courseData = response;
                             });
                         });
-                    // }
-                // },
-                //     cancel: {label: "Скасувати", className: "btn btn-default",
-                //         callback: function () {
-                //         }
-                //     }
-                // }
-            // }
-        // );
     };
 
     $scope.releaseCourseRevision = function(id) {
@@ -234,8 +234,6 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
         }).then(function successCallback(response) {
             bootbox.alert(response.data);
         }, function errorCallback(response) {
-            console.log('checkLecture error');
-            console.log(response);
             return false;
         });
     };
@@ -299,7 +297,6 @@ function moduleCreateCtrl($scope, $http) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.allTags=response.data;
-            // $scope.allTags.push({id: 0, tag: 'Усі категорії'});
             $scope.tags=response.data;
         }, function errorCallback() {
             bootbox.alert('Виникла помилка при завантажені хмарини тегів');
