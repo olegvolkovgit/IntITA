@@ -26,7 +26,7 @@
 
         set_exhaust_animation(1, 300);
 
-        // $('body,html').animate({scrollTop: 0}, SCROLL_DURATION);
+        $('body,html').animate({scrollTop: 0}, SCROLL_DURATION);
         rocketMove(rock_div, ANIM_DURATION);
     }
 
