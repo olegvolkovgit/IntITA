@@ -6,7 +6,7 @@ $this->widget('application.components.ColumnListView', array(
     'emptyText' => Yii::t('coursemanage', '0517'),
     'viewData'=>array( 'lang' => $lang ),
     'summaryText' => '',
-    'columns' => array("one", "two"),
+    'columns' => array("one row", "two row"),
     'pager' => array(
         'firstPageLabel' => '&#171;&#171;',
         'lastPageLabel' => '&#187;&#187;',

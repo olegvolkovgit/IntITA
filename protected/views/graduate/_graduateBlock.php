@@ -3,7 +3,7 @@
  * @var $data Graduate
  */
 ?>
-<div class="GraduatesBlock">
+<div class="GraduatesBlock col-sm-6">
     <div class="graduatesTable">
         <div class="graduatesTd graduateAvatar">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $data->user['avatar']); ?>">
