@@ -25,7 +25,6 @@
         set_tail_animation(tail_img_2, ANIM_DURATION, 50, 75);
 
         set_exhaust_animation(1, 300);
-
         $('body,html').animate({scrollTop: 0}, SCROLL_DURATION);
         rocketMove(rock_div, ANIM_DURATION);
     }
