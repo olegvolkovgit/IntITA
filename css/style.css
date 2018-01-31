@@ -112,9 +112,42 @@ div.minavatar{width:70px;height:70px;float:right;margin-right:10px;overflow:hidd
 #teacher-view img{width:150px;}
 #mydialog, #forgotpass, #changePasswordDialog,#changeemail,#mydialog2,#mydialog3, #dialogNextLecture{display:none;}
 .forumLink{cursor:pointer;}
-div#rocket{display:none;width:7%;position:absolute;z-index:2000;}
-div#exhaust{display:none;width:45%;position:absolute;z-index:2000;}
-#exhaust img, #rocket img{width: 100%}
+
+div#rocket_div{
+    border-width: 0px;
+    outline-width: 0px;
+    display: none;
+    width: 7%;
+    position: absolute;
+    z-index: 2000;
+}
+img#rocket,img#pad_1,img#pad_2{
+    border-width: 0px;
+    outline-width: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+div#exhaust_div{
+    display: none;
+    width: 50%;
+    position: absolute;
+    z-index: 2000;
+}
+img#exhaust_1, img#exhaust_2, img#exhaust_3, img#exhaust_4, img#exhaust_5{
+    border-width: 0px;
+    outline-width: 0px;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+}
+img#exhaust_1{top: 0px;}
+img#exhaust_2{top: 4px; display: none;}
+img#exhaust_3{top: 7px; display: none;}
+img#exhaust_4{top: 9px; display: none;}
+img#exhaust_5{top: 10px; display: none;}
+
 #sharing .share42-counter,#sharingMain .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:20px;line-height:20px;}
 #sharing .share42-counter:before,#sharingMain .share42-counter:before{background:none;}
 #module-grid .grid-view table.items td{width:100px;}
@@ -243,7 +276,7 @@ div.modal-dialog {
     #hamburgerMini{display:block}
     #hamburger{display:none}
     #enter_button.down{
-         border: none;
+        border: none;
     }
     /*main header*/
     /*main footer*/

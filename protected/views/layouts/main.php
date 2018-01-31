@@ -1,4 +1,3 @@
-
 <?php
 /* @var $this Controller */
 $header = new Header();
@@ -99,15 +98,15 @@ $header = new Header();
                             <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                             </li>
-<!--                            <li><a href="--><?php //echo Config::getBaseUrl() . '/crmForum'; ?><!--"-->
-<!--                                   target="_blank">--><?php //echo Yii::t('header', '0017'); ?><!--</a></li>-->
+                            <!--                            <li><a href="--><?php //echo Config::getBaseUrl() . '/crmForum'; ?><!--"-->
+                            <!--                                   target="_blank">--><?php //echo Yii::t('header', '0017'); ?><!--</a></li>-->
                             <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                             </li>
                             <?php if (!Yii::app()->user->isGuest) { ?>
-                            <li>
-                                <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
-                            </li>
+                                <li>
+                                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                                </li>
                             <?php } ?>
                             <?php if (!Yii::app()->user->isGuest && (Yii::app()->controller->id == 'site') && (Yii::app()->controller->action->id == 'index') || (!Yii::app()->user->isGuest && (Yii::app()->controller->id == 'aboutus')) ){ ?>
                                 <li>
@@ -209,7 +208,7 @@ $header = new Header();
                     <td>
                         <a href="https://twitter.com/INTITA_EDU" target="_blank" title="Twitter">
                             <img
-                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'twitter.png'); ?>"/>
+                                    src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'twitter.png'); ?>"/>
                         </a>
                     </td>
                     <td>
@@ -221,7 +220,7 @@ $header = new Header();
                         <a href="https://plus.google.com/u/0/116490432477798418410/posts" target="_blank"
                            title="Google+">
                             <img
-                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'googlePlus.png'); ?>"/>
+                                    src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'googlePlus.png'); ?>"/>
                         </a>
                     </td>
                 </tr>
@@ -230,20 +229,20 @@ $header = new Header();
                         <a href="https://www.facebook.com/pages/INTITA/320360351410183" target="_blank"
                            title="Facebook">
                             <img
-                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'facebook.png'); ?>"/>
+                                    src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'facebook.png'); ?>"/>
                         </a>
                     </td>
                     <td>
                         <a href="https://www.linkedin.com/company/intita?trk=biz-companies-cym" target="_blank"
                            title="Linkedin">
                             <img
-                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'inl.png'); ?>"/>
+                                    src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'inl.png'); ?>"/>
                         </a>
                     </td>
                     <td>
                         <a href="https://www.instagram.com/intitaedu/" target="_blank" title="Instagram">
                             <img
-                                src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'instagram.png'); ?>"/>
+                                    src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'instagram.png'); ?>"/>
                         </a>
                     </td>
                 </tr>
@@ -262,7 +261,7 @@ $header = new Header();
                         <span><?php $footer = new Footer(); echo $footer->getTel(); ?></span><br/>
                         <span><?php echo $footer->getMobile(); ?></span><br/>
                         <span><?php echo $footer->getEmail(); ?></span><br/>
-<!--                        <span>--><?php //echo $footer->getSkype(); ?><!--</span><br/>-->
+                        <!--                        <span>--><?php //echo $footer->getSkype(); ?><!--</span><br/>-->
                     </p>
                 </div>
             </div>
@@ -278,8 +277,8 @@ $header = new Header();
                     <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                     </li>
-<!--                    <li><a href="--><?php //echo Config::getBaseUrl() . '/crmForum'; ?><!--"-->
-<!--                           target="_blank">--><?php //echo Yii::t('header', '0017'); ?><!--</a></li>-->
+                    <!--                    <li><a href="--><?php //echo Config::getBaseUrl() . '/crmForum'; ?><!--"-->
+                    <!--                           target="_blank">--><?php //echo Yii::t('header', '0017'); ?><!--</a></li>-->
                     <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?>>
                         <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                     </li>
@@ -306,8 +305,8 @@ $header = new Header();
             </div>
         </div>
         <div class="rightfooter">
-            <a onclick='goUp()'><img
-                    src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'go_up.png'); ?>"></a>
+            <a href="javascript:void(0)"><img
+                        src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'go_up.png'); ?>"></a>
         </div>
     </div>
 </div>
@@ -318,11 +317,18 @@ $header = new Header();
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'goToTop.js'); ?>"></script>
-<div id="rocket">
-    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
+
+<div id="rocket_div">
+    <img id="rocket" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'rocket.png'); ?>"/>
+    <img id="pad_1" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'tail_1.png'); ?>"/>
+    <img id="pad_2" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'tail_2.png'); ?>"/>
 </div>
-<div id="exhaust">
-    <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
+<div id="exhaust_div">
+    <img id="exhaust_1" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
+    <img id="exhaust_2" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
+    <img id="exhaust_3" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
+    <img id="exhaust_4" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
+    <img id="exhaust_5" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'exhaust.png'); ?>"/>
 </div>
 
 <!-- jQuery -->
@@ -334,7 +340,7 @@ $header = new Header();
 <!-- Placeholder for old browser -->
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
