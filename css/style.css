@@ -144,10 +144,10 @@ img#exhaust_1, img#exhaust_2, img#exhaust_3, img#exhaust_4, img#exhaust_5{
     left: 0px;
 }
 img#exhaust_1{top: 0px;}
-img#exhaust_2{top: 4px; display: none;}
-img#exhaust_3{top: 7px; display: none;}
-img#exhaust_4{top: 9px; display: none;}
-img#exhaust_5{top: 10px; display: none;}
+img#exhaust_2{top: 8px; display: none;}
+img#exhaust_3{top: 12px; display: none;}
+img#exhaust_4{top: 14px; display: none;}
+img#exhaust_5{top: 15px; display: none;}
 
 #sharing .share42-counter,#sharingMain .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:20px;line-height:20px;}
 #sharing .share42-counter:before,#sharingMain .share42-counter:before{background:none;}
