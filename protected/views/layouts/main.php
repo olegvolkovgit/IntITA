@@ -123,6 +123,10 @@ $header = new Header();
                             <li>
                                 <a href="<?php echo Mainpage::getPartnerLink() ?>" target="_blank"><?php echo Yii::t('header', '0981'); ?></a>
                             </li>
+                            <li>
+                                <a href="https://hack.intita.com" target="_blank"><?php echo Yii::t('header', 'Школа хакерів'); ?></a>
+                            </li>
+
                         </ul>
                     </td>
                     <td class="emptyTd"></td>
@@ -258,8 +262,7 @@ $header = new Header();
                     </a>
                 </div>
                 <div class="footercontact">
-                    <p>
-                        <span><?php $footer = new Footer(); echo $footer->getTel(); ?></span><br/>
+                    <p> <?php $footer = new Footer(); ?>
                         <span><?php echo $footer->getMobile(); ?></span><br/>
                         <span><?php echo $footer->getEmail(); ?></span><br/>
 <!--                        <span>--><?php //echo $footer->getSkype(); ?><!--</span><br/>-->

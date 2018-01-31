@@ -94,13 +94,9 @@ span.spoilerTriangle {
     color: #4b75a4;
     margin-left: 3px;
 }
-.one{
-    width:49%;
-    float:left;
-}
-.two{
-    width:49%;
-    float:right;
+.row{
+    display: flex;
+    flex-wrap: wrap;
 }
 .spoiler-body {
     display:none;
@@ -153,6 +149,7 @@ span.spoilerTriangle {
 .graduatesFilter td{
     padding: 0 10px 0 10px;
     border-left: 1px solid #4b75a4;
+
 }
 .graduatesFilter td a{
     font-size: 14px;
@@ -184,6 +181,7 @@ span.spoilerTriangle {
     padding-top: 4px;
     margin-bottom: 4px;
     color: #777;
+    font-size: 0.9em;
 }
 input[type="search"]::-webkit-input-placeholder {
     color: #ccc;
@@ -223,6 +221,19 @@ input[type="search"]::-moz-placeholder {
     .graduatesTd{padding-left: 0}
     .graduateName, .graduateDate{display: none}
     .graduateInfo{display: block;width:inherit}
+    .graduatesFilter td:nth-child(3) {
+        display: block;
+        border-left: none;
+        margin: 5px 0 5px 0;
+        width:100%;
+        text-align: center;
+    }
+    .graduatesFilter td {
+        float:left;
+        width:50%;
+        text-align: center;
+    }
+
 }
 
 /*celebre*/
@@ -367,8 +378,6 @@ div.modal-footer {
     float: right;
     clear: both;
 }
-.one {
-    margin-bottom: 60px;
-}
+
 /*style for pagination*/
 /*celebre*/
