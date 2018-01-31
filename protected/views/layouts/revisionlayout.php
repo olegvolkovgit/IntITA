@@ -78,6 +78,10 @@ $header = new Header();
         <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" >
         
         <title><?php echo CHtml::encode(Yii::app()->name); ?></title>
+        <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js'); ?>"></script>
+        <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngDraggable.js'); ?>"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', '../css/_teacher/dragAndDropList.css'); ?>" >
+
     </head>
 
     <body style="overflow-y: scroll" ng-app="revisionApp">

@@ -38,6 +38,7 @@ ul[dnd-list] > li.dndPlaceholder {
 }
 .list-group-item{
     padding: 0;
+    text-align: center;
 }
 #pageContainer{
     margin-bottom: 20px;

@@ -3,7 +3,7 @@ angular.module('chatIntITAMessenger', []);
 
 /* App Module */
 angular
-    .module('courseRevisionsApp', ['courseRevisionServices','courseRevisionSendMessage']);
+    .module('courseRevisionsApp', ['courseRevisionServices','courseRevisionSendMessage','ngDraggable','dndLists']);
 
 angular
     .module('lectureRevisionApp', ['revisionServices','service.revisionsActions']);
@@ -33,5 +33,5 @@ angular
         'moduleRevisionsApp',
         'chatIntITAMessenger',
         'angular-loading-bar',
-        'interpreterModule'
+        'interpreterModule',
     ]);
