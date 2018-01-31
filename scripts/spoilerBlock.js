@@ -6,7 +6,7 @@ function wrt(x)
     $(".razv").html(x);
 }
 
-function xexx()
+function    xexx()
 {
     $('.bgBlue').hide();
 }
