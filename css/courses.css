@@ -292,7 +292,7 @@ a#coursesLangs {
     color: #ffffff;
     position: relative;
     margin-bottom: 20px;
-    display:inline-block;
+    display:none;
     width: 100%;
 }
 .bgBlue img{

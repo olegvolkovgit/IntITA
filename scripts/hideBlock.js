@@ -43,7 +43,6 @@ window.addEventListener("orientationchange", function() {
     checkShowingBlockInTeachers();
 }, false);
 
-
 function xexx()
 {
     $('.teacherForm').hide();
