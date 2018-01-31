@@ -56,7 +56,7 @@
                     <span class="input-group-addon"><strong><?php echo Yii::t('edit', '0939'); ?>:</strong></span>
                     <span>
                         <span ng-repeat="item in document.documentsFiles track by $index">
-                            <a ng-href="/files/documents/{{document.id_user}}/{{document.type}}/{{item.file_name}}" target="_blank">doc{{$index}}</a>
+                            <a href="" ng-click="getDocument(item.id)">Переглянути документ {{$index+1}}</a>
                         </span>
                     </span>
                 </div>
