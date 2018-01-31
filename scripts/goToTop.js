@@ -14,35 +14,34 @@
     $('div .rightfooter a').click(goUp);
 
     function goUp(){
-        var SCROLL_DURATION = 2700;
-        var ANIM_DURATION = 3000;
+        var SCROLL_DURATION = $(document).height()*0.9;
+        var ANIM_DURATION = $(document).height();
 
+        prepare_elements();
+
+        allocate_animation();
+
+        set_tail_animation(tail_img_1, ANIM_DURATION, 50, 75);
+        set_tail_animation(tail_img_2, ANIM_DURATION, 50, 75);
+
+        set_exhaust_animation(1, 300);
+        $('body,html').animate({scrollTop: 0}, SCROLL_DURATION);
+        rocketMove(rock_div, ANIM_DURATION);
+    }
+
+    function prepare_elements(){
         rock_div = $('#rocket_div');
         exh_div = $('#exhaust_div');
 
         rock_div.show();
         exh_div.show();
 
-        looking_for_internal_nodes();
-
-        allocate_animation();
-
-        tail_img_2.hide();
-
-        set_tail_animation(tail_img_1, ANIM_DURATION, 50, 75);
-        set_tail_animation(tail_img_2, ANIM_DURATION, 50, 75);
-
-        set_exhaust_animation(1);
-
-        $('body,html').animate({scrollTop: 0}, SCROLL_DURATION);
-        rocketMove(rock_div, ANIM_DURATION);
-    }
-
-    function looking_for_internal_nodes(){
         tail_img_1 = $('#pad_1');
         tail_img_2 = $('#pad_2');
         rock_img = $('#rocket');
         exh_img_1 = $('#exhaust_1');
+
+        tail_img_2.hide();
     }
 
     function allocate_animation(){
@@ -65,7 +64,7 @@
         }
 
         horizQuarter = $(window).outerWidth()/4;
-        vPosExh = vertBorder - exh_hight - 10;
+        vPosExh = vertBorder - exh_hight - 15;
         vPosRoc = vPosExh - rock_hight;
         hPosExh = horizQuarter - exh_width/2;
         hPosRoc = horizQuarter - rock_width/2;
@@ -97,16 +96,16 @@
         }, delay);
     }
 
-    function set_exhaust_animation(exh_id){
+    function set_exhaust_animation(exh_id, step){
         var curr = $('#exhaust_'+exh_id);
         var next = $('#exhaust_'+(exh_id+1));
 
-        curr.fadeOut(700, "swing");
-        next.fadeIn(700, "swing", function(){
+        curr.fadeOut(step*2.2, "swing");
+        next.fadeIn(step, "swing", function(){
             if(exh_id < 4){
-                set_exhaust_animation(exh_id + 1);
+                set_exhaust_animation(exh_id + 1, step*1.25);
             }else{
-                next.fadeOut(2000, "swing", function(){
+                next.fadeOut(step*3, "swing", function(){
                     exh_div.hide();
                 });
             }

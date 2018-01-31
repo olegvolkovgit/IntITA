@@ -341,7 +341,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
         var today = new Date();
         var yr = today.getFullYear();
         $(".date").inputmask("dd/mm/yyyy", {
-            yearrange: {minyear: 1900, maxyear: yr - 3},
+            yearrange: {minyear: 1900, maxyear: yr},
             "placeholder": "<?php echo Yii::t('regexp', '0262');?>"
         });
     });
