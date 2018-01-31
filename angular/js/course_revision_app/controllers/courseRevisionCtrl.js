@@ -80,7 +80,6 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
         var module=$scope.readyModules.current[status][index];
         module.list='current';
         module.status=status;
-        console.log($scope.readyModules.current[status]);
         $scope.readyModules.current[status].splice(index, 1);
         module.module_order = model.length+1;
         $scope.model.push(module);
@@ -117,24 +116,7 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
             }
         }
     };
-    //reorder block
-    // $scope.upModuleInCourse = function(index) {
-    //     if(index>0){
-    //         var prevModule=$scope.model[index-1];
-    //         $scope.moduleInCourse[index-1]=$scope.moduleInCourse[index];
-    //         $scope.moduleInCourse[index]=prevModule;
-    //     }
-    // };
-    // $scope.downModuleInCourse = function(index) {
-    //     if(index<$scope.moduleInCourse.length-1){
-    //         var nextModule=$scope.moduleInCourse[index+1];
-    //         $scope.moduleInCourse[index+1]=$scope.moduleInCourse[index];
-    //         $scope.moduleInCourse[index]=nextModule;
-    //     }
-    // };
-
     $scope.editCourseRevision = function (modulesList) {
-        console.log(modulesList);
         if($scope.enabled!=false){
             $scope.enabled=false;
             var object = {};
@@ -161,22 +143,6 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
             });
         }
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $scope.previewCourseRevision = function(url) {
         location.href=url;
     };
@@ -195,14 +161,12 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     //send revision for approve
     $scope.sendCourseRevision = function(id, redirect) {
         courseRevisionsActions.sendCourseRevision(id).then(function(senResponse){
-            // bootbox.alert(senResponse, function () {
                 getCourseData.getData(idRevision).then(function (response) {
                     $rootScope.courseData = response;
                     if (redirect) {
                         location.href = basePath + '/courseRevision/previewCourseRevision?idRevision=' + idRevision;
                     }
                 });
-            // });
         });
     };
     //canceled edit revision by the editor
@@ -234,28 +198,11 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     };
 
     $scope.rejectCourseRevision = function(id) {
-        // bootbox.dialog({
-        //     title: "Ти впевнений, що хочеш відхилити ревізію?",
-        //         message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
-        //         '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
-        //         '</div></form></div></div>',
-        //         buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
-        //             callback: function () {
-        //                 var comment = $('#rejectMessageText').val();
                         courseRevisionsActions.rejectCourseRevision(id).then(function(){
                             getCourseData.getData(idRevision).then(function(response) {
                                 $rootScope.courseData = response;
                             });
                         });
-                    // }
-                // },
-                //     cancel: {label: "Скасувати", className: "btn btn-default",
-                //         callback: function () {
-                //         }
-                //     }
-                // }
-            // }
-        // );
     };
 
     $scope.releaseCourseRevision = function(id) {
@@ -287,8 +234,6 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
         }).then(function successCallback(response) {
             bootbox.alert(response.data);
         }, function errorCallback(response) {
-            console.log('checkLecture error');
-            console.log(response);
             return false;
         });
     };
@@ -352,7 +297,6 @@ function moduleCreateCtrl($scope, $http) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.allTags=response.data;
-            // $scope.allTags.push({id: 0, tag: 'Усі категорії'});
             $scope.tags=response.data;
         }, function errorCallback() {
             bootbox.alert('Виникла помилка при завантажені хмарини тегів');

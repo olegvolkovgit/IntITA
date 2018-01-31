@@ -77,27 +77,6 @@ $this->breadcrumbs = array(
         </div>
         <br>
         <label>Перелік модулів в ревізії курсу: </label>
-
-<!--        <table id="pages" class="table">-->
-<!--            <tr>-->
-<!--                <td>Номер модуля</td>-->
-<!--                <td class="titleCell" >Назва</td>-->
-<!--                <td>Порядок</td>-->
-<!--                <td>Навігація</td>-->
-<!--            </tr>-->
-<!--            <tr ng-repeat="module in moduleInCourse track by $index">-->
-<!--                <td><span>{{module.id}}</span></td>-->
-<!--                <td><a ng-href="--><?php //echo Yii::app()->createUrl("module/index", array("idModule" => ''))?><!--{{module.id}}" >{{module.title}}<span ng-if="module.cancelled"  class="cancelled">(скасований)</span></a></td>-->
-<!--                <td>{{$index+1}}</td>-->
-<!--                <td>-->
-<!--                    <div style="display: inline-block" >-->
-<!--                        <img src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?><!--" class="editIco" ng-click="upModuleInCourse($index);">-->
-<!--                        <img src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'down.png');?><!--" class="editIco" ng-click="downModuleInCourse($index);">-->
-<!--                        <img src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?><!--" class="editIco" ng-click="removeModuleFromCourse(module.id, $index);">-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        </table>-->
         <button class="btn btn-primary" ng-click="editCourseRevision(moduleInCourse)">Зберегти зміни</button>
         <br>
     </div>
