@@ -312,7 +312,7 @@ div.aboutMore{
         display:none;
     }
     .one.column #minTeacherForm:first-child {
-        display: block;
+        display: none;
     }
 }
 @media only screen and (max-width: 360px) {
@@ -338,3 +338,6 @@ div.aboutMore{
     }
 }
 /*celebre*/
+.teacherForm{
+    display: none;
+}
