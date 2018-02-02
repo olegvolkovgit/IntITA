@@ -506,8 +506,11 @@ class AgreementsController extends TeacherCabinetController {
         $agreement=UserAgreements::model()->findByPk($id);
         $file = Yii::app()->basePath . "/../files/documents/agreements/".$agreement->user_id."/a".$id.".pdf";
         if (file_exists($file)){
-            $result['data']=StaticFilesHelper::fullPathToFiles("documents/agreements").'/'.$agreement->user_id.'/a'.$id.'.pdf';
-            echo json_encode($result);
+            return Yii::app()->request->xSendFile($file,[
+                'forceDownload'=>false,
+                'xHeader'=>'X-Accel-Redirect',
+                'terminate'=>false
+            ]);
         } else {
             throw new CHttpException(404,'Документ не знайдено');
         }
