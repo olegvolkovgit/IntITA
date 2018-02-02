@@ -13,7 +13,7 @@
     <div class="coursesType mainCourses">
 
             <!-- All our courses -->
-        <div class="category" <?php if($counters["our"] == 0) echo " style=\"display: none\"" ?>>
+        <div class="category" <?php if($counters["our"] == 0) echo " style='display: none'" ?>>
             <div class='selectType sourse <?php if ($organization == 'ourcourses') echo 'selectedSelector' ?>'>
                 <a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => $select, 'organization' => 'ourcourses')); ?>">
                     <?php echo Yii::t('courses', '0945'); ?></a>
@@ -24,7 +24,7 @@
             </div>
         </div>
             <!-- Courses of partners -->
-        <div class="category" <?php if($counters["partner"] == 0) echo " style=\"display: none\"" ?>>
+        <div class="category" <?php if($counters["partner"] == 0) echo " style='display: none'" ?>>
             <div class='selectType sourse <?php if ($organization == 'partnerscourses') echo 'selectedSelector' ?>'>
                 <a href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => $select, 'organization'=>'partnerscourses')); ?>">
                     <?php echo Yii::t('courses', '0946'); ?></a>
@@ -58,7 +58,7 @@
     <div>
         <div class="coursesCategory">
             <!-- junior ++ -->
-            <div class="category" <?php if($counters["junior"] == 0) echo " style=\"display: none\"" ?>>
+            <div class="category" <?php if($counters["junior"] == 0) echo " style='display: none'" ?>>
                 <div class='selectType sourse <?php if ($select == 'junior') echo 'selectedSelector' ?>'><a
                             href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'junior', 'organization'=> $organization)); ?>">
                         <?php echo Yii::t('courses', '0140'); ?></a>&nbsp;<span
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <!-- middle ++ -->
-            <div class="category" <?php if($counters["middle"] == 0) echo " style=\"display: none\"" ?>>
+            <div class="category" <?php if($counters["middle"] == 0) echo " style='display: none'" ?>>
                 <div class='selectType sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
                             href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle', 'organization'=> $organization)); ?>">
                         <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;<span
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <!-- senior ++ -->
-            <div class="category" <?php if($counters["senior"] == 0) echo " style=\"display: none\"" ?>>
+            <div class="category" <?php if($counters["senior"] == 0) echo " style='display: none'" ?>>
                 <div class='selectType sourse <?php if ($select == 'senior') echo 'selectedSelector' ?>'><a
                             href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior', 'organization'=> $organization)); ?>">
                         <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;<span
