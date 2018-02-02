@@ -95,10 +95,11 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     };
 
     $scope.removeModuleFromCourse= function (moduleId, index) {
-
         var module=$scope.model;
         $scope.model.splice(index, 1);
-
+        for(var i=1; i<=$scope.model.length-index;i++){
+            $scope.model[index-1+i].module_order-=1;
+        }
         if(module.list=='foreign'){
             $scope.readyModules.foreign[module.status].push(module);
         }else{
