@@ -16,9 +16,7 @@
             ?>
             <div class='courseBox'>
                 <div class="displayMini">
-                    <div>
-        <!---->     <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
-                    </div>
+                    <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
                     <div class='courseNameMini'><a
                             href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val[0]->course_ID)); ?>"><?php
                             echo $val[0]->getTitle(); ?></a>

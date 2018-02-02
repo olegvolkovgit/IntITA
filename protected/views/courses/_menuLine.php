@@ -130,13 +130,6 @@
             </div>
 
     </div>
-<!--    --><?php //var_dump($counters); die; ?>
-<!--    --><?php //if($counters["partner"] == 0){ ?>
-<!--        var_dump()-->
-<!--        <script>-->
-<!--            // document.getElementById("coursesOfPartners").style.display = "none";-->
-<!--        </script>-->
-<!--    --><?php //} ?>
 
 </div>
 <div class="coursesline1">
