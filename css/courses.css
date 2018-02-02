@@ -124,10 +124,15 @@
 .courseLevelImage{
     margin: 0;
 }
-.starLevelIndex img{
+.starLevelIndex{
     position: relative;
-    vertical-align: top;
-    margin-left: 2px;
+    top: 12px;
+    left: 16px;
+}
+.moduleRating{
+    position: relative;
+    top: 12px;
+    left: 16px;
 }
 .courseLevel
 {
@@ -282,7 +287,7 @@ a#coursesLangs {
     width: 100%;
 }
 #coursesMainBox .bgBlue table td{
-   vertical-align: middle;
+    vertical-align: middle;
 }
 #coursesMainBox a:hover{
     color: #666666;
@@ -292,7 +297,7 @@ a#coursesLangs {
     color: #ffffff;
     position: relative;
     margin-bottom: 20px;
-    display:none;
+    display:inline-block;
     width: 100%;
 }
 .bgBlue img{
@@ -322,8 +327,8 @@ a#coursesLangs {
 }
 
 #coursesMainBox td{
-     vertical-align: top;
- }
+    vertical-align: top;
+}
 span.courseNum{
     display: inline-block;
     background: #4B75A4;

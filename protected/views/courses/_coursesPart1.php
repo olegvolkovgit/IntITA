@@ -16,10 +16,15 @@
             ?>
             <div class='courseBox'>
                 <div class="displayMini">
-                    <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
+                    <div>
+        <!---->     <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
+                    </div>
                     <div class='courseNameMini'><a
                             href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val[0]->course_ID)); ?>"><?php
                             echo $val[0]->getTitle(); ?></a>
+                    </div>
+                    <div class='starLevelIndex'>
+                        <?php echo CommonHelper::getRating($val[0]->rating); ?>
                     </div>
                 </div>
                 <div class="courseInfo">
@@ -117,7 +122,7 @@
                     </div>
                     <div class="coursePriceBox">
                         <?php echo Yii::t('courses', '0147');
-                        $schema = PaymentScheme::getActualAdvancePaymentSchema($val[0]->course_ID, EducationForm::ONLINE); 
+                        $schema = PaymentScheme::getActualAdvancePaymentSchema($val[0]->course_ID, EducationForm::ONLINE);
                         $price = round($schema->getSumma($val[0]));
                         if ($price == 0) {?>
                             <span class="colorGreen"><?=Yii::t('module', '0421');?></span>
@@ -131,11 +136,6 @@
                             <?php
                         }
                         ?>
-                    </div>
-                    <div class='starLevelIndex'>
-                        <br>
-                        <?php echo Yii::t('courses', '0145'); ?>
-                        <?php echo CommonHelper::getRating($val[0]->rating); ?>
                     </div>
                 </div>
             </div>
