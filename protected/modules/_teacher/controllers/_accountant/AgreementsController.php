@@ -504,8 +504,8 @@ class AgreementsController extends TeacherCabinetController {
 
     public function actionGetAgreementFile($id){
         $agreement=UserAgreements::model()->findByPk($id);
-        $file = Yii::app()->basePath . "/../files/documents/agreements/".$agreement->user_id."/a".$id.".pdf";
-        if (file_exists($file)){
+        $file = "/files/documents/agreements/".$agreement->user_id."/a".$id.".pdf";
+        if (file_exists($_SERVER['DOCUMENT_ROOT'].$file)){
             return Yii::app()->request->xSendFile($file,[
                 'forceDownload'=>false,
                 'xHeader'=>'X-Accel-Redirect',
