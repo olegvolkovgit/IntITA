@@ -44,11 +44,13 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService, $http, $
         $("#mydialog3").dialog("close");
     };
     $scope.hideInformDialog=function(){
-        if($rootScope.currentPage==$rootScope.lastAccessPage){
+        var curr_page = $rootScope.currentPage;
+        if(curr_page==$rootScope.lastAccessPage){
             $("#informDialog").dialog("close");
             var tab=ipCookie("lessonTab")+1;
             $('#ui-id-'+tab+'').click();
-            openDialogsService.openLastTrueDialog();
+            if(curr_page==$rootScope.totalPages)
+                openDialogsService.openLastTrueDialog();
         }else{
             $("#informDialog").dialog("close");
             var tab=ipCookie("lessonTab")+1;
