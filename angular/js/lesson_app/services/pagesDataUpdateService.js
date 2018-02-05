@@ -17,6 +17,7 @@ angular
                     var count = $rootScope.pageData.length;
 
                     for (var i = 0; i < count; i++) {
+                        $rootScope.totalPages = count;
                         if (i == (count - 1) && $rootScope.pageData[i]['isDone']){
                             $rootScope.lastAccessPage = i+1;
                             $rootScope.pageChanged=!$rootScope.pageChanged;
