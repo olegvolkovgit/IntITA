@@ -20,7 +20,7 @@ angular
     .controller('lecturesRatingTableCtrl', lecturesRatingTableCtrl)
     .controller('modulesRatingTableCtrl', modulesRatingTableCtrl);
 
-function superVisorCtrl (superVisorService){
+function superVisorCtrl (){
     $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
 }
 
@@ -366,6 +366,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
                     });
             }
         });
+        $scope.loadSubgroupData($scope.subgroupId);
         $scope.offlineCanceledStudentsTableParams = new NgTableParams({}, {
             getData: function (params) {
                 return superVisorService
