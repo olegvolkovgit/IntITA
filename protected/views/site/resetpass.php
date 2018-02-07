@@ -28,6 +28,6 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php echo CHtml::hiddenField('tokenhid' , $model->getToken(), array('id' => 'hiddenInput')); ?>
 
     <?php $labelButton = Yii::t('regexp', '0267');?>
-    <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM")); ?>
+    <?php echo CHtml::submitButton($labelButton, array('class' => "signInButtonM")); ?>
     <?php $this->endWidget(); ?>
 </div>

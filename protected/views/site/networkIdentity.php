@@ -35,7 +35,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <br>
     <div class="emailVerButt">
         <?php $labelButton = Yii::t('changeemail','0294'); ?>
-        <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM", 'ng-disabled'=>'emailVerification.$invalid')); ?>
+        <?php echo CHtml::submitButton($labelButton, array('class' => "signInButtonM", 'ng-disabled'=>'emailVerification.$invalid')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

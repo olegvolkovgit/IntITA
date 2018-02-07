@@ -31,12 +31,12 @@
 .signInPassM{
     margin-top: 8px;
 }
-#signInButtonM{
+.signInButtonM{
     margin: 0 auto;
     margin-top: 27px;
     margin-bottom: 27px;
 }
-input[type="submit"]#signInButtonM    {
+input[type="submit"].signInButtonM    {
      width:195px;
      height:52px;
      border-radius: 10px;
@@ -51,7 +51,7 @@ input[type="submit"]#signInButtonM    {
      text-shadow:1px 1px 1px black;
      text-shadow:1px 2px 1px rgba(0,0,0,.5);
  }
-input#signInButtonM:hover {
+input.signInButtonM:hover {
     background: #454545;
     box-shadow:0px 2px 0px #7f7f7f;
     cursor: pointer;

@@ -13,16 +13,16 @@ input#signInButton::-moz-focus-inner{padding:0;border:0;}
 div.linesignInForm{margin:0 auto;max-width:444px;width:100%;font-size:18px;border-top:1px solid #4b75a4;padding:10px 0 10px 0;color:#b0b0b0;}
 .rowButtons{margin-bottom:25px;position:relative;}
 div.image{margin:0 auto;max-width:444px;width:100%}
-#regCheckbox input{margin:13px 3px 0 0;width:15px;height:15px;}
-#regCheckbox + label{cursor:pointer;font-weight:normal;display: inline-block;margin-bottom: 5px;}
-#regCheckbox:not(checked){position:absolute;opacity:0;}
-#regCheckbox:not(checked) + label{position:relative;padding:0 0 0 32px;}
-#regCheckbox:not(checked) + label:before{content:'';position:absolute;top:4px;left:2px;width:26px;height:14px;border-radius:13px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
-#regCheckbox:not(checked) + label:after{content:'';position:absolute;top:6px;left:4px;width:10px;height:10px;border-radius:10px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
-#regCheckbox:checked + label:before{background:#4B75A4;border:1px solid #4B75A4;}
-#regCheckbox:checked + label:after{left:16px;border:1px solid #FFF;}
-#regCheckbox:focus + label:before{box-shadow:0 0 1px #1287bf;}
-#regCheckbox:hover + label:before{box-shadow:0 0 1px #1287bf;}
+#regCheckbox input,#regCheckboxform input{margin:13px 3px 0 0;width:15px;height:15px;}
+#regCheckbox + label,#regCheckboxform + label{cursor:pointer;font-weight:normal;display: inline-block;margin-bottom: 5px;}
+#regCheckbox:not(checked),#regCheckboxform:not(checked){position:absolute;opacity:0;}
+#regCheckbox:not(checked) + label,#regCheckboxform:not(checked) + label{position:relative;padding:0 0 0 32px;}
+#regCheckbox:not(checked) + label:before, #regCheckboxform:not(checked) + label:before{content:'';position:absolute;top:4px;left:2px;width:26px;height:14px;border-radius:13px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
+#regCheckbox:not(checked) + label:after, #regCheckboxform:not(checked) + label:after{content:'';position:absolute;top:6px;left:4px;width:10px;height:10px;border-radius:10px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
+#regCheckbox:checked + label:before, #regCheckboxform:checked + label:before{background:#4B75A4;border:1px solid #4B75A4;}
+#regCheckbox:checked + label:after, #regCheckboxform:checked + label:after{left:16px;border:1px solid #FFF;}
+#regCheckbox:focus + label:before, #regCheckboxform:focus + label:before{box-shadow:0 0 1px #1287bf;}
+#regCheckbox:hover + label:before, #regCheckboxform:hover + label:before{box-shadow:0 0 1px #1287bf;}
 
 .eductionFormCheckbox input{margin:13px 3px 0 0;width:16px;height:16px;}
 .eductionFormCheckbox + label{cursor:pointer;font-weight:normal;display: inline-block;}
@@ -49,12 +49,12 @@ div.image{margin:0 auto;max-width:444px;width:100%}
 .signInPassM{margin-top:8px;}
 .authLinks{margin:0 auto;width:448px;overflow:hidden;padding-bottom:5px;margin-top:5px}
 .authLinks a{text-decoration:underline;}
-#signInButtonM{margin:0 auto;margin-top:0;margin-bottom:15px;}
+.signInButtonM{margin:0 auto;margin-top:0;margin-bottom:15px;}
 a#authLinks{color:#4b75a4;float:left;font-size:16px;cursor:pointer}
 label.registration{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin-bottom:0px}
 a#authLinks:hover, label.registration:hover{color:#666666;}
-input[type="submit"]#signInButtonM{width:195px;height:52px;border-radius:10px;border:none;border-top:1px solid #9fb5ce;color:#ffffff;background:#4b75a4;box-shadow:0px 2px 0px #7f7f7f;font:normal 400 28px/50px "MyriadPro2";font-size:25px;text-shadow:1px 1px 1px black;text-shadow:1px 2px 1px rgba(0,0,0,.5);}
-input#signInButtonM:hover{background:#454545;box-shadow:0px 2px 0px #7f7f7f;cursor:pointer;}
+input[type="submit"].signInButtonM {width:195px;height:52px;border-radius:10px;border:none;border-top:1px solid #9fb5ce;color:#ffffff;background:#4b75a4;box-shadow:0px 2px 0px #7f7f7f;font:normal 400 28px/50px "MyriadPro2";font-size:25px;text-shadow:1px 1px 1px black;text-shadow:1px 2px 1px rgba(0,0,0,.5);}
+input.signInButtonM:hover{background:#454545;box-shadow:0px 2px 0px #7f7f7f;cursor:pointer;}
 div.error input,
 div.error textarea,
 div.error select,
@@ -82,7 +82,7 @@ input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus{box-shadow:0 0 4px #c
 .clientValidationError{color:#c72929;font-size:16px;font-family:"MyriadPro";}
 .studProf .clientValidationError, .formStudProf .clientValidationError{margin-left:215px;}
 .formStudProf .rightProfileColumn .clientValidationError{margin-left:0;margin-bottom:15px;}
-input[type="submit"][disabled],input[type="submit"][disabled]#signInButtonM,input[type="submit"][disabled]#signInButton,.formStudProf input[type="submit"][disabled]{background:#666666;}
+input[type="submit"][disabled],input[type="submit"][disabled].signInButtonM,input[type="submit"][disabled]#signInButton,.formStudProf input[type="submit"][disabled]{background:#666666;}
 /*#studentreg-form .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}*/
 /*.signIn .clientValidationError{text-align:left;margin-left:30px;margin-top:10px;margin-bottom:5px;}*/
 /*.signUp .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}*/

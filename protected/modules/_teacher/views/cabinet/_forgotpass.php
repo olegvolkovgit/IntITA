@@ -31,7 +31,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <br>
     <div class="rowRecovButt">
         <?php $labelButton = Yii::t('forgotpass','0291')?>
-        <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM", 'ng-disabled'=>'recoveryForm.$invalid')); ?>
+        <?php echo CHtml::submitButton($labelButton, array('class' => "signInButtonM", 'ng-disabled'=>'recoveryForm.$invalid')); ?>
     </div>
 
 </div><!-- form -->

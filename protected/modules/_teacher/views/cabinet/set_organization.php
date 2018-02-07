@@ -28,7 +28,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
             <input style="outline:none;" type="radio" name="organization" <?php if($key==0) echo 'checked' ?> value="<?php echo $organization->id ?>"><?php echo $organization->name ?><Br>
         <?php } ?>
         </p>
-        <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'value'=>'Відправити')); ?>
+        <?php echo CHtml::submitButton('', array('class' => "signInButtonM", 'value'=>'Відправити')); ?>
     </div>
     <?php $this->endWidget();
 $this->endWidget('zii.widgets.jui.CJuiDialog');

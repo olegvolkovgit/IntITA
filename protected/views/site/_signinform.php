@@ -48,7 +48,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 
     <?php $labelButton = Yii::t('regform', Yii::t('regform', '0093')); ?>
-    <?php echo CHtml::submitButton($labelButton, array('id' => "signInButtonM", 'ng-disabled' => 'signIn.$invalid')); ?>
+    <?php echo CHtml::submitButton($labelButton, array('class' => "signInButtonM", 'ng-disabled' => 'signIn.$invalid')); ?>
 
 
     <div class="linesignInForm"><?php echo Yii::t('regform', '0091'); ?></div>
