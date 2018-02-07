@@ -16,7 +16,7 @@ div.subLinks{
 }
 /*header navigation*/
 .lessonBlock {
-    margin: 0 auto;
+    margin: -16px auto;
     max-width: 1200px;
     width: 95%;
     position: relative;
@@ -30,28 +30,23 @@ div.subLinks{
 }
 .lessonVisb2, .lessonVisb3 {
 }
-.spoilerBody {
-    display:none;
-}
 .lessonText {
     display: inline-block;
     position: relative;
     padding-right: 5px;
-    float: left;
-    width:65%;
+    width: 100%;
     z-index: 0;
     word-wrap: break-word;
-    border-right: solid 2px #DCDCDC;
-    margin-top: 8px;
+    margin-top: -13px;
 }
 .lessonTheme{
+    float:left;
+    margin-right:1%;
     color: #4b75a4;
     font-size:28px;
     line-height: 28px;
     font-weight: normal;
     display: inline-block;
-    width: 100%;
-    padding-left: 40px;
 }
 h1.lessonPart p{
     color: #4b75a4;
@@ -64,7 +59,15 @@ span.listTheme{
     font-size: 20px;
     font-weight: normal;
 }
+/*.secBlock {
+    padding: 0%;
+    display: inline-block;*/
+.spoilerLinks {
+    padding:0;
+    display: inline-block;
+}
 span.spoilerLinks,span.spoilerLinksHidden {
+    display: inline-block;
     cursor:pointer;
     font-size: 14px;
 }
@@ -73,15 +76,16 @@ span.spoilerClick:hover{
     color:#666666;
 }
 .spoilerLinksHidden{
+    display: inline-block;
     margin-left: 44px;
 }
 span.spoilerClick {
+    display: inline-block;
     color:#4b75a4;
     font-size: 18px;
 }
 div.spoilerTriangle {
     display: inline-block;
-    font-size: 12px;
     color: #4b75a4;
     margin-left: 2px;
     white-space: nowrap;
@@ -409,6 +413,9 @@ pre {
 div.lessonTest {
     position: relative;
 }
+.lecturesSpots{
+    display: inline-block;
+}
 .instrTestImg {
     display: inline-block;
     width: 10%;
@@ -676,6 +683,7 @@ a.postlink {
 #lessonBlock a:hover{
     color: #666666;
 }
+
 .lectureMainBlock {
     border-bottom: solid 2px #DCDCDC;
     width: 1200px;
@@ -765,10 +773,13 @@ img {
 #iconImage {
     display: inline-block;
 }
+.genLesTheme{
 
+}
 #counter {
+    float:left;
+    display: block;
     margin-bottom: -20px;
-    margin-top: -6px;
 }
 
 .lectureMainBlock p {
@@ -1160,7 +1171,7 @@ div.lastAccessPage {
     /*display: inline-block;*/
     font-size: 22px;
     color: #4b75a4;
-    margin: 0;
+    margin-top: 30px;
     padding-left: 40px;
 }
 h4.labelBlock a{
@@ -1327,15 +1338,14 @@ a.lectureDisabled{
     margin-bottom: 15px;
 }
 #consultationAssistance{
+    margin-left: 14px;
+    margin-top: 65px;
     display: inline-block;
-    width: 182px;
-    height: 50px;
-    border-radius: 10px;
     background: #4b75a4;
+    position: fixed;
 }
 .consultationLogos{
-    margin-top: 9px;
-    margin-left: 7px;
+    margin: 13% 2px;
     vertical-align: top;
 }
 .consultationText{
@@ -1361,11 +1371,15 @@ a.lectureDisabled{
     width: 70px;
 }
 #consultationAssistance .consultationText{
+    display: none;
     margin-left: 10px;
+    margin-right: 30%;
 }
 .consultationButtons,#mibew-agent-button{
+    width: 100%;
     opacity: 1;
     float: left;
+    margin: 0 auto;
 }
 .consultationButtons:hover,#mibew-agent-button:hover{
     opacity: 0.7;
@@ -1651,17 +1665,18 @@ a.cke_dialog_ui_fileButton{
 #titlesBlock .editLecture{
     display:none;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 200px) {
     #sidebarLesson,.lessonTheme{
         display: none;
     }
     .lessonText {
-        display: block;
-        padding:0;
-        float:none;
+        display: inline-block;
+        position: relative;
+        padding-right: 5px;
         width: 100%;
-        margin: 0 auto;
-        border-right:none;
+        z-index: 0;
+        word-wrap: break-word;
+        margin-top: 0px;
     }
     #text, #quiz, #video {
         border-radius:0;
@@ -1672,6 +1687,7 @@ a.cke_dialog_ui_fileButton{
         width: 100%;
         padding-left: 35px;
     }
+    }
     .titlesBlock {
         margin-left:2px;
         width: 100%;
@@ -1681,15 +1697,18 @@ a.cke_dialog_ui_fileButton{
         margin:5px 0;
         font-size: 16px;
     }
-    .lecturesSpots{margin-top:0}
+    .lecturesSpots{
+        margin-top:10px;
+        margin-right: 1%;
+    }
     .lectureFooterMini{display: block}
     .helpButtons{width:22%;display: inline-block;vertical-align: top;min-width: 160px}
     .forum{width:45%;display: inline-block;vertical-align: top;min-width: 300px}
     .consultations{
-        width:22%;
+        width: 100%;
         vertical-align: top;
         min-width: 200px;
-        display: block;
+        display: inline-block;
         margin: 1px auto;
     }
     .consultations .consultationText {width: 90px;}
@@ -1712,12 +1731,16 @@ a.cke_dialog_ui_fileButton{
         height:inherit;
         line-height:inherit;
     }
+.lessonText {
+    display: inline-block;
+    position: relative;
+    padding-right: 5px;
+    width: 100%;
+    z-index: 0;
+    word-wrap: break-word;
+    margin-top: 0px;
+}
     .chat{overflow: hidden;margin-bottom: 20px}
-    #consultationAssistance {
-        width: 160px;
-        height: 50px;
-        margin-bottom: 65px;
-    }
     .consultationText, .mibewText {
         font-size: 14px;
         margin-left: 5px;
@@ -1736,11 +1759,15 @@ a.cke_dialog_ui_fileButton{
         display: inline-block;
     }
     #labelBlock p, #tooltip p {
+        margin-top: 10px;
          padding-left:0;
      }
 
-}
 @media only screen and (max-width: 360px) {
+    #share42{
+        margin-left: 0px !important;
+    }
+
     .lectureHeaderMini{overflow:hidden}
     .sidebarMini{
         display: block;
@@ -1755,7 +1782,7 @@ a.cke_dialog_ui_fileButton{
     .forum{width:100%;display:block;margin: 0 auto;margin-bottom: 15px}
     #discussion, #discussionHeader{margin-left: 0}
     .consultations {
-        display: block;
+        display: inline-block;
         margin: 1px auto;
     }
     .skypeAssistance{
@@ -1768,11 +1795,17 @@ a.cke_dialog_ui_fileButton{
         font-size: 16px;
     }
     .lessonPart {overflow: hidden;}
+    .lessonText {
+        display: inline-block;
+        position: relative;
+        padding-right: 5px;
+        width: 100%;
+        z-index: 0;
+        word-wrap: break-word;
+        margin-top: 0px;
+    }
     .lectureHeaderMini {
         margin-top: 40px;
-    }
-    #hambButton {
-        margin-top: 2px;
     }
     .titlesBlock {
         padding-left: 0;
@@ -1782,11 +1815,20 @@ a.cke_dialog_ui_fileButton{
         width: 125px;
         margin-right:0;
     }
+    #consultationAssistance{
+        z-index: 3;
+        display: inline-flex;
+        position: fixed;
+        width: 100%;
+        margin: 0px;
+    }
     .consultationLogos {
-        margin-left: 2px;
+        margin: 6px 4px 7px auto;
+        vertical-align: top;
     }
     .consultationText {
         width: 70px;
+        margin: 6px auto 6px 0;
     }
     #discussionHeader {
         margin-top:0;
@@ -1795,84 +1837,137 @@ a.cke_dialog_ui_fileButton{
         min-width: inherit;
     }
     .consultationText, .mibewText {
-        margin-left:0;
+        margin: 6px auto 6px 0;
     }
 }
-/*celebre - this block is owned by FullScreen JavaScript API*/
-div.fullScreen_button_container {
-    text-align: right;
-}
-.fullScreen {
-    margin: 2px 18px;
-    width: 25px;
-    height: 21px;
-    border: none;
-    z-index: 100;
-    background: url("../images/icons/max.png");
-}
-#changeColor {
-    position: absolute;
-    right: -18px;
-    margin-top: -25px;
-}
-.fullScreen:hover {
-    opacity: 0.5;
-}
+@media only screen and (max-width: 1320px) {
+    #share42{
+        margin-left: 0px !important;
+    }
 
-:-webkit-full-screen#text #changeColor {
-    background-image: url("../images/icons/min.png");
-    right: 0;
-    margin-top: 5px;
-}
-:-moz-full-screen#text #changeColor{
-    background-image: url("../images/icons/min.png");
-    position: absolute;
-    right: 0;
-    margin-top: 5px;
-}
-:-webkit-full-screen{
-    background: black;
-}
+    #consultationAssistance .consultationText {
+        display: inline-block;
+        margin: 6px auto 6px 0;
+    }
+    #hambButton {
+        border-right: 2px solid white;
+        margin: 0;
+        position: absolute;
+        z-index: 3;
+    }
 
-:-moz-full-screen {
-    background: black;
-}
+    #consultationAssistance {
+        z-index: 3;
+        display: inline-flex;
+        position: fixed;
+        width: 100%;
+        margin: 0px;
+    }
 
-:-webkit-full-screen#text {
-    width:100%;
-    height: 100%;
-}
+    .consultationLogos {
+        margin: 6px 4px 7px auto;
+        vertical-align: top;
+    }
 
-:-moz-full-screen#text{
-    width:100%;
-    height: 100%;
+    .lessonBlock {
+        margin-top: 30px;
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 1200px;
+        width: 95%;
+        position: relative;
+    }
+    .lessonText {
+        display: inline-block;
+        position: relative;
+        padding-right: 5px;
+        width: 100%;
+        z-index: 0;
+        word-wrap: break-word;
+        margin-top: 0px;
+    }
 }
+    /*celebre - this block is owned by FullScreen JavaScript API*/
+    div.fullScreen_button_container {
+        text-align: right;
+    }
 
-/*celebre - this block is owned by FullScreen JavaScript API*/
-audio::-internal-media-controls-download-button {
-    display:none;
-}
+    .fullScreen {
+        margin: 2px 18px;
+        width: 25px;
+        height: 21px;
+        border: none;
+        z-index: 100;
+        background: url("../images/icons/max.png");
+    }
 
-audio::-webkit-media-controls-enclosure {
-    overflow:hidden;
-}
+    #changeColor {
+        position: absolute;
+        right: -18px;
+        margin-top: -25px;
+    }
 
-audio::-webkit-media-controls-panel {
-    width: calc(100% + 30px); /* Adjust as needed */
-}
+    .fullScreen:hover {
+        opacity: 0.5;
+    }
 
-/*change rating animation*/
-[animate-on-change] {
-    transition: all 1s;
-    -webkit-transition: all 1s;
-}
-[animate-on-change].rating-up {
-    color: green;
-    transition: none;
-    -webkit-transition: none;
-}
-[animate-on-change].rating-down {
-    color: red;
-    transition: none;
-    -webkit-transition: none;
-}
+    :-webkit-full-screen#text #changeColor {
+        background-image: url("../images/icons/min.png");
+        right: 0;
+        margin-top: 5px;
+    }
+
+    :-moz-full-screen#text #changeColor {
+        background-image: url("../images/icons/min.png");
+        position: absolute;
+        right: 0;
+        margin-top: 5px;
+    }
+
+    :-webkit-full-screen {
+        background: black;
+    }
+
+    :-moz-full-screen {
+        background: black;
+    }
+
+    :-webkit-full-screen#text {
+        width: 100%;
+        height: 100%;
+    }
+
+    :-moz-full-screen#text {
+        width: 100%;
+        height: 100%;
+    }
+
+    /*!*celebre - this block is owned by FullScreen JavaScript API*!
+    audio::-internal-media-controls-download-button {
+        display:none;
+    }
+
+    audio::-webkit-media-controls-enclosure {
+        overflow:hidden;
+    }
+
+    audio::-webkit-media-controls-panel {
+        width: calc(100% + 30px); !* Adjust as needed *!
+    }*/
+    /*change rating animation*/
+    [animate-on-change] {
+        transition: all 1s;
+        -webkit-transition: all 1s;
+    }
+
+    [animate-on-change].rating-up {
+        color: green;
+        transition: none;
+        -webkit-transition: none;
+    }
+
+    [animate-on-change].rating-down {
+        color: red;
+        transition: none;
+        -webkit-transition: none;
+    }

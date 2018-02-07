@@ -3,7 +3,7 @@
 #hambButton{position:absolute;margin-top:10px;margin-left:15px;z-index:3;}
 #hambButton:hover{cursor:pointer;}
 #hambButton img{max-width: inherit}
-#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;min-height:420px}
+#hambMenu{/*display:none*/;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;min-height:420px}
 #hambMenu a.logo{display:block;overflow:hidden;margin-left:90px;margin-top:10px;}
 #hambMenu a.logo img{display:block;}
 #hambMenu .humblang{display:block;margin-left:90px;margin-top:10px;clear:both;}

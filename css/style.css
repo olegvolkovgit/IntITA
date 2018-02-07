@@ -201,7 +201,7 @@ div.modal-dialog {
 /*adaptive*/
 @media only screen and (max-width: 800px) {
     #sharing{display:none}
-    #share42{top:60px}
+    #share42{top:60px; margin-left: 0px;}
     /*breadcrumbs and status*/
     .my-cool-breadcrumbs {
         padding-bottom: 2px;
