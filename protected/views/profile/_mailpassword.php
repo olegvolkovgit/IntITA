@@ -14,6 +14,6 @@
         <div><span class="clientValidationError" ng-show="mailPassword.$invalid && mailPassword.$dirty && mailPassword.$error.pwmatch"><?=Yii::t('error', '0269')?><span></div>
     </div>
 
-    <input id="signInButtonM" ng-disabled="mailPassword.$invalid" value="<?=Yii::t('regexp', '0267')?>" disabled="disabled" type="submit">
+    <input class="signInButtonM" ng-disabled="mailPassword.$invalid" value="<?=Yii::t('regexp', '0267')?>" disabled="disabled" type="submit">
     </form>
 </div>

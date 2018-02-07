@@ -32,7 +32,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         <?php } ?>
         </p>
         <input type="hidden" name="revisionController" value="<?php echo $revisionController ?>">
-        <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'value'=>'Відправити')); ?>
+        <?php echo CHtml::submitButton('', array('class' => "signInButtonM", 'value'=>'Відправити')); ?>
     </div>
     <?php $this->endWidget();
 $this->endWidget('zii.widgets.jui.CJuiDialog');
