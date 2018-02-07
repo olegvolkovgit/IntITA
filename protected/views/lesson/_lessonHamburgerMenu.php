@@ -5,10 +5,10 @@
 ?>
 <!-- Hamburger menu -->
 <div id="hambNav">
-    <div id="hambButton">
+    <div id="hambButton" data-toggle="collapse" data-target="#hambMenu">
         <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hamburger.png'); ?>">
     </div>
-    <div id="hambMenu">
+    <div class="collapse" id="hambMenu">
         <?php
         if ($idCourse != 0) {
             $this->renderPartial('/site/_shareMetaTag', array(

@@ -6,15 +6,15 @@
 <?php //if(1){ ?>
 <?php if($lecture->module->checkPaidAccess(Yii::app()->user->getId())){ ?>
     <div class="consultations">
-        <a class='consultationButtons'
-           href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">
+        <!--<a class='consultationButtons'
+           href="<?php /*echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); */?>">
             <div id="consultationAssistance">
                 <img class="consultationLogos"
-                     src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'consultationLogo.png'); ?>">
+                     src="<?php /*echo StaticFilesHelper::createPath('image', 'lecture', 'consultationLogo.png'); */?>">
 
-                <div class="consultationText"><?php echo Yii::t('lecture', '0079') ?></div>
+                <div class="consultationText"><?php /*echo Yii::t('lecture', '0079') */?></div>
             </div>
-        </a>
+        </a>-->
     </div>
 <?php } ?>
 <!--navigation vertical-->

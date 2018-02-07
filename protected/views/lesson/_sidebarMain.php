@@ -41,32 +41,5 @@
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'timeIco.png'); ?>">
             </div>
         </li>
-        <li ng-if=lectureRating class="lecturesSpots">
-            <?php echo Yii::t('graduates', '0319') ?> <span animate-on-change="lectureRating">{{lectureRating*10| limitTo:3}}/10</span>
-        </li>
-        <li ng-if=lecturesData.currentOrder class="lecturesSpots">
-            ({{lecturesData.currentOrder}} / {{lecturesData.module.lectures.length}} <?php echo Yii::t('lecture', '0616'); ?>)
-        </li>
-        <div id="counter">
-            <span ng-repeat="lecture in lecturesData.module.lectures track by $index">
-                <a ng-if=(+lecture.order<=+lecturesData.lastAccessLectureOrder)
-                   href=""
-                   ng-click="lectureLink(lecture.id, lecturesData.courseId)"
-                   uib-tooltip-html="lecture.title">
-                    <div class="lectureAccess" ng-class="{thisLecture: lecture.order=='<?php echo $lecture->order; ?>'}"></div>
-                </a>
-                <a ng-if=!(lecture.order<=+lecturesData.lastAccessLectureOrder)
-                   uib-tooltip-html="'<span class=\'titleNoAccessMin\'>{{lecture.title | unsafe}}</span><span class=\'noAccessMin\'> (Заняття недоступне)</span>'">
-                    <div class="lectureDisabled"></div>
-                </a>
-            </span>
-            <div ng-if=lecturesData.currentOrder id="iconImage">
-                <?php if($lecture->module->isModuleDone()){ ?>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIco.png'); ?>"/>
-                <?php } else { ?>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png'); ?>"/>
-                <?php } ?>
-            </div>
-        </div>
     </ul>
 </div>
