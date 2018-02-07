@@ -5,7 +5,7 @@ class SuperVisorController extends TeacherCabinetController
     public function hasRole()
     {
 
-        $allowedGroupsActions = ['getOfflineGroupsList', 'getSpecializationsList', 'getOfflineStudentsList',
+        $allowedGroupsActions = ['getOfflineGroupsList', 'getSpecializationsList', 'getOfflineStudentsList','getOfflineCanceledStudentsList',
             'getCourseAccessList', 'getModuleAccessList', 'getGroupData', 'getCuratorById', 'getCityById',
             'getGroupsOfflineSubgroupsList','getSubgroupData'];
         $action = Yii::app()->controller->action->id;
@@ -169,6 +169,41 @@ class SuperVisorController extends TeacherCabinetController
         $criteria->addCondition('g.id_organization=' . Yii::app()->user->model->getCurrentOrganization()->id);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+    public function actionGetOfflineCanceledStudentsList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('OfflineStudents', $requestParams);
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
+        $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
+        if (isset($requestParams['idGroup'])) {
+            $criteria->addCondition('g.id=' . $requestParams['idGroup'] . ' and t.end_date IS NOT NULL');
+        }
+        if (isset($requestParams['idSubgroup'])) {
+            $criteria->addCondition('sg.id=' . $requestParams['idSubgroup'] . ' and t.end_date IS NOT NULL');
+        }
+        if (!isset($requestParams['idGroup']) && !isset($requestParams['idSubgroup'])) {
+            $criteria->addCondition('t.end_date IS NOT NULL');
+        }
+        $criteria->addCondition('g.id_organization=' . Yii::app()->user->model->getCurrentOrganization()->id);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+    public function actionGetCancelDescription(){
+
+        $groups = OfflineStudentCancelType::model()->findAll();
+        $res = array();
+        $result = array();
+
+        foreach($groups as $group){
+            $res['id'] = $group->id;
+            $res['description'] = $group->description;
+            array_push($result, $res);
+        }
+
         echo json_encode($result);
     }
 
