@@ -47,6 +47,10 @@
                 <uib-tab index="1" heading="Студенти">
                     <?php $this->renderPartial('/_supervisor/tables/_offlineStudents', array());?>
                 </uib-tab>
+                <uib-tab index="2" heading="Виключені студенти">
+                    <?php $this->renderPartial('/_supervisor/tables/_canceledStudents',array());?>
+                </uib-tab>
+
             </uib-tabset>
         </div>
     </div>

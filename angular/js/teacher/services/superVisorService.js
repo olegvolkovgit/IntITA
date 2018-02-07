@@ -23,6 +23,10 @@ angular
                         url: url + '/getOfflineStudentsList',
                         method: 'GET',
                     },
+                    offlineCanceledStudentsList:{
+                        url: url+ '/getOfflineCanceledStudentsList',
+                        method:'GET',
+                    },
                     studentsWithoutGroupList: {
                         url: url + '/getStudentsWithoutGroupList',
                         method: 'GET',
@@ -95,6 +99,11 @@ angular
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         transformRequest : transformRequest.bind(null)
+                    },
+                    getCancelDescription: {
+                        url: url + '/getCancelDescription',
+                        method: 'GET',
+                        isArray: true
                     },
                 });
         }])
